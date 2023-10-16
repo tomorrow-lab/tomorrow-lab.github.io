@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Taeyoon kim">
+<meta name="dcterms.date" content="2023-01-03">
+
+<title>Biohacker - 깔끔하게 데이터 정리하기</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=GTM-NHHK2BF"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Biohacker</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../book.html" rel="" target="">
+ <span class="menu-text">Book</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resume.html" rel="" target="">
+ <span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="http://partrita.iptime.org" rel="" target=""><i class="bi bi-house-up" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/partrita" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/partrita" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">깔끔하게 데이터 정리하기</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">news</div>
+    <div class="quarto-category">python</div>
+    <div class="quarto-category">data science</div>
+    <div class="quarto-category">pandas</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Taeyoon kim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 3, 2023</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">October 9, 2023</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://th.bing.com/th/id/OIG.qU6lSDJsvOnfs7f7pJVR?pid=ImgGn" class="img-fluid figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<section id="깔끔한-데이터tidy-data란" class="level1">
+<h1>깔끔한 데이터(Tidy data)란?</h1>
+<blockquote class="blockquote">
+<p>우리는 데이터 분석을 수행하면서 다양한 데이터 변환 작업을 수행하게 된다. 이는 데이터가 원래 특정 분석을 염두에 두고 만들어지는 경우가 거의 없기 때문이며, 사실 애초 데이터 설계를 할 때 분석 목적을 알기도 불가능하다는 게 가장 큰 원인이 아닐까 한다. 이런 연유로 전체 데이터 분석 작업에서 70% 혹은 80% 이상이 이런 데이터 변환 및 전처리 작업에서 소모된다. <sup><a href="http://freesearch.pe.kr/archives/3942">1</a></sup></p>
+</blockquote>
+<p>다른 사람들과 데이터(예를 들면 엑셀파일)를 주고 받다 보면 깨닫게 됩니다. 모든 사람의 생각은 다르다는 것을요. 사람마다 (좋게 말하면) 각양각색으로 정리를 하다보니, 여러명이 작성한 엑셀 파일을 하나의 파일로 합치려 보면 결국에는 누군가가 새로 정리를 해야 하는 상황이 됩니다.</p>
+<p>Tidy data의 개념은 그런 상황을 방지하기 위해 <strong>Jeff Leek</strong>이 만들었습니다. 데이터 처리에 가장 많은 시간이 소요되는 전처리 과정을 줄여 보자, 그러기 위해 처음부터 데이터를 표준화해서 만들자는 것입니다. 처음부터 기본적인 규칙을 가지고 데이터를 만들면, 모두의 시간을 아낄 수 있으니까요.</p>
+<p>위키피디아에 따르면 Tidy data의 정의는 다음와 같습니다. “밑바닥 부터 시작할 필요 없는 데이터”</p>
+<section id="더-알아-보기" class="level2">
+<h2 class="anchored" data-anchor-id="더-알아-보기">더 알아 보기</h2>
+<ul>
+<li>2014년도에 출판된 <a href="http://vita.had.co.nz/papers/tidy-data.pdf">논문</a> 입니다.</li>
+<li>데이터의 출처는 <a href="https://github.com/nickhould/tidy-data-python">이곳</a> 입니다.</li>
+</ul>
+</section>
+<section id="깔끔한-데이터tidy-data의-특징" class="level2">
+<h2 class="anchored" data-anchor-id="깔끔한-데이터tidy-data의-특징">깔끔한 데이터(Tidy data)의 특징</h2>
+<p><strong>Jeff Leek</strong>가 쓴 책 <strong>The Elements of Data Analytic Style</strong>에서 정의한 깔끔한 데이터는 아래와 같은 특징을 가집니다.</p>
+<ol type="1">
+<li>각 변수는 개별의 열(column)으로 존재한다.</li>
+<li>각 관측치는 행(row)를 구성한다.</li>
+<li>각 표는 단 하나의 관측기준에 의해서 조직된 데이터를 저장한다.</li>
+<li>만약 여러개의 표가 존재한다면, 적어도 하나이상의 열(column)이 공유되어야 한다.</li>
+</ol>
+<ul>
+<li>변수(Variable): 예를 들면 <em>키, 몸무게, 성별</em></li>
+<li>값(Value): 예를 들자면 <em>152 cm, 80 kg, 여성</em></li>
+<li>관측치(Observation): 값을 측정한 단위, 여기서는 <em>각각의 사람</em></li>
+</ul>
+<p>너무 복잡하다고 생각되신다면 아래 예시를 확인하세요.</p>
+<section id="지저분한-데이터의-예" class="level3">
+<h3 class="anchored" data-anchor-id="지저분한-데이터의-예">지저분한 데이터의 예:</h3>
+<div>
+
+<table class="dataframe table table-sm table-striped small">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Treatment A
+</th>
+<th>
+Treatment B
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+John Smith
+</th>
+<td>
+-
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<th>
+Jane Doe
+</th>
+<td>
+16
+</td>
+<td>
+11
+</td>
+</tr>
+<tr>
+<th>
+Mary Johnson
+</th>
+<td>
+3
+</td>
+<td>
+1
+</td>
+</tr>
+</tbody>
+
+</table>
+</div>
+</section>
+<section id="깔끔한-데이터tidy-data의-예" class="level3">
+<h3 class="anchored" data-anchor-id="깔끔한-데이터tidy-data의-예">깔끔한 데이터(Tidy data)의 예:</h3>
+<div>
+
+<table class="dataframe table table-sm table-striped small">
+<thead>
+<tr>
+<th>
+Name
+</th>
+<th>
+Treatment
+</th>
+<th>
+Result
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+John Smith
+</th>
+<td>
+a
+</td>
+<td>
+-
+</td>
+</tr>
+<tr>
+<th>
+Jane Doe
+</th>
+<td>
+a
+</td>
+<td>
+16
+</td>
+</tr>
+<tr>
+<th>
+Mary Johnson
+</th>
+<td>
+a
+</td>
+<td>
+3
+</td>
+</tr>
+<tr>
+<th>
+John Smith
+</th>
+<td>
+b
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<th>
+Jane Doe
+</th>
+<td>
+b
+</td>
+<td>
+11
+</td>
+</tr>
+<tr>
+<th>
+Mary Johnson
+</th>
+<td>
+b
+</td>
+<td>
+1
+</td>
+</tr>
+</tbody>
+
+</table>
+</div>
+</section>
+</section>
+</section>
+<section id="지저분한-데이터-처리하기" class="level1">
+<h1>지저분한 데이터 처리하기</h1>
+<p><strong>Wickham</strong>의 <a href="http://vita.had.co.nz/papers/tidy-data.pdf">논문</a>에 있던 데이터를 가지고 아래의 문제를 해결해 보도록 하겠습니다. 여기서 우리의 목표는 데이터 분석이 아니고 깔끔한 데이터를 만드는 것임을 명심하세요.</p>
+<p>지저분한 데이터의 일반적인 모습은 다음과 같습니다.</p>
+<ol type="1">
+<li>열 이름(Column header)이 변수 이름이 아니고 값인 경우</li>
+<li>같은 표에 다양한 관측 단위(observational units)가 있는 경우</li>
+<li>하나의 열(column)에 여러 값이 들어 있는 경우</li>
+<li>변수가 행과 열에 모두 포함되어 있는 경우</li>
+<li>하나의 관측 단위(observational units)가 여러 파일로 나누어져 있는 경우</li>
+</ol>
+<blockquote class="blockquote">
+<p>우리는 <code>Python</code>의 대표적인 라이브러리인 <code>Pandas</code>를 사용하도록 할게요.</p>
+</blockquote>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필요한 라이브러리 불러들이기</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re  <span class="co"># 정규식</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="열-이름column-header이-변수-이름이-아니고-값인-경우" class="level2">
+<h2 class="anchored" data-anchor-id="열-이름column-header이-변수-이름이-아니고-값인-경우">1. 열 이름(Column header)이 변수 이름이 아니고 값인 경우</h2>
+<section id="pew-research-center-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="pew-research-center-dataset">Pew Research Center Dataset</h3>
+<p>종교에 따른 개인의 수입의 관한 데이터입니다. 먼저 <code>pandas</code>의 <code>read_csv</code>기능을 사용해 파일을 읽어옵니다.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/pew-raw.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">religion</th>
+<th data-quarto-table-cell-role="th">&lt;$10k</th>
+<th data-quarto-table-cell-role="th">$10-20k</th>
+<th data-quarto-table-cell-role="th">$20-30k</th>
+<th data-quarto-table-cell-role="th">$30-40k</th>
+<th data-quarto-table-cell-role="th">$40-50k</th>
+<th data-quarto-table-cell-role="th">$50-75k</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Agnostic</td>
+<td>27</td>
+<td>34</td>
+<td>60</td>
+<td>81</td>
+<td>76</td>
+<td>137</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Atheist</td>
+<td>12</td>
+<td>27</td>
+<td>37</td>
+<td>52</td>
+<td>35</td>
+<td>70</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Buddhist</td>
+<td>27</td>
+<td>21</td>
+<td>30</td>
+<td>34</td>
+<td>33</td>
+<td>58</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Catholic</td>
+<td>418</td>
+<td>617</td>
+<td>732</td>
+<td>670</td>
+<td>638</td>
+<td>1116</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Dont know/refused</td>
+<td>15</td>
+<td>14</td>
+<td>15</td>
+<td>11</td>
+<td>10</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Evangelical Prot</td>
+<td>575</td>
+<td>869</td>
+<td>1064</td>
+<td>982</td>
+<td>881</td>
+<td>1486</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Hindu</td>
+<td>1</td>
+<td>9</td>
+<td>7</td>
+<td>9</td>
+<td>11</td>
+<td>34</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Historically Black Prot</td>
+<td>228</td>
+<td>244</td>
+<td>236</td>
+<td>238</td>
+<td>197</td>
+<td>223</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Jehovahs Witness</td>
+<td>20</td>
+<td>27</td>
+<td>24</td>
+<td>24</td>
+<td>21</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Jewish</td>
+<td>19</td>
+<td>19</td>
+<td>25</td>
+<td>25</td>
+<td>30</td>
+<td>95</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ul>
+<li>Evangelical Prot는 기독교 종파중에 하나로 ’개신교’입니다.</li>
+</ul>
+<p><strong>문제점</strong>: 이 데이터들의 문제는 열 이름(columns headers)이 개인소득의 범위로 되어 있다는 것이죠.</p>
+<blockquote class="blockquote">
+<p>다시 말해서 보기에는 좋아보일지는 몰라도 분석하기에는 어려운 형식입니다.</p>
+</blockquote>
+<p>이러한 데이터를 Tidy data 형태로 변환하기 위해서 <code>pandas</code>라이브러리에서는 아주 쉬운 기능을 제공해 줍니다. 바로 <code>melt</code>라는 기능이지요. <strong>pivot table</strong>의 반대되는 개념으로 행이 많은 데이터를 열이 많은 데이터로 바꿔줍니다. <code>melt</code>는 아주 유용하기 때문에 앞으로도 자주 언급 됩니다.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>formatted_df <span class="op">=</span> pd.melt(df, [<span class="st">"religion"</span>], var_name<span class="op">=</span><span class="st">"income"</span>, value_name<span class="op">=</span><span class="st">"freq"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>formatted_df <span class="op">=</span> formatted_df.sort_values(by<span class="op">=</span>[<span class="st">"religion"</span>])  <span class="co"># 종교 이름순으로 정렬</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>formatted_df.head(<span class="dv">10</span>)  <span class="co"># 너무 길기 때문에 윗쪽 10개만 보겠습니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">religion</th>
+<th data-quarto-table-cell-role="th">income</th>
+<th data-quarto-table-cell-role="th">freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Agnostic</td>
+<td>&lt;$10k</td>
+<td>27</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">30</td>
+<td>Agnostic</td>
+<td>$30-40k</td>
+<td>81</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">40</td>
+<td>Agnostic</td>
+<td>$40-50k</td>
+<td>76</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50</td>
+<td>Agnostic</td>
+<td>$50-75k</td>
+<td>137</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Agnostic</td>
+<td>$10-20k</td>
+<td>34</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">20</td>
+<td>Agnostic</td>
+<td>$20-30k</td>
+<td>60</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">41</td>
+<td>Atheist</td>
+<td>$40-50k</td>
+<td>35</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>Atheist</td>
+<td>$20-30k</td>
+<td>37</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Atheist</td>
+<td>$10-20k</td>
+<td>27</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>Atheist</td>
+<td>$30-40k</td>
+<td>52</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>이것이 <em>Pew Research Center Dataset</em> 의 Tidy data 형태 입니다.</p>
+</section>
+<section id="billboard-top-100-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="billboard-top-100-dataset">Billboard Top 100 Dataset</h3>
+<p>이 데이터는 아주 오래전 같은 1999년부터 2000년까지의 빌보드차트 주간 순위 변동을 포함하고 있는 데이터 입니다.</p>
+<div class="cell" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/billboard.csv"</span>, encoding<span class="op">=</span><span class="st">"mac_latin2"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="69">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">artist.inverted</th>
+<th data-quarto-table-cell-role="th">track</th>
+<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th">genre</th>
+<th data-quarto-table-cell-role="th">date.entered</th>
+<th data-quarto-table-cell-role="th">date.peaked</th>
+<th data-quarto-table-cell-role="th">x1st.week</th>
+<th data-quarto-table-cell-role="th">x2nd.week</th>
+<th data-quarto-table-cell-role="th">x3rd.week</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">x67th.week</th>
+<th data-quarto-table-cell-role="th">x68th.week</th>
+<th data-quarto-table-cell-role="th">x69th.week</th>
+<th data-quarto-table-cell-role="th">x70th.week</th>
+<th data-quarto-table-cell-role="th">x71st.week</th>
+<th data-quarto-table-cell-role="th">x72nd.week</th>
+<th data-quarto-table-cell-role="th">x73rd.week</th>
+<th data-quarto-table-cell-role="th">x74th.week</th>
+<th data-quarto-table-cell-role="th">x75th.week</th>
+<th data-quarto-table-cell-role="th">x76th.week</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>2000</td>
+<td>Destiny's Child</td>
+<td>Independent Women Part I</td>
+<td>3:38</td>
+<td>Rock</td>
+<td>2000-09-23</td>
+<td>2000-11-18</td>
+<td>78</td>
+<td>63.0</td>
+<td>49.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2000</td>
+<td>Santana</td>
+<td>Maria, Maria</td>
+<td>4:18</td>
+<td>Rock</td>
+<td>2000-02-12</td>
+<td>2000-04-08</td>
+<td>15</td>
+<td>8.0</td>
+<td>6.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2000</td>
+<td>Savage Garden</td>
+<td>I Knew I Loved You</td>
+<td>4:07</td>
+<td>Rock</td>
+<td>1999-10-23</td>
+<td>2000-01-29</td>
+<td>71</td>
+<td>48.0</td>
+<td>43.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2000</td>
+<td>Madonna</td>
+<td>Music</td>
+<td>3:45</td>
+<td>Rock</td>
+<td>2000-08-12</td>
+<td>2000-09-16</td>
+<td>41</td>
+<td>23.0</td>
+<td>18.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2000</td>
+<td>Aguilera, Christina</td>
+<td>Come On Over Baby (All I Want Is You)</td>
+<td>3:38</td>
+<td>Rock</td>
+<td>2000-08-05</td>
+<td>2000-10-14</td>
+<td>57</td>
+<td>47.0</td>
+<td>45.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>2000</td>
+<td>Janet</td>
+<td>Doesn't Really Matter</td>
+<td>4:17</td>
+<td>Rock</td>
+<td>2000-06-17</td>
+<td>2000-08-26</td>
+<td>59</td>
+<td>52.0</td>
+<td>43.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>2000</td>
+<td>Destiny's Child</td>
+<td>Say My Name</td>
+<td>4:31</td>
+<td>Rock</td>
+<td>1999-12-25</td>
+<td>2000-03-18</td>
+<td>83</td>
+<td>83.0</td>
+<td>44.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>2000</td>
+<td>Iglesias, Enrique</td>
+<td>Be With You</td>
+<td>3:36</td>
+<td>Latin</td>
+<td>2000-04-01</td>
+<td>2000-06-24</td>
+<td>63</td>
+<td>45.0</td>
+<td>34.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>2000</td>
+<td>Sisqo</td>
+<td>Incomplete</td>
+<td>3:52</td>
+<td>Rock</td>
+<td>2000-06-24</td>
+<td>2000-08-12</td>
+<td>77</td>
+<td>66.0</td>
+<td>61.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>2000</td>
+<td>Lonestar</td>
+<td>Amazed</td>
+<td>4:25</td>
+<td>Country</td>
+<td>1999-06-05</td>
+<td>2000-03-04</td>
+<td>81</td>
+<td>54.0</td>
+<td>44.0</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+<p>10 rows × 83 columns</p>
+</div>
+</div>
+</div>
+<p><strong>문제점:</strong></p>
+<ul>
+<li>열 이름(columns headers)이 값으로 구성되어 있다: <code>x1st.week</code>, <code>x2st.week</code> 등등</li>
+<li>순위가 100위권 밖으로 밀려나게 되면 <code>Nan</code> 값을 가지고, 따라서 필요없는 부수적인 값이 많아진다.</li>
+</ul>
+<p>위 데이터의 깔끔한 데이터를 만들기 위해서는 다시 <code>melt</code> 기능을 사용하겠습니다. 각각의 열이 행이 되도록 하고, 순위가 100위 밖으로 밀려난 경우(<code>Nan</code>값을 갖는경우)에는 행을 삭제할게요.</p>
+<div class="cell" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Melting</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>id_vars <span class="op">=</span> [</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"year"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"artist.inverted"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"track"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"time"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"genre"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date.entered"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date.peaked"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.melt(frame<span class="op">=</span>df, id_vars<span class="op">=</span>id_vars, var_name<span class="op">=</span><span class="st">"week"</span>, value_name<span class="op">=</span><span class="st">"rank"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"week"</span>] <span class="op">=</span> (</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"week"</span>].<span class="bu">str</span>.extract(<span class="st">"(\d+)"</span>, expand<span class="op">=</span><span class="va">False</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># 정규식으로 x1st.week 에서 숫자 1만 추출</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"rank"</span>] <span class="op">=</span> df[<span class="st">"rank"</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 필요없는 행을 삭제합니다.</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna()</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Create "date" columns</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"date"</span>] <span class="op">=</span> (</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    pd.to_datetime(df[<span class="st">"date.entered"</span>])</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> pd.to_timedelta(df[<span class="st">"week"</span>], unit<span class="op">=</span><span class="st">"w"</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span> pd.DateOffset(weeks<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"time"</span>, <span class="st">"genre"</span>, <span class="st">"week"</span>, <span class="st">"rank"</span>, <span class="st">"date"</span>]]</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    ascending<span class="op">=</span><span class="va">True</span>, by<span class="op">=</span>[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"week"</span>, <span class="st">"rank"</span>]</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Assigning the tidy dataset to a variable for future usage</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>billboard <span class="op">=</span> df</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="70">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">artist.inverted</th>
+<th data-quarto-table-cell-role="th">track</th>
+<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th">genre</th>
+<th data-quarto-table-cell-role="th">week</th>
+<th data-quarto-table-cell-role="th">rank</th>
+<th data-quarto-table-cell-role="th">date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">246</td>
+<td>2000</td>
+<td>2 Pac</td>
+<td>Baby Don't Cry (Keep Ya Head Up II)</td>
+<td>4:22</td>
+<td>Rap</td>
+<td>1</td>
+<td>87</td>
+<td>2000-02-26</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">563</td>
+<td>2000</td>
+<td>2 Pac</td>
+<td>Baby Don't Cry (Keep Ya Head Up II)</td>
+<td>4:22</td>
+<td>Rap</td>
+<td>2</td>
+<td>82</td>
+<td>2000-03-04</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">880</td>
+<td>2000</td>
+<td>2 Pac</td>
+<td>Baby Don't Cry (Keep Ya Head Up II)</td>
+<td>4:22</td>
+<td>Rap</td>
+<td>3</td>
+<td>72</td>
+<td>2000-03-11</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1197</td>
+<td>2000</td>
+<td>2 Pac</td>
+<td>Baby Don't Cry (Keep Ya Head Up II)</td>
+<td>4:22</td>
+<td>Rap</td>
+<td>4</td>
+<td>77</td>
+<td>2000-03-18</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1514</td>
+<td>2000</td>
+<td>2 Pac</td>
+<td>Baby Don't Cry (Keep Ya Head Up II)</td>
+<td>4:22</td>
+<td>Rap</td>
+<td>5</td>
+<td>87</td>
+<td>2000-03-25</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1831</td>
+<td>2000</td>
+<td>2 Pac</td>
+<td>Baby Don't Cry (Keep Ya Head Up II)</td>
+<td>4:22</td>
+<td>Rap</td>
+<td>6</td>
+<td>94</td>
+<td>2000-04-01</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2148</td>
+<td>2000</td>
+<td>2 Pac</td>
+<td>Baby Don't Cry (Keep Ya Head Up II)</td>
+<td>4:22</td>
+<td>Rap</td>
+<td>7</td>
+<td>99</td>
+<td>2000-04-08</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">287</td>
+<td>2000</td>
+<td>2Ge+her</td>
+<td>The Hardest Part Of Breaking Up (Is Getting Ba...</td>
+<td>3:15</td>
+<td>R&amp;B</td>
+<td>1</td>
+<td>91</td>
+<td>2000-09-02</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">604</td>
+<td>2000</td>
+<td>2Ge+her</td>
+<td>The Hardest Part Of Breaking Up (Is Getting Ba...</td>
+<td>3:15</td>
+<td>R&amp;B</td>
+<td>2</td>
+<td>87</td>
+<td>2000-09-09</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">921</td>
+<td>2000</td>
+<td>2Ge+her</td>
+<td>The Hardest Part Of Breaking Up (Is Getting Ba...</td>
+<td>3:15</td>
+<td>R&amp;B</td>
+<td>3</td>
+<td>92</td>
+<td>2000-09-16</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>위와 같이 데이터를 깔끔하게 만들었습니다. 하지만 <em>track, time, genre</em> 열을 보시면 아주 많은 중복이 있는 것을 알 수 있습니다. 이러한 점을 해결 하는 방법은 다음 예제에서 다루어 보겠습니다.</p>
+</section>
+</section>
+<section id="하나의-표에-여러가지-타입" class="level2">
+<h2 class="anchored" data-anchor-id="하나의-표에-여러가지-타입">2. 하나의 표에 여러가지 타입</h2>
+<p>위에서 다루었던 빌보드차트 데이터를 가지고 데이터가 반복되는 문제를 해결해 보겠습니다.</p>
+<p><strong>문제점:</strong></p>
+<ul>
+<li>다양한 관측 단위(observational units), 여기서는 <code>song</code> 과 <code>rank</code>가 하나의 표에 들어 있습니다. 이를 위해서는 표를 나눌 필요가 있습니다.</li>
+</ul>
+<p>먼저, 각각의 노래의 자세한 내용을 담고 있는 표를 만들어 보겠습니다. 그런다음 각각의 <code>song_id</code>를 부여합니다. 그런다음 순위 값을 가지고 있는 표를 <code>song_id</code>로 정리합니다.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>songs_cols <span class="op">=</span> [<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"time"</span>, <span class="st">"genre"</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> billboard[songs_cols].drop_duplicates()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>songs[<span class="st">"song_id"</span>] <span class="op">=</span> songs.index</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>songs.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">artist.inverted</th>
+<th data-quarto-table-cell-role="th">track</th>
+<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th">genre</th>
+<th data-quarto-table-cell-role="th">song_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>2000</td>
+<td>2 Pac</td>
+<td>Baby Don't Cry (Keep Ya Head Up II)</td>
+<td>4:22</td>
+<td>Rap</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2000</td>
+<td>2Ge+her</td>
+<td>The Hardest Part Of Breaking Up (Is Getting Ba...</td>
+<td>3:15</td>
+<td>R&amp;B</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2000</td>
+<td>3 Doors Down</td>
+<td>Kryptonite</td>
+<td>3:53</td>
+<td>Rock</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2000</td>
+<td>3 Doors Down</td>
+<td>Loser</td>
+<td>4:24</td>
+<td>Rock</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2000</td>
+<td>504 Boyz</td>
+<td>Wobble Wobble</td>
+<td>3:35</td>
+<td>Rap</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>2000</td>
+<td>98°</td>
+<td>Give Me Just One Night (Una Noche)</td>
+<td>3:24</td>
+<td>Rock</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>2000</td>
+<td>A*Teens</td>
+<td>Dancing Queen</td>
+<td>3:44</td>
+<td>Pop</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>2000</td>
+<td>Aaliyah</td>
+<td>I Don't Wanna</td>
+<td>4:15</td>
+<td>Rock</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>2000</td>
+<td>Aaliyah</td>
+<td>Try Again</td>
+<td>4:03</td>
+<td>Rock</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>2000</td>
+<td>Adams, Yolanda</td>
+<td>Open My Heart</td>
+<td>5:30</td>
+<td>Gospel</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>위 와같은 새로운 표를 분리하고, 아래와 같이 순위를 포함하고 있는 표를 새로 만들어줍니다. &gt; 두개의 표를 연결하기 위해 <code>song_id</code>열을 만드는 것을 주의하세요</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> pd.merge(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    billboard, songs, on<span class="op">=</span>[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"time"</span>, <span class="st">"genre"</span>]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> ranks[[<span class="st">"song_id"</span>, <span class="st">"date"</span>, <span class="st">"rank"</span>]]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ranks.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">song_id</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>2000-02-26</td>
+<td>87</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0</td>
+<td>2000-03-04</td>
+<td>82</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0</td>
+<td>2000-03-11</td>
+<td>72</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0</td>
+<td>2000-03-18</td>
+<td>77</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0</td>
+<td>2000-03-25</td>
+<td>87</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0</td>
+<td>2000-04-01</td>
+<td>94</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>0</td>
+<td>2000-04-08</td>
+<td>99</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>1</td>
+<td>2000-09-02</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>1</td>
+<td>2000-09-09</td>
+<td>87</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>1</td>
+<td>2000-09-16</td>
+<td>92</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="다양한-변수가-하나의-열에-있는-경우-multiple-variables-stored-in-one-column" class="level2">
+<h2 class="anchored" data-anchor-id="다양한-변수가-하나의-열에-있는-경우-multiple-variables-stored-in-one-column">3. 다양한 변수가 하나의 열에 있는 경우 Multiple variables stored in one column</h2>
+<section id="tubercolosis-example" class="level3">
+<h3 class="anchored" data-anchor-id="tubercolosis-example">Tubercolosis Example</h3>
+<p>WHO(World Health Organization)에서 수집한 결핵환자의 기록입니다. 이 데이터에는 확인된 결핵환자의 국가, 연도, 나이, 성별이 포함되어 있습니다.</p>
+<p><strong>문제점:</strong></p>
+<ul>
+<li>몇개의 열(columns)에 다양한 변수가 포함되어 있습니다.(성별과 나이)</li>
+<li>값이 존재하지 않는 곳에 <code>NaN</code>과 0 이 혼재되어 있습니다.</li>
+</ul>
+<p>미리 알아둘 점:</p>
+<ul>
+<li>열의 이름에 적혀있는 “m”이나 “f”는 성별을 뜻합니다.</li>
+<li>열의 이름에 적혀있는 숫자는 나이대(“0-14”,“15-24”, “25-34”, “45-54”, “55-64”, “65”, “unknown”)를 나타냅니다.</li>
+</ul>
+<div class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/tb-raw.csv"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">m014</th>
+<th data-quarto-table-cell-role="th">m1524</th>
+<th data-quarto-table-cell-role="th">m2534</th>
+<th data-quarto-table-cell-role="th">m3544</th>
+<th data-quarto-table-cell-role="th">m4554</th>
+<th data-quarto-table-cell-role="th">m5564</th>
+<th data-quarto-table-cell-role="th">m65</th>
+<th data-quarto-table-cell-role="th">mu</th>
+<th data-quarto-table-cell-role="th">f014</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>AD</td>
+<td>2000</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>0</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>AE</td>
+<td>2000</td>
+<td>2.0</td>
+<td>4.0</td>
+<td>4.0</td>
+<td>6.0</td>
+<td>5</td>
+<td>12</td>
+<td>10.0</td>
+<td>NaN</td>
+<td>3.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>AF</td>
+<td>2000</td>
+<td>52.0</td>
+<td>228.0</td>
+<td>183.0</td>
+<td>149.0</td>
+<td>129</td>
+<td>94</td>
+<td>80.0</td>
+<td>NaN</td>
+<td>93.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>AG</td>
+<td>2000</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0</td>
+<td>0</td>
+<td>1.0</td>
+<td>NaN</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>AL</td>
+<td>2000</td>
+<td>2.0</td>
+<td>19.0</td>
+<td>21.0</td>
+<td>14.0</td>
+<td>24</td>
+<td>19</td>
+<td>16.0</td>
+<td>NaN</td>
+<td>3.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>AM</td>
+<td>2000</td>
+<td>2.0</td>
+<td>152.0</td>
+<td>130.0</td>
+<td>131.0</td>
+<td>63</td>
+<td>26</td>
+<td>21.0</td>
+<td>NaN</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>AN</td>
+<td>2000</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>0</td>
+<td>0</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>AO</td>
+<td>2000</td>
+<td>186.0</td>
+<td>999.0</td>
+<td>1003.0</td>
+<td>912.0</td>
+<td>482</td>
+<td>312</td>
+<td>194.0</td>
+<td>NaN</td>
+<td>247.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>AR</td>
+<td>2000</td>
+<td>97.0</td>
+<td>278.0</td>
+<td>594.0</td>
+<td>402.0</td>
+<td>419</td>
+<td>368</td>
+<td>330.0</td>
+<td>NaN</td>
+<td>121.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>AS</td>
+<td>2000</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>1</td>
+<td>1</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>이 데이터를 정리하기 위해서는 먼저 <code>melt</code>를 이용해 <code>sex</code> + <code>age group</code> 를 합쳐서 하나의 행으로 만들겠습니다. 그런 다음에 다시 행을 <code>sex</code>, <code>age</code>로 구분해서 정리하도록 하죠.</p>
+<div class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.melt(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    df, id_vars<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>], value_name<span class="op">=</span><span class="st">"cases"</span>, var_name<span class="op">=</span><span class="st">"sex_and_age"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Sex, Age lower bound and Age upper bound group</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tmp_df <span class="op">=</span> df[<span class="st">"sex_and_age"</span>].<span class="bu">str</span>.extract(<span class="st">"(\D)(\d+)(\d</span><span class="sc">{2}</span><span class="st">)"</span>, expand<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Name columns</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>tmp_df.columns <span class="op">=</span> [<span class="st">"sex"</span>, <span class="st">"age_lower"</span>, <span class="st">"age_upper"</span>]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create `age`column based on `age_lower` and `age_upper`</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>tmp_df[<span class="st">"age"</span>] <span class="op">=</span> tmp_df[<span class="st">"age_lower"</span>] <span class="op">+</span> <span class="st">"-"</span> <span class="op">+</span> tmp_df[<span class="st">"age_upper"</span>]</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df, tmp_df], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop unnecessary columns and rows</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">"sex_and_age"</span>, <span class="st">"age_lower"</span>, <span class="st">"age_upper"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna()</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(ascending<span class="op">=</span><span class="va">True</span>, by<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"sex"</span>, <span class="st">"age"</span>])</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">cases</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>AD</td>
+<td>2000</td>
+<td>0.0</td>
+<td>m</td>
+<td>0-14</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10</td>
+<td>AD</td>
+<td>2000</td>
+<td>0.0</td>
+<td>m</td>
+<td>15-24</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>AD</td>
+<td>2000</td>
+<td>1.0</td>
+<td>m</td>
+<td>25-34</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">30</td>
+<td>AD</td>
+<td>2000</td>
+<td>0.0</td>
+<td>m</td>
+<td>35-44</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">40</td>
+<td>AD</td>
+<td>2000</td>
+<td>0.0</td>
+<td>m</td>
+<td>45-54</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50</td>
+<td>AD</td>
+<td>2000</td>
+<td>0.0</td>
+<td>m</td>
+<td>55-64</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">81</td>
+<td>AE</td>
+<td>2000</td>
+<td>3.0</td>
+<td>f</td>
+<td>0-14</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>AE</td>
+<td>2000</td>
+<td>2.0</td>
+<td>m</td>
+<td>0-14</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">11</td>
+<td>AE</td>
+<td>2000</td>
+<td>4.0</td>
+<td>m</td>
+<td>15-24</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>AE</td>
+<td>2000</td>
+<td>4.0</td>
+<td>m</td>
+<td>25-34</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>이것이 정리된 결과 입니다.</p>
+</section>
+</section>
+<section id="변수가-행과-열에rows-and-columns-모두-포함되어-있는-경우" class="level2">
+<h2 class="anchored" data-anchor-id="변수가-행과-열에rows-and-columns-모두-포함되어-있는-경우">4. 변수가 행과 열에(rows and columns) 모두 포함되어 있는 경우</h2>
+<section id="global-historical-climatology-network-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="global-historical-climatology-network-dataset">Global Historical Climatology Network Dataset</h3>
+<p>이것은 2010년도 멕시코 기상청(MX17004)에서 5개월 동안 측정한 기상 데이터입니다.</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/weather-raw.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>문제점:</strong></p>
+<ul>
+<li>변수들이 행(<code>tmin</code>, <code>tmax</code>) 과 열(<code>days</code>)에 존재합니다.</li>
+</ul>
+<p>깔끔한 데이터를 만들기 위해 <code>melt</code>기능을 사용해 <code>day_raw</code>를 각각의 열로 만들겠습니다.</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.melt(df, id_vars<span class="op">=</span>[<span class="st">"id"</span>, <span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"element"</span>], var_name<span class="op">=</span><span class="st">"day_raw"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">month</th>
+<th data-quarto-table-cell-role="th">element</th>
+<th data-quarto-table-cell-role="th">day_raw</th>
+<th data-quarto-table-cell-role="th">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>1</td>
+<td>tmax</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>1</td>
+<td>tmin</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>2</td>
+<td>tmax</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>2</td>
+<td>tmin</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>3</td>
+<td>tmax</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>3</td>
+<td>tmin</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>4</td>
+<td>tmax</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>4</td>
+<td>tmin</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>5</td>
+<td>tmax</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>MX17004</td>
+<td>2010</td>
+<td>5</td>
+<td>tmin</td>
+<td>d1</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>그럼에도 아직 불필요한 것들이 보이는 군요. 좀 더 깔끔한 데이터를 만들기 위해 <code>tmin</code>, <code>tmax</code>를 각각의 열로 만들겠습니다. 그리고 날짜 정보들을 합쳐서 <code>date</code>로 통합하겠습니다.</p>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting day</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"day"</span>] <span class="op">=</span> df[<span class="st">"day_raw"</span>].<span class="bu">str</span>.extract(<span class="st">"d(\d+)"</span>, expand<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"id"</span>] <span class="op">=</span> <span class="st">"MX17004"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># To numeric values</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>]] <span class="op">=</span> df[[<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>]].<span class="bu">apply</span>(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: pd.to_numeric(x, errors<span class="op">=</span><span class="st">"ignore"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a date from the different columns</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_date_from_year_month_day(row):</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> datetime.datetime(year<span class="op">=</span>row[<span class="st">"year"</span>], month<span class="op">=</span><span class="bu">int</span>(row[<span class="st">"month"</span>]), day<span class="op">=</span>row[<span class="st">"day"</span>])</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"date"</span>] <span class="op">=</span> df.<span class="bu">apply</span>(<span class="kw">lambda</span> row: create_date_from_year_month_day(row), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>, <span class="st">"day_raw"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna()</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Unmelting column "element"</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.pivot_table(index<span class="op">=</span>[<span class="st">"id"</span>, <span class="st">"date"</span>], columns<span class="op">=</span><span class="st">"element"</span>, values<span class="op">=</span><span class="st">"value"</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>df.reset_index(drop<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">element</th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">tmax</th>
+<th data-quarto-table-cell-role="th">tmin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>MX17004</td>
+<td>2010-02-02</td>
+<td>27.3</td>
+<td>14.4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>MX17004</td>
+<td>2010-02-03</td>
+<td>24.1</td>
+<td>14.4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>MX17004</td>
+<td>2010-03-05</td>
+<td>32.1</td>
+<td>14.2</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>충분히 깔끔한 모양새가 되었습니다.</p>
+</section>
+</section>
+<section id="하나의-관측-단위observational-units가-여러-파일로-나누어져-있는-경우" class="level2">
+<h2 class="anchored" data-anchor-id="하나의-관측-단위observational-units가-여러-파일로-나누어져-있는-경우">5. 하나의 관측 단위(observational units)가 여러 파일로 나누어져 있는 경우</h2>
+<section id="baby-names-in-illinois" class="level3">
+<h3 class="anchored" data-anchor-id="baby-names-in-illinois">Baby Names in Illinois</h3>
+<p>2014, 2015년도 미국 일리노이 주(Illinois)의 신생아의 (남자)이름을 수집한 데이터 입니다.</p>
+<p><strong>문제점:</strong></p>
+<ul>
+<li>여러 표와 파일에 데이터가 흩어져 있다.</li>
+<li>연도(Year)”가 파일 이름에 적혀져 있다.</li>
+</ul>
+<p>서로 다른 파일에 데이터가 흩어져 있어 조금 복잡한 과정이 필요합니다. 먼저 아래의 코드로 파일 리스트를 만들고 거기에서 <em>연도</em> 값을 뽑아냅니다. 그런 다음 각각의 파일에서 표를 만들어내고 마지막으로 <code>concat</code>기능으로 사용해 하나의 표로 합치겠습니다.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_year(string):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    match <span class="op">=</span> re.match(<span class="st">".+(\d</span><span class="sc">{4}</span><span class="st">)"</span>, string)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> match <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> match.group(<span class="dv">1</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"./data"</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>allFiles <span class="op">=</span> glob.glob(path <span class="op">+</span> <span class="st">"/201*-baby-names-illinois.csv"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>frame <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>df_list <span class="op">=</span> []</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_ <span class="kw">in</span> allFiles:</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(file_, index_col<span class="op">=</span><span class="va">None</span>, header<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    df.columns <span class="op">=</span> <span class="bu">map</span>(<span class="bu">str</span>.lower, df.columns)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"year"</span>] <span class="op">=</span> extract_year(file_)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    df_list.append(df)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(df_list)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">rank</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">frequency</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Noah</td>
+<td>837</td>
+<td>Male</td>
+<td>2014</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Alexander</td>
+<td>747</td>
+<td>Male</td>
+<td>2014</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>William</td>
+<td>687</td>
+<td>Male</td>
+<td>2014</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Michael</td>
+<td>680</td>
+<td>Male</td>
+<td>2014</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Liam</td>
+<td>670</td>
+<td>Male</td>
+<td>2014</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="마치며" class="level2">
+<h2 class="anchored" data-anchor-id="마치며">마치며</h2>
+<p>이 글에서 가장 중점으로 둔것은 파이썬으로 지저분한 데이터를 깔끔하게 만드는 것이 었습니다. 그걸을 위해 <strong>Wickham</strong>의 논문에서 사용된 데이터를 살펴 보았죠. 깔끔한 데이터(Tidy data)의 최고의 장점은 <strong>시각화</strong>(Visualization)이 쉽다는 것에 있습니다. 그것은 다음에 다루어 보도록 하겠습니다.</p>
+<p>앞으로는 <strong>Tidy data</strong>를 고려해서 데이터를 수집하도록 하세요. 모두의 시간은 소중하니까요.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
