@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon kim">
-<meta name="dcterms.date" content="2024-01-28">
+<meta name="dcterms.date" content="2024-02-28">
 
-<title>tomorrow-lab - miniforge: 파이썬과 R의 패키지 및 개발 환경 관리 도구</title>
+<title>tomorrow-lab - Pixi:</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -181,13 +181,13 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">miniforge: 파이썬과 R의 패키지 및 개발 환경 관리 도구</h1>
+<h1 class="title">Pixi:</h1>
   <div class="quarto-categories">
     <div class="quarto-category">python</div>
-    <div class="quarto-category">miniforge</div>
     <div class="quarto-category">mamba</div>
     <div class="quarto-category">anaconda</div>
     <div class="quarto-category">conda</div>
+    <div class="quarto-category">pixi</div>
     <div class="quarto-category">R</div>
   </div>
   </div>
@@ -206,7 +206,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 28, 2024</p>
+      <p class="date">February 28, 2024</p>
     </div>
   </div>
   
@@ -220,58 +220,119 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="thumbnail.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+<p><img src="thumbnail.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
 </figure>
 </div>
-<section id="파이썬과-r의-의존성-지옥" class="level1">
-<h1>파이썬과 R의 의존성 지옥</h1>
-<p>파이썬과 R에는 유용한 패키지들이 아주 많습니다. 그러다보니 여러 패키지들이 버전이 서로 충돌하거나 호환되지 않는 경우가 발생하곤 합니다. 예를 들어 A 패키지가 B 패키지 1.0 버전에 기반해 만들어졌는데 C 패키지가 B 패키지 2.0 버전을 요구한다면 A와 C를 동시에 사용할 수 없는 경우가 생깁니다.</p>
-<p>이런 의존성 문제를 해결하기 위해 다양한 방법론들이 등장했습니다. 파이썬의 경우에는 <code>venv + pip</code>, <code>Pyenv</code>, <code>Poetry</code>, <code>Conda</code>, <code>PDM</code> 등과 같은 새로운 패키지를 이용해 프로젝트 별로 의존성을 관리할 수 있도록 합니다. 그 중에서 저는 <code>Conda</code>를 이용해 프로젝트를 관리합니다.</p>
-</section>
-<section id="아나콘다anaconda" class="level1">
-<h1>아나콘다(Anaconda)</h1>
-<p>콘다는 Windows, macOS 및 Linux에서 실행되는 오픈 소스 패키지 관리 시스템이자 환경 관리 시스템으로 파이썬 뿐만 아니라 R 패키지도 지원합니다. 그래서 주로 과학 분야에서 많이 사용되는 도구입니다. 그러나 덩치가 커서 작은 프로젝트에는 너무 많은 의존성과 리소스를 잡아먹는다는 단점이 있죠. 그리고 개인용도가 아닌 경우에는 유료입니다.</p>
-</section>
-<section id="미니포지miniforge" class="level1">
-<h1>미니포지(miniforge)</h1>
-<p><a href="https://github.com/conda-forge/miniforge">miniforge</a>는 덩치큰 아나콘다를 아주 날씬하게 만드는 프로젝트입니다. 그래서 아래와 같은 특징을 갖습니다.</p>
+<section id="들어가며" class="level1">
+<h1>들어가며</h1>
+<p>파이썬 의존성 문제는 프로젝트가 의존하는 패키지들 간의 충돌, 버전 관리의 어려움, 시스템 환경에 따른 호환성 문제 등으로 나타납니다. 다음과 같은 상황에서 의존성 지옥이 발생할 수 있습니다.</p>
 <ul>
-<li>기본(그리고 유일한) 채널로 conda-forge를 사용.</li>
-<li>표준 Python 인터프리터(일명 “CPython”) 대신 PyPy에 대한 지원.</li>
-<li>콘다보다 더 빠른 맘바(mamba)도 지원.</li>
-<li>다양한 CPU 아키텍처(x86_64, ppc64le, Apple M1을 포함한 aarch64)지원.</li>
+<li><p>의존성 충돌: 프로젝트가 여러 개의 패키지를 사용하며, 각 패키지들이 서로 다른 버전의 의존성을 가질 때 발생합니다. 이로 인해 충돌이 발생하고, 프로젝트의 실행이나 빌드가 실패할 수 있습니다.</p></li>
+<li><p>의존성 업데이트: 새로운 기능을 추가하거나 버그를 수정하기 위해 의존성을 업데이트할 때, 다른 패키지들과의 호환성 문제가 발생할 수 있습니다. 특히, 다른 패키지들이 특정 버전에 의존하는 경우에는 업데이트가 어려울 수 있습니다.</p></li>
+<li><p>환경 별 차이: 개발 환경, 테스트 환경, 프로덕션 환경 등 각각의 환경에서는 다른 의존성이 필요할 수 있습니다. 이로 인해 각 환경마다 의존성을 관리하는 것이 복잡해질 수 있습니다.</p></li>
 </ul>
-<section id="맘바mamba는-또-뭐죠" class="level2">
-<h2 class="anchored" data-anchor-id="맘바mamba는-또-뭐죠">맘바(mamba)는 또 뭐죠?</h2>
-<p>콘다의 다른 단점에 패키지 설치 속도가 느리다는 점이 었습니다. 그래서 <code>C++</code>으로 작성된 맘바라는 도구가 새로 나오게 되었죠.</p>
+<p>의존성 지옥을 겪지 않고 싶다면 파이썬 의존성 관리 도구를 활용해 각 프로젝트의 의존성을 격리해서 관리 해야 합니다.</p>
+<section id="기존의-의존성-관리-도구" class="level2">
+<h2 class="anchored" data-anchor-id="기존의-의존성-관리-도구">기존의 의존성 관리 도구</h2>
+<ul>
+<li><code>pip</code>: 파이썬의 기본 패키지 관리자로, 패키지 설치 및 관리에 사용됩니다.</li>
+<li><code>venv</code>: Python 3.3 이후부터 기본적으로 제공되는 가상 환경 생성 도구로 프로젝트별로 독립된 가상 환경을 만들어주는 도구로, 각 프로젝트의 의존성을 분리하여 관리할 수 있습니다.</li>
+<li><code>pipenv</code>: <code>Pipfile</code>과 <code>Pipfile.lock</code> 파일을 사용하여 의존성을 관리하는 도구로, 가상 환경과 패키지 설치를 함께 처리합니다.</li>
+<li><code>poetry</code>: 프로젝트의 의존성 및 버전 관리, 패키지 빌드 및 배포 등을 지원하는 도구로, 편리한 프로젝트 관리를 제공합니다.</li>
+<li><code>conda</code>: 데이터 과학 및 기계 학습을 위한 패키지 관리 및 환경 관리 도구로, 파이썬 패키지 외에도 다양한 라이브러리 및 도구를 관리할 수 있습니다.</li>
+</ul>
+</section>
+<section id="새로운-의존성-관리-도구" class="level2">
+<h2 class="anchored" data-anchor-id="새로운-의존성-관리-도구">새로운 의존성 관리 도구</h2>
+<p><a href="https://prefix.dev/">Pixi</a>는 기존의 <code>conda</code> 생태계 위에 구축된 빠른 소프트웨어 패키지 매니저로 <code>Windows</code>, <code>macOS</code> 및 <code>Linux</code>에서 신속하게 개발 환경을 구축하는데 적합합니다. 심지어 <code>Docker</code> 없이도 운영 체제 간 재현 가능한 환경을 생성하며 <code>Python</code>, <code>R</code>, <code>C/C++</code>, <code>Rust</code>, <code>Ruby</code> 및 기타 많은 언어를 지원합니다.</p>
 <blockquote class="blockquote">
-<p>파이썬 생태계에는 항상 새로운 도구가 우후죽순 나오죠. 그것이 장점이자 단점 입니다.</p>
+<p>무엇보다도 <strong>빠르다</strong>는 것이 큰 장점입니다.</p>
 </blockquote>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>Pixi</code>는 활발하게 개발되고 있기 때문에 아래의 명령어가 변경될 가능성이 있습니다.</p>
+</div>
+</div>
 </section>
-<section id="설치하기" class="level2">
-<h2 class="anchored" data-anchor-id="설치하기">설치하기</h2>
-<p><a href="https://github.com/conda-forge/miniforge/blob/main/README.md">공식문서</a>에서 각각의 OS에 맞는 설치 방법을 찾아 볼 수 있습니다. 저는 리눅스를 사용하기에 아래 명령어로 설치 하였습니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="st">"https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-</span><span class="va">$(</span><span class="fu">uname</span><span class="va">)</span><span class="st">-</span><span class="va">$(</span><span class="fu">uname</span> <span class="at">-m</span><span class="va">)</span><span class="st">.sh"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Mambaforge-<span class="va">$(</span><span class="fu">uname</span><span class="va">)</span>-<span class="va">$(</span><span class="fu">uname</span> <span class="at">-m</span><span class="va">)</span>.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="설치하기" class="level1">
+<h1>설치하기</h1>
+<p>공식 홈페이지에서는 아래 명령어를 통해 설치하는 것을 추천합니다. 하지만 저는 <a href="https://brew.sh/">Homebrew</a>를 통해서 설치하는 것을 선호합니다. <code>brew install pixi</code>를 터미널에 입력하면 간단하게 할 수 있습니다. 물론 사전에 <code>Homebrew</code>를 해둔 상태에서 말이죠.</p>
+<section id="리눅스-혹은-맥" class="level2">
+<h2 class="anchored" data-anchor-id="리눅스-혹은-맥">리눅스 혹은 맥</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsSL</span> https://pixi.sh/install.sh <span class="kw">|</span> <span class="fu">bash</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>위의 명령은 자동으로 최신 버전의 <code>pixi</code>를 다운로드해 <code>~/.pixi/bin</code>에 설치합니다. 또한 <code>~/.bash_profile</code>을 업데이트해 어디에서나 <code>pixi</code> 명령을 실행할 수 있도록 합니다.</p>
+</section>
+<section id="윈도우즈" class="level2">
+<h2 class="anchored" data-anchor-id="윈도우즈">윈도우즈</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iwr</span> <span class="at">-useb</span> https://pixi.sh/install.ps1 <span class="kw">|</span> <span class="ex">iex</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>위의 명령은 자동으로 최신 버전의 <code>pixi</code>를 다운로드해 <code>LocalAppData/pixi/bin</code>에 설치합니다. 또한 <code>LocalAppData/pixi/bin</code>을 자동으로 경로에 추가하여 어디에서나 <code>pixi</code>를 호출할 수 있게 합니다.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>설치가 끝나고 바로 사용하려면 터미널을 다시 시작해야 합니다.</p>
+</div>
+</div>
 </section>
 </section>
-<section id="개발-환경-설정" class="level1">
-<h1>개발 환경 설정</h1>
-<p><code>miniforge</code>를 설치했으면 이제 실제로 사용법을 알아 보겠습니다.</p>
-<section id="가상환경-만들기" class="level2">
-<h2 class="anchored" data-anchor-id="가상환경-만들기">가상환경 만들기</h2>
-<p>맘바포지의 <code>(base)</code> 환경에 왠만하면 아무런 패키지를 설치하지 않을 것을 권장합니다. 따라서 새로운 가상환경인 <code>ipynb</code>를 만들어 주피터랩을 사용해 보겠습니다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> ipynb python=3.11 pip r-base r-essentials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>기존 <code>conda</code> 명령어에서 <code>mamba</code>로 바꾸기만 하면 됩니다. <code>python=3.11</code>을 통해 파이썬 버전을 지정할 수 있고, PYPI 패키지를 설치하기 위해 <code>pip</code>도 같이 설치해줍니다. 저는 R을 사용하기 위해 <code>r-base</code>, <code>r-essential</code> 도 설치해주었습니다.</p>
+<section id="삭제하기" class="level1">
+<h1>삭제하기</h1>
+<section id="리눅스-혹은-맥-1" class="level2">
+<h2 class="anchored" data-anchor-id="리눅스-혹은-맥-1">리눅스 혹은 맥</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> ~/.pixi/bin/pixi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이 명령 이후에도 여전히 <code>pixi</code>로 설치한 패키지를 사용할 수 있습니다. 이를 제거하려면 <code>~/.pixi</code> 전체 디렉토리를 삭제하면 됩니다.</p>
 </section>
-<section id="가상환경-활성화-하기" class="level2">
-<h2 class="anchored" data-anchor-id="가상환경-활성화-하기">가상환경 활성화 하기</h2>
-<p>생성된 가상환경은 <code>mamba env list</code>명령어를 통해 리스트로 볼 수 있습니다. 위에서 만든 가상환경을 활성화 하려면 다음 명령어를 입력합니다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate ipynb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="윈도우즈-1" class="level2">
+<h2 class="anchored" data-anchor-id="윈도우즈-1">윈도우즈</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">$PIXI_BIN</span> = <span class="st">"</span><span class="va">$Env</span><span class="st">:LocalAppData\pixi\bin\pixi"</span><span class="kw">;</span> <span class="ex">Remove-Item</span> <span class="at">-Path</span> <span class="va">$PIXI_BIN</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="anaconda에서-제공하는-패키지" class="level2">
-<h2 class="anchored" data-anchor-id="anaconda에서-제공하는-패키지">Anaconda에서 제공하는 패키지</h2>
-<p><a href="https://anaconda.org/">Anaconda.org</a>에서 제공하는 파이썬과 R 패키지는 다음 명령어를 사용해 쉽게 설치할 수 있습니다. <code>miniforge</code>에서 사용하는 기본 채널은 <code>conda-forge</code>입니다. 그래서 해당 채널을 원하지 않는 경우에는 검색을 해보고 <code>conda install</code>명령어를 복사해서 사용합니다.</p>
+</section>
+<section id="기본-사용법" class="level1">
+<h1>기본 사용법</h1>
+<section id="프로젝트-시작" class="level2">
+<h2 class="anchored" data-anchor-id="프로젝트-시작">프로젝트 시작</h2>
+<p>새로운 프로젝트를 시작할 때는 다음 명령어를 사용합니다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> init hello-world</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> hello-word</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>그러면 아래와 같은 3개의 파일이 생성됩니다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> .gitattributes</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> .gitignore</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> pixi.toml</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">0</span> directories, 3 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>pixi.toml</code>에 의존성 패키지 정보가 저장되게 됩니다.</li>
+</ul>
+</section>
+<section id="의존성-추가" class="level2">
+<h2 class="anchored" data-anchor-id="의존성-추가">의존성 추가</h2>
+<p>원하는 패키지는 아래 명령어로 추가합니다. <a href="https://prefix.dev/">Prefix.dev</a>에서 검색을 통해 지원되는 패키지와 명령어를 확인할 수 있습니다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> add python==3.10 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>위 명령어를 실행하면 1개의 폴더(<code>.pixi</code>)와 <code>pixi.lock</code>이 생성되는 것을 알수 있습니다. <code>.pixi</code>폴더는 설치한 패키지들이 저장되는 곳이고 <code>pixi.lock</code>은 현재 프로젝트의 종속성 및 버전을 정확하게 기록한 파일입니다.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> .gitattributes</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> .gitignore</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> .pixi</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> pixi.lock</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> pixi.toml</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ex">1</span> directory, 4 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -282,83 +343,74 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="https://anaconda.org/">Anaconda.org</a>를 살펴보면 동일한 이름의 패키지도 다양한 채널을 가지고 있습니다. 서로 다른 채널을 섞어서 사용하면 의존성 문제가 발생할 수 있기 때문에 가능하다면 동일한 채널의 패키지들로 구성하세요.</p>
+<p><code>pixi.lock</code>파일은 <code>pixi add</code>를 실행하거나 수동으로 <code>pixi.toml</code> 파일을 변경한 후 <code>pixi install</code>을 실행할 때 생성됩니다.</p>
 </div>
 </div>
-<section id="설치하기-1" class="level3">
-<h3 class="anchored" data-anchor-id="설치하기-1">설치하기</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="pp">[</span><span class="ss">패키지</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="제거하기" class="level3">
-<h3 class="anchored" data-anchor-id="제거하기">제거하기</h3>
-<p>설치한 패키지를 제거하고 싶다면 아래 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> remove <span class="pp">[</span><span class="ss">패키지</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="pypi에서-제공하는-패키지" class="level2">
-<h2 class="anchored" data-anchor-id="pypi에서-제공하는-패키지">PYPI에서 제공하는 패키지</h2>
-<p>대부분의 경우 <code>conda</code> 명령어로 해결할 수 있지만 가끔 <code>PYPI</code>에서만 제공하는 패키지를 써야할 경우도 있습니다. 그럴 때는 먼저 <a href="https://pypi.org/">PYPI</a>에서 패키지 검색을 해보시고 아래 명령어를 사용하는 것을 권장합니다.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<section id="pypi-의존성-추가" class="level3">
+<h3 class="anchored" data-anchor-id="pypi-의존성-추가">PyPI 의존성 추가</h3>
+<p><a href="https://prefix.dev/">Prefix.dev</a>에서 찾을 수 없는 파이썬 패키지의 경우 <code>pixi add --pypi [패키지이름]</code>으로 설치 할 수 있습니다.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>이 부분이 약간이 까다로운 부분입니다. 파이썬의 내장 패키지인 <code>pip</code>을 사용하다보면 실수로 <em>global</em>(프로젝트 폴더가 아닌 전체를 의미)에 설치를 하는 경우가 생기기 때문이죠.</p>
+<p>현재 이 기능은 베타 버전입니다.</p>
 </div>
 </div>
-<section id="설치" class="level3">
-<h3 class="anchored" data-anchor-id="설치">설치</h3>
+</section>
+</section>
+<section id="패키지-설치하기" class="level2">
+<h2 class="anchored" data-anchor-id="패키지-설치하기">패키지 설치하기</h2>
+<p><code>pixi add</code> 명령어는 기본적으로 <code>pixi.toml</code> 파일에 패키지 이름을 추가하는 역할을 합니다. 보통은 동시에 <code>pixi.lock</code>파일도 업데이트가 됩니다. 그렇지 않은 경우에는 <code>pixi install</code> 명령어를 사용하면 업데이트와 설치가 동시에 됩니다. 그냥 항상 습관적으로 입력하세요.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="패키지-삭제하기" class="level2">
+<h2 class="anchored" data-anchor-id="패키지-삭제하기">패키지 삭제하기</h2>
+<p>설치한 패키지를 삭제하는 것은 2가지 방법이 있습니다. 두 번째 방법이 안되면 첫 번째방법으로 해보세요.</p>
 <ol type="1">
-<li>먼저 <code>conda</code> 가상 환경에서 <code>pip</code> 설치</li>
+<li><code>pixi.toml</code>파일을 수정하고 <code>pixi install</code>명령어 입력하기</li>
+<li><code>pixi remove [패키지]</code> 명령어 사용하기</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install pip <span class="at">-y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="2" type="1">
-<li><code>pip install</code>대신 다음 명령어를 사용하기</li>
-</ol>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="pp">[</span><span class="ss">패키지</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="제거하기-1" class="level3">
-<h3 class="anchored" data-anchor-id="제거하기-1">제거하기</h3>
-<p>설치한 패키지를 제거하고 싶다면 아래 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip uninstall <span class="pp">[</span><span class="ss">패키지</span><span class="pp">]</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">## 설치된 패키지 제거하기</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">설치한</span> 패키지를 제거하고 싶다면 아래 명령어를 사용합니다.</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span><span class="fu">bash</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> remove r-tidyverse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="실행하기" class="level2">
+<h2 class="anchored" data-anchor-id="실행하기">실행하기</h2>
+<section id="shell-실행" class="level3">
+<h3 class="anchored" data-anchor-id="shell-실행">shell 실행</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> shell</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="명령어-실행" class="level3">
+<h3 class="anchored" data-anchor-id="명령어-실행">명령어 실행</h3>
+<p><code>pixi run [명령어]</code> 형식으로 실행하면 됩니다.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run python <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Python</span> 3.10.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="가상환경-비활성화하기" class="level2">
-<h2 class="anchored" data-anchor-id="가상환경-비활성화하기">가상환경 비활성화하기</h2>
-<p>일반적으로는 그냥 터미널을 꺼버리고는 합니다만, 실수를 방지하기 위해 다음 명령어를 습관적으로 써주는 것이 좋습니다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="파일로-의존성-저장하기" class="level2">
+<h2 class="anchored" data-anchor-id="파일로-의존성-저장하기">파일로 의존성 저장하기</h2>
+<p>아직 명령어로 지원하고 있지 않습니다. 하지만 아래와 같이 <code>conda</code> 명령어로 우회할 수 있습니다.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run conda env export <span class="at">-f</span> env.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="가상환경-제거하기" class="level2">
-<h2 class="anchored" data-anchor-id="가상환경-제거하기">가상환경 제거하기</h2>
-<p>필요없는 가상 환경은 다음과 같이 제거 합니다.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> env remove <span class="at">-n</span> ipynb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="yml-파일에서-의존성-불러오기" class="level2">
+<h2 class="anchored" data-anchor-id="yml-파일에서-의존성-불러오기"><code>.yml</code> 파일에서 의존성 불러오기</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> init <span class="at">--import</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>환경을 가져올 때, 환경 파일에서 종속성이 있는 <code>pixi.toml</code>이 생성됩니다. 다만 <code>pip</code> 패키지의 종속성으로 <code>git+URL</code>을 지원하지 않습니다.</p>
 </section>
-<section id="의존성-정보를-파일로-저장하기" class="level2">
-<h2 class="anchored" data-anchor-id="의존성-정보를-파일로-저장하기">의존성 정보를 파일로 저장하기</h2>
-<p>배포 혹은 프로젝트간의 전환을 위해 의존성을 파일로 저장해야하는 경우가 생깁니다. 그럴 때에는 아래와 같이 <code>env.yaml</code>파일을 생성하면 됩니다.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> env export <span class="op">&gt;</span> env.yaml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="의존성-파일로-부터-가상환경-만들기" class="level2">
-<h2 class="anchored" data-anchor-id="의존성-파일로-부터-가상환경-만들기">의존성 파일로 부터 가상환경 만들기</h2>
-<p>위 명령어로 생성된 파일을 가지고 다음 명령어를 사용해 새로운 가상환경을 만들 수 있습니다. 생성된 가상환경의 이름은 <code>env.yaml</code> 파일 속에 적혀있는 것과 동일합니다.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> env create <span class="at">-f</span> env.yaml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="프로젝트-삭제" class="level2">
+<h2 class="anchored" data-anchor-id="프로젝트-삭제">프로젝트 삭제</h2>
+<p>아직 명령어로 지원하고 있지 않습니다. 프로젝트 폴더 전체를 삭제하거나 <code>pixi</code>와 연관된 파일을 삭제하는 방법으로 우회합니다.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> .pixi</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> pixi.toml </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> pixi.lock</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="마치며" class="level1">
 <h1>마치며</h1>
-<p>파이썬과 R에는 다양한 패키지가 있습니다. 그렇기 때문에 패키지의 버전과 호환성을 관리하는 일은 종종 문제를 일으킵니다. 이미 다양한 의존성 관리 도구들이 있지만 각각에는 장단점이 존재하고 유저의 취향과 프로젝트에 따라 도구를 선택해야 합니다. 그러니 패키지 관리에는 왕도가 없습니다. 항상 최신 도구가 나오면 써보고 적용해보세요.</p>
+<p>이것 말고도 <code>Pixi</code>에는 아주 많은 기능이 있습니다. 그러니 이 참에 <a href="https://pixi.sh/latest/basic_usage/">공식문서</a>를 한번 읽어보고 사용해보세요.</p>
 
 
 </section>
