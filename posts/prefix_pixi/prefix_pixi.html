@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon kim">
 <meta name="dcterms.date" content="2024-02-28">
 
-<title>tomorrow-lab - Pixi:</title>
+<title>tomorrow-lab - 의존성 지옥에서 너를 구하러 온 Pixi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -181,7 +181,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Pixi:</h1>
+<h1 class="title">의존성 지옥에서 너를 구하러 온 Pixi</h1>
   <div class="quarto-categories">
     <div class="quarto-category">python</div>
     <div class="quarto-category">mamba</div>
@@ -268,7 +268,7 @@ Warning
 <p>공식 홈페이지에서는 아래 명령어를 통해 설치하는 것을 추천합니다. 하지만 저는 <a href="https://brew.sh/">Homebrew</a>를 통해서 설치하는 것을 선호합니다. <code>brew install pixi</code>를 터미널에 입력하면 간단하게 할 수 있습니다. 물론 사전에 <code>Homebrew</code>를 해둔 상태에서 말이죠.</p>
 <section id="리눅스-혹은-맥" class="level2">
 <h2 class="anchored" data-anchor-id="리눅스-혹은-맥">리눅스 혹은 맥</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-fsSL</span> https://pixi.sh/install.sh <span class="kw">|</span> <span class="fu">bash</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> curl <span class="at">-fsSL</span> https://pixi.sh/install.sh <span class="kw">|</span> <span class="fu">bash</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>위의 명령은 자동으로 최신 버전의 <code>pixi</code>를 다운로드해 <code>~/.pixi/bin</code>에 설치합니다. 또한 <code>~/.bash_profile</code>을 업데이트해 어디에서나 <code>pixi</code> 명령을 실행할 수 있도록 합니다.</p>
 </section>
 <section id="윈도우즈" class="level2">
@@ -294,7 +294,7 @@ Tip
 <h1>삭제하기</h1>
 <section id="리눅스-혹은-맥-1" class="level2">
 <h2 class="anchored" data-anchor-id="리눅스-혹은-맥-1">리눅스 혹은 맥</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> ~/.pixi/bin/pixi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> rm ~/.pixi/bin/pixi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이 명령 이후에도 여전히 <code>pixi</code>로 설치한 패키지를 사용할 수 있습니다. 이를 제거하려면 <code>~/.pixi</code> 전체 디렉토리를 삭제하면 됩니다.</p>
 </section>
 <section id="윈도우즈-1" class="level2">
@@ -304,11 +304,11 @@ Tip
 </section>
 <section id="기본-사용법" class="level1">
 <h1>기본 사용법</h1>
-<section id="프로젝트-시작" class="level2">
-<h2 class="anchored" data-anchor-id="프로젝트-시작">프로젝트 시작</h2>
+<section id="가상환경-만들기" class="level2">
+<h2 class="anchored" data-anchor-id="가상환경-만들기">가상환경 만들기</h2>
 <p>새로운 프로젝트를 시작할 때는 다음 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> init hello-world</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> hello-word</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> pixi init hello-world</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> cd hello-word</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>그러면 아래와 같은 3개의 파일이 생성됩니다.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> .gitattributes</span>
@@ -323,7 +323,8 @@ Tip
 <section id="의존성-추가" class="level2">
 <h2 class="anchored" data-anchor-id="의존성-추가">의존성 추가</h2>
 <p>원하는 패키지는 아래 명령어로 추가합니다. <a href="https://prefix.dev/">Prefix.dev</a>에서 검색을 통해 지원되는 패키지와 명령어를 확인할 수 있습니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> add python==3.10 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> pixi add python==3.10</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Added python 3.10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>위 명령어를 실행하면 1개의 폴더(<code>.pixi</code>)와 <code>pixi.lock</code>이 생성되는 것을 알수 있습니다. <code>.pixi</code>폴더는 설치한 패키지들이 저장되는 곳이고 <code>pixi.lock</code>은 현재 프로젝트의 종속성 및 버전을 정확하게 기록한 파일입니다.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> .gitattributes</span>
@@ -343,9 +344,31 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>pixi.lock</code>파일은 <code>pixi add</code>를 실행하거나 수동으로 <code>pixi.toml</code> 파일을 변경한 후 <code>pixi install</code>을 실행할 때 생성됩니다.</p>
+<p><code>pixi.lock</code>파일은 <code>pixi add</code>를 실행하거나 수동으로 <code>pixi.toml</code> 파일을 변경한 뒤 <code>pixi install</code>을 실행할 때 생성됩니다.</p>
 </div>
 </div>
+<section id="채널-추가하기" class="level3">
+<h3 class="anchored" data-anchor-id="채널-추가하기">채널 추가하기</h3>
+<p><code>pixi</code>는 기본적으로 <code>conda-forge</code>를 기본 패키지 채널로 씁니다. 가끔 <code>conda-forge</code>에 해당 패키지가 없다면 아래와 같이 다른 채널을 추가하면 됩니다.</p>
+<pre class="shell"><code>➜ pixi project channel add bioconda
+✔ Added bioconda (https://conda.anaconda.org/bioconda/)
+
+❯ pixi add anndata2ri
+✔ Added anndata2ri</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>아직 패키지 별로 채널을 선택해서 패키지를 설치하는 명령어는 없는 것으로 보입니다. 그러니 당분간은 위의 명령어를 사용할 수 밖에 없습니다.</p>
+</div>
+</div>
+</section>
 <section id="pypi-의존성-추가" class="level3">
 <h3 class="anchored" data-anchor-id="pypi-의존성-추가">PyPI 의존성 추가</h3>
 <p><a href="https://prefix.dev/">Prefix.dev</a>에서 찾을 수 없는 파이썬 패키지의 경우 <code>pixi add --pypi [패키지이름]</code>으로 설치 할 수 있습니다.</p>
@@ -367,7 +390,7 @@ Warning
 <section id="패키지-설치하기" class="level2">
 <h2 class="anchored" data-anchor-id="패키지-설치하기">패키지 설치하기</h2>
 <p><code>pixi add</code> 명령어는 기본적으로 <code>pixi.toml</code> 파일에 패키지 이름을 추가하는 역할을 합니다. 보통은 동시에 <code>pixi.lock</code>파일도 업데이트가 됩니다. 그렇지 않은 경우에는 <code>pixi install</code> 명령어를 사용하면 업데이트와 설치가 동시에 됩니다. 그냥 항상 습관적으로 입력하세요.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> pixi install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="패키지-삭제하기" class="level2">
 <h2 class="anchored" data-anchor-id="패키지-삭제하기">패키지 삭제하기</h2>
@@ -381,31 +404,44 @@ Warning
 <h2 class="anchored" data-anchor-id="실행하기">실행하기</h2>
 <section id="shell-실행" class="level3">
 <h3 class="anchored" data-anchor-id="shell-실행">shell 실행</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> shell</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> pixi shell</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="명령어-실행" class="level3">
 <h3 class="anchored" data-anchor-id="명령어-실행">명령어 실행</h3>
 <p><code>pixi run [명령어]</code> 형식으로 실행하면 됩니다.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run python <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Python</span> 3.10.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> pixi run python <span class="at">--version</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Python</span> 3.10.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="파일로-의존성-저장하기" class="level2">
 <h2 class="anchored" data-anchor-id="파일로-의존성-저장하기">파일로 의존성 저장하기</h2>
 <p>아직 명령어로 지원하고 있지 않습니다. 하지만 아래와 같이 <code>conda</code> 명령어로 우회할 수 있습니다.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run conda env export <span class="at">-f</span> env.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> pixi run conda env export <span class="at">-f</span> env.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="yml-파일에서-의존성-불러오기" class="level2">
 <h2 class="anchored" data-anchor-id="yml-파일에서-의존성-불러오기"><code>.yml</code> 파일에서 의존성 불러오기</h2>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> init <span class="at">--import</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> pixi init <span class="at">--import</span> environment.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>환경을 가져올 때, 환경 파일에서 종속성이 있는 <code>pixi.toml</code>이 생성됩니다. 다만 <code>pip</code> 패키지의 종속성으로 <code>git+URL</code>을 지원하지 않습니다.</p>
 </section>
-<section id="프로젝트-삭제" class="level2">
-<h2 class="anchored" data-anchor-id="프로젝트-삭제">프로젝트 삭제</h2>
+<section id="가상환경-삭제" class="level2">
+<h2 class="anchored" data-anchor-id="가상환경-삭제">가상환경 삭제</h2>
+<p>`</p>
 <p>아직 명령어로 지원하고 있지 않습니다. 프로젝트 폴더 전체를 삭제하거나 <code>pixi</code>와 연관된 파일을 삭제하는 방법으로 우회합니다.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> .pixi</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> pixi.toml </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> pixi.lock</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> rm <span class="at">-rf</span> .pixi</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> rm pixi.toml </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> rm pixi.lock</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="pixi-삭제하기" class="level1">
+<h1>Pixi 삭제하기</h1>
+<p>저처럼 <code>brew</code> 명령어로 설치를 했다면 <code>brew uninstall pixi</code>로 간단하게 할 수 있습니다. 그렇지 않더라도 시스템에서 <code>pixi</code>를 제거하려면, 단순히 바이너리를 삭제하는 아래 명령어를 사용하면 됩니다. 다만 아래 명령어를 실행한 후에도, <code>pixi</code>로 설치한 도구들은 계속 사용할 수 있습니다. 이것들도 함께 제거하고 싶다면, <code>~/.pixi</code> 디렉토리 전체를 삭제하고, 사용하는 쉘의 설정 파일에서 해당 경로를 삭제하면 됩니다.</p>
+<section id="리눅스와-맥" class="level2">
+<h2 class="anchored" data-anchor-id="리눅스와-맥">리눅스와 맥</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">❯</span> rm ~/.pixi/bin/pixi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="윈도우즈-2" class="level2">
+<h2 class="anchored" data-anchor-id="윈도우즈-2">윈도우즈</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">$PIXI_BIN</span> <span class="op">=</span> <span class="st">"</span><span class="va">$Env</span><span class="op">:</span><span class="va">LocalAppData</span><span class="st">\pixi\bin\pixi"</span><span class="op">;</span> <span class="fu">Remove-Item</span> <span class="op">-</span>Path <span class="va">$PIXI_BIN</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="마치며" class="level1">
