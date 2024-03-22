@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -251,8 +251,15 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <section id="설치하기" class="level2">
 <h2 class="anchored" data-anchor-id="설치하기">설치하기</h2>
 <p><a href="https://github.com/conda-forge/miniforge/blob/main/README.md">공식문서</a>에서 각각의 OS에 맞는 설치 방법을 찾아 볼 수 있습니다. 저는 리눅스를 사용하기에 아래 명령어로 설치 하였습니다.</p>
+</section>
+<section id="리눅스와-맥" class="level2">
+<h2 class="anchored" data-anchor-id="리눅스와-맥">리눅스와 맥</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="st">"https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-</span><span class="va">$(</span><span class="fu">uname</span><span class="va">)</span><span class="st">-</span><span class="va">$(</span><span class="fu">uname</span> <span class="at">-m</span><span class="va">)</span><span class="st">.sh"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Mambaforge-<span class="va">$(</span><span class="fu">uname</span><span class="va">)</span>-<span class="va">$(</span><span class="fu">uname</span> <span class="at">-m</span><span class="va">)</span>.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="윈도우즈" class="level2">
+<h2 class="anchored" data-anchor-id="윈도우즈">윈도우즈</h2>
+<p>Github <a href="https://github.com/conda-forge/miniforge/tree/main">repo</a>를 참고하세요.</p>
 </section>
 </section>
 <section id="개발-환경-설정" class="level1">
@@ -295,9 +302,9 @@ Note
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> remove <span class="pp">[</span><span class="ss">패키지</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="pypi에서-제공하는-패키지" class="level2">
-<h2 class="anchored" data-anchor-id="pypi에서-제공하는-패키지">PYPI에서 제공하는 패키지</h2>
-<p>대부분의 경우 <code>conda</code> 명령어로 해결할 수 있지만 가끔 <code>PYPI</code>에서만 제공하는 패키지를 써야할 경우도 있습니다. 그럴 때는 먼저 <a href="https://pypi.org/">PYPI</a>에서 패키지 검색을 해보시고 아래 명령어를 사용하는 것을 권장합니다.</p>
+<section id="pypi에서-제공하는-파이썬-패키지" class="level2">
+<h2 class="anchored" data-anchor-id="pypi에서-제공하는-파이썬-패키지">PyPI에서 제공하는 파이썬 패키지</h2>
+<p>대부분의 경우 <code>conda</code> 명령어로 해결할 수 있지만 가끔 <code>PyPI</code>에서만 제공하는 패키지를 써야할 경우도 있습니다. 그럴 때는 먼저 <a href="https://pypi.org/">PYPI</a>에서 패키지 검색을 해보시고 아래 명령어를 사용하는 것을 권장합니다.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -311,6 +318,23 @@ Note
 <p>이 부분이 약간이 까다로운 부분입니다. 파이썬의 내장 패키지인 <code>pip</code>을 사용하다보면 실수로 <em>global</em>(프로젝트 폴더가 아닌 전체를 의미)에 설치를 하는 경우가 생기기 때문이죠.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>pip</code> 명령어는 가장 마지막 수단이 되어야 합니다. 항상 <code>mamba install</code>을 최우선으로 고려하세요.</p>
+</div>
+</div>
+</section>
+<section id="cran에서-제공하는-r-패키지" class="level2">
+<h2 class="anchored" data-anchor-id="cran에서-제공하는-r-패키지">CRAN에서 제공하는 R 패키지</h2>
+<p>다시 한번 <a href="https://anaconda.org/">Anaconda.org</a>에서 제공하는 방법을 사용하는 것이 최선입니다만, 만약 그게 어렵다면 <code>R</code> 콘솔에 들어가서 <code>install.packages("[패키지 이름]")</code> 으로 설치할 수 있습니다.</p>
 <section id="설치" class="level3">
 <h3 class="anchored" data-anchor-id="설치">설치</h3>
 <ol type="1">

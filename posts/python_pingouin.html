@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -269,6 +269,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pg.ttest(x, mu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -303,6 +304,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <p>자유도(dof)는 4, <code>T-value</code>(T)는 1.3973 이며 <code>p-Value</code>가 일반적인 기준(0.05) 이상이기 때문에 표본 <code>x</code>의 평균은 모집단의 평균과 차이가 없다(귀무가설)고 볼 수 있다.</p>
 </section>
 <section id="paired-t-test" class="level2">
@@ -313,6 +315,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">3.4</span>, <span class="fl">6.4</span>, <span class="fl">11.0</span>, <span class="fl">4.8</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pg.ttest(pre, post, paired<span class="op">=</span><span class="va">True</span>, tail<span class="op">=</span><span class="st">"one-sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 <div>
 
 
@@ -348,11 +351,13 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <p>꼬리의 방향이 <code>less</code>라는 것은 표본 <code>x</code>의 평균이 표본 <code>y</code>의 평균보다 작다는 것을 뜻합니다.</p>
 <p>일부러 꼬리의 방향을 반대(<code>greater</code>)로 한 대립 가설을 확인해 봅니다.</p>
 <div id="cell-8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pg.ttest(pre, post, paired<span class="op">=</span><span class="va">True</span>, tail<span class="op">=</span><span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <div>
 
 
@@ -388,6 +393,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <p><code>p-Value</code>가 엉망인것을 알 수 있습니다.</p>
 </section>
 <section id="two-sample-t-test" class="level2">
@@ -399,6 +405,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">4</span>, size<span class="op">=</span><span class="dv">20</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>pg.ttest(x, y, correction<span class="op">=</span><span class="st">"auto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
+<div>
 <div>
 
 
@@ -434,6 +441,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="표본-크기가-다른경우" class="level3">
 <h3 class="anchored" data-anchor-id="표본-크기가-다른경우">1.3.2. 표본 크기가 다른경우</h3>
@@ -442,6 +450,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">4</span>, size<span class="op">=</span><span class="dv">15</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pg.ttest(x, y, correction<span class="op">=</span><span class="st">"auto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
+<div>
 <div>
 
 
@@ -477,6 +486,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 </section>
 <section id="pearsons-correlation" class="level2">
@@ -486,6 +496,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.random.multivariate_normal(mean, cov, n).T</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>pg.corr(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
+<div>
 <div>
 
 
@@ -521,6 +532,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="robust-correlation" class="level2">
 <h2 class="anchored" data-anchor-id="robust-correlation">1.5. Robust correlation</h2>
@@ -530,6 +542,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the robust Shepherd's pi correlation</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pg.corr(x, y, method<span class="op">=</span><span class="st">"shepherd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
+<div>
 <div>
 
 
@@ -565,6 +578,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="데이터의-정규성-테스트" class="level2">
 <h2 class="anchored" data-anchor-id="데이터의-정규성-테스트">1.6. 데이터의 정규성 테스트</h2>
@@ -573,6 +587,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 일변량 정규성(Univariate normality)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>pg.normality(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
+<div>
 <div>
 
 
@@ -595,6 +610,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -628,6 +644,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pg.read_dataset(<span class="st">"mixed_anova"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 <div>
 
 
@@ -683,11 +700,13 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <div id="cell-24" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the ANOVA</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>aov <span class="op">=</span> pg.anova(data<span class="op">=</span>df, dv<span class="op">=</span><span class="st">"Scores"</span>, between<span class="op">=</span><span class="st">"Group"</span>, detailed<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>aov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
+<div>
 <div>
 
 
@@ -731,12 +750,14 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="repeated-measures-anova" class="level2">
 <h2 class="anchored" data-anchor-id="repeated-measures-anova">1.9. Repeated measures ANOVA</h2>
 <div id="cell-26" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pg.rm_anova(data<span class="op">=</span>df, dv<span class="op">=</span><span class="st">"Scores"</span>, within<span class="op">=</span><span class="st">"Time"</span>, subject<span class="op">=</span><span class="st">"Subject"</span>, detailed<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
+<div>
 <div>
 
 
@@ -783,6 +804,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="post-hoc-tests-corrected-for-multiple-comparisons" class="level2">
 <h2 class="anchored" data-anchor-id="post-hoc-tests-corrected-for-multiple-comparisons">1.10. Post-hoc tests corrected for multiple-comparisons</h2>
@@ -800,6 +822,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>posthoc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
+<div>
 <div>
 
 
@@ -877,6 +900,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="two-way-mixed-anova" class="level2">
 <h2 class="anchored" data-anchor-id="two-way-mixed-anova">1.11. Two-way mixed ANOVA</h2>
@@ -893,6 +917,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>aov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
+<div>
 <div>
 
 
@@ -951,6 +976,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
