@@ -37,10 +37,15 @@ date: "2024-01-28"
 
 [공식문서](https://github.com/conda-forge/miniforge/blob/main/README.md)에서 각각의 OS에 맞는 설치 방법을 찾아 볼 수 있습니다. 저는 리눅스를 사용하기에 아래 명령어로 설치 하였습니다.
 
+## 리눅스와 맥
 ```bash
 wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
 bash Mambaforge-$(uname)-$(uname -m).sh
 ```
+
+## 윈도우즈
+
+Github [repo](https://github.com/conda-forge/miniforge/tree/main)를 참고하세요.
 
 # 개발 환경 설정
 
@@ -86,13 +91,22 @@ mamba install [패키지]
 mamba remove [패키지]
 ```
 
-## PYPI에서 제공하는 패키지
+## PyPI에서 제공하는 파이썬 패키지
 
-대부분의 경우 `conda` 명령어로 해결할 수 있지만 가끔 `PYPI`에서만 제공하는 패키지를 써야할 경우도 있습니다. 그럴 때는 먼저 [PYPI](https://pypi.org/)에서 패키지 검색을 해보시고 아래 명령어를 사용하는 것을 권장합니다.
+대부분의 경우 `conda` 명령어로 해결할 수 있지만 가끔 `PyPI`에서만 제공하는 패키지를 써야할 경우도 있습니다. 그럴 때는 먼저 [PYPI](https://pypi.org/)에서 패키지 검색을 해보시고 아래 명령어를 사용하는 것을 권장합니다.
 
 :::{.callout-note}
 이 부분이 약간이 까다로운 부분입니다. 파이썬의 내장 패키지인 `pip`을 사용하다보면 실수로 *global*(프로젝트 폴더가 아닌 전체를 의미)에 설치를 하는 경우가 생기기 때문이죠.
 :::
+
+:::{.callout-warning}
+`pip` 명령어는 가장 마지막 수단이 되어야 합니다. 항상  `mamba install`을 최우선으로 고려하세요.
+:::
+
+
+## CRAN에서 제공하는 R 패키지
+
+다시 한번 [Anaconda.org](https://anaconda.org/)에서 제공하는 방법을 사용하는 것이 최선입니다만, 만약 그게 어렵다면 `R` 콘솔에 들어가서 `install.packages("[패키지 이름]")` 으로 설치할 수 있습니다.
 
 ### 설치
 
