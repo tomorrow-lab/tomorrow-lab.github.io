@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -187,7 +187,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
     <div class="quarto-category">scRNA</div>
     <div class="quarto-category">scanpy</div>
     <div class="quarto-category">cellranger</div>
-    <div class="quarto-category">10x</div>
+    <div class="quarto-category">10x genomics</div>
   </div>
   </div>
 
@@ -219,7 +219,7 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="thumbnail.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+<p><img src="thumbnail.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
 </figure>
 </div>
 <section id="시작하기-앞서" class="level1">
@@ -478,12 +478,13 @@ gtag('config', 'GTM-NHHK2BF', { 'anonymize_ip': true});
 <p>R에 좀 더 익숙하시다면 Seurat을 사용하세요. 저는 파이썬 문법을 더 좋아하지만 솔직히 분석 도구의 완성도 측면에서는 Seurat이 더 나은 것 같습니다. 아래 코드는 jupyter notebook에서 R코드를 사용하기 위해 필요한 것으로 rStudio를 사용하신다면 %%R이 포함된 셀의 코드만 사용하시면 됩니다.</p>
 <div id="fd9293cd-66d8-4aab-9a91-581156580ebb" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2.rinterface_lib.callbacks <span class="im">as</span> rcb</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># import rpy2.robjects as ro</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>rcb.logger.setLevel(logging.ERROR)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext rpy2.ipython</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2.rinterface_lib.callbacks <span class="im">as</span> rcb</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import rpy2.robjects as ro</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>rcb.logger.setLevel(logging.ERROR)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext rpy2.ipython</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="c9b851da-9d12-465a-94b3-cb3979c9255e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>

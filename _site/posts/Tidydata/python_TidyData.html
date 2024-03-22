@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -414,10 +414,11 @@ b
 </blockquote>
 <div id="cell-3" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필요한 라이브러리 불러들이기</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re  <span class="co"># 정규식</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re  <span class="co"># 정규식</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="열-이름column-header이-변수-이름이-아니고-값인-경우" class="level2">
 <h2 class="anchored" data-anchor-id="열-이름column-header이-변수-이름이-아니고-값인-경우">1. 열 이름(Column header)이 변수 이름이 아니고 값인 경우</h2>
@@ -428,6 +429,7 @@ b
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/pew-raw.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -550,6 +552,7 @@ b
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li>Evangelical Prot는 기독교 종파중에 하나로 ’개신교’입니다.</li>
 </ul>
@@ -563,6 +566,7 @@ b
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>formatted_df <span class="op">=</span> formatted_df.sort_values(by<span class="op">=</span>[<span class="st">"religion"</span>])  <span class="co"># 종교 이름순으로 정렬</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>formatted_df.head(<span class="dv">10</span>)  <span class="co"># 너무 길기 때문에 윗쪽 10개만 보겠습니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -641,6 +645,7 @@ b
 </div>
 </div>
 </div>
+</div>
 <p>이것이 <em>Pew Research Center Dataset</em> 의 Tidy data 형태 입니다.</p>
 </section>
 <section id="billboard-top-100-dataset" class="level3">
@@ -650,6 +655,7 @@ b
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/billboard.csv"</span>, encoding<span class="op">=</span><span class="st">"mac_latin2"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="69">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -927,6 +933,7 @@ b
 </div>
 </div>
 </div>
+</div>
 <p><strong>문제점:</strong></p>
 <ul>
 <li>열 이름(columns headers)이 값으로 구성되어 있다: <code>x1st.week</code>, <code>x2st.week</code> 등등</li>
@@ -963,15 +970,14 @@ b
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"time"</span>, <span class="st">"genre"</span>, <span class="st">"week"</span>, <span class="st">"rank"</span>, <span class="st">"date"</span>]]</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    ascending<span class="op">=</span><span class="va">True</span>, by<span class="op">=</span>[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"week"</span>, <span class="st">"rank"</span>]</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Assigning the tidy dataset to a variable for future usage</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>billboard <span class="op">=</span> df</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(ascending<span class="op">=</span><span class="va">True</span>, by<span class="op">=</span>[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"week"</span>, <span class="st">"rank"</span>])</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Assigning the tidy dataset to a variable for future usage</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>billboard <span class="op">=</span> df</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="70">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1105,6 +1111,7 @@ b
 </div>
 </div>
 </div>
+</div>
 <p>위와 같이 데이터를 깔끔하게 만들었습니다. 하지만 <em>track, time, genre</em> 열을 보시면 아주 많은 중복이 있는 것을 알 수 있습니다. 이러한 점을 해결 하는 방법은 다음 예제에서 다루어 보겠습니다.</p>
 </section>
 </section>
@@ -1123,6 +1130,7 @@ b
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>songs[<span class="st">"song_id"</span>] <span class="op">=</span> songs.index</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>songs.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1234,14 +1242,14 @@ b
 </div>
 </div>
 </div>
+</div>
 <p>위 와같은 새로운 표를 분리하고, 아래와 같이 순위를 포함하고 있는 표를 새로 만들어줍니다. &gt; 두개의 표를 연결하기 위해 <code>song_id</code>열을 만드는 것을 주의하세요</p>
 <div id="cell-19" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> pd.merge(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    billboard, songs, on<span class="op">=</span>[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"time"</span>, <span class="st">"genre"</span>]</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> ranks[[<span class="st">"song_id"</span>, <span class="st">"date"</span>, <span class="st">"rank"</span>]]</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ranks.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> pd.merge(billboard, songs, on<span class="op">=</span>[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"time"</span>, <span class="st">"genre"</span>])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> ranks[[<span class="st">"song_id"</span>, <span class="st">"date"</span>, <span class="st">"rank"</span>]]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ranks.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1320,6 +1328,7 @@ b
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="다양한-변수가-하나의-열에-있는-경우-multiple-variables-stored-in-one-column" class="level2">
 <h2 class="anchored" data-anchor-id="다양한-변수가-하나의-열에-있는-경우-multiple-variables-stored-in-one-column">3. 다양한 변수가 하나의 열에 있는 경우 Multiple variables stored in one column</h2>
@@ -1340,6 +1349,7 @@ b
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/tb-raw.csv"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1506,30 +1516,30 @@ b
 </div>
 </div>
 </div>
+</div>
 <p>이 데이터를 정리하기 위해서는 먼저 <code>melt</code>를 이용해 <code>sex</code> + <code>age group</code> 를 합쳐서 하나의 행으로 만들겠습니다. 그런 다음에 다시 행을 <code>sex</code>, <code>age</code>로 구분해서 정리하도록 하죠.</p>
 <div id="cell-24" class="cell" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.melt(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    df, id_vars<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>], value_name<span class="op">=</span><span class="st">"cases"</span>, var_name<span class="op">=</span><span class="st">"sex_and_age"</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Sex, Age lower bound and Age upper bound group</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tmp_df <span class="op">=</span> df[<span class="st">"sex_and_age"</span>].<span class="bu">str</span>.extract(<span class="st">"(\D)(\d+)(\d</span><span class="sc">{2}</span><span class="st">)"</span>, expand<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Name columns</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>tmp_df.columns <span class="op">=</span> [<span class="st">"sex"</span>, <span class="st">"age_lower"</span>, <span class="st">"age_upper"</span>]</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create `age`column based on `age_lower` and `age_upper`</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>tmp_df[<span class="st">"age"</span>] <span class="op">=</span> tmp_df[<span class="st">"age_lower"</span>] <span class="op">+</span> <span class="st">"-"</span> <span class="op">+</span> tmp_df[<span class="st">"age_upper"</span>]</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df, tmp_df], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop unnecessary columns and rows</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">"sex_and_age"</span>, <span class="st">"age_lower"</span>, <span class="st">"age_upper"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna()</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(ascending<span class="op">=</span><span class="va">True</span>, by<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"sex"</span>, <span class="st">"age"</span>])</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.melt(df, id_vars<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>], value_name<span class="op">=</span><span class="st">"cases"</span>, var_name<span class="op">=</span><span class="st">"sex_and_age"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Sex, Age lower bound and Age upper bound group</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>tmp_df <span class="op">=</span> df[<span class="st">"sex_and_age"</span>].<span class="bu">str</span>.extract(<span class="st">"(\D)(\d+)(\d</span><span class="sc">{2}</span><span class="st">)"</span>, expand<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Name columns</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tmp_df.columns <span class="op">=</span> [<span class="st">"sex"</span>, <span class="st">"age_lower"</span>, <span class="st">"age_upper"</span>]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create `age`column based on `age_lower` and `age_upper`</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>tmp_df[<span class="st">"age"</span>] <span class="op">=</span> tmp_df[<span class="st">"age_lower"</span>] <span class="op">+</span> <span class="st">"-"</span> <span class="op">+</span> tmp_df[<span class="st">"age_upper"</span>]</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df, tmp_df], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop unnecessary columns and rows</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">"sex_and_age"</span>, <span class="st">"age_lower"</span>, <span class="st">"age_upper"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna()</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(ascending<span class="op">=</span><span class="va">True</span>, by<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"sex"</span>, <span class="st">"age"</span>])</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1630,6 +1640,7 @@ b
 </div>
 </div>
 </div>
+</div>
 <p>이것이 정리된 결과 입니다.</p>
 </section>
 </section>
@@ -1650,6 +1661,7 @@ b
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.melt(df, id_vars<span class="op">=</span>[<span class="st">"id"</span>, <span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"element"</span>], var_name<span class="op">=</span><span class="st">"day_raw"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1761,6 +1773,7 @@ b
 </div>
 </div>
 </div>
+</div>
 <p>그럼에도 아직 불필요한 것들이 보이는 군요. 좀 더 깔끔한 데이터를 만들기 위해 <code>tmin</code>, <code>tmax</code>를 각각의 열로 만들겠습니다. 그리고 날짜 정보들을 합쳐서 <code>date</code>로 통합하겠습니다.</p>
 <div id="cell-32" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting day</span></span>
@@ -1787,6 +1800,7 @@ b
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>df.reset_index(drop<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1827,6 +1841,7 @@ b
 </div>
 </div>
 </div>
+</div>
 <p>충분히 깔끔한 모양새가 되었습니다.</p>
 </section>
 </section>
@@ -1861,6 +1876,7 @@ b
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(df_list)</span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1918,6 +1934,7 @@ b
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
