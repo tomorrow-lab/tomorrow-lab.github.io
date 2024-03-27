@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -151,7 +151,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -207,7 +207,23 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#데이터-품질-관리의-목적" id="toc-데이터-품질-관리의-목적" class="nav-link active" data-scroll-target="#데이터-품질-관리의-목적">데이터 품질 관리의 목적</a></li>
+  <li><a href="#카운트-행렬-데이터-불러오기" id="toc-카운트-행렬-데이터-불러오기" class="nav-link" data-scroll-target="#카운트-행렬-데이터-불러오기">카운트 행렬 데이터 불러오기</a></li>
+  <li><a href="#저품질-시퀀싱-데이터-제거" id="toc-저품질-시퀀싱-데이터-제거" class="nav-link" data-scroll-target="#저품질-시퀀싱-데이터-제거">저품질 시퀀싱 데이터 제거</a>
+  <ul class="collapse">
+  <li><a href="#배경ambient-rna-제거" id="toc-배경ambient-rna-제거" class="nav-link" data-scroll-target="#배경ambient-rna-제거">배경(Ambient) RNA 제거</a></li>
+  <li><a href="#이중체doublet-검출" id="toc-이중체doublet-검출" class="nav-link" data-scroll-target="#이중체doublet-검출">이중체(Doublet) 검출</a></li>
+  </ul></li>
+  <li><a href="#결론" id="toc-결론" class="nav-link" data-scroll-target="#결론">결론</a></li>
+  <li><a href="#참고-자료" id="toc-참고-자료" class="nav-link" data-scroll-target="#참고-자료">참고 자료</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -334,7 +350,6 @@ window.Quarto = {
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
-<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -419,7 +434,6 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</div>
 <p>출력 결과를 통해 <code>.var</code>와 <code>.obs</code>에 몇 개의 열이 추가되었습니다. 추가된 열에 대한 간략한 설명은 아래와 같으며 자세한 내용은 <code>scanpy</code> 공식 문서에서 확인할 수 있습니다.</p>
 <ul>
 <li><code>.obs</code>의 <code>n_genes_by_counts</code>는 셀에서 양수인 유전자의 수입니다,</li>
@@ -491,7 +505,7 @@ window.Quarto = {
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"pct_counts_mt"</span>,</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="f1f08cf5-d8d6-4d3f-88c3-81ffff7b9e04" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="8">
+<div id="f1f08cf5-d8d6-4d3f-88c3-81ffff7b9e04" class="cell quarto-layout-panel" data-execution_count="8" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img src="python_scRNA_QC_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
@@ -547,7 +561,7 @@ Number of cells after filtering of low quality cells: 11826</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> sc.pl.scatter(adata, <span class="st">"total_counts"</span>, <span class="st">"n_genes_by_counts"</span>, color<span class="op">=</span><span class="st">"pct_counts_mt"</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="261e8bd6-abfa-45bd-8890-652b5fc02dd7" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="13">
+<div id="261e8bd6-abfa-45bd-8890-652b5fc02dd7" class="cell quarto-layout-panel" data-execution_count="13" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img src="python_scRNA_QC_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
@@ -712,7 +726,7 @@ Name: count, dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plt.hist(doublet_score, bins<span class="op">=</span><span class="dv">20</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Doublet score"</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="cf41918e-69ec-4126-9789-ff6b85488221" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="25">
+<div id="cf41918e-69ec-4126-9789-ff6b85488221" class="cell quarto-layout-panel" data-execution_count="25" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img src="python_scRNA_QC_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
