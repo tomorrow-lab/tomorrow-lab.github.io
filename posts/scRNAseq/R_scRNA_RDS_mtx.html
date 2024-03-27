@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon kim">
-<meta name="dcterms.date" content="2023-03-26">
+<meta name="dcterms.date" content="2024-03-26">
 
 <title>tomorrow-lab - RDS to mtx</title>
 <style>
@@ -122,7 +122,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -178,7 +178,24 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#들어가며" id="toc-들어가며" class="nav-link active" data-scroll-target="#들어가며">들어가며</a></li>
+  <li><a href="#예시-데이터" id="toc-예시-데이터" class="nav-link" data-scroll-target="#예시-데이터">예시 데이터</a></li>
+  <li><a href="#mtx-to-rds" id="toc-mtx-to-rds" class="nav-link" data-scroll-target="#mtx-to-rds">mtx to RDS</a></li>
+  <li><a href="#기본적인-전처리" id="toc-기본적인-전처리" class="nav-link" data-scroll-target="#기본적인-전처리">기본적인 전처리</a>
+  <ul class="collapse">
+  <li><a href="#umap-그리기" id="toc-umap-그리기" class="nav-link" data-scroll-target="#umap-그리기">UMAP 그리기</a></li>
+  </ul></li>
+  <li><a href="#rds-to-mtx-format" id="toc-rds-to-mtx-format" class="nav-link" data-scroll-target="#rds-to-mtx-format">RDS to <code>mtx</code> format</a></li>
+  <li><a href="#mtx-to-rds-1" id="toc-mtx-to-rds-1" class="nav-link" data-scroll-target="#mtx-to-rds-1"><code>mtx</code> to RDS</a></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며">마치며</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -208,7 +225,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 26, 2023</p>
+      <p class="date">March 26, 2024</p>
     </div>
   </div>
   
@@ -364,7 +381,6 @@ Active assay: RNA (13714 features, 0 variable features)
 <div id="cell-12" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seurat_obj[[]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 6</caption>
 <thead>
@@ -446,7 +462,6 @@ Active assay: RNA (13714 features, 0 variable features)
 </table>
 </div>
 </div>
-</div>
 <p><code>seurat_clusters</code>들이 숫자로 되어 있습니다. 이것을 <code>cell type annotation</code>작을 통해 아래와 같이 값을 바꿔줍니다.</p>
 <div id="cell-14" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 클러스터 이름 재할당</span></span>
@@ -467,7 +482,6 @@ Active assay: RNA (13714 features, 0 variable features)
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 수정된 클러스터 정보 확인</span></span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seurat_obj[[]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 6</caption>
 <thead>
@@ -547,7 +561,6 @@ Active assay: RNA (13714 features, 0 variable features)
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 <p>다시 UMAP을 그려보겠습니다.</p>
@@ -639,7 +652,6 @@ Active assay: RNA (13714 features, 2000 variable features)
 <pre><code>NULL</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A matrix: 6 × 2 of type dbl</caption>
 <thead>
@@ -682,7 +694,6 @@ Active assay: RNA (13714 features, 2000 variable features)
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 </section>
@@ -743,7 +754,6 @@ Active assay: RNA (13714 features, 0 variable features)
 <div id="cell-26" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seurat_obj[[]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 6</caption>
 <thead>
@@ -823,7 +833,6 @@ Active assay: RNA (13714 features, 0 variable features)
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 <div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">

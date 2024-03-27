@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -122,7 +122,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -178,7 +178,70 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#사전-정보" id="toc-사전-정보" class="nav-link active" data-scroll-target="#사전-정보">사전 정보</a>
+  <ul class="collapse">
+  <li><a href="#scrna-seq과-10xgenomics" id="toc-scrna-seq과-10xgenomics" class="nav-link" data-scroll-target="#scrna-seq과-10xgenomics">scRNA seq과 10xGenomics</a></li>
+  </ul></li>
+  <li><a href="#사전-작업" id="toc-사전-작업" class="nav-link" data-scroll-target="#사전-작업">사전 작업</a>
+  <ul class="collapse">
+  <li><a href="#시퀀싱-데이터-준비" id="toc-시퀀싱-데이터-준비" class="nav-link" data-scroll-target="#시퀀싱-데이터-준비">시퀀싱 데이터 준비</a></li>
+  <li><a href="#cell-ranger-설치" id="toc-cell-ranger-설치" class="nav-link" data-scroll-target="#cell-ranger-설치">cell ranger 설치</a></li>
+  <li><a href="#cell-ranger-실행" id="toc-cell-ranger-실행" class="nav-link" data-scroll-target="#cell-ranger-실행">cell ranger 실행</a></li>
+  <li><a href="#cell-ranger-결과" id="toc-cell-ranger-결과" class="nav-link" data-scroll-target="#cell-ranger-결과">cell ranger 결과</a></li>
+  <li><a href="#사용할-패키기-불러오기" id="toc-사용할-패키기-불러오기" class="nav-link" data-scroll-target="#사용할-패키기-불러오기">사용할 패키기 불러오기</a>
+  <ul class="collapse">
+  <li><a href="#seurat" id="toc-seurat" class="nav-link" data-scroll-target="#seurat">Seurat</a></li>
+  <li><a href="#scdblfinder" id="toc-scdblfinder" class="nav-link" data-scroll-target="#scdblfinder">scDblFinder</a></li>
+  <li><a href="#tidyverse" id="toc-tidyverse" class="nav-link" data-scroll-target="#tidyverse">tidyverse</a></li>
+  <li><a href="#패키지-버전-확인" id="toc-패키지-버전-확인" class="nav-link" data-scroll-target="#패키지-버전-확인">패키지 버전 확인</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#ambient-rna-제거하기" id="toc-ambient-rna-제거하기" class="nav-link" data-scroll-target="#ambient-rna-제거하기">Ambient RNA 제거하기</a></li>
+  <li><a href="#seurat-개체-만들기" id="toc-seurat-개체-만들기" class="nav-link" data-scroll-target="#seurat-개체-만들기">Seurat 개체 만들기</a>
+  <ul class="collapse">
+  <li><a href="#count-행렬은-어떻게-생겼을까" id="toc-count-행렬은-어떻게-생겼을까" class="nav-link" data-scroll-target="#count-행렬은-어떻게-생겼을까">count 행렬은 어떻게 생겼을까?</a></li>
+  <li><a href="#seurat-개체의-메타데이터는-어디에-저장될까" id="toc-seurat-개체의-메타데이터는-어디에-저장될까" class="nav-link" data-scroll-target="#seurat-개체의-메타데이터는-어디에-저장될까">Seurat 개체의 메타데이터는 어디에 저장될까?</a></li>
+  </ul></li>
+  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing">Pre-processing</a>
+  <ul class="collapse">
+  <li><a href="#서열-데이터-품질-관리" id="toc-서열-데이터-품질-관리" class="nav-link" data-scroll-target="#서열-데이터-품질-관리">서열 데이터 품질 관리</a>
+  <ul class="collapse">
+  <li><a href="#qc-지표-시각화하기" id="toc-qc-지표-시각화하기" class="nav-link" data-scroll-target="#qc-지표-시각화하기">QC 지표 시각화하기</a></li>
+  <li><a href="#qc-및-추가-분석을-위한-세포-선택하기" id="toc-qc-및-추가-분석을-위한-세포-선택하기" class="nav-link" data-scroll-target="#qc-및-추가-분석을-위한-세포-선택하기">QC 및 추가 분석을 위한 세포 선택하기</a></li>
+  </ul></li>
+  <li><a href="#데이터-정규화하기" id="toc-데이터-정규화하기" class="nav-link" data-scroll-target="#데이터-정규화하기">데이터 정규화하기</a>
+  <ul class="collapse">
+  <li><a href="#elbow-플랏-그리기" id="toc-elbow-플랏-그리기" class="nav-link" data-scroll-target="#elbow-플랏-그리기">Elbow 플랏 그리기</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a>
+  <ul class="collapse">
+  <li><a href="#umap-그리기" id="toc-umap-그리기" class="nav-link" data-scroll-target="#umap-그리기">UMAP 그리기</a></li>
+  <li><a href="#scdblfinder를-사용해-doublet-제거-하기" id="toc-scdblfinder를-사용해-doublet-제거-하기" class="nav-link" data-scroll-target="#scdblfinder를-사용해-doublet-제거-하기">scDblFinder를 사용해 doublet 제거 하기</a>
+  <ul class="collapse">
+  <li><a href="#더블렛-제거하기" id="toc-더블렛-제거하기" class="nav-link" data-scroll-target="#더블렛-제거하기">더블렛 제거하기</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#cell-type-identification" id="toc-cell-type-identification" class="nav-link" data-scroll-target="#cell-type-identification">Cell type identification</a>
+  <ul class="collapse">
+  <li><a href="#marker-gene-찾기" id="toc-marker-gene-찾기" class="nav-link" data-scroll-target="#marker-gene-찾기">Marker gene 찾기</a></li>
+  <li><a href="#marker-gene-heatmap" id="toc-marker-gene-heatmap" class="nav-link" data-scroll-target="#marker-gene-heatmap">Marker gene heatmap</a></li>
+  <li><a href="#chatgpt-사용하기" id="toc-chatgpt-사용하기" class="nav-link" data-scroll-target="#chatgpt-사용하기"><code>ChatGPT</code> 사용하기</a></li>
+  </ul></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며">마치며</a>
+  <ul class="collapse">
+  <li><a href="#클러스터당-세포-수-확인" id="toc-클러스터당-세포-수-확인" class="nav-link" data-scroll-target="#클러스터당-세포-수-확인">클러스터당 세포 수 확인</a></li>
+  <li><a href="#클러스터당-세포-비율-확인" id="toc-클러스터당-세포-비율-확인" class="nav-link" data-scroll-target="#클러스터당-세포-비율-확인">클러스터당 세포 비율 확인</a></li>
+  <li><a href="#rds-파일로-저장하기" id="toc-rds-파일로-저장하기" class="nav-link" data-scroll-target="#rds-파일로-저장하기">RDS 파일로 저장하기</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -377,7 +440,6 @@ MS4A1                  .                  5                  .</code></pre>
 <div id="29340358-7a69-47ad-8ba7-fc1ca64bb80b" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seurat_obj<span class="sc">@</span>meta.data, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 5 × 3</caption>
 <thead>
@@ -427,7 +489,6 @@ MS4A1                  .                  5                  .</code></pre>
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 </section>
@@ -636,7 +697,6 @@ Threshold found:0.519
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(markers, <span class="st">"../output/pbmc1k_marker.csv"</span>) <span class="co"># 결과를 csv 파일로 저장</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>markers <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 7</caption>
 <thead>
@@ -724,7 +784,6 @@ Threshold found:0.519
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 <p><code>FindAllMarkers()</code> 결과는 데이터프레임입니다. <code>avg_log2FC</code>는 다른 클러스터와 비교해 발현량이 얼마나 차이나는지를 의미합니다. 해당 열을 가지고 각 클러스터당 상위 5개의 유전자 마커를 추려서 heatmap 을 그려봅니다.</p>

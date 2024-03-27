@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -122,7 +122,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -178,7 +178,34 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#왜-파이썬으로-통계분석을-하나요" id="toc-왜-파이썬으로-통계분석을-하나요" class="nav-link active" data-scroll-target="#왜-파이썬으로-통계분석을-하나요">왜 파이썬으로 통계분석을 하나요?</a>
+  <ul class="collapse">
+  <li><a href="#예를-들어봅시다." id="toc-예를-들어봅시다." class="nav-link" data-scroll-target="#예를-들어봅시다.">예를 들어봅시다.</a></li>
+  <li><a href="#csv-파일-읽어오기" id="toc-csv-파일-읽어오기" class="nav-link" data-scroll-target="#csv-파일-읽어오기">CSV 파일 읽어오기</a></li>
+  <li><a href="#pandas-설명통계" id="toc-pandas-설명통계" class="nav-link" data-scroll-target="#pandas-설명통계">Pandas 설명통계</a></li>
+  <li><a href="#산포-행렬을-그려보겠습니다." id="toc-산포-행렬을-그려보겠습니다." class="nav-link" data-scroll-target="#산포-행렬을-그려보겠습니다.">산포 행렬을 그려보겠습니다.</a></li>
+  </ul></li>
+  <li><a href="#가설-검정-두-그룹간의-비교" id="toc-가설-검정-두-그룹간의-비교" class="nav-link" data-scroll-target="#가설-검정-두-그룹간의-비교">가설 검정: 두 그룹간의 비교</a>
+  <ul class="collapse">
+  <li><a href="#sample-t-test" id="toc-sample-t-test" class="nav-link" data-scroll-target="#sample-t-test">1-sample T-test</a></li>
+  <li><a href="#sample-t-test-1" id="toc-sample-t-test-1" class="nav-link" data-scroll-target="#sample-t-test-1">2-sample t-test</a></li>
+  <li><a href="#paired-tests" id="toc-paired-tests" class="nav-link" data-scroll-target="#paired-tests">Paired tests:</a></li>
+  </ul></li>
+  <li><a href="#brain_size-데이터의-t-test" id="toc-brain_size-데이터의-t-test" class="nav-link" data-scroll-target="#brain_size-데이터의-t-test">brain_size 데이터의 T-test</a></li>
+  <li><a href="#성별과-viq-수치의-관계" id="toc-성별과-viq-수치의-관계" class="nav-link" data-scroll-target="#성별과-viq-수치의-관계">성별과 VIQ 수치의 관계</a>
+  <ul class="collapse">
+  <li><a href="#f-test" id="toc-f-test" class="nav-link" data-scroll-target="#f-test">F-test</a></li>
+  <li><a href="#시각화" id="toc-시각화" class="nav-link" data-scroll-target="#시각화">시각화</a></li>
+  </ul></li>
+  <li><a href="#결론" id="toc-결론" class="nav-link" data-scroll-target="#결론">결론</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -244,7 +271,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df.head()  <span class="co"># 상단의 5개의 데이터 확인하기</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<div>
 <div>
 
 
@@ -318,7 +344,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
-</div>
 <p>간단히 살펴보면, 총 40명의 사람들의 성별, IQ, 몸무게, 키 그리고 MRI_count(total pixel Count from the 18 MRI scans) 값이 측정되어 있습니다. IQ의 경우 3종류로 세분화 되어있는데 각각을 알아 보면 아래와 같습니다.</p>
 <ul>
 <li>Full Scale Intelligence Quotient (FSIQ) : VIQ와 PIQ의 종합적인 수치입니다</li>
@@ -334,7 +359,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># padas 에서 제공하는 설명 통계</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<div>
 <div>
 
 
@@ -426,7 +450,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </tbody>
 </table>
 
-</div>
 </div>
 </div>
 </div>
