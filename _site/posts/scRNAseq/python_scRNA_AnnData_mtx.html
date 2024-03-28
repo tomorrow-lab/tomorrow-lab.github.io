@@ -9,7 +9,7 @@
 <meta name="author" content="Taeyoon kim">
 <meta name="dcterms.date" content="2024-03-21">
 
-<title>tomorrow-lab - AnnData 객체를 mtx 형식으로 저장하기</title>
+<title>tomorrow-lab - AnnData 객체를 10X MEX 형식으로 저장하기</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -189,7 +189,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   <li><a href="#mtx-형식에-대하여" id="toc-mtx-형식에-대하여" class="nav-link" data-scroll-target="#mtx-형식에-대하여">mtx 형식에 대하여</a></li>
   </ul></li>
   <li><a href="#예시-데이터" id="toc-예시-데이터" class="nav-link" data-scroll-target="#예시-데이터">예시 데이터</a></li>
-  <li><a href="#mtx-to-anndata" id="toc-mtx-to-anndata" class="nav-link" data-scroll-target="#mtx-to-anndata"><code>mtx</code> to <code>AnnData</code></a>
+  <li><a href="#x-mex-to-anndata" id="toc-x-mex-to-anndata" class="nav-link" data-scroll-target="#x-mex-to-anndata"><code>10X MEX</code> to <code>AnnData</code></a>
   <ul class="collapse">
   <li><a href="#기본적인-데이터-qc-하기" id="toc-기본적인-데이터-qc-하기" class="nav-link" data-scroll-target="#기본적인-데이터-qc-하기">기본적인 데이터 QC 하기</a></li>
   <li><a href="#데이터-정규화하기" id="toc-데이터-정규화하기" class="nav-link" data-scroll-target="#데이터-정규화하기">데이터 정규화하기</a></li>
@@ -197,11 +197,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   <li><a href="#h5ad-파일로-저장하기" id="toc-h5ad-파일로-저장하기" class="nav-link" data-scroll-target="#h5ad-파일로-저장하기">H5AD 파일로 저장하기</a></li>
   <li><a href="#h5ad-파일-다시-불러오기" id="toc-h5ad-파일-다시-불러오기" class="nav-link" data-scroll-target="#h5ad-파일-다시-불러오기">H5AD 파일 다시 불러오기</a></li>
   </ul></li>
-  <li><a href="#anndata-to-mtx" id="toc-anndata-to-mtx" class="nav-link" data-scroll-target="#anndata-to-mtx"><code>AnnData</code> to <code>mtx</code></a></li>
-  <li><a href="#다시-mtx-to-anndata" id="toc-다시-mtx-to-anndata" class="nav-link" data-scroll-target="#다시-mtx-to-anndata">다시 <code>mtx</code> to <code>AnnData</code></a>
+  <li><a href="#anndata-to-10x-mex" id="toc-anndata-to-10x-mex" class="nav-link" data-scroll-target="#anndata-to-10x-mex"><code>AnnData</code> to <code>10X MEX</code></a></li>
+  <li><a href="#다시-10x-mex-to-anndata" id="toc-다시-10x-mex-to-anndata" class="nav-link" data-scroll-target="#다시-10x-mex-to-anndata">다시 <code>10X MEX</code> to <code>AnnData</code></a>
   <ul class="collapse">
   <li><a href="#read_10x_mtx함수-사용" id="toc-read_10x_mtx함수-사용" class="nav-link" data-scroll-target="#read_10x_mtx함수-사용"><code>read_10x_mtx()</code>함수 사용</a></li>
-  <li><a href="#read_10x_mtx가-아닌-수작업을-통한-방법" id="toc-read_10x_mtx가-아닌-수작업을-통한-방법" class="nav-link" data-scroll-target="#read_10x_mtx가-아닌-수작업을-통한-방법"><code>read_10x_mtx</code>가 아닌 수작업을 통한 방법</a>
+  <li><a href="#수작업으로-anndata-객체를-만드는-방법" id="toc-수작업으로-anndata-객체를-만드는-방법" class="nav-link" data-scroll-target="#수작업으로-anndata-객체를-만드는-방법">수작업으로 <code>Anndata</code> 객체를 만드는 방법</a>
   <ul class="collapse">
   <li><a href="#메타-데이터의-데이터형-확인하기" id="toc-메타-데이터의-데이터형-확인하기" class="nav-link" data-scroll-target="#메타-데이터의-데이터형-확인하기">메타 데이터의 데이터형 확인하기</a></li>
   </ul></li>
@@ -215,7 +215,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">AnnData 객체를 mtx 형식으로 저장하기</h1>
+<h1 class="title">AnnData 객체를 10X MEX 형식으로 저장하기</h1>
   <div class="quarto-categories">
     <div class="quarto-category">python</div>
     <div class="quarto-category">scRNA</div>
@@ -298,8 +298,8 @@ Note
 </div>
 </div>
 </section>
-<section id="mtx-to-anndata" class="level1">
-<h1><code>mtx</code> to <code>AnnData</code></h1>
+<section id="x-mex-to-anndata" class="level1">
+<h1><code>10X MEX</code> to <code>AnnData</code></h1>
 <div id="cell-2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -536,9 +536,9 @@ dtype: object</code></pre>
 <p>이제 유전자의 갯수가 13,714개로 돌아왔습니다.</p>
 </section>
 </section>
-<section id="anndata-to-mtx" class="level1">
-<h1><code>AnnData</code> to <code>mtx</code></h1>
-<p><code>10x format</code> 으로 저장하는 방법은 아래와 같습니다.</p>
+<section id="anndata-to-10x-mex" class="level1">
+<h1><code>AnnData</code> to <code>10X MEX</code></h1>
+<p><code>10X MEX format</code> 으로 저장하는 방법은 아래와 같습니다.</p>
 <div id="cell-20" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># genes.tsv 로 유전자 정보 저장</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df_genes <span class="op">=</span> adata.var.gene_ids.reset_index()</span>
@@ -574,9 +574,9 @@ dtype: object</code></pre>
 </div>
 <p><code>output_path</code>에 파일이 5개 생겼을 것입니다.</p>
 </section>
-<section id="다시-mtx-to-anndata" class="level1">
-<h1>다시 <code>mtx</code> to <code>AnnData</code></h1>
-<p>다시 <code>10x format</code> 데이터를 읽어서 <code>AnnData</code>객체를 만들어 봅니다. 2가지 방법으로 해보겠습니다. 첫번째는 기존에 <code>read_10x_mtx()</code>함수를 사용하는 방법이고 두번째는 수작업으로 각각의 데이터를 합치는 방법입니다.</p>
+<section id="다시-10x-mex-to-anndata" class="level1">
+<h1>다시 <code>10X MEX</code> to <code>AnnData</code></h1>
+<p>다시 <code>10X MEX format</code> 데이터를 읽어서 <code>AnnData</code>객체를 만들어 봅니다. 2가지 방법으로 해보겠습니다. 첫번째는 기존에 <code>read_10x_mtx()</code>함수를 사용하는 방법이고 두번째는 수작업으로 각각의 데이터를 합치는 방법입니다.</p>
 <section id="read_10x_mtx함수-사용" class="level2">
 <h2 class="anchored" data-anchor-id="read_10x_mtx함수-사용"><code>read_10x_mtx()</code>함수 사용</h2>
 <p>만약 다른 분석 도구를 통해 처리된 데이터의 경우라면 그리 추천하지는 않는 방법입니다.</p>
@@ -686,9 +686,9 @@ dtype: object</code></pre>
 </div>
 <p>위 결과를 통해 정상적으로 데이터를 불러왔음을 확인 할 수 있습니다.</p>
 </section>
-<section id="read_10x_mtx가-아닌-수작업을-통한-방법" class="level2">
-<h2 class="anchored" data-anchor-id="read_10x_mtx가-아닌-수작업을-통한-방법"><code>read_10x_mtx</code>가 아닌 수작업을 통한 방법</h2>
-<p>수작업을 통해 만드는 방법을 해봅니다. <code>10x format</code>과 동일하지는 않지만 유사한 형태의 경우에는 이 방법이 유용합니다.</p>
+<section id="수작업으로-anndata-객체를-만드는-방법" class="level2">
+<h2 class="anchored" data-anchor-id="수작업으로-anndata-객체를-만드는-방법">수작업으로 <code>Anndata</code> 객체를 만드는 방법</h2>
+<p>수작업을 통해 만드는 방법을 해봅니다. <code>10X MEX format</code>과 동일하지는 않지만 유사한 형태의 경우에는 이 방법이 유용합니다.</p>
 <div id="cell-28" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mtx 희소 행렬 불러오기</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> mmread(output_path <span class="op">+</span> <span class="st">"matrix.mtx"</span>)</span>

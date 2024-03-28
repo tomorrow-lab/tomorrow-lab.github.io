@@ -12,7 +12,7 @@
 <generator>quarto-1.4.549</generator>
 <lastBuildDate>Mon, 25 Mar 2024 15:00:00 GMT</lastBuildDate>
 <item>
-  <title>RDS to mtx</title>
+  <title>RDS 객체를 10X MEX 형식으로 저장하기</title>
   <dc:creator>Taeyoon kim</dc:creator>
   <link>https://tomorrow-lab.github.io/posts/scRNAseq/R_scRNA_RDS_mtx.html</link>
   <description><![CDATA[ 
@@ -27,14 +27,14 @@
 </div>
 <section id="들어가며" class="level1">
 <h1>들어가며</h1>
-<p>이전 <a href="https://tomorrow-lab.github.io/posts/scRNAseq/python_scRNA_AnnData_mtx.html">글</a>에서는 <code>Scanpy</code>를 사용해 <code>10x genomics</code> 포멧의 원시데이터를 불러오고 다시 <code>mtx</code>형식으로 내보내는 내용을 살펴봤습니다. 이번에는 <code>Seurat</code>을 사용해 동일한 작업을 해보도록 하죠.</p>
+<p>이전 <a href="https://tomorrow-lab.github.io/posts/scRNAseq/python_scRNA_AnnData_mtx.html">글</a>에서는 <code>Scanpy</code>를 사용해 <code>10x genomics</code>의 <code>10X MEX</code> 포멧의 원시데이터를 불러오고 다시 <code>10X MEX format</code>형식으로 내보내는 내용을 살펴봤습니다. 이번에는 <code>Seurat</code>을 사용해 동일한 작업을 해봅니다.</p>
 </section>
 <section id="예시-데이터" class="level1">
 <h1>예시 데이터</h1>
 <p><code>10X genomics</code>의 <code>Cell Ranger</code> 결과물인 PBMC3k를 사용합니다. 자세한 것은 <a href="https://support.10xgenomics.com/single-cell-gene-expression/datasets/1.1.0/pbmc3k">링크</a>를 확인해주세요.</p>
 </section>
-<section id="mtx-to-rds" class="level1">
-<h1>mtx to RDS</h1>
+<section id="x-mex-to-rds" class="level1">
+<h1>10X MEX to RDS</h1>
 <p><code>Seurat</code>은 <code>Scanpy</code>와는 다르게 <code>R</code>언어로 만들어졌습니다. 그래서 기본적으로 범용적인 <code>RDS</code>형식으로 데이터를 저장합니다. <code>mtx</code>파일을 불러와서 <code>Seurat</code> 객체를 만들고 <code>RDS</code>파일로 저장해보겠습니다.</p>
 <div id="cell-2" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
@@ -771,8 +771,8 @@ font-style: inherit;">"pbmc3k.rds"</span>)</span>
 </div>
 </section>
 </section>
-<section id="rds-to-mtx-format" class="level1">
-<h1>RDS to <code>mtx</code> format</h1>
+<section id="rds-to-10x-mex-format" class="level1">
+<h1>RDS to 10X MEX format</h1>
 <p>다시 <code>RDS</code>파일을 불러와서 <code>Seurat</code> 객체를 만들어 봅니다.</p>
 <div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">seurat_obj <span class="ot" style="color: #003B4F;
@@ -797,8 +797,18 @@ Active assay: RNA (13714 features, 2000 variable features)
 </div>
 </div>
 <p>이제 아래와 같이 <code>mtx</code>, <code>tsv</code> 형식으로 데이터를 저장합니다.</p>
-<div class="call-out:note">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p><code>Seurat</code>은 유전자의 이름을 객체의 <code>rownames()</code>로 저장하기 때문에 <code>Scanpy</code>와는 달리 <code>ENSEMBL_ID</code> 정보가 소실되었습니다. 이 부분은 원시 데이터를 다시 불러와서 우회할 수 있습니다.</p>
+</div>
 </div>
 <div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
@@ -1054,8 +1064,8 @@ font-style: inherit;">head</span>(umap)</span></code></pre></div>
 </div>
 </div>
 </section>
-<section id="mtx-to-rds-1" class="level1">
-<h1><code>mtx</code> to RDS</h1>
+<section id="x-mex-to-rds-1" class="level1">
+<h1>10X MEX to RDS</h1>
 <p>위에서 저장한 파일들을 불러와 <code>Seurat</code> 객체를 만들어봅니다.</p>
 <div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
@@ -1344,25 +1354,23 @@ font-style: inherit;">head</span>(seurat_obj[[]])</span></code></pre></div>
 </table>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
-<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">UMAP을 다시 그려 클러스터링 결과도 확인 해봅니다.</span></code></pre></div>
-</div>
+<p>UMAP을 다시 그려 클러스터링 결과도 확인 해봅니다.</p>
 <div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">DimPlot</span>(</span>
-<span id="cb22-2">  seurat_obj,</span>
-<span id="cb22-3">  <span class="at" style="color: #657422;
+<span id="cb21-2">  seurat_obj,</span>
+<span id="cb21-3">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">reduction =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"umap"</span>,</span>
-<span id="cb22-4">  <span class="at" style="color: #657422;
+<span id="cb21-4">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">label=</span><span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">TRUE</span>,</span>
-<span id="cb22-5">  <span class="at" style="color: #657422;
+<span id="cb21-5">  <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">group.by=</span><span class="st" style="color: #20794D;
 background-color: null;
@@ -1374,7 +1382,7 @@ font-style: inherit;">NoLegend</span>()</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://tomorrow-lab.github.io/posts/scRNAseq/R_scRNA_RDS_mtx_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://tomorrow-lab.github.io/posts/scRNAseq/R_scRNA_RDS_mtx_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1382,7 +1390,7 @@ font-style: inherit;">NoLegend</span>()</span></code></pre></div>
 </section>
 <section id="마치며" class="level1">
 <h1>마치며</h1>
-<p>scRNA-seq 데이터 분석을 하다보면 분석 도구들이 <code>python</code> 혹은 <code>R</code>로 작성되어 있어, 사용자가 데이터를 이리 저리 변환해야 할 때가 많습니다. 그런 작업을 위해서는 여러 방법이 있지만 가장 간단한 <code>mtx</code> 형식으로 저장하는 것이 아무래도 가장 손이 덜가고 오류 가능성이 적다고 생각합니다.</p>
+<p>scRNA-seq 데이터 분석을 하다보면 분석 도구들이 <code>python</code> 혹은 <code>R</code>로 작성되어 있어, 사용자가 데이터를 이리 저리 변환해야 할 때가 많습니다. 그런 작업을 위해서는 여러 방법이 있지만 가장 간단한 <code>10X MEX</code> 형식으로 저장하는 것이 아무래도 가장 손이 덜가고 오류 가능성이 적다고 생각합니다.</p>
 
 
 </section>
@@ -1397,7 +1405,7 @@ font-style: inherit;">NoLegend</span>()</span></code></pre></div>
   <pubDate>Mon, 25 Mar 2024 15:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>AnnData 객체를 mtx 형식으로 저장하기</title>
+  <title>AnnData 객체를 10X MEX 형식으로 저장하기</title>
   <dc:creator>Taeyoon kim</dc:creator>
   <link>https://tomorrow-lab.github.io/posts/scRNAseq/python_scRNA_AnnData_mtx.html</link>
   <description><![CDATA[ 
@@ -1468,8 +1476,8 @@ Note
 </div>
 </div>
 </section>
-<section id="mtx-to-anndata" class="level1">
-<h1><code>mtx</code> to <code>AnnData</code></h1>
+<section id="x-mex-to-anndata" class="level1">
+<h1><code>10X MEX</code> to <code>AnnData</code></h1>
 <div id="cell-2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
 background-color: null;
@@ -2030,9 +2038,9 @@ font-style: inherit;">=</span> adata.raw.to_adata()</span>
 <p>이제 유전자의 갯수가 13,714개로 돌아왔습니다.</p>
 </section>
 </section>
-<section id="anndata-to-mtx" class="level1">
-<h1><code>AnnData</code> to <code>mtx</code></h1>
-<p><code>10x format</code> 으로 저장하는 방법은 아래와 같습니다.</p>
+<section id="anndata-to-10x-mex" class="level1">
+<h1><code>AnnData</code> to <code>10X MEX</code></h1>
+<p><code>10X MEX format</code> 으로 저장하는 방법은 아래와 같습니다.</p>
 <div id="cell-20" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -2166,9 +2174,9 @@ font-style: inherit;">"matrix.mtx"</span>, adata.X.T)</span></code></pre></div>
 </div>
 <p><code>output_path</code>에 파일이 5개 생겼을 것입니다.</p>
 </section>
-<section id="다시-mtx-to-anndata" class="level1">
-<h1>다시 <code>mtx</code> to <code>AnnData</code></h1>
-<p>다시 <code>10x format</code> 데이터를 읽어서 <code>AnnData</code>객체를 만들어 봅니다. 2가지 방법으로 해보겠습니다. 첫번째는 기존에 <code>read_10x_mtx()</code>함수를 사용하는 방법이고 두번째는 수작업으로 각각의 데이터를 합치는 방법입니다.</p>
+<section id="다시-10x-mex-to-anndata" class="level1">
+<h1>다시 <code>10X MEX</code> to <code>AnnData</code></h1>
+<p>다시 <code>10X MEX format</code> 데이터를 읽어서 <code>AnnData</code>객체를 만들어 봅니다. 2가지 방법으로 해보겠습니다. 첫번째는 기존에 <code>read_10x_mtx()</code>함수를 사용하는 방법이고 두번째는 수작업으로 각각의 데이터를 합치는 방법입니다.</p>
 <section id="read_10x_mtx함수-사용" class="level2">
 <h2 class="anchored" data-anchor-id="read_10x_mtx함수-사용"><code>read_10x_mtx()</code>함수 사용</h2>
 <p>만약 다른 분석 도구를 통해 처리된 데이터의 경우라면 그리 추천하지는 않는 방법입니다.</p>
@@ -2342,9 +2350,9 @@ font-style: inherit;">=</span> umap.loc[adata.obs.index].values</span>
 </div>
 <p>위 결과를 통해 정상적으로 데이터를 불러왔음을 확인 할 수 있습니다.</p>
 </section>
-<section id="read_10x_mtx가-아닌-수작업을-통한-방법" class="level2">
-<h2 class="anchored" data-anchor-id="read_10x_mtx가-아닌-수작업을-통한-방법"><code>read_10x_mtx</code>가 아닌 수작업을 통한 방법</h2>
-<p>수작업을 통해 만드는 방법을 해봅니다. <code>10x format</code>과 동일하지는 않지만 유사한 형태의 경우에는 이 방법이 유용합니다.</p>
+<section id="수작업으로-anndata-객체를-만드는-방법" class="level2">
+<h2 class="anchored" data-anchor-id="수작업으로-anndata-객체를-만드는-방법">수작업으로 <code>Anndata</code> 객체를 만드는 방법</h2>
+<p>수작업을 통해 만드는 방법을 해봅니다. <code>10X MEX format</code>과 동일하지는 않지만 유사한 형태의 경우에는 이 방법이 유용합니다.</p>
 <div id="cell-28" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><span class="co" style="color: #5E5E5E;
 background-color: null;

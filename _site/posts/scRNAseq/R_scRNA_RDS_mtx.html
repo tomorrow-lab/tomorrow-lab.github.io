@@ -9,7 +9,7 @@
 <meta name="author" content="Taeyoon kim">
 <meta name="dcterms.date" content="2024-03-26">
 
-<title>tomorrow-lab - RDS to mtx</title>
+<title>tomorrow-lab - RDS 객체를 10X MEX 형식으로 저장하기</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -185,13 +185,13 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   <ul>
   <li><a href="#들어가며" id="toc-들어가며" class="nav-link active" data-scroll-target="#들어가며">들어가며</a></li>
   <li><a href="#예시-데이터" id="toc-예시-데이터" class="nav-link" data-scroll-target="#예시-데이터">예시 데이터</a></li>
-  <li><a href="#mtx-to-rds" id="toc-mtx-to-rds" class="nav-link" data-scroll-target="#mtx-to-rds">mtx to RDS</a></li>
+  <li><a href="#x-mex-to-rds" id="toc-x-mex-to-rds" class="nav-link" data-scroll-target="#x-mex-to-rds">10X MEX to RDS</a></li>
   <li><a href="#기본적인-전처리" id="toc-기본적인-전처리" class="nav-link" data-scroll-target="#기본적인-전처리">기본적인 전처리</a>
   <ul class="collapse">
   <li><a href="#umap-그리기" id="toc-umap-그리기" class="nav-link" data-scroll-target="#umap-그리기">UMAP 그리기</a></li>
   </ul></li>
-  <li><a href="#rds-to-mtx-format" id="toc-rds-to-mtx-format" class="nav-link" data-scroll-target="#rds-to-mtx-format">RDS to <code>mtx</code> format</a></li>
-  <li><a href="#mtx-to-rds-1" id="toc-mtx-to-rds-1" class="nav-link" data-scroll-target="#mtx-to-rds-1"><code>mtx</code> to RDS</a></li>
+  <li><a href="#rds-to-10x-mex-format" id="toc-rds-to-10x-mex-format" class="nav-link" data-scroll-target="#rds-to-10x-mex-format">RDS to 10X MEX format</a></li>
+  <li><a href="#x-mex-to-rds-1" id="toc-x-mex-to-rds-1" class="nav-link" data-scroll-target="#x-mex-to-rds-1">10X MEX to RDS</a></li>
   <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며">마치며</a></li>
   </ul>
 </nav>
@@ -201,7 +201,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">RDS to mtx</h1>
+<h1 class="title">RDS 객체를 10X MEX 형식으로 저장하기</h1>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
     <div class="quarto-category">scRNA</div>
@@ -244,14 +244,14 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 <section id="들어가며" class="level1">
 <h1>들어가며</h1>
-<p>이전 <a href="https://tomorrow-lab.github.io/posts/scRNAseq/python_scRNA_AnnData_mtx.html">글</a>에서는 <code>Scanpy</code>를 사용해 <code>10x genomics</code> 포멧의 원시데이터를 불러오고 다시 <code>mtx</code>형식으로 내보내는 내용을 살펴봤습니다. 이번에는 <code>Seurat</code>을 사용해 동일한 작업을 해보도록 하죠.</p>
+<p>이전 <a href="https://tomorrow-lab.github.io/posts/scRNAseq/python_scRNA_AnnData_mtx.html">글</a>에서는 <code>Scanpy</code>를 사용해 <code>10x genomics</code>의 <code>10X MEX</code> 포멧의 원시데이터를 불러오고 다시 <code>10X MEX format</code>형식으로 내보내는 내용을 살펴봤습니다. 이번에는 <code>Seurat</code>을 사용해 동일한 작업을 해봅니다.</p>
 </section>
 <section id="예시-데이터" class="level1">
 <h1>예시 데이터</h1>
 <p><code>10X genomics</code>의 <code>Cell Ranger</code> 결과물인 PBMC3k를 사용합니다. 자세한 것은 <a href="https://support.10xgenomics.com/single-cell-gene-expression/datasets/1.1.0/pbmc3k">링크</a>를 확인해주세요.</p>
 </section>
-<section id="mtx-to-rds" class="level1">
-<h1>mtx to RDS</h1>
+<section id="x-mex-to-rds" class="level1">
+<h1>10X MEX to RDS</h1>
 <p><code>Seurat</code>은 <code>Scanpy</code>와는 다르게 <code>R</code>언어로 만들어졌습니다. 그래서 기본적으로 범용적인 <code>RDS</code>형식으로 데이터를 저장합니다. <code>mtx</code>파일을 불러와서 <code>Seurat</code> 객체를 만들고 <code>RDS</code>파일로 저장해보겠습니다.</p>
 <div id="cell-2" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 경고 메시지를 출력하지 않도록 설정합니다. </span></span>
@@ -590,8 +590,8 @@ Active assay: RNA (13714 features, 0 variable features)
 </div>
 </section>
 </section>
-<section id="rds-to-mtx-format" class="level1">
-<h1>RDS to <code>mtx</code> format</h1>
+<section id="rds-to-10x-mex-format" class="level1">
+<h1>RDS to 10X MEX format</h1>
 <p>다시 <code>RDS</code>파일을 불러와서 <code>Seurat</code> 객체를 만들어 봅니다.</p>
 <div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>seurat_obj <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(</span>
@@ -608,8 +608,18 @@ Active assay: RNA (13714 features, 2000 variable features)
 </div>
 </div>
 <p>이제 아래와 같이 <code>mtx</code>, <code>tsv</code> 형식으로 데이터를 저장합니다.</p>
-<div class="call-out:note">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p><code>Seurat</code>은 유전자의 이름을 객체의 <code>rownames()</code>로 저장하기 때문에 <code>Scanpy</code>와는 달리 <code>ENSEMBL_ID</code> 정보가 소실되었습니다. 이 부분은 원시 데이터를 다시 불러와서 우회할 수 있습니다.</p>
+</div>
 </div>
 <div id="cell-22" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RNA 발현 행렬 데이터 추출</span></span>
@@ -697,8 +707,8 @@ Active assay: RNA (13714 features, 2000 variable features)
 </div>
 </div>
 </section>
-<section id="mtx-to-rds-1" class="level1">
-<h1><code>mtx</code> to RDS</h1>
+<section id="x-mex-to-rds-1" class="level1">
+<h1>10X MEX to RDS</h1>
 <p>위에서 저장한 파일들을 불러와 <code>Seurat</code> 객체를 만들어봅니다.</p>
 <div id="cell-24" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix Market 형식의 파일로부터 발현 행렬, 유전자 정보, 세포 식별자를 읽어옵니다.</span></span>
@@ -835,19 +845,17 @@ Active assay: RNA (13714 features, 0 variable features)
 </table>
 </div>
 </div>
-<div id="cell-27" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>UMAP을 다시 그려 클러스터링 결과도 확인 해봅니다.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>UMAP을 다시 그려 클러스터링 결과도 확인 해봅니다.</p>
 <div id="cell-28" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  seurat_obj,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">reduction =</span> <span class="st">"umap"</span>,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">label=</span><span class="cn">TRUE</span>,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.by=</span><span class="st">"seurat_clusters"</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  seurat_obj,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">reduction =</span> <span class="st">"umap"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">label=</span><span class="cn">TRUE</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group.by=</span><span class="st">"seurat_clusters"</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="R_scRNA_RDS_mtx_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="R_scRNA_RDS_mtx_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -855,7 +863,7 @@ Active assay: RNA (13714 features, 0 variable features)
 </section>
 <section id="마치며" class="level1">
 <h1>마치며</h1>
-<p>scRNA-seq 데이터 분석을 하다보면 분석 도구들이 <code>python</code> 혹은 <code>R</code>로 작성되어 있어, 사용자가 데이터를 이리 저리 변환해야 할 때가 많습니다. 그런 작업을 위해서는 여러 방법이 있지만 가장 간단한 <code>mtx</code> 형식으로 저장하는 것이 아무래도 가장 손이 덜가고 오류 가능성이 적다고 생각합니다.</p>
+<p>scRNA-seq 데이터 분석을 하다보면 분석 도구들이 <code>python</code> 혹은 <code>R</code>로 작성되어 있어, 사용자가 데이터를 이리 저리 변환해야 할 때가 많습니다. 그런 작업을 위해서는 여러 방법이 있지만 가장 간단한 <code>10X MEX</code> 형식으로 저장하는 것이 아무래도 가장 손이 덜가고 오류 가능성이 적다고 생각합니다.</p>
 
 
 </section>
