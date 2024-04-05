@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon kim">
-<meta name="dcterms.date" content="2023-01-10">
+<meta name="dcterms.date" content="2024-04-04">
 
-<title>tomorrow-lab - Jupyter notebook 소개</title>
+<title>tomorrow-lab - 미니멀한 폴더 정리: PARA method</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,62 +22,28 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../favicon.ico" rel="icon">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,12 +80,12 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -129,7 +95,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">tomorrow-lab</span>
     </a>
   </div>
@@ -140,15 +106,15 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../book.html"> 
+    <a class="nav-link" href="../../book.html"> 
 <span class="menu-text">Book</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../resume.html"> 
+    <a class="nav-link" href="../../resume.html"> 
 <span class="menu-text">Resume</span></a>
   </li>  
   <li class="nav-item compact">
@@ -183,15 +149,24 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#ipython" id="toc-ipython" class="nav-link active" data-scroll-target="#ipython">Ipython</a>
+  <li><a href="#들어가며" id="toc-들어가며" class="nav-link active" data-scroll-target="#들어가며">들어가며</a></li>
+  <li><a href="#para-시스템-소개" id="toc-para-시스템-소개" class="nav-link" data-scroll-target="#para-시스템-소개"><code>PARA</code> 시스템 소개</a>
   <ul class="collapse">
-  <li><a href="#매직-명령어magic-commands" id="toc-매직-명령어magic-commands" class="nav-link" data-scroll-target="#매직-명령어magic-commands">매직 명령어(Magic commands)</a></li>
-  <li><a href="#자동완성-tab-completion" id="toc-자동완성-tab-completion" class="nav-link" data-scroll-target="#자동완성-tab-completion">자동완성 (Tab completion)</a></li>
+  <li><a href="#project" id="toc-project" class="nav-link" data-scroll-target="#project">PROJECT</a></li>
+  <li><a href="#area" id="toc-area" class="nav-link" data-scroll-target="#area">AREA</a></li>
+  <li><a href="#resource" id="toc-resource" class="nav-link" data-scroll-target="#resource">RESOURCE</a></li>
+  <li><a href="#archive" id="toc-archive" class="nav-link" data-scroll-target="#archive">ARCHIVE</a></li>
   </ul></li>
-  <li><a href="#matplotlib-과-seaborn" id="toc-matplotlib-과-seaborn" class="nav-link" data-scroll-target="#matplotlib-과-seaborn">Matplotlib 과 Seaborn</a>
+  <li><a href="#중요한-원칙" id="toc-중요한-원칙" class="nav-link" data-scroll-target="#중요한-원칙">중요한 원칙</a>
   <ul class="collapse">
-  <li><a href="#seaborn-시각화" id="toc-seaborn-시각화" class="nav-link" data-scroll-target="#seaborn-시각화">Seaborn 시각화</a></li>
+  <li><a href="#프로젝트에-대하여" id="toc-프로젝트에-대하여" class="nav-link" data-scroll-target="#프로젝트에-대하여">프로젝트에 대하여</a>
+  <ul class="collapse">
+  <li><a href="#문제점-1.-범위가-명확하지-않습니다" id="toc-문제점-1.-범위가-명확하지-않습니다" class="nav-link" data-scroll-target="#문제점-1.-범위가-명확하지-않습니다">문제점 1. 범위가 명확하지 않습니다</a></li>
+  <li><a href="#문제점-2.-현재-노력과-장기적인-목표가-연결되지-않습니다" id="toc-문제점-2.-현재-노력과-장기적인-목표가-연결되지-않습니다" class="nav-link" data-scroll-target="#문제점-2.-현재-노력과-장기적인-목표가-연결되지-않습니다">문제점 2. 현재 노력과 장기적인 목표가 연결되지 않습니다</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#나가며" id="toc-나가며" class="nav-link" data-scroll-target="#나가며">나가며</a></li>
+  <li><a href="#참고-자료" id="toc-참고-자료" class="nav-link" data-scroll-target="#참고-자료">참고 자료</a></li>
   </ul>
 </nav>
     </div>
@@ -200,10 +175,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Jupyter notebook 소개</h1>
+<h1 class="title">미니멀한 폴더 정리: PARA method</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">news</div>
-    <div class="quarto-category">python</div>
+    <div class="quarto-category">productivity</div>
+    <div class="quarto-category">PARA</div>
+    <div class="quarto-category">second brain</div>
   </div>
   </div>
 
@@ -221,7 +197,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 10, 2023</p>
+      <p class="date">April 4, 2024</p>
     </div>
   </div>
   
@@ -233,179 +209,166 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </header>
 
 
-<section id="ipython" class="level1">
-<h1>Ipython</h1>
-<p><strong>ipython</strong>는 파이썬을 위한 향상된 대화형 커맨드라인 콘솔입니다. <strong>Jupyter notebook</strong>은 그것에서 보다 발전된 형태로 <em>코딩</em>과 <em>문서화</em>를 동시에 해서 생산성을 극대화 하는 도구입니다. 이 블로그도 jupyter notebook을 기반으로 해서 만들어 졌습니다.</p>
-<div id="cell-2" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Hello!</code></pre>
-</div>
-</div>
-<section id="매직-명령어magic-commands" class="level2">
-<h2 class="anchored" data-anchor-id="매직-명령어magic-commands">매직 명령어(Magic commands)</h2>
-<p>파일 시스템과 상호작용을 할 수 있는 명령어로 <strong>%</strong> 기호로 시작합니다. 현재 디렉토리 위치를 출력해 보겠습니다.</p>
-<div id="cell-4" class="cell" data-scrolled="true" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pwd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>'/home/partrita/Documents/blog/partrita.github.io/posts'</code></pre>
-</div>
-</div>
-<p>더 많은 매직 명령어는 <em>%lsmagic</em>으로 확인 할 수 있고, 각 명령어에 <em>?</em>를 추가하면 추가 정보를 보여줍니다.</p>
-<div id="cell-6" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>lsmagic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>Available line magics:
-%alias  %alias_magic  %autocall  %automagic  %autosave  %bookmark  %cat  %cd  %clear  %colors  %config  %connect_info  %cp  %debug  %dhist  %dirs  %doctest_mode  %ed  %edit  %env  %gui  %hist  %history  %killbgscripts  %ldir  %less  %lf  %lk  %ll  %load  %load_ext  %loadpy  %logoff  %logon  %logstart  %logstate  %logstop  %ls  %lsmagic  %lx  %macro  %magic  %man  %matplotlib  %mkdir  %more  %mv  %notebook  %page  %pastebin  %pdb  %pdef  %pdoc  %pfile  %pinfo  %pinfo2  %popd  %pprint  %precision  %profile  %prun  %psearch  %psource  %pushd  %pwd  %pycat  %pylab  %qtconsole  %quickref  %recall  %rehashx  %reload_ext  %rep  %rerun  %reset  %reset_selective  %rm  %rmdir  %run  %save  %sc  %set_env  %store  %sx  %system  %tb  %time  %timeit  %unalias  %unload_ext  %who  %who_ls  %whos  %xdel  %xmode
-
-Available cell magics:
-%%!  %%HTML  %%SVG  %%bash  %%capture  %%debug  %%file  %%html  %%javascript  %%js  %%latex  %%markdown  %%perl  %%prun  %%pypy  %%python  %%python2  %%python3  %%ruby  %%script  %%sh  %%svg  %%sx  %%system  %%time  %%timeit  %%writefile
-
-Automagic is ON, % prefix IS NOT needed for line magics.</code></pre>
-</div>
-</div>
-</section>
-<section id="자동완성-tab-completion" class="level2">
-<h2 class="anchored" data-anchor-id="자동완성-tab-completion">자동완성 (Tab completion)</h2>
-<p>자동완성은 믿을 수 없을 정도로 아주 유용한 기능입니다. 코딩을 하면서 모든 것을 타이핑하는것보다 <em>tab</em>키를 누르면 알아서 완성해주는 기능입니다.</p>
-</section>
-</section>
-<section id="matplotlib-과-seaborn" class="level1">
-<h1>Matplotlib 과 Seaborn</h1>
-<p><strong>matplotlib</strong>은 파이썬의 중심 라이브러리입니다. 사용하기 복잡할 수 있지만 풍부하고 강력한 기능을 제공하죠. 다만 기본 스타일이 촌스럽게 느껴질수 있습니다. 그래서 <strong>seaborn</strong>이 만들어 졌죠. seaborn은 matplotlib 기반으로 사용하기 쉽고 통계적인 시각화를 제공합니다.</p>
-<div id="cell-9" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필요한 모듈을 임포트합니다.</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-10" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># matplotlib 으로 임의의 신호를 생성하고 그려보자</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.random.randn(<span class="dv">1000</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.plot(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="python_jupyter_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="PARA_system.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
-</div>
-</div>
-<div id="cell-11" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 수학함수를 그래프로 그려보자</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">10.0</span>, <span class="fl">10.0</span>, <span class="dv">1000</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(<span class="dv">3</span> <span class="op">*</span> x) <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.1</span>, x<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="python_jupyter_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-12" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 산점도를 그려보자</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.random.randn(<span class="dv">100</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x <span class="op">+</span> np.random.randn(<span class="dv">100</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="python_jupyter_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<section id="seaborn-시각화" class="level2">
-<h2 class="anchored" data-anchor-id="seaborn-시각화">Seaborn 시각화</h2>
-<p>seaborn은 사용하기 쉬운 발전된 기능을 제공 합니다.</p>
-<div id="cell-14" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 예제에 사용될 데이터를 읽어오자</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> sns.load_dataset(<span class="st">"iris"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df.head()  <span class="co"># 데이터의 모양을 확인</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">sepal_length</th>
-<th data-quarto-table-cell-role="th">sepal_width</th>
-<th data-quarto-table-cell-role="th">petal_length</th>
-<th data-quarto-table-cell-role="th">petal_width</th>
-<th data-quarto-table-cell-role="th">species</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>5.1</td>
-<td>3.5</td>
-<td>1.4</td>
-<td>0.2</td>
-<td>setosa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>4.9</td>
-<td>3.0</td>
-<td>1.4</td>
-<td>0.2</td>
-<td>setosa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>4.7</td>
-<td>3.2</td>
-<td>1.3</td>
-<td>0.2</td>
-<td>setosa</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>4.6</td>
-<td>3.1</td>
-<td>1.5</td>
-<td>0.2</td>
-<td>setosa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>5.0</td>
-<td>3.6</td>
-<td>1.4</td>
-<td>0.2</td>
-<td>setosa</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<p>사용한 데이터셋은 <strong>붓꽃(iris)</strong> 의 3가지 종(setosa, versicolor, virginica)에 대해 꽃받침(sepal)과 꽃잎(petal)의 넓이와 길이를 정리한 데이터입니다.</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Mature_flower_diagram.svg/310px-Mature_flower_diagram.svg.png" class="img-fluid"></p>
-<p>위 그림을 참고하시면 이해가 되실 겁니다.</p>
-<div id="cell-16" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pair plot을 그려본다</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sns.pairplot(df, hue<span class="op">=</span><span class="st">"species"</span>, size<span class="op">=</span><span class="fl">2.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="python_jupyter_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>각각의 붓꽃종에 따라 꽃받침(sepal)과 꽃잎(petal)에 어떠한 연관성이 있는 지 확인 할 수 있습니다. 예를 들면 꽃잎의 길이가 길면 넓이도 넓어지는것은 모든종에서 연관관계가 있는 것을 볼수 있습니다.</p>
-
-
+<section id="들어가며" class="level1">
+<h1>들어가며</h1>
+<p>문서를 손쉽게 정리할 수 있는 간편한 시스템에 대해 생각해보세요. 문서 정리 시스템은 정보를 정확히 분류하여 필요할 때 빠르게 찾을 수 있어야 합니다. 그리고 간편해야 하며 유지보수도 쉬워야 합니다. 뿐만 아니라 다양한 장소와 플랫폼에서 사용할 수 있어야 합니다.</p>
+<p>그러나 가장 중요한 것은 이 문서 정리 시스템이 내 삶에 도움이 되어야 한다는 것입니다. 즉, <strong>실행 가능한 시스템</strong>이어야 합니다. 제가 소개할 <code>PARA</code> 문서 정리 시스템은 다양한 플랫폼에서 어떠한 유형의 정보도 매우 쉽게 정리하는 간단하면서도 유연한 정리 시스템입니다.</p>
 </section>
+<section id="para-시스템-소개" class="level1">
+<h1><code>PARA</code> 시스템 소개</h1>
+<p><code>PARA</code> 문서 정리 시스템은 삶의 모든 정보를 네 가지 주요 범주로 분류합니다.</p>
+<ul>
+<li><code>PROJECT</code>: 현재 진행 중이거나 단기적으로 완료해야 하는 작업</li>
+<li><code>AREA</code>: 장기적으로 관리되어야 하는 영역</li>
+<li><code>RESOURCE</code>: 미래에 활용될 수 있는 정보나 주제</li>
+<li><code>ARCHIVE</code>: 다른 범주에 해당하지 않는 항목</li>
+</ul>
+<section id="project" class="level2">
+<h2 class="anchored" data-anchor-id="project">PROJECT</h2>
+<p><code>PROJECT</code> 는 특정 목표를 가지고 시작한 짧은 기간의 작업을 나타냅니다. 몇 가지 예시는 아래와 같습니다.</p>
+<ul>
+<li>웹페이지 디자인</li>
+<li>새로운 컴퓨터 구매</li>
+<li>연구 보고서 작성</li>
+<li>욕실 리모델링</li>
+<li>스페인어 학습</li>
+</ul>
+</section>
+<section id="area" class="level2">
+<h2 class="anchored" data-anchor-id="area">AREA</h2>
+<p><code>AREA</code> 는 지속적인 관심이 필요한 업무와 삶의 중요한 부분을 나타냅니다. 다음은 몇 가지 예시입니다.</p>
+<ul>
+<li>업무적인 책임: 마케팅, 인사, 제품 관리, 연구 및 개발, 엔지니어링</li>
+<li>개인적인 책임: 건강, 재정, 가족, 글쓰기, 자동차, 주택</li>
+</ul>
+</section>
+<section id="resource" class="level2">
+<h2 class="anchored" data-anchor-id="resource">RESOURCE</h2>
+<p><code>RESOURCE</code> 는 관심이 있는 주제나 배우고 싶은 자료가 포함합니다. 예시는 다음과 같습니다.</p>
+<ul>
+<li>그래픽 디자인</li>
+<li>가드닝</li>
+<li>커피</li>
+<li>웹 디자인</li>
+<li>일본어</li>
+<li>습관 형성</li>
+<li>사진 촬영</li>
+</ul>
+</section>
+<section id="archive" class="level2">
+<h2 class="anchored" data-anchor-id="archive">ARCHIVE</h2>
+<p>마지막으로, 이전 세 가지 범주에 속하지 않는 항목을 포함하는 <code>ARCHIVE</code> 가 있습니다. 이 항목에는 향후 필요할 것으로 예상되는 것들이 포함됩니다. 몇 가지 예시는 다음과 같습니다.</p>
+<ul>
+<li>완료한 프로젝트나 보류 중인 프로젝트</li>
+<li>이제 관심이 없는 자료</li>
+</ul>
+<p>이것이 전부입니다! <code>PROJECT</code>, <code>AREA</code>, <code>RESOURCE</code>, <code>ARCHIVE</code> 네 가지 상위 폴더면 됩니다.</p>
+<p>삶을 네 가지 범주로 축소하는 것이 어렵겠지만 그러나 이것이 핵심입니다. 정리 시스템이 복잡하다면 그건 유지하기도 어렵고 정리하느라 더 많은 시간을 쓰게 될 것입니다. 그러니 최대한 간단한 시스템이어야 합니다. 그래야 문서 정리 시스템이 당신에게 여유 시간을 만들어 줄 수 있습니다.</p>
+</section>
+</section>
+<section id="중요한-원칙" class="level1">
+<h1>중요한 원칙</h1>
+<p>우리 일상은 보통 진행 중인 프로젝트나 달성하려는 목표를 중심으로 정리가 필요합니다. 예를 들어, 새 제품 출시 준비나 여름 휴가를 계획하거나 하는 중요한 결정이 필요한 작업을 할때 필요한 정보를 효율적으로 찾아야 합니다. 따라서 정보를 조직할 때는 프로젝트나 목표에 따라 구분하는 것이 중요합니다. 그렇게 하면 필요한 정보를 쉽게 찾을 수 있고 작업을 효율적으로 수행할 수 있습니다.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A[PROJECT] --&gt; B(Compelte webpages design)
+  A --&gt; C(Buy new computer)
+  A --&gt; D(Renovate bathroom)
+
+  E[AREA] --&gt; F(Marketing)
+  E --&gt; G(Human resorces)
+  E --&gt; H(Health)
+
+  I[RESOURCE] --&gt; J(Graphic design)
+  I --&gt; K(Personal productivity)
+  I --&gt; L(Gardening)
+
+  M[ARCHIVE] --&gt; N(Completed project)
+  M --&gt; O(Inactive area)
+  M --&gt; P(Past interest)
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>위의 모식도 처럼 프로젝트라는 상위 폴더 안에 개별 프로젝트 폴더를 만들고 해당 프로젝트에 필요한 모든 자료를 한 곳에 모아두는 것이 좋습니다. 이렇게 하면 작업에 집중할 수 있고 필요한 자료를 쉽게 찾을 수 있습니다. 즉, 프로젝트와 목표에 따라 정보를 조직하는 것은 작업 효율성을 높이는 데 중요한 요소입니다. 이를 통해 필요한 정보를 쉽게 찾을 수 있고 작업을 원활하게 진행할 수 있습니다.</p>
+<section id="프로젝트에-대하여" class="level2">
+<h2 class="anchored" data-anchor-id="프로젝트에-대하여">프로젝트에 대하여</h2>
+<p>프로젝트 목록을 만드는 것은 일의 성격, 업무량, 그리고 우선순위와 결과을 예측하는데 필요합니다. 아래 항목을 살펴보세요.</p>
+<pre><code>    내 프로젝트 목록
+    1. 채용/인력 확보
+    2. 이벤트
+    3. 직속 보고
+    4. 전략적 계획
+    5. 연구
+    6. 휴가
+    7. 전문 개발
+    8. 생산성</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>문제점이 뭔지 아시겠나요?</p>
+</div>
+</div>
+<p>이 목록의 항목 하나하나는 사실은 프로젝트가 아닙니다. ” 전략적 계획 ” 이 언제 완료되는지를 정확히 말할 수 있나요? ” 휴가 ” 를 목록에서 지워버릴 수 있나요? 확실하지가 않습니다.</p>
+<p>사실 이 목록에 있는 모든 항목은 책임 영역입니다. 이것은 단순한 언어적인 문제로만 보이지만, 사실 그렇지 않습니다. 얼마나 똑똑하고 열정적인 사람이더라도, 책임 영역을 구체적인 프로젝트로 세분화하지 않는 한, 중요한 작업을 제때에 수행하기는 어렵습니다.</p>
+<section id="문제점-1.-범위가-명확하지-않습니다" class="level3">
+<h3 class="anchored" data-anchor-id="문제점-1.-범위가-명확하지-않습니다">문제점 1. 범위가 명확하지 않습니다</h3>
+<p>위 목록을 보면 실제로 얼마나 많은 일을 했는지 정확히 알기 어렵습니다. ” 채용 ” 이라는 항목이 얼마나 많은 작업을 포함하는지 어떻게 알 수 있을까요? 이것은 6 개월마다 파트타임 채용부터 이번 분기에 50 명의 사원을 채용하는 것까지 다양할 수 있습니다. 이러한 불확실성은 업무를 실제보다 더 부담스럽게 만듭니다. 만약 ” 채용 ” 이라는 책임 영역에서 여러 프로젝트를 식별하고 그 목록을 매일 앞에 두면 어떤 작업을 더 해야할지 알 수 있을 것입니다. 예를 들어 아래와 같이요.</p>
+<pre><code>     채용 프로젝트
+     1. "기계공학 연구원" 고용
+     2. "프로젝트 분석가" 고용
+     3. "마케팅 책임자" 고용
+     4. "현장 요원" 고용
+     5. "재무 관리자" 고용</code></pre>
+</section>
+<section id="문제점-2.-현재-노력과-장기적인-목표가-연결되지-않습니다" class="level3">
+<h3 class="anchored" data-anchor-id="문제점-2.-현재-노력과-장기적인-목표가-연결되지-않습니다">문제점 2. 현재 노력과 장기적인 목표가 연결되지 않습니다</h3>
+<p>지식근로자의 가장 어려운 측면 중 하나는 창의성이 필요하다는 것입니다. 그리고 창의성은 동기 부여 없이는 지속할 수 없습니다. 다시 말해 의욕을 잃으면 최선의 결과를 얻을 수 없습니다. 그렇다면 동기는 어떻게 부여할 수 있을까요? 대부분은 진전에 달려 있습니다. 우리가 어딘가로 향하는 것을 안다면, 우리는 단기간의 스트레스와 좌절을 견딜 수 있습니다.</p>
+<p>다시 위 목록을 살펴보세요. 채용 프로젝트 목록에 있는 항목 중 하나도 종료일자나 기간에 대해 언급되어 있지 않습니다. 이러한 상황은 마치 끝없는 지평선과도 같아서 어떻게 노력하든 도달할 수 없는 목표로 보입니다. 솔직히 말해서, 이것보다 일의 의욕을 상실시키는 더 효과적인 방법은 없을 것 같습니다.</p>
+<p>그러니 큰 프로젝트를 더 작은 프로젝트로 만들고 기간을 정해야 합니다. 그래야 작은 성공을 통한 동기 부여가 가능합니다. 예를 들면 ” 이벤트 ” 라는 넓은 범주의 프로젝트를 아래와 같이 더 작은 개별 프로젝트로 나눌 수 있을 겁니다.</p>
+<pre><code>     이벤트 프로젝트
+     1. 분기별 직원 워크샵
+     2. 연례 이해관계자 컨퍼런스
+     3. 연구 방법 워크샵
+     4. 연말 채용 박람회
+     5. 임원 여름 워크샵</code></pre>
+<p>이렇게 하면 현재의 노력이 어떻게 장기적인 목표와 연결되는지 알 수 있을 것입니다. 작업 영역이 얼마나 광범위하든, 시간을 들여서 항상 그것들을 작은 프로젝트로 나눌 수 있습니다. 장기 목표에 대한 진전 상황을 알고 싶다면, 반드시 꼭 그렇게 해야 합니다.</p>
+</section>
+</section>
+</section>
+<section id="나가며" class="level1">
+<h1>나가며</h1>
+<p>당신이 원하는 삶을 위하여 <code>PARA</code> 를 사용하는 것은 단순히 컴퓨터에 폴더를 만드는 것 그 이상입니다. 이것은 당신이 바꾸고자 하는 것, 그리고 향하고 싶은 곳의 구조를 확인하는 것입니다. 또 이것은 정보를 가진 문서를 정리하는 것이 당신이 이루고자 하는 미래의 삶을 현실로 만들어 방법임을 말합니다.</p>
+<p>우리가 ’ 정리한다 ’ 고 하는 많은 것들은 본질적으로 절충행위입니다. ’ 준비 중이다 ’ 혹은 ’ 조사 중이다 ’ 라며 진행 중인 것처럼 말하지만 사실은 스스로를 속이며 기다리고 있는 것입니다. 실제로는 우리는 싫어하는 일을 피하기 위해 계속 정리 중입니다.</p>
+<p><code>PARA</code> 는 이런 허상을 제거하고, 단계적으로 일을 정리하는 방법으로 당신 앞에 할 일 이외에는 아무 것도 없게 만듭니다. 그러니 당신의 장기적인 성공을 위해 <code>PARA</code> 정리 시스템을 한 번 시도해보세요.</p>
+</section>
+<section id="참고-자료" class="level1">
+<h1>참고 자료</h1>
+<ul>
+<li><a href="https://fortelabs.com/blog/para/">https://fortelabs.com/blog/para/</a></li>
+<li><a href="https://www.youtube.com/watch?v=WtKeeDYA_2I">The Ultimate Guide to File Organization</a></li>
+</ul>
+
+
 </section>
 
 </main> <!-- /main -->
