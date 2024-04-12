@@ -9,8 +9,490 @@
 <link>https://tomorrow-lab.github.io/</link>
 <atom:link href="https://tomorrow-lab.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Thi</description>
-<generator>quarto-1.4.549</generator>
-<lastBuildDate>Wed, 03 Apr 2024 15:00:00 GMT</lastBuildDate>
+<generator>quarto-1.4.550</generator>
+<lastBuildDate>Thu, 11 Apr 2024 15:00:00 GMT</lastBuildDate>
+<item>
+  <title>Scanpy로 gene_id를 gene_symbol로 변경하기</title>
+  <dc:creator>Taeyoon kim</dc:creator>
+  <link>https://tomorrow-lab.github.io/posts/scRNAseq/python_gene_symbol.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/scRNAseq/Scanpy_logo.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<section id="들어가며" class="level1">
+<h1>들어가며</h1>
+<p>공개된 scRNA-seq 데이터를 다운로드 하다보면 <code>gene_symbol</code>을 포함하지 않고 <code>gene_id</code>만 있는 경우를 만나게 됩니다. 그런 경우 몇가지 불편한 점이 생깁니다. 예를 들면 해석의 어려움으로 <code>gene_id</code>만 있는 데이터셋은 사람이 직관적으로 해석하기 어렵습니다. 반면에 <code>gene_symbol</code>은 보다 익숙하고 이해하기 쉬운 경우가 많기 때문에 분석 및 결과의 시각화에 용이합니다. 그래서 이번 포스트에서는 <code>pybiomart</code>를 사용해 <code>gene_symbol</code>를 추가하는 작업을 해보겠습니다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>일부 유전자에는 여러 개의 Ensembl ID가 있습니다. 따라서 유전자 기호를 Ensembl ID로 자주 변경했다가는 오류가 발생할 가능성이 큽니다. 결과적으로 일부 유전자가 올바르게 식별되지 않을 수 있습니다.</p>
+</div>
+</div>
+<section id="pybiomart" class="level2">
+<h2 class="anchored" data-anchor-id="pybiomart">pybiomart?</h2>
+<p><code>pybiomart</code>의 목적은 파이썬에서 <a href="https://asia.ensembl.org/info/data/biomart/index.html">BioMart</a> 데이터베이스를 쉽게 접근할 수 있게 간단한 인터페이스를 제공하는 것으로 <code>R</code>에서 <code>biomaRt</code>와 유사한 기능을 제공하는 것을 목표로 합니다. 다음 콘다 명령어를 통해 설치할 수 있습니다.</p>
+<pre class="shell"><code>conda install pybiomart</code></pre>
+</section>
+</section>
+<section id="예제-데이터셋-불러오기" class="level1">
+<h1>예제 데이터셋 불러오기</h1>
+<p><code>Scanpy</code>의 <code>datasets.ebi_expression_atlas</code>함수를 사용하면 EBI Single Cell Expression Atlas의 데이터를 가져와 <code>AnnData</code>객체로 바로 만들 수 있습니다.</p>
+<p>먼저 필요한 라이브러리를 불러옵니다.</p>
+<div id="cell-2" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> warnings</span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="cb2-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> scanpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> sc</span>
+<span id="cb2-5"></span>
+<span id="cb2-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 경고 무시</span></span>
+<span id="cb2-7">warnings.simplefilter(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ignore"</span>)</span></code></pre></div>
+</div>
+<div id="cell-3" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.datasets.ebi_expression_atlas(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"E-MTAB-9467"</span>)</span>
+<span id="cb3-2">adata</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>AnnData object with n_obs × n_vars = 39638 × 21893
+    obs: 'Sample Characteristic[organism]', 'Sample Characteristic Ontology Term[organism]', 'Sample Characteristic[individual]', 'Sample Characteristic Ontology Term[individual]', 'Sample Characteristic[ethnic group]', 'Sample Characteristic Ontology Term[ethnic group]', 'Sample Characteristic[sex]', 'Sample Characteristic Ontology Term[sex]', 'Sample Characteristic[age]', 'Sample Characteristic Ontology Term[age]', 'Sample Characteristic[developmental stage]', 'Sample Characteristic Ontology Term[developmental stage]', 'Sample Characteristic[disease]', 'Sample Characteristic Ontology Term[disease]', 'Sample Characteristic[organism part]', 'Sample Characteristic Ontology Term[organism part]', 'Sample Characteristic[cell type]', 'Sample Characteristic Ontology Term[cell type]', 'Sample Characteristic[clinical history]', 'Sample Characteristic Ontology Term[clinical history]', 'Factor Value[clinical history]', 'Factor Value Ontology Term[clinical history]', 'Factor Value[sampling time point]', 'Factor Value Ontology Term[sampling time point]', 'Factor Value[inferred cell type - ontology labels]', 'Factor Value Ontology Term[inferred cell type - ontology labels]', 'Factor Value[inferred cell type - authors labels]', 'Factor Value Ontology Term[inferred cell type - authors labels]'</code></pre>
+</div>
+</div>
+<p>위 출력을 통해 총 39,638개의 세포와 21,893개의 유전자 정보가 포함되어 있다는 것을 알 수 있습니다. 그리고 세포의 주석(<code>obs</code>항목)이 아주 많다는 것을 알 수 있네요.</p>
+<section id="anndata-객체에-대하여" class="level2">
+<h2 class="anchored" data-anchor-id="anndata-객체에-대하여">AnnData 객체에 대하여</h2>
+<p><code>Scanpy</code>에서 사용되는 <code>AnnData</code> 객체는 개별 세포/유전자 주석 데이터를 저장하는 데이터 구조입니다.<code>AnnData</code> 객체는 크게 네 가지 주요 구성 요소로 구성됩니다.</p>
+<ul>
+<li><code>adata.X</code>는 세포 x 유전자 레이아웃에서 유전자 발현 카운트 정보를 저장.</li>
+<li><code>adata.obs</code>는 세포 주석을 가리키며, 세포 유형, 총 카운트, 클러스터 ID 등이 <code>Pandas</code> 데이터프레임 형태로 저장. 일반적으로 색인은 세포 바코드를 사용.</li>
+<li><code>adata.var</code>는 유전자 주석을 가리키며, 유전자 ID, 유전자 심볼, 해당 유전자가 높은 변동성을 가지고 있는지 여부 등이 데이터프레임으로 저장.</li>
+<li><code>adata.uns</code>는 세포나 유전자와 직접적으로 연결되지 않은 비구조적인 데이터를 포함. 예를 들면 KNN, PCA값 등이 있음.</li>
+</ul>
+</section>
+<section id="세포-주석-살펴보기" class="level2">
+<h2 class="anchored" data-anchor-id="세포-주석-살펴보기">세포 주석 살펴보기</h2>
+<div id="cell-5" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">adata.obs.head()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[organism]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[organism]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[individual]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[individual]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[ethnic group]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[ethnic group]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[sex]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[sex]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[age]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[age]</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[clinical history]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[clinical history]</th>
+<th data-quarto-table-cell-role="th">Factor Value[clinical history]</th>
+<th data-quarto-table-cell-role="th">Factor Value Ontology Term[clinical history]</th>
+<th data-quarto-table-cell-role="th">Factor Value[sampling time point]</th>
+<th data-quarto-table-cell-role="th">Factor Value Ontology Term[sampling time point]</th>
+<th data-quarto-table-cell-role="th">Factor Value[inferred cell type - ontology labels]</th>
+<th data-quarto-table-cell-role="th">Factor Value Ontology Term[inferred cell type - ontology labels]</th>
+<th data-quarto-table-cell-role="th">Factor Value[inferred cell type - authors labels]</th>
+<th data-quarto-table-cell-role="th">Factor Value Ontology Term[inferred cell type - authors labels]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAACCGCACAAGCCC</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAACCGTCATTGCGA</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAACTCCAAGGTGTG</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAACTCCAGCGTCCA</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAATGATCCTAGGGC</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 28 columns</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="유전자-주석-살펴보기" class="level1">
+<h1>유전자 주석 살펴보기</h1>
+<p>유전자의 이름이 <code>ensembl_gene_id</code>로 되어 있는 것은 아래 코드로 확인할 수 있습니다.</p>
+<div id="cell-7" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">adata.var.head()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">ENSG00000000003</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ENSG00000000419</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">ENSG00000000457</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ENSG00000000460</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">ENSG00000000938</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<p>위 결과로 이 데이터셋에는 <code>gene_symbol</code>의 정보는 포함되어 있지않고 오직 <code>ensembl_gene_id</code>형태의 값만 있다는 것을 알 수 있습니다. 이 값들은 사람이 해석하기는 너무 힘들죠.</p>
+</section>
+<section id="gene_symbol-데이터-추가하기" class="level1">
+<h1>gene_symbol 데이터 추가하기</h1>
+<p><code>sc.queries.biomart_annotations</code>함수를 사용합니다.</p>
+<div id="cell-9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 유전자 기호를 검색합니다. requires pybiomart</span></span>
+<span id="cb7-2">annot <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.queries.biomart_annotations(</span>
+<span id="cb7-3">    org<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hsapiens"</span>,  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Organism to query "hsapiens", "mmusculus"</span></span>
+<span id="cb7-4">    attrs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ensembl_gene_id"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"external_gene_name"</span>],  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Attributes to query biomart for</span></span>
+<span id="cb7-5">).set_index(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ensembl_gene_id"</span>)</span>
+<span id="cb7-6"></span>
+<span id="cb7-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 주석에 없는 유전자를 필터링합니다</span></span>
+<span id="cb7-8">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata[:, adata.var.index.intersection(annot.index)]</span>
+<span id="cb7-9"></span>
+<span id="cb7-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 유전자 기호를 할당합니다</span></span>
+<span id="cb7-11">adata.var[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gene_symbol"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb7-12">    annot.loc[ensembl_id, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"external_gene_name"</span>] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> ensembl_id <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> adata.var.index</span>
+<span id="cb7-13">]</span>
+<span id="cb7-14">adata.var <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb7-15">    adata.var.reset_index().rename(columns<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"index"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ensembl_gene_id"</span>}).set_index(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gene_symbol"</span>)</span>
+<span id="cb7-16">)</span>
+<span id="cb7-17"></span>
+<span id="cb7-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 유전자 기호가 없는 유전자를 제거합니다</span></span>
+<span id="cb7-19">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata[:, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span>pd.isnull(adata.var.index)]</span>
+<span id="cb7-20"></span>
+<span id="cb7-21"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 중복된 유전자 기호의 이름을 변경합니다</span></span>
+<span id="cb7-22">adata.var_names_make_unique()</span></code></pre></div>
+</div>
+<p>이제 어떻게 변경되었는지 확인해봅니다.</p>
+<div id="cell-11" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">adata.var.head()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ensembl_gene_id</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">gene_symbol</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TSPAN6</td>
+<td>ENSG00000000003</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">DPM1</td>
+<td>ENSG00000000419</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SCYL3</td>
+<td>ENSG00000000457</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">FIRRM</td>
+<td>ENSG00000000460</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">FGR</td>
+<td>ENSG00000000938</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<p>이제 <code>ensembl_gene_id</code>뿐만 아니라 <code>gene_symbol</code> 정보도 포함되어 있습니다.</p>
+</section>
+<section id="가장-발현-비율이-높은-유전자-시각화" class="level1">
+<h1>가장 발현 비율이 높은 유전자 시각화</h1>
+<p>모든 세포에서 평균적으로 발현이 가장 높은 상위 20개의 유전자를 살펴보죠.</p>
+<div id="cell-13" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># iteritems 메서드가 판다스 2.0에서 제거되어 생기는 오류를 회피</span></span>
+<span id="cb9-2">pd.DataFrame.iteritems <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.DataFrame.items</span>
+<span id="cb9-3"></span>
+<span id="cb9-4">sc.pl.highest_expr_genes(adata, n_top<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/scRNAseq/python_gene_symbol_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>결과를 자세히 보면 <code>B2M</code>, <code>B2M-1</code>이 따로 분리되어 있는 것을 볼 수 있습니다. 이건 앞서 이야기한 일부 유전자에 여러 개의 Ensembl ID가 있는 문제에서 비롯됩니다. 즉, <code>B2M</code>유전자가 2개 이상의 <code>Ensembl ID</code>를 갖고 있기 때문입니다.</p>
+</section>
+<section id="파일-저장하기" class="level1">
+<h1>파일 저장하기</h1>
+<p>다음번에 사용하기 위해 아래 코드로 <code>AnnData</code>객체를 저장합니다.</p>
+<div id="cell-15" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">adata.write_h5ad(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"../output/"</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"E-MTAB-9467.h5ad"</span>, compression<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gzip"</span>)</span></code></pre></div>
+</div>
+</section>
+<section id="나가며" class="level1">
+<h1>나가며</h1>
+<p><code>B2M</code>과 <code>B2M-1</code> 유전자가 완전히 동일한 것일까요? 그렇다면 서로 합치는 것이 좋지 않을까요? 하지만 합치면서 잃게되는 데이터는 어떻게 처리해야 할까요? 이것은 해결하기 어려운 문제입니다. 명확하고 정확한 표준 명명법이 있었다면 이런 문제가 발생하지 않았을 것이라고 생각됩니다. 하지만 항상 새로운 발견과 오류가 생기는 분야에서 애초에 그것은 불가능이지 아니었을까요?</p>
+
+
+</section>
+
+ ]]></description>
+  <category>python</category>
+  <category>scRNA</category>
+  <category>scanpy</category>
+  <category>ensembl</category>
+  <guid>https://tomorrow-lab.github.io/posts/scRNAseq/python_gene_symbol.html</guid>
+  <pubDate>Thu, 11 Apr 2024 15:00:00 GMT</pubDate>
+</item>
 <item>
   <title>미니멀한 폴더 정리: PARA method</title>
   <dc:creator>Taeyoon kim</dc:creator>
@@ -602,6 +1084,7 @@ font-style: inherit;"># 범례 숨기기</span></span></code></pre></div>
 background-color: null;
 font-style: inherit;">head</span>(seurat_obj[[]])</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 6</caption>
 <thead>
@@ -681,6 +1164,7 @@ font-style: inherit;">head</span>(seurat_obj[[]])</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <p><code>seurat_clusters</code>들이 숫자로 되어 있습니다. 이것을 <code>cell type annotation</code>작을 통해 아래와 같이 값을 바꿔줍니다.</p>
@@ -809,6 +1293,7 @@ font-style: inherit;"># 수정된 클러스터 정보 확인</span></span>
 background-color: null;
 font-style: inherit;">head</span>(seurat_obj[[]])</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 6</caption>
 <thead>
@@ -888,6 +1373,7 @@ font-style: inherit;">head</span>(seurat_obj[[]])</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <p>다시 UMAP을 그려보겠습니다.</p>
@@ -1197,6 +1683,7 @@ font-style: inherit;">head</span>(umap)</span></code></pre></div>
 <pre><code>NULL</code></pre>
 </div>
 <div class="cell-output cell-output-display">
+<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A matrix: 6 × 2 of type dbl</caption>
 <thead>
@@ -1239,6 +1726,7 @@ font-style: inherit;">head</span>(umap)</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 </section>
@@ -1451,6 +1939,7 @@ Active assay: RNA (13714 features, 0 variable features)
 background-color: null;
 font-style: inherit;">head</span>(seurat_obj[[]])</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 6</caption>
 <thead>
@@ -1530,6 +2019,7 @@ font-style: inherit;">head</span>(seurat_obj[[]])</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <p>UMAP을 다시 그려 클러스터링 결과도 확인 해봅니다.</p>
@@ -2392,6 +2882,7 @@ font-style: inherit;"># `sc.read_10x_mtx`에서 `var_names='gene_ids'`를 사용
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1">adata.var</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -2450,6 +2941,7 @@ font-style: inherit;"># `sc.read_10x_mtx`에서 `var_names='gene_ids'`를 사용
 </table>
 
 <p>13714 rows × 1 columns</p>
+</div>
 </div>
 </div>
 </div>
@@ -2841,7 +3333,7 @@ font-style: inherit;"># 색상 팔레트 설정</span></span>
   <pubDate>Wed, 20 Mar 2024 15:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>의존성 지옥에서 당신을 구하러 온 Pixi</title>
+  <title>의존성 지옥에 빠진 당신을 구하러 온 Pixi</title>
   <dc:creator>Taeyoon kim</dc:creator>
   <link>https://tomorrow-lab.github.io/posts/prefix_pixi/prefix_pixi.html</link>
   <description><![CDATA[ 
@@ -3423,6 +3915,7 @@ font-style: inherit;">1</span>,</span>
 <span id="cb5-12">df</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -3504,6 +3997,7 @@ font-style: inherit;">1</span>,</span>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -6398,6 +6892,7 @@ background-color: null;
 font-style: inherit;"># 상단의 5개의 데이터 확인하기</span></span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -6470,6 +6965,7 @@ font-style: inherit;"># 상단의 5개의 데이터 확인하기</span></span></
 </div>
 </div>
 </div>
+</div>
 <p>간단히 살펴보면, 총 40명의 사람들의 성별, IQ, 몸무게, 키 그리고 MRI_count(total pixel Count from the 18 MRI scans) 값이 측정되어 있습니다. IQ의 경우 3종류로 세분화 되어있는데 각각을 알아 보면 아래와 같습니다.</p>
 <ul>
 <li>Full Scale Intelligence Quotient (FSIQ) : VIQ와 PIQ의 종합적인 수치입니다</li>
@@ -6487,6 +6983,7 @@ background-color: null;
 font-style: inherit;"># padas 에서 제공하는 설명 통계</span></span>
 <span id="cb3-2">df.describe()</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 <div>
 
 
@@ -6578,6 +7075,7 @@ font-style: inherit;"># padas 에서 제공하는 설명 통계</span></span>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -7377,6 +7875,7 @@ font-style: inherit;">@</span>meta.data, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">5</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 5 × 3</caption>
 <thead>
@@ -7426,6 +7925,7 @@ font-style: inherit;">5</span>)</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 </section>
@@ -8032,6 +8532,7 @@ font-style: inherit;">%&gt;%</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">head</span>()</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>A data.frame: 6 × 7</caption>
 <thead>
@@ -8119,6 +8620,7 @@ font-style: inherit;">head</span>()</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <p><code>FindAllMarkers()</code> 결과는 데이터프레임입니다. <code>avg_log2FC</code>는 다른 클러스터와 비교해 발현량이 얼마나 차이나는지를 의미합니다. 해당 열을 가지고 각 클러스터당 상위 5개의 유전자 마커를 추려서 heatmap 을 그려봅니다.</p>
@@ -8727,6 +9229,7 @@ font-style: inherit;">4</span>) <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터 테이블 확인</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -8758,6 +9261,7 @@ font-style: inherit;"># 데이터 테이블 확인</span></span></code></pre></d
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 </section>
@@ -8937,6 +9441,7 @@ font-style: inherit;">head</span>(wdata, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -8963,6 +9468,7 @@ font-style: inherit;">4</span>)</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
@@ -9171,6 +9677,7 @@ font-style: inherit;">head</span>(df, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -9202,6 +9709,7 @@ font-style: inherit;">4</span>)</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <div id="cell-12" class="cell" data-scrolled="false" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
@@ -9721,6 +10229,7 @@ font-style: inherit;">"cyl"</span>)]) <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터 살펴보기</span></span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -9776,6 +10285,7 @@ font-style: inherit;"># 데이터 살펴보기</span></span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <div id="cell-17" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
@@ -9999,6 +10509,7 @@ font-style: inherit;">"mpg_grp"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"cyl"</span>)])</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -10068,6 +10579,7 @@ font-style: inherit;">"cyl"</span>)])</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <div id="cell-20" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
@@ -11043,6 +11555,7 @@ font-style: inherit;">"ToothGrowth"</span>)</span>
 background-color: null;
 font-style: inherit;">head</span>(ToothGrowth)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11084,6 +11597,7 @@ font-style: inherit;">head</span>(ToothGrowth)</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <div id="cell-35" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
@@ -11458,6 +11972,7 @@ font-style: inherit;">mu =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11486,6 +12001,7 @@ font-style: inherit;">0</span>)</span></code></pre></div>
 </table>
 </div>
 </div>
+</div>
 <div id="cell-40" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -11496,6 +12012,7 @@ font-style: inherit;">compare_means</span>(len <span class="sc" style="color: #5
 background-color: null;
 font-style: inherit;">~</span> supp, df)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11524,6 +12041,7 @@ font-style: inherit;">~</span> supp, df)</span></code></pre></div>
 </table>
 </div>
 </div>
+</div>
 <div id="cell-41" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -11538,6 +12056,7 @@ font-style: inherit;">paired =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
 font-style: inherit;">TRUE</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11566,6 +12085,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 </table>
 </div>
 </div>
+</div>
 <div id="cell-42" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -11580,6 +12100,7 @@ font-style: inherit;">group.by =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"dose"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11632,6 +12153,7 @@ font-style: inherit;">"dose"</span>)</span></code></pre></div>
 </table>
 </div>
 </div>
+</div>
 <div id="cell-43" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -11648,6 +12170,7 @@ font-style: inherit;">compare_means</span>(len <span class="sc" style="color: #5
 background-color: null;
 font-style: inherit;">~</span> dose, df)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11696,6 +12219,7 @@ font-style: inherit;">~</span> dose, df)</span></code></pre></div>
 </table>
 </div>
 </div>
+</div>
 <div id="cell-44" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -11710,6 +12234,7 @@ font-style: inherit;">ref.group =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"0.5"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11748,6 +12273,7 @@ font-style: inherit;">"0.5"</span>)</span></code></pre></div>
 </table>
 </div>
 </div>
+</div>
 <div id="cell-45" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -11762,6 +12288,7 @@ font-style: inherit;">ref.group =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">".all."</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11810,6 +12337,7 @@ font-style: inherit;">".all."</span>)</span></code></pre></div>
 </table>
 </div>
 </div>
+</div>
 <div id="cell-46" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -11824,6 +12352,7 @@ font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"anova"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11848,6 +12377,7 @@ font-style: inherit;">"anova"</span>)</span></code></pre></div>
 </table>
 </div>
 </div>
+</div>
 <div id="cell-47" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -11862,6 +12392,7 @@ font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"kruskal.test"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
+<div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -11884,6 +12415,7 @@ font-style: inherit;">"kruskal.test"</span>)</span></code></pre></div>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 </section>
@@ -12488,6 +13020,7 @@ font-style: inherit;">4.2</span>]</span>
 <span id="cb5-3">pg.ttest(x, mu)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -12519,6 +13052,7 @@ font-style: inherit;">4.2</span>]</span>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -12565,6 +13099,7 @@ background-color: null;
 font-style: inherit;">"one-sided"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -12599,6 +13134,7 @@ font-style: inherit;">"one-sided"</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
+</div>
 <p>꼬리의 방향이 <code>less</code>라는 것은 표본 <code>x</code>의 평균이 표본 <code>y</code>의 평균보다 작다는 것을 뜻합니다.</p>
 <p>일부러 꼬리의 방향을 반대(<code>greater</code>)로 한 대립 가설을 확인해 봅니다.</p>
 <div id="cell-8" class="cell" data-execution_count="4">
@@ -12612,6 +13148,7 @@ font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"greater"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <div>
 
 
@@ -12644,6 +13181,7 @@ font-style: inherit;">"greater"</span>)</span></code></pre></div>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -12683,6 +13221,7 @@ background-color: null;
 font-style: inherit;">"auto"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -12714,6 +13253,7 @@ font-style: inherit;">"auto"</span>)</span></code></pre></div>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -12750,6 +13290,7 @@ background-color: null;
 font-style: inherit;">"auto"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -12784,6 +13325,7 @@ font-style: inherit;">"auto"</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
+</div>
 </section>
 </section>
 <section id="pearsons-correlation" class="level2">
@@ -12811,6 +13353,7 @@ background-color: null;
 font-style: inherit;">=</span> np.random.multivariate_normal(mean, cov, n).T</span>
 <span id="cb10-3">pg.corr(x, y)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
+<div>
 <div>
 
 
@@ -12846,6 +13389,7 @@ font-style: inherit;">=</span> np.random.multivariate_normal(mean, cov, n).T</sp
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="robust-correlation" class="level2">
 <h2 class="anchored" data-anchor-id="robust-correlation">1.5. Robust correlation</h2>
@@ -12869,6 +13413,7 @@ font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"shepherd"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
+<div>
 <div>
 
 
@@ -12904,6 +13449,7 @@ font-style: inherit;">"shepherd"</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="데이터의-정규성-테스트" class="level2">
 <h2 class="anchored" data-anchor-id="데이터의-정규성-테스트">1.6. 데이터의 정규성 테스트</h2>
@@ -12914,6 +13460,7 @@ background-color: null;
 font-style: inherit;"># 일변량 정규성(Univariate normality)</span></span>
 <span id="cb12-2">pg.normality(x)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
+<div>
 <div>
 
 
@@ -12936,6 +13483,7 @@ font-style: inherit;"># 일변량 정규성(Univariate normality)</span></span>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -12989,6 +13537,7 @@ background-color: null;
 font-style: inherit;">"mixed_anova"</span>)</span>
 <span id="cb16-3">df.tail()</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 <div>
 
 
@@ -13044,6 +13593,7 @@ font-style: inherit;">"mixed_anova"</span>)</span>
 </div>
 </div>
 </div>
+</div>
 <div id="cell-24" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -13067,6 +13617,7 @@ background-color: null;
 font-style: inherit;">True</span>)</span>
 <span id="cb17-3">aov</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
+<div>
 <div>
 
 
@@ -13110,6 +13661,7 @@ font-style: inherit;">True</span>)</span>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="repeated-measures-anova" class="level2">
 <h2 class="anchored" data-anchor-id="repeated-measures-anova">1.9. Repeated measures ANOVA</h2>
@@ -13134,6 +13686,7 @@ font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
+<div>
 <div>
 
 
@@ -13177,6 +13730,7 @@ font-style: inherit;">True</span>)</span></code></pre></div>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -13227,6 +13781,7 @@ font-style: inherit;">"hedges"</span>,</span>
 <span id="cb19-11"></span>
 <span id="cb19-12">posthoc</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
+<div>
 <div>
 
 
@@ -13304,6 +13859,7 @@ font-style: inherit;">"hedges"</span>,</span>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="two-way-mixed-anova" class="level2">
 <h2 class="anchored" data-anchor-id="two-way-mixed-anova">1.11. Two-way mixed ANOVA</h2>
@@ -13350,6 +13906,7 @@ font-style: inherit;">"np2"</span>,</span>
 <span id="cb20-10">)</span>
 <span id="cb20-11">aov</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
+<div>
 <div>
 
 
@@ -13408,6 +13965,7 @@ font-style: inherit;">"np2"</span>,</span>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -13780,6 +14338,7 @@ background-color: null;
 font-style: inherit;"># 데이터의 모양을 확인</span></span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -13837,6 +14396,7 @@ font-style: inherit;"># 데이터의 모양을 확인</span></span></code></pre>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -14114,6 +14674,7 @@ font-style: inherit;">"./data/pew-raw.csv"</span>)</span>
 <span id="cb2-2">df</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
+<div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
@@ -14235,6 +14796,7 @@ font-style: inherit;">"./data/pew-raw.csv"</span>)</span>
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li>Evangelical Prot는 기독교 종파중에 하나로 ’개신교’입니다.</li>
 </ul>
@@ -14272,6 +14834,7 @@ font-style: inherit;">10</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 너무 길기 때문에 윗쪽 10개만 보겠습니다.</span></span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -14350,6 +14913,7 @@ font-style: inherit;"># 너무 길기 때문에 윗쪽 10개만 보겠습니다.
 </div>
 </div>
 </div>
+</div>
 <p>이것이 <em>Pew Research Center Dataset</em> 의 Tidy data 형태 입니다.</p>
 </section>
 <section id="billboard-top-100-dataset" class="level3">
@@ -14369,6 +14933,7 @@ font-style: inherit;">"mac_latin2"</span>)</span>
 background-color: null;
 font-style: inherit;">10</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="69">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -14646,6 +15211,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
+</div>
 <p><strong>문제점:</strong></p>
 <ul>
 <li>열 이름(columns headers)이 값으로 구성되어 있다: <code>x1st.week</code>, <code>x2st.week</code> 등등</li>
@@ -14818,6 +15384,7 @@ background-color: null;
 font-style: inherit;">10</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="70">
 <div>
+<div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
@@ -14950,6 +15517,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
+</div>
 <p>위와 같이 데이터를 깔끔하게 만들었습니다. 하지만 <em>track, time, genre</em> 열을 보시면 아주 많은 중복이 있는 것을 알 수 있습니다. 이러한 점을 해결 하는 방법은 다음 예제에서 다루어 보겠습니다.</p>
 </section>
 </section>
@@ -14994,6 +15562,7 @@ font-style: inherit;">=</span> songs.index</span>
 background-color: null;
 font-style: inherit;">10</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -15105,6 +15674,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
+</div>
 <p>위 와같은 새로운 표를 분리하고, 아래와 같이 순위를 포함하고 있는 표를 새로 만들어줍니다. &gt; 두개의 표를 연결하기 위해 <code>song_id</code>열을 만드는 것을 주의하세요</p>
 <div id="cell-19" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">ranks <span class="op" style="color: #5E5E5E;
@@ -15135,6 +15705,7 @@ font-style: inherit;">"rank"</span>]]</span>
 background-color: null;
 font-style: inherit;">10</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -15213,6 +15784,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="다양한-변수가-하나의-열에-있는-경우-multiple-variables-stored-in-one-column" class="level2">
 <h2 class="anchored" data-anchor-id="다양한-변수가-하나의-열에-있는-경우-multiple-variables-stored-in-one-column">3. 다양한 변수가 하나의 열에 있는 경우 Multiple variables stored in one column</h2>
@@ -15237,6 +15809,7 @@ background-color: null;
 font-style: inherit;">"./data/tb-raw.csv"</span>)</span>
 <span id="cb8-2">df</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -15403,6 +15976,7 @@ font-style: inherit;">"./data/tb-raw.csv"</span>)</span>
 </div>
 </div>
 </div>
+</div>
 <p>이 데이터를 정리하기 위해서는 먼저 <code>melt</code>를 이용해 <code>sex</code> + <code>age group</code> 를 합쳐서 하나의 행으로 만들겠습니다. 그런 다음에 다시 행을 <code>sex</code>, <code>age</code>로 구분해서 정리하도록 하죠.</p>
 <div id="cell-24" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">df <span class="op" style="color: #5E5E5E;
@@ -15528,6 +16102,7 @@ background-color: null;
 font-style: inherit;">10</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
 <div>
+<div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
@@ -15627,6 +16202,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
+</div>
 <p>이것이 정리된 결과 입니다.</p>
 </section>
 </section>
@@ -15669,6 +16245,7 @@ font-style: inherit;">"day_raw"</span>)</span>
 background-color: null;
 font-style: inherit;">10</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
+<div>
 <div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -15777,6 +16354,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -15927,6 +16505,7 @@ font-style: inherit;">True</span>)</span>
 <span id="cb12-23">df</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <div>
+<div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
@@ -15963,6 +16542,7 @@ font-style: inherit;">True</span>)</span>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -16065,6 +16645,7 @@ background-color: null;
 font-style: inherit;">5</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
+<div>
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
@@ -16121,6 +16702,7 @@ font-style: inherit;">5</span>)</span></code></pre></div>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
