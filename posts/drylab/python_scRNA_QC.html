@@ -236,15 +236,15 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#데이터-품질-관리의-목적" id="toc-데이터-품질-관리의-목적" class="nav-link active" data-scroll-target="#데이터-품질-관리의-목적">데이터 품질 관리의 목적</a></li>
-  <li><a href="#카운트-행렬-데이터-불러오기" id="toc-카운트-행렬-데이터-불러오기" class="nav-link" data-scroll-target="#카운트-행렬-데이터-불러오기">카운트 행렬 데이터 불러오기</a></li>
-  <li><a href="#저품질-시퀀싱-데이터-제거" id="toc-저품질-시퀀싱-데이터-제거" class="nav-link" data-scroll-target="#저품질-시퀀싱-데이터-제거">저품질 시퀀싱 데이터 제거</a>
+  <li><a href="#데이터-품질-관리의-목적" id="toc-데이터-품질-관리의-목적" class="nav-link active" data-scroll-target="#데이터-품질-관리의-목적"><span class="header-section-number">1</span> 데이터 품질 관리의 목적</a></li>
+  <li><a href="#카운트-행렬-데이터-불러오기" id="toc-카운트-행렬-데이터-불러오기" class="nav-link" data-scroll-target="#카운트-행렬-데이터-불러오기"><span class="header-section-number">2</span> 카운트 행렬 데이터 불러오기</a></li>
+  <li><a href="#저품질-시퀀싱-데이터-제거" id="toc-저품질-시퀀싱-데이터-제거" class="nav-link" data-scroll-target="#저품질-시퀀싱-데이터-제거"><span class="header-section-number">3</span> 저품질 시퀀싱 데이터 제거</a>
   <ul class="collapse">
-  <li><a href="#배경ambient-rna-제거" id="toc-배경ambient-rna-제거" class="nav-link" data-scroll-target="#배경ambient-rna-제거">배경(Ambient) RNA 제거</a></li>
-  <li><a href="#이중체doublet-검출" id="toc-이중체doublet-검출" class="nav-link" data-scroll-target="#이중체doublet-검출">이중체(Doublet) 검출</a></li>
+  <li><a href="#배경ambient-rna-제거" id="toc-배경ambient-rna-제거" class="nav-link" data-scroll-target="#배경ambient-rna-제거"><span class="header-section-number">3.1</span> 배경(Ambient) RNA 제거</a></li>
+  <li><a href="#이중체doublet-검출" id="toc-이중체doublet-검출" class="nav-link" data-scroll-target="#이중체doublet-검출"><span class="header-section-number">3.2</span> 이중체(Doublet) 검출</a></li>
   </ul></li>
-  <li><a href="#결론" id="toc-결론" class="nav-link" data-scroll-target="#결론">결론</a></li>
-  <li><a href="#참고-자료" id="toc-참고-자료" class="nav-link" data-scroll-target="#참고-자료">참고 자료</a></li>
+  <li><a href="#결론" id="toc-결론" class="nav-link" data-scroll-target="#결론"><span class="header-section-number">4</span> 결론</a></li>
+  <li><a href="#참고-자료" id="toc-참고-자료" class="nav-link" data-scroll-target="#참고-자료"><span class="header-section-number">5</span> 참고 자료</a></li>
   </ul>
 </nav>
     </div>
@@ -292,12 +292,12 @@ window.Quarto = {
 <p><img src="Scanpy_logo.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
 </figure>
 </div>
-<section id="데이터-품질-관리의-목적" class="level1">
-<h1>데이터 품질 관리의 목적</h1>
+<section id="데이터-품질-관리의-목적" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 데이터 품질 관리의 목적</h1>
 <p>scRNA-seq 데이터에는 두 가지 중요한 특성이 있습니다. 첫째, scRNA-seq 데이터는 드롭아웃이 발생하는데, 이는 mRNA으로 인해 데이터에 0이 과도하게 많다는 것을 의미합니다. 둘째, 생물학적 복잡성으로 인해 얻은 데이터를 보정하고 품질 관리에 제한이 존재합니다. 따라서 생물학적 의미를 과하게 보정하거나 제거하지 않으면서 적합한 전처리 방법을 선택하는 것이 중요합니다. 예를 들어, 품질 관리 중에 너무 많은 세포를 걸러내면 희귀한 세포 집단을 놓칠 수 있습니다. 반대로 품질이 좋지 않은 세포를 제외하지 않으면 세포에 주석을 달기가 어려울 수 있습니다. 이 문서에서는 이러한 위험을 제거하고 고품질 데이터를 얻는 방법과 결과에 대해 설명합니다.</p>
 </section>
-<section id="카운트-행렬-데이터-불러오기" class="level1">
-<h1>카운트 행렬 데이터 불러오기</h1>
+<section id="카운트-행렬-데이터-불러오기" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 카운트 행렬 데이터 불러오기</h1>
 <p>시작점은 <code>cellranger</code>를 통해 얻은 카운트 행렬(count matrix) 데이터 입니다. 카운트 행렬은 분자 식별자(UMI)로 구별된 바코드 X 각 유전자의 수로 구성된 표입니다.</p>
 <blockquote class="blockquote">
 <p>분자 식별자가 잘못 붙어 있을 수도 있음으로 세포라는 용어 대신에 바코드라는 용어를 사용합니다.</p>
@@ -322,8 +322,8 @@ window.Quarto = {
 </div>
 <p>정상적으로 데이터가 불러져 왔다면 <code>adata.var</code>에서 <code>gene_ids(Ensembl Id)</code>, <code>feature_types</code> 등의 유전자 정보와 바코드(<code>n_obs</code>) X 유전자 수(<code>n_vars</code>)를 확인 할 수 있습니다.</p>
 </section>
-<section id="저품질-시퀀싱-데이터-제거" class="level1">
-<h1>저품질 시퀀싱 데이터 제거</h1>
+<section id="저품질-시퀀싱-데이터-제거" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 저품질 시퀀싱 데이터 제거</h1>
 <p>첫 번째 단계는 데이터셋에서 품질이 낮은 판독값을 제거하는 것입니다. 예를 들어 검출된 유전자 수가 적고 미토콘드리아 유전자 비율이 높은 경우, 세포막이 손상되 죽어가는 세포일 가능성이 높습니다. 이런 세포는 분석 대상이 아니며 다운스트림 분석을 왜곡할 수 있으므로 제거합니다. 이런 세포를 식별하기 위해서는 일반적으로 다음 세 가지 항목(QC metric)을 사용합니다.</p>
 <ul>
 <li>바코드당 카운트 수(카운트 깊이)</li>
@@ -594,8 +594,8 @@ Number of cells after filtering of low quality cells: 11826</code></pre>
 </div>
 </div>
 </div>
-<section id="배경ambient-rna-제거" class="level2">
-<h2 class="anchored" data-anchor-id="배경ambient-rna-제거">배경(Ambient) RNA 제거</h2>
+<section id="배경ambient-rna-제거" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="배경ambient-rna-제거"><span class="header-section-number">3.1</span> 배경(Ambient) RNA 제거</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://www.sc-best-practices.org/_images/ambient_rna.jpeg" class="img-fluid figure-img"></p>
@@ -700,8 +700,8 @@ Number of genes after cell filter: 14534</code></pre>
 </div>
 </div>
 </section>
-<section id="이중체doublet-검출" class="level2">
-<h2 class="anchored" data-anchor-id="이중체doublet-검출">이중체(Doublet) 검출</h2>
+<section id="이중체doublet-검출" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="이중체doublet-검출"><span class="header-section-number">3.2</span> 이중체(Doublet) 검출</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://www.sc-best-practices.org/_images/doublet_detection.jpeg" class="img-fluid figure-img"></p>
@@ -768,8 +768,8 @@ Name: count, dtype: int64</code></pre>
 </div>
 </section>
 </section>
-<section id="결론" class="level1">
-<h1>결론</h1>
+<section id="결론" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 결론</h1>
 <ul>
 <li>품질이 낮은 셀을 필터링할 때는 작은 하위 세포 집단이 사라지는 것을 피하기 위해 컷오프가 느슨한 MAD를 사용합니다.</li>
 <li>유전자 기반 필터링은 다운스트림 분석 작업에 아무런 이점이 없습니다.</li>
@@ -777,8 +777,8 @@ Name: count, dtype: int64</code></pre>
 <li>여러 배치를 포함한 scRNA-seq 데이터에는 이형 이중체 검출법을 사용하면 안 됩니다.</li>
 </ul>
 </section>
-<section id="참고-자료" class="level1">
-<h1>참고 자료</h1>
+<section id="참고-자료" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 참고 자료</h1>
 <ul>
 <li>https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html</li>
 <li>https://academic.oup.com/gigascience/article/9/12/giaa151/6049831</li>
