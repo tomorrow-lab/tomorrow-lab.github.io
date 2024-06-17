@@ -10,7 +10,2033 @@
 <atom:link href="https://tomorrow-lab.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.</description>
 <generator>quarto-1.4.549</generator>
-<lastBuildDate>Wed, 29 May 2024 15:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 16 Jun 2024 15:00:00 GMT</lastBuildDate>
+<item>
+  <title>Scanpy workshop 01</title>
+  <dc:creator>Taeyoon Kim</dc:creator>
+  <link>https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/Scanpy_logo.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<p>단일 세포 RNA 시퀀싱(single-cell RNA sequencing, scRNA-seq)은 개별 세포의 전사체(transcriptome)를 분석하여 세포 간의 이질성을 탐구하는 강력한 도구이지만, 기술적 잡음과 변동성이 높아 데이터 품질 저하의 위험이 큽니다. 따라서 낮은 품질의 데이터를 사용하면 잘못된 생물학적 결론을 도출할 수 있으며 이는 후속 연구 및 임상 적용에 부정적인 영향을 미칠 수 있습니다. 그러므로 이번 글에서 scRNA-seq 데이터의 품질 관리에 대해서 알아보겠습니다.</p>
+<section id="들어가며" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 들어가며</h1>
+<p><a href="https://nbisweden.github.io/workshop-scRNAseq">NBIS workshop</a> 자료를 기반으로 수정 및 번역 작업을 진행하였습니다. 패키지 매니저는 <code>Pixi</code>(버전 0.23.0)를 사용했으며 아래는 제가 사용한 <code>pixi.toml</code>파일의 내용입니다. 다른 도구(<code>conda</code>혹은 <code>pip</code>)를 사용하신다면 아래 종속성을 확인해 설치하세요.</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode pixi.toml code-with-copy"><code class="sourceCode toml"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[project]</span></span>
+<span id="cb1-2"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">name</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"scRNA_workshop"</span></span>
+<span id="cb1-3"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">channels</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">[</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"conda-forge"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bioconda"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb1-4"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">platforms</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">[</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"linux-64"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb1-5"></span>
+<span id="cb1-6"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[tasks]</span></span>
+<span id="cb1-7"></span>
+<span id="cb1-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[dependencies]</span></span>
+<span id="cb1-9"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">python</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"3.9.*"</span></span>
+<span id="cb1-10"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">scanpy</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=1.10.1,&lt;1.11"</span></span>
+<span id="cb1-11"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">python-igraph</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=0.11.5,&lt;0.12"</span></span>
+<span id="cb1-12"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">leidenalg</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=0.10.2,&lt;0.11"</span></span>
+<span id="cb1-13"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">numpy</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=1.26.4,&lt;1.27"</span></span>
+<span id="cb1-14"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">pandas</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=2.2.2,&lt;2.3"</span></span>
+<span id="cb1-15"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">matplotlib</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=3.8.4,&lt;3.9"</span></span>
+<span id="cb1-16"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">gseapy</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=1.1.3,&lt;1.2"</span></span>
+<span id="cb1-17"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">seaborn</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=0.13.2,&lt;0.14"</span></span>
+<span id="cb1-18"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">matplotlib-venn</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=0.11.10,&lt;0.12"</span></span>
+<span id="cb1-19"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">scipy</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=1.13.1,&lt;1.14"</span></span>
+<span id="cb1-20"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">bbknn</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=1.6.0,&lt;1.7"</span></span>
+<span id="cb1-21"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">scanorama</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=1.7.4,&lt;1.8"</span></span>
+<span id="cb1-22"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">scikit-learn</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=1.5.0,&lt;1.6"</span></span>
+<span id="cb1-23"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">ipykernel</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=6.29.3,&lt;6.30"</span></span>
+<span id="cb1-24"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">scikit-image</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=0.22.0,&lt;0.23"</span></span>
+<span id="cb1-25"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">pybiomart</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=0.2.0,&lt;0.3"</span></span>
+<span id="cb1-26"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">louvain</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=0.8.2,&lt;0.9"</span></span>
+<span id="cb1-27"></span>
+<span id="cb1-28"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[pypi-dependencies]</span></span>
+<span id="cb1-29"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">scvi-tools</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"==1.1.2"</span></span></code></pre></div>
+<section id="필요한-라이브러리-불러오기" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="필요한-라이브러리-불러오기"><span class="header-section-number">1.1</span> 필요한 라이브러리 불러오기</h2>
+<div id="cell-2" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> os</span>
+<span id="cb2-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> urllib.request</span>
+<span id="cb2-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> warnings</span>
+<span id="cb2-4"></span>
+<span id="cb2-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb2-6"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="cb2-7"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> scanpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> sc</span>
+<span id="cb2-8"></span>
+<span id="cb2-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 경고 무시하기</span></span>
+<span id="cb2-10">warnings.filterwarnings(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ignore"</span>)</span>
+<span id="cb2-11">sc.settings.n_jobs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb2-12">sc.settings.verbosity <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 오류 (0), 경고 (1), 정보 (2), 힌트 (3)</span></span>
+<span id="cb2-13">sc.settings.set_figure_params(</span>
+<span id="cb2-14">    dpi<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">60</span>, frameon<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>), facecolor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white"</span>, color_map<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"viridis_r"</span></span>
+<span id="cb2-15">)</span>
+<span id="cb2-16"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"사용한 SCANPY 버전: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>sc<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>__version__<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>사용한 SCANPY 버전: 1.10.1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="데이터-가져오기" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 데이터 가져오기</h1>
+<p>예제에서 사용할 데이터는 4명의 코로나19 환자와 4명의 건강한 사람으로 총 8개 PBMC를 분석한 것으로 계산량을 줄이기 위해 세포수를 샘플당 1500개로 줄인 것입니다.</p>
+<div id="cell-4" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">path_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://export.uppmax.uu.se/naiss2023-23-3/workshops/workshop-scrnaseq"</span></span>
+<span id="cb4-2">path_covid <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./input/covid"</span></span>
+<span id="cb4-3">path_results <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./output/covid/results"</span></span>
+<span id="cb4-4">path_parent <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.path.dirname(path_covid)</span>
+<span id="cb4-5"></span>
+<span id="cb4-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 필요한 디렉토리 생성</span></span>
+<span id="cb4-7"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> path <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> [path_covid, path_results]:</span>
+<span id="cb4-8">    os.makedirs(path, exist_ok<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb4-9"></span>
+<span id="cb4-10"></span>
+<span id="cb4-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 파일 다운로드 함수</span></span>
+<span id="cb4-12"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> download_files(file_list, base_url, target_dir):</span>
+<span id="cb4-13">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> file_name <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> file_list:</span>
+<span id="cb4-14">        path_file <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.path.join(target_dir, file_name)</span>
+<span id="cb4-15">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">not</span> os.path.exists(path_file):</span>
+<span id="cb4-16">            file_url <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.path.join(base_url, file_name)</span>
+<span id="cb4-17">            urllib.request.urlretrieve(file_url, path_file)</span>
+<span id="cb4-18"></span>
+<span id="cb4-19"></span>
+<span id="cb4-20"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 파일 다운로드</span></span>
+<span id="cb4-21">file_list <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb4-22">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"normal_pbmc_13.h5"</span>,</span>
+<span id="cb4-23">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"normal_pbmc_14.h5"</span>,</span>
+<span id="cb4-24">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"normal_pbmc_19.h5"</span>,</span>
+<span id="cb4-25">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"normal_pbmc_5.h5"</span>,</span>
+<span id="cb4-26">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ncov_pbmc_15.h5"</span>,</span>
+<span id="cb4-27">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ncov_pbmc_16.h5"</span>,</span>
+<span id="cb4-28">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ncov_pbmc_17.h5"</span>,</span>
+<span id="cb4-29">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ncov_pbmc_1.h5"</span>,</span>
+<span id="cb4-30">]</span>
+<span id="cb4-31">download_files(file_list, os.path.join(path_data, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"covid"</span>), path_covid)</span>
+<span id="cb4-32"></span>
+<span id="cb4-33"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 메타 파일 다운로드</span></span>
+<span id="cb4-34">meta_file_list <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb4-35">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"regev_lab_cell_cycle_genes.txt"</span>,</span>
+<span id="cb4-36">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"human_cell_markers.txt"</span>,</span>
+<span id="cb4-37">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cell_marker_human.csv"</span>,</span>
+<span id="cb4-38">]</span>
+<span id="cb4-39">download_files(meta_file_list, path_data, path_parent)</span>
+<span id="cb4-40"></span>
+<span id="cb4-41"></span>
+<span id="cb4-42"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 읽기 및 전처리 함수</span></span>
+<span id="cb4-43"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> read_and_process(file_path, sample_type, sample_name):</span>
+<span id="cb4-44">    data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.read_10x_h5(file_path)</span>
+<span id="cb4-45">    data.var_names_make_unique()</span>
+<span id="cb4-46">    data.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sample_type</span>
+<span id="cb4-47">    data.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sample_name</span>
+<span id="cb4-48">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> data</span>
+<span id="cb4-49"></span>
+<span id="cb4-50"></span>
+<span id="cb4-51"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 읽기 및 처리</span></span>
+<span id="cb4-52">samples <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb4-53">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"covid"</span>: [</span>
+<span id="cb4-54">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ncov_pbmc_1.h5"</span>,</span>
+<span id="cb4-55">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ncov_pbmc_15.h5"</span>,</span>
+<span id="cb4-56">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ncov_pbmc_16.h5"</span>,</span>
+<span id="cb4-57">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ncov_pbmc_17.h5"</span>,</span>
+<span id="cb4-58">    ],</span>
+<span id="cb4-59">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ctrl"</span>: [</span>
+<span id="cb4-60">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"normal_pbmc_5.h5"</span>,</span>
+<span id="cb4-61">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"normal_pbmc_13.h5"</span>,</span>
+<span id="cb4-62">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"normal_pbmc_14.h5"</span>,</span>
+<span id="cb4-63">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"normal_pbmc_19.h5"</span>,</span>
+<span id="cb4-64">    ],</span>
+<span id="cb4-65">}</span>
+<span id="cb4-66"></span>
+<span id="cb4-67">data_list <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb4-68"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> sample_type, files <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> samples.items():</span>
+<span id="cb4-69">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> file_name <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> files:</span>
+<span id="cb4-70">        sample_name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>sample_type<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">_</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>file_name<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>split(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'_'</span>)[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>split(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'.'</span>)[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="cb4-71">        file_path <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.path.join(path_covid, file_name)</span>
+<span id="cb4-72">        data_list.append(</span>
+<span id="cb4-73">            read_and_process(file_path, sample_type.capitalize(), sample_name)</span>
+<span id="cb4-74">        )</span>
+<span id="cb4-75"></span>
+<span id="cb4-76"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 병합</span></span>
+<span id="cb4-77">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> data_list[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].concatenate(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>data_list[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>:])</span>
+<span id="cb4-78">adata</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>AnnData object with n_obs × n_vars = 12000 × 33538
+    obs: 'type', 'sample', 'batch'
+    var: 'gene_ids', 'feature_types', 'genome'</code></pre>
+</div>
+</div>
+<p>위 출력을 통해 <code>Anndata</code>객체에 12000 x 33438의 데이터와 간단한 메타 데이터(<code>type</code>, <code>sample</code>, <code>batch</code>)정보가 포함되어 있다는 것을 알 수 있습니다.</p>
+<p>단계별 QC 과정에서 제거(필터링)되는 데이터의 숫자를 쉽게 확인하기 위해서 간단한 데이터프레임 객체를 만들어 결과를 추적하겠습니다. 이런 정보는 분석 보고서등을 작성할때 편리하게 사용됩니다.</p>
+<div id="cell-6" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 빈 DataFrame 생성</span></span>
+<span id="cb6-2">df_report <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.DataFrame(columns<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"단계"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드의 수"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자의 수"</span>])</span>
+<span id="cb6-3"></span>
+<span id="cb6-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 추가</span></span>
+<span id="cb6-5">new_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"단계"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"원본"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드의 수"</span>: adata.n_obs, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자의 수"</span>: adata.n_vars}</span>
+<span id="cb6-6">df_report <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.concat([df_report, pd.DataFrame([new_data])], ignore_index<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb6-7"></span>
+<span id="cb6-8">df_report</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">단계</th>
+<th data-quarto-table-cell-role="th">바코드의 수</th>
+<th data-quarto-table-cell-role="th">유전자의 수</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>원본</td>
+<td>12000</td>
+<td>33538</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="품질-지표-계산하기" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="품질-지표-계산하기"><span class="header-section-number">2.1</span> 품질 지표 계산하기</h2>
+<p>데이터가 확보되면 이제 몇 가지 데이터 품질 지표를 계산합니다. 예를 들어 세포당 미토콘드리아 유전자의 비율, 세포당 리보솜 유전자의 비율, 세포당 헤모글로빈 유전자의 비율(적혈구 오염을 나타낼 수 있습니다.)등을 계산해 메타데이터에 추가해보죠. 이것들은 계산하는 방법에는 여러 가지가 있지만 기본적으로 <code>calculate_qc_metrics</code>함수를 사용하는게 편리합니다.</p>
+<p>일반적으로 사용되는 품질 지표의 이름과 설명은 아래 목록을 참고하세요.</p>
+<ul>
+<li><code>n_genes_by_counts</code>: 각 세포에서 1개 이상 검출된 유전자의 수. <code>Seurat</code>에서는 <code>nFeature_RNA</code>에 해당합니다.</li>
+<li><code>total_counts</code>: 각 세포에서 읽은 Read의 수. <code>Seurat</code>에서는 <code>nCount_RNA</code>에 해당합니다.</li>
+<li><code>pct_counts_mt</code>: <code>total counts</code> 중 미토콘드리아 유전자의 비율.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>total_counts</code>와 <code>n_genes_by_counts</code>는 같은 의미가 아닙니다. 예를 들어 두개의 세포를 하나로 잘못 인식한 이중체(Doublet)의 경우 <code>total_counts</code>수는 높지만 검출된 유전자의 수는 상대적으로 적겠죠.</p>
+</div>
+</div>
+<div id="cell-8" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 미토콘드리아 유전자</span></span>
+<span id="cb7-2">adata.var[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mt"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.startswith(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MT-"</span>)</span>
+<span id="cb7-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 리보솜 유전자</span></span>
+<span id="cb7-4">adata.var[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ribo"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.startswith((<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"RPS"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"RPL"</span>))</span>
+<span id="cb7-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 적혈구 유전자</span></span>
+<span id="cb7-6">adata.var[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hb"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.contains(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^HB[^(P|E|S)]"</span>)</span>
+<span id="cb7-7"></span>
+<span id="cb7-8">sc.pp.calculate_qc_metrics(</span>
+<span id="cb7-9">    adata, qc_vars<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mt"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ribo"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hb"</span>], percent_top<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>, log1p<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>, inplace<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span></span>
+<span id="cb7-10">)</span></code></pre></div>
+</div>
+<p>이제 메타데이터 슬롯에 데이터 품질 지표가 추가되었습니다. 바이올린 플롯을 통해 발현된 전체 유전자의 수, 셀당 총 유전자의 수, 미토콘드리아 유전자의 비율을 살펴보죠.</p>
+</section>
+<section id="qc-플롯" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="qc-플롯"><span class="header-section-number">2.2</span> QC 플롯</h2>
+<div id="cell-11" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">sc.pl.violin(</span>
+<span id="cb8-2">    adata,</span>
+<span id="cb8-3">    [</span>
+<span id="cb8-4">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n_genes_by_counts"</span>,</span>
+<span id="cb8-5">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"total_counts"</span>,</span>
+<span id="cb8-6">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pct_counts_mt"</span>,</span>
+<span id="cb8-7">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pct_counts_ribo"</span>,</span>
+<span id="cb8-8">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pct_counts_hb"</span>,</span>
+<span id="cb8-9">    ],</span>
+<span id="cb8-10">    jitter<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.4</span>,</span>
+<span id="cb8-11">    groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>,</span>
+<span id="cb8-12">    rotation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>,</span>
+<span id="cb8-13">    multi_panel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb8-14">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 그림에서 알 수 있듯이 샘플의 품질에 상당한 차이가 있습니다. 예를 들어 <code>covid_15</code>와 <code>covid_16</code> 샘플은 미토콘드리아 함량이 더 많은 세포를 가지고 있습니다. 반면에 리보솜 유전자의 비율은 다른 샘플보다 적게 검출되었습니다.</p>
+<p>다른 시각화 방법으로 QC 측정값을 산점도로 표시해봅니다.</p>
+<div id="cell-13" class="cell" data-fig-height="5" data-fig-width="5" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">sc.pl.scatter(adata, x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"total_counts"</span>, y<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n_genes_by_counts"</span>, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pct_counts_mt"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 그림을 보면 미토콘드리아 유전자의 비율이 높은 세포들은 <code>total_counts</code>와 <code>n_genes_by_counts</code>의 수가 적음을 알 수 있습니다. 이것을 통해 해당 세포들의 상태가 좋지 않다는 것을 유추할 수 있습니다.</p>
+<p>따라서 임계값을 설정해 미토콘드리아 유전자가 너무 많이 발현되거나 유전자의 총 개수가 너무 많은 세포들을 제거합니다. 여기서 주의할 점은 가끔 QC 지표가 좋지 않은 것처럼 보이는 세포도 생물학적 의미를 가지고 있을 수 있다는 것입니다. 그러므로 가능하다면 관대한 필터링를 적용하면서 시작하는 게 좋습니다. 뿐만 아니라 여러 배치가 포함된 데이터셋의 경우 임계값이 배치 간에 매우 크게 달라질 수 있어서 각 배치에 대해서 개별적으로 데이터 품질 관리를 수행해야 합니다.</p>
+</section>
+<section id="필터링" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="필터링"><span class="header-section-number">2.3</span> 필터링</h2>
+<p>필터링은 임계값 이하의 데이터들을 제거하는 단계입니다. 데이터의 노이즈를 줄이는 것이라고도 생각할 수 있습니다.</p>
+<section id="검출-기반-필터링" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="검출-기반-필터링"><span class="header-section-number">2.3.1</span> 검출 기반 필터링</h3>
+<p>검출 기반 필터링은 판독 횟수가 적은 세포와 최소 지정된 수의 세포에 존재하는 유전자를 필터링하는 것입니다. 일반적으로 200개 이상의 유전자가 검출된 세포와 유전자는 최소 3개 이상의 세포 조건을 많이 사용합니다. 이 값은 사용된 라이브러리 준비 방법에 따라 크게 달라질 수 있다는 점을 염두해 두세요.</p>
+<div id="cell-15" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">sc.pp.filter_cells(adata, min_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>)</span>
+<span id="cb10-2">sc.pp.filter_genes(adata, min_cells<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span>
+<span id="cb10-3"></span>
+<span id="cb10-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 추가</span></span>
+<span id="cb10-5">new_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb10-6">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"단계"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"검출 기반 필터링"</span>,</span>
+<span id="cb10-7">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드의 수"</span>: adata.n_obs,</span>
+<span id="cb10-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자의 수"</span>: adata.n_vars,</span>
+<span id="cb10-9">}</span>
+<span id="cb10-10">df_report <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.concat([df_report, pd.DataFrame([new_data])], ignore_index<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb10-11">df_report</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">단계</th>
+<th data-quarto-table-cell-role="th">바코드의 수</th>
+<th data-quarto-table-cell-role="th">유전자의 수</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>원본</td>
+<td>12000</td>
+<td>33538</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>검출 기반 필터링</td>
+<td>10664</td>
+<td>19491</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>결과를 보니 바코드의 수와 유전자의 수가 동시에 줄어들었다는 것을 알 수 있습니다. 이제 어떤 유전자가 시퀀서에서 많이 읽혔는지도 확인해보죠.</p>
+<div id="cell-17" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">sc.pl.highest_expr_genes(adata, n_top<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 결과를 통해 MALAT1라는 유전자가 아주 많이 읽혔다는 것을 알 수 있으며 다른 상위 유전자들은 미토콘드리아 혹은 리보솜 유전자라는 것을 확인할 수 있습니다.</p>
+<blockquote class="blockquote">
+<p>MALAT1은 poly-A 서열을 가지고 있어 scRNA-seq에서 상대적으로 높게 검출되는 것으로 알려져 있습니다.</p>
+</blockquote>
+<p>이제 품질 관리 및 필터링에 중요한 몇가지 유전자에 대한 정보를 모아보겠습니다.</p>
+</section>
+<section id="미토콘드리아리보솜-유전자-필터링" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="미토콘드리아리보솜-유전자-필터링"><span class="header-section-number">2.3.2</span> 미토콘드리아/리보솜 유전자 필터링</h3>
+<p>미토콘드리아와 리보솜 유전자에 관련된 필터링에 대한 3가지 접근법이 있습니다.</p>
+<ol type="1">
+<li>미토콘드리아 유전자 비율이 높고 리보솜 유전자 비율이 낮은 세포를 제거하기.</li>
+<li>데이터에서 미토콘드리아 유전자 정보를 제거하고 나머지 유전자 데이터만 사용하기.</li>
+<li>데이터를 스케일링을 할 때 <code>percent_mito</code>를 회귀시키기.(다만 이 경우 일부 세포에서 유전자 발현 정보가 매우 적게 남을 가능성이 있습니다.)</li>
+</ol>
+<p>만약 필터링 후에도 충분한 세포가 남아 있다면 첫번째 방법을 사용하는게 가장 현명한 방법입니다. 이 예제의 경우 대부분의 세포가 미토콘드리아 판독값이 20% 미만이기 때문에 이 값을 임계값으로 사용해 제거하겠습니다. 리보솜 유전자도 마찬가지로 판독률이 5% 미만인 세포는 제거합니다.</p>
+<div id="cell-19" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 미토콘드리아 유전자 필터</span></span>
+<span id="cb12-2">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata[adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pct_counts_mt"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>, :]</span>
+<span id="cb12-3"></span>
+<span id="cb12-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 리보솜 유전자 필터</span></span>
+<span id="cb12-5">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata[adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pct_counts_ribo"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, :]</span>
+<span id="cb12-6"></span>
+<span id="cb12-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 추가</span></span>
+<span id="cb12-8">new_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb12-9">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"단계"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MT/Ribo 유전자 비율 필터링"</span>,</span>
+<span id="cb12-10">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드의 수"</span>: adata.n_obs,</span>
+<span id="cb12-11">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자의 수"</span>: adata.n_vars,</span>
+<span id="cb12-12">}</span>
+<span id="cb12-13">df_report <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.concat([df_report, pd.DataFrame([new_data])], ignore_index<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb12-14">df_report</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">단계</th>
+<th data-quarto-table-cell-role="th">바코드의 수</th>
+<th data-quarto-table-cell-role="th">유전자의 수</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>원본</td>
+<td>12000</td>
+<td>33538</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>검출 기반 필터링</td>
+<td>10664</td>
+<td>19491</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>MT/Ribo 유전자 비율 필터링</td>
+<td>7431</td>
+<td>19491</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>미토콘드리아와 리보솜 유전자 비율에 대한 필터링으로 바코드의 수가 감소되었다는 것을 알 수 있습니다. 다만 유전자의 수는 그대로입니다. 이제 환자 샘플별로 얼마나 줄었는지 확인해보겠습니다. 처음 바코드의 숫자는 1500개였다는 기억하세요.</p>
+<div id="cell-21" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>].value_counts())</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sample
+ctrl_13     1173
+ctrl_19     1170
+covid_17    1101
+ctrl_14     1063
+ctrl_5      1052
+covid_1      900
+covid_15     599
+covid_16     373
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>역시 <code>covid_15, 16</code> 샘플에서 많은 데이터가 필터링 되었네요.</p>
+</section>
+<section id="유전자-데이터-필터링" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="유전자-데이터-필터링"><span class="header-section-number">2.3.3</span> 유전자 데이터 필터링</h3>
+<p>이 예제 데이터에서는 미토콘드리아, 적혈구(HB) 그리고 MALAT1 유전자는 주로 기술적인 문제에 의한 것으로 보입니다. 따라서 해당 유전자에 대한 데이터를 필터링하는것이 현명해 보입니다. 아래는 해당 유전자의 데이터를 제거하는 코드입니다.</p>
+<div id="cell-24" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1">malat1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.startswith(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MALAT1"</span>)</span>
+<span id="cb15-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 미토콘드리아 유전자를 처음에 정의한 이후 다시 정의해야 합니다.</span></span>
+<span id="cb15-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 발현이 낮은 유전자를 제거하기 전에 전체 오브젝트에서 계산한 값입니다.</span></span>
+<span id="cb15-4">mito_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.startswith(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MT-"</span>)</span>
+<span id="cb15-5">hb_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.contains(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^HB[^(P|E|S)]"</span>)</span>
+<span id="cb15-6"></span>
+<span id="cb15-7">remove <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.add(mito_genes, malat1)</span>
+<span id="cb15-8">remove <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.add(remove, hb_genes)</span>
+<span id="cb15-9">keep <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.invert(remove)</span>
+<span id="cb15-10"></span>
+<span id="cb15-11">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata[:, keep]</span>
+<span id="cb15-12"></span>
+<span id="cb15-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 행이나 열방향으로 0으로만 존재하는 값이 있는지 확인</span></span>
+<span id="cb15-14"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">any</span>(adata.X.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>))</span>
+<span id="cb15-15"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">any</span>(adata.X.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True
+False</code></pre>
+</div>
+</div>
+<p>위 결과를 보니 유전자를 전혀 포함하지 않는 바코드 데이터가 (<code>np.any(adata.X.sum(axis=0) == 0)</code>값이 <code>True</code>임으로) 존재하는 것 같네요. 다시 <code>filter_genes</code>을 적용하고 확인합니다.</p>
+<div id="cell-26" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">sc.pp.filter_genes(adata, min_cells<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span>
+<span id="cb17-2"></span>
+<span id="cb17-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 행이나 열방향으로 0으로만 존재하는 값이 있는지 확인</span></span>
+<span id="cb17-4"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">any</span>(adata.X.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>))</span>
+<span id="cb17-5"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">any</span>(adata.X.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>False
+False</code></pre>
+</div>
+</div>
+<p>이제 모두 <code>False</code>임으로 문제가 없습니다. 얼마나 많은 유전자 데이터가 필터링 되었는지 확인해봅시다.</p>
+<div id="cell-28" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 추가</span></span>
+<span id="cb19-2">new_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb19-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"단계"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"특정 유전자 필터링"</span>,</span>
+<span id="cb19-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드의 수"</span>: adata.n_obs,</span>
+<span id="cb19-5">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자의 수"</span>: adata.n_vars,</span>
+<span id="cb19-6">}</span>
+<span id="cb19-7">df_report <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.concat([df_report, pd.DataFrame([new_data])], ignore_index<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb19-8">df_report</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">단계</th>
+<th data-quarto-table-cell-role="th">바코드의 수</th>
+<th data-quarto-table-cell-role="th">유전자의 수</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>원본</td>
+<td>12000</td>
+<td>33538</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>검출 기반 필터링</td>
+<td>10664</td>
+<td>19491</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>MT/Ribo 유전자 비율 필터링</td>
+<td>7431</td>
+<td>19491</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>특정 유전자 필터링</td>
+<td>7431</td>
+<td>19094</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>유전자의 수가 약 400개 정도 감소하였습니다.</p>
+</section>
+</section>
+<section id="이중체doublet-예측" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="이중체doublet-예측"><span class="header-section-number">2.4</span> 이중체(Doublet) 예측</h2>
+<p>드롭렛(Droplet)을 만들어 분석하는 scRNA-seq 기술에서 동일한 드롭렛에 여러개의 세포가 들어가는 것은 생각보다 자주 발생하는 문제이며 이중체(Doublet)라고 부릅니다. 10X genomics사의 일반적인 Single Cell 3’ Gene Expression v3.1 assay 실험법의 경우 이중체의 비율은 세포의 양에 선형적으로 비례한다고 알려져 있습니다. 아래는 사용자 가이드에 명시된 더블렛의 비율입니다.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Multiplet Rate (%)</th>
+<th># of Cells Loaded</th>
+<th># of Cells Recovered</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.4%</td>
+<td>~825</td>
+<td>~500</td>
+</tr>
+<tr class="even">
+<td>0.8%</td>
+<td>~1,650</td>
+<td>~1,000</td>
+</tr>
+<tr class="odd">
+<td>2.4%</td>
+<td>~4,950</td>
+<td>~3,000</td>
+</tr>
+<tr class="even">
+<td>3.2%</td>
+<td>~6,300</td>
+<td>~4,000</td>
+</tr>
+<tr class="odd">
+<td>4.0%</td>
+<td>~8,250</td>
+<td>~5,000</td>
+</tr>
+<tr class="even">
+<td>5.6%</td>
+<td>~11,550</td>
+<td>~7,000</td>
+</tr>
+<tr class="odd">
+<td>6.4%</td>
+<td>~13,200</td>
+<td>~8000</td>
+</tr>
+<tr class="even">
+<td>7.2%</td>
+<td>~14,850</td>
+<td>~9,000</td>
+</tr>
+<tr class="odd">
+<td>8.0%</td>
+<td>~16,500</td>
+<td>~10,000</td>
+</tr>
+</tbody>
+</table>
+<p>예시 데이터셋은 샘플당 약 5,000개의 세포가 있었습니다. 따라서 약 9,000개 세포로 드롭렛을 만들었다고 보여지며 약 4%의 더블렛이 포함되어 있을 것으로 예측됩니다.</p>
+<p>하나의 세포에서 검출된 유전자 총 수가 너무 많은 경우는 이중체(Doublet; 2개의 세포가 1개로 분석되는 경우)일 가능성이 있습니다. 그러나 세포 유형 구성에 따라 더 많은 수의 유전자를 가진 세포가 있을 수도 있기 때문에 문제가 복잡해집니다.</p>
+<p>이중체를 예측하는 방법에는 여러가지가 있지만 최신 버전 <code>Scanpy</code>에는 이중체 감지를 위한 <code>Scrublet</code> 패키지가 포함되어 있습니다. <code>Scrublet</code>은 관찰된 전사체와 시뮬레이션된 이중체의 KNN을 만들어 이중체를 예측합니다. <code>sc.pp.scrublet</code>함수를 사용하면 <code>doublet_score</code>와 <code>predicted_doublet</code>을 <code>.obs</code>에 추가되고 바로 필터링하거나 클러스터링을 하고나서 나중에 <code>doublet_score</code>를 사용해 높은 이중점수를 가진 클러스터를 필터링할 수 있습니다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>더블렛 감지를 위한 다른 방법으로 <code>scverse</code> 생태계에는 <a href="https://github.com/JonathanShor/DoubletDetection">DoubletDetection</a> 및 <a href="https://docs.scvi-tools.org/en/stable/user_guide/models/solo.html">SOLO</a>가 있습니다. 더 자세한 내용은 <a href="https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html#doublet-detection">sc-best-practice</a> 문서에서 확인할 수 있습니다.</p>
+</div>
+</div>
+<p>아래 코드를 사용해 이중체를 예측하고 감지된 세포의 수를 나타내겠습니다.</p>
+<div id="cell-31" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1">sc.pp.scrublet(adata, batch_key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>)</span>
+<span id="cb20-2">num_doublet <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"predicted_doublet"</span>])</span>
+<span id="cb20-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"이중체로 감지된 세포의 수: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>num_doublet<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>이중체로 감지된 세포의 수: 204</code></pre>
+</div>
+</div>
+<p>이중체로 예측된 세포에서 더 많은 유전자가 검출되는지 시각화를 통해 살펴보죠.</p>
+<div id="cell-33" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 참/거짓 대신 싱글렛/더블렛으로 열에 추가합니다.</span></span>
+<span id="cb22-2">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"doublet_info"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"predicted_doublet"</span>].astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>)</span>
+<span id="cb22-3">sc.pl.violin(adata, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n_genes_by_counts"</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"doublet_info"</span>, rotation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">45</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>확실히 이중체로 예측된 세포들이 <code>n_genes_by_counts</code> 값이 높다는 것을 알 수 있습니다. 이제 데이터들을 클러스터링 해서 이중체가 독자적인 클러스터를 형성하는지 확인해보죠. 가장 먼저 유전자 카운트 데이터를 정규화해야 합니다.</p>
+<div id="cell-35" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 카운트 데이터 저장</span></span>
+<span id="cb23-2">adata.layers[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"counts"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.X.copy()</span>
+<span id="cb23-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 총 개수 중앙값으로 정규화</span></span>
+<span id="cb23-4">sc.pp.normalize_total(adata)</span>
+<span id="cb23-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 로그값으로 변환</span></span>
+<span id="cb23-6">sc.pp.log1p(adata)</span></code></pre></div>
+</div>
+</section>
+<section id="특징feature-선택" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="특징feature-선택"><span class="header-section-number">2.5</span> 특징(Feature) 선택</h2>
+<p>사실 scRNA-seq 데이터에 포함된 많은 유전자들은 모든 세포에서 발현량이 높거나 낮아서 생물학적으로 큰 의미는 없고 데이터셋의 차원(크기)을 높이기만 하는 경우가 많습니다. 따라서 특징 선택이라는 단계를 통해서 차이가 있는 유전자들만 남겨서 이후 분석의 계산량을 줄여줍니다. 여기서는 차이가 큰 유전자(highly variable genes) 2000개를 고릅니다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>예전 버전의 scanpy에서는 특징 선택후 adata객체를 subset하는 과정(<code>adata = adata[:, adata.var.highly_variable]</code>)이 필요했지만 최근 버전에는 불필요하게 변경되었습니다.</p>
+</div>
+</div>
+<div id="cell-37" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1">sc.pp.highly_variable_genes(adata, n_top_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2000</span>, batch_key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>)</span>
+<span id="cb24-2">sc.pl.highly_variable_genes(adata)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-38" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># `regress_out` 함수를 사용한 회귀는 데이터셋에 따라 정보가 소실될 수 있습니다.</span></span>
+<span id="cb25-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 따라서 여기서는 사용하지 않고 아래 코드를 주석 처리하였습니다.</span></span>
+<span id="cb25-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># sc.pp.regress_out(adata, ["total_counts", "pct_counts_mt"])</span></span>
+<span id="cb25-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># sc.pp.scale(adata, max_value=10)</span></span>
+<span id="cb25-5"></span>
+<span id="cb25-6">sc.tl.pca(adata)</span>
+<span id="cb25-7">sc.pp.neighbors(adata, n_neighbors<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, n_pcs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">40</span>)</span>
+<span id="cb25-8">sc.tl.umap(adata)</span></code></pre></div>
+</div>
+<div id="cell-39" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1">sc.pl.umap(adata, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"doublet_score"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"doublet_info"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>])</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 그림을 비교해보면 이중체 점수가 높은 세포들은 샘플 혹은 클러스터와 연관은 없어보입니다. 따라서 <code>doublet_info</code>값을 사용해 예상되는 이중체를 모두 제거해 보겠습니다.</p>
+<div id="cell-41" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata[adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"doublet_info"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"False"</span>, :]</span>
+<span id="cb27-2"></span>
+<span id="cb27-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 추가</span></span>
+<span id="cb27-4">new_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb27-5">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"단계"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"이중체 필터링"</span>,</span>
+<span id="cb27-6">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드의 수"</span>: adata.n_obs,</span>
+<span id="cb27-7">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자의 수"</span>: adata.n_vars,</span>
+<span id="cb27-8">}</span>
+<span id="cb27-9">df_report <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.concat([df_report, pd.DataFrame([new_data])], ignore_index<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb27-10">df_report</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="54">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">단계</th>
+<th data-quarto-table-cell-role="th">바코드의 수</th>
+<th data-quarto-table-cell-role="th">유전자의 수</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>원본</td>
+<td>12000</td>
+<td>33538</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>검출 기반 필터링</td>
+<td>10664</td>
+<td>19491</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>MT/Ribo 유전자 비율 필터링</td>
+<td>7431</td>
+<td>19491</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>특정 유전자 필터링</td>
+<td>7431</td>
+<td>19094</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>이중체 필터링</td>
+<td>7227</td>
+<td>19094</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>이중체 필터링을 통해 대략적으로 200개의 바코드가 감소하였습니다.</p>
+</section>
+<section id="성염색체-편향bias-확인" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="성염색체-편향bias-확인"><span class="header-section-number">2.6</span> 성염색체 편향(Bias) 확인</h2>
+<p>분석 결과에 성염색체에 의한 바이어스가 포함되지 않도록 애초에 scRNA-seq 실험을 계획 할때 단일한 성별로 제한하는 것이 이상적입니다. 그렇지 않다면 아래 같이 추가적인 작업을 통해 성염색체에 대한 편향 확인이 필요합니다. 예를들어 염색체Y(수컷)와 X(주로 여성) 발현량을 샘플별로 파악해보면 샘플의 성별을 쉽게 파악할 수 있습니다. 또한 샘플 메타데이터에 성별 정보가 있다면 예측 결과와 비교해 레이블이 잘못되었는지 확인할 수 있습니다.</p>
+<p>유전자의 염색체 위치 정보는 서열 데이터를 alingment할 때 사용한 <code>gtf</code>파일에서 가져오는 것이 가장 이상적입니다. 그러나 여기에서는 <code>Biomart</code> 도구를 사용해 염색체의 위치 정보를 얻어오는 작업을 해봅니다.</p>
+<div id="cell-44" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># pybiomart 설치 필요</span></span>
+<span id="cb28-2">annot <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.queries.biomart_annotations(</span>
+<span id="cb28-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hsapiens"</span>,</span>
+<span id="cb28-4">    [</span>
+<span id="cb28-5">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ensembl_gene_id"</span>,</span>
+<span id="cb28-6">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"external_gene_name"</span>,</span>
+<span id="cb28-7">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"start_position"</span>,</span>
+<span id="cb28-8">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end_position"</span>,</span>
+<span id="cb28-9">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"chromosome_name"</span>,</span>
+<span id="cb28-10">    ],</span>
+<span id="cb28-11">).set_index(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"external_gene_name"</span>)</span>
+<span id="cb28-12"></span>
+<span id="cb28-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># adata.var[annot.columns] = annot</span></span></code></pre></div>
+</div>
+<p>이제 염색체 정보를 얻었으므로 세포당 염색체 Y에서 나온 읽기 비율을 계산할 수 있습니다.</p>
+<div id="cell-46" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1">chrY_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.intersection(annot.index[annot.chromosome_name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Y"</span>])</span>
+<span id="cb29-2"></span>
+<span id="cb29-3">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"percent_chrY"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb29-4">    np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(adata[:, chrY_genes].X, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).A1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(adata.X, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).A1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span></span>
+<span id="cb29-5">)</span>
+<span id="cb29-6"></span>
+<span id="cb29-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 플랏을 위한 색상을 추가합니다.</span></span>
+<span id="cb29-8">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"XIST-counts"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.X[:, adata.var_names.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>.match(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"XIST"</span>)].toarray()</span></code></pre></div>
+</div>
+<p>바이올린 플롯을 그려 <code>XIST</code>과 <code>chrY</code> 비율을 살펴보죠.</p>
+<div id="cell-48" class="cell" data-fig-height="5" data-fig-width="10" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1">sc.pl.violin(</span>
+<span id="cb30-2">    adata, [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"XIST-counts"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"percent_chrY"</span>], jitter<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.4</span>, groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>, rotation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">45</span></span>
+<span id="cb30-3">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 그림을 통해 남성의 시료가 3개 여성의 시료가 5개임을 알 수 있습니다. 다행히도 한 쪽에 쏠려있지는 않아서 성염색체에 의한 편향은 무시해도 괜찮을 것 같습니다.</p>
+</section>
+<section id="세포-주기-예측" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="세포-주기-예측"><span class="header-section-number">2.7</span> 세포 주기 예측</h2>
+<p>이제 세포 주기에 대한 예측을 해봅니다. 세포 주기를 예측하는 원리는 세포 주기 참조 유전자의 목록과 비교해서 유전자의 평균 발현에 대한 차이를 계산하는 것입니다. 따라서 세포 주기 참조 유전자 목록이 필요합니다. 여기에서는 Regev 연구소에서 만든 파일을 사용해 메타데이터에 S 단계에 대한 점수, G2M 단계에 대한 점수, 예측된 세포 주기 단계를 추가하겠습니다.</p>
+<div id="cell-51" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1">cell_cycle_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb31-2">    x.strip() <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">open</span>(path_parent <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/regev_lab_cell_cycle_genes.txt"</span>)</span>
+<span id="cb31-3">]</span>
+<span id="cb31-4"></span>
+<span id="cb31-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 2개의 목록으로 분할</span></span>
+<span id="cb31-6">s_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cell_cycle_genes[:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">43</span>]</span>
+<span id="cb31-7">g2m_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cell_cycle_genes[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">43</span>:]</span>
+<span id="cb31-8"></span>
+<span id="cb31-9">cell_cycle_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [x <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> cell_cycle_genes <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> adata.var_names]</span>
+<span id="cb31-10"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"포함되어 있는 세포 주기 유전자의 수: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(cell_cycle_genes)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>포함되어 있는 세포 주기 유전자의 수: 94</code></pre>
+</div>
+</div>
+<p>세포 주기를 예측하기 전에 먼저 유전자 카운트 데이터를 정규화해야 합니다. 이미 앞선 코드에서 정규화 및 로그 변환까지 되어 있는 상황임으로 데이터 스케일링만 실행하고 세포 주기를 예측합니다.</p>
+<div id="cell-53" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1">sc.pp.scale(adata, max_value<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>)</span>
+<span id="cb33-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 세포 주기 예측</span></span>
+<span id="cb33-3">sc.tl.score_genes_cell_cycle(adata, s_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>s_genes, g2m_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>g2m_genes)</span></code></pre></div>
+</div>
+<p>세포 주기 점수에 대해 시각화를 해봅니다. 일반적인 세포 주기는 다음 3가지로 구분됩니다.</p>
+<ol type="1">
+<li>G1: 단백질 합성기, 세포의 성장기.</li>
+<li>S: DNA 복제기, DNA의 양이 두배가 된다.</li>
+<li>G2: 세포 분열 준비기</li>
+</ol>
+<div id="cell-55" class="cell" data-fig-height="5" data-fig-width="10" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 바이올린 플랏</span></span>
+<span id="cb34-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># sc.pl.violin(adata, ["S_score", "G2M_score"], jitter=0.4, groupby="sample", rotation=60)</span></span>
+<span id="cb34-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 산포도 플랏</span></span>
+<span id="cb34-4">sc.pl.scatter(adata, x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"S_score"</span>, y<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"G2M_score"</span>, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"phase"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>일반적인 사람 세포들은 G1기가 가장 긴것으로 알려져있습니다. 그러나 예시 데이터셋에는 G1기의 세포가 상대적으로 적어 보입니다. 이것은 세포 주기 예측의 기본 임계값이 <code>0</code>으로 고정되어 있기 때문으로 임계값 수정이 필요하다고 말할 수 있습니다. 따라서 세포 주기 예측은 결과 해석을 할 때 항상 주의해야 합니다.</p>
+<p>이제 QC과정을 거치면서 제거된 데이터들의 비율을 계산해보죠. 이것을 통해 어떤 단계를 다시 조정하는 것이 좋을지 판단할 수 있습니다.</p>
+<div id="cell-57" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 첫 번째 행의 바코드 수와 유전자 수 값 저장</span></span>
+<span id="cb35-2">initial_num_barcode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_report.loc[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드의 수"</span>]</span>
+<span id="cb35-3">initial_num_gene <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_report.loc[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자의 수"</span>]</span>
+<span id="cb35-4"></span>
+<span id="cb35-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 비율 계산 후 새로운 열 추가</span></span>
+<span id="cb35-6">df_report[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드 필터 비율"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_report[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"바코드의 수"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> initial_num_barcode</span>
+<span id="cb35-7">df_report[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자 필터 비율"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_report[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"유전자의 수"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> initial_num_gene</span>
+<span id="cb35-8"></span>
+<span id="cb35-9">df_report</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">단계</th>
+<th data-quarto-table-cell-role="th">바코드의 수</th>
+<th data-quarto-table-cell-role="th">유전자의 수</th>
+<th data-quarto-table-cell-role="th">바코드 필터 비율</th>
+<th data-quarto-table-cell-role="th">유전자 필터 비율</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>원본</td>
+<td>12000</td>
+<td>33538</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>검출 기반 필터링</td>
+<td>10664</td>
+<td>19491</td>
+<td>0.888667</td>
+<td>0.581162</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>MT/Ribo 유전자 비율 필터링</td>
+<td>7431</td>
+<td>19491</td>
+<td>0.61925</td>
+<td>0.581162</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>특정 유전자 필터링</td>
+<td>7431</td>
+<td>19094</td>
+<td>0.61925</td>
+<td>0.569324</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>이중체 필터링</td>
+<td>7227</td>
+<td>19094</td>
+<td>0.60225</td>
+<td>0.569324</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>위를 통해 검출 기반 필터링과 유전자 비율 필터링에서 많은 데이터가 제거되었다는 것을 알 수 있습니다. 따라서 다시 시작한다면 그 쪽의 매개변수를 조절해보는 것이 좋겠습니다.</p>
+</section>
+<section id="데이터-정리하기" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="데이터-정리하기"><span class="header-section-number">2.8</span> 데이터 정리하기</h2>
+<p>파일을 저장하기전 전체 파일의 크기를 줄이기 위해 필요하지 않아 보이는 데이터를 제거합니다.</p>
+<div id="cell-59" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 정규화 된 값을 원본 Count값으로 다시 되돌리기</span></span>
+<span id="cb36-2">adata.X <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.layers[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"counts"</span>].copy()</span>
+<span id="cb36-3"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">del</span> adata.layers[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"counts"</span>]</span>
+<span id="cb36-4"></span>
+<span id="cb36-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 필요한 obs와 var 컬럼 지정</span></span>
+<span id="cb36-6">required_obs_columns <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"batch"</span>]  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 실제 필요한 열로 대체</span></span>
+<span id="cb36-7">required_var_columns <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gene_ids"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"feature_types"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"genome"</span>]  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 실제 필요한 열로 대체</span></span>
+<span id="cb36-8"></span>
+<span id="cb36-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># obs에서 필요한 열만 남기고 삭제</span></span>
+<span id="cb36-10">obs_columns_to_drop <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb36-11">    col <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> col <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> adata.obs.columns <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> col <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">not</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> required_obs_columns</span>
+<span id="cb36-12">]</span>
+<span id="cb36-13">adata.obs.drop(columns<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>obs_columns_to_drop, inplace<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb36-14"></span>
+<span id="cb36-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># var에서 필요한 열만 남기고 삭제</span></span>
+<span id="cb36-16">var_columns_to_drop <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb36-17">    col <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> col <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> adata.var.columns <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> col <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">not</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> required_var_columns</span>
+<span id="cb36-18">]</span>
+<span id="cb36-19">adata.var.drop(columns<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>var_columns_to_drop, inplace<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb36-20"></span>
+<span id="cb36-21"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># uns, obsm, varm, obsp 속성 삭제</span></span>
+<span id="cb36-22">adata.uns <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {}</span>
+<span id="cb36-23">adata.obsm <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {}</span>
+<span id="cb36-24">adata.varm <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {}</span>
+<span id="cb36-25">adata.obsp <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {}</span>
+<span id="cb36-26"></span>
+<span id="cb36-27"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 확인</span></span>
+<span id="cb36-28"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(adata)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AnnData object with n_obs × n_vars = 7227 × 19094
+    obs: 'type', 'sample', 'batch'
+    var: 'gene_ids', 'feature_types', 'genome'</code></pre>
+</div>
+</div>
+</section>
+<section id="데이터-저장" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="데이터-저장"><span class="header-section-number">2.9</span> 데이터 저장</h2>
+<p>마지막으로 QC된 데이터를 저장해 이후 분석에 사용합니다. Scanpy는 기본적으로 <code>h5ad</code>형식으로 파일을 저장합니다.</p>
+<div id="cell-61" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1">adata.write_h5ad(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./output/covid/results/scanpy_covid_qc.h5ad"</span>, compression<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gzip"</span>)</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="마치며" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 마치며</h1>
+<p>지금까지 <code>scanpy</code>를 사용해 scRNA seq 데이터 QC과정을 알아보았습니다. 이 과정은 간단해 보이지만 분석을 하다보면 반복적으로 되돌아와서 다시 진행하는 경우가 많습니다. 특히나 시간이 많이 지난 상황에서 다시 하려면 쉽지 않죠. 그러니 가능하면 자세한 기록과 주석을 남겨두시는 것을 추천합니다.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>python</category>
+  <category>scRNA</category>
+  <category>scanpy</category>
+  <guid>https://tomorrow-lab.github.io/posts/drylab/python_scanpy_workshop_01.html</guid>
+  <pubDate>Sun, 16 Jun 2024 15:00:00 GMT</pubDate>
+</item>
 <item>
   <title>어떻게 데이터 과학은 작동하는가?</title>
   <dc:creator>Taeyoon Kim</dc:creator>
@@ -80,10 +2106,7 @@
 <section id="분석-결과-공유하기" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> 분석 결과 공유하기</h1>
 <p>데이터를 활용해 질문에 대한 답을 찾았다고 해도 다른 사람이 사용하지 않는다면 아무런 의미가 없습니다. 따라서 분석 결과를 의사 결정을 위해 혹은 작업을 완료하기 위해 그리고 학습을 위한 형태의 자료로 만들어야 합니다. 자료를 만드는 방법에도 여러 가지가 있습니다. 웹 페이지에 결과를 게시하거나 PDF 파일로 만들어 배포하는 것들이 있죠.</p>
-<blockquote class="blockquote">
-<p>아무도 없는 숲에서 나무가 쓰러지면 소리가 나지 않습니다.</p>
-</blockquote>
-<p>훌륭한 모델을 만들었어도 다른 사람이 알지 못한다면 당신의 가치는 높아지지는 않을 것입니다. 그러니 가능한 많은 사람들에게 당신의 작품을 공유하세요.</p>
+<p>“아무도 없는 숲에서는 나무가 쓰러져도 소리가 나지 않는다.” 라는 영어 속담이 있습니다. 그러니 가능한 많은 사람들에게 당신의 모델을 공유하세요.</p>
 
 
 </section>
@@ -6631,7 +8654,7 @@ background-color: null;
 font-style: inherit;">"pct_counts_mt"</span>,</span>
 <span id="cb9-6">)</span>
 <span id="cb9-7">plt.show()</span></code></pre></div>
-<div id="f1f08cf5-d8d6-4d3f-88c3-81ffff7b9e04" class="cell quarto-layout-panel" data-execution_count="8" data-layout-ncol="2">
+<div id="f1f08cf5-d8d6-4d3f-88c3-81ffff7b9e04" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="8">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scRNA_QC_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
@@ -6791,7 +8814,7 @@ font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"pct_counts_mt"</span>)</span>
 <span id="cb16-2">plt.show()</span></code></pre></div>
-<div id="261e8bd6-abfa-45bd-8890-652b5fc02dd7" class="cell quarto-layout-panel" data-execution_count="13" data-layout-ncol="2">
+<div id="261e8bd6-abfa-45bd-8890-652b5fc02dd7" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="13">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scRNA_QC_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
@@ -7156,7 +9179,7 @@ font-style: inherit;">20</span>)</span>
 background-color: null;
 font-style: inherit;">"Doublet score"</span>)</span>
 <span id="cb30-3">plt.show()</span></code></pre></div>
-<div id="cf41918e-69ec-4126-9789-ff6b85488221" class="cell quarto-layout-panel" data-execution_count="25" data-layout-ncol="2">
+<div id="cf41918e-69ec-4126-9789-ff6b85488221" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="25">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img src="https://tomorrow-lab.github.io/posts/drylab/python_scRNA_QC_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
