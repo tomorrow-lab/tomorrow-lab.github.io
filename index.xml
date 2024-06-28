@@ -10,7 +10,1914 @@
 <atom:link href="https://tomorrow-lab.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.</description>
 <generator>quarto-1.4.549</generator>
-<lastBuildDate>Fri, 21 Jun 2024 15:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 27 Jun 2024 15:00:00 GMT</lastBuildDate>
+<item>
+  <title>Scanpy로 scRNA-seq 분석 03</title>
+  <dc:creator>Taeyoon Kim</dc:creator>
+  <link>https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/logo_scanpy.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<p>scRNA-seq 기술의 발달로 개별 세포 수준에서의 유전자 발현 데이터를 얻는 것이 가능해졌습니다. 세포 수준의 데이터는 생명과학 연구에서 세포 유형 및 기능적 특성을 이해하는데 중요한 정보를 제공합니다. 그러나 동시에 데이터가 너무 방대하고 복잡해 새로운 분석 도구와 알고리즘이 필요하게 되었습니다. 이번 강좌는 <code>scanpy</code>를 활용하여 그래프 커뮤니티 감지 알고리즘을 통해 세포를 그룹화하고 각 세포 집단의 기능적 특성을 파악하는 방법을 살펴보겠습니다.</p>
+<section id="들어가며" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 들어가며</h1>
+<p>이 글은 <a href="https://nbisweden.github.io/workshop-scRNAseq">NBIS workshop</a> 자료를 기반으로 수정 및 번역 작업을 진행한 것입니다. 먼저 필요한 모든 라이브러리와 이전 단계에 생성한 h5ad 파일을 불러옵니다.</p>
+<div id="cell-2" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> warnings</span>
+<span id="cb1-2"></span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span>
+<span id="cb1-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="cb1-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> scanpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> sc</span>
+<span id="cb1-6"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> seaborn <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> sns</span>
+<span id="cb1-7"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> rc_context</span>
+<span id="cb1-8"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> matplotlib_venn <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> venn3_unweighted</span>
+<span id="cb1-9"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> sklearn.cluster <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> AgglomerativeClustering, KMeans</span>
+<span id="cb1-10"></span>
+<span id="cb1-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 경고 무시하기</span></span>
+<span id="cb1-12">warnings.filterwarnings(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ignore"</span>)</span>
+<span id="cb1-13">sc.settings.n_jobs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb1-14">sc.settings.verbosity <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 오류 (0), 경고 (1), 정보 (2), 힌트 (3)</span></span>
+<span id="cb1-15">sc.settings.set_figure_params(</span>
+<span id="cb1-16">    dpi<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">60</span>, frameon<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>), facecolor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white"</span>, color_map<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"viridis_r"</span></span>
+<span id="cb1-17">)</span>
+<span id="cb1-18"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"사용한 SCANPY 버전: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>sc<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>__version__<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>사용한 SCANPY 버전: 1.10.1</code></pre>
+</div>
+</div>
+<div id="cell-3" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">adata <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.read_h5ad(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./output/covid/results/scanpy_covid_qc_dr_sc.h5ad"</span>)</span>
+<span id="cb3-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"데이터의 수: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>adata<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>n_obs<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">, 유전자의 수: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>adata<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>n_vars<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>데이터의 수: 7227, 유전자의 수: 19094</code></pre>
+</div>
+</div>
+</section>
+<section id="그래프-클러스터링" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 그래프 클러스터링</h1>
+<p>그래프 클러스터링하는 절차는 크게 3가지 단계로 일반화됩니다.</p>
+<ol type="1">
+<li>데이터에서 KNN(K-Nearest Neighbors, 최근접 이웃) 그래프를 구축합니다.</li>
+<li>KNN 그래프에서 허위 연결을 제거합니다(선택적 단계). 이것이 SNN(Spiking Neural Network) 그래프입니다.</li>
+<li>다른 그룹과 비교하여 그룹 내 연결이 최대화되는 세포 그룹을 찾습니다.</li>
+</ol>
+<blockquote class="blockquote">
+<p>KNN은 이 데이터와 가장 가까운 K개의 이웃 데이터들을 찾아서 이 데이터의 클래스 또는 값을 예측하는 방식입니다.</p>
+</blockquote>
+<p>이전 강좌에서 UMAP을 실행하기 전에 이미 kNN 그래프를 구성했었기 때문에 이 작업을 다시 수행할 필요는 없습니다.</p>
+<p><code>Scanpy</code>에서 기본 제공하는 클러스터링 알고리즘은 라이덴(Leiden)과 루바인(Louvain)이 있고 여기서는 총 4종류를 테스트해봅니다.</p>
+<section id="라이덴leiden" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="라이덴leiden"><span class="header-section-number">2.1</span> 라이덴(Leiden)</h2>
+<p>라이덴은 루바인 알고리즘의 개선 버전으로 연결성과 높은 모듈성, 세분화 단계를 추가해 더 정확한 커뮤니티를 탐지하는 것으로 알려져 있습니다. 따라서 라이덴을 사용하는 것을 권장합니다.</p>
+<div id="cell-5" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">sc.tl.leiden(adata, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_1.0"</span>)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># default resolution in 1.0</span></span>
+<span id="cb5-2">sc.tl.leiden(adata, resolution<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.6</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_0.6"</span>)</span>
+<span id="cb5-3">sc.tl.leiden(adata, resolution<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.4</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_0.4"</span>)</span>
+<span id="cb5-4">sc.tl.leiden(adata, resolution<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.4</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_1.4"</span>)</span></code></pre></div>
+</div>
+<p>시각화를 해보면 설정된 해상도 값이 높아질수록 클러스터가 세분화 된다는 것을 알 수 있습니다.</p>
+<div id="cell-7" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">sc.pl.umap(</span>
+<span id="cb6-2">    adata,</span>
+<span id="cb6-3">    color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_0.4"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_0.6"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_1.0"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_1.4"</span>],</span>
+<span id="cb6-4">    ncols<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb6-5">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="루바인louvain" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="루바인louvain"><span class="header-section-number">2.2</span> 루바인(Louvain)</h2>
+<p>루바인 알고리즘은 네트워크 그래프에서 클러스터를 탐지하는 데 사용되는 방법으로 주로 네트워크 모듈성 최적화를 통해 작동됩니다.</p>
+<div id="cell-9" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">sc.tl.louvain(adata, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_1.0"</span>)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># default resolution in 1.0</span></span>
+<span id="cb7-2">sc.tl.louvain(adata, resolution<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.6</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>)</span>
+<span id="cb7-3">sc.tl.louvain(adata, resolution<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.4</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.4"</span>)</span>
+<span id="cb7-4">sc.tl.louvain(adata, resolution<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.4</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_1.4"</span>)</span>
+<span id="cb7-5"></span>
+<span id="cb7-6">sc.pl.umap(</span>
+<span id="cb7-7">    adata,</span>
+<span id="cb7-8">    color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.4"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_1.0"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_1.4"</span>],</span>
+<span id="cb7-9">    ncols<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb7-10">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>루바인도 라이덴과 마찬가지로 해상도 값이 높아지면 클러스터가 세분화됩니다.</p>
+</section>
+<section id="k-평균-클러스터링" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="k-평균-클러스터링"><span class="header-section-number">2.3</span> K-평균 클러스터링</h2>
+<p>K-평균 클러스터링은 다양한 분야에서 일반적으로 사용되어온 전통적인 클러스터링 알고리즘입니다. 클러스터 수를 미리 정의해야 한다는 점이 다르며 클러스터링 결과는 초기 클러스터 중심 값(<code>nstart</code>)에 따라 달라지므로 여러가지 값으로 시도해보는 것이 좋습니다. 여기에서는 <code>scikit learn</code>패키지의 <code>KMeans</code>함수를 이용해 구현하겠습니다.</p>
+<div id="cell-12" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 저장된 PCA값을 사용</span></span>
+<span id="cb8-2">X_pca <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.obsm[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Scanorama"</span>]</span>
+<span id="cb8-3"></span>
+<span id="cb8-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># kmeans with k=5</span></span>
+<span id="cb8-5">kmeans <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> KMeans(n_clusters<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, random_state<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>).fit(X_pca)</span>
+<span id="cb8-6">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"kmeans5"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> kmeans.labels_.astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>)</span>
+<span id="cb8-7"></span>
+<span id="cb8-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># kmeans with k=10</span></span>
+<span id="cb8-9">kmeans <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> KMeans(n_clusters<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, random_state<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>).fit(X_pca)</span>
+<span id="cb8-10">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"kmeans10"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> kmeans.labels_.astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>)</span>
+<span id="cb8-11"></span>
+<span id="cb8-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># kmeans with k=15</span></span>
+<span id="cb8-13">kmeans <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> KMeans(n_clusters<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>, random_state<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>).fit(X_pca)</span>
+<span id="cb8-14">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"kmeans15"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> kmeans.labels_.astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>)</span>
+<span id="cb8-15"></span>
+<span id="cb8-16">sc.pl.umap(</span>
+<span id="cb8-17">    adata,</span>
+<span id="cb8-18">    color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"kmeans5"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"kmeans10"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"kmeans15"</span>],</span>
+<span id="cb8-19">    ncols<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb8-20">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="계층적-클러스터링" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="계층적-클러스터링"><span class="header-section-number">2.4</span> 계층적 클러스터링</h2>
+<p>또 다른 일반적인 형태의 클러스터링으로 계층적 클러스터링(Hierarchical clustering)을 사용해봅니다. 계층적 클러스터링은 다음 단계로 수행됩니다.</p>
+<ol type="1">
+<li>샘플 사이의 거리를 정의합니다. 가장 일반적인 방법은 유클리드 거리(두 점 사이의 직선 거리) 또는 상관 계수입니다.</li>
+<li>클러스터 간 거리 측정값을 <code>연결</code> 기준이라고 정의합니다. 예를 들어 클러스터 간의 평균 거리가 될 수 있습니다. 일반적으로 사용되는 방법은 <code>단일</code>, <code>완전</code>, <code>평균</code>, <code>중앙값</code>, <code>중심</code> 및 <code>방향</code>입니다.</li>
+<li>상향식 또는 하향식 방식을 사용하여 전체 샘플 중 덴드로그램을 정의합니다. 상향식은 샘플이 자체 클러스터로 시작하여 하나의 클러스터만 남을 때까지 한 쌍씩 병합하는 방식입니다. 하향식은 샘플이 모두 동일한 클러스터에서 시작하여 각 샘플이 자체 클러스터를 가질 때까지 2개로 분할되는 방식입니다.</li>
+</ol>
+<p>여기에서는 <code>scikit learn</code>패키지의 <code>AgglomerativeClustering</code>함수를 이용해 구현하겠습니다. K-평균 클러스터링과 마찬가지로 클러스터의 수를 지정해야 하며 사용된 매개변수인 <code>linkage="ward"</code>은 병합되는 클러스터의 편차를 최소화하기 위함입니다.</p>
+<div id="cell-14" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">cluster <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> AgglomerativeClustering(n_clusters<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, linkage<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ward"</span>)</span>
+<span id="cb9-2">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hclust_5"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cluster.fit_predict(X_pca).astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>)</span>
+<span id="cb9-3"></span>
+<span id="cb9-4">cluster <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> AgglomerativeClustering(n_clusters<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, linkage<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ward"</span>)</span>
+<span id="cb9-5">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hclust_10"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cluster.fit_predict(X_pca).astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>)</span>
+<span id="cb9-6"></span>
+<span id="cb9-7">cluster <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> AgglomerativeClustering(n_clusters<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>, linkage<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ward"</span>)</span>
+<span id="cb9-8">adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hclust_15"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cluster.fit_predict(X_pca).astype(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>)</span>
+<span id="cb9-9"></span>
+<span id="cb9-10">sc.pl.umap(adata, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hclust_5"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hclust_10"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hclust_15"</span>], ncols<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="클러스터-분포-시각화" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 클러스터 분포 시각화</h1>
+<p>이제 클러스터링 방법 중 하나를 선택하고 클러스터 전체에서 샘플의 비율을 비교할 수 있습니다.</p>
+<blockquote class="blockquote">
+<p><code>resolution 0.6</code>의 클러스터링이 적당한 수의 클러스터를 제공하는 것 같으므로 이후 분석에 <code>leiden_0.6</code>값을 사용하겠습니다.</p>
+</blockquote>
+<p><code>leiden_0.6</code>을 선택하고 클러스터당 <code>covid</code> 대 <code>ctrl</code> 세포 비율과 <code>sample</code>의 비율을 시각화 해보겠습니다.</p>
+<div id="cell-16" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> plot_stacked_bar(data, index_col, columns_col, legend_position):</span>
+<span id="cb10-2">    tmp <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.crosstab(data.obs[index_col], data.obs[columns_col], normalize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"index"</span>)</span>
+<span id="cb10-3">    ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tmp.plot.bar(stacked<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>, grid<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>)</span>
+<span id="cb10-4">    ax.legend(bbox_to_anchor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>legend_position, loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"upper right"</span>, frameon<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>)</span>
+<span id="cb10-5"></span>
+<span id="cb10-6"></span>
+<span id="cb10-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 첫 번째 그래프</span></span>
+<span id="cb10-8">plot_stacked_bar(adata, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_0.6"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>, (<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-17" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 두 번째 그래프</span></span>
+<span id="cb11-2">plot_stacked_bar(adata, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_0.6"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>, (<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 결과를 보면 클러스터당 각 샘플들이 고르게 분포하지만 일부 클러스터에는 특정 샘플이 더 많고 일부 클러스터에는 코로나 세포가 더 많은은 편향이 존재합니다. 다른 방향으로 샘플당 각 클러스터의 비율로 시각화를 해보죠.</p>
+<div id="cell-19" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">plot_stacked_bar(adata, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leiden_0.6"</span>, (<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="deg-분석하기" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> DEG 분석하기</h1>
+<p>단일 세포에서 DEG(Differentially Expressed Genes,유전자의 차등 발현)는 세포 집단에 대한 마커 유전자를 식별하고 조건(건강 대 대조군)에 따라 차등적으로 조절되는 유전자를 식별하는 등 다양한 기능을 수행할 수 있습니다.</p>
+<p><code>scanpy</code>에서 DEG 분석은 <code>rank_genes_group</code> 함수를 사용하여 수행됩니다. 차등 발현을 계산하는 기본 메서드는 <code>t-test_overestim_var</code>입니다. 다른 구현된 방법으로는 <code>logreg</code>, <code>t-test</code> 및 <code>wilcoxon</code>이 있습니다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>여기에 있는 방법으로 DEG를 분석하는 방법은 여러 연구자들이 추천하지 않는 방법이지만, 학습의 편의를 위해 사용되었습니다. 제대로 하려면 <code>Peudo-bulk</code> 방법을 사용해야 한다는 것을 기억하세요.</p>
+</div>
+</div>
+<section id="t-test" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="t-test"><span class="header-section-number">4.1</span> T-test</h2>
+<p><code>t-test</code>는 두 집단 간의 평균 차이를 비교하는 통계적 검정입니다. scRNA-seq 데이터에서는 두 그룹(예: 서로 다른 세포 유형 또는 조건) 간에 특정 유전자의 발현 수준이 유의하게 다른지 확인하는 데 사용됩니다.</p>
+<ul>
+<li>장점: 간단하고 계산이 빠르며, 데이터가 정규 분포를 따를 때 강력한 성능을 발휘합니다.</li>
+<li>단점: 데이터가 정규 분포를 따르지 않거나 분산이 다를 때 성능이 저하될 수 있습니다.</li>
+</ul>
+<div id="cell-21" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">adata.X <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.layers[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"log1p"</span>].copy()</span>
+<span id="cb13-2"></span>
+<span id="cb13-3">sc.tl.rank_genes_groups(adata, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>, method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t-test"</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t-test"</span>)</span>
+<span id="cb13-4">sc.pl.rank_genes_groups(</span>
+<span id="cb13-5">    adata,</span>
+<span id="cb13-6">    n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>,</span>
+<span id="cb13-7">    sharey<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb13-8">    key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t-test"</span>,</span>
+<span id="cb13-9">    ncols<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,</span>
+<span id="cb13-10">)</span>
+<span id="cb13-11"></span>
+<span id="cb13-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 결과는 adata.uns["t-test"] 슬롯에 저장됩니다.</span></span>
+<span id="cb13-13">adata</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>AnnData object with n_obs × n_vars = 7227 × 19094
+    obs: 'type', 'sample', 'batch', 'n_counts', 'leiden_1.0', 'leiden_0.6', 'leiden_0.4', 'leiden_1.4', 'louvain_1.0', 'louvain_0.6', 'louvain_0.4', 'louvain_1.4', 'kmeans5', 'kmeans10', 'kmeans15', 'hclust_5', 'hclust_10', 'hclust_15'
+    var: 'gene_ids', 'feature_types', 'genome', 'highly_variable', 'means', 'dispersions', 'dispersions_norm', 'mean', 'std', 'highly_variable_nbatches', 'highly_variable_intersection'
+    uns: 'hvg', 'log1p', 'neighbors', 'pca', 'sample_colors', 'tsne', 'umap', 'leiden_1.0', 'leiden_0.6', 'leiden_0.4', 'leiden_1.4', 'leiden_0.4_colors', 'leiden_0.6_colors', 'leiden_1.0_colors', 'leiden_1.4_colors', 'louvain_1.0', 'louvain_0.6', 'louvain_0.4', 'louvain_1.4', 'louvain_0.4_colors', 'louvain_0.6_colors', 'louvain_1.0_colors', 'louvain_1.4_colors', 'kmeans5_colors', 'kmeans10_colors', 'kmeans15_colors', 'hclust_5_colors', 'hclust_10_colors', 'hclust_15_colors', 't-test'
+    obsm: 'Scanorama', 'X_pca', 'X_tsne', 'X_umap'
+    varm: 'PCs'
+    layers: 'counts', 'log1p'
+    obsp: 'connectivities', 'distances'</code></pre>
+</div>
+</div>
+</section>
+<section id="과대추정-분산을-고려한-t-test" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="과대추정-분산을-고려한-t-test"><span class="header-section-number">4.2</span> 과대추정 분산을 고려한 T-test</h2>
+<p>이 방법은 표준 t-test의 변형으로, 분산을 과대추정하여 보수적인 결과를 도출합니다. 이는 특히 소규모 표본에서 통계적 검정의 신뢰도를 높이는 데 도움이 됩니다.</p>
+<ul>
+<li>장점: 소규모 표본에서의 검정의 신뢰도를 높이고, 분산이 과대추정될 때 발생할 수 있는 문제를 완화합니다.</li>
+<li>단점: 분산을 과대추정함으로 인해 실제 차이가 있는 유전자도 덜 민감하게 검출될 수 있습니다.</li>
+</ul>
+<div id="cell-23" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1">sc.tl.rank_genes_groups(</span>
+<span id="cb15-2">    adata, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>, method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t-test_overestim_var"</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t-test_ov"</span></span>
+<span id="cb15-3">)</span>
+<span id="cb15-4">sc.pl.rank_genes_groups(</span>
+<span id="cb15-5">    adata,</span>
+<span id="cb15-6">    n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>,</span>
+<span id="cb15-7">    sharey<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb15-8">    key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t-test_ov"</span>,</span>
+<span id="cb15-9">    ncols<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,</span>
+<span id="cb15-10">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="윌콕슨-순위-합계" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="윌콕슨-순위-합계"><span class="header-section-number">4.3</span> 윌콕슨 순위 합계</h2>
+<p>윌콩슨(<code>wilcoxon</code>) 순위 합계 검정은 비모수 검정으로, 두 독립된 집단의 순위합을 비교하여 차이를 평가합니다. 이는 데이터가 정규 분포를 따르지 않을 때 유용합니다.</p>
+<ul>
+<li>장점: 데이터가 정규 분포를 따르지 않아도 사용할 수 있으며, 이상치에 덜 민감합니다.</li>
+<li>단점: 순위 기반 방법이기 때문에 데이터의 세밀한 차이를 반영하지 못할 수 있습니다.</li>
+</ul>
+<div id="cell-25" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1">sc.tl.rank_genes_groups(adata, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>, method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)</span>
+<span id="cb16-2">sc.pl.rank_genes_groups(</span>
+<span id="cb16-3">    adata,</span>
+<span id="cb16-4">    n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>,</span>
+<span id="cb16-5">    sharey<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb16-6">    key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>,</span>
+<span id="cb16-7">    ncols<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,</span>
+<span id="cb16-8">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="유전자-리스트-비교" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="유전자-리스트-비교"><span class="header-section-number">4.4</span> 유전자 리스트 비교</h2>
+<p>위에서 얻은 <code>T-test</code>, <code>T-test_ov</code>, <code>Wilcox</code> 결과를 비교해보죠. 클러스터 <code>0</code>에 대한 DEG 리스트를 가져와 벤다이어 그램을 그려봅니다.</p>
+<div id="cell-27" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># cluster 0 DEG 비교, 기본적으로 상위 100개만 저장합니다.</span></span>
+<span id="cb17-2">wc <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.get.rank_genes_groups_df(</span>
+<span id="cb17-3">    adata, group<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0"</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>, pval_cutoff<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.01</span>, log2fc_min<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span id="cb17-4">)[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"names"</span>]</span>
+<span id="cb17-5">tt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.get.rank_genes_groups_df(</span>
+<span id="cb17-6">    adata, group<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0"</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t-test"</span>, pval_cutoff<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.01</span>, log2fc_min<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span id="cb17-7">)[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"names"</span>]</span>
+<span id="cb17-8">tt_ov <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.get.rank_genes_groups_df(</span>
+<span id="cb17-9">    adata, group<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0"</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"t-test_ov"</span>, pval_cutoff<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.01</span>, log2fc_min<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span id="cb17-10">)[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"names"</span>]</span>
+<span id="cb17-11"></span>
+<span id="cb17-12"></span>
+<span id="cb17-13">venn3_unweighted([<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(wc), <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(tt), <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">set</span>(tt_ov)], (<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Wilcox"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"T-test"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"T-test_ov"</span>))</span>
+<span id="cb17-14">plt.show()</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 결과를에서 알수 있듯이 많은 DEG들은 중복됩니다. 특히 분산이 과대 추정된 T-test와 T-test 결과는 매우 유사합니다.</p>
+</section>
+</section>
+<section id="deg-시각화" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> DEG 시각화</h1>
+<p>상위 DEG의 발현을 시각화하는 방법에는 여러 가지가 있습니다. 여기서는 윌콕슨(Wilcox) 테스트 결과에 대한 히트맵, 닷플롯, 바이올린 플롯, 메트릭스플롯을 그려보겠습니다.</p>
+<blockquote class="blockquote">
+<p><code>AnnData</code>의 <code>.raw</code> 속성이 없는 경우 매개변수 <code>use_raw=False</code>를 설정해야 합니다.</p>
+</blockquote>
+<div id="cell-29" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> plot_rank_genes_groups(adata, n_genes, key, groupby):</span>
+<span id="cb18-2">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>groupby<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> heatmap"</span>)</span>
+<span id="cb18-3">    sc.pl.rank_genes_groups_heatmap(</span>
+<span id="cb18-4">        adata,</span>
+<span id="cb18-5">        n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>n_genes,</span>
+<span id="cb18-6">        key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>key,</span>
+<span id="cb18-7">        groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>groupby,</span>
+<span id="cb18-8">        show_gene_labels<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb18-9">        use_raw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb18-10">        dendrogram<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb18-11">    )</span>
+<span id="cb18-12">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>groupby<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> dotplot"</span>)</span>
+<span id="cb18-13">    sc.pl.rank_genes_groups_dotplot(</span>
+<span id="cb18-14">        adata,</span>
+<span id="cb18-15">        n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>n_genes,</span>
+<span id="cb18-16">        key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>key,</span>
+<span id="cb18-17">        groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>groupby,</span>
+<span id="cb18-18">        use_raw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb18-19">        dendrogram<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb18-20">    )</span>
+<span id="cb18-21">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>groupby<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> stacked_violin plot"</span>)</span>
+<span id="cb18-22">    sc.pl.rank_genes_groups_stacked_violin(</span>
+<span id="cb18-23">        adata,</span>
+<span id="cb18-24">        n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>n_genes,</span>
+<span id="cb18-25">        key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>key,</span>
+<span id="cb18-26">        groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>groupby,</span>
+<span id="cb18-27">        use_raw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb18-28">        dendrogram<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb18-29">    )</span>
+<span id="cb18-30">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>groupby<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> matrixplot"</span>)</span>
+<span id="cb18-31">    sc.pl.rank_genes_groups_matrixplot(</span>
+<span id="cb18-32">        adata,</span>
+<span id="cb18-33">        n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>n_genes,</span>
+<span id="cb18-34">        key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>key,</span>
+<span id="cb18-35">        groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>groupby,</span>
+<span id="cb18-36">        use_raw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb18-37">        dendrogram<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb18-38">    )</span>
+<span id="cb18-39"></span>
+<span id="cb18-40"></span>
+<span id="cb18-41">plot_rank_genes_groups(adata, n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>, groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>louvain_0.6 heatmap
+louvain_0.6 dotplot
+louvain_0.6 stacked_violin plot
+louvain_0.6 matrixplot</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-16-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-16-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-16-output-5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="특정-클러스터간-비교" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="특정-클러스터간-비교"><span class="header-section-number">5.1</span> 특정 클러스터간 비교</h2>
+<p>개별 클러스터를 하나의 클러스터 또는 여러 클러스터에 대해 쌍으로 비교할 수도 있습니다. 예를 들어, 클러스터 1과 2를 비교하는 방법은 아래와 같습니다.</p>
+<div id="cell-31" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1">sc.tl.rank_genes_groups(</span>
+<span id="cb20-2">    adata,</span>
+<span id="cb20-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>,</span>
+<span id="cb20-4">    groups<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1"</span>],</span>
+<span id="cb20-5">    reference<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2"</span>,</span>
+<span id="cb20-6">    method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>,</span>
+<span id="cb20-7">)</span>
+<span id="cb20-8">sc.pl.rank_genes_groups(adata, groups<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1"</span>], n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>이 두 그룹을 바이올린으로 플롯합니다.</p>
+<div id="cell-33" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 모든 데이터 집합에 걸쳐 바이올린과 동일한 유전자를 플롯.</span></span>
+<span id="cb21-2">sc.pl.rank_genes_groups_violin(adata, groups<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1"</span>, n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-34" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># numpy.recarray를 리스트로 변환.</span></span>
+<span id="cb22-2">mynames <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [x[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> adata.uns[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"rank_genes_groups"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"names"</span>][:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>]]</span>
+<span id="cb22-3">sc.pl.stacked_violin(adata, mynames, groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="조건에-따른-dge-분석" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="조건에-따른-dge-분석"><span class="header-section-number">5.2</span> 조건에 따른 DGE 분석</h2>
+<p>하나의 클러스터 내에서 조건에 따라 어떤 유전자가 차등적으로 발현되는지에 대한 답을 구하는 방법을 알아보죠. 예를 들면 특정 세포 유형에서 환자와 대조군에서 어떤 유전자가 가장 많은 영향을 받는지 알고 싶다고 가정하는 것입니다.</p>
+<p>분석을 위해서는 먼저 원하는 세포 클러스터에 대한 데이터만 하위 집합하고 비교 변수(현재 우리의 경우 <code>Covid</code>과 <code>Ctrl</code>)로 <code>type</code> 값을 변경합니다.</p>
+<div id="cell-36" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1">cl1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata[adata.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"4"</span>, :]</span>
+<span id="cb23-2">cl1.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>].value_counts()</span>
+<span id="cb23-3"></span>
+<span id="cb23-4">sc.tl.rank_genes_groups(cl1, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>, method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)</span>
+<span id="cb23-5">sc.pl.rank_genes_groups(cl1, n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>, sharey<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-37" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">with</span> rc_context({<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"figure.figsize"</span>: (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)}):</span>
+<span id="cb24-2">    sc.pl.rank_genes_groups_violin(</span>
+<span id="cb24-3">        cl1, n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>, split<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>, use_raw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span id="cb24-4">    )</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>또한 모든 클러스터에서 이러한 유전자를 유형별로 분할해 다른 세포에서도 유전자가 상향/하향 조절되는지 확인할 수 있습니다.</p>
+<div id="cell-39" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1">genes1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Covid"</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"names"</span>][:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]</span>
+<span id="cb25-2">genes2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Ctrl"</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"names"</span>][:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]</span>
+<span id="cb25-3">genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> genes1.tolist() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> genes2.tolist()</span>
+<span id="cb25-4">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.get.obs_df(adata, genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>], use_raw<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>)</span>
+<span id="cb25-5">df2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.melt(id_vars<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>], value_vars<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>genes)</span>
+<span id="cb25-6"></span>
+<span id="cb25-7"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">with</span> sns.axes_style(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white"</span>):</span>
+<span id="cb25-8">    ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sns.catplot(</span>
+<span id="cb25-9">        x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"louvain_0.6"</span>,</span>
+<span id="cb25-10">        y<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"value"</span>,</span>
+<span id="cb25-11">        hue<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>,</span>
+<span id="cb25-12">        kind<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"violin"</span>,</span>
+<span id="cb25-13">        inner<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>,</span>
+<span id="cb25-14">        split<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb25-15">        col<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"variable"</span>,</span>
+<span id="cb25-16">        col_wrap<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb25-17">        data<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>df2,</span>
+<span id="cb25-18">    )</span>
+<span id="cb25-19"></span>
+<span id="cb25-20">plt.show()</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 결과를 보면 상위 DEG 중에는 성염색체 관련 유전자가 많이 있습니다. 이것은 시료의 성별 분포가 불균형했기 때문이며 코로나 바이러스 감염 여부와는 관련이 없습니다.</p>
+</section>
+<section id="성염색체-유전자-데이터-제거" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="성염색체-유전자-데이터-제거"><span class="header-section-number">5.3</span> 성염색체 유전자 데이터 제거</h2>
+<p>시료의 성별 불균형으로 인한 편향성을 제거하기 위해 성염색체 관련 유전자를 제거합니다. 다시 바이오마트(biomart)패키지를 사용해 알려진 성염색체의 목록을 불러오고 데이터에서 제외시킵니다.</p>
+<div id="cell-41" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1">annot <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.queries.biomart_annotations(</span>
+<span id="cb26-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hsapiens"</span>,</span>
+<span id="cb26-3">    [</span>
+<span id="cb26-4">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ensembl_gene_id"</span>,</span>
+<span id="cb26-5">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"external_gene_name"</span>,</span>
+<span id="cb26-6">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"start_position"</span>,</span>
+<span id="cb26-7">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end_position"</span>,</span>
+<span id="cb26-8">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"chromosome_name"</span>,</span>
+<span id="cb26-9">    ],</span>
+<span id="cb26-10">).set_index(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"external_gene_name"</span>)</span>
+<span id="cb26-11"></span>
+<span id="cb26-12">chrY_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.intersection(annot.index[annot.chromosome_name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Y"</span>])</span>
+<span id="cb26-13">chrX_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> adata.var_names.intersection(annot.index[annot.chromosome_name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"X"</span>])</span>
+<span id="cb26-14"></span>
+<span id="cb26-15">sex_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chrY_genes.union(chrX_genes)</span>
+<span id="cb26-16">all_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cl1.var.index.tolist()</span>
+<span id="cb26-17">keep_genes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [x <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> all_genes <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">not</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> sex_genes]</span>
+<span id="cb26-18">cl1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cl1[:, keep_genes].copy()</span>
+<span id="cb26-19"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"전체 유전자의 수: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(all_genes)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb26-20"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"알려진 성염색체 유전자의 수: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(sex_genes)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb26-21"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"남겨진 유전자의 수: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(keep_genes)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>전체 유전자의 수: 19094
+알려진 성염색체 유전자의 수: 544
+남겨진 유전자의 수: 18550</code></pre>
+</div>
+</div>
+<p>이제 다시 DEG 찾기를 실행합니다.</p>
+<div id="cell-43" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1">sc.tl.rank_genes_groups(cl1, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>, method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)</span>
+<span id="cb28-2">sc.pl.rank_genes_groups(cl1, n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>, sharey<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="샘플별-배치-효과" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="샘플별-배치-효과"><span class="header-section-number">5.4</span> 샘플별 배치 효과</h2>
+<p><code>Covid</code> 과 대조군(<code>Control</code>) 사이의 DEG를 찾고 그룹 안에서 개인별로 상위 DGE가 어떻게 표현되는지 확인해봅니다.</p>
+<div id="cell-45" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1">genes1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Covid"</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"names"</span>][:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>]</span>
+<span id="cb29-2">genes2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Ctrl"</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"names"</span>][:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>]</span>
+<span id="cb29-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># genes = genes1.tolist() + genes2.tolist()</span></span>
+<span id="cb29-4"></span>
+<span id="cb29-5"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Covid vs Ctrl"</span>)</span>
+<span id="cb29-6">sc.pl.violin(cl1, genes1[:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>], groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>, rotation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>)</span>
+<span id="cb29-7">sc.pl.violin(cl1, genes2[:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>], groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>, rotation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Covid vs Ctrl</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-25-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-25-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>위 결과에서 보이듯이 <code>Covid</code>에서 DEG로 검출된 유전자가 한 명의 환자(<code>covid_17</code>)에게만 값이 높습니다. 닷플랏을 그려서 좀 더 확인해보죠.</p>
+<div id="cell-47" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1">sc.tl.filter_rank_genes_groups(</span>
+<span id="cb31-2">    cl1,</span>
+<span id="cb31-3">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># min_in_group_fraction=0.2,</span></span>
+<span id="cb31-4">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># max_out_group_fraction=0.2,</span></span>
+<span id="cb31-5">    key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>,</span>
+<span id="cb31-6">    key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon_filtered"</span>,</span>
+<span id="cb31-7">)</span>
+<span id="cb31-8"></span>
+<span id="cb31-9">sc.pl.rank_genes_groups_dotplot(</span>
+<span id="cb31-10">    cl1,</span>
+<span id="cb31-11">    groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>,</span>
+<span id="cb31-12">    standard_scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"var"</span>,</span>
+<span id="cb31-13">    n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,</span>
+<span id="cb31-14">    key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon_filtered"</span>,</span>
+<span id="cb31-15">    dendrogram<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb31-16">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>닷플랏을 보면 분명 <code>covid_17</code> 샘플에서만 높게 발현되는 유전자의 패턴이 보입니다. 이상하군요. 각 샘플의 수를 확인해보죠.</p>
+<div id="cell-49" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1">cl1.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>].value_counts()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>sample
+ctrl_14     146
+ctrl_13     132
+covid_17    101
+ctrl_5       93
+covid_15     70
+covid_1      37
+ctrl_19      34
+covid_16      9
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>위 출력을 보면 다른 환자에 비해 <code>covid_17</code> 환자의 샘플 수가 현저히 많아서 발생한 현상이라는 것을 알 수 있습니다.</p>
+<section id="다운-샘플링" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="다운-샘플링"><span class="header-section-number">5.4.1</span> 다운 샘플링</h3>
+<p>DEG 분석을 할때 반드시 고려해야 할 사항은 샘플당 동일한 갯수의 세포를 사용해야 결과가 단일 샘플에 의해 영향받지 않는다는 것입니다. 따라서 이 경우에는 모든 샘플을 34개의 세포로 다운 샘플링합니다.</p>
+<div id="cell-52" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1">target_cells <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">37</span></span>
+<span id="cb34-2"></span>
+<span id="cb34-3">tmp <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [cl1[cl1.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> s] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> cl1.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>].cat.categories]</span>
+<span id="cb34-4"></span>
+<span id="cb34-5"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> dat <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> tmp:</span>
+<span id="cb34-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> dat.n_obs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> target_cells:</span>
+<span id="cb34-7">        sc.pp.subsample(dat, n_obs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>target_cells)</span>
+<span id="cb34-8"></span>
+<span id="cb34-9">cl1_sub <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tmp[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].concatenate(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>tmp[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>:])</span>
+<span id="cb34-10"></span>
+<span id="cb34-11">cl1_sub.obs[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>].value_counts()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>sample
+covid_1     37
+covid_15    37
+covid_17    37
+ctrl_5      37
+ctrl_13     37
+ctrl_14     37
+ctrl_19     34
+covid_16     9
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<div id="cell-53" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1">sc.tl.rank_genes_groups(cl1_sub, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span>, method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>, key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)</span>
+<span id="cb36-2">sc.pl.rank_genes_groups(cl1_sub, n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>, sharey<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-54" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1">sc.tl.filter_rank_genes_groups(</span>
+<span id="cb37-2">    cl1_sub,</span>
+<span id="cb37-3">    key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon"</span>,</span>
+<span id="cb37-4">    key_added<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon_filtered"</span>,</span>
+<span id="cb37-5">)</span>
+<span id="cb37-6"></span>
+<span id="cb37-7">sc.pl.rank_genes_groups_dotplot(</span>
+<span id="cb37-8">    cl1_sub,</span>
+<span id="cb37-9">    groupby<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample"</span>,</span>
+<span id="cb37-10">    standard_scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"var"</span>,</span>
+<span id="cb37-11">    n_genes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,</span>
+<span id="cb37-12">    key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wilcoxon_filtered"</span>,</span>
+<span id="cb37-13">    dendrogram<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb37-14">)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>훨씬 나아졌습니다. 하지만 여전히 한 환자에 의해 지배되는 일부 유전자가 있다는 것을 알 수 있습니다.</p>
+<p>이런 샘플의 배치 효과 문제를 해결하는 방법에는 여러 가지가 있지만 여기서는 다루지 않습니다. 자세한 것은 <a href="https://www.sc-best-practices.org/conditions/differential_gene_expression.html">sc-best-practice</a>을 참고하세요.</p>
+</section>
+</section>
+</section>
+<section id="저장하기" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 저장하기</h1>
+<p>이후 분석을 위해 데이터를 저장하고 마무리 하겠습니다.</p>
+<div id="cell-57" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1">adata.write_h5ad(</span>
+<span id="cb38-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./output/covid/results/scanpy_covid_qc_dr_sc_cl.h5ad"</span>,</span>
+<span id="cb38-3">    compression<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gzip"</span>,</span>
+<span id="cb38-4">)</span></code></pre></div>
+</div>
+</section>
+<section id="나가며" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> 나가며</h1>
+<p>이번 글을 통해 <code>scanpy</code>로 세포를 클러스터링하고 각 세포 집단의 고유한 기능적 특성을 파악하는 방법을 배웠습니다. 이 분야의 분석도구는 계속 발전중이며 앞으로 더욱 정교한 알고리즘과 분석 도구가 나올 것입니다. 그러니 항상 새로운 알고리즘과 도구를 시도해보세요. 다음 글에서는 세포 클러스터에 대한 주석(annotation)을 부여하고 유전자 발현을 비교 분석하는 방법에 대해서 살펴보겠습니다.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>python</category>
+  <category>scRNA</category>
+  <category>scanpy</category>
+  <category>workshop</category>
+  <guid>https://tomorrow-lab.github.io/posts/Python/scanpy_workshop_03.html</guid>
+  <pubDate>Thu, 27 Jun 2024 15:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Scanpy로 scRNA-seq 분석 02</title>
   <dc:creator>Taeyoon Kim</dc:creator>
@@ -20258,283 +22165,6 @@ font-style: inherit;">2.5</span>)</span></code></pre></div>
   <category>python</category>
   <guid>https://tomorrow-lab.github.io/posts/Python/jupyter_notebook.html</guid>
   <pubDate>Mon, 09 Jan 2023 15:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>파이썬, R 개발 환경 설정</title>
-  <dc:creator>Taeyoon Kim</dc:creator>
-  <link>https://tomorrow-lab.github.io/posts/Others/Env_setup.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<section id="파이썬" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 파이썬</h1>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.python.org/static/img/python-logo.png" class="img-fluid figure-img"></p>
-<figcaption>python_logo</figcaption>
-</figure>
-</div>
-<p>파이썬은 아주 인기있는 프로그래밍 언어로, 웹 사이트는 물론 게임, 과학용 소프트웨어, 그래픽 소프트웨어 등 다양한 것을 만들 수 있습니다. 파이썬은 1980년대 후반에 <strong>귀도 반 로썸</strong> 프로그래밍 언어를 기계 뿐만 아니라 인간도 읽을 수 있도록 만들고자 탄생한 언어입니다. 파이썬이 다른 프로그래밍 언어보다 훨씬 간단하게 보이고, 배우기도 쉬운 이유도 그 때문이죠. 이를 바탕으로 과거 15년 동안 <strong>numpy</strong>,<strong>scipy</strong>,<strong>matplotlib</strong>,<strong>jupyter</strong> 같이 널리 사용되는 라이브러리가 개발되어있습니다. 파이썬은 사용중인 OS의 종류에 따라서 설치방법이 다릅니다.</p>
-<section id="windows" class="level3" data-number="1.0.1">
-<h3 data-number="1.0.1" class="anchored" data-anchor-id="windows"><span class="header-section-number">1.0.1</span> Windows</h3>
-<ol type="1">
-<li>사용 중인 컴퓨터 윈도우 운영체제가 32비트인지 64비트인지 확인하세요.</li>
-<li><a href="https://www.python.org/downloads/windows/">공식 웹사이트</a>에서 다운로드 할 수 있습니다.</li>
-</ol>
-<ul>
-<li>64 비트 버전의 Windows인 경우 <em>Windows x86-64 executable installer</em>를 다운로드하세요.</li>
-<li>32 비트 버전은 <em>Windows x86 executable installer</em>을 다운로드하세요.</li>
-</ul>
-<ol start="4" type="1">
-<li>설치 프로그램을 다운로드 한 후에 실행(더블 클릭)하고 지시 사항을 따르세요.</li>
-</ol>
-</section>
-<section id="osx" class="level3" data-number="1.0.2">
-<h3 data-number="1.0.2" class="anchored" data-anchor-id="osx"><span class="header-section-number">1.0.2</span> OSX</h3>
-<p><a href="https://www.python.org/downloads/release/python-351/">웹 사이트</a>로 가서 파이썬 설치 파일을 다운 받으세요.</p>
-</section>
-<section id="linux" class="level3" data-number="1.0.3">
-<h3 data-number="1.0.3" class="anchored" data-anchor-id="linux"><span class="header-section-number">1.0.3</span> Linux</h3>
-<p>이미 파이썬이 설치되었을 겁니다. 설치된 버전을 확인하려면 콘솔을 열고 다음 명령을 입력하세요.</p>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">$</span> python3 <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">--version</span></span></code></pre></div>
-<blockquote class="blockquote">
-<p>하지만 위의 방법보다는 저는 Anaconda를 사용하는것을 추천합니다.</p>
-</blockquote>
-</section>
-<section id="패키지-매니저" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="패키지-매니저"><span class="header-section-number">1.1</span> 패키지 매니저</h2>
-<p>파이썬 기반의 데이터 분석에 특화된 각종 OpenSource 라이브러리를 모아놓은 개발 플랫폼입니다. 무엇보다도 <strong>Panda, Numpy, Numba, Scipy, IPython, GPGPU, 과학, 수학, 데이터 분석</strong>등과 관련된 수많은 라이브러리 한번에 그리고 <strong>의존성</strong>(dependency)문제 없이 설치 할 수 있습니다. 또한 <strong>conda</strong>라는 관리 라이브러리 매니저가 있어서 편리 합니다.<a href="https://www.anaconda.com/">Anaconda 홈페이지</a></p>
-<section id="anaconda" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="anaconda"><span class="header-section-number">1.1.1</span> Anaconda</h3>
-<p>공식 홈페이지에서 <strong>OS</strong>에 맞는 파일을 다운받아 “Next”만 누르면 해결되므로 별도의 설명은 서술하지 않습니다.</p>
-</section>
-<section id="miniconda" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="miniconda"><span class="header-section-number">1.1.2</span> Miniconda</h3>
-<p><strong>Anaconda</strong>에서 라이브러리 관리 메니저인 <strong>conda</strong>만을 설치 하고 싶다면 <a href="https://conda.io/miniconda.html">miniconda</a>를 다운받아 설치 하면 됩니다.</p>
-<blockquote class="blockquote">
-<p>저는 개인적으로 <strong>Miniconda</strong>를 추천합니다.</p>
-</blockquote>
-</section>
-</section>
-</section>
-<section id="conda-명령어-사용법" class="level1 page-columns page-full" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Conda 명령어 사용법</h1>
-<p><strong>conda</strong>는 라이브러리 관리를 위해 제공되는 애플리케이션입니다. 파이썬 생태계의 라이브러리는 서로에 대해 아무 많이 의존적이기 때문에 각각의 버전이 너무 많은 문제가 발생하기도 합니다. 하지만 conda를 사용하면 이 모든 고민을 신경쓰지 않을 수 있습니다. 다시 말해, <strong>conda</strong>는 파이썬 라이브러리의 교통정리를 해줍니다.</p>
-<blockquote class="blockquote">
-<p>conda 외에도 virtualenv을 사용하는 방법이 있습니다.</p>
-</blockquote>
-<section id="주요기능" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="주요기능"><span class="header-section-number">2.1</span> 주요기능</h2>
-<p>conda는 자동으로 의존성을 해결해 줍니다. 자주 사용하는 conda 명령어는 기억해 두세요.</p>
-<blockquote class="blockquote">
-<p>numpy를 기준으로 설명하겠습니다.</p>
-</blockquote>
-<table class="table">
-<thead>
-<tr class="header">
-<th>기능</th>
-<th>명령어</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>라이브러리 설치</td>
-<td>conda install numpy</td>
-</tr>
-<tr class="even">
-<td>동시에 여러 라이브러리를 설치</td>
-<td>conda install numpy scipy pandas</td>
-</tr>
-<tr class="odd">
-<td>특정 버전 설치</td>
-<td>conda install numpy=1.10</td>
-</tr>
-<tr class="even">
-<td>라이브러리 제거</td>
-<td>conda remove numpy</td>
-</tr>
-<tr class="odd">
-<td>라이브러리 업데이트</td>
-<td>conda update numpy</td>
-</tr>
-<tr class="even">
-<td>모든 라이브러리 업데이트</td>
-<td>conda update –all</td>
-</tr>
-<tr class="odd">
-<td>설치된 목록 출력</td>
-<td>conda list</td>
-</tr>
-<tr class="even">
-<td>설치하려는 라이브러리 검색</td>
-<td>conda search numpy</td>
-</tr>
-</tbody>
-</table>
-<blockquote class="blockquote">
-<p>찾는 라이브러리가 없다면 <strong>pip</strong>를 사용해보세요</p>
-</blockquote>
-</section>
-<section id="가상환경-만들기" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="가상환경-만들기"><span class="header-section-number">2.2</span> 가상환경 만들기</h2>
-<p>파이썬 라이브러리들의 의존성 문제를 피하기 위해 새로운 프로젝트를 시작할때면 가상환경을 만들어 작업하는것이 좋습니다. 여기서는 <strong>virtualenv</strong> 대신에 <strong>conda</strong>를 사용해서 간단히 만들어 보겠습니다. - 새로운 가상환경 이름은 ENV_NAME - 사용할 Python 버전은 3이상으로 하겠습니다.</p>
-<ol type="1">
-<li>터미널에 다음과 같이 입력하면 새로운 가상환경이 만들어 집니다.</li>
-</ol>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">conda</span> create <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-n</span> ENV_NAME python=3</span></code></pre></div>
-<ol start="2" type="1">
-<li>가상환경을 사용하기 위해서는 <em>activate</em> 시켜줘야 합니다. 활성화되면 터미널에 (ENV_NAME)이 표시됩니다.</li>
-</ol>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">source</span> activate ENV_NAME</span></code></pre></div>
-<ol start="3" type="1">
-<li>필요한 라이브러리들을 설치합니다.</li>
-</ol>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">conda</span> install numpy pandas</span></code></pre></div>
-</section>
-<section id="가상환경-확인-및-제거" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="가상환경-확인-및-제거"><span class="header-section-number">2.3</span> 가상환경 확인 및 제거</h2>
-<p>가상환경의 목록을 확인하려면 아래와 같이 입력하세요.</p>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">conda</span> env list</span></code></pre></div>
-<p>가상환경을 삭제하려면 아래와 같이 입력하세요.</p>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">conda</span> env remove <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-n</span> ENV_NAME</span></code></pre></div>
-</section>
-<section id="conda-제거하기" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="conda-제거하기"><span class="header-section-number">2.4</span> Conda 제거하기</h2>
-<section id="windows-1" class="level4" data-number="2.4.0.1">
-<h4 data-number="2.4.0.1" class="anchored" data-anchor-id="windows-1"><span class="header-section-number">2.4.0.1</span> Windows</h4>
-<p>제어판에 들어가서 <em>Python (Anaconda)</em> 혹은 <em>“Python (Miniconda)</em>를 제거합니다.</p>
-</section>
-<section id="linux-osx" class="level4" data-number="2.4.0.2">
-<h4 data-number="2.4.0.2" class="anchored" data-anchor-id="linux-osx"><span class="header-section-number">2.4.0.2</span> Linux, OSX</h4>
-<p>디렉토리만 삭제하면 됩니다.</p>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">rm</span> <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-rf</span> ~/miniconda</span>
-<span id="cb7-2"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">rm</span> <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-rf</span> ~/anaconda</span></code></pre></div>
-</section>
-</section>
-<section id="코드-에디터" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="코드-에디터"><span class="header-section-number">2.5</span> 코드 에디터</h2>
-<p>코드 에디터는 종류가 많고 다양해 자신의 취향에 따라 선택할 수 있습니다. 간단하지만 강력한 기능을 갖춘 에디터 프로그램을 아래에 추천합니다.</p>
-</section>
-<section id="gedit" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="gedit"><span class="header-section-number">2.6</span> Gedit</h2>
-<p>Gedit는 모든 운영체제에서 사용 가능한 무료 오픈소스에요.</p>
-</section>
-<section id="sublime-text-3" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="sublime-text-3"><span class="header-section-number">2.7</span> Sublime Text 3</h2>
-<p>Sublime Text는 가장 널리 알려진 프로그램으로 상용프로그램이지만, 무료로 사용할 수 있고 속도가 빨라요. 물론 모든 운영체제에서 쓸 수 있어요.</p>
-</section>
-<section id="atom" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="atom"><span class="header-section-number">2.8</span> Atom</h2>
-<p>Atom은 GitHub에서 만든 무료로 제공되는 오픈소스이며, 설치나 사용이 쉬워요. 모든 운영체제에서 쓸 수 있어요.</p>
-</section>
-<section id="vscode" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="vscode"><span class="header-section-number">2.9</span> VScode</h2>
-<p>Microsoft에서 만든 무료 에디터에요. 설치와 사용이 쉽고 안정적입니다.</p>
-</section>
-<section id="왜-코드-에디터를-설치해야-하나요" class="level2" data-number="2.10">
-<h2 data-number="2.10" class="anchored" data-anchor-id="왜-코드-에디터를-설치해야-하나요"><span class="header-section-number">2.10</span> 왜 코드 에디터를 설치해야 하나요?</h2>
-<p>워드나 노트패드가 있는데도, 굳이 코드 에디터 소프트웨어를 설치해야 하는 이유가 궁금할 거에요. 첫 번째로 코드는 일반 텍스트여야 하는데, 워드나 텍스트에딧(Textedit)과 같은 프로그램에서는 일반 텍스트가 아닌 RTF(Rich Text Format)와 같은 사용자 서식을 쓴 리치 텍스트(폰트와 서식이 있는 텍스트)가 생성되기 때문입니다. 두 번째는 코드 에디터 프로그램은 개발에 유용한 여러 기능을 제공하기 때문입니다. 대표적인 예로, 코드를 해석해 문법을 하이라이팅해주는 기능이라든가 큰따옴표(““)를 자동으로 닫아주는 기능이지요. 앞으로 코드 에디터가 어떻게 작동하는지 알아볼 거에요. 곧 여러분은 내가 사용하는 코드 에디터를 제일 좋아하게 될 거랍니다.</p>
-</section>
-<section id="pipenv-사용하기" class="level2 page-columns page-full" data-number="2.11">
-<h2 data-number="2.11" class="anchored" data-anchor-id="pipenv-사용하기"><span class="header-section-number">2.11</span> Pipenv 사용하기</h2>
-<p><code>Pipenv</code>는 <code>pip</code>와 <code>virtualenv</code>의 불편함을 해결하기 위한 툴입니다. Python.org에서 공식적으로 권장하는 패키지 설치 툴이기도 하죠. 특징은 아래와 같습니다.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>저는 속도도 너무 느리고 오류가 많이 생겨서 더이상 사용하지 않고 있습니다. 차라리 <code>poetry</code>가 더 나은 것 같습니다.</p>
-</div></div><ul>
-<li><code>pip</code>와 <code>virtualenv</code>를 따로 쓸 필요가 없습니다.</li>
-<li><code>requirements.txt</code>를 대신해 <code>pipfile</code>와 <code>pipfile.lock</code>을 사용합니다.</li>
-<li>해쉬가 자동생성되어 보안이 강화됩니다.</li>
-<li>패키지들의 의존성 그래프를 그려볼수 있습니다.</li>
-<li>다만 속도는 느린편이죠.</li>
-</ul>
-</section>
-<section id="설치" class="level2" data-number="2.12">
-<h2 data-number="2.12" class="anchored" data-anchor-id="설치"><span class="header-section-number">2.12</span> 설치</h2>
-<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">pip</span> install pipenv</span></code></pre></div>
-</section>
-<section id="실행" class="level2" data-number="2.13">
-<h2 data-number="2.13" class="anchored" data-anchor-id="실행"><span class="header-section-number">2.13</span> 실행</h2>
-<p><code>pipenv</code>를 사용하고 싶은 폴더에 들어가서 아래의 명령어를 실행합니다.</p>
-<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">pipenv</span> install</span></code></pre></div>
-<p>그러면 자동으로 <code>pipfile</code>, <code>pipfile.lock</code>파일을 생성합니다.이제 가상환경을 사용할 수 있습니다.</p>
-</section>
-<section id="가상환경-실행" class="level2" data-number="2.14">
-<h2 data-number="2.14" class="anchored" data-anchor-id="가상환경-실행"><span class="header-section-number">2.14</span> 가상환경 실행</h2>
-<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">pipenv</span> shell</span></code></pre></div>
-</section>
-<section id="패키지-설치" class="level2" data-number="2.15">
-<h2 data-number="2.15" class="anchored" data-anchor-id="패키지-설치"><span class="header-section-number">2.15</span> 패키지 설치</h2>
-<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">pipenv</span> install nikola</span></code></pre></div>
-</section>
-<section id="pipenv이-매력적인-점" class="level2" data-number="2.16">
-<h2 data-number="2.16" class="anchored" data-anchor-id="pipenv이-매력적인-점"><span class="header-section-number">2.16</span> Pipenv이 매력적인 점</h2>
-<p>깃허브(github)에 <code>pipfile</code>, <code>pipfile.lock</code> 파일만 커밋하면 새로운 장소에서 손쉽게 가상환경을 설정할 수 있습니다. 아래와 같이 말이죠.</p>
-<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">git</span> clone <span class="pp" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">[</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">https://github.com/pypa/pipenv.git</span><span class="pp" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">]</span> <span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># pull하고 싶은 저장소</span></span>
-<span id="cb12-2"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">pipenv</span> install</span></code></pre></div>
-</section>
-</section>
-<section id="r" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> R</h1>
-<p>R은 통계 계산과 그래픽을 위한 프로그래밍 언어입니다. R의 문법과 통계처리 부분은 AT&amp;T 벨 연구소가 개발했던 S를 참고했습니다.</p>
-
-
-</section>
-
- ]]></description>
-  <category>R</category>
-  <category>python</category>
-  <category>data science</category>
-  <guid>https://tomorrow-lab.github.io/posts/Others/Env_setup.html</guid>
-  <pubDate>Tue, 03 Jan 2023 15:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
