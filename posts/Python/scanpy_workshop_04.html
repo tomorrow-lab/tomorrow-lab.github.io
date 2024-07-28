@@ -479,12 +479,11 @@ cookieconsent.run({
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>sc.pp.pca(adata_target_)</span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata_target_)</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata_target_)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>sc.tl.ingest(adata_target_, adata_ref_, obs<span class="op">=</span><span class="st">"louvain"</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># to fix colors</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>adata_target_.uns[<span class="st">"louvain_colors"</span>] <span class="op">=</span> adata_ref_.uns[<span class="st">"louvain_colors"</span>]  </span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata_target_, color<span class="op">=</span>[<span class="st">"louvain"</span>, <span class="st">"louvain_0.6"</span>], wspace<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>sc.tl.ingest(adata_target_, adata_ref_, obs<span class="op">=</span><span class="st">"louvain"</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># to fix colors</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>adata_target_.uns[<span class="st">"louvain_colors"</span>] <span class="op">=</span> adata_ref_.uns[<span class="st">"louvain_colors"</span>]</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata_target_, color<span class="op">=</span>[<span class="st">"louvain"</span>, <span class="st">"louvain_0.6"</span>], wspace<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -875,7 +874,7 @@ cookieconsent.run({
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        gene_sets<span class="op">=</span>gene_set,</span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        cutoff<span class="op">=</span><span class="fl">0.5</span>,</span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> truncate: </span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> truncate:</span>
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># True 시 뒤의 코드명 일부 제거.</span></span>
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        enr_res.res2d[<span class="st">"Term"</span>] <span class="op">=</span> enr_res.res2d[<span class="st">"Term"</span>].<span class="bu">apply</span>(</span>
 <span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>            <span class="kw">lambda</span> x: <span class="st">" "</span>.join(x.split(<span class="st">" "</span>)[:<span class="op">-</span><span class="dv">1</span>])</span>
