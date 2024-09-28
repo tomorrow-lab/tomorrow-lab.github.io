@@ -1764,6 +1764,34 @@
     "text": "4.2 pixi 의존성 파일\n[tool.pixi.project]\nchannels = [\"conda-forge\"]\nplatforms = [\"linux-64\"]\n\n[tool.pixi.pypi-dependencies]\ndockq = { path = \".\", editable = true }\n\n[tool.pixi.dependencies]\nnumpy = \"1.23.4.*\"\npython = \"3.9.1.*\"\nbiopython = \"&gt;=1.84,&lt;2\"\njupyterlab = \"&gt;=4.2.4,&lt;5\""
   },
   {
+    "objectID": "posts/md/Install_devEnv.html",
+    "href": "posts/md/Install_devEnv.html",
+    "title": "파이썬과 R 개발 환경 설정하기",
+    "section": "",
+    "text": "{width=100% fig-align=“center”}"
+  },
+  {
+    "objectID": "posts/md/Install_devEnv.html#windows",
+    "href": "posts/md/Install_devEnv.html#windows",
+    "title": "파이썬과 R 개발 환경 설정하기",
+    "section": "1.1 Windows",
+    "text": "1.1 Windows\n\n사용 중인 컴퓨터 윈도우 운영체제가 32 비트인지 64 비트인지 확인하세요.\n공식 웹사이트 에서 다운로드 할 수 있습니다.\n\n\n64 비트 버전의 Windows 인 경우 Windows x86-64 executable installer 를 다운로드하세요.\n32 비트 버전은 Windows x86 executable installer 을 다운로드하세요.\n\n\n설치 프로그램을 다운로드 한 후에 실행 (더블 클릭) 하고 지시 사항을 따르세요."
+  },
+  {
+    "objectID": "posts/md/Install_devEnv.html#macos",
+    "href": "posts/md/Install_devEnv.html#macos",
+    "title": "파이썬과 R 개발 환경 설정하기",
+    "section": "1.2 MacOS",
+    "text": "1.2 MacOS\n공식 사이트 로 가서 파이썬 설치 파일을 다운 받으세요."
+  },
+  {
+    "objectID": "posts/md/Install_devEnv.html#linux",
+    "href": "posts/md/Install_devEnv.html#linux",
+    "title": "파이썬과 R 개발 환경 설정하기",
+    "section": "1.3 Linux",
+    "text": "1.3 Linux\n리눅스에는 이미 파이썬이 설치되어 있습니다. 터미널에 다음 명령어를 입력하면 설치된 버전을 확인 할 수 있습니다.\n$ python3 --version"
+  },
+  {
     "objectID": "posts/md/Install_devEnv.html#pip-virtualenv",
     "href": "posts/md/Install_devEnv.html#pip-virtualenv",
     "title": "파이썬과 R 개발 환경 설정하기",
@@ -1778,11 +1806,32 @@
     "text": "2.2 Conda\nconda 는 패키지 매니저로 가상환경을 만들고 파이썬 패키지의 의존성을 관리하고, 설치, 삭제, 업데이트 등을 할 수 있습니다. conda 는 기본적으로 Anaconda 라는 파이썬 기반의 데이터 분석에 특화된 각종 패키지를 모아놓은 플랫폼에서 개발되었습니다. 다시말해 Anaconda 를 설치하면 자동으로 conda 도 설치가 됩니다.\n만약 Anaconda 에서 패키지 관리 메니저인 conda 만을 설치 하고 싶다면 miniconda 를 설치 하면 됩니다. 저는 개인적으로 Miniconda 를 사용하는 것을 추천합니다. Anaconda 는 라이센스 문제와 설치 용량이 크다는 단점이 있기 때문입니다.\n\n2.2.1 Conda 사용법\n\n2.2.1.1 가상환경\n새로운 프로젝트를 시작할때면 항상 새로운 가상환경을 만들어 작업하는것이 좋습니다. 새로운 가상환경 ENV_NAME 을 만드는 예시를 들어보겠습니다.\n\n터미널에 다음과 같이 입력해 새로운 가상환경을 만듭니다.\n\nconda env create -n ENV_NAME\nconda env create -n ENV_NAME -f requirements.txt # 의존성 파일로 부터 가상환경을 만들때 사용하는 코드\n\n가상환경을 사용하기 위해서는 활성화 (activate) 시켜줘야 합니다. 활성화되면 터미널에 (ENV_NAME) 이 표시됩니다.\n\nconda activate ENV_NAME\n\n만약 가상환경을 종료하고 싶다면 비활성화 (deactivate) 하면 됩니다.\n\nconda deactivate\n\n이미 생성한 가상환경의 목록은 다음과 같이 확인 할 수 있습니다.\n\nconda env list\n\n생성한 가상환경을 제거하는 명령어는 다음과 같습니다.\n\nconda env remove -n ENV_NAME\n\n\n2.2.1.2 의존성 관리하기\n자주 사용하는 conda 명령어는 아래와 같습니다. 예시로 numpy 를 설치하는 상황을 가정합니다.\n\n\n\n기능\n명령어\n\n\n\n\n패키지 설치\nconda install numpy\n\n\n동시에 여러 패키지를 설치\nconda install numpy scipy pandas\n\n\n특정 버전 설치\nconda install “numpy=1.10”\n\n\n패키지 제거\nconda remove numpy\n\n\n패키지 업데이트\nconda update numpy\n\n\n모든 패키지 업데이트\nconda update –all\n\n\n설치된 목록 출력\nconda list\n\n\n설치하려는 패키지 검색\nconda search numpy\n\n\n\n만약 Conda 에서 패키지를 찾을 수 없다면 pip 을 사용해보세요\n\n\n\n2.2.2 Conda 제거하기\n만약 conda 를 제거하고 싶다면 다음과 같이 하면 됩니다.\nWindows\n제어판에 들어가서 Python(Anaconda) 혹은 Python(Miniconda) 를 제거합니다.\nLinux, MacOS\n단순하게 아래 디렉토리만 삭제하면 됩니다.\nrm -rf ~/miniconda\nrm -rf ~/anaconda"
   },
   {
+    "objectID": "posts/md/Install_devEnv.html#windows-1",
+    "href": "posts/md/Install_devEnv.html#windows-1",
+    "title": "파이썬과 R 개발 환경 설정하기",
+    "section": "3.1 Windows",
+    "text": "3.1 Windows\n\nCRAN 웹사이트 방문:\n\nR 의 공식 배포 사이트인 CRAN(Comprehensive R Archive Network) 에서 설치 파일을 다운로드할 수 있습니다. CRAN 웹사이트를 방문합니다.\n\nR 다운로드:\n\nCRAN 홈페이지에서 Download R for Windows 링크를 클릭합니다.\n이후 base 링크를 선택하여 R 의 기본 설치 파일을 다운로드합니다.\n\n설치 파일 실행:\n\n다운로드한 .exe 파일을 실행합니다.\n설치 마법사가 시작되며 기본 설정을 따라 설치를 진행합니다. 특별히 변경할 사항이 없으면 기본값을 그대로 사용해도 됩니다.\n\nR 실행:\n\n설치가 완료되면, Windows 의 시작 메뉴에서 R 을 실행할 수 있습니다. 기본적인 콘솔이 실행됩니다."
+  },
+  {
+    "objectID": "posts/md/Install_devEnv.html#macos-1",
+    "href": "posts/md/Install_devEnv.html#macos-1",
+    "title": "파이썬과 R 개발 환경 설정하기",
+    "section": "3.2 macOS",
+    "text": "3.2 macOS\n\nCRAN 웹사이트 방문:\n\nmacOS 사용자도 CRAN 웹사이트에서 R 설치 파일을 다운로드합니다.\n\nR 다운로드:\n\nDownload R for macOS 링크를 클릭합니다.\n이후 적절한 R 버전의 .pkg 파일을 다운로드합니다.\n\n설치 파일 실행:\n\n다운로드한 .pkg 파일을 실행하여 설치를 진행합니다.\n설치 과정에서 여러 단계를 거치며 기본값으로 진행하면 됩니다.\n\nR 실행:\n\n설치가 완료되면 응용 프로그램 폴더에서 R 을 실행할 수 있습니다."
+  },
+  {
+    "objectID": "posts/md/Install_devEnv.html#linux-1",
+    "href": "posts/md/Install_devEnv.html#linux-1",
+    "title": "파이썬과 R 개발 환경 설정하기",
+    "section": "3.3 Linux",
+    "text": "3.3 Linux\nLinux 에서는 보통 패키지 관리자를 통해 R 을 설치합니다. 여기서는 우분투 (Ubuntu) 를 예로 들어 설명하겠습니다.\n\n리포지토리 업데이트:\n\n터미널을 열고 시스템 패키지 목록을 업데이트합니다.\nsudo apt update\n\nR 설치:\n\n기본 패키지 관리자를 사용하여 R 을 설치합니다.\nsudo apt install r-base\n\nR 실행:\n\n설치가 완료되면, 터미널에서 R 명령어를 입력하여 콘솔을 실행할 수 있습니다.\nR"
+  },
+  {
     "objectID": "posts/md/Install_devEnv.html#rstudio-설치",
     "href": "posts/md/Install_devEnv.html#rstudio-설치",
     "title": "파이썬과 R 개발 환경 설정하기",
-    "section": "3.1 RStudio 설치",
-    "text": "3.1 RStudio 설치\nR 의 기본 콘솔 외에 통합 개발 환경 (IDE) 를 사용하고 싶다면 RStudio 를 설치할 수 있습니다. 다만 개인용도로만 무료임으로 라이센스를 항상 확인하세요.\n\nRStudio 다운로드:\n\nRStudio 공식 웹사이트 에서 운영 체제에 맞는 설치 파일을 다운로드합니다.\n\nRStudio 설치:\n\n다운로드한 파일을 실행하여 설치를 진행합니다. 설치 과정은 간단하며, 기본값으로 진행하면 됩니다.\n\nRStudio 실행:\n\n설치가 완료되면, RStudio 를 실행하여 R 환경을 더욱 효율적으로 사용할 수 있습니다."
+    "section": "3.4 RStudio 설치",
+    "text": "3.4 RStudio 설치\nR 의 기본 콘솔 외에 통합 개발 환경 (IDE) 를 사용하고 싶다면 RStudio 를 설치할 수 있습니다. 다만 개인용도로만 무료임으로 라이센스를 항상 확인하세요.\n\nRStudio 다운로드:\n\nRStudio 공식 웹사이트 에서 운영 체제에 맞는 설치 파일을 다운로드합니다.\n\nRStudio 설치:\n\n다운로드한 파일을 실행하여 설치를 진행합니다. 설치 과정은 간단하며, 기본값으로 진행하면 됩니다.\n\nRStudio 실행:\n\n설치가 완료되면, RStudio 를 실행하여 R 환경을 더욱 효율적으로 사용할 수 있습니다."
   },
   {
     "objectID": "posts/md/Install_devEnv.html#가상환경-2",
