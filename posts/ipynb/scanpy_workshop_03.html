@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.557">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
 <meta name="dcterms.date" content="2024-06-28">
 
-<title>tomorrow-lab - Scanpy로 scRNA-seq 분석 03</title>
+<title>Scanpy로 scRNA-seq 분석 03 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,8 +67,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../favicon.ico" rel="icon">
-<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -109,35 +107,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-31EWCYNR0V"></script>
 
-<script type="text/plain" cookie-consent="tracking">
+<script type="text/javascript">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
-
-<script type="text/javascript" charset="UTF-8">
-document.addEventListener('DOMContentLoaded', function () {
-cookieconsent.run({
-  "notice_banner_type":"simple",
-  "consent_type":"implied",
-  "palette":"light",
-  "language":"en",
-  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
-  "notice_banner_reject_button_hide":false,
-  "preferences_center_close_button_hide":false,
-  "website_name":""
-  ,
-"language":"en"
-  });
-});
-</script> 
-  
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
 
 
-<meta property="og:title" content="tomorrow-lab - Scanpy로 scRNA-seq 분석 03">
+<meta property="og:title" content="Scanpy로 scRNA-seq 분석 03 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
 <meta property="og:site_name" content="tomorrow-lab">
 </head>
@@ -154,7 +134,7 @@ cookieconsent.run({
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -188,7 +168,7 @@ cookieconsent.run({
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
@@ -356,7 +336,7 @@ cookieconsent.run({
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-5-output-1.png" width="628" height="518" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -379,7 +359,7 @@ cookieconsent.run({
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-6-output-1.png" width="628" height="518" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -413,7 +393,7 @@ cookieconsent.run({
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-7-output-1.png" width="577" height="518" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -442,7 +422,7 @@ cookieconsent.run({
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-8-output-1.png" width="577" height="518" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -468,7 +448,7 @@ cookieconsent.run({
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-9-output-1.png" width="358" height="275" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -479,7 +459,7 @@ cookieconsent.run({
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-10-output-1.png" width="358" height="275" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -490,7 +470,7 @@ cookieconsent.run({
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-11-output-1.png" width="358" height="312" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -537,7 +517,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-12-output-1.png" width="756" height="970" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -574,7 +554,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-13-output-1.png" width="756" height="970" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -599,7 +579,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-14-output-1.png" width="749" height="970" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -626,7 +606,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-15-output-1.png" width="245" height="242" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -683,36 +663,42 @@ Note
 <span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>plot_rank_genes_groups(adata, n_genes<span class="op">=</span><span class="dv">3</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>, groupby<span class="op">=</span><span class="st">"louvain_0.6"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>louvain_0.6 heatmap
-louvain_0.6 dotplot
-louvain_0.6 stacked_violin plot
-louvain_0.6 matrixplot</code></pre>
+<pre><code>louvain_0.6 heatmap</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-16-output-2.png" width="573" height="354" class="figure-img"></p>
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>louvain_0.6 dotplot</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-16-output-3.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-16-output-4.png" width="730" height="305" class="figure-img"></p>
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>louvain_0.6 stacked_violin plot</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-16-output-4.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-16-output-6.png" width="734" height="305" class="figure-img"></p>
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>louvain_0.6 matrixplot</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-16-output-5.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-16-output-8.png" width="730" height="305" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -721,42 +707,42 @@ louvain_0.6 matrixplot</code></pre>
 <h2 data-number="5.1" class="anchored" data-anchor-id="특정-클러스터간-비교"><span class="header-section-number">5.1</span> 특정 클러스터간 비교</h2>
 <p>개별 클러스터를 하나의 클러스터 또는 여러 클러스터에 대해 쌍으로 비교할 수도 있습니다. 예를 들어, 클러스터 1과 2를 비교하는 방법은 아래와 같습니다.</p>
 <div id="cell-31" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"louvain_0.6"</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    groups<span class="op">=</span>[<span class="st">"1"</span>],</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    reference<span class="op">=</span><span class="st">"2"</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">"wilcoxon"</span>,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(adata, groups<span class="op">=</span>[<span class="st">"1"</span>], n_genes<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"louvain_0.6"</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    groups<span class="op">=</span>[<span class="st">"1"</span>],</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    reference<span class="op">=</span><span class="st">"2"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">"wilcoxon"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(adata, groups<span class="op">=</span>[<span class="st">"1"</span>], n_genes<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-17-output-1.png" width="281" height="286" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>이 두 그룹을 바이올린으로 플롯합니다.</p>
 <div id="cell-33" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 데이터 집합에 걸쳐 바이올린과 동일한 유전자를 플롯.</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_violin(adata, groups<span class="op">=</span><span class="st">"1"</span>, n_genes<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 데이터 집합에 걸쳐 바이올린과 동일한 유전자를 플롯.</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_violin(adata, groups<span class="op">=</span><span class="st">"1"</span>, n_genes<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-18-output-1.png" width="274" height="311" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <div id="cell-34" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># numpy.recarray를 리스트로 변환.</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mynames <span class="op">=</span> [x[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> adata.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>][:<span class="dv">10</span>]]</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sc.pl.stacked_violin(adata, mynames, groupby<span class="op">=</span><span class="st">"louvain_0.6"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># numpy.recarray를 리스트로 변환.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mynames <span class="op">=</span> [x[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> adata.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>][:<span class="dv">10</span>]]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sc.pl.stacked_violin(adata, mynames, groupby<span class="op">=</span><span class="st">"louvain_0.6"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-19-output-1.png" width="286" height="285" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -767,65 +753,65 @@ louvain_0.6 matrixplot</code></pre>
 <p>하나의 클러스터 내에서 조건에 따라 어떤 유전자가 차등적으로 발현되는지에 대한 답을 구하는 방법을 알아보죠. 예를 들면 특정 세포 유형에서 환자와 대조군에서 어떤 유전자가 가장 많은 영향을 받는지 알고 싶다고 가정하는 것입니다.</p>
 <p>분석을 위해서는 먼저 원하는 세포 클러스터에 대한 데이터만 하위 집합하고 비교 변수(현재 우리의 경우 <code>Covid</code>과 <code>Ctrl</code>)로 <code>type</code> 값을 변경합니다.</p>
 <div id="cell-36" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cl1 <span class="op">=</span> adata[adata.obs[<span class="st">"louvain_0.6"</span>] <span class="op">==</span> <span class="st">"4"</span>, :]</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>cl1.obs[<span class="st">"type"</span>].value_counts()</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(cl1, <span class="st">"type"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>, key_added<span class="op">=</span><span class="st">"wilcoxon"</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(cl1, n_genes<span class="op">=</span><span class="dv">25</span>, sharey<span class="op">=</span><span class="va">False</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cl1 <span class="op">=</span> adata[adata.obs[<span class="st">"louvain_0.6"</span>] <span class="op">==</span> <span class="st">"4"</span>, :]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>cl1.obs[<span class="st">"type"</span>].value_counts()</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(cl1, <span class="st">"type"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>, key_added<span class="op">=</span><span class="st">"wilcoxon"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(cl1, n_genes<span class="op">=</span><span class="dv">25</span>, sharey<span class="op">=</span><span class="va">False</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-20-output-1.png" width="515" height="286" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <div id="cell-37" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">3</span>)}):</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.rank_genes_groups_violin(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        cl1, n_genes<span class="op">=</span><span class="dv">10</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>, split<span class="op">=</span><span class="va">True</span>, use_raw<span class="op">=</span><span class="va">False</span>, size<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">3</span>)}):</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.rank_genes_groups_violin(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        cl1, n_genes<span class="op">=</span><span class="dv">10</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>, split<span class="op">=</span><span class="va">True</span>, use_raw<span class="op">=</span><span class="va">False</span>, size<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-21-output-1.png" width="274" height="254" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-21-output-2.png" width="274" height="227" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>또한 모든 클러스터에서 이러한 유전자를 유형별로 분할해 다른 세포에서도 유전자가 상향/하향 조절되는지 확인할 수 있습니다.</p>
 <div id="cell-39" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>genes1 <span class="op">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op">=</span><span class="st">"Covid"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)[<span class="st">"names"</span>][:<span class="dv">3</span>]</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>genes2 <span class="op">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op">=</span><span class="st">"Ctrl"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)[<span class="st">"names"</span>][:<span class="dv">3</span>]</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>genes <span class="op">=</span> genes1.tolist() <span class="op">+</span> genes2.tolist()</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> sc.get.obs_df(adata, genes <span class="op">+</span> [<span class="st">"louvain_0.6"</span>, <span class="st">"type"</span>], use_raw<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df.melt(id_vars<span class="op">=</span>[<span class="st">"louvain_0.6"</span>, <span class="st">"type"</span>], value_vars<span class="op">=</span>genes)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> sns.axes_style(<span class="st">"white"</span>):</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> sns.catplot(</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"louvain_0.6"</span>,</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">"value"</span>,</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        hue<span class="op">=</span><span class="st">"type"</span>,</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        kind<span class="op">=</span><span class="st">"violin"</span>,</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        inner<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        split<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        col<span class="op">=</span><span class="st">"variable"</span>,</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        col_wrap<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>df2,</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>genes1 <span class="op">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op">=</span><span class="st">"Covid"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)[<span class="st">"names"</span>][:<span class="dv">3</span>]</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>genes2 <span class="op">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op">=</span><span class="st">"Ctrl"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)[<span class="st">"names"</span>][:<span class="dv">3</span>]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>genes <span class="op">=</span> genes1.tolist() <span class="op">+</span> genes2.tolist()</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> sc.get.obs_df(adata, genes <span class="op">+</span> [<span class="st">"louvain_0.6"</span>, <span class="st">"type"</span>], use_raw<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df.melt(id_vars<span class="op">=</span>[<span class="st">"louvain_0.6"</span>, <span class="st">"type"</span>], value_vars<span class="op">=</span>genes)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> sns.axes_style(<span class="st">"white"</span>):</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> sns.catplot(</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"louvain_0.6"</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">"value"</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        hue<span class="op">=</span><span class="st">"type"</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        kind<span class="op">=</span><span class="st">"violin"</span>,</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        inner<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        split<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>        col<span class="op">=</span><span class="st">"variable"</span>,</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        col_wrap<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>df2,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-22-output-1.png" width="637" height="882" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -836,27 +822,27 @@ louvain_0.6 matrixplot</code></pre>
 <h2 data-number="5.3" class="anchored" data-anchor-id="성염색체-유전자-데이터-제거"><span class="header-section-number">5.3</span> 성염색체 유전자 데이터 제거</h2>
 <p>시료의 성별 불균형으로 인한 편향성을 제거하기 위해 성염색체 관련 유전자를 제거합니다. 다시 바이오마트(biomart)패키지를 사용해 알려진 성염색체의 목록을 불러오고 데이터에서 제외시킵니다.</p>
 <div id="cell-41" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>annot <span class="op">=</span> sc.queries.biomart_annotations(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hsapiens"</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ensembl_gene_id"</span>,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"external_gene_name"</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"start_position"</span>,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"end_position"</span>,</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"chromosome_name"</span>,</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>).set_index(<span class="st">"external_gene_name"</span>)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>chrY_genes <span class="op">=</span> adata.var_names.intersection(annot.index[annot.chromosome_name <span class="op">==</span> <span class="st">"Y"</span>])</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>chrX_genes <span class="op">=</span> adata.var_names.intersection(annot.index[annot.chromosome_name <span class="op">==</span> <span class="st">"X"</span>])</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>sex_genes <span class="op">=</span> chrY_genes.union(chrX_genes)</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>all_genes <span class="op">=</span> cl1.var.index.tolist()</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>keep_genes <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> all_genes <span class="cf">if</span> x <span class="kw">not</span> <span class="kw">in</span> sex_genes]</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>cl1 <span class="op">=</span> cl1[:, keep_genes].copy()</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"전체 유전자의 수: </span><span class="sc">{</span><span class="bu">len</span>(all_genes)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"알려진 성염색체 유전자의 수: </span><span class="sc">{</span><span class="bu">len</span>(sex_genes)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"남겨진 유전자의 수: </span><span class="sc">{</span><span class="bu">len</span>(keep_genes)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>annot <span class="op">=</span> sc.queries.biomart_annotations(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hsapiens"</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ensembl_gene_id"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"external_gene_name"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"start_position"</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"end_position"</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"chromosome_name"</span>,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>).set_index(<span class="st">"external_gene_name"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>chrY_genes <span class="op">=</span> adata.var_names.intersection(annot.index[annot.chromosome_name <span class="op">==</span> <span class="st">"Y"</span>])</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>chrX_genes <span class="op">=</span> adata.var_names.intersection(annot.index[annot.chromosome_name <span class="op">==</span> <span class="st">"X"</span>])</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>sex_genes <span class="op">=</span> chrY_genes.union(chrX_genes)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>all_genes <span class="op">=</span> cl1.var.index.tolist()</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>keep_genes <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> all_genes <span class="cf">if</span> x <span class="kw">not</span> <span class="kw">in</span> sex_genes]</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>cl1 <span class="op">=</span> cl1[:, keep_genes].copy()</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"전체 유전자의 수: </span><span class="sc">{</span><span class="bu">len</span>(all_genes)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"알려진 성염색체 유전자의 수: </span><span class="sc">{</span><span class="bu">len</span>(sex_genes)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"남겨진 유전자의 수: </span><span class="sc">{</span><span class="bu">len</span>(keep_genes)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>전체 유전자의 수: 19094
 알려진 성염색체 유전자의 수: 544
@@ -865,12 +851,12 @@ louvain_0.6 matrixplot</code></pre>
 </div>
 <p>이제 다시 DEG 찾기를 실행합니다.</p>
 <div id="cell-43" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(cl1, <span class="st">"type"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>, key_added<span class="op">=</span><span class="st">"wilcoxon"</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(cl1, n_genes<span class="op">=</span><span class="dv">25</span>, sharey<span class="op">=</span><span class="va">False</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(cl1, <span class="st">"type"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>, key_added<span class="op">=</span><span class="st">"wilcoxon"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(cl1, n_genes<span class="op">=</span><span class="dv">25</span>, sharey<span class="op">=</span><span class="va">False</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-24-output-1.png" width="515" height="286" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -880,60 +866,60 @@ louvain_0.6 matrixplot</code></pre>
 <h2 data-number="5.4" class="anchored" data-anchor-id="샘플별-배치-효과"><span class="header-section-number">5.4</span> 샘플별 배치 효과</h2>
 <p><code>Covid</code> 과 대조군(<code>Control</code>) 사이의 DEG를 찾고 그룹 안에서 개인별로 상위 DGE가 어떻게 표현되는지 확인해봅니다.</p>
 <div id="cell-45" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>genes1 <span class="op">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op">=</span><span class="st">"Covid"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)[<span class="st">"names"</span>][:<span class="dv">4</span>]</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>genes2 <span class="op">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op">=</span><span class="st">"Ctrl"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)[<span class="st">"names"</span>][:<span class="dv">4</span>]</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># genes = genes1.tolist() + genes2.tolist()</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Covid vs Ctrl"</span>)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>sc.pl.violin(cl1, genes1[:<span class="dv">3</span>], groupby<span class="op">=</span><span class="st">"sample"</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>sc.pl.violin(cl1, genes2[:<span class="dv">3</span>], groupby<span class="op">=</span><span class="st">"sample"</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>genes1 <span class="op">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op">=</span><span class="st">"Covid"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)[<span class="st">"names"</span>][:<span class="dv">4</span>]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>genes2 <span class="op">=</span> sc.get.rank_genes_groups_df(cl1, group<span class="op">=</span><span class="st">"Ctrl"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)[<span class="st">"names"</span>][:<span class="dv">4</span>]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># genes = genes1.tolist() + genes2.tolist()</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Covid vs Ctrl"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>sc.pl.violin(cl1, genes1[:<span class="dv">3</span>], groupby<span class="op">=</span><span class="st">"sample"</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>sc.pl.violin(cl1, genes2[:<span class="dv">3</span>], groupby<span class="op">=</span><span class="st">"sample"</span>, rotation<span class="op">=</span><span class="dv">90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Covid vs Ctrl</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-25-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-25-output-2.png" width="895" height="297" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-25-output-3.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-25-output-3.png" width="884" height="297" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>위 결과에서 보이듯이 <code>Covid</code>에서 DEG로 검출된 유전자가 한 명의 환자(<code>covid_17</code>)에게만 값이 높습니다. 닷플랏을 그려서 좀 더 확인해보죠.</p>
 <div id="cell-47" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>sc.tl.filter_rank_genes_groups(</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    cl1,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># min_in_group_fraction=0.2,</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># max_out_group_fraction=0.2,</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"wilcoxon"</span>,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    key_added<span class="op">=</span><span class="st">"wilcoxon_filtered"</span>,</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_dotplot(</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    cl1,</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    groupby<span class="op">=</span><span class="st">"sample"</span>,</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    standard_scale<span class="op">=</span><span class="st">"var"</span>,</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    n_genes<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"wilcoxon_filtered"</span>,</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    dendrogram<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sc.tl.filter_rank_genes_groups(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    cl1,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># min_in_group_fraction=0.2,</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># max_out_group_fraction=0.2,</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"wilcoxon"</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    key_added<span class="op">=</span><span class="st">"wilcoxon_filtered"</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_dotplot(</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    cl1,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    groupby<span class="op">=</span><span class="st">"sample"</span>,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    standard_scale<span class="op">=</span><span class="st">"var"</span>,</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    n_genes<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"wilcoxon_filtered"</span>,</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    dendrogram<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-26-output-1.png" width="485" height="236" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>닷플랏을 보면 분명 <code>covid_17</code> 샘플에서만 높게 발현되는 유전자의 패턴이 보입니다. 이상하군요. 각 샘플의 수를 확인해보죠.</p>
 <div id="cell-49" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>cl1.obs[<span class="st">"sample"</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>cl1.obs[<span class="st">"sample"</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="29">
 <pre><code>sample
 ctrl_14     146
@@ -952,17 +938,17 @@ Name: count, dtype: int64</code></pre>
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="다운-샘플링"><span class="header-section-number">5.4.1</span> 다운 샘플링</h3>
 <p>DEG 분석을 할때 반드시 고려해야 할 사항은 샘플당 동일한 갯수의 세포를 사용해야 결과가 단일 샘플에 의해 영향받지 않는다는 것입니다. 따라서 이 경우에는 모든 샘플을 34개의 세포로 다운 샘플링합니다.</p>
 <div id="cell-52" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>target_cells <span class="op">=</span> <span class="dv">37</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>tmp <span class="op">=</span> [cl1[cl1.obs[<span class="st">"sample"</span>] <span class="op">==</span> s] <span class="cf">for</span> s <span class="kw">in</span> cl1.obs[<span class="st">"sample"</span>].cat.categories]</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dat <span class="kw">in</span> tmp:</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dat.n_obs <span class="op">&gt;</span> target_cells:</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>        sc.pp.subsample(dat, n_obs<span class="op">=</span>target_cells)</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>cl1_sub <span class="op">=</span> tmp[<span class="dv">0</span>].concatenate(<span class="op">*</span>tmp[<span class="dv">1</span>:])</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>cl1_sub.obs[<span class="st">"sample"</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>target_cells <span class="op">=</span> <span class="dv">37</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>tmp <span class="op">=</span> [cl1[cl1.obs[<span class="st">"sample"</span>] <span class="op">==</span> s] <span class="cf">for</span> s <span class="kw">in</span> cl1.obs[<span class="st">"sample"</span>].cat.categories]</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dat <span class="kw">in</span> tmp:</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dat.n_obs <span class="op">&gt;</span> target_cells:</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        sc.pp.subsample(dat, n_obs<span class="op">=</span>target_cells)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>cl1_sub <span class="op">=</span> tmp[<span class="dv">0</span>].concatenate(<span class="op">*</span>tmp[<span class="dv">1</span>:])</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>cl1_sub.obs[<span class="st">"sample"</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="30">
 <pre><code>sample
 covid_1     37
@@ -977,35 +963,35 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-53" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(cl1_sub, <span class="st">"type"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>, key_added<span class="op">=</span><span class="st">"wilcoxon"</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(cl1_sub, n_genes<span class="op">=</span><span class="dv">25</span>, sharey<span class="op">=</span><span class="va">False</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(cl1_sub, <span class="st">"type"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>, key_added<span class="op">=</span><span class="st">"wilcoxon"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(cl1_sub, n_genes<span class="op">=</span><span class="dv">25</span>, sharey<span class="op">=</span><span class="va">False</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-29-output-1.png" width="519" height="286" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <div id="cell-54" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sc.tl.filter_rank_genes_groups(</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    cl1_sub,</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"wilcoxon"</span>,</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    key_added<span class="op">=</span><span class="st">"wilcoxon_filtered"</span>,</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_dotplot(</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    cl1_sub,</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    groupby<span class="op">=</span><span class="st">"sample"</span>,</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    standard_scale<span class="op">=</span><span class="st">"var"</span>,</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    n_genes<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"wilcoxon_filtered"</span>,</span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    dendrogram<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sc.tl.filter_rank_genes_groups(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    cl1_sub,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"wilcoxon"</span>,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    key_added<span class="op">=</span><span class="st">"wilcoxon_filtered"</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_dotplot(</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    cl1_sub,</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    groupby<span class="op">=</span><span class="st">"sample"</span>,</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    standard_scale<span class="op">=</span><span class="st">"var"</span>,</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    n_genes<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"wilcoxon_filtered"</span>,</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    dendrogram<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_03_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="scanpy_workshop_03_files/figure-html/cell-30-output-1.png" width="485" height="238" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1019,10 +1005,10 @@ Name: count, dtype: int64</code></pre>
 <h1 data-number="6"><span class="header-section-number">6</span> 저장하기</h1>
 <p>이후 분석을 위해 데이터를 저장하고 마무리 하겠습니다.</p>
 <div id="cell-57" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"./output/covid/results/scanpy_covid_qc_dr_sc_cl.h5ad"</span>,</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    compression<span class="op">=</span><span class="st">"gzip"</span>,</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"./output/covid/results/scanpy_covid_qc_dr_sc_cl.h5ad"</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    compression<span class="op">=</span><span class="st">"gzip"</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="나가며" class="level1" data-number="7">
@@ -1212,18 +1198,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1255,7 +1230,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io\/");
@@ -1263,7 +1260,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -1587,19 +1584,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-      &nbsp;
-    </div>   
-    <div class="nav-footer-center">
-
-<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
-    <div class="nav-footer-right">
-      &nbsp;
-    </div>
-  </div>
-</footer>
 
 
 
