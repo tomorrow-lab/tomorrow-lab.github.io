@@ -1,0 +1,3134 @@
+---
+title: "Rosalind Textbook track 문제풀이"
+author: "Taeyoon Kim"
+categories: [Python, Rosalind, Bioinformatics, Tip]
+draft: false
+date: "2024-09-28"
+---
+
+![](Rosalind_textbookTrack.png){width=100% fig-align="center"}
+
+
+Phillip Compeau 와 Pavel Pevzner 가 쓴 책 "[능동적 접근 방식의 생물정보학 알고리즘](https://www.bioinformaticsalgorithms.org/)" 에서 제공되는 연습 문제 모음입니다.
+
+[Rosalind](https://rosalind.info/) 는 [프로젝트 오일러](http://projecteuler.net/), [구글 코드 잼](http://code.google.com/codejam) 에서 영감을 얻었습니다. 이 프로젝트의 이름은 DNA 이중나선을 발견하는 데 기여한 [로잘린드 프랭클린](http://en.wikipedia.org/wiki/Rosalind_Franklin) 에서 따왔습니다. Rosalind 는 프로그래밍 실력을 키우고자 하는 생물학자와 분자생물학의 계산 문제를 접해본 적이 없는 프로그래머들에게 도움이 될 것입니다.
+
+# Compute the Number of Times a Pattern Appears in a Text
+
+This is the first problem in a collection of "code challenges" to accompany [Bioinformatics Algorithms: An Active-Learning Approach](http://bioinformaticsalgorithms.org/) by Phillip Compeau & Pavel Pevzner.
+
+A [k-mer](https://rosalind.info/glossary/k-mer/) is a [string](https://rosalind.info/glossary/string/) of length _k_. We define _Count_(_Text_, _Pattern_) as the number of times that a _k_-mer _Pattern_ appears as a [substring](https://rosalind.info/glossary/substring/) of _Text_.
+
+For example, We note that $Count(CGATATATCCATAGCGATATATCCATAG,ATAATA)$ is equal to 3 (not 2) since we should account for overlapping occurrences of _Pattern_ in _Text_.
+
+Given: {DNA strings}} _Text_ and _Pattern_.
+
+Return: _Count_(_Text_, _Pattern_).
+
+## Sample Dataset
+
+```
+GCGCG
+GCG
+```
+
+## Sample Output
+
+```
+2
+```
+
+## Solution
+
+```python
+from typing import Generator
+
+def generate_substrings(text: str, size: int) -> Generator[str, None, None]:
+    """Generate all substrings of a given size from the text."""
+    for i in range(len(text) - size + 1):
+        yield text[i:i + size]
+
+def count_pattern_occurrences(text: str, pattern: str) -> int:
+    """Count how many times the pattern occurs in the text."""
+    return sum(pattern == substring for substring in generate_substrings(text, len(pattern)))
+
+# Sample input
+sample_input = """
+GCGCG
+GCG
+"""
+
+# Split input into text and pattern
+text, pattern = sample_input.strip().split("\n")
+
+# Print the count of pattern occurrences in text
+print(count_pattern_occurrences(text, pattern))
+```
+
+# Find the Most Frequent Words in a String
+
+We say that _Pattern_ is a **most frequent k-mer** in _Text_ if it maximizes _Count_(_Text_, _Pattern_) among all [k-mers](https://rosalind.info/glossary/k-mer/). For example, "ACTAT" is a most frequent 5-mer in "ACAACTATGCATCACTATCGGGAACTATCCT", and "ATA" is a most frequent 3-mer of "CGATATATCCATAG".
+
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Text_ and an integer _k_.
+
+Return: All most frequent _k_-mers in _Text_ (in any order).
+
+## Sample Dataset
+
+```
+ACGTTGCATGTCGCATGATGCATGAGAGCT
+4
+```
+
+## Sample Output
+
+```
+CATG GCAT
+```
+
+## Solution
+
+```python
+from typing import List, Dict, Tuple
+from collections import defaultdict
+
+def generate_substrings(text: str, size: int) -> List[str]:
+    """Generate all substrings of a given size from the text."""
+    return [text[i:i + size] for i in range(len(text) - size + 1)]
+
+def count_kmers(text: str, k: int) -> Dict[str, int]:
+    """Count occurrences of each k-mer in the text."""
+    kmer_counts = defaultdict(int)
+    for kmer in generate_substrings(text, k):
+        kmer_counts[kmer] += 1
+    return kmer_counts
+
+def most_frequent_kmers(kmer_counts: Dict[str, int]) -> List[str]:
+    """Find the most frequent k-mers."""
+    max_count = max(kmer_counts.values())
+    return [kmer for kmer, count in kmer_counts.items() if count == max_count]
+
+# Sample input
+sample_input = """
+ACGTTGCATGTCGCATGATGCATGAGAGCT
+4
+"""
+
+# Split input into text and pattern size
+text, k = sample_input.strip().split("\n")
+k = int(k)
+
+# Find and print the most frequent k-mers
+most_frequent = most_frequent_kmers(count_kmers(text, k))
+print(*most_frequent)
+```
+
+# Find the Reverse Complement of a String
+
+Find the reverse complement of a DNA string.
+
+Given: A DNA string _Pattern_.
+
+Return: $\overline{Pattern}$, the reverse complement of _Pattern_.
+
+## Sample Dataset
+
+```
+AAAACCCGGT
+```
+
+## Sample Output
+
+```
+ACCGGGTTTT
+```
+
+## Solution
+
+```python
+def reverse_complement(seq: str) -> str:
+    """Return the reverse complement of a DNA sequence."""
+    return seq[::-1].translate(str.maketrans("ACGT", "TGCA"))
+
+# Sample input
+sample_input = """
+AAAACCCGGT
+"""
+
+# Process the input and print the reverse complement
+sequence = sample_input.strip().split()[0]
+print(reverse_complement(sequence))
+```
+
+# Find All Occurrences of a Pattern in a String
+
+Pattern Matching Problem, Find all occurrences of a pattern in a string.
+
+Given: Strings _Pattern_ and _Genome_.
+
+Return: All starting positions in _Genome_ where _Pattern_ appears as a substring. Use [0-based indexing](https://rosalind.info/glossary/0-based-numbering/).
+
+## Sample Dataset
+
+```
+ATAT
+GATATATGCATATACTT
+```
+
+## Sample Output
+
+```
+1 3 9
+```
+
+## Solution
+
+```python
+from typing import List, Generator
+
+def generate_substrings(text: str, size: int) -> List[str]:
+    """Generate all substrings of a given size from the text."""
+    return [text[i:i + size] for i in range(len(text) - size + 1)]
+
+def find_pattern_indices(text: str, pattern: str) -> Generator[int, None, None]:
+    """Yield starting indices where the pattern is found in the text."""
+    for i, substring in enumerate(generate_substrings(text, len(pattern))):
+        if substring == pattern:
+            yield i
+
+# Sample input
+sample_input = """
+ATAT
+GATATATGCATATACTT
+"""
+
+# Split input into pattern and text
+pattern, text = sample_input.strip().split("\n")
+
+# Print indices where the pattern is found
+print(*find_pattern_indices(text, pattern))
+```
+
+# Find Patterns Forming Clumps in a String
+
+Clump Finding Problem, Find patterns forming clumps in a string.
+
+Given: A string _Genome_, and integers _k_, _L_, and _t_.
+
+Return: All distinct _k_-mers forming (_L_, _t_)-clumps in _Genome_.
+
+## Sample Dataset
+
+```
+CGGACTCGACAGATGTGAAGAAATGTGAAGACTGAGTGAAGAGAAGAGGAAACACGACACGACATTGCGACATAATGTACGAATGTAATGTGCCTATGGC
+5 75 4
+```
+
+## Sample Output
+
+```
+CGACA GAAGA AATGT
+```
+
+## Solution
+
+```python
+from collections import defaultdict
+from typing import List, Dict
+
+def generate_substrings(text: str, size: int) -> List[str]:
+    """Generate all substrings of a given size from the text."""
+    return [text[i:i + size] for i in range(len(text) - size + 1)]
+
+def find_kmers(text: str, k: int) -> Dict[str, List[int]]:
+    """Find positions of k-length kmers within the text."""
+    kmer_positions = defaultdict(list)
+    for i, substring in enumerate(generate_substrings(text, k)):
+        kmer_positions[substring].append(i)
+    return kmer_positions
+
+def has_clump(positions: List[int], L: int, t: int, k: int) -> bool:
+    """Check if a given array of kmers at positions forms a clump of t within L."""
+    for i in range(len(positions) - t + 1):
+        if (positions[i + t - 1] + k - positions[i]) <= L:
+            return True
+    return False
+
+# Sample input
+sample_input = """
+CGGACTCGACAGATGTGAAGAAATGTGAAGACTGAGTGAAGAGAAGAGGAAACACGACACGACATTGCGACATAATGTACGAATGTAATGTGCCTATGGC
+5 75 4
+"""
+
+# Split input into sequence and parameters
+seq, params = sample_input.strip().split("\n")
+k, L, t = map(int, params.split())
+
+# Find kmers and print those forming clumps
+kmers = find_kmers(seq, k)
+clumps = [kmer for kmer in kmers if has_clump(kmers[kmer], L, t, k)]
+print(*clumps)
+```
+
+# Find a Position in a Genome Minimizing the Skew
+
+Minimum Skew Problem, Find a position in a genome minimizing the skew.
+
+Given: A DNA string _Genome_.
+
+Return: All integer(s) _i_ minimizing _Skew_(_Prefix__i_ (_Text_)) over all values of _i_ (from 0 to |_Genome_|).
+
+## Sample Dataset
+
+```
+CCTATCGGTGGATTAGCATGTCCCTGTACGTTTCGCCGCGAACTAGTTCACACGGCTTGATGGCAAATGGTTTTTCCGGCGACCGTAATCGTCCACCGAG
+```
+
+## Sample Output
+
+```
+53 97
+```
+
+## Solution
+
+```python
+from typing import Generator
+
+def find_minima(seq: str) -> Generator[int, None, None]:
+    """Find positions with the minimum skew in a DNA sequence."""
+    skew = [0]
+    delta = {"G": 1, "C": -1, "A": 0, "T": 0}
+    
+    for i, nucleotide in enumerate(seq):
+        skew.append(skew[i] + delta[nucleotide])
+    
+    min_skew = min(skew)
+    return (i for i, value in enumerate(skew) if value == min_skew)
+
+# Sample input
+sample_input = """
+CCTATCGGTGGATTAGCATGTCCCTGTACGTTTCGCCGCGAACTAGTTCACACGGCTTGATGGCAAATGGTTTTTCCGGCGACCGTAATCGTCCACCGAG
+"""
+
+# Process the input and print the positions with minimum skew
+sequence = sample_input.strip()
+print(*find_minima(sequence))
+```
+
+# Compute the Hamming Distance Between Two Strings
+
+Hamming Distance Problem, Compute the Hamming distance between two DNA strings.
+
+Given: Two DNA strings.
+
+Return: An integer value representing the Hamming distance.
+
+## Sample Dataset
+
+```
+GGGCCGTTGGT
+GGACCGTTGAC
+```
+
+## Sample Output
+
+```
+3
+```
+
+## Solution
+
+```python
+from itertools import zip_longest
+from typing import Tuple
+
+def calculate_hamming_distance(sequence1: str, sequence2: str) -> int:
+    return sum(base1 != base2 for base1, base2 in zip_longest(sequence1, sequence2, fillvalue=None))
+
+def parse_dna_sequences(input_string: str) -> Tuple[str, str]:
+    return tuple(input_string.strip().split("\n"))
+
+# Sample input
+Sample_input = """
+GGGCCGTTGGT
+GGACCGTTGAC
+"""
+
+dna_sequence1, dna_sequence2 = parse_dna_sequences(Sample_input)
+hamming_distance = calculate_hamming_distance(dna_sequence1, dna_sequence2)
+print(hamming_distance)
+```
+
+# Find All Approximate Occurrences of a Pattern in a String
+
+Approximate Pattern Matching Problem, Find all approximate occurrences of a pattern in a string.
+
+Given: Strings _Pattern_ and _Text_ along with an integer _d_.
+
+Return: All starting positions where _Pattern_ appears as a substring of _Text_ with at most _d_ mismatches.
+
+## Sample Dataset
+
+```
+ATTCTGGA
+CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAATGCCTAGCGGCTTGTGGTTTCTCCTACGCTCC
+3
+```
+
+## Sample Output
+
+```
+6 7 26 27 78
+```
+
+## Solution
+
+```python
+from typing import Iterator, List
+
+def generate_substrings(dna_sequence: str, substring_length: int) -> Iterator[str]:
+    return (dna_sequence[i:i + substring_length] for i in range(len(dna_sequence) - substring_length + 1))
+
+def calculate_hamming_distance(sequence1: str, sequence2: str) -> int:
+    return sum(base1 != base2 for base1, base2 in zip(sequence1, sequence2))
+
+def find_approximate_matches(pattern: str, genome: str, max_mismatch: int) -> Iterator[int]:
+    pattern_length = len(pattern)
+    return (position for position, substring in enumerate(generate_substrings(genome, pattern_length))
+            if calculate_hamming_distance(substring, pattern) <= max_mismatch)
+
+def parse_input(input_data: str) -> tuple[str, str, int]:
+    pattern, genome, max_mismatch_str = input_data.strip().split("\n")
+    return pattern, genome, int(max_mismatch_str)
+
+sample_input = """
+ATTCTGGA
+CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAATGCCTAGCGGCTTGTGGTTTCTCCTACGCTCC
+3
+"""
+
+pattern, genome, max_mismatch = parse_input(sample_input)
+match_positions = list(find_approximate_matches(pattern, genome, max_mismatch))
+print(*match_positions)
+```
+
+# Find the Most Frequent Words with Mismatches in a String
+
+Frequent Words with Mismatches Problem, Find the most frequent k-mers with mismatches in a string.
+
+Given: A string _Text_ as well as integers _k_ and _d_.
+
+Return: All most frequent _k_-mers with up to _d_ mismatches in _Text_.
+
+## Sample Dataset
+
+```
+ACGTTGCATGTCGCATGATGCATGAGAGCT
+4 1
+```
+
+## Sample Output
+
+```
+ATGC ATGT GATG
+```
+
+## Solution
+
+```python
+from collections import defaultdict
+from itertools import product
+from typing import Dict, List, Iterator, Tuple
+
+def calculate_hamming_distance(sequence1: str, sequence2: str) -> int:
+    return sum(base1 != base2 for base1, base2 in zip(sequence1, sequence2))
+
+def generate_substrings(dna_sequence: str, substring_length: int) -> Iterator[str]:
+    return (dna_sequence[i:i + substring_length] for i in range(len(dna_sequence) - substring_length + 1))
+
+def count_kmers(dna_sequence: str, kmer_length: int) -> Dict[str, int]:
+    kmer_counts = defaultdict(int)
+    for kmer in generate_substrings(dna_sequence, kmer_length):
+        kmer_counts[kmer] += 1
+    return kmer_counts
+
+def find_most_frequent(kmer_counts: Dict[str, int]) -> List[str]:
+    max_count = max(kmer_counts.values())
+    return [kmer for kmer, count in kmer_counts.items() if count == max_count]
+
+def generate_all_kmers(kmer_length: int) -> Iterator[str]:
+    return ("".join(bases) for bases in product("ACGT", repeat=kmer_length))
+
+def count_approximate_kmers(observed_kmers: Dict[str, int], max_mismatches: int, kmer_length: int) -> Iterator[Tuple[str, int]]:
+    for potential_kmer in generate_all_kmers(kmer_length):
+        count = sum(observed_kmers[observed_kmer] 
+                    for observed_kmer in observed_kmers 
+                    if calculate_hamming_distance(potential_kmer, observed_kmer) <= max_mismatches)
+        if count > 0:
+            yield (potential_kmer, count)
+
+def parse_input(input_data: str) -> Tuple[str, int, int]:
+    dna_sequence, params = input_data.strip().split("\n")
+    kmer_length, max_mismatches = map(int, params.split())
+    return dna_sequence, kmer_length, max_mismatches
+
+sample_input = """
+ACGTTGCATGTCGCATGATGCATGAGAGCT
+4 1
+"""
+
+dna_sequence, kmer_length, max_mismatches = parse_input(sample_input)
+observed_kmers = count_kmers(dna_sequence, kmer_length)
+approximate_kmer_counts = dict(count_approximate_kmers(observed_kmers, max_mismatches, kmer_length))
+most_frequent_kmers = find_most_frequent(approximate_kmer_counts)
+print(*most_frequent_kmers)
+```
+
+# Find Frequent Words with Mismatches and Reverse Complements
+
+Frequent Words with Mismatches and Reverse Complements Problem. Find the most frequent k-mers (with mismatches and reverse complements) in a DNA string.
+
+Given: A DNA string _Text_ as well as integers _k_ and _d_.
+
+Return: All _k_-mers _Pattern_ maximizing the sum _Count__d_(_Text_, $Pattern$) + _Count__d_(_Text_, $\overline{Pattern}$}) over all possible _k_-mers.
+
+## Sample Dataset
+
+```
+ACGTTGCATGTCGCATGATGCATGAGAGCT
+4 1
+```
+
+## Sample Output
+
+```
+ATGT ACAT
+```
+
+## Solution
+
+```python
+from collections import defaultdict
+from itertools import product
+from typing import Dict, List, Iterator, Tuple
+
+def reverse_complement(dna: str) -> str:
+    return dna[::-1].translate(str.maketrans("ACGT", "TGCA"))
+
+def hamming_distance(seq1: str, seq2: str) -> int:
+    return sum(base1 != base2 for base1, base2 in zip(seq1, seq2))
+
+def generate_substrings(dna: str, length: int) -> Iterator[str]:
+    return (dna[i:i + length] for i in range(len(dna) - length + 1))
+
+def count_kmers(dna: str, kmer_length: int) -> Dict[str, int]:
+    kmer_counts = defaultdict(int)
+    for kmer in generate_substrings(dna, kmer_length):
+        kmer_counts[kmer] += 1
+    return kmer_counts
+
+def find_most_frequent(kmer_counts: Dict[str, int]) -> List[str]:
+    max_count = max(kmer_counts.values())
+    return [kmer for kmer, count in kmer_counts.items() if count == max_count]
+
+def generate_all_kmers(kmer_length: int) -> Iterator[str]:
+    return ("".join(bases) for bases in product("ACGT", repeat=kmer_length))
+
+def count_approximate_kmers(kmer_counts: Dict[str, int], max_mismatches: int, kmer_length: int) -> Iterator[Tuple[str, int]]:
+    for potential_kmer in generate_all_kmers(kmer_length):
+        count = sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts 
+                    if hamming_distance(potential_kmer, observed_kmer) <= max_mismatches)
+        count += sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts 
+                     if hamming_distance(reverse_complement(potential_kmer), observed_kmer) <= max_mismatches)
+        if count > 0:
+            yield (potential_kmer, count)
+
+def parse_input(input_data: str) -> Tuple[str, int, int]:
+    dna_sequence, params = input_data.strip().split("\n")
+    kmer_length, max_mismatches = map(int, params.split())
+    return dna_sequence, kmer_length, max_mismatches
+
+sample_input = """
+ACGTTGCATGTCGCATGATGCATGAGAGCT
+4 1
+"""
+dna_sequence, kmer_length, max_mismatches = parse_input(sample_input)
+kmer_counts = count_kmers(dna_sequence, kmer_length)
+approximate_kmer_counts = dict(count_approximate_kmers(kmer_counts, max_mismatches, kmer_length))
+print(*find_most_frequent(approximate_kmer_counts))
+```
+
+# Generate the Frequency Array of a String
+
+Computing a Frequency Array, Generate the frequency array of a DNA string.
+
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Text_ and an integer _k_.
+
+Return: The frequency array of _k_-mers in _Text_.
+
+## Sample Dataset
+
+```
+ACGCGGCTCTGAAA
+2
+```
+
+## Sample Output
+
+```
+2 1 0 0 0 0 2 2 1 2 1 0 0 1 1 0
+```
+
+## Solution
+
+```python
+from typing import Iterator, List, Dict, Tuple
+from itertools import product
+
+def generate_substrings(text: str, size: int) -> Iterator[str]:
+    return (text[i : i + size] for i in range(len(text) - size + 1))
+
+def count_pattern_occurrences(text: str, pattern: str) -> int:
+    return sum(pattern == substring for substring in generate_substrings(text, len(pattern)))
+
+def calculate_hamming_distance(s1: str, s2: str) -> int:
+    return sum(c1 != c2 for c1, c2 in zip(s1, s2))
+
+def generate_kmers(k: int) -> Iterator[str]:
+    return ("".join(bases) for bases in product("ACGT", repeat=k))
+
+def count_approximate_kmers(kmer_counts: Dict[str, int], max_mismatches: int, kmer_length: int) -> Iterator[Tuple[str, int]]:
+    for potential_kmer in generate_kmers(kmer_length):
+        count = sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts 
+                    if calculate_hamming_distance(potential_kmer, observed_kmer) <= max_mismatches)
+        if count > 0:
+            yield (potential_kmer, count)
+
+def calculate_kmer_frequencies(sequence: str, kmer_length: int) -> List[int]:
+    return [count_pattern_occurrences(sequence, kmer) for kmer in generate_kmers(kmer_length)]
+
+def parse_input(input_data: str) -> Tuple[str, int]:
+    sequence, kmer_length = input_data.strip().split("\n")
+    return sequence, int(kmer_length)
+
+sample_input = """
+ACGCGGCTCTGAAA
+2
+"""
+sequence, kmer_length = parse_input(sample_input)
+kmer_frequencies = calculate_kmer_frequencies(sequence, kmer_length)
+print(*kmer_frequencies
+```
+
+# Implement PatternToNumber
+
+Implement PatternToNumber, Convert a DNA string to a number.
+
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Pattern_.
+
+Return: _PatternToNumber_(_Pattern_).
+
+## Sample Dataset
+
+```
+AGT
+```
+
+## Sample Output
+
+```
+11
+```
+
+## Solution
+
+```python
+from typing import Dict, Tuple
+
+def create_nucleotide_to_number_map() -> Dict[str, int]:
+    return {"A": 0, "C": 1, "G": 2, "T": 3}
+
+def convert_nucleotide_to_number(nucleotide: str, nucleotide_map: Dict[str, int]) -> int:
+    return nucleotide_map[nucleotide]
+
+def convert_dna_pattern_to_number(dna_pattern: str, nucleotide_map: Dict[str, int]) -> int:
+    if not dna_pattern:
+        return 0
+    return 4 * convert_dna_pattern_to_number(dna_pattern[:-1], nucleotide_map) + convert_nucleotide_to_number(dna_pattern[-1], nucleotide_map)
+
+def parse_input(input_data: str) -> str:
+    return input_data.strip()
+
+sample_input = """
+AGT
+"""
+
+dna_pattern = parse_input(sample_input)
+nucleotide_map = create_nucleotide_to_number_map()
+result = convert_dna_pattern_to_number(dna_pattern, nucleotide_map)
+print(result)
+```
+
+# Implement NumberToPattern
+
+Implement NumberToPattern, Convert an integer to its corresponding DNA string.
+
+Given: Integers _index_ and _k_.
+
+Return: _NumberToPattern_(_index_, _k_).
+
+## Sample Dataset
+
+```
+45
+4
+```
+
+## Sample Output
+
+```
+AGTC
+```
+
+## Solution
+
+```python
+from typing import Tuple
+
+def number_to_nucleotide(index: int) -> str:
+    nucleotides = ["A", "C", "G", "T"]
+    return nucleotides[index]
+
+def number_to_dna_pattern(index: int, length: int) -> str:
+    if length == 1:
+        return number_to_nucleotide(index)
+    quotient, remainder = divmod(index, 4)
+    return number_to_dna_pattern(quotient, length - 1) + number_to_nucleotide(remainder)
+
+def parse_input(input_data: str) -> Tuple[int, int]:
+    index_str, length_str = input_data.strip().split("\n")
+    return int(index_str), int(length_str)
+
+sample_input = """
+45
+4
+"""
+index, length = parse_input(sample_input)
+dna_pattern = number_to_dna_pattern(index, length)
+print(dna_pattern)
+```
+
+# Generate the d-Neighborhood of a String
+
+Generate the d-Neighborhood of a String Find all the neighbors of a pattern.
+
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Pattern_ and an integer _d_.
+
+Return: The collection of strings _Neighbors_(_Pattern_, _d_).
+
+## Sample Dataset
+
+```
+ACG
+1
+```
+
+## Sample Output
+
+```
+CCG
+TCG
+GCG
+AAG
+ATG
+AGG
+ACA
+ACC
+ACT
+ACG
+```
+
+## Solution
+
+```python
+from typing import Set, List, Tuple, Iterator
+
+def calculate_hamming_distance(seq1: str, seq2: str) -> int:
+    return sum(base1 != base2 for base1, base2 in zip(seq1, seq2))
+
+def generate_immediate_neighbors(sequence: str) -> Iterator[str]:
+    nucleotides = ["A", "T", "G", "C"]
+    for i, current_base in enumerate(sequence):
+        for new_base in nucleotides:
+            if new_base != current_base:
+                yield sequence[:i] + new_base + sequence[i + 1:]
+
+def generate_neighbors(sequence: str, max_distance: int) -> Set[str]:
+    nucleotides = ["A", "T", "G", "C"]
+    if max_distance == 0:
+        return {sequence}
+    if len(sequence) == 1:
+        return set(nucleotides)
+    
+    neighbors = set()
+    suffix_neighbors = generate_neighbors(sequence[1:], max_distance)
+    for suffix in suffix_neighbors:
+        if calculate_hamming_distance(sequence[1:], suffix) < max_distance:
+            neighbors.update(base + suffix for base in nucleotides)
+        else:
+            neighbors.add(sequence[0] + suffix)
+    return neighbors
+
+def parse_input(input_data: str) -> Tuple[str, int]:
+    sequence, distance = input_data.strip().split("\n")
+    return sequence, int(distance)
+
+sample_input = """
+ACG
+1
+"""
+
+sequence, max_distance = parse_input(sample_input)
+neighbor_sequences = generate_neighbors(sequence, max_distance)
+print(*sorted(neighbor_sequences), sep="\n")
+```
+
+
+
+
+----
+
+# Compute the Probability of a Hidden Path
+
+Given: A hidden path $π$ followed by the states _States_ and transition matrix _Transition_ of an HMM ($Σ$, _States_, _Transition_, _Emission_).
+
+Return: The probability of this path, $Pr(π)$. You may assume that initial probabilities are equal.
+
+## Sample Dataset
+
+```
+AABBBAABABAAAABBBBAABBABABBBAABBAAAABABAABBABABBAB
+--------
+A   B
+--------
+    A   B
+A   0.194   0.806
+B   0.273   0.727
+```
+
+## Sample Output
+
+```
+5.01732865318e-19
+```
+
+## Solution
+
+```python
+from math import prod
+from io import StringIO
+
+def parse_hidden_path_data(input_lines):
+    hidden_path = next(input_lines).strip()
+    next(input_lines)  # Skip separator
+    states = next(input_lines).split()
+    next(input_lines)  # Skip separator
+    next(input_lines)  # Skip column headers
+    
+    transition_probabilities = {}
+    for line in input_lines:
+        if line.strip():
+            row_data = line.split()
+            current_state = row_data[0]
+            for next_state, probability in zip(states, row_data[1:]):
+                transition_probabilities[(current_state, next_state)] = float(probability)
+    
+    return hidden_path, transition_probabilities
+
+def calculate_hidden_path_probability(hidden_path, transition_probabilities):
+    initial_probability = 0.5
+    path_probability = initial_probability * prod(
+        transition_probabilities[state_pair] 
+        for state_pair in zip(hidden_path, hidden_path[1:])
+    )
+    return path_probability
+
+sample_input = """
+AABBBAABABAAAABBBBAABBABABBBAABBAAAABABAABBABABBAB
+--------
+A B
+--------
+    A   B
+A   0.194   0.806
+B   0.273   0.727
+"""
+
+input_lines = iter(StringIO(sample_input.strip()).readlines())
+hidden_path, transition_probabilities = parse_hidden_path_data(input_lines)
+result_probability = calculate_hidden_path_probability(hidden_path, transition_probabilities)
+print(f"{result_probability:e}")
+```
+
+# Compute the Probability of an Outcome Given a Hidden Path
+
+Given: A string _x_, followed by the alphabet _Σ_ from which _x_ was constructed, followed by a hidden path _π_, followed by the states _States_ and emission matrix _Emission_ of an HMM (_Σ_, _States_, _Transition_, _Emission_).
+
+Return: The conditional probability $Pr(x|π)$ that string _x_ will be emitted by the HMM given the hidden path _π_.
+
+## Sample Dataset
+
+```
+xxyzyxzzxzxyxyyzxxzzxxyyxxyxyzzxxyzyzxzxxyxyyzxxzx
+--------
+x   y   z
+--------
+BBBAAABABABBBBBBAAAAAABAAAABABABBBBBABAABABABABBBB
+--------
+A   B
+--------
+    x   y   z
+A   0.612   0.314   0.074 
+B   0.346   0.317   0.336
+```
+
+## Sample Output
+
+```
+1.93157070893e-28
+```
+
+## Solution
+
+```python
+from math import prod
+from io import StringIO
+
+def parse_emission_data(input_lines):
+    emission_sequence = next(input_lines).strip()
+    next(input_lines)  # Skip separator
+    symbols = next(input_lines).split()
+    next(input_lines)  # Skip separator
+    hidden_path = next(input_lines).strip()
+    next(input_lines)  # Skip separator
+    states = next(input_lines).split()
+    next(input_lines)  # Skip separator
+    next(input_lines)  # Skip column headers
+    
+    emission_probabilities = {}
+    for line in input_lines:
+        if line.strip():
+            row_data = line.split()
+            state = row_data[0]
+            for symbol, probability in zip(symbols, row_data[1:]):
+                emission_probabilities[(state, symbol)] = float(probability)
+    
+    return emission_sequence, hidden_path, emission_probabilities
+
+def calculate_emission_probability(emission_sequence, hidden_path, emission_probabilities):
+    return prod(emission_probabilities[state_symbol] for state_symbol in zip(hidden_path, emission_sequence))
+
+sample_input = """
+xxyzyxzzxzxyxyyzxxzzxxyyxxyxyzzxxyzyzxzxxyxyyzxxzx
+--------
+x y z
+--------
+BBBAAABABABBBBBBAAAAAABAAAABABABBBBBABAABABABABBBB
+--------
+A B
+--------
+    x   y   z
+A   0.612   0.314   0.074 
+B   0.346   0.317   0.336
+"""
+
+input_lines = iter(StringIO(sample_input.strip()).readlines())
+emission_sequence, hidden_path, emission_probabilities = parse_emission_data(input_lines)
+result_probability = calculate_emission_probability(emission_sequence, hidden_path, emission_probabilities)
+print(f"{result_probability:e}")
+```
+
+# Implement the Viterbi Algorithm
+
+Given: A string _x_, followed by the alphabet _Σ_ from which _x_ was constructed, followed by the states _States_, transition matrix _Transition_, and emission matrix _Emission_ of an HMM (_Σ_, _States_, _Transition_, _Emission_).
+
+Return: A path that maximizes the (unconditional) probability Pr(_x_, _π_) over all possible paths _π_.
+
+## Sample Dataset
+
+```
+xyxzzxyxyy
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.641   0.359
+B   0.729   0.271
+--------
+    x   y   z
+A   0.117   0.691   0.192   
+B   0.097   0.42    0.483
+```
+
+## Sample Output
+
+```
+AAABBAAAAA
+```
+
+## Solution
+
+```python
+from io import StringIO
+from math import log
+from typing import List, Dict, Tuple, Iterator
+import numpy as np
+
+def parse_input(input_iterator: Iterator[str]) -> Tuple[str, List[str], Dict[Tuple[str, str], float], Dict[Tuple[str, str], float]]:
+    sequence = next(input_iterator).rstrip()
+    next(input_iterator)
+    alphabet = next(input_iterator).split()
+    next(input_iterator)
+    states = next(input_iterator).split()
+    next(input_iterator)
+    
+    transition_lines = [next(input_iterator) for _ in range(len(states) + 1)]
+    transition_matrix = {
+        (states[i], states[j]): float(value)
+        for i, row in enumerate(transition_lines[1:])
+        for j, value in enumerate(row.split()[1:])
+    }
+    
+    next(input_iterator)
+    emission_lines = [next(input_iterator) for _ in range(len(states) + 1)]
+    emission_matrix = {
+        (states[i], alphabet[j]): float(value)
+        for i, row in enumerate(emission_lines[1:])
+        for j, value in enumerate(row.split()[1:])
+    }
+    
+    return sequence, states, transition_matrix, emission_matrix
+
+def viterbi(sequence: str, states: List[str], transition_matrix: Dict[Tuple[str, str], float], emission_matrix: Dict[Tuple[str, str], float]) -> str:
+    num_states = len(states)
+    sequence_length = len(sequence)
+    viterbi_matrix = np.zeros((sequence_length, num_states))
+    backpointer = np.zeros((sequence_length, num_states), dtype=int)
+
+    # Initialize the first column of the viterbi matrix
+    for i, state in enumerate(states):
+        viterbi_matrix[0, i] = log(emission_matrix[state, sequence[0]] / num_states)
+
+    # Fill in the rest of the viterbi matrix
+    for t in range(1, sequence_length):
+        for j, current_state in enumerate(states):
+            probabilities = [
+                log(transition_matrix[previous_state, current_state]) + 
+                log(emission_matrix[current_state, sequence[t]]) + 
+                viterbi_matrix[t-1, k]
+                for k, previous_state in enumerate(states)
+            ]
+            max_prob_index = probabilities.index(max(probabilities))
+            backpointer[t, j] = max_prob_index
+            viterbi_matrix[t, j] = max(probabilities)
+
+    best_path_index = np.argmax(viterbi_matrix[-1, :])
+    best_path = states[best_path_index]
+    for t in range(sequence_length - 1, 0, -1):
+        best_path_index = backpointer[t, best_path_index]
+        best_path = states[best_path_index] + best_path
+
+    return best_path
+
+# Example usage
+sample_input = """
+xyxzzxyxyy
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.641   0.359
+B   0.729   0.271
+--------
+    x   y   z
+A   0.117   0.691   0.192   
+B   0.097   0.42    0.483
+"""
+
+input_lines = iter(StringIO(sample_input.strip()).readlines())
+sequence, states, transition_matrix, emission_matrix = parse_input(input_lines)
+result = viterbi(sequence, states, transition_matrix, emission_matrix)
+print(result)
+```
+
+# Compute the Probability of a String Emitted by an HMM
+
+Given: A string _x_, followed by the alphabet _Σ_ from which _x_ was constructed, followed by the states _States_, transition matrix _Transition_, and emission matrix _Emission_ of an HMM (_Σ_, _States_, _Transition_, _Emission_).
+
+Return: The probability Pr(_x_) that the HMM emits _x_.
+
+## Sample Dataset
+
+```
+xzyyzzyzyy
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.303   0.697 
+B   0.831   0.169 
+--------
+    x   y   z
+A   0.533   0.065   0.402 
+B   0.342   0.334   0.324
+```
+
+## Sample Output
+
+```
+1.1005510319694847e-06
+```
+
+## Solution
+
+```python
+from io import StringIO
+import numpy as np
+
+def parse_hmm_input(input_iterator):
+    sequence = next(input_iterator).rstrip()
+    next(input_iterator)
+    alphabet = next(input_iterator).split()
+    next(input_iterator)
+    states = next(input_iterator).split()
+    next(input_iterator)
+    
+    transition_lines = [next(input_iterator) for _ in range(len(states) + 1)]
+    transition_matrix = {
+        (states[i], states[j]): float(value)
+        for i, row in enumerate(transition_lines[1:])
+        for j, value in enumerate(row.split()[1:])
+    }
+    
+    next(input_iterator)
+    emission_lines = [next(input_iterator) for _ in range(len(states) + 1)]
+    emission_matrix = {
+        (states[i], alphabet[j]): float(value)
+        for i, row in enumerate(emission_lines[1:])
+        for j, value in enumerate(row.split()[1:])
+    }
+    
+    return sequence, states, transition_matrix, emission_matrix
+
+def calculate_hmm_likelihood(sequence, states, transition_matrix, emission_matrix):
+    probability_matrix = np.ones((len(sequence) + 1, len(states)))
+
+    for i, state in enumerate(states):
+        probability_matrix[0, i] = emission_matrix[state, sequence[0]] / len(states)
+
+    for i, emission in enumerate(sequence[1:], start=1):
+        for j, current_state in enumerate(states):
+            probability_matrix[i, j] = sum(
+                transition_matrix[previous_state, current_state] * 
+                emission_matrix[current_state, emission] * 
+                probability_matrix[i - 1, k]
+                for k, previous_state in enumerate(states)
+            )
+
+    return sum(probability_matrix[i, :])
+
+sample_input = """
+xzyyzzyzyy
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.303   0.697 
+B   0.831   0.169 
+--------
+    x   y   z
+A   0.533   0.065   0.402 
+B   0.342   0.334   0.324
+"""
+
+input_lines = iter(StringIO(sample_input.strip()).readlines())
+sequence, states, transition_matrix, emission_matrix = parse_hmm_input(input_lines)
+result = calculate_hmm_likelihood(sequence, states, transition_matrix, emission_matrix)
+print(result)
+```
+
+# Construct a Profile HMM
+
+Given: A threshold _θ_, followed by an alphabet _Σ_, followed by a multiple alignment _Alignment_ whose strings are formed from _Σ_.
+
+Return: The transition and emission probabilities of the profile HMM _HMM_(_Alignment_, _θ_).
+
+## Sample Dataset
+
+```
+0.289
+--------
+A   B   C   D   E
+--------
+EBA
+EBD
+EB-
+EED
+EBD
+EBE
+E-D
+EBD
+```
+
+## Sample Output
+
+```
+S   I0  M1  D1  I1  M2  D2  I2  M3  D3  I3  E
+S   0   0   1.0 0   0   0   0   0   0   0   0   0
+I0  0   0   0   0   0   0   0   0   0   0   0   0
+M1  0   0   0   0   0   0.875   0.125   0   0   0   0   0
+D1  0   0   0   0   0   0   0   0   0   0   0   0
+I1  0   0   0   0   0   0   0   0   0   0   0   0
+M2  0   0   0   0   0   0   0   0   0.857   0.143   0   0
+D2  0   0   0   0   0   0   0   0   1.0 0   0   0
+I2  0   0   0   0   0   0   0   0   0   0   0   0
+M3  0   0   0   0   0   0   0   0   0   0   0   1.0
+D3  0   0   0   0   0   0   0   0   0   0   0   1.0
+I3  0   0   0   0   0   0   0   0   0   0   0   0
+E   0   0   0   0   0   0   0   0   0   0   0   0
+--------
+    A   B   C   D   E
+S   0   0   0   0   0
+I0  0   0   0   0   0
+M1  0   0   0   0   1.0
+D1  0   0   0   0   0
+I1  0   0   0   0   0
+M2  0   0.857   0   0   0.143
+D2  0   0   0   0   0
+I2  0   0   0   0   0
+M3  0.143   0   0   0.714   0.143
+D3  0   0   0   0   0
+I3  0   0   0   0   0
+E   0   0   0   0   0
+```
+
+## Solution
+
+```python
+import numpy as np
+from io import StringIO
+from typing import List, Tuple, Iterator
+
+def parse_hmm_input(input_iterator: Iterator[str]) -> Tuple[float, List[str], np.ndarray]:
+    threshold = float(next(input_iterator).rstrip())
+    next(input_iterator)
+    alphabet = next(input_iterator).split()
+    next(input_iterator)
+    alignment = np.array([list(sequence.strip()) for sequence in input_iterator])
+    return threshold, alphabet, alignment
+
+def calculate_state_index(position: int, state_type: str) -> int:
+    if state_type == "ins":
+        return (position + 1) * 3 + 1
+    else:
+        return {"match": 0, "del": 1}[state_type] + 3 * position + 2
+
+def normalize_row(row: np.ndarray, include_zeros: bool = False, min_value: float = 0.0) -> np.ndarray:
+    if include_zeros and sum(row) == 0:
+        row[:] = 1
+    with np.errstate(divide="ignore", invalid="ignore"):
+        normalized = row / sum(row)
+        normalized[row == 0.0] = min_value
+        return normalized
+
+def normalize_matrix(matrix: np.ndarray, include_zeros: bool = False, min_value: float = 0.0) -> np.ndarray:
+    return np.array([normalize_row(row, include_zeros=include_zeros, min_value=min_value) for row in matrix])
+
+def print_matrix(matrix: np.ndarray, row_labels: List[str], column_labels: List[str]) -> None:
+    print(*column_labels, sep="\t")
+    for i, row in enumerate(matrix):
+        formatted_row = [row_labels[i]] + [round(x, 3) if x > 0.0 else "0" for x in row]
+        print(*formatted_row, sep="\t")
+
+def print_transition_probabilities(transition_matrix: np.ndarray) -> None:
+    n = (transition_matrix.shape[0] - 3) // 3
+    print_matrix(transition_matrix, generate_state_labels(n), generate_state_labels(n))
+
+def print_emission_probabilities(emission_matrix: np.ndarray, alphabet: List[str]) -> None:
+    n = (emission_matrix.shape[0] - 3) // 3
+    print_matrix(emission_matrix, generate_state_labels(n), alphabet)
+
+def generate_state_labels(n: int) -> List[str]:
+    labels = ["S", "I0"]
+    for i in range(1, n + 1):
+        labels += [f"M{i}", f"D{i}", f"I{i}"]
+    labels.append("E")
+    return labels
+
+def create_transition_matrix(n: int) -> np.ndarray:
+    return np.zeros((n * 3 + 3, n * 3 + 3), dtype=float)
+
+def create_emission_matrix(n: int, m: int) -> np.ndarray:
+    return np.zeros((n * 3 + 3, m), dtype=float)
+
+def build_profile_hmm(threshold: float, alphabet: List[str], alignment: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    valid_columns = np.mean(alignment == "-", axis=0) < threshold
+    valid_column_count = sum(valid_columns)
+    end_state = valid_column_count * 3 + 2
+    transition_probs = create_transition_matrix(valid_column_count)
+    emission_probs = create_emission_matrix(valid_column_count, len(alphabet))
+
+    for sequence in alignment:
+        prev_index = 0
+        column_index = -1
+        for i, char in enumerate(sequence):
+            if valid_columns[i]:
+                column_index += 1
+                if char == "-":
+                    current_index = calculate_state_index(column_index, "del")
+                else:
+                    current_index = calculate_state_index(column_index, "match")
+                transition_probs[prev_index, current_index] += 1
+                prev_index = current_index
+            else:
+                if char != "-":
+                    current_index = calculate_state_index(column_index, "ins")
+                    transition_probs[prev_index, current_index] += 1
+                    prev_index = current_index
+            if char != "-":
+                emission_probs[current_index, alphabet.index(char)] += 1
+        transition_probs[prev_index, end_state] += 1
+
+    transition_probs = normalize_matrix(transition_probs)
+    emission_probs = normalize_matrix(emission_probs)
+
+    return transition_probs, emission_probs
+
+sample_input = """
+0.289
+--------
+A   B   C   D   E
+--------
+EBA
+EBD
+EB-
+EED
+EBD
+EBE
+E-D
+EBD
+"""
+
+input_lines = iter(StringIO(sample_input.strip()).readlines())
+threshold, alphabet, alignment = parse_hmm_input(input_lines)
+transition_probs, emission_probs = build_profile_hmm(threshold, alphabet, alignment)
+print_transition_probabilities(transition_probs)
+print("--------")
+print_emission_probabilities(emission_probs, alphabet)
+```
+
+# Construct a Profile HMM with Pseudocounts
+
+Given: A threshold _θ_ and a pseudocount _σ_, followed by an alphabet _Σ_, followed by a multiple alignment _Alignment_ whose strings are formed from _Σ_.
+
+Return: The transition and emission probabilities of the profile HMM _HMM_(_Alignment_, _θ_, _σ_).
+
+## Sample Dataset
+
+```
+0.358   0.01
+--------
+A   B   C   D   E
+--------
+ADA
+ADA
+AAA
+ADC
+-DA
+D-A
+```
+
+## Sample Output
+
+```
+S   I0  M1  D1  I1  M2  D2  I2  M3  D3  I3  E
+S   0   0.01    0.819   0.172   0   0   0   0   0   0   0   0
+I0  0   0.333   0.333   0.333   0   0   0   0   0   0   0   0
+M1  0   0   0   0   0.01    0.786   0.204   0   0   0   0   0
+D1  0   0   0   0   0.01    0.981   0.01    0   0   0   0   0
+I1  0   0   0   0   0.333   0.333   0.333   0   0   0   0   0
+M2  0   0   0   0   0   0   0   0.01    0.981   0.01    0   0
+D2  0   0   0   0   0   0   0   0.01    0.981   0.01    0   0
+I2  0   0   0   0   0   0   0   0.333   0.333   0.333   0   0
+M3  0   0   0   0   0   0   0   0   0   0   0.01    0.99
+D3  0   0   0   0   0   0   0   0   0   0   0.5 0.5
+I3  0   0   0   0   0   0   0   0   0   0   0.5 0.5
+E   0   0   0   0   0   0   0   0   0   0   0   0
+--------
+    A   B   C   D   E
+S   0   0   0   0   0
+I0  0.2 0.2 0.2 0.2 0.2
+M1  0.771   0.01    0.01    0.2 0.01
+D1  0   0   0   0   0
+I1  0.2 0.2 0.2 0.2 0.2
+M2  0.2 0.01    0.01    0.771   0.01
+D2  0   0   0   0   0
+I2  0.2 0.2 0.2 0.2 0.2
+M3  0.803   0.01    0.168   0.01    0.01
+D3  0   0   0   0   0
+I3  0.2 0.2 0.2 0.2 0.2
+E   0   0   0   0   0
+```
+
+## Solution
+
+```python
+import numpy as np
+from io import StringIO
+from typing import List, Tuple
+
+def normalize_matrix(matrix: np.ndarray, include_zeros: bool = False, min_value: float = 0.0) -> np.ndarray:
+    return np.array([normalize_row(row, include_zeros=include_zeros, min_value=min_value) for row in matrix])
+
+def normalize_row(row: np.ndarray, include_zeros: bool = False, min_value: float = 0.0) -> np.ndarray:
+    if include_zeros and sum(row) == 0:
+        row[:] = 1
+    with np.errstate(divide="ignore", invalid="ignore"):
+        normalized = row / sum(row)
+        normalized[row == 0.0] = min_value
+        return normalized
+
+def print_matrix(matrix: np.ndarray, row_labels: List[str], col_labels: List[str]) -> None:
+    print(*col_labels, sep="\t")
+    for i, row in enumerate(matrix):
+        formatted_row = [row_labels[i]] + [round(x, 3) if x > 0.0 else "0" for x in row]
+        print(*formatted_row, sep="\t")
+
+def print_transition_probs(transition_matrix: np.ndarray) -> None:
+    n = (transition_matrix.shape[0] - 3) // 3
+    print_matrix(transition_matrix, generate_state_labels(n), generate_state_labels(n))
+
+def print_emission_probs(emission_matrix: np.ndarray, alphabet: List[str]) -> None:
+    n = (emission_matrix.shape[0] - 3) // 3
+    print_matrix(emission_matrix, generate_state_labels(n), alphabet)
+
+def generate_state_labels(n: int) -> List[str]:
+    labels = ["S", "I0"]
+    for i in range(1, n + 1):
+        labels += [f"M{i}", f"D{i}", f"I{i}"]
+    labels.append("E")
+    return labels
+
+def create_transition_matrix(n: int) -> np.ndarray:
+    return np.zeros((n * 3 + 3, n * 3 + 3), dtype=float)
+
+def create_emission_matrix(n: int, m: int) -> np.ndarray:
+    return np.zeros((n * 3 + 3, m), dtype=float)
+
+def calculate_state_index(position: int, state_type: str) -> int:
+    if state_type == "ins":
+        return (position + 1) * 3 + 1
+    else:
+        return {"match": 0, "del": 1}[state_type] + 3 * position + 2
+
+def build_profile_hmm(threshold: float, alphabet: List[str], alignment: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    valid_columns = np.mean(alignment == "-", axis=0) < threshold
+    valid_column_count = sum(valid_columns)
+    end_state = valid_column_count * 3 + 2
+    transition_probs = create_transition_matrix(valid_column_count)
+    emission_probs = create_emission_matrix(valid_column_count, len(alphabet))
+
+    for sequence in alignment:
+        prev_index = 0
+        column_index = -1
+        for i, char in enumerate(sequence):
+            if valid_columns[i]:
+                column_index += 1
+                if char == "-":
+                    current_index = calculate_state_index(column_index, "del")
+                else:
+                    current_index = calculate_state_index(column_index, "match")
+                transition_probs[prev_index, current_index] += 1
+                prev_index = current_index
+            else:
+                if char != "-":
+                    current_index = calculate_state_index(column_index, "ins")
+                    transition_probs[prev_index, current_index] += 1
+                    prev_index = current_index
+            if char != "-":
+                emission_probs[current_index, alphabet.index(char)] += 1
+        transition_probs[prev_index, end_state] += 1
+
+    transition_probs = normalize_matrix(transition_probs)
+    emission_probs = normalize_matrix(emission_probs)
+
+    return transition_probs, emission_probs
+
+def parse_input(input_handle: Iterator[str]) -> Tuple[float, float, List[str], np.ndarray]:
+    threshold, pseudocount = map(float, next(input_handle).rstrip().split())
+    next(input_handle)
+    alphabet = next(input_handle).split()
+    next(input_handle)
+    alignment = np.array([list(sequence.strip()) for sequence in input_handle])
+    return threshold, pseudocount, alphabet, alignment
+
+def add_transition_pseudocounts(transition_matrix: np.ndarray, pseudocount: float) -> np.ndarray:
+    n = (transition_matrix.shape[0] - 3) // 3
+    transition_matrix[0, 1:4] += pseudocount
+    transition_matrix[1, 1:4] += pseudocount
+    for i in range(n):
+        transition_matrix[i * 3 + 2 : i * 3 + 5, (i + 1) * 3 + 1 : (i + 1) * 3 + 4] += pseudocount
+    return normalize_matrix(transition_matrix)
+
+def add_emission_pseudocounts(emission_matrix: np.ndarray, pseudocount: float) -> np.ndarray:
+    n = (emission_matrix.shape[0] - 3) // 3
+    emission_matrix[1, :] += pseudocount
+    for i in range(n):
+        emission_matrix[i * 3 + 2, :] += pseudocount
+        emission_matrix[i * 3 + 4, :] += pseudocount
+    return normalize_matrix(emission_matrix)
+
+def build_pseudocount_profile_hmm(threshold: float, pseudocount: float, alphabet: List[str], alignment: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    transition_probs, emission_probs = build_profile_hmm(threshold, alphabet, alignment)
+    transition_probs = add_transition_pseudocounts(transition_probs, pseudocount)
+    emission_probs = add_emission_pseudocounts(emission_probs, pseudocount)
+    return transition_probs, emission_probs
+
+sample_input = """
+0.358   0.01
+--------
+A   B   C   D   E
+--------
+ADA
+ADA
+AAA
+ADC
+-DA
+D-A
+"""
+
+input_lines = iter(StringIO(sample_input.strip()).readlines())
+threshold, pseudocount, alphabet, alignment = parse_input(input_lines)
+transition_probs, emission_probs = build_pseudocount_profile_hmm(threshold, pseudocount, alphabet, alignment)
+print_transition_probs(transition_probs)
+print("--------")
+print_emission_probs(emission_probs, alphabet)
+```
+
+# Perform a Multiple Sequence Alignment with a Profile HMM
+
+Given: A string Text, a multiple alignment Alignment, a threshold θ, and a pseudocount σ.
+
+Return: An optimal hidden path emitting Text in HMM(Alignment,θ,σ).
+
+## Sample Dataset
+
+```
+AEFDFDC
+--------
+0.4 0.01
+--------
+A   B   C   D   E   F
+--------
+ACDEFACADF
+AFDA---CCF
+A--EFD-FDC
+ACAEF--A-C
+ADDEFAAADF
+```
+
+## Sample Output
+
+```
+M1 D2 D3 M4 M5 I5 M6 M7 M8
+```
+
+## Solution
+
+```python
+from io import StringIO
+from collections import defaultdict
+from typing import List, Tuple, Dict, Iterator
+import numpy as np
+from math import inf, log
+
+def generate_state_labels(num_states: int) -> List[str]:
+    labels = ["S", "I0"]
+    for i in range(1, num_states + 1):
+        labels.extend([f"M{i}", f"D{i}", f"I{i}"])
+    labels.append("E")
+    return labels
+
+def normalize_row(row: np.ndarray, include_zeros: bool = False, minimum_value: float = 0.0) -> np.ndarray:
+    if include_zeros and sum(row) == 0:
+        row[:] = 1
+    with np.errstate(divide="ignore", invalid="ignore"):
+        normalized = row / sum(row)
+        normalized[row == 0.0] = minimum_value
+        return normalized
+
+def normalize_matrix(matrix: np.ndarray, include_zeros: bool = False, minimum_value: float = 0.0) -> np.ndarray:
+    return np.array([normalize_row(r, include_zeros=include_zeros, minimum_value=minimum_value) for r in matrix])
+
+def create_transition_matrix(num_states: int) -> np.ndarray:
+    return np.zeros((num_states * 3 + 3, num_states * 3 + 3), dtype=float)
+
+def create_emission_matrix(num_states: int, num_symbols: int) -> np.ndarray:
+    return np.zeros((num_states * 3 + 3, num_symbols), dtype=float)
+
+def calculate_index(state_num: int, state_type: str) -> int:
+    if state_type == "ins":
+        return (state_num + 1) * 3 + 1
+    else:
+        return {"match": 0, "del": 1}[state_type] + 3 * state_num + 2
+
+def build_profile_hmm(threshold: float, alphabet: List[str], alignment: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    valid_columns = np.mean(alignment == "-", axis=0) < threshold
+    valid_length = sum(valid_columns)
+    end_state = valid_length * 3 + 2
+    transition_probs = create_transition_matrix(valid_length)
+    emission_probs = create_emission_matrix(valid_length, len(alphabet))
+
+    for sequence in alignment:
+        prev_index = 0
+        valid_col_count = -1
+        for col, char in enumerate(sequence):
+            if valid_columns[col]:
+                valid_col_count += 1
+                if char == "-":
+                    current_index = calculate_index(valid_col_count, "del")
+                else:
+                    current_index = calculate_index(valid_col_count, "match")
+                transition_probs[prev_index, current_index] += 1
+                prev_index = current_index
+            else:
+                if char != "-":
+                    current_index = calculate_index(valid_col_count, "ins")
+                    transition_probs[prev_index, current_index] += 1
+                    prev_index = current_index
+            if char != "-":
+                emission_probs[current_index, alphabet.index(char)] += 1
+        transition_probs[prev_index, end_state] += 1
+
+    transition_probs = normalize_matrix(transition_probs)
+    emission_probs = normalize_matrix(emission_probs)
+
+    return transition_probs, emission_probs
+
+def add_pseudocounts_to_transitions(matrix: np.ndarray, pseudocount: float) -> np.ndarray:
+    num_states = (matrix.shape[0] - 3) // 3
+    matrix[0, 1:4] += pseudocount
+    matrix[1, 1:4] += pseudocount
+    for i in range(num_states):
+        matrix[i*3+2:i*3+5, (i+1)*3+1:(i+1)*3+4] += pseudocount
+    return normalize_matrix(matrix)
+
+def add_pseudocounts_to_emissions(matrix: np.ndarray, pseudocount: float) -> np.ndarray:
+    num_states = (matrix.shape[0] - 3) // 3
+    matrix[1, :] += pseudocount
+    for i in range(num_states):
+        matrix[i*3+2, :] += pseudocount
+        matrix[i*3+4, :] += pseudocount
+    return normalize_matrix(matrix)
+
+def build_profile_hmm_with_pseudocounts(threshold: float, pseudocount: float, alphabet: List[str], alignment: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    transition_probs, emission_probs = build_profile_hmm(threshold, alphabet, alignment)
+    transition_probs = add_pseudocounts_to_transitions(transition_probs, pseudocount)
+    emission_probs = add_pseudocounts_to_emissions(emission_probs, pseudocount)
+    return transition_probs, emission_probs
+
+def parse_input_data(input_iterator: Iterator[str]) -> Tuple[str, float, float, List[str], np.ndarray]:
+    sequence = next(input_iterator).rstrip()
+    next(input_iterator)
+    threshold, pseudocount = map(float, next(input_iterator).rstrip().split())
+    next(input_iterator)
+    alphabet = next(input_iterator).split()
+    next(input_iterator)
+    alignment = np.array([list(x.strip()) for x in input_iterator])
+    return sequence, threshold, pseudocount, alphabet, alignment
+
+def convert_transition_probs_to_dict(matrix: np.ndarray) -> Dict[Tuple[str, str], float]:
+    prob_dict = defaultdict(float)
+    num_states = (matrix.shape[0] - 3) // 3
+    labels = generate_state_labels(num_states)
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[0]):
+            prob_dict[labels[i], labels[j]] = matrix[i][j]
+    return prob_dict
+
+def convert_emission_probs_to_dict(matrix: np.ndarray, alphabet: List[str]) -> Dict[Tuple[str, str], float]:
+    prob_dict = defaultdict(float)
+    num_states = (matrix.shape[0] - 3) // 3
+    labels = generate_state_labels(num_states)
+    for i in range(matrix.shape[0]):
+        for j, symbol in enumerate(alphabet):
+            prob_dict[labels[i], symbol] = matrix[i][j]
+    return prob_dict
+
+def build_hmm_graph(transition_probs: Dict[Tuple[str, str], float], num_states: int) -> Dict[str, List[Dict[str, float]]]:
+    def add_edge(source: str, target: str) -> None:
+        graph[source].append({"node": target, "weight": transition_probs[source, target]})
+
+    graph = defaultdict(list)
+    for target in ["I0", "M1", "D1"]:
+        add_edge("S", target)
+    for i in range(num_states):
+        source = f"I{i}"
+        for target in [source, f"M{i+1}", f"D{i+1}"]:
+            add_edge(source, target)
+    for i in range(1, num_states):
+        for source in [f"M{i}", f"D{i}"]:
+            for target in [f"M{i+1}", f"I{i}", f"D{i+1}"]:
+                add_edge(source, target)
+    for source in [f"I{num_states}", f"M{num_states}", f"D{num_states}"]:
+        for target in [f"I{num_states}", "E"]:
+            add_edge(source, target)
+
+    return graph
+
+def generate_topological_order(num_states: int, seq_length: int) -> Iterator[Tuple[str, int]]:
+    yield ("S", 0)
+    for j in range(num_states):
+        yield (f"D{j+1}", 0)
+    for i in range(seq_length):
+        yield ("I0", i + 1)
+        for j in range(num_states):
+            for state_type in ["M", "D", "I"]:
+                yield (f"{state_type}{j+1}", i + 1)
+    yield ("E", seq_length + 1)
+
+def get_previous_nodes(current_node: str, current_col: int, num_states: int, seq_length: int) -> List[Tuple[str, int]]:
+    if current_node[0] == "E":
+        return [(f"D{num_states}", seq_length), (f"M{num_states}", seq_length), (f"I{num_states}", seq_length)]
+    state_num = int(current_node[1:])
+    if current_col == 0:
+        return [("S", 0)] if state_num == 1 else [(f"D{state_num-1}", 0)]
+    elif current_node == "I0":
+        return [("S", 0)] if current_col == 1 else [("I0", current_col - 1)]
+    elif current_node == "M1":
+        return [("S", 0)] if current_col == 1 else [("I0", current_col - 1)]
+    elif current_node[0] == "I":
+        return [(f"D{state_num}", 0)] if current_col == 1 else [(f"D{state_num}", current_col - 1), (f"M{state_num}", current_col - 1), (f"I{state_num}", current_col - 1)]
+    elif current_node[0] == "M":
+        return [(f"D{state_num-1}", 0)] if current_col == 1 else [(f"D{state_num-1}", current_col - 1), (f"M{state_num-1}", current_col - 1), (f"I{state_num-1}", current_col - 1)]
+    elif current_node[0] == "D":
+        return [("I0", current_col)] if state_num == 1 else [(f"D{state_num-1}", current_col), (f"M{state_num-1}", current_col), (f"I{state_num-1}", current_col)]
+    else:
+        print(f"Unhandled node: {current_node}")
+        return []
+
+def simplify_graph(graph: Dict[str, List[Dict[str, float]]]) -> Dict[str, Dict[str, float]]:
+    return {k: {x["node"]: x["weight"] for x in v} for k, v in graph.items()}
+
+# Main execution
+def main(sample_input):
+    input_lines = iter(StringIO(sample_input.strip()).readlines())
+    sequence, threshold, pseudocount, alphabet, alignment = parse_input_data(input_lines)
+    transition_probs, emission_probs = build_profile_hmm_with_pseudocounts(threshold, pseudocount, alphabet, alignment)
+    num_states = (transition_probs.shape[0] - 3) // 3
+    transition_probs_dict = convert_transition_probs_to_dict(transition_probs)
+    emission_probs_dict = convert_emission_probs_to_dict(emission_probs, alphabet)
+
+    graph = build_hmm_graph(transition_probs_dict, num_states)
+    topological_order = generate_topological_order(num_states, len(sequence))
+    simplified_graph = simplify_graph(graph)
+
+    # Dynamic programming to find the most probable path
+    previous_node = next(topological_order)
+    scores = {previous_node: 0}
+    backpointers = {previous_node: (None, None)}
+
+    for current_node, current_col in topological_order:
+        backpointers[(current_node, current_col)] = 0
+        scores[(current_node, current_col)] = -inf
+        for prev_node, prev_col in get_previous_nodes(current_node, current_col, num_states, len(sequence)):
+            if prev_col < current_col and current_node != "E":
+                emission_prob = emission_probs_dict[current_node, sequence[current_col - 1]]
+            else:
+                emission_prob = 1
+            log_prob = log(simplified_graph[prev_node][current_node]) + log(emission_prob) + scores[(prev_node, prev_col)]
+            if log_prob > scores[(current_node, current_col)]:
+                scores[(current_node, current_col)] = log_prob
+                backpointers[(current_node, current_col)] = (prev_node, prev_col)
+
+    # Traceback to find the path
+    path = []
+    position = ("E", len(sequence) + 1)
+    while position[0]:
+        path.append(backpointers[position][0])
+        position = backpointers[position]
+
+    print(*path[::-1][2:])
+
+
+sample_input = """
+AEFDFDC
+--------
+0.4 0.01
+--------
+A   B   C   D   E   F
+--------
+ACDEFACADF
+AFDA---CCF
+A--EFD-FDC
+ACAEF--A-C
+ADDEFAAADF
+"""
+
+main(sample_input)
+```
+
+# Estimate the Parameters of an HMM
+
+Given: A sequence of emitted symbols x = x1 . . . xn in an alphabet ∑ and a path $π = π_1 . . . π_n$ generated by a k-state HMM with unknown transition and emission probabilities.
+
+Return: A matrix of transition probabilities Transition and a matrix of emission probabilities Emission that maximize $Pr(x,π)$ over all possible matrices of transition and emission probabilities.
+
+## Sample Dataset
+
+```
+yzzzyxzxxx
+--------
+x   y   z
+--------
+BBABABABAB
+--------
+A   B   C
+```
+
+## Sample Output
+
+```
+A   B   C
+A   0.0 1.0 0.0
+B   0.8 0.2 0.0
+C   0.333   0.333   0.333
+--------
+    x   y   z
+A   0.25    0.25    0.5
+B   0.5 0.167   0.333
+C   0.333   0.333   0.333
+```
+
+## Solution
+
+```python
+from io import StringIO
+from collections import defaultdict
+from typing import List, Tuple, Dict, Iterator, Union
+import numpy as np
+
+def normalize_row(row: np.ndarray, include_zeros: bool = False, minimum_value: float = 0.0) -> np.ndarray:
+    if include_zeros and sum(row) == 0:
+        row[:] = 1
+    with np.errstate(divide="ignore", invalid="ignore"):
+        normalized = row / sum(row)
+        normalized[row == 0.0] = minimum_value
+        return normalized
+
+def normalize_matrix(matrix: np.ndarray, include_zeros: bool = False, minimum_value: float = 0.0) -> np.ndarray:
+    return np.array([normalize_row(r, include_zeros=include_zeros, minimum_value=minimum_value) for r in matrix])
+
+def print_matrix(matrix: np.ndarray, row_labels: List[str], column_labels: List[str]) -> None:
+    print(*column_labels, sep="\t")
+    for i, row in enumerate(matrix):
+        r = [row_labels[i]] + [round(x, 3) if x > 0.0 else "0" for x in row]
+        print(*r, sep="\t")
+
+def parse_input(handle: Iterator[str]) -> Tuple[str, List[str], str, List[str]]:
+    sequence = next(handle).rstrip()
+    next(handle)
+    alphabet = next(handle).split()
+    next(handle)
+    path = next(handle).rstrip()
+    next(handle)
+    states = next(handle).split()
+    return sequence, alphabet, path, states
+
+def convert_to_dict(matrix: np.ndarray, row_labels: List[str], column_labels: List[str]) -> Dict[Tuple[str, str], float]:
+    result = defaultdict(float)
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            result[row_labels[i], column_labels[j]] = matrix[i][j]
+    return result
+
+def estimate_transition_matrix(path: str, states: List[str], to_dict: bool = False) -> Union[np.ndarray, Dict[Tuple[str, str], float]]:
+    transition_matrix = np.zeros((len(states), len(states)), dtype=float)
+    for current_state, next_state in zip(path, path[1:]):
+        transition_matrix[states.index(current_state)][states.index(next_state)] += 1
+    transition_matrix = normalize_matrix(transition_matrix, include_zeros=True, minimum_value=1e-16)
+    if to_dict:
+        return convert_to_dict(transition_matrix, states, states)
+    else:
+        return transition_matrix
+
+def estimate_emission_matrix(sequence: str, alphabet: List[str], path: str, states: List[str], to_dict: bool = False) -> Union[np.ndarray, Dict[Tuple[str, str], float]]:
+    emission_matrix = np.zeros((len(states), len(alphabet)), dtype=float)
+    for state, symbol in zip(path, sequence):
+        emission_matrix[states.index(state)][alphabet.index(symbol)] += 1
+    emission_matrix = normalize_matrix(emission_matrix, include_zeros=True, minimum_value=1e-16)
+    if to_dict:
+        return convert_to_dict(emission_matrix, states, alphabet)
+    else:
+        return emission_matrix
+
+def main(sample_input: str) -> None:
+    input_lines = iter(StringIO(sample_input.strip()).readlines())
+    sequence, alphabet, path, states = parse_input(input_lines)
+    transition_matrix = estimate_transition_matrix(path, states)
+    emission_matrix = estimate_emission_matrix(sequence, alphabet, path, states)
+    print_matrix(transition_matrix, states, states)
+    print("--------")
+    print_matrix(emission_matrix, states, alphabet)
+
+sample_input = """
+yzzzyxzxxx
+--------
+x   y   z
+--------
+BBABABABAB
+--------
+A   B   C
+"""
+
+main(sample_input)
+```
+
+# Implement Viterbi Learning
+
+Given: A sequence of emitted symbols $x=x_1 ... x_n$ in an alphabet _A_, generated by a _k_-state HMM with unknown transition and emission probabilities, initial _Transition_ and _Emission_ matrices and a number of iterations _i_.
+
+Return: A matrix of transition probabilities _Transition_ and a matrix of emission probabilities _Emission_ that maximizes $Pr(x,π)$ over all possible transition and emission matrices and over all hidden paths _π_.
+
+## Sample Dataset
+
+```
+100
+--------
+xxxzyzzxxzxyzxzxyxxzyzyzyyyyzzxxxzzxzyzzzxyxzzzxyzzxxxxzzzxyyxzzzzzyzzzxxzzxxxyxyzzyxzxxxyxzyxxyzyxz
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.582   0.418
+B   0.272   0.728
+--------
+    x   y   z
+A   0.129   0.35    0.52
+B   0.422   0.151   0.426
+```
+
+## Sample Output
+
+```
+A   B
+A   0.875   0.125
+B   0.011   0.989
+--------
+    x   y   z
+A   0.0 0.75    0.25
+B   0.402   0.174   0.424
+```
+
+## Solution
+
+```python
+from io import StringIO
+from typing import List, Dict, Tuple
+import numpy as np
+from math import log
+
+def viterbi(sequence: str, states: List[str], transition_matrix: Dict[Tuple[str, str], float], emission_matrix: Dict[Tuple[str, str], float]) -> str:
+    mat = np.zeros((len(sequence), len(states)))
+    ptr = np.zeros((len(sequence), len(states)), dtype=int)
+
+    for i, state in enumerate(states):
+        mat[0, i] = log(emission_matrix[state, sequence[0]] / len(states))
+
+    for i, emission in enumerate(sequence[1:], start=1):
+        for j, state in enumerate(states):
+            opt = [
+                log(transition_matrix[prev, state]) + log(emission_matrix[state, emission]) + mat[i - 1, k]
+                for k, prev in enumerate(states)
+            ]
+            p = opt.index(max(opt))
+            ptr[i, j] = p
+            mat[i, j] = max(opt)
+    ind = np.argmax(mat[i, :])
+
+    state_sequence = states[ind]
+    while i > 0:
+        state_sequence = states[ptr[i, ind]] + state_sequence
+        ind = ptr[i, ind]
+        i -= 1
+    return state_sequence
+
+def print_matrix(matrix: np.ndarray, row_labels: List[str], column_labels: List[str]) -> None:
+    print(*column_labels, sep="\t")
+    for i, row in enumerate(matrix):
+        r = [row_labels[i]] + [round(x, 3) if x > 0.0 else "0" for x in row]
+        print(*r, sep="\t")
+
+def normalize_matrix(matrix: np.ndarray, include_zeros: bool = True, min_val: float = 1e-16) -> np.ndarray:
+    normalized = matrix / matrix.sum(axis=1, keepdims=True)
+    if include_zeros:
+        normalized[normalized == 0] = min_val
+    return normalized
+
+def estimate_transition_matrix(path: str, states: List[str], to_dict: bool = False) -> Dict[Tuple[str, str], float]:
+    tmat = np.zeros((len(states), len(states)), dtype=float)
+    for a, b in zip(path, path[1:]):
+        tmat[states.index(a)][states.index(b)] += 1
+    tmat = normalize_matrix(tmat)
+    if to_dict:
+        return {(states[i], states[j]): tmat[i, j] for i in range(len(states)) for j in range(len(states))}
+    return tmat
+
+def estimate_emission_matrix(sequence: str, alphabet: List[str], path: str, states: List[str], to_dict: bool = False) -> Dict[Tuple[str, str], float]:
+    emat = np.zeros((len(states), len(alphabet)), dtype=float)
+    for a, b in zip(path, sequence):
+        emat[states.index(a)][alphabet.index(b)] += 1
+    emat = normalize_matrix(emat)
+    if to_dict:
+        return {(states[i], alphabet[j]): emat[i, j] for i in range(len(states)) for j in range(len(alphabet))}
+    return emat
+
+def print_dict(d: Dict[Tuple[str, str], float], row_labels: List[str], column_labels: List[str]) -> None:
+    mat = np.zeros((len(row_labels), len(column_labels)), dtype=float)
+    for i, r in enumerate(row_labels):
+        for j, c in enumerate(column_labels):
+            mat[i, j] = d[r, c]
+    print_matrix(mat, row_labels, column_labels)
+
+def parse_input(handle: StringIO) -> Tuple[int, str, List[str], List[str], Dict[Tuple[str, str], float], Dict[Tuple[str, str], float]]:
+    niter = int(next(handle).rstrip())
+    next(handle)
+    sequence = next(handle).rstrip()
+    next(handle)
+    alphabet = next(handle).split()
+    next(handle)
+    states = next(handle).split()
+    next(handle)
+    lines = [next(handle) for _ in range(len(states) + 1)]
+    transition_matrix = {
+        (states[i], states[j]): float(v)
+        for i, x in enumerate(lines[1:])
+        for j, v in enumerate(x.split()[1:])
+    }
+    next(handle)
+    lines = [next(handle) for i in range(len(states) + 1)]
+    emission_matrix = {
+        (states[i], alphabet[j]): float(v)
+        for i, x in enumerate(lines[1:])
+        for j, v in enumerate(x.split()[1:])
+    }
+    return niter, sequence, states, alphabet, transition_matrix, emission_matrix
+
+def main(sample_input: str) -> None:
+    input_lines = StringIO(sample_input.strip())
+    niter, sequence, states, alphabet, transition_matrix, emission_matrix = parse_input(input_lines)
+    for _ in range(niter):
+        path = viterbi(sequence, states, transition_matrix, emission_matrix)
+        transition_matrix = estimate_transition_matrix(path, states, to_dict=True)
+        emission_matrix = estimate_emission_matrix(sequence, alphabet, path, states, to_dict=True)
+    print_dict(transition_matrix, states, states)
+    print("--------")
+    print_dict(emission_matrix, states, alphabet)
+
+sample_input = """
+100
+--------
+xxxzyzzxxzxyzxzxyxxzyzyzyyyyzzxxxzzxzyzzzxyxzzzxyzzxxxxzzzxyyxzzzzzyzzzxxzzxxxyxyzzyxzxxxyxzyxxyzyxz
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.582   0.418
+B   0.272   0.728
+--------
+    x   y   z
+A   0.129   0.35    0.52
+B   0.422   0.151   0.426
+"""
+
+main(sample_input)
+```
+
+# Solve the Soft Decoding Problem
+
+Given: A string _x_, followed by the alphabet _Σ_ from which _x_ was constructed, followed by the states _States_, transition matrix _Transition_, and emission matrix _Emission_ of an HMM (_Σ_, _States_, _Transition_, _Emission_).
+
+Return: The probability $Pr(π_i=k|x)$ that the HMM was in state k at step i (for each state k and each step i).
+
+## Sample Dataset
+
+```
+zyxxxxyxzz
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.911   0.089
+B   0.228   0.772
+--------
+    x   y   z
+A   0.356   0.191   0.453 
+B   0.04    0.467   0.493
+```
+
+## Sample Output
+
+```
+A   B 
+0.5438  0.4562 
+0.6492  0.3508 
+0.9647  0.0353 
+0.9936  0.0064 
+0.9957  0.0043 
+0.9891  0.0109 
+0.9154  0.0846 
+0.964   0.036 
+0.8737  0.1263 
+0.8167  0.1833
+```
+
+## Solution
+
+```python
+from typing import List, Dict, Tuple, Iterator
+from io import StringIO
+import numpy as np
+
+def parse_input(handle: Iterator[str]) -> Tuple[str, List[str], Dict[Tuple[str, str], float], Dict[Tuple[str, str], float]]:
+    seq: str = next(handle).rstrip()
+    next(handle)
+    alphabet: List[str] = next(handle).split()
+    next(handle)
+    states: List[str] = next(handle).split()
+    next(handle)
+    lines: List[str] = [next(handle) for _ in range(len(states) + 1)]
+    tmat: Dict[Tuple[str, str], float] = {
+        (states[i], states[j]): float(v)
+        for i, x in enumerate(lines[1:])
+        for j, v in enumerate(x.split()[1:])
+    }
+    next(handle)
+    lines = [next(handle) for i in range(len(states) + 1)]
+    emat: Dict[Tuple[str, str], float] = {
+        (states[i], alphabet[j]): float(v)
+        for i, x in enumerate(lines[1:])
+        for j, v in enumerate(x.split()[1:])
+    }
+    return seq, states, tmat, emat
+
+def forward(seq: str, states: List[str], tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float]) -> np.ndarray:
+    mat: np.ndarray = np.ones((len(seq), len(states)))
+
+    for i, state in enumerate(states):
+        mat[0, i] = emat[state, seq[0]]
+    for i, emission in enumerate(seq[1:], start=1):
+        for j, state in enumerate(states):
+            mat[i, j] = sum(
+                tmat[prev, state] * emat[state, emission] * mat[i - 1, k]
+                for k, prev in enumerate(states)
+            )
+
+    return mat
+
+def backward(seq: str, states: List[str], tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float]) -> np.ndarray:
+    mat: np.ndarray = np.ones((len(seq), len(states)))
+
+    for i, emission in enumerate(seq[::-1][:-1], start=1):
+        for j, state in enumerate(states):
+            mat[len(seq) - i - 1, j] = sum(
+                tmat[state, prev] * emat[prev, emission] * mat[len(seq) - i, k]
+                for k, prev in enumerate(states)
+            )
+    return mat
+
+def soft_decode(seq: str, states: List[str], tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float], normalise: bool = True) -> np.ndarray:
+    tot: np.ndarray = forward(seq, states, tmat, emat) * backward(seq, states, tmat, emat)
+    if normalise:
+        tot = tot / np.sum(tot, axis=1, keepdims=True)
+    return tot
+
+def main(sample_input: str) -> None:
+    input_lines: Iterator[str] = StringIO(sample_input.strip())
+    seq, states, tmat, emat = parse_input(input_lines)
+    tot: np.ndarray = soft_decode(seq, states, tmat, emat)
+    print(*states, sep="\t")
+    for r in np.round(tot, 4):
+        print(*r, sep="\t")
+
+sample_input: str = """
+zyxxxxyxzz
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.911   0.089
+B   0.228   0.772
+--------
+    x   y   z
+A   0.356   0.191   0.453 
+B   0.04    0.467   0.493
+"""
+
+main(sample_input)
+```
+
+# Implement Baum-Welch Learning
+
+Given: A sequence of emitted symbols $x=x_1...x_n$ in an alphabet A, generated by a k-state HMM with unknown transition and emission probabilities, initial Transition and Emission matrices and a number of iterations I.
+
+Return: A matrix of transition probabilities Transition and a matrix of emission probabilities Emission that maximizes $Pr(x,π)$ over all possible transition and emission matrices and over all hidden paths π.
+
+## Sample Dataset
+
+```
+10
+--------
+xzyyzyzyxy
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.019   0.981 
+B   0.668   0.332 
+--------
+x   y   z
+A   0.175   0.003   0.821 
+B   0.196   0.512   0.293
+```
+
+## Sample Output
+
+```
+A   B
+A   0.000   1.000   
+B   0.786   0.214   
+--------
+    x   y   z
+A   0.242   0.000   0.758   
+B   0.172   0.828   0.000
+```
+
+## Solution
+
+```python
+from typing import List, Dict, Tuple, Iterator
+from io import StringIO
+import numpy as np
+from collections import defaultdict
+
+def print_matrix(matrix: np.ndarray, row_labels: List[str], col_labels: List[str]) -> None:
+    print(*col_labels, sep="\t")
+    for i, row in enumerate(matrix):
+        r = [row_labels[i]] + [round(x, 3) if x > 0.0 else "0" for x in row]
+        print(*r, sep="\t")
+
+def print_dict(d: Dict[Tuple[str, str], float], row_labels: List[str], col_labels: List[str]) -> None:
+    mat = np.zeros((len(row_labels), len(col_labels)), dtype=float)
+    for i, r in enumerate(row_labels):
+        for j, c in enumerate(col_labels):
+            mat[i, j] = d[r, c]
+    print_matrix(mat, row_labels, col_labels)
+
+def parse_input(handle: Iterator[str]) -> Tuple[int, str, List[str], List[str], Dict[Tuple[str, str], float], Dict[Tuple[str, str], float]]:
+    niter = int(next(handle).rstrip())
+    next(handle)
+    seq = next(handle).rstrip()
+    next(handle)
+    alphabet = next(handle).split()
+    next(handle)
+    states = next(handle).split()
+    next(handle)
+    lines = [next(handle) for _ in range(len(states) + 1)]
+    tmat = {
+        (states[i], states[j]): float(v)
+        for i, x in enumerate(lines[1:])
+        for j, v in enumerate(x.split()[1:])
+    }
+    next(handle)
+    lines = [next(handle) for _ in range(len(states) + 1)]
+    emat = {
+        (states[i], alphabet[j]): float(v)
+        for i, x in enumerate(lines[1:])
+        for j, v in enumerate(x.split()[1:])
+    }
+    return niter, seq, states, alphabet, tmat, emat
+
+def forward(seq: str, states: List[str], tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float]) -> np.ndarray:
+    mat = np.ones((len(seq), len(states)))
+    for i, state in enumerate(states):
+        mat[0, i] = emat[state, seq[0]]
+    for i, emission in enumerate(seq[1:], start=1):
+        for j, state in enumerate(states):
+            mat[i, j] = sum(
+                tmat[prev, state] * emat[state, emission] * mat[i - 1, k]
+                for k, prev in enumerate(states)
+            )
+    return mat
+
+def backward(seq: str, states: List[str], tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float]) -> np.ndarray:
+    mat = np.ones((len(seq), len(states)))
+    for i, emission in enumerate(seq[::-1][:-1], start=1):
+        for j, state in enumerate(states):
+            mat[len(seq) - i - 1, j] = sum(
+                tmat[state, prev] * emat[prev, emission] * mat[len(seq) - i, k]
+                for k, prev in enumerate(states)
+            )
+    return mat
+
+def soft_decode(seq: str, states: List[str], tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float], normalise: bool = True) -> np.ndarray:
+    tot = forward(seq, states, tmat, emat) * backward(seq, states, tmat, emat)
+    if normalise:
+        tot = tot / np.sum(tot, axis=1, keepdims=True)
+    return tot
+
+def as_dict(x: np.ndarray, r: List[str], c: List[str]) -> Dict[Tuple[str, str], float]:
+    g = defaultdict(float)
+    for i in range(x.shape[0]):
+        for j in range(x.shape[1]):
+            g[r[i], c[j]] = x[i][j]
+    return g
+
+def estimate_pi2(seq: str, fwd: np.ndarray, bak: np.ndarray, tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float], states: List[str]) -> np.ndarray:
+    rep_mat = np.zeros((fwd.shape[0] - 1, len(states), len(states)), dtype=float)
+    for i in range(0, fwd.shape[0] - 1):
+        for j, s1 in enumerate(states):
+            for k, s2 in enumerate(states):
+                weight = tmat[s1, s2] * emat[s2, seq[i + 1]]
+                rep_mat[i, j, k] = (
+                    fwd[i, j] * bak[i + 1, k] * weight / sum(fwd[i, :] * bak[i, :])
+                )
+    return rep_mat
+
+def estimate_tmat(seq: str, st: List[str], tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float]) -> Dict[Tuple[str, str], float]:
+    fwd = forward(seq, st, tmat, emat)
+    bak = backward(seq, st, tmat, emat)
+    pi2 = estimate_pi2(seq, fwd, bak, tmat, emat, st)
+    tmat_new = np.sum(pi2, 0)
+    tmat_new = tmat_new / np.sum(tmat_new, axis=1, keepdims=True)
+    return as_dict(tmat_new, st, st)
+
+def estimate_emat(seq: str, al: List[str], st: List[str], tmat: Dict[Tuple[str, str], float], emat: Dict[Tuple[str, str], float]) -> Dict[Tuple[str, str], float]:
+    pi1 = soft_decode(seq, st, tmat, emat)
+    emat_new = np.zeros((len(st), len(al)), dtype=float)
+    for i, emission in enumerate(al):
+        ind = np.array(list(seq)) == emission
+        emat_new[:, i] = np.sum(pi1[ind, :], 0)
+    emat_new = emat_new / np.sum(emat_new, axis=1, keepdims=True)
+    return as_dict(emat_new, st, al)
+
+def main(sample_input: str) -> None:
+    input_lines = StringIO(sample_input.strip())
+    niter, seq, st, al, tmat, emat = parse_input(input_lines)
+    for _ in range(niter):
+        tmat2 = estimate_tmat(seq, st, tmat, emat)
+        emat2 = estimate_emat(seq, al, st, tmat, emat)
+        emat, tmat = emat2, tmat2
+    print_dict(tmat, st, st)
+    print("--------")
+    print_dict(emat, st, al)
+
+sample_input: str = """
+10
+--------
+xzyyzyzyxy
+--------
+x   y   z
+--------
+A   B
+--------
+    A   B
+A   0.019   0.981 
+B   0.668   0.332 
+--------
+x   y   z
+A   0.175   0.003   0.821 
+B   0.196   0.512   0.293
+"""
+
+main(sample_input)
+```
+
+# Construct the Graph of a Spectrum
+
+## Spectrum Graph Construction
+
+Construct the graph of a spectrum.
+
+Given: A space-delimited list of integers _Spectrum_.
+
+Return: _Graph(Spectrum)_.
+
+**Note:** In this chapter, all dataset problems implicitly use the standard integer-valued mass table for the regular twenty amino acids. Examples sometimes use imaginary amino acids X and Z having respective integer masses 4 and 5.
+
+## Sample Dataset
+
+```
+57 71 154 185 301 332 415 429 486
+```
+
+## Sample Output
+
+```
+0->57:G
+0->71:A
+57->154:P
+57->185:K
+71->185:N
+154->301:F
+185->332:F
+301->415:N
+301->429:K
+332->429:P
+415->486:A
+429->486:G
+```
+
+## Solution
+
+```python
+from collections import defaultdict
+
+# Amino acid weights dictionary
+amino_acid_weights = {
+    'G': 57, 'A': 71, 'S': 87, 'P': 97, 'V': 99,
+    'T': 101, 'C': 103, 'I': 113, 'L': 113, 'N': 114,
+    'D': 115, 'K': 128, 'Q': 128, 'E': 129, 'M': 131,
+    'H': 137, 'F': 147, 'R': 156, 'Y': 163, 'W': 186
+}
+
+def spectrum_graph(masses):
+    # Reverse mapping of weights to amino acids
+    weight_to_amino_acid = {weight: aa for aa, weight in amino_acid_weights.items()}
+    
+    graph = defaultdict(list)
+    
+    # Create graph based on mass differences
+    for i in range(len(masses)):
+        for j in range(i + 1, len(masses)):
+            difference = masses[j] - masses[i]
+            if difference in weight_to_amino_acid:
+                graph[masses[i]].append({"n": masses[j], "l": weight_to_amino_acid[difference]})
+    
+    return graph
+
+# Sample input
+sample_input = "57 71 154 185 301 332 415 429 486"
+masses = [0] + list(map(int, sample_input.split()))
+
+# Print the spectrum graph
+for start_mass, edges in spectrum_graph(masses).items():
+    for edge in edges:
+        print(f"{start_mass}->{edge['n']}:{edge['l']}")
+```
+
+# Implement MotifEnumeration
+
+Implanted Motif Problem. Implement MotifEnumeration (shown above) to find all (k, d)-motifs in a collection of strings.
+
+Given: Integers _k_ and _d_, followed by a collection of strings _Dna_.
+
+Return: All (_k_, _d_)-motifs in _Dna_.
+
+## Sample Dataset
+
+```
+3 1
+ATTTGGC
+TGCCTTA
+CGGTATC
+GAAAATT
+```
+
+## Sample Output
+
+```
+ATA ATT GTT TTT
+```
+
+## Solution
+
+```python
+from typing import List, Set, Iterator
+
+def calculate_hamming_distance(sequence1: str, sequence2: str) -> int:
+    return sum(c1 != c2 for c1, c2 in zip(sequence1, sequence2))
+
+def generate_neighbors(sequence: str, max_distance: int) -> Set[str]:
+    nucleotides = ["A", "T", "G", "C"]
+    if max_distance == 0:
+        return {sequence}
+    if len(sequence) == 1:
+        return set(nucleotides)
+    
+    neighbor_set = set()
+    for neighbor in generate_neighbors(sequence[1:], max_distance):
+        if calculate_hamming_distance(sequence[1:], neighbor) < max_distance:
+            for nucleotide in nucleotides:
+                neighbor_set.add(nucleotide + neighbor)
+        else:
+            neighbor_set.add(sequence[0] + neighbor)
+    return neighbor_set
+
+def generate_substrings(text: str, substring_length: int) -> Iterator[str]:
+    for i in range(len(text) - substring_length + 1):
+        yield text[i : i + substring_length]
+
+def get_all_kmers(dna_sequences: List[str], kmer_length: int) -> Set[str]:
+    return set(kmer for sequence in dna_sequences for kmer in generate_substrings(sequence, kmer_length))
+
+def contains_approximate_match(pattern: str, text: str, max_distance: int) -> bool:
+    return any(calculate_hamming_distance(substring, pattern) <= max_distance 
+               for substring in generate_substrings(text, len(pattern)))
+
+def enumerate_motifs(dna_sequences: List[str], kmer_length: int, max_distance: int) -> Set[str]:
+    motif_patterns = set()
+    for kmer in get_all_kmers(dna_sequences, kmer_length):
+        for neighbor_kmer in generate_neighbors(kmer, max_distance):
+            if all(contains_approximate_match(neighbor_kmer, sequence, max_distance) for sequence in dna_sequences):
+                motif_patterns.add(neighbor_kmer)
+    return motif_patterns
+
+# Sample input
+sample_input = """
+3 1
+ATTTGGC
+TGCCTTA
+CGGTATC
+GAAAATT
+"""
+
+input_params, *dna_sequences = sample_input.strip().split("\n")
+kmer_length, max_distance = map(int, input_params.split())
+print(*sorted(enumerate_motifs(dna_sequences, kmer_length, max_distance)))
+```
+
+# Find a Median String
+
+Median String Problem, Find a median string.
+
+Given: An integer _k_ and a collection of strings _Dna_.
+
+Return: A _k_-mer _Pattern_ that minimizes _d_(_Pattern_, _Dna_) over all _k_-mers _Pattern_. (If multiple answers exist, you may return any one.)
+
+## Sample Dataset
+
+```
+3
+AAATTGACGCAT
+GACGACCACGTT
+CGTCAGCGCCTG
+GCTGAGCACCGG
+AGTACGGGACAG
+```
+
+## Sample Output
+
+```
+ACG
+```
+
+## Solution
+
+```python
+from typing import Iterator, List
+from itertools import product
+import math
+
+def generate_substrings(text: str, substring_length: int) -> Iterator[str]:
+    for i in range(len(text) - substring_length + 1):
+        yield text[i : i + substring_length]
+
+def generate_kmers(kmer_length: int) -> Iterator[str]:
+    return ("".join(nucleotides) for nucleotides in product("ACGT", repeat=kmer_length))
+
+def calculate_hamming_distance(sequence1: str, sequence2: str) -> int:
+    return sum(nucleotide1 != nucleotide2 for nucleotide1, nucleotide2 in zip(sequence1, sequence2))
+
+def find_minimum_distance(pattern: str, text: str) -> int:
+    return min(calculate_hamming_distance(substring, pattern) for substring in generate_substrings(text, len(pattern)))
+
+def calculate_total_distance(pattern: str, dna_sequences: List[str]) -> int:
+    return sum(find_minimum_distance(pattern, sequence) for sequence in dna_sequences)
+
+def find_median_string(dna_sequences: List[str], kmer_length: int) -> str:
+    min_distance = math.inf
+    median_kmer = ""
+    
+    for kmer in generate_kmers(kmer_length):
+        current_distance = calculate_total_distance(kmer, dna_sequences)
+        if current_distance < min_distance:
+            min_distance = current_distance
+            median_kmer = kmer
+    
+    return median_kmer
+
+# Sample input
+sample_input = """
+3
+AAATTGACGCAT
+GACGACCACGTT
+CGTCAGCGCCTG
+GCTGAGCACCGG
+AGTACGGGACAG
+"""
+
+kmer_length, *dna_sequences = sample_input.strip().split("\n")
+result = find_median_string(dna_sequences, int(kmer_length))
+print(result)
+```
+
+# Find a Profile-most Probable k-mer in a String
+
+Profile-most Probable _k_-mer Problem, Find a Profile-most probable k-mer in a string.
+
+Given: A string _Text_, an integer _k_, and a 4 × _k_ matrix _Profile_.
+
+Return: A _Profile_-most probable _k_-mer in _Text_. (If multiple answers exist, you may return any one.)
+
+## Sample Dataset
+
+```
+ACCTGTTTATTGCCTAAGTTCCGAACAAACCCAATATAGCCCGAGGGCCT
+5
+0.2 0.2 0.3 0.2 0.3
+0.4 0.3 0.1 0.5 0.1
+0.3 0.3 0.5 0.2 0.4
+0.1 0.2 0.1 0.1 0.2
+```
+
+## Sample Output
+
+```
+CCGAG
+```
+
+## Solution
+
+```python
+from typing import Iterator, List
+import math
+
+def generate_substrings(text: str, substring_length: int) -> Iterator[str]:
+    for i in range(len(text) - substring_length + 1):
+        yield text[i : i + substring_length]
+
+def find_profile_most_probable_kmer(sequence: str, kmer_length: int, profile_matrix: List[List[float]]) -> str:
+    nucleotide_index = {"A": 0, "C": 1, "G": 2, "T": 3}
+    max_probability = -1
+    most_probable_kmer = ""
+
+    for kmer in generate_substrings(sequence, kmer_length):
+        kmer_probability = math.prod(profile_matrix[nucleotide_index[kmer[j]]][j] for j in range(kmer_length))
+        if kmer_probability > max_probability:
+            max_probability = kmer_probability
+            most_probable_kmer = kmer
+
+    return most_probable_kmer
+
+# Sample input
+sample_input = """
+ACCTGTTTATTGCCTAAGTTCCGAACAAACCCAATATAGCCCGAGGGCCT
+5
+0.2 0.2 0.3 0.2 0.3
+0.4 0.3 0.1 0.5 0.1
+0.3 0.3 0.5 0.2 0.4
+0.1 0.2 0.1 0.1 0.2
+"""
+
+dna_sequence, kmer_length, *profile_rows = sample_input.strip().split("\n")
+profile_matrix = [list(map(float, row.split())) for row in profile_rows]
+result = find_profile_most_probable_kmer(dna_sequence, int(kmer_length), profile_matrix)
+print(result)
+```
+
+# Implement GreedyMotifSearch
+
+ Implement, GreedyMotifSearch.
+
+Given: Integers _k_ and _t_, followed by a collection of strings _Dna_.
+
+Return: A collection of strings _BestMotifs_ resulting from running _GreedyMotifSearch_(_Dna_, _k_, _t_). If at any step you find more than one _Profile_-most probable _k_-mer in a given string, use the one occurring first.
+
+## Sample Dataset
+
+```
+3 5
+GGCGTTCAGGCA
+AAGAATCAGTCA
+CAAGGAGTTCGC
+CACGTCAATCAC
+CAATAATATTCG
+```
+
+## Sample Output
+
+```
+CAG
+CAG
+CAA
+CAA
+CAA
+```
+
+## Solution
+
+```python
+from typing import Iterator, List, Dict
+from collections import Counter
+import math
+
+def generate_kmers(sequence: str, kmer_length: int) -> Iterator[str]:
+    for i in range(len(sequence) - kmer_length + 1):
+        yield sequence[i : i + kmer_length]
+
+def find_most_probable_kmer(sequence: str, kmer_length: int, profile: List[List[float]]) -> str:
+    nucleotide_to_index: Dict[str, int] = {"A": 0, "C": 1, "G": 2, "T": 3}
+    max_probability: float = -1
+    most_probable_kmer: str = ""
+
+    for kmer in generate_kmers(sequence, kmer_length):
+        kmer_probability: float = math.prod(profile[nucleotide_to_index[kmer[j]]][j] for j in range(kmer_length))
+        if kmer_probability > max_probability:
+            max_probability = kmer_probability
+            most_probable_kmer = kmer
+
+    return most_probable_kmer
+
+def create_profile(sequences: List[str], pseudocount: int = 0) -> List[List[float]]:
+    nucleotides: List[str] = ["A", "C", "G", "T"]
+    profile: List[List[float]] = [[] for _ in nucleotides]
+    for i, nucleotide in enumerate(nucleotides):
+        profile[i] = [
+            (sum(seq[j] == nucleotide for seq in sequences) + pseudocount) / len(sequences)
+            for j in range(len(sequences[0]))
+        ]
+    return profile
+
+def calculate_score(motifs: List[str]) -> int:
+    score: int = 0
+    for i in range(len(motifs[0])):
+        column: List[str] = [motif[i] for motif in motifs]
+        most_common: str = Counter(column).most_common()[0][0]
+        score += sum(nucleotide != most_common for nucleotide in column)
+    return score
+
+def greedy_motif_search(dna_sequences: List[str], kmer_length: int, pseudocount: int = 0) -> List[str]:
+    best_motifs: List[str] = [seq[:kmer_length] for seq in dna_sequences]
+    for kmer in generate_kmers(dna_sequences[0], kmer_length):
+        current_motifs: List[str] = [kmer]
+        for i in range(1, len(dna_sequences)):
+            current_profile: List[List[float]] = create_profile(current_motifs, pseudocount=pseudocount)
+            current_motifs.append(find_most_probable_kmer(dna_sequences[i], kmer_length, current_profile))
+        if calculate_score(current_motifs) < calculate_score(best_motifs):
+            best_motifs = current_motifs
+    return best_motifs
+
+# Sample input
+sample_input: str = """
+3 5
+GGCGTTCAGGCA
+AAGAATCAGTCA
+CAAGGAGTTCGC
+CACGTCAATCAC
+CAATAATATTCG
+"""
+
+ints, *dna = sample_input.strip().split("\n")
+k, t = map(int, ints.split())
+result: List[str] = greedy_motif_search(dna, k)
+print(*result, sep="\n")
+```
+
+# Implement GreedyMotifSearch with Pseudocounts
+
+Implement. _GreedyMotifSearch_ with Pseudocounts.
+
+Given: Integers _k_ and _t_, followed by a collection of strings _Dna_.
+
+Return: A collection of strings _BestMotifs_ resulting from running _GreedyMotifSearch_(_Dna_, _k_, _t_) with pseudocounts. If at any step you find more than one _Profile_-most probable _k_-mer in a given string, use the one occurring first.
+
+## Sample Dataset
+
+```
+3 5
+GGCGTTCAGGCA
+AAGAATCAGTCA
+CAAGGAGTTCGC
+CACGTCAATCAC
+CAATAATATTCG
+```
+
+## Sample Output
+
+```
+TTC
+ATC
+TTC
+ATC
+TTC
+```
+
+## Solution
+
+```python
+from typing import Iterator, List, Dict
+from collections import Counter
+import math
+
+def generate_kmers(sequence: str, kmer_length: int) -> Iterator[str]:
+    for i in range(len(sequence) - kmer_length + 1):
+        yield sequence[i : i + kmer_length]
+
+def find_most_probable_kmer(sequence: str, kmer_length: int, profile: List[List[float]]) -> str:
+    nucleotide_to_index: Dict[str, int] = {"A": 0, "C": 1, "G": 2, "T": 3}
+    return max(
+        generate_kmers(sequence, kmer_length),
+        key=lambda kmer: math.prod(profile[nucleotide_to_index[nucleotide]][position] 
+                                   for position, nucleotide in enumerate(kmer))
+    )
+
+def create_profile(motifs: List[str], pseudocount: int = 0) -> List[List[float]]:
+    nucleotides: List[str] = ["A", "C", "G", "T"]
+    motif_count: int = len(motifs)
+    motif_length: int = len(motifs[0])
+    
+    return [
+        [(sum(motif[position] == nucleotide for motif in motifs) + pseudocount) / motif_count 
+         for position in range(motif_length)]
+        for nucleotide in nucleotides
+    ]
+
+def calculate_score(motifs: List[str]) -> int:
+    return sum(
+        sum(nucleotide != Counter(column).most_common(1)[0][0] for nucleotide in column)
+        for column in zip(*motifs)
+    )
+
+def greedy_motif_search(dna_sequences: List[str], kmer_length: int, pseudocount: int = 0) -> List[str]:
+    best_motifs: List[str] = [sequence[:kmer_length] for sequence in dna_sequences]
+    
+    for kmer in generate_kmers(dna_sequences[0], kmer_length):
+        current_motifs: List[str] = [kmer]
+        for sequence in dna_sequences[1:]:
+            profile: List[List[float]] = create_profile(current_motifs, pseudocount)
+            current_motifs.append(find_most_probable_kmer(sequence, kmer_length, profile))
+        
+        if calculate_score(current_motifs) < calculate_score(best_motifs):
+            best_motifs = current_motifs
+    
+    return best_motifs
+
+# Sample input
+sample_input: str = """
+3 5
+GGCGTTCAGGCA
+AAGAATCAGTCA
+CAAGGAGTTCGC
+CACGTCAATCAC
+CAATAATATTCG
+"""
+
+k_value, _, *dna_sequences = sample_input.strip().split()
+k_value = int(k_value)
+result: List[str] = greedy_motif_search(dna_sequences, k_value, pseudocount=1)
+print(*result, sep="\n")
+```
+
+# Implement RandomizedMotifSearch
+
+Implement _RandomizedMotifSearch_.
+
+Given: Positive integers _k_ and _t_, followed by a collection of strings _Dna_.
+
+Return: A collection _BestMotifs_ resulting from running _RandomizedMotifSearch_(_Dna_, _k_, _t_) 1000 times. Remember to use pseudocounts!
+
+## Sample Dataset
+
+```
+8 5
+CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA
+GGGCGAGGTATGTGTAAGTGCCAAGGTGCCAG
+TAGTACCGAGACCGAAAGAAGTATACAGGCGT
+TAGATCAAGTTTCAGGTGCACGTCGGTGAACC
+AATCCACCAGCTCCACGTGCAATGTTGGCCTA
+```
+
+## Sample Output
+
+```
+AACGGCCA
+AAGTGCCA
+TAGTACCG
+AAGTTTCA
+ACGTGCAA
+```
+
+## Solution
+
+```python
+from typing import List, Tuple, Callable
+from collections import Counter
+from random import randint
+import math
+
+def generate_kmers(sequence: str, kmer_length: int) -> List[str]:
+    return [sequence[i:i+kmer_length] for i in range(len(sequence) - kmer_length + 1)]
+
+def find_most_probable_kmer(sequence: str, kmer_length: int, profile: List[List[float]]) -> str:
+    nucleotide_to_index = {"A": 0, "C": 1, "G": 2, "T": 3}
+    return max(
+        generate_kmers(sequence, kmer_length),
+        key=lambda kmer: math.prod(profile[nucleotide_to_index[nucleotide]][j] for j, nucleotide in enumerate(kmer))
+    )
+
+def create_profile(motifs: List[str], pseudocount: int = 0) -> List[List[float]]:
+    nucleotides = ["A", "C", "G", "T"]
+    profile = []
+    for nucleotide in nucleotides:
+        profile.append([
+            (sum(seq[j] == nucleotide for seq in motifs) + pseudocount) / (len(motifs) + 4 * pseudocount)
+            for j in range(len(motifs[0]))
+        ])
+    return profile
+
+def calculate_score(motifs: List[str]) -> int:
+    return sum(
+        sum(nucleotide != Counter(column).most_common(1)[0][0] for nucleotide in column)
+        for column in zip(*motifs)
+    )
+
+def generate_random_kmer(sequence: str, kmer_length: int) -> str:
+    start = randint(0, len(sequence) - kmer_length)
+    return sequence[start : start + kmer_length]
+
+def find_motifs(profile: List[List[float]], dna_sequences: List[str]) -> List[str]:
+    kmer_length = len(profile[0])
+    return [find_most_probable_kmer(seq, kmer_length, profile) for seq in dna_sequences]
+
+def randomized_motif_search(dna_sequences: List[str], kmer_length: int) -> Tuple[int, List[str]]:
+    motifs = [generate_random_kmer(seq, kmer_length) for seq in dna_sequences]
+    best_score = math.inf
+    
+    while True:
+        profile = create_profile(motifs, pseudocount=1)
+        motifs = find_motifs(profile, dna_sequences)
+        current_score = calculate_score(motifs)
+        
+        if current_score >= best_score:
+            return best_score, motifs
+        
+        best_score = current_score
+
+def find_best_motifs(search_function: Callable, iterations: int, *args) -> List[str]:
+    best_score, best_motifs = search_function(*args)
+    
+    for _ in range(iterations - 1):
+        score, motifs = search_function(*args)
+        if score < best_score:
+            best_score, best_motifs = score, motifs
+    
+    return best_motifs
+
+# Sample input
+sample_input = """
+8 5
+CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA
+GGGCGAGGTATGTGTAAGTGCCAAGGTGCCAG
+TAGTACCGAGACCGAAAGAAGTATACAGGCGT
+TAGATCAAGTTTCAGGTGCACGTCGGTGAACC
+AATCCACCAGCTCCACGTGCAATGTTGGCCTA
+"""
+
+kmer_length, _, *dna_sequences = sample_input.strip().split()
+kmer_length = int(kmer_length)
+
+result = find_best_motifs(randomized_motif_search, 1000, dna_sequences, kmer_length)
+print(*result, sep="\n")
+```
+
+# Implement GibbsSampler
+
+Implement, _GibbsSampler_.
+
+Given: Integers _k_, _t_, and _N_, followed by a collection of strings _Dna_.
+
+Return: The strings _BestMotifs_ resulting from running _GibbsSampler_(_Dna_, _k_, _t_, _N_) with 20 random starts. Remember to use pseudocounts!
+
+## Sample Dataset
+
+```
+8 5 100
+CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA
+GGGCGAGGTATGTGTAAGTGCCAAGGTGCCAG
+TAGTACCGAGACCGAAAGAAGTATACAGGCGT
+TAGATCAAGTTTCAGGTGCACGTCGGTGAACC
+AATCCACCAGCTCCACGTGCAATGTTGGCCTA
+```
+
+## Sample Output
+
+```
+TCTCGGGG
+CCAAGGTG
+TACAGGCG
+TTCAGGTG
+TCCACGTG
+```
+
+## Solution
+
+```python
+from typing import List, Iterator, Tuple, Callable
+from collections import Counter
+import math
+import random
+
+def generate_kmers(sequence: str, kmer_length: int) -> Iterator[str]:
+    for i in range(len(sequence) - kmer_length + 1):
+        yield sequence[i : i + kmer_length]
+
+def create_profile(motifs: List[str], pseudocount: int = 0) -> List[List[float]]:
+    nucleotides: List[str] = ["A", "C", "G", "T"]
+    motif_count: int = len(motifs)
+    motif_length: int = len(motifs[0])
+    
+    return [
+        [(sum(motif[position] == nucleotide for motif in motifs) + pseudocount) / (motif_count + 4*pseudocount)
+         for position in range(motif_length)]
+        for nucleotide in nucleotides
+    ]
+
+def calculate_score(motifs: List[str]) -> int:
+    return sum(
+        sum(nucleotide != Counter(column).most_common(1)[0][0] for nucleotide in column)
+        for column in zip(*motifs)
+    )
+
+def generate_random_kmer(sequence: str, kmer_length: int) -> str:
+    start_index = random.randint(0, len(sequence) - kmer_length)
+    return sequence[start_index : start_index + kmer_length]
+
+def find_best_motifs(search_function: Callable, iterations: int, *args) -> List[str]:
+    best_score, best_motifs = search_function(*args)
+    for _ in range(iterations - 1):
+        score, motifs = search_function(*args)
+        if score < best_score:
+            best_score, best_motifs = score, motifs
+    return best_motifs
+
+def calculate_kmer_probabilities(sequence: str, kmer_length: int, profile: List[List[float]]) -> List[float]:
+    nucleotide_to_index: Dict[str, int] = {"A": 0, "C": 1, "G": 2, "T": 3}
+    return [
+        math.prod(profile[nucleotide_to_index[kmer[j]]][j] for j in range(kmer_length))
+        for kmer in generate_kmers(sequence, kmer_length)
+    ]
+
+def select_random_kmer(sequence: str, kmer_length: int, profile: List[List[float]]) -> str:
+    probabilities = calculate_kmer_probabilities(sequence, kmer_length, profile)
+    start_index = random.choices(range(len(probabilities)), probabilities)[0]
+    return sequence[start_index : start_index + kmer_length]
+
+def gibbs_sampler(dna_sequences: List[str], kmer_length: int, num_iterations: int) -> Tuple[int, List[str]]:
+    motifs = [generate_random_kmer(seq, kmer_length) for seq in dna_sequences]
+    best_motifs = motifs.copy()
+    for _ in range(num_iterations):
+        i = random.randint(0, len(dna_sequences) - 1)
+        profile = create_profile(motifs[:i] + motifs[i + 1 :], pseudocount=1)
+        motifs[i] = select_random_kmer(dna_sequences[i], kmer_length, profile)
+        if calculate_score(motifs) < calculate_score(best_motifs):
+            best_motifs = motifs.copy()
+    return calculate_score(best_motifs), best_motifs
+
+# Sample input
+sample_input = """
+8 5 100
+TCTCGGGG
+CCAAGGTG
+TACAGGCG
+TTCAGGTG
+TCCACGTG
+"""
+
+kmer_length, num_sequences, num_iterations, *dna_sequences = sample_input.strip().split()
+kmer_length = int(kmer_length)
+num_iterations = int(num_iterations)
+result = find_best_motifs(gibbs_sampler, 20, dna_sequences, kmer_length, num_iterations)
+print(*result, sep="\n")
+```
+
+# Implement DistanceBetweenPatternAndStrings
+
+Compute DistanceBetweenPatternAndStrings. _Find the distance between a pattern and a set of strings._.
+
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Pattern_ and a collection of DNA strings _Dna_.
+
+Return: _DistanceBetweenPatternAndStrings_(_Pattern_, _Dna_).
+
+## Sample Dataset
+
+```
+AAA
+TTACCTTAAC GATATCTGTC ACGGCGTTCG CCCTAAAGAG CGTCAGAGGT
+```
+
+## Sample Output
+
+```
+5
+```
+
+## Solution
+
+```python
+from typing import List, Iterator
+import math
+
+def generate_kmers(sequence: str, kmer_length: int) -> Iterator[str]:
+    for i in range(len(sequence) - kmer_length + 1):
+        yield sequence[i : i + kmer_length]
+
+def calculate_hamming_distance(seq1: str, seq2: str) -> int:
+    return sum(base1 != base2 for base1, base2 in zip(seq1, seq2))
+
+def find_minimum_distance(pattern: str, text: str) -> int:
+    return min(calculate_hamming_distance(kmer, pattern) for kmer in generate_kmers(text, len(pattern)))
+
+def calculate_pattern_distance_to_strings(pattern: str, dna_strings: List[str]) -> int:
+    return sum(find_minimum_distance(pattern, dna_string) for dna_string in dna_strings)
+
+# Sample input
+sample_input = """
+AAA
+TTACCTTAAC GATATCTGTC ACGGCGTTCG CCCTAAAGAG CGTCAGAGGT
+"""
+
+pattern, dna_strings_raw = sample_input.strip().split("\n")
+dna_strings = dna_strings_raw.split()
+
+result = calculate_pattern_distance_to_strings(pattern, dna_strings)
+print(result)
+```
+

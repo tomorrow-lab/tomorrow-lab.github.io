@@ -1,0 +1,1174 @@
+---
+title: "Rosalind Armory 문제풀이"
+author: "Taeyoon Kim"
+categories: [Python, Rosalind, Bioinformatics, Tip]
+draft: false
+date: "2024-09-28"
+---
+
+![](Rosalind_armory.png){width=100% fig-align="center"}
+
+생물 정보학 분석을 위해 사용할 수 있는 소프트웨어는 이미 많습니다. [stronghold](/posts/md/Rosalind_stronghold.html)에서는 알고리즘을 직접 구현했다면, 여기 [armory](/posts/md/Rosalind_armory.html)에서는 이미 존재하는 도구를 사용하여 비슷한 문제를 풀어봅니다.
+
+[Rosalind](https://rosalind.info/) 는 [프로젝트 오일러](http://projecteuler.net/), [구글 코드 잼](http://code.google.com/codejam) 에서 영감을 얻었습니다. 이 프로젝트의 이름은 DNA 이중나선을 발견하는 데 기여한 [로잘린드 프랭클린](http://en.wikipedia.org/wiki/Rosalind_Franklin) 에서 따왔습니다. Rosalind 는 프로그래밍 실력을 키우고자 하는 생물학자와 분자생물학의 계산 문제를 접해본 적이 없는 프로그래머들에게 도움이 될 것입니다.
+
+# Introduction to the Bioinformatics Armory
+
+This initial problem is aimed at familiarizing you with Rosalind's task-solving pipeline. To solve it, you merely have to take a given [DNA](https://rosalind.info/glossary/dna/) [sequence](https://rosalind.info/glossary/genetic-string/) and find its [nucleotide](https://rosalind.info/glossary/nucleotide/) counts; this problem is equivalent to [“Counting DNA Nucleotides”](https://rosalind.info/problems/dna/) in the [Stronghold](http://rosalind.info/problems/list-view/).
+
+Of the many tools for [DNA](https://rosalind.info/glossary/dna/) sequence analysis, one of the most popular is the [Sequence Manipulation Suite](https://rosalind.info/glossary/sms-2/). Commonly known as SMS 2, it comprises a collection of programs for generating, formatting, and analyzing short [strands](https://rosalind.info/glossary/strand/) of DNA and [polypeptides](https://rosalind.info/glossary/polypeptide/).
+
+One of the simplest SMS 2 programs, called `DNA stats`, counts the number of occurrences of each nucleotide in a given strand of DNA. An online interface for `DNA stats` can be found [here](http://www.bioinformatics.org/sms2/dna_stats.html).
+
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) $s$ of length at most 1000 [bp](https://rosalind.info/glossary/base-pair/).
+
+Return: Four integers (separated by spaces) representing the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in $s$. 
+
+**Note**: You must provide your answer in the format shown in the sample output below.
+
+## Sample Dataset
+
+```
+AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC
+```
+
+## Sample Output
+
+```
+20 12 17 21
+```
+
+## Solution
+
+```python
+from collections import Counter
+
+def count_dna_symbols(dna):
+    # Define the symbols we're interested in
+    symbols = ["A", "C", "G", "T"]
+    
+    # Use Counter to count occurrences of each symbol in the DNA
+    dna_counter = Counter(dna)
+    
+    # Create a dictionary with counts for each symbol of interest
+    symbols_count = {symbol: dna_counter.get(symbol, 0) for symbol in symbols}
+    
+    return symbols_count
+
+sample_input = """
+AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC
+"""
+
+# Get the symbols count
+symbols_count = count_dna_symbols(sample_input)
+
+# Print the counts in the desired format
+print(" ".join(str(symbols_count[symbol]) for symbol in ["A", "C", "G", "T"]))
+```
+
+# GenBank Introduction
+
+GenBank comprises several subdivisions:
+
+- [Nucleotide](http://www.ncbi.nlm.nih.gov/nucleotide): a collection of [nucleic acid](https://rosalind.info/glossary/nucleic-acid/) [sequences](https://rosalind.info/glossary/genetic-string/) from several sources.
+- [Genome Survey Sequence](http://www.ncbi.nlm.nih.gov/gss) (GSS): uncharacterized short [genomic](https://rosalind.info/glossary/genome/) sequences.
+- [Expressed Sequence Tags](https://www.ncbi.nlm.nih.gov/est), (EST): uncharacterized short [cDNA](https://rosalind.info/glossary/complementary-dna/) sequences.
+
+Searching the Nucleotide database with general text queries will produce the most relevant results. You can also use a simple query based on protein name, gene name or [gene symbol](https://rosalind.info/glossary/gene-symbol/).
+
+To limit your search to only certain kinds of records, you can search using GenBank's [Limits](http://www.ncbi.nlm.nih.gov/nuccore/limits) page or alternatively use the `Filter your results` field to select categories of records after a search.
+
+If you can not find what you are searching for, check how the database interpreted your query by investigating the `Search details` field on the right side of the page. This field automatically translates your search into standard keywords.
+
+For example, if you search for `Drosophila`, the `Search details` field will contain (`Drosophila[All Fields]`), and you will obtain all entries that mention _Drosophila_ (including all its [endosymbionts](https://rosalind.info/glossary/endosymbiont/)). You can restrict your search to only organisms belonging to the _Drosophila_ [genus](https://rosalind.info/glossary/genus/) by using a search tag and searching for `Drosophila[Organism]`.
+
+Given: A [genus](https://rosalind.info/glossary/genus/) name, followed by two dates in YYYY/M/D format.
+
+Return: The number of Nucleotide GenBank entries for the given genus that were published between the dates specified.
+
+## Sample Dataset
+
+```
+Anthoxanthum
+2003/7/25
+2005/12/27
+```
+
+## Sample Output
+
+```
+7
+```
+
+## Solution
+
+```python
+from Bio import Entrez
+
+def get_nucleotide_genbank_entries(genus_name, start_date, end_date):
+    """
+    Retrieve the count of Nucleotide GenBank entries for a given genus and date range.
+    
+    Args:
+    genus_name (str): The name of the genus to search for.
+    start_date (str): The start date of the publication range (format: YYYY/MM/DD).
+    end_date (str): The end date of the publication range (format: YYYY/MM/DD).
+    
+    Returns:
+    int: The count of entries found.
+    """
+    Entrez.email = "byterube@gmail.com"  # Replace with your email
+    
+    query = f'"{genus_name}"[Organism] AND ("{start_date}"[Publication Date] : "{end_date}"[Publication Date])'
+    
+    try:
+        with Entrez.esearch(db="nucleotide", term=query) as handle:
+            record = Entrez.read(handle)
+            return int(record["Count"])
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return 0
+
+# Sample input data
+sample_input = """
+Anthoxanthum
+2003/7/25
+2005/12/27
+""".strip().split("\n")
+
+# Extracting input values
+genus_name = sample_input[0]
+start_date = sample_input[1]
+end_date = sample_input[2]
+
+# Get the count of GenBank entries
+count = get_nucleotide_genbank_entries(genus_name, start_date, end_date)
+
+# Print the result
+print(count)
+```
+
+# Data Formats
+
+GenBank can be accessed [here](http://www.ncbi.nlm.nih.gov/genbank/). A detailed description of the GenBank format can be found [here](http://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html). A tool, from the [SMS 2](https://rosalind.info/glossary/sms-2/) package, for converting GenBank to FASTA can be found [here](http://www.bioinformatics.org/sms2/genbank_fasta.html).
+
+Given: A collection of $n$ ($n≤10$) GenBank entry IDs.
+
+Return: The shortest of the strings associated with the IDs in [FASTA](https://rosalind.info/glossary/fasta-format/) format.
+
+## Sample Dataset
+
+```
+FJ817486 JX069768 JX469983
+```
+
+## Sample Output
+
+```
+>JX469983.1 Zea mays subsp. mays clone UT3343 G2-like transcription factor mRNA, partial cds
+ATGATGTATCATGCGAAGAATTTTTCTGTGCCCTTTGCTCCGCAGAGGGCACAGGATAATGAGCATGCAA
+GTAATATTGGAGGTATTGGTGGACCCAACATAAGCAACCCTGCTAATCCTGTAGGAAGTGGGAAACAACG
+GCTACGGTGGACATCGGATCTTCATAATCGCTTTGTGGATGCCATCGCCCAGCTTGGTGGACCAGACAGA
+GCTACACCTAAAGGGGTTCTCACTGTGATGGGTGTACCAGGGATCACAATTTATCATGTGAAGAGCCATC
+TGCAGAAGTATCGCCTTGCAAAGTATATACCCGACTCTCCTGCTGAAGGTTCCAAGGACGAAAAGAAAGA
+TTCGAGTGATTCCCTCTCGAACACGGATTCGGCACCAGGATTGCAAATCAATGAGGCACTAAAGATGCAA
+ATGGAGGTTCAGAAGCGACTACATGAGCAACTCGAGGTTCAAAGACAACTGCAACTAAGAATTGAAGCAC
+AAGGAAGATACTTGCAGATGATCATTGAGGAGCAACAAAAGCTTGGTGGATCAATTAAGGCTTCTGAGGA
+TCAGAAGCTTTCTGATTCACCTCCAAGCTTAGATGACTACCCAGAGAGCATGCAACCTTCTCCCAAGAAA
+CCAAGGATAGACGCATTATCACCAGATTCAGAGCGCGATACAACACAACCTGAATTCGAATCCCATTTGA
+TCGGTCCGTGGGATCACGGCATTGCATTCCCAGTGGAGGAGTTCAAAGCAGGCCCTGCTATGAGCAAGTC
+A
+```
+
+## Solution
+
+```python
+from Bio import Entrez, SeqIO
+from typing import List
+
+def get_shortest_sequence(entry_ids: List[str]) -> None:
+    """
+    Fetch nucleotide sequences for given entry IDs and print the shortest one in FASTA format.
+
+    Args:
+    entry_ids (List[str]): A list of GenBank entry IDs.
+
+    Raises:
+    Exception: If there's an error fetching or parsing the sequences.
+    """
+    Entrez.email = "byterube@gmail.com"  # Replace with your email
+
+    try:
+        # Fetch sequences
+        with Entrez.efetch(db="nucleotide", id=entry_ids, rettype="fasta", retmode="text") as handle:
+            records = list(SeqIO.parse(handle, "fasta"))
+
+        if not records:
+            print("No sequences found for the given entry IDs.")
+            return
+
+        # Find and print the shortest sequence
+        shortest_record = min(records, key=lambda record: len(record.seq))
+        print(shortest_record.format("fasta"))
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Sample input data
+sample_input = """
+FJ817486 JX069768 JX469983
+"""
+entry_ids = sample_input.split()
+
+# Get and print the shortest sequence
+get_shortest_sequence(entry_ids)
+```
+
+# New Motif Discovery
+
+The novel-motif finding tool MEME can be found [here](http://meme-suite.org/tools/meme).
+
+Given: A set of protein strings in FASTA format that share some motif with minimum length 20.
+
+Return: [Regular expression](https://rosalind.info/glossary/motif-regular-expression/) for the best-scoring motif.
+
+## Sample Dataset
+
+```
+>Rosalind_7142
+PFTADSMDTSNMAQCRVEDLWWCWIPVHKNPHSFLKTWSPAAGHRGWQFDHNFFVYMMGQ
+FYMTKYNHGYAPARRKRFMCQTFFILTFMHFCFRRAHSMVEWCPLTTVSQFDCTPCAIFE
+WGFMMEFPCFRKQMHHQSYPPQNGLMNFNMTISWYQMKRQHICHMWAEVGILPVPMPFNM
+SYQIWEKGMSMGCENNQKDNEVMIMCWTSDIKKDGPEIWWMYNLPHYLTATRIGLRLALY
+>Rosalind_4494
+VPHRVNREGFPVLDNTFHEQEHWWKEMHVYLDALCHCPEYLDGEKVYFNLYKQQISCERY
+PIDHPSQEIGFGGKQHFTRTEFHTFKADWTWFWCEPTMQAQEIKIFDEQGTSKLRYWADF
+QRMCEVPSGGCVGFEDSQYYENQWQREEYQCGRIKSFNKQYEHDLWWCWIPVHKKPHSFL
+KTWSPAAGHRGWQFDHNFFSTKCSCIMSNCCQPPQQCGQYLTSVCWCCPEYEYVTKREEM
+>Rosalind_3636
+ETCYVSQLAYCRGPLLMNDGGYGPLLMNDGGYTISWYQAEEAFPLRWIFMMFWIDGHSCF
+NKESPMLVTQHALRGNFWDMDTCFMPNTLNQLPVRIVEFAKELIKKEFCMNWICAPDPMA
+GNSQFIHCKNCFHNCFRQVGMDLWWCWIPVHKNPHSFLKTWSPAAGHRGWQFDHNFFQMM
+GHQDWGTQTFSCMHWVGWMGWVDCNYDARAHPEFYTIREYADITWYSDTSSNFRGRIGQN
+```
+
+## Sample Output
+
+```
+DLWWCWIPVHK[NK]PHSFLKTWSPAAGHRGWQFDHNFF
+```
+
+## Solution
+
+install MM
+
+# Pairwise Global Alignment
+
+An online interface to EMBOSS's `Needle` tool for aligning [DNA](https://rosalind.info/glossary/dna-string/) and [RNA strings](https://rosalind.info/glossary/rna-string/) can be found [here](http://www.ebi.ac.uk/Tools/psa/emboss_needle/nucleotide.html).
+
+Use:
+
+- The [DNAfull](https://rosalind.info/glossary/dnafull/) scoring matrix; note that DNAfull uses [IUPAC notation](https://rosalind.info/glossary/iupac-notation/) for ambiguous nucleotides.
+- Gap opening penalty of 10.
+- Gap extension penalty of 1.
+
+For our purposes, the "pair" output format will work fine; this format shows the two strings aligned at the bottom of the output file beneath some statistics about the alignment.
+
+Given: Two GenBank IDs.
+
+Return: The maximum global alignment score between the DNA strings associated with these IDs.
+
+## Sample Dataset
+
+```
+JX205496.1 JX469991.1
+```
+
+## Sample Output
+
+```
+257
+```
+
+## Solution
+
+```python
+from Bio import Entrez, SeqIO
+from Bio import Align
+from Bio.Seq import Seq
+from typing import List, Optional
+
+def fetch_sequences(genbank_ids: List[str]) -> List[Seq]:
+    """
+    Fetch sequences from GenBank given a list of IDs.
+    
+    Args:
+    genbank_ids (List[str]): List of GenBank IDs.
+    
+    Returns:
+    List[Seq]: List of Seq objects representing the fetched sequences.
+    """
+    Entrez.email = "byterube@gmail.com"  # Replace with your email
+    try:
+        with Entrez.efetch(db="nucleotide", id=genbank_ids, rettype="fasta", retmode="text") as handle:
+            return [record.seq for record in SeqIO.parse(handle, "fasta")]
+    except Exception as e:
+        print(f"Error fetching sequences: {e}")
+        return []
+
+def align_sequences(seq1: Seq, seq2: Seq) -> Optional[float]:
+    """
+    Perform global alignment of two sequences using Bio.Align.PairwiseAligner.
+    
+    Args:
+    seq1 (Seq): First sequence.
+    seq2 (Seq): Second sequence.
+    
+    Returns:
+    Optional[float]: Alignment score, or None if alignment fails.
+    """
+    try:
+        aligner = Align.PairwiseAligner()
+        aligner.mode = 'global'
+        aligner.match_score = 5
+        aligner.mismatch_score = -4
+        aligner.open_gap_score = -10
+        aligner.extend_gap_score = -1
+        
+        alignments = aligner.align(seq1, seq2)
+        return alignments.score
+    except Exception as e:
+        print(f"Error during alignment: {e}")
+        return None
+
+# Sample input data
+sample_input = """
+JX462666.1 NM_001251956.1
+"""
+genbank_ids = sample_input.strip().split()
+
+# Fetch sequences
+sequences = fetch_sequences(genbank_ids)
+
+# Perform alignment
+alignment_score = align_sequences(sequences[0], sequences[1])
+
+if alignment_score is not None:
+	print(f"{alignment_score}")
+```
+
+# FASTQ format introduction
+
+Sometimes it's necessary to convert data from FASTQ format to FASTA format. For example, you may want to perform a BLAST search using reads in FASTQ format obtained from your brand new Illumina Genome Analyzer.
+
+Links:
+
+- A FASTQ to FASTA converter can be accessed from the [Sequence conversion website](http://sequenceconversion.bugaco.com/converter/biology/sequences/index.php)
+
+- A free GUI converter developed by BlastStation is available [here](http://www.blaststation.com/freestuff/en/fastq2fasta.php) for download or as an add-on to Google Chrome.
+
+- There is a [FASTQ to FASTA converter](https://main.g2.bx.psu.edu/root?tool_id=cshl_fastq_to_fasta) in the [Galaxy](https://rosalind.info/glossary/galaxy/) web platform. Note that you should register in the Galaxy and upload your file prior to using this tool.
+
+
+Given: FASTQ file
+
+Return: Corresponding FASTA records
+
+## Sample Dataset
+
+```
+@SEQ_ID
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
++
+!*((((***+))%%%++)(%%%%)***-+*****))**55CCF>>>>>>CCCCCCC65
+```
+
+## Sample Output
+
+```
+>SEQ_ID
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
+```
+
+## Solution
+
+```python
+from Bio import SeqIO
+from io import StringIO
+
+def convert_fastq_to_fasta(fastq_string):
+    """
+    Convert a FASTQ string to a FASTA string.
+
+    Args:
+    fastq_string (str): Input FASTQ formatted string.
+
+    Returns:
+    str: FASTA formatted string.
+    """
+    # Create file-like objects for input and output
+    fastq_handle = StringIO(fastq_string)
+    fasta_handle = StringIO()
+
+    # Perform the conversion
+    SeqIO.convert(fastq_handle, 'fastq', fasta_handle, 'fasta')
+
+    # Get the FASTA string and reset the StringIO
+    fasta_handle.seek(0)
+    fasta_string = fasta_handle.read()
+
+    return fasta_string
+
+# Sample FASTQ input
+fastq = """
+@SEQ_ID
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
++
+!*((((***+))%%%++)(%%%%)***-+*****))**55CCF>>>>>>CCCCCCC65
+""".strip()
+
+# Convert FASTQ to FASTA
+fasta = convert_fastq_to_fasta(fastq)
+
+# Print the resulting FASTA
+print(fasta)
+```
+
+# Read Quality Distribution
+
+- A version of [FastQC](https://rosalind.info/glossary/fastqc/) can be downloaded [here](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) and run locally on any operating system with a suitable Java Runtime Environment (JRE) installed.
+
+- An online version of FastQC is also available [here](http://galaxy.nbic.nl/root?tool_id=fastqc) in the "Andromeda" [Galaxy](https://rosalind.info/glossary/galaxy/) instance.
+
+
+Given: A quality threshold, along with FASTQ entries for multiple reads.
+
+Return: The number of reads whose average quality is below the threshold.
+
+## Sample Dataset
+
+```
+28
+@Rosalind_0041
+GGCCGGTCTATTTACGTTCTCACCCGACGTGACGTACGGTCC
++
+6.3536354;<211/0?::6/-2051)-*"40/.,+%)
+@Rosalind_0041
+TCGTATGCGTAGCACTTGGTACAGGAAGTGAACATCCAGGAT
++
+AH@FGGGJ<GB<<9:GD=D@GG9=?A@DC=;:?>839/4856
+@Rosalind_0041
+ATTCGGTAATTGGCGTGAATCTGTTCTGACTGATAGAGACAA
++
+@DJEJEA?JHJ@8?F?IA3=;8@C95=;=?;>D/:;74792.
+```
+
+## Sample Output
+
+```
+1
+```
+
+## Solution
+
+```python
+from Bio import SeqIO
+from io import StringIO
+
+def phre(data):
+    count = 0
+    # Convert the string input to a file-like object
+    with StringIO(data) as f:
+        threshold = int(f.readline().strip())
+        # Parse the FASTQ data from the string
+        for record in SeqIO.parse(f, "fastq"):
+            quality = record.letter_annotations["phred_quality"]
+            average_quality = sum(quality) / len(quality)
+            if average_quality < threshold:
+                count += 1
+    return count
+
+# Sample input data
+sample_input = """
+28
+@Rosalind_0041
+GGCCGGTCTATTTACGTTCTCACCCGACGTGACGTACGGTCC
++
+6.3536354;<211/0?::6/-2051)-*"40/.,+%)
+@Rosalind_0041
+TCGTATGCGTAGCACTTGGTACAGGAAGTGAACATCCAGGAT
++
+AH@FGGGJ<GB<<9:GD=D@GG9=?A@DC=;:?>839/4856
+@Rosalind_0041
+ATTCGGTAATTGGCGTGAATCTGTTCTGACTGATAGAGACAA
++
+@DJEJEA?JHJ@8?F?IA3=;8@C95=;=?;>D/:;74792.
+""".strip()
+
+result = phre(sample_input)
+print(result)
+```
+
+# Protein Translation
+
+The 20 commonly occurring amino acids are abbreviated by using 20 letters from the English [alphabet](https://rosalind.info/glossary/alphabet/) (all letters except for B, J, O, U, X, and Z). [Protein strings](https://rosalind.info/glossary/protein-string/) are constructed from these 20 symbols. The [RNA codon table](https://rosalind.info/glossary/rna-codon-table/) shows the encoding from each RNA codon to the amino acid alphabet.
+
+The `Translate` tool from the [SMS 2](https://rosalind.info/glossary/sms-2/) package can be found [here](http://www.bioinformatics.org/sms2/translate.html) in the [SMS 2](https://rosalind.info/glossary/sms-2/) package
+
+A detailed list of genetic code variants (codon tables) along with indexes representing these codes (1 = standard genetic code, etc.) can be obtained [here](http://www.bioinformatics.org/JaMBW/2/3/TranslationTables.html).
+
+For now, when translating [DNA](https://rosalind.info/glossary/dna-string/) and [RNA strings](https://rosalind.info/glossary/rna-string/), we will start with the first letter of the string and ignore stop codons.
+
+Given: A DNA string ss of length at most 10 [kbp](https://rosalind.info/glossary/kbp/), and a protein string translated by ss.
+
+Return: The index of the genetic code variant that was used for translation. (If multiple solutions exist, you may return any one.)
+
+## Sample Dataset
+
+```
+ATGGCCATGGCGCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA
+MAMAPRTEINSTRING
+```
+
+## Sample Output
+
+```
+1
+```
+
+## Solution
+
+```python
+from Bio.Seq import translate
+
+def find_genetic_code(dna, protein):
+    # List of genetic code table IDs to check
+    table_ids = [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15,]
+    
+    for table in table_ids:
+        try:
+            # Translate DNA using the current table
+            translated = translate(dna, table=table, to_stop=True)
+            
+            # Check if the translated protein matches the given protein
+            if translated == protein:
+                return table
+        except:
+            # If there's an error with a particular table, skip it
+            continue
+    
+    # If no matching table is found
+    return None
+
+# Read input
+sample_input = """
+ATGGCCATGGCGCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA
+MAMAPRTEINSTRING
+""".strip().split("\n")
+
+dna = sample_input[0]
+protein = sample_input[1]
+
+# Find the genetic code
+result = find_genetic_code(dna, protein)
+
+# Print the result
+if result:
+    print(result)
+else:
+    print("No matching genetic code found.")
+```
+
+# Read Filtration by Quality
+
+Poor-quality reads can be filtered out using the `FASTQ Quality Filter` tool from the [FASTX](https://rosalind.info/glossary/fastx/) toolkit. A command-line version of FASTX can be downloaded for Linux or MacOS from its [website](http://hannonlab.cshl.edu/fastx_toolkit/). An online interface for the `FASTQ Quality Filter` is also available [here](https://main.g2.bx.psu.edu/root?tool_id=cshl_fastq_quality_filter) within the [Galaxy](https://rosalind.info/glossary/galaxy/) web platform.
+
+Given: A quality threshold value qq, percentage of bases pp, and set of FASTQ entries.
+
+Return: Number of reads in filtered FASTQ entries
+
+## Sample Dataset
+
+```
+20 90
+@Rosalind_0049_1
+GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG
++
+FD@@;C<AI?4BA:=>C<G=:AE=><A??>764A8B797@A:58:527+,
+@Rosalind_0049_2
+AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT
++
+1<<65:793967<4:92568-34:.>1;2752)24')*15;1,*3+*!
+@Rosalind_0049_3
+ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA
++
+B:EI>JDB5=>DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+
+```
+
+## Sample Output
+
+```
+2
+```
+
+## Solution
+
+```python
+from Bio import SeqIO
+from Bio.SeqRecord import SeqRecord
+from Bio.Seq import Seq
+
+def quality_filtration(data):
+    # Read the threshold and percentage from the first line
+    t, p = map(int, data[0].strip().split())
+    
+    count = 0
+    # Process the FASTQ data
+    for i in range(1, len(data), 4):
+        sequence = data[i+1].strip()
+        quality_string = data[i+3].strip()
+        
+        # Convert quality string to Phred scores
+        phred_quality = [ord(char) - 33 for char in quality_string]
+        
+        # Perform quality check
+        passes = sum(ph >= t for ph in phred_quality)
+        if (passes / len(phred_quality)) * 100 >= p:
+            count += 1
+
+    return count
+
+# Sample input
+sample_input = """
+20 90
+@Rosalind_0049_1
+GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG
++
+FD@@;C<AI?4BA:=>C<G=:AE=><A??>764A8B797@A:58:527+,
+@Rosalind_0049_2
+AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT
++
+1<<65:793967<4:92568-34:.>1;2752)24')*15;1,*3+*!
+@Rosalind_0049_3
+ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA
++
+B:EI>JDB5=>DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+
+""".strip().split("\n")
+
+# Call the function with the sample input
+count = quality_filtration(sample_input)
+print(count)
+```
+
+# Complementing a Strand of DNA
+
+Recall that in a [DNA string](https://rosalind.info/glossary/dna-string/) ss, 'A' and 'T' are complements of each other, as are 'C' and 'G'. Furthermore, the reverse complement of $s$ is the string $s^c$ formed by reversing the symbols of ss and then taking the complement of each symbol (e.g., the reverse complement of "GTCA" is "TGAC").
+
+The `Reverse Complement` program from the [SMS 2](https://rosalind.info/glossary/sms-2/) package can be run online [here](http://www.bioinformatics.org/sms2/rev_comp.html).
+
+Given: A collection of $n$ ($n≤10$) DNA strings.
+
+Return: The number of given strings that match their reverse complements.
+
+## Sample Dataset
+
+```
+>Rosalind_64
+ATAT
+>Rosalind_48
+GCATA
+```
+
+## Sample Output
+
+```
+1
+```
+
+## Solution
+
+```python
+from Bio import SeqIO
+from Bio.Seq import Seq
+from io import StringIO
+
+def is_palindrome(seq):
+    """Check if a sequence is equal to its reverse complement."""
+    my_seq = Seq(seq)
+    reverse_seq = my_seq.reverse_complement()
+    return my_seq == reverse_seq
+
+def count_palindromic_sequences(seqs):
+    """Count the number of palindromic sequences in the list."""
+    return sum(is_palindrome(seq) for seq in seqs)
+
+def parse_fasta_input(fasta_input):
+    """Parse FASTA formatted input and return a list of sequences."""
+    fasta_io = StringIO(fasta_input)
+    return [str(record.seq) for record in SeqIO.parse(fasta_io, "fasta")]
+
+# Sample input
+sample_input = """
+>Rosalind_64
+ATAT
+>Rosalind_48
+GCATA
+"""
+
+# Parse the sequences
+sequences = parse_fasta_input(sample_input)
+
+# Count palindromic sequences
+palindrome_count = count_palindromic_sequences(sequences)
+
+# Print the result
+print(palindrome_count)
+```
+
+# Base Quality Distribution
+
+Quality of the bases can vary depends on position in read due to nature of the sequencing procedure. One can check this quality distribution using "Per Base Sequence Quality" module of the [FastQC](https://rosalind.info/glossary/fastqc/) program.
+
+Average accepted quality values is a 10 for the lower quartile and 25 for median. If the values falls below this limit, then the module returns a warning.
+
+Note that for the reads >50bp long FastQC will group the bases. To show data for every base in the read use "--nogroup" option.
+
+Given: FASTQ file, quality threshold $q$
+
+Return: Number of positions where mean base quality falls below given threshold
+
+## Sample Dataset
+
+```
+26
+@Rosalind_0029
+GCCCCAGGGAACCCTCCGACCGAGGATCGT
++
+>?F?@6<C<HF?<85486B;85:8488/2/
+@Rosalind_0029
+TGTGATGGCTCTCTGAATGGTTCAGGCAGT
++
+@J@H@>B9:B;<D==:<;:,<::?463-,,
+@Rosalind_0029
+CACTCTTACTCCCTAGCCGAACTCCTTTTT
++
+=88;99637@5,4664-65)/?4-2+)$)$
+@Rosalind_0029
+GATTATGATATCAGTTGGCTCCGAGAGCGT
++
+<@BGE@8C9=B9:B<>>>7?B>7:02+33.
+```
+
+## Sample Output
+
+```
+17
+```
+
+## Solution
+
+```python
+from Bio import SeqIO
+from io import StringIO
+
+def parse_threshold_and_fastq(data):
+    """Parse the threshold and FASTQ data from the input string."""
+    lines = data.strip().split('\n')
+    threshold = int(lines[0])
+    fastq_data = '\n'.join(lines[1:])
+    return threshold, fastq_data
+
+def extract_quality_scores(fastq_data):
+    """Extract quality scores from FASTQ data."""
+    fastq_io = StringIO(fastq_data)
+    return [record.letter_annotations["phred_quality"] 
+            for record in SeqIO.parse(fastq_io, "fastq")]
+
+def count_below_threshold(qualities, threshold):
+    """Count positions where the average quality score is below the threshold."""
+    num_sequences = len(qualities)
+    num_positions = len(qualities[0])
+    count = 0
+    
+    for i in range(num_positions):
+        average_quality = sum(q[i] for q in qualities) / num_sequences
+        if average_quality < threshold:
+            count += 1
+    
+    return count
+
+def bphr(data):
+    """Calculate the number of positions with average quality below the threshold."""
+    threshold, fastq_data = parse_threshold_and_fastq(data)
+    qualities = extract_quality_scores(fastq_data)
+    return count_below_threshold(qualities, threshold)
+
+# Sample input
+sample_input = """
+26
+@Rosalind_0029
+GCCCCAGGGAACCCTCCGACCGAGGATCGT
++
+>?F?@6<C<HF?<85486B;85:8488/2/
+@Rosalind_0029
+TGTGATGGCTCTCTGAATGGTTCAGGCAGT
++
+@J@H@>B9:B;<D==:<;:,<::?463-,,
+@Rosalind_0029
+CACTCTTACTCCCTAGCCGAACTCCTTTTT
++
+=88;99637@5,4664-65)/?4-2+)$)$
+@Rosalind_0029
+GATTATGATATCAGTTGGCTCCGAGAGCGT
++
+<@BGE@8C9=B9:B<>>>7?B>7:02+33.
+"""
+
+count = bphr(sample_input)
+print(count)
+```
+
+# Finding Genes with ORFs
+
+An ORF begins with a start codon and ends either at a stop codon or at the end of the string. We will assume the standard genetic code for translating an [RNA string](https://rosalind.info/glossary/rna-string/) into a [protein string](https://rosalind.info/glossary/protein-string/) (i.e., see the standard [RNA codon table](https://rosalind.info/glossary/rna-codon-table/)).
+
+`ORF finder` from the [SMS 2](https://rosalind.info/glossary/sms-2/) package can be run online [here](http://www.bioinformatics.org/sms2/orf_find.html).
+
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) $s$ of length at most 1 [kbp](https://rosalind.info/glossary/kbp/).
+
+Return: The longest protein string that can be translated from an ORF of $s$. If more than one protein string of maximum length exists, then you may output any solution.
+
+## Sample Dataset
+
+```
+AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG
+```
+
+## Sample Output
+
+```
+MLLGSFRLIPKETLIQVAGSSPCNLS
+```
+
+## Solution
+
+```python
+from Bio.Seq import Seq
+
+def gene_ORFs(dna_sequence):
+    """Finds and prints the longest open reading frame (ORF) from a DNA sequence."""
+    def translate_sequence(seq):
+        """Translate a sequence in all three reading frames and split by stop codons."""
+        return [str(seq[i:].translate(to_stop=False)).split("*") for i in range(3)]
+
+    # Create a Seq object from the DNA sequence
+    seq = Seq(dna_sequence)
+    seq_reverse = seq.reverse_complement()
+
+    # Translate the sequence and its reverse complement in all reading frames
+    proteins = []
+    proteins.extend(translate_sequence(seq))
+    proteins.extend(translate_sequence(seq_reverse))
+
+    # Flatten the list of lists
+    proteins = [protein for sublist in proteins for protein in sublist]
+
+    # Find ORFs starting with 'M' and sort by length
+    orfs = sorted([protein[protein.find("M"):] for protein in proteins if "M" in protein], key=len, reverse=True)
+    return orfs
+
+# Sample input
+sample_input = """
+AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG
+"""
+
+# Strip any leading/trailing whitespace
+dna = sample_input.strip()
+
+# Find and print the longest ORF
+orfs = gene_ORFs(dna)
+print(orfs[0])
+```
+
+# Base Filtration by Quality
+
+Bad quality bases can be easily trimmed out using certain threshold (defined by quality plot similar to what we did in [“Base Quality Distribution”](https://rosalind.info/problems/bphr/)) There is a lot of trimming tools, you can try one of following:
+
+- [FASTQ Quality Trimmer](https://main.g2.bx.psu.edu/root?tool_id=fastq_quality_trimmer) tool on the [Galaxy](https://rosalind.info/glossary/galaxy/). It uses a "sliding window" approach so for a simple trimming of the ends you should set window size 1.
+
+- [Trimmomatic](https://rosalind.info/glossary/trimmomatic/). It is a command-line java-based tool, detail description and download link can be found [here](http://www.usadellab.org/cms/index.php?page=trimmomatic). For a simple trimming from both ends you should specify parameters LEADING and TRAILING.
+
+
+Given: FASTQ file, quality cut-off value $q$, Phred33 quality score assumed.
+
+Return: FASTQ file trimmed from the both ends (removed leading and trailing bases with quality lower than $q$)
+
+## Sample Dataset
+
+```
+20
+@Rosalind_0049
+GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG
++
+FD@@;C<AI?4BA:=>C<G=:AE=><A??>764A8B797@A:58:527+,
+@Rosalind_0049
+AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT
++
+1<<65:793967<4:92568-34:.>1;2752)24')*15;1,*3+*!
+@Rosalind_0049
+ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA
++
+B:EI>JDB5=>DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+
+```
+
+## Sample Output
+
+```
+@Rosalind_0049
+GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACAC
++
+FD@@;C<AI?4BA:=>C<G=:AE=><A??>764A8B797@A:58:527
+@Rosalind_0049
+ATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCT
++
+<<65:793967<4:92568-34:.>1;2752)24')*15;
+@Rosalind_0049
+ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCT
++
+B:EI>JDB5=>DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8
+```
+
+## Solution
+
+```python
+def convert_to_phred(quality_string):
+    """Convert a quality string to Phred scores."""
+    return [ord(char) - 33 for char in quality_string]
+
+def find_quality_bounds(phred_quality, threshold):
+    """Find the start and end indices where quality is >= threshold."""
+    start = 0
+    while start < len(phred_quality) and phred_quality[start] < threshold:
+        start += 1
+    
+    end = len(phred_quality)
+    while end > start and phred_quality[end-1] < threshold:
+        end -= 1
+    
+    return start, end
+
+def format_fastq_record(identifier, sequence, quality_string, start, end):
+    """Format a FASTQ record with the given bounds."""
+    return f"@{identifier}\n{sequence[start:end]}\n+\n{quality_string[start:end]}"
+
+def Base_Filtration_Quality(data):
+    """Process FASTQ data and filter based on quality threshold."""
+    threshold = int(data[0])
+    filtered_records = []
+
+    for i in range(1, len(data), 4):
+        identifier = data[i].strip()
+        sequence = data[i+1].strip()
+        quality_string = data[i+3].strip()
+        
+        phred_quality = convert_to_phred(quality_string)
+        start, end = find_quality_bounds(phred_quality, threshold)
+        
+        if start < end:
+            filtered_record = format_fastq_record(identifier, sequence, quality_string, start, end)
+            filtered_records.append(filtered_record)
+    
+    return filtered_records
+
+# Sample input
+sample_input = """
+20
+@Rosalind_0049
+GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG
++
+FD@@;C<AI?4BA:=>C<G=:AE=><A??>764A8B797@A:58:527+,
+@Rosalind_0050
+AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT
++
+1<<65:793967<4:92568-34:.>1;2752)24')*15;1,*3+*!
+@Rosalind_0051
+ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA
++
+B:EI>JDB5=>DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+
+""".strip().split("\n")
+
+# Process the input and print the results
+filtered_records = Base_Filtration_Quality(sample_input)
+for record in filtered_records:
+    print(record)
+```
+
+# Suboptimal Local Alignment
+
+Given: Two DNA strings ss and t in [FASTA format](https://rosalind.info/glossary/fasta-format/) that share some short inexact repeat r of 32-40 [bp](https://rosalind.info/glossary/base-pair/). By "inexact" we mean that rr may appear with slight modifications (each repeat differ by ≤3 changes/[indels](https://rosalind.info/glossary/indel/)).
+
+Return: The total number of occurrences of r as a substring of s, followed by the total number of occurrences of r as a substring of t.
+
+## Sample Dataset
+
+```
+>Rosalind_12
+GACTCCTTTGTTTGCCTTAAATAGATACATATTTACTCTTGACTCTTTTGTTGGCCTTAAATAGATACATATTTGTGCGACTCCACGAGTGATTCGTA
+>Rosalind_37
+ATGGACTCCTTTGTTTGCCTTAAATAGATACATATTCAACAAGTGTGCACTTAGCCTTGCCGACTCCTTTGTTTGCCTTAAATAGATACATATTTG
+```
+
+## Sample Output
+
+```
+2 2
+```
+
+## Solution
+
+```python
+from Bio import SeqIO
+from io import StringIO
+
+def hamming_distance(s1, s2):
+    return sum(c1 != c2 for c1, c2 in zip(s1, s2))
+
+def count_inexact_repeats(pattern, seq, max_mismatches=3):
+    count = 0
+    pattern_length = len(pattern)
+    seq_length = len(seq)
+    
+    for i in range(seq_length - pattern_length + 1):
+        if hamming_distance(seq[i:i+pattern_length], pattern) <= max_mismatches:
+            count += 1
+    
+    return count
+
+# Your sample input
+sample_input = """
+>Rosalind_12
+GACTCCTTTGTTTGCCTTAAATAGATACATATTTACTCTTGACTCTTTTGTTGGCCTTAAATAGATACATATTTGTGCGACTCCACGAGTGATTCGTA
+>Rosalind_37
+ATGGACTCCTTTGTTTGCCTTAAATAGATACATATTCAACAAGTGTGCACTTAGCCTTGCCGACTCCTTTGTTTGCCTTAAATAGATACATATTTG
+"""
+
+# Parse the FASTA data
+fasta_io = StringIO(sample_input.strip())
+sequences = list(SeqIO.parse(fasta_io, "fasta"))
+
+# Extract the sequences as strings
+s = str(sequences[0].seq)
+t = str(sequences[1].seq)
+
+# Find the shared inexact repeat
+# We'll use a simple approach: try all substrings of length 32-40 from s as potential repeats
+best_repeat = ""
+best_count = 0
+
+for length in range(32, 41):
+    for i in range(len(s) - length + 1):
+        potential_repeat = s[i:i+length]
+        count_s = count_inexact_repeats(potential_repeat, s)
+        count_t = count_inexact_repeats(potential_repeat, t)
+        total_count = count_s + count_t
+        
+        if total_count > best_count:
+            best_count = total_count
+            best_repeat = potential_repeat
+
+# Count the occurrences of the best repeat in both sequences
+count_s = count_inexact_repeats(best_repeat, s)
+count_t = count_inexact_repeats(best_repeat, t)
+
+print(f"{count_s} {count_t}")
+```
+
+# Global Multiple Alignment
+
+One of the first and commonly used programs for MSA is [Clustal](https://rosalind.info/glossary/clustal/), developed by Des Higgins in 1988. The current version using the same approach is called [ClustalW2](https://rosalind.info/glossary/clustal/), and it is embedded in many software packages. There is even a modification of ClustalW2 called [ClustalX](https://rosalind.info/glossary/clustal/) that provides a graphical user interface for MSA.
+
+See the link below for a convenient online interface that runs Clustal on the [EBI](https://rosalind.info/glossary/european-bioinformatics-institute/) website:
+
+- [ClustalW2](http://www.ebi.ac.uk/Tools/msa/clustalw2/)
+
+Select "Protein" or "DNA", then either paste your sequence in one of the listed formats or upload an entire file. To obtain a more accurate alignment, leave `Alignment type: slow` selected: if you choose to run Clustal on only two sequences, then the parameter options correspond to those in `Needle` (see [“Pairwise Global Alignment”](https://rosalind.info/problems/need/)).
+
+Given: Set of nucleotide strings in FASTA format.
+
+Return: ID of the string most different from the others.
+
+## Sample Dataset
+
+```
+>Rosalind_18
+GACATGTTTGTTTGCCTTAAACTCGTGGCGGCCTAGCCGTAAGTTAAG
+>Rosalind_23
+ACTCATGTTTGTTTGCCTTAAACTCTTGGCGGCTTAGCCGTAACTTAAG
+>Rosalind_51
+TCCTATGTTTGTTTGCCTCAAACTCTTGGCGGCCTAGCCGTAAGGTAAG
+>Rosalind_7
+CACGTCTGTTCGCCTAAAACTTTGATTGCCGGCCTACGCTAGTTAGTTA
+>Rosalind_28
+GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT
+```
+
+## Sample Output
+
+```
+Rosalind_7
+```
+
+## Solution
+
+```python
+from Bio import SeqIO
+from io import StringIO
+
+def simple_msa(sequences):
+    # Find the length of the longest sequence
+    max_length = max(len(seq) for seq in sequences)
+    
+    # Pad shorter sequences with gaps
+    aligned_sequences = [seq.ljust(max_length, '-') for seq in sequences]
+    
+    return aligned_sequences
+
+def calculate_differences(seq1, seq2):
+    return sum(a != b for a, b in zip(seq1, seq2))
+
+def find_most_different_sequence(fasta_string):
+    # Parse the FASTA string
+    fasta_io = StringIO(fasta_string)
+    sequences = list(SeqIO.parse(fasta_io, "fasta"))
+    
+    # Perform a simple multiple sequence alignment
+    aligned_seqs = simple_msa([str(seq.seq) for seq in sequences])
+    
+    n_seqs = len(aligned_seqs)
+    avg_distances = []
+
+    for i in range(n_seqs):
+        total_distance = sum(calculate_differences(aligned_seqs[i], aligned_seqs[j]) 
+                             for j in range(n_seqs) if i != j)
+        avg_distances.append(total_distance / (n_seqs - 1))
+
+    most_different_index = avg_distances.index(max(avg_distances))
+    return sequences[most_different_index].id
+
+# Your sample dataset
+sample_data = """
+>Rosalind_18
+GACATGTTTGTTTGCCTTAAACTCGTGGCGGCCTAGCCGTAAGTTAAG
+>Rosalind_23
+ACTCATGTTTGTTTGCCTTAAACTCTTGGCGGCTTAGCCGTAACTTAAG
+>Rosalind_51
+TCCTATGTTTGTTTGCCTCAAACTCTTGGCGGCCTAGCCGTAAGGTAAG
+>Rosalind_7
+CACGTCTGTTCGCCTAAAACTTTGATTGCCGGCCTACGCTAGTTAGTTA
+>Rosalind_28
+GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT
+"""
+
+result = find_most_different_sequence(sample_data)
+print(result)
+```

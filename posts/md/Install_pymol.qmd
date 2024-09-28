@@ -1,0 +1,104 @@
+---
+title: "오픈 소스 PyMOL 설치하기"
+author: "Taeyoon Kim"
+categories: [Python, Protein engineering, Visualization, Tip]
+draft: false
+date: "2024-09-01"
+---
+
+![](Install_pymol.png){width=100% fig-align="center"}
+
+PyMOL 은 생화학과 분자 생물학에서 자주 사용되는 분자 시각화 소프트웨어입니다. 단백질, 핵산, 소형 화합물 등의 3D 구조를 시각화하고 분석하고 그래픽 렌더링 기능을 통해 고품질의 이미지를 생성할 수 있습니다. PyMOL 에는 오픈 소스 버전과 **PyMOL by Schrödinger**(상업 라이센스) 가 존재하기 때문에 영리기관 (회사) 에서 일을 하시거나 라이센스 문제를 겪고 싶지 않다면 오픈 소스 버전을 컴파일해서 설치하는 것을 추천합니다.
+
+# Windows 에 설치
+
+2024 년 4 월 9 일부터 오픈소스 `PyMOL` 3.0.x 소프트웨어 배포 방식이 변경되었습니다. 이전 설치 방법은 이제 작동하지 않기 때문에 아래 새로운 방법으로 설치하셔야 합니다.[^1]
+
+## 미니콘다 설치
+
+먼저 Windows 용 [Miniconda](https://docs.anaconda.com/miniconda/) 를 설치합니다. 자세한 설치 방법은 공식 홈페이지를 참고하세요. `Anaconda` 를 사용하시거나 다른 유사한 `conda` 배포판을 사용하셔도 상관은 없습니다.
+
+## `PyMOL` 환경 생성
+
+`PyMOL` 3.0.x 용 가상 환경을 생성합니다.
+
+```bash
+$conda create -n pymol python=3.12
+```
+
+그런 다음 가상 환경을 활성화하고 필요한 패키지를 설치합니다.
+
+```bash
+$conda activate pymol
+
+# 필요한 패키지 설치
+(pymol-3.0)$conda install numpy pmw pyqt pip
+```
+
+## `wheel` 파일 다운로드 및 PyMOL 설치
+
+파이썬의 `wheel` 파일은 파이썬 패키지를 배포하기 위한 표준 형식 중 하나입니다. `.whl` 확장자를 가지며, 설치 속도 빠르고 빌드가 불필요하다는 장점이 있습니다.
+윈도우용 `PyMOL` `wheel` 파일은 [GitHub 리포지토리](https://github.com/cgohlke/pymol-open-source-wheels/) 의 [릴리즈 페이지](https://github.com/cgohlke/pymol-open-source-wheels/releases) 에서 다운로드할 수 있습니다.
+
+`Windows 11 x64` 의 경우, [pymol-3.0.0-cp312-cp312-win_amd64.whl](https://github.com/cgohlke/pymol-open-source-wheels/releases/download/v2024.4.9/pymol-3.0.0-cp312-cp312-win_amd64.whl) 을 다운로드합니다. 그런 다음 아래 명령어로 설치합니다. 아래 사용한 파일명은 예시로 다운로드한 파일의 이름으로 변경하셔야 합니다.
+
+```bash
+(pymol)$python -m pip install pymol-3.0.0-cp312-cp312-win_amd64.whl
+```
+
+:::{.callout-note}
+
+예전 버전과는 달리 더 이상 `pymol_launcher` 가 필요하지 않습니다.
+
+:::
+
+만약 오류가 발생했다면 `wheel` 파일의 경로가 올바른지 확인하세요. 오류 메시지가 발생하지 않았다면 다음의 명령어로 `PyMOL` 을 실행할 수 있습니다:
+
+```bash
+(pymol)$pymol
+```
+
+# Linux 에 설치
+
+## 기본 패키지 매니저 사용
+
+`Linux` 에서는 최신 버전을 제공하지 않는 경우가 많지만 오픈 소스 `PyMOL` 을 위한 바이너리 패키지를 기본 제공하기 때문에 아주 편리하게 설치 할 수 있습니다. 아래는 일부 인기 있는 배포판에 대한 설치 명령어입니다. 참고로 모든 명령은 `superuser` 로 실행해야 합니다.
+
+```bash
+# Debian/Ubuntu/Mint
+apt-get install pymol
+
+# Fedora
+dnf install pymol
+
+# Arch/Manjaro
+pacman -S pymol
+
+# CentOS with EPEL
+rpm -i http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-5.noarch.rpm
+yum --enablerepo=epel install pymol
+```
+
+우분투를 NVIDIA 그래픽 카드 및 일반 드라이버와 함께 사용하는 경우 렌더링 불량, 검은색 픽셀화 및 기타 그래픽 이상이 발생할 수 있습니다. NVIDIA 전용 드라이버 설치 가이드는 [Ubuntu 커뮤니티 Nvidia 드라이버 설치 방법](https://help.ubuntu.com/community/BinaryDriverHowto/Nvidia) 에서 확인할 수 있습니다.
+
+## Homebrew 사용
+
+`Homebrew` 는 macOS 와 Linux 시스템을 위한 패키지 관리자입니다. `Homebrew` 는 전용 디렉토리에 패키지를 설치하기 때문에 시스템의 다른 부분에 영향을 주지 않는 장점이 있습니다. 저는 가능하다면 이 방법을 가장 추천합니다. `Homebrew` 를 설치하는 방법은 다음과 같습니다:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+`Homebrew` 를 설치가 완료되면 다음 명령어로 간단하게 설치가 가능합니다.
+
+```bash
+brew install pymol
+```
+
+# MacOS 에 설치
+
+앞서 살펴본 `Homebrew` 를 사용하는 방법과 동일하게 설치할 수 있습니다.
+
+# Reference
+
+[^1]: https://omicx.cc/posts/2024-04-13-install-open-source-pymol-3.0.x-in-windows-11/

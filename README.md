@@ -51,3 +51,7 @@ Why Tomorrow-Lab?
 The name Tomorrow-Lab reflects our commitment to forward-thinking and the anticipation of tomorrow’s scientific challenges and solutions. By focusing on the synergy between computer science and biology, we aim to illuminate the path toward groundbreaking discoveries and innovations that will shape the future of both fields.
 
 Join us at Tomorrow-Lab as we explore the frontiers of computational biology and unlock the secrets of life through the lens of technology. Whether you’re a seasoned researcher, a student, or simply curious about the intersection of these exciting disciplines, there’s something here for you.
+
+# AI generated thumbnail images
+
+- https://socialbu.com/tools/generate-blog-image
