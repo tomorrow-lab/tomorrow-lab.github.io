@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.557">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Taeyoon Kim">
+<meta name="dcterms.date" content="2023-01-04">
+
+<title>tomorrow-lab - 파이썬과 R 개발 환경 설정하기</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.ico" rel="icon">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-31EWCYNR0V"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+
+
+<meta property="og:title" content="tomorrow-lab - 파이썬과 R 개발 환경 설정하기">
+<meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:site_name" content="tomorrow-lab">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">tomorrow-lab</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../book.html"> 
+<span class="menu-text">Book</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-sign-do-not-enter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/partrita"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/partrita"> <i class="bi bi-twitter-x" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<div style="padding-bottom: 25px;">
+    <script async="" src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script>
+</div>
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#파이썬-설치하기" id="toc-파이썬-설치하기" class="nav-link active" data-scroll-target="#파이썬-설치하기"><span class="header-section-number">1</span> 파이썬 설치하기</a></li>
+  <li><a href="#파이썬-가상환경과-패키지-매니저" id="toc-파이썬-가상환경과-패키지-매니저" class="nav-link" data-scroll-target="#파이썬-가상환경과-패키지-매니저"><span class="header-section-number">2</span> 파이썬 가상환경과 패키지 매니저</a>
+  <ul class="collapse">
+  <li><a href="#pip-virtualenv" id="toc-pip-virtualenv" class="nav-link" data-scroll-target="#pip-virtualenv"><span class="header-section-number">2.1</span> pip&nbsp;+&nbsp;virtualenv</a>
+  <ul class="collapse">
+  <li><a href="#가상환경" id="toc-가상환경" class="nav-link" data-scroll-target="#가상환경"><span class="header-section-number">2.1.1</span> 가상환경</a></li>
+  <li><a href="#의존성-관리하기" id="toc-의존성-관리하기" class="nav-link" data-scroll-target="#의존성-관리하기"><span class="header-section-number">2.1.2</span> 의존성 관리하기</a></li>
+  </ul></li>
+  <li><a href="#conda" id="toc-conda" class="nav-link" data-scroll-target="#conda"><span class="header-section-number">2.2</span> Conda</a>
+  <ul class="collapse">
+  <li><a href="#conda-사용법" id="toc-conda-사용법" class="nav-link" data-scroll-target="#conda-사용법"><span class="header-section-number">2.2.1</span> Conda 사용법</a></li>
+  <li><a href="#conda-제거하기" id="toc-conda-제거하기" class="nav-link" data-scroll-target="#conda-제거하기"><span class="header-section-number">2.2.2</span> Conda 제거하기</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#r-설치하기" id="toc-r-설치하기" class="nav-link" data-scroll-target="#r-설치하기"><span class="header-section-number">3</span> R 설치하기</a>
+  <ul class="collapse">
+  <li><a href="#rstudio-설치" id="toc-rstudio-설치" class="nav-link" data-scroll-target="#rstudio-설치"><span class="header-section-number">3.1</span> RStudio 설치</a></li>
+  </ul></li>
+  <li><a href="#r-가상환경과-패키지-관리-매니저" id="toc-r-가상환경과-패키지-관리-매니저" class="nav-link" data-scroll-target="#r-가상환경과-패키지-관리-매니저"><span class="header-section-number">4</span> R 가상환경과 패키지 관리 매니저</a>
+  <ul class="collapse">
+  <li><a href="#가상환경-2" id="toc-가상환경-2" class="nav-link" data-scroll-target="#가상환경-2"><span class="header-section-number">4.1</span> 가상환경</a>
+  <ul class="collapse">
+  <li><a href="#renv" id="toc-renv" class="nav-link" data-scroll-target="#renv"><span class="header-section-number">4.1.1</span> renv</a></li>
+  </ul></li>
+  <li><a href="#의존성-관리하기-2" id="toc-의존성-관리하기-2" class="nav-link" data-scroll-target="#의존성-관리하기-2"><span class="header-section-number">4.2</span> 의존성 관리하기</a>
+  <ul class="collapse">
+  <li><a href="#cran" id="toc-cran" class="nav-link" data-scroll-target="#cran"><span class="header-section-number">4.2.1</span> CRAN</a></li>
+  <li><a href="#bioconductor-생물정보학용-패키지-매니저" id="toc-bioconductor-생물정보학용-패키지-매니저" class="nav-link" data-scroll-target="#bioconductor-생물정보학용-패키지-매니저"><span class="header-section-number">4.2.2</span> <code>Bioconductor</code>: 생물정보학용 패키지 매니저</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">파이썬과 R 개발 환경 설정하기</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Package manager</div>
+    <div class="quarto-category">Virtual environment</div>
+    <div class="quarto-category">Bioconductor</div>
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">Tip</div>
+    <div class="quarto-category">Data science</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Taeyoon Kim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 4, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Install_devEnv.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+<section id="파이썬-설치하기" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 파이썬 설치하기</h1>
+<p>파이썬은 아주 인기있는 프로그래밍 언어로, 웹 사이트는 물론 게임, 과학용 소프트웨어, 그래픽 소프트웨어 등 다양한 것을 만들 수 있습니다. 파이썬은 1980 년대 후반에&nbsp;<strong>귀도 반 로썸</strong>&nbsp;프로그래밍 언어를 기계 뿐만 아니라 인간도 읽을 수 있도록 만들고자 탄생한 언어입니다. 파이썬이 다른 프로그래밍 언어보다 훨씬 간단하게 보이고, 배우기도 쉬운 이유도 그 때문이죠. 이를 바탕으로 과거 15 년 동안&nbsp;<strong>numpy</strong>,<strong>scipy</strong>,<strong>matplotlib</strong>,<strong>jupyter</strong>&nbsp;같이 널리 사용되는 패키지가 개발되어있습니다. 파이썬은 사용중인 OS 의 종류에 따라서 설치방법이 다릅니다.</p>
+<p><strong>Windows</strong></p>
+<ol type="1">
+<li>사용 중인 컴퓨터 윈도우 운영체제가 32 비트인지 64 비트인지 확인하세요.</li>
+<li><a href="https://www.python.org/downloads/windows/">공식 웹사이트</a> 에서 다운로드 할 수 있습니다.</li>
+</ol>
+<ul>
+<li>64 비트 버전의 Windows 인 경우&nbsp;<em>Windows x86-64 executable installer</em> 를 다운로드하세요.</li>
+<li>32 비트 버전은&nbsp;<em>Windows x86 executable installer</em> 을 다운로드하세요.</li>
+</ul>
+<ol start="4" type="1">
+<li>설치 프로그램을 다운로드 한 후에 실행 (더블 클릭) 하고 지시 사항을 따르세요.</li>
+</ol>
+<p><strong>MacOS</strong></p>
+<p><a href="https://www.python.org/downloads/release/python-351/">공식 사이트</a> 로 가서 파이썬 설치 파일을 다운 받으세요.</p>
+<p><strong>Linux</strong></p>
+<p>리눅스에는 이미 파이썬이 설치되어 있습니다. 터미널에 다음 명령어를 입력하면 설치된 버전을 확인 할 수 있습니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python3 <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="파이썬-가상환경과-패키지-매니저" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 파이썬 가상환경과 패키지 매니저</h1>
+<p>파이썬 생태계의 패키지들은 서로 복잡한 의존성을 가지고 있어 많은 문제가 발생합니다. 따라서 항상 패키지 매니저를 사용하는 것을 권장합니다.</p>
+<section id="pip-virtualenv" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="pip-virtualenv"><span class="header-section-number">2.1</span> pip&nbsp;+&nbsp;virtualenv</h2>
+<p>pip와&nbsp;virtualenv는 파이썬 개발 환경에서 가장 오래 사용되었고 또한 자주 사용되는 도구입니다.&nbsp;pip는 파이썬에 기본적으로 포함되어 있는 패키지 관리자로 PyPI(Python Package Index) 에 등록된 패키지를 설치하고 관리할 수 있습니다.&nbsp;virtualenv 는 가상 환경을 생성하여 프로젝트마다 독립된 파이썬 환경을 가질 수 있게 해주는 패키지입니다. 다른 프로젝트와 충돌 없이 패키지를 관리하려면 필수적으로 사용해야 합니다.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>pip</code> 는 아래와 같은 몇 가지 근본적인 문제를 가지고 있습니다.</p>
+</div>
+</div>
+<ol type="1">
+<li><strong>의존성 충돌 (Dependency Conflicts)</strong>&nbsp;여러 패키지를 설치할 때 각 패키지가 서로 다른 버전의 동일한 종속성을 요구할 경우 의존성 충돌이 발생하며 프로젝트에서 예기치 않은 동작이나 오류를 발생시킬 수 있습니다.</li>
+<li><strong>글로벌 설치 문제</strong>&nbsp;기본적으로&nbsp;<code>pip</code> 는 전역 파이썬 환경에 패키지를 설치합니다. 이로 인해, 여러 프로젝트에서 동일한 패키지 버전을 공유하게 되어 프로젝트 간에 종속성 충돌이 발생할 수 있습니다. 특히, 프로젝트마다 요구되는 패키지 버전이 다른 경우에 문제가 됩니다.</li>
+<li><strong>환경 관리의 어려움</strong>&nbsp;<code>pip</code> 는 파이썬 환경을 별도로 관리하지 않으므로 전역 환경에 설치된 패키지들이 서로 영향을 미칠 수 있습니다. 이로 인해, 동일한 시스템에서 여러 프로젝트를 작업할 때 각 프로젝트의 요구 사항을 일관되게 유지하기 어려워집니다. 이를 해결하기 위해&nbsp;<code>virtualenv</code> 와 같은 도구를 사용해 가상 환경을 생성해야 합니다.</li>
+<li><strong>보안 문제</strong>&nbsp;<code>pip</code> 는 기본적으로 모든 패키지를 신뢰합니다. 악의적인 사용자가 배포한 패키지가 PyPI 에 업로드되면, 이를 설치하는 과정에서 보안 문제가 발생할 수 있습니다.</li>
+<li><strong>복잡한 패키지 관리</strong>&nbsp;복잡한 프로젝트에서는 수많은 패키지와 버전들을 관리해야 하는데,&nbsp;<code>pip</code> 는 기본적으로 이러한 복잡한 종속성 트리를 관리하는 데 최적화되어 있지 않습니다. 이는 특정 패키지 설치 시 종속성 문제가 발생할 때 수동으로 해결해야 하는 번거로움으로 이어질 수 있습니다. 이러한 문제들로 인해, 많은 개발자들이&nbsp;<code>pipenv</code>&nbsp;또는&nbsp;<code>poetry</code>&nbsp;같은 도구들을 사용하여 환경과 패키지 관리를 하고 있습니다.</li>
+</ol>
+<p><code>pip</code> 는 파이썬에 기본적으로 설치되어 있어 상관이 없지만,&nbsp;<code>virtualenv</code> 는&nbsp;<code>pip</code> 를 사용해 설치할 수 있습니다. 다음 단계를 따라 설치하면 됩니다. 먼저 터미널 (또는 명령 프롬프트) 을 열고 다음 명령어를 입력합니다. 이 명령어는 최신 버전의&nbsp;<code>virtualenv</code> 를 설치합니다.</p>
+<pre><code>pip install virtualenv</code></pre>
+<p><code>virtualenv</code> 가 올바르게 설치되었는지 확인하려면, 다음 명령어를 입력하여 버전을 확인할 수 있습니다.</p>
+<pre><code>virtualenv --version</code></pre>
+<p>버전 번호가 출력되면&nbsp;<code>virtualenv</code> 가 성공적으로 설치된 것입니다.</p>
+<section id="가상환경" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="가상환경"><span class="header-section-number">2.1.1</span> 가상환경</h3>
+<p>기본적으로&nbsp;<code>pip</code> 는 전역 (global) 파이썬 환경에 패키지를 설치하기 때문에 필연적으로 의존성 문제가 발생합니다. 그러나&nbsp;<code>virtualenv</code> 를 사용하면 각 프로젝트마다 별도의 가상 환경을 만들어 서로 다른 패키지 버전이나 설정을 유지할 수 있습니다. 이는 프로젝트 간의 종속성 충돌을 방지하고, 개발 환경을 안정적으로 유지하는 데 도움이 됩니다.</p>
+<section id="virtualenv-주요-커맨드" class="level4" data-number="2.1.1.1">
+<h4 data-number="2.1.1.1" class="anchored" data-anchor-id="virtualenv-주요-커맨드"><span class="header-section-number">2.1.1.1</span> <code>virtualenv</code>&nbsp;주요 커맨드</h4>
+<ol type="1">
+<li><p><strong>virtualenv 설치</strong>:&nbsp;<code>bash pip install virtualenv</code></p></li>
+<li><p><strong>가상 환경 생성</strong>:&nbsp;<code>bash python -m virtualenv 가상환경명</code>&nbsp;<code>가상환경명</code> 은 원하는 이름으로 지정할 수 있습니다. 이 명령어는&nbsp;<code>가상환경명</code> 이라는 폴더를 생성하고, 그 안에 독립된 파이썬 실행 파일과&nbsp;<code>pip</code> 를 포함한 환경을 구성합니다.</p></li>
+<li><p><strong>가상 환경 활성화</strong>:</p>
+<ul>
+<li><strong>Windows</strong>:&nbsp;<code>bash 가상환경명\Scripts\activate</code></li>
+<li><strong>Mac/Linux</strong>:&nbsp;<code>bash source 가상환경명/bin/activate</code>&nbsp;가상 환경이 활성화되면, 터미널 프롬프트에&nbsp;<code>(가상환경명)</code> 이 표시됩니다. 이 상태에서&nbsp;<code>pip</code> 로 설치된 패키지는 전역 환경이 아닌 해당 가상 환경에 설치됩니다.</li>
+</ul></li>
+<li><p><strong>가상 환경 비활성화</strong>:&nbsp;<code>bash deactivate</code>&nbsp;가상 환경에서 벗어나기 위해 이 명령어를 사용합니다.</p></li>
+<li><p><strong>가상 환경 내 패키지 관리</strong>:</p>
+<ul>
+<li><strong>패키지 설치</strong>:&nbsp;<code>bash pip install 패키지명</code>&nbsp;활성화된 가상 환경에 패키지를 설치합니다.</li>
+<li><strong>설치된 패키지 목록 저장</strong>&nbsp;(dependencies list):&nbsp;<code>bash pip freeze &gt; requirements.txt</code>&nbsp;현재 가상 환경에 설치된 모든 패키지의 목록을&nbsp;<code>requirements.txt</code>&nbsp;파일로 저장합니다.</li>
+<li><strong>목록에 따른 패키지 설치</strong>:&nbsp;<code>bash pip install -r requirements.txt</code>&nbsp;<code>requirements.txt</code>&nbsp;파일에 기록된 패키지들을 한 번에 설치합니다.</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="의존성-관리하기" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="의존성-관리하기"><span class="header-section-number">2.1.2</span> 의존성 관리하기</h3>
+<p><code>pip</code> 는 다음과 같은 기능을 지원합니다:</p>
+<ul>
+<li><strong>패키지 설치</strong>: 파이썬 패키지를 설치합니다.</li>
+<li><strong>패키지 업그레이드</strong>: 기존에 설치된 패키지를 최신 버전으로 업그레이드합니다.</li>
+<li><strong>패키지 제거</strong>: 더 이상 필요하지 않은 패키지를 삭제합니다.</li>
+<li><strong>패키지 목록 보기</strong>: 현재 설치된 패키지의 목록을 볼 수 있습니다.</li>
+</ul>
+<section id="주요-pip-커맨드" class="level4" data-number="2.1.2.1">
+<h4 data-number="2.1.2.1" class="anchored" data-anchor-id="주요-pip-커맨드"><span class="header-section-number">2.1.2.1</span> 주요&nbsp;<code>pip</code>&nbsp;커맨드</h4>
+<ol type="1">
+<li><strong>패키지 설치</strong>:&nbsp;<code>bash pip install 패키지명</code></li>
+<li><strong>패키지 업그레이드</strong>:&nbsp;<code>bash pip install --upgrade 패키지명</code></li>
+<li><strong>패키지 제거</strong>:&nbsp;<code>bash pip uninstall 패키지명</code></li>
+<li><strong>설치된 패키지 목록 보기</strong>:&nbsp;<code>bash pip list</code></li>
+<li><strong>패키지의 특정 버전 설치</strong>:&nbsp;<code>bash pip install 패키지명==버전</code></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>가상환경과 라이브러리 관리 팁 1.&nbsp;<strong>프로젝트마다 가상 환경 생성</strong>: 프로젝트를 시작할 때마다 새로운 가상 환경을 생성하여, 프로젝트 간에 라이브러리 충돌을 방지하는 것이 좋습니다. 2.&nbsp;<strong>requirements.txt 활용</strong>: 프로젝트의 의존성을 공유하거나 배포할 때&nbsp;<code>requirements.txt</code>&nbsp;파일을 사용하면, 다른 사람이 동일한 환경을 쉽게 설정할 수 있습니다. 3.&nbsp;<strong>가상 환경 폴더 관리</strong>:&nbsp;<code>virtualenv</code> 로 생성된 가상 환경 폴더는 일반적으로 프로젝트 폴더 내에 두거나, 중앙 관리 폴더를 만들어 관리할 수 있습니다.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="conda" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="conda"><span class="header-section-number">2.2</span> Conda</h2>
+<p><code>conda</code> 는 패키지 매니저로 가상환경을 만들고 파이썬 패키지의 의존성을 관리하고, 설치, 삭제, 업데이트 등을 할 수 있습니다.&nbsp;<code>conda</code> 는 기본적으로&nbsp;<a href="https://www.anaconda.com/">Anaconda</a> 라는 파이썬 기반의 데이터 분석에 특화된 각종 패키지를 모아놓은 플랫폼에서 개발되었습니다. 다시말해&nbsp;<code>Anaconda</code> 를 설치하면 자동으로&nbsp;<code>conda</code> 도 설치가 됩니다.</p>
+<p>만약&nbsp;<code>Anaconda</code> 에서 패키지 관리 메니저인&nbsp;<code>conda</code> 만을 설치 하고 싶다면&nbsp;<a href="https://conda.io/miniconda.html">miniconda</a> 를 설치 하면 됩니다. 저는 개인적으로&nbsp;<code>Miniconda</code> 를 사용하는 것을 추천합니다.&nbsp;<code>Anaconda</code> 는 라이센스 문제와 설치 용량이 크다는 단점이 있기 때문입니다.</p>
+<section id="conda-사용법" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="conda-사용법"><span class="header-section-number">2.2.1</span> Conda 사용법</h3>
+<section id="가상환경-1" class="level4" data-number="2.2.1.1">
+<h4 data-number="2.2.1.1" class="anchored" data-anchor-id="가상환경-1"><span class="header-section-number">2.2.1.1</span> 가상환경</h4>
+<p>새로운 프로젝트를 시작할때면 항상 새로운 가상환경을 만들어 작업하는것이 좋습니다. 새로운 가상환경&nbsp;<code>ENV_NAME</code> 을 만드는 예시를 들어보겠습니다.</p>
+<ol type="1">
+<li>터미널에 다음과 같이 입력해 새로운 가상환경을 만듭니다.</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> ENV_NAME</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> ENV_NAME <span class="at">-f</span> requirements.txt <span class="co"># 의존성 파일로 부터 가상환경을 만들때 사용하는 코드</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>가상환경을 사용하기 위해서는 활성화 (activate) 시켜줘야 합니다. 활성화되면 터미널에&nbsp;<code>(ENV_NAME)</code> 이 표시됩니다.</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate ENV_NAME</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>만약 가상환경을 종료하고 싶다면 비활성화 (deactivate) 하면 됩니다.</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>이미 생성한 가상환경의 목록은 다음과 같이 확인 할 수 있습니다.</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>생성한 가상환경을 제거하는 명령어는 다음과 같습니다.</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env remove <span class="at">-n</span> ENV_NAME</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="의존성-관리하기-1" class="level4" data-number="2.2.1.2">
+<h4 data-number="2.2.1.2" class="anchored" data-anchor-id="의존성-관리하기-1"><span class="header-section-number">2.2.1.2</span> 의존성 관리하기</h4>
+<p>자주 사용하는&nbsp;<code>conda</code>&nbsp;명령어는 아래와 같습니다. 예시로&nbsp;<code>numpy</code> 를 설치하는 상황을 가정합니다.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>기능</th>
+<th>명령어</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>패키지 설치</td>
+<td>conda install numpy</td>
+</tr>
+<tr class="even">
+<td>동시에 여러 패키지를 설치</td>
+<td>conda install numpy scipy pandas</td>
+</tr>
+<tr class="odd">
+<td>특정 버전 설치</td>
+<td>conda install “numpy=1.10”</td>
+</tr>
+<tr class="even">
+<td>패키지 제거</td>
+<td>conda remove numpy</td>
+</tr>
+<tr class="odd">
+<td>패키지 업데이트</td>
+<td>conda update numpy</td>
+</tr>
+<tr class="even">
+<td>모든 패키지 업데이트</td>
+<td>conda update –all</td>
+</tr>
+<tr class="odd">
+<td>설치된 목록 출력</td>
+<td>conda list</td>
+</tr>
+<tr class="even">
+<td>설치하려는 패키지 검색</td>
+<td>conda search numpy</td>
+</tr>
+</tbody>
+</table>
+<p>만약 Conda 에서 패키지를 찾을 수 없다면&nbsp;<code>pip</code> 을 사용해보세요</p>
+</section>
+</section>
+<section id="conda-제거하기" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="conda-제거하기"><span class="header-section-number">2.2.2</span> Conda 제거하기</h3>
+<p>만약&nbsp;<code>conda</code> 를 제거하고 싶다면 다음과 같이 하면 됩니다.</p>
+<p><strong>Windows</strong></p>
+<p>제어판에 들어가서&nbsp;<em>Python(Anaconda)</em>&nbsp;혹은&nbsp;<em>Python(Miniconda)</em> 를 제거합니다.</p>
+<p><strong>Linux, MacOS</strong></p>
+<p>단순하게 아래 디렉토리만 삭제하면 됩니다.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/miniconda</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/anaconda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="r-설치하기" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> R 설치하기</h1>
+<p><code>R</code> 은 주로 데이터 분석, 통계 모델링, 시각화 작업에 사용되며 다양한 통계 기법을 제공합니다.&nbsp;<code>R</code> 은 연구자, 통계학자, 데이터 과학자들 사이에 널리 사용되며 데이터를 탐색하고 모델링하며 결과를 시각적으로 표현하는 데 매우 유용합니다.&nbsp;<code>R</code>&nbsp;문법과 통계처리 부분은&nbsp;<code>AT&amp;T</code>&nbsp;벨 연구소가 개발했던&nbsp;<code>S</code> 를 참고해 만들어졌습니다.</p>
+<p><strong>Windows 에서 R 설치</strong></p>
+<ol type="1">
+<li><strong>CRAN 웹사이트 방문</strong>:
+<ul>
+<li><code>R</code> 의 공식 배포 사이트인 CRAN(Comprehensive R Archive Network) 에서 설치 파일을 다운로드할 수 있습니다.&nbsp;<a href="https://cran.r-project.org/">CRAN</a>&nbsp;웹사이트를 방문합니다.</li>
+</ul></li>
+<li><strong>R 다운로드</strong>:
+<ul>
+<li>CRAN 홈페이지에서&nbsp;<code>Download R for Windows</code>&nbsp;링크를 클릭합니다.</li>
+<li>이후&nbsp;<code>base</code>&nbsp;링크를 선택하여&nbsp;<code>R</code> 의 기본 설치 파일을 다운로드합니다.</li>
+</ul></li>
+<li><strong>설치 파일 실행</strong>:
+<ul>
+<li>다운로드한&nbsp;<code>.exe</code>&nbsp;파일을 실행합니다.</li>
+<li>설치 마법사가 시작되며 기본 설정을 따라 설치를 진행합니다. 특별히 변경할 사항이 없으면 기본값을 그대로 사용해도 됩니다.</li>
+</ul></li>
+<li><strong>R 실행</strong>:
+<ul>
+<li>설치가 완료되면, Windows 의 시작 메뉴에서&nbsp;<code>R</code> 을 실행할 수 있습니다. 기본적인 콘솔이 실행됩니다.</li>
+</ul></li>
+</ol>
+<p><strong>macOS 에서 R 설치</strong></p>
+<ol type="1">
+<li><strong>CRAN 웹사이트 방문</strong>:
+<ul>
+<li>macOS 사용자도&nbsp;<a href="https://cran.r-project.org/">CRAN</a>&nbsp;웹사이트에서&nbsp;<code>R</code>&nbsp;설치 파일을 다운로드합니다.</li>
+</ul></li>
+<li><strong>R 다운로드</strong>:
+<ul>
+<li><code>Download R for macOS</code>&nbsp;링크를 클릭합니다.</li>
+<li>이후 적절한&nbsp;<code>R</code>&nbsp;버전의&nbsp;<code>.pkg</code>&nbsp;파일을 다운로드합니다.</li>
+</ul></li>
+<li><strong>설치 파일 실행</strong>:
+<ul>
+<li>다운로드한&nbsp;<code>.pkg</code>&nbsp;파일을 실행하여 설치를 진행합니다.</li>
+<li>설치 과정에서 여러 단계를 거치며 기본값으로 진행하면 됩니다.</li>
+</ul></li>
+<li><strong>R 실행</strong>:
+<ul>
+<li>설치가 완료되면 응용 프로그램 폴더에서&nbsp;<code>R</code> 을 실행할 수 있습니다.</li>
+</ul></li>
+</ol>
+<p><strong>Linux 에서 R 설치</strong></p>
+<p><code>Linux</code> 에서는 보통 패키지 관리자를 통해&nbsp;<code>R</code> 을 설치합니다. 여기서는 우분투 (Ubuntu) 를 예로 들어 설명하겠습니다.</p>
+<ol type="1">
+<li><strong>리포지토리 업데이트</strong>:
+<ul>
+<li><p>터미널을 열고 시스템 패키지 목록을 업데이트합니다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><strong>R 설치</strong>:
+<ul>
+<li><p>기본 패키지 관리자를 사용하여&nbsp;<code>R</code> 을 설치합니다.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install r-base</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><strong>R 실행</strong>:
+<ul>
+<li><p>설치가 완료되면, 터미널에서&nbsp;<code>R</code>&nbsp;명령어를 입력하여 콘솔을 실행할 수 있습니다.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+</ol>
+<section id="rstudio-설치" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="rstudio-설치"><span class="header-section-number">3.1</span> RStudio 설치</h2>
+<p><code>R</code> 의 기본 콘솔 외에 통합 개발 환경 (IDE) 를 사용하고 싶다면&nbsp;<code>RStudio</code> 를 설치할 수 있습니다. 다만 개인용도로만 무료임으로 라이센스를 항상 확인하세요.</p>
+<ol type="1">
+<li><strong>RStudio 다운로드</strong>:
+<ul>
+<li><a href="https://rstudio.com/products/rstudio/download/">RStudio 공식 웹사이트</a> 에서 운영 체제에 맞는 설치 파일을 다운로드합니다.</li>
+</ul></li>
+<li><strong>RStudio 설치</strong>:
+<ul>
+<li>다운로드한 파일을 실행하여 설치를 진행합니다. 설치 과정은 간단하며, 기본값으로 진행하면 됩니다.</li>
+</ul></li>
+<li><strong>RStudio 실행</strong>:
+<ul>
+<li>설치가 완료되면, RStudio 를 실행하여 R 환경을 더욱 효율적으로 사용할 수 있습니다.</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="r-가상환경과-패키지-관리-매니저" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> R 가상환경과 패키지 관리 매니저</h1>
+<p><code>R</code>&nbsp;또한 다양한 패키지를 사용하여 분석 작업을 수행합니다. 따라서 패키지 관리와 가상환경 설정을 통해 서로 다른 프로젝트 간의 의존성 충돌을 방지하고 일관된 환경을 유지하는 것이 중요합니다.</p>
+<section id="가상환경-2" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="가상환경-2"><span class="header-section-number">4.1</span> 가상환경</h2>
+<section id="renv" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="renv"><span class="header-section-number">4.1.1</span> renv</h3>
+<p><code>renv</code> 는&nbsp;<code>R</code> 의 가상환경 관리 도구로,&nbsp;<code>Python</code> 의&nbsp;<code>virtualenv</code> 나&nbsp;<code>conda</code> 와 유사한 역할을 합니다.&nbsp;<code>renv</code> 는 각 프로젝트마다 독립된 라이브러리 환경을 설정하여, 서로 다른 프로젝트에서 사용하는 패키지가 충돌하지 않도록 도와줍니다.</p>
+<p><strong><code>renv</code> 의 주요 기능</strong></p>
+<ul>
+<li>프로젝트별로 패키지 라이브러리 폴더를 생성하여, 각 프로젝트마다 고유한 환경을 유지.</li>
+<li><code>renv.lock</code>&nbsp;파일을 사용하여 프로젝트에 필요한 패키지 버전과 의존성을 기록.</li>
+<li><code>renv</code> 를 사용하면 특정 시점의 패키지 상태를 다른 시스템에서 동일하게 재현 가능.</li>
+</ul>
+<ol type="1">
+<li><p><strong><code>renv</code>&nbsp;설치</strong>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"renv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>프로젝트 초기화</strong>: 프로젝트 디렉토리에서&nbsp;<code>renv</code> 를 초기화합니다. 이는 새로운 가상환경을 생성하고,&nbsp;<code>renv.lock</code>&nbsp;파일을 생성합니다.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>패키지 설치</strong>: 일반적인 방법으로 패키지를 설치하면 해당 패키지는 현재&nbsp;<code>renv</code>&nbsp;환경에 설치됩니다.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>환경 스냅샷 생성</strong>: 프로젝트의 현재 상태를 기록하여&nbsp;<code>renv.lock</code>&nbsp;파일에 저장합니다.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>환경 복원</strong>: 다른 시스템에서 동일한 환경을 재현하기 위해,&nbsp;<code>renv.lock</code>&nbsp;파일을 사용하여 패키지 환경을 복원합니다.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>가상환경 해제</strong>: 프로젝트의 가상환경을 해제하고 전역 라이브러리를 사용하도록 변경합니다.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">deactivate</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+</section>
+<section id="의존성-관리하기-2" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="의존성-관리하기-2"><span class="header-section-number">4.2</span> 의존성 관리하기</h2>
+<section id="cran" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="cran"><span class="header-section-number">4.2.1</span> CRAN</h3>
+<p>대부분의&nbsp;<code>R</code>&nbsp;패키지는 CRAN(Comprehensive R Archive Network) 을 통해 설치 및 관리됩니다.&nbsp;<code>CRAN</code> 은&nbsp;<code>R</code>&nbsp;패키지의 공식 저장소로 일반적인 분석 작업에 필요한 대부분의 패키지를 제공합니다.</p>
+<section id="주요-cran-커맨드" class="level4" data-number="4.2.1.1">
+<h4 data-number="4.2.1.1" class="anchored" data-anchor-id="주요-cran-커맨드"><span class="header-section-number">4.2.1.1</span> 주요 CRAN 커맨드</h4>
+<ul>
+<li><code>install.packages()</code>: 기본적으로 CRAN 에서 패키지를 설치하는 함수입니다.</li>
+<li><code>library()</code>: 패키지를 로드하는 함수입니다. 한 번 설치된 패키지는 프로젝트에서 사용할 때마다&nbsp;<code>library(패키지명)</code> 을 통해 불러올 수 있습니다.</li>
+<li><code>update.packages()</code>: 설치된 모든 패키지를 최신 버전으로 업데이트하는 함수입니다.</li>
+<li><code>remove.packages()</code>: 설치된 패키지를 제거하는 함수입니다.</li>
+</ul>
+</section>
+</section>
+<section id="bioconductor-생물정보학용-패키지-매니저" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="bioconductor-생물정보학용-패키지-매니저"><span class="header-section-number">4.2.2</span> <code>Bioconductor</code>: 생물정보학용 패키지 매니저</h3>
+<p>생물정보학 연구에서 자주 사용되는&nbsp;<code>R</code>&nbsp;패키지는&nbsp;<code>Bioconductor</code> 를 통해 관리됩니다.&nbsp;<code>Bioconductor</code> 는&nbsp;<code>CRAN</code> 을 통해 설치해 사용할 수 있습니다. 주요 명령어는 아래와 같습니다.</p>
+<ol type="1">
+<li><p><strong>BiocManager 설치</strong>:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Bioconductor 패키지 설치</strong>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"패키지명"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Bioconductor 패키지 제거</strong></p></li>
+</ol>
+<p>특정&nbsp;<code>Bioconductor</code>&nbsp;패키지를 제거하려면&nbsp;<code>remove.packages()</code>&nbsp;함수를 사용합니다:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">remove.packages</span>(<span class="st">"패키지명"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>특정&nbsp;<code>Bioconductor</code>&nbsp;버전을 사용하고 싶다면 (예: 3.13):</li>
+</ol>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="at">version =</span> <span class="st">"3.13"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li><strong>Bioconductor 패키지 검색</strong></li>
+</ol>
+<p>Bioconductor 에서 특정 패키지를 검색하려면:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">available</span>(<span class="st">"패키지명"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이러한 명령어들을 활용하면&nbsp;<code>Bioconductor</code>&nbsp;패키지를 효과적으로 관리하고, 필요한 생물정보학 도구들을 손쉽게 사용할 수 있습니다.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

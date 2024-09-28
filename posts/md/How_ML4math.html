@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.557">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Taeyoon Kim">
+<meta name="dcterms.date" content="2024-09-10">
+
+<title>tomorrow-lab - 머신러닝을 위한 수학</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.ico" rel="icon">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-31EWCYNR0V"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="tomorrow-lab - 머신러닝을 위한 수학">
+<meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:site_name" content="tomorrow-lab">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">tomorrow-lab</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../book.html"> 
+<span class="menu-text">Book</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-sign-do-not-enter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/partrita"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/partrita"> <i class="bi bi-twitter-x" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<div style="padding-bottom: 25px;">
+    <script async="" src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script>
+</div>
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#수학이-필요한-이유" id="toc-수학이-필요한-이유" class="nav-link active" data-scroll-target="#수학이-필요한-이유"><span class="header-section-number">1</span> 수학이 필요한 이유</a>
+  <ul class="collapse">
+  <li><a href="#알아야하는-필수-개념" id="toc-알아야하는-필수-개념" class="nav-link" data-scroll-target="#알아야하는-필수-개념"><span class="header-section-number">1.1</span> 알아야하는 필수 개념</a></li>
+  </ul></li>
+  <li><a href="#미분과-적분" id="toc-미분과-적분" class="nav-link" data-scroll-target="#미분과-적분"><span class="header-section-number">2</span> 미분과 적분</a>
+  <ul class="collapse">
+  <li><a href="#함수" id="toc-함수" class="nav-link" data-scroll-target="#함수"><span class="header-section-number">2.1</span> 함수</a></li>
+  <li><a href="#합성함수와-역함수" id="toc-합성함수와-역함수" class="nav-link" data-scroll-target="#합성함수와-역함수"><span class="header-section-number">2.2</span> 합성함수와 역함수</a></li>
+  <li><a href="#극한과-미분" id="toc-극한과-미분" class="nav-link" data-scroll-target="#극한과-미분"><span class="header-section-number">2.3</span> 극한과 미분</a></li>
+  <li><a href="#극대와-극소" id="toc-극대와-극소" class="nav-link" data-scroll-target="#극대와-극소"><span class="header-section-number">2.4</span> 극대와 극소</a></li>
+  <li><a href="#다항식의-미분" id="toc-다항식의-미분" class="nav-link" data-scroll-target="#다항식의-미분"><span class="header-section-number">2.5</span> 다항식의 미분</a></li>
+  <li><a href="#곱의-미분" id="toc-곱의-미분" class="nav-link" data-scroll-target="#곱의-미분"><span class="header-section-number">2.6</span> 곱의 미분</a></li>
+  <li><a href="#합성함수의-미분" id="toc-합성함수의-미분" class="nav-link" data-scroll-target="#합성함수의-미분"><span class="header-section-number">2.7</span> 합성함수의 미분</a></li>
+  <li><a href="#몫의-미분" id="toc-몫의-미분" class="nav-link" data-scroll-target="#몫의-미분"><span class="header-section-number">2.8</span> 몫의 미분</a></li>
+  <li><a href="#적분" id="toc-적분" class="nav-link" data-scroll-target="#적분"><span class="header-section-number">2.9</span> 적분</a></li>
+  </ul></li>
+  <li><a href="#벡터와-행렬" id="toc-벡터와-행렬" class="nav-link" data-scroll-target="#벡터와-행렬"><span class="header-section-number">3</span> 벡터와 행렬</a>
+  <ul class="collapse">
+  <li><a href="#벡터" id="toc-벡터" class="nav-link" data-scroll-target="#벡터"><span class="header-section-number">3.1</span> 벡터</a></li>
+  <li><a href="#덧셈-뺄셈-스칼라-곱셈" id="toc-덧셈-뺄셈-스칼라-곱셈" class="nav-link" data-scroll-target="#덧셈-뺄셈-스칼라-곱셈"><span class="header-section-number">3.2</span> 덧셈, 뺄셈, 스칼라 곱셈</a></li>
+  <li><a href="#길이와-거리" id="toc-길이와-거리" class="nav-link" data-scroll-target="#길이와-거리"><span class="header-section-number">3.3</span> 길이와 거리</a></li>
+  <li><a href="#삼각함수" id="toc-삼각함수" class="nav-link" data-scroll-target="#삼각함수"><span class="header-section-number">3.4</span> 삼각함수</a></li>
+  <li><a href="#내적" id="toc-내적" class="nav-link" data-scroll-target="#내적"><span class="header-section-number">3.5</span> 내적</a></li>
+  <li><a href="#코사인-유사도" id="toc-코사인-유사도" class="nav-link" data-scroll-target="#코사인-유사도"><span class="header-section-number">3.6</span> 코사인 유사도</a></li>
+  <li><a href="#행렬과-행렬-연산" id="toc-행렬과-행렬-연산" class="nav-link" data-scroll-target="#행렬과-행렬-연산"><span class="header-section-number">3.7</span> 행렬과 행렬 연산</a></li>
+  </ul></li>
+  <li><a href="#다변수-함수의-미분" id="toc-다변수-함수의-미분" class="nav-link" data-scroll-target="#다변수-함수의-미분"><span class="header-section-number">4</span> 다변수 함수의 미분</a>
+  <ul class="collapse">
+  <li><a href="#다변수-함수" id="toc-다변수-함수" class="nav-link" data-scroll-target="#다변수-함수"><span class="header-section-number">4.1</span> 다변수 함수</a></li>
+  <li><a href="#편미분" id="toc-편미분" class="nav-link" data-scroll-target="#편미분"><span class="header-section-number">4.2</span> 편미분</a></li>
+  <li><a href="#전미분" id="toc-전미분" class="nav-link" data-scroll-target="#전미분"><span class="header-section-number">4.3</span> 전미분</a></li>
+  <li><a href="#전미분과-합성함수" id="toc-전미분과-합성함수" class="nav-link" data-scroll-target="#전미분과-합성함수"><span class="header-section-number">4.4</span> 전미분과 합성함수</a></li>
+  <li><a href="#손실함수" id="toc-손실함수" class="nav-link" data-scroll-target="#손실함수"><span class="header-section-number">4.5</span> 손실함수</a>
+  <ul class="collapse">
+  <li><a href="#역할" id="toc-역할" class="nav-link" data-scroll-target="#역할"><span class="header-section-number">4.5.1</span> 역할</a></li>
+  <li><a href="#주요-손실함수-종류" id="toc-주요-손실함수-종류" class="nav-link" data-scroll-target="#주요-손실함수-종류"><span class="header-section-number">4.5.2</span> 주요 손실함수 종류</a></li>
+  </ul></li>
+  <li><a href="#경사하강법" id="toc-경사하강법" class="nav-link" data-scroll-target="#경사하강법"><span class="header-section-number">4.6</span> 경사하강법</a></li>
+  </ul></li>
+  <li><a href="#지수함수와-로그함수" id="toc-지수함수와-로그함수" class="nav-link" data-scroll-target="#지수함수와-로그함수"><span class="header-section-number">5</span> 지수함수와 로그함수</a>
+  <ul class="collapse">
+  <li><a href="#지수함수" id="toc-지수함수" class="nav-link" data-scroll-target="#지수함수"><span class="header-section-number">5.1</span> 지수함수</a></li>
+  <li><a href="#로그함수" id="toc-로그함수" class="nav-link" data-scroll-target="#로그함수"><span class="header-section-number">5.2</span> 로그함수</a></li>
+  <li><a href="#로그함수의-미분" id="toc-로그함수의-미분" class="nav-link" data-scroll-target="#로그함수의-미분"><span class="header-section-number">5.3</span> 로그함수의 미분</a></li>
+  <li><a href="#지수함수의-미분" id="toc-지수함수의-미분" class="nav-link" data-scroll-target="#지수함수의-미분"><span class="header-section-number">5.4</span> 지수함수의 미분</a></li>
+  <li><a href="#시그모이드-함수" id="toc-시그모이드-함수" class="nav-link" data-scroll-target="#시그모이드-함수"><span class="header-section-number">5.5</span> 시그모이드 함수</a></li>
+  <li><a href="#소프트맥스-함수" id="toc-소프트맥스-함수" class="nav-link" data-scroll-target="#소프트맥스-함수"><span class="header-section-number">5.6</span> 소프트맥스 함수</a></li>
+  </ul></li>
+  <li><a href="#확률과-통계" id="toc-확률과-통계" class="nav-link" data-scroll-target="#확률과-통계"><span class="header-section-number">6</span> 확률과 통계</a>
+  <ul class="collapse">
+  <li><a href="#확률변수와-확률-분포" id="toc-확률변수와-확률-분포" class="nav-link" data-scroll-target="#확률변수와-확률-분포"><span class="header-section-number">6.1</span> 확률변수와 확률 분포</a></li>
+  <li><a href="#확률밀도함수와-확률분포함수" id="toc-확률밀도함수와-확률분포함수" class="nav-link" data-scroll-target="#확률밀도함수와-확률분포함수"><span class="header-section-number">6.2</span> 확률밀도함수와 확률분포함수</a></li>
+  <li><a href="#가능도함수와-최대가능도-추정" id="toc-가능도함수와-최대가능도-추정" class="nav-link" data-scroll-target="#가능도함수와-최대가능도-추정"><span class="header-section-number">6.3</span> 가능도함수와 최대가능도 추정</a></li>
+  </ul></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">7</span> Reference</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">머신러닝을 위한 수학</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Machine Learning</div>
+    <div class="quarto-category">Mathmatics</div>
+    <div class="quarto-category">Data science</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Taeyoon Kim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 10, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="How_ML4math.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+<p>책 “아카이시 마사노리, 딥러닝을 위한 수학, 위키북스, 2020”을 읽고 저자가 정리한 딥러닝을 위한 수학의 최단기 코스 목차를 참고해 내용을 하였습니다. 더 자세한 설명과 파이썬 코드를 알고 싶으시다면 책을 읽어보시는 걸 추천드립니다.</p>
+<section id="수학이-필요한-이유" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 수학이 필요한 이유</h1>
+<p>머신러닝을 이해하는 데 수학은 알고리즘의 작동 원리를 이해하고, 알고리즘을 최적화하며, 데이터를 분석하는 데 필요합니다. 따라서 수학적 개념을 이해하지 못하면 다음과 같은 한계가 있습니다:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<ul>
+<li><strong>알고리즘의 블랙박스화</strong>: 수학적 원리를 이해하지 못하면 알고리즘이 어떻게 동작하는지 알기 어려워지고, 결과를 해석하거나 문제를 해결하는 데 어려움을 겪을 수 있습니다.</li>
+<li><strong>문제 해결 능력 제한</strong>: 수학적 이해가 부족하면 복잡한 문제를 논리적으로 해결하는 데 한계가 생길 수 있습니다.</li>
+<li><strong>모델 최적화의 어려움</strong>: 수학적 최적화를 이해하지 못하면 모델의 성능을 개선하거나 최적화하는 데 어려움을 겪을 수 있습니다.</li>
+</ul>
+<section id="알아야하는-필수-개념" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="알아야하는-필수-개념"><span class="header-section-number">1.1</span> 알아야하는 필수 개념</h2>
+<ul>
+<li><a href="#손실함수">손실함수</a></li>
+<li><a href="#행렬과-행렬연산">행렬과 행렬 연산</a></li>
+<li><a href="#경사하강법">경사하강법</a></li>
+<li><a href="#시그모이드-함수">시그모이드 함수</a></li>
+<li><a href="#소프트맥스-함수">소프트맥스 함수</a></li>
+<li><a href="#가능도함수와-최대가능도-추정">가능도함수와 최대가능도 추정</a></li>
+<li><a href="#오차역전파">오차역전파</a></li>
+</ul>
+</section>
+</section>
+<section id="미분과-적분" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 미분과 적분</h1>
+<p>미분과 적분은 수학에서 매우 중요한 개념으로, 함수의 변화를 분석하고 이해하는 데 핵심적인 역할을 합니다. 이 두 개념은 서로 밀접하게 연관되어 있으며, 많은 실제 응용 분야에서 활용됩니다.</p>
+<p><strong>미분</strong>은 함수의 순간적인 변화율을 측정하는 방법입니다. 주요 특징은 다음과 같습니다:</p>
+<ul>
+<li>함수의 기울기를 나타냅니다.</li>
+<li>변화의 속도를 계산하는 데 사용됩니다.</li>
+<li>최적화 문제를 해결하는 데 중요한 역할을 합니다.</li>
+</ul>
+<p>미분은 ” 함수를 미세하게 쪼개는 것 ” 으로 이해할 수 있습니다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> 이는 함수의 특정 지점에서의 순간적인 변화를 분석하는 데 유용합니다.</p>
+<p><strong>적분</strong>은 미분의 역연산으로, 적분은 ” 쌓는 것 ” 으로 이해할 수 있으며 함수값을 미세하게 나누어 합친 값을 의미합니다.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> 다음과 같은 특징이 있습니다:</p>
+<ul>
+<li>함수의 곡선 아래 면적을 계산합니다.</li>
+<li>누적된 변화량을 구하는 데 사용됩니다.</li>
+<li>부정적분과 정적분으로 나뉩니다.</li>
+</ul>
+<p><strong>미분과 적분의 관계</strong>는 서로 역관계에 있습니다. 이를 미적분학의 기본 정리라고 합니다.</p>
+<ul>
+<li>함수 <span class="math inline">\(f(x)\)</span> 의 부정적분 <span class="math inline">\(F(x)\)</span> 를 미분하면 원래 함수 <span class="math inline">\(f(x)\)</span> 가 됩니다.</li>
+<li>정적분은 부정적분을 이용해 계산할 수 있습니다.</li>
+</ul>
+<section id="함수" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="함수"><span class="header-section-number">2.1</span> 함수</h2>
+<p>관련 개념: <a href="#합성함수와-역함수">합성함수와 역함수</a>, <a href="#극한과-미분">극한과 미분</a>, <a href="#다변수-함수">다변수 함수</a></p>
+<p>함수는 정의역의 각 원소에 공역의 원소를 오직 하나씩 대응시키는 관계입니다.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>&nbsp;함수는 종종 ’ 보이지 않는 마술상자 ’ 에 비유됩니다. 입력값을 넣으면 특정한 출력값이 나오는 구조이기 때문입니다. 이 비유는 단순해 보이지만 함수의 본질적인 개념을 잘 표현합니다</p>
+<ul>
+<li>입력값 (정의역) 에 대해 단 하나의 출력값 (공역) 이 존재합니다.</li>
+<li>모든 입력값은 반드시 하나의 출력값을 가져야 합니다.</li>
+</ul>
+</section>
+<section id="합성함수와-역함수" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="합성함수와-역함수"><span class="header-section-number">2.2</span> 합성함수와 역함수</h2>
+<p>관련 개념: <a href="#로그함수">로그함수</a></p>
+<p>합성함수와 역함수는 함수의 성질을 이해하고 복잡한 관계를 분석하는 데 중요한 도구입니다. 특히 합성함수는 여러 단계의 변환을 하나의 함수로 표현할 수 있게 해주며, 역함수는 함수의 가역성을 나타내는 중요한 개념입니다.</p>
+<p><strong>합성함수</strong>: 합성함수는 두 개 이상의 함수를 연속적으로 적용하여 만든 새로운 함수입니다. 함수 <span class="math inline">\(f\)</span> 와 <span class="math inline">\(g\)</span> 가 있을 때 <span class="math inline">\(g∘f(x) = g(f(x))\)</span> 로 정의되는 함수를 <span class="math inline">\(f\)</span> 와 <span class="math inline">\(g\)</span> 의 합성함수라고 합니다. 합성함수는 여러 함수를 거쳐 한 집합에서 다른 집합으로 직접 연결하는 ” 다리 ” 역할을 합니다.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<ol type="1">
+<li>교환법칙이 성립하지 않습니다. <span class="math inline">\(g∘f ≠ f∘g\)</span></li>
+<li>결합법칙은 성립합니다. <span class="math inline">\((h∘g)∘f = h∘(g∘f)\)</span></li>
+</ol>
+<p><strong>역함수</strong>: 역함수는 주어진 함수의 입력과 출력을 서로 바꾼 함수입니다. 함수 <span class="math inline">\(f\)</span> 에 대해 <span class="math inline">\(y = f(x)\)</span> 이면 <span class="math inline">\(x = f^(-1)(y)\)</span> 가 성립하는 함수 <span class="math inline">\(f^(-1)\)</span> 를 <span class="math inline">\(f\)</span> 의 역함수라고 합니다. 역함수는 원래 함수의 ” 되돌리기 ” 연산으로 볼 수 있습니다.</p>
+<ol type="1">
+<li>모든 함수가 역함수를 가지는 것은 아닙니다. 일대일대응 함수만이 역함수를 가집니다.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></li>
+<li><span class="math inline">\(f(f^(-1)(x)) = f^(-1)(f(x)) = x\)</span> 가 성립합니다.</li>
+</ol>
+</section>
+<section id="극한과-미분" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="극한과-미분"><span class="header-section-number">2.3</span> 극한과 미분</h2>
+<p>관련개념: <a href="#극대와-극소">극대와 극소</a>, <a href="#다항식의-미분">다항식의 미분</a>, <a href="#곱의-미분">곱의 미분</a>, <a href="#적분">적분</a>, <a href="#합성함수의-미분">합성함수의 미분</a>, <a href="#로그함수의-미분">로그함수의 미분</a>, <a href="#편미분">편미분</a>, <a href="#전미분">전미분</a></p>
+<p><strong>극한</strong>은 어떤 변수가 특정 값에 한없이 가까워질 때 함수값이 수렴하는 값을 의미합니다.</p>
+<ul>
+<li><strong>엡실론 - 델타 정의</strong>: 함수 <span class="math inline">\(f(x)\)</span> 의 <span class="math inline">\(x\)</span> 가 <span class="math inline">\(a\)</span> 로 접근할 때의 극한 <span class="math inline">\(L\)</span> 은 다음과 같이 정의됩니다: 모든 <span class="math inline">\(ε &gt; 0\)</span> 에 대해, <span class="math inline">\(δ &gt; 0\)</span> 이 존재하여 <span class="math inline">\(0 &lt; |x - a| &lt; δ\)</span> 일 때 <span class="math inline">\(|f(x) - L| &lt; ε\)</span> 이 성립합니다.</li>
+<li>직관적으로 <span class="math inline">\(x\)</span> 가 <span class="math inline">\(a\)</span> 에 충분히 가까워지면 <span class="math inline">\(f(x)\)</span> 는 <span class="math inline">\(L\)</span> 에 원하는 만큼 가까워질 수 있다는 의미입니다.</li>
+<li>엡실론 - 델타 정의는 해석학의 기초가 되며 이를 통해 함수의 성질을 엄밀하게 분석할 수 있습니다.</li>
+</ul>
+<p><strong>미분</strong>은 함수의 순간변화율을 나타내는 개념입니다.</p>
+<ul>
+<li><strong>극한을 이용한 정의</strong>: 함수 <span class="math inline">\(f(x)\)</span> 의 <span class="math inline">\(x = a\)</span> 에서의 미분은 다음과 같이 정의됩니다: <span class="math inline">\(f'(a) = lim_{h→0} [f(a+h) - f(a)] / h\)</span></li>
+<li>이는 함수의 그래프 상의 한 점에서의 접선의 기울기를 의미하며 <span class="math inline">\(f'(a)\)</span> 를 함수 <span class="math inline">\(f(a)\)</span> 의 도함수라 합니다.</li>
+</ul>
+<p><strong>극한과 미분의 관계</strong></p>
+<ol type="1">
+<li>미분은 극한의 개념을 기반으로 정의됩니다. 미분 계수는 특정한 형태의 극한값입니다.</li>
+<li>함수가 미분 가능하려면 해당 점에서 극한이 존재해야 합니다. 즉, 좌극한과 우극한이 같아야 합니다.</li>
+<li>극한의 존재가 미분 가능성을 보장하지는 않습니다. 예를 들어, <span class="math inline">\(|x|\)</span> 는 <span class="math inline">\(x = 0\)</span> 에서 극한은 존재하지만 미분은 불가능합니다.</li>
+<li>미분 가능한 함수는 반드시 연속함수이지만 그 역은 성립하지 않습니다.</li>
+</ol>
+</section>
+<section id="극대와-극소" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="극대와-극소"><span class="header-section-number">2.4</span> 극대와 극소</h2>
+<p>관련개념: <a href="#경사하강법">경사하강법</a>, <a href="#가능도함수와-최대가능도-추정">가능도함수와 최대가능도 추정</a></p>
+<p>극대와 극소는 함수의 그래프에서 봉우리와 골짜기를 나타내며, 이러한 점들을 찾는 것은 함수의 최적화 및 분석에 있어 매우 중요합니다. 극대와 극소를 찾기 위해서는 도함수를 사용하여 함수의 기울기가 <span class="math inline">\(0\)</span> 이 되는 지점을 찾고, 이 지점들이 극대인지 극소인지 추가적인 분석을 통해 확인합니다. 이 개념들은 최적화 문제와 함수의 그래프 분석에서 중요한 역할을 합니다.</p>
+<p><strong>극대</strong>: 함수 <span class="math inline">\(y = f(x)\)</span> 가 <span class="math inline">\(x = a\)</span> 에서 극대 (maximum) 를 가진다고 할 때, 이는 <span class="math inline">\(f(a)\)</span> 가 <span class="math inline">\(a\)</span> 의 근처에 있는 모든 <span class="math inline">\(x\)</span> 에 대해 <span class="math inline">\(f(x) \leq f(a)\)</span> 를 만족하는 경우를 의미합니다.</p>
+<ul>
+<li>극대점에서는 함수의 기울기가 <span class="math inline">\(0\)</span> 이 되거나, 변화가 없는 상태가 됩니다. 즉, 도함수 <span class="math inline">\(f'(x) = 0\)</span> 이거나 정의되지 않는 점일 수 있습니다.</li>
+</ul>
+<p><strong>극소</strong>: 함수 <span class="math inline">\(y = f(x)\)</span> 가 <span class="math inline">\(x = b\)</span> 에서 극소 (minimum) 를 가진다고 할 때 이는 <span class="math inline">\(f(b)\)</span> 가 <span class="math inline">\(b\)</span> 의 근처에 있는 모든 <span class="math inline">\(x\)</span> 에 대해 <span class="math inline">\(f(x) \geq f(b)\)</span> 를 만족하는 경우를 의미합니다.</p>
+<ul>
+<li>극소점에서도 마찬가지로 함수의 기울기가 <span class="math inline">\(0\)</span> 이 되거나 변화가 없는 상태가 됩니다. 즉, 도함수 <span class="math inline">\(f'(x) = 0\)</span> 이거나 정의되지 않는 점일 수 있습니다.</li>
+</ul>
+</section>
+<section id="다항식의-미분" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="다항식의-미분"><span class="header-section-number">2.5</span> 다항식의 미분</h2>
+<p>관련개념: <a href="#시그모이드-함수">시그모이드 함수</a></p>
+<p>다항식의 미분은 함수의 순간 변화율을 나타내며, 곡선의 기울기를 구하거나 최적화 문제를 해결하는 데 사용됩니다. 다항식의 미분은 각 항을 개별적으로 미분한 후 그 결과를 더하는 방식으로 이루어집니다. 다항식 미분의 주요 특징은 다음과 같습니다:</p>
+<ol type="1">
+<li>상수항의 미분: 상수 c 에 대해 <span class="math inline">\((c)' = 0\)</span></li>
+<li>거듭제곱 함수의 미분: <span class="math inline">\(x^n\)</span> 의 미분은 <span class="math inline">\(nx^(n-1)\)</span> 입니다. 즉, <span class="math inline">\((x^n)' = nx^(n-1)\)</span>.</li>
+<li>선형성: <span class="math inline">\((f(x) + g(x))' = f'(x) + g'(x)\)</span>, <span class="math inline">\((cf(x))' = c * f'(x)\)</span>. 여기서 <span class="math inline">\(c\)</span> 는 상수.</li>
+</ol>
+<p><strong>다항식의 미분 정의</strong>: 다항식 <span class="math inline">\(f(x) = a_n x^n + a_(n-1) x^(n-1) + ... + a_1 x + a_0\)</span> 의 미분은 다음과 같이 정의됩니다:</p>
+<ul>
+<li><span class="math inline">\(f'(x) = n * a_n x^(n-1) + (n-1) * a_(n-1) x^(n-2) + ... + 2 * a_2 x + a_1\)</span> 이 정의를 사용하면 모든 다항식의 미분을 쉽게 계산할 수 있습니다.</li>
+</ul>
+<p>예를 들면 아래와 같습니다: - <span class="math inline">\((3x^2 + 2x - 1)'= 6x + 2\)</span> - <span class="math inline">\((x^3 - 5x + 7)' = 3x^2 - 5\)</span></p>
+</section>
+<section id="곱의-미분" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="곱의-미분"><span class="header-section-number">2.6</span> 곱의 미분</h2>
+<p>관련개념: <a href="#몫의-미분">몫의 미분</a></p>
+<p>곱의 미분법칙 (product rule) 은 두 함수의 곱을 미분할 때 사용하는 규칙으로 복잡한 함수의 미분을 단순화하고 해결하는 데 활용됩니다.</p>
+<p><strong>곱의 미분</strong>은 두 함수 <span class="math inline">\(u(x)\)</span> 와 <span class="math inline">\(v(x)\)</span> 의 곱 <span class="math inline">\(f(x) = u(x)v(x)\)</span> 에 대한 미분은 다음과 같이 정의됩니다: <span class="math inline">\(f'(x) = u'(x)v(x) + u(x)v'(x)\)</span>. 여기서 <span class="math inline">\(f'(x)\)</span> 는 <span class="math inline">\(f(x)\)</span> 의 도함수이며 <span class="math inline">\(u'(x)\)</span> 는 <span class="math inline">\(u(x)\)</span> 의 도함수이고 <span class="math inline">\(v'(x)\)</span> 는 <span class="math inline">\(v(x)\)</span> 의 도함수입니다.</p>
+<p><strong>곱의 미분 특징</strong>:</p>
+<ol type="1">
+<li>이 법칙은 두 함수의 곱을 미분할 때 각 함수를 개별적으로 미분한 후 조합하는 방법을 제공합니다.</li>
+<li>첫 번째 함수의 미분에 두 번째 함수를 곱하고, 두 번째 함수의 미분에 첫 번째 함수를 곱한 후 이 둘을 더합니다.</li>
+<li>이 법칙은 두 개 이상의 함수의 곱에도 확장 적용할 수 있습니다.</li>
+<li>곱의 미분법칙은 합의 미분법칙과 함께 복잡한 함수의 미분을 가능하게 합니다.</li>
+</ol>
+</section>
+<section id="합성함수의-미분" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="합성함수의-미분"><span class="header-section-number">2.7</span> 합성함수의 미분</h2>
+<p>관련 개념: <a href="#몫의-미분">몫의 미분</a>, <a href="#지수함수의-미분">지수함수의 미분</a>, <a href="#전미분과-합성함수">전미분과 합성함수</a></p>
+<p>합성함수의 미분, 즉 연쇄법칙 (chain rule) 은 신경망과 같은 복잡한 구조의 미분을 계산할 때 핵심적인 역할을 합니다.</p>
+<p><strong>합성함수의 미분 정의</strong>: 두 함수 <span class="math inline">\(f(x)\)</span> 와 <span class="math inline">\(g(x)\)</span> 의 합성함수 <span class="math inline">\(h(x) = f(g(x))\)</span> 에 대한 미분은 다음과 같이 정의됩니다: <span class="math inline">\(h'(x) = f'(g(x)) * g'(x)\)</span> . 여기서 <span class="math inline">\(h'(x)\)</span> 는 합성함수 <span class="math inline">\(h(x)\)</span> 의 도함수, <span class="math inline">\(f'(g(x))\)</span> 는 <span class="math inline">\(f\)</span> 의 도함수를 <span class="math inline">\(g(x)\)</span> 에 대해 계산한 것, <span class="math inline">\(g'(x)\)</span> 는 <span class="math inline">\(g(x)\)</span> 의 도함수입니다.</p>
+<p><strong>연쇄법칙의 특징</strong></p>
+<ol type="1">
+<li>이 법칙은 ” 바깥 함수의 미분 ” 곱하기 ” 안쪽 함수의 미분 ” 으로 이해할 수 있습니다.</li>
+<li>연쇄법칙은 여러 함수가 중첩된 복잡한 함수의 미분을 가능하게 합니다.</li>
+<li>이 법칙은 다변수 함수의 편미분에도 확장 적용될 수 있습니다.</li>
+<li>연쇄법칙은 역함수의 미분을 구할 때도 유용합니다.</li>
+</ol>
+</section>
+<section id="몫의-미분" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="몫의-미분"><span class="header-section-number">2.8</span> 몫의 미분</h2>
+<p>관련 개념: <a href="#소프트맥스-함수">소프트맥스 함수</a></p>
+<p>몫의 미분법칙 (quotient rule) 은 두 함수의 몫을 미분할 때 사용하는 규칙입니다. 두 함수 <span class="math inline">\(u(x)\)</span>$와 <span class="math inline">\(v(x)\)</span>$ 의 몫 <span class="math inline">\(f(x) = \frac{u(x)}{v(x)}\)</span> 에 대한 미분은 다음과 같이 정의됩니다:</p>
+<p><span class="math display">\[
+f'(x) = \frac{u'(x)v(x) - u(x)v'(x)}{[v(x)]^2}
+\]</span></p>
+<p>여기서</p>
+<ul>
+<li><span class="math inline">\(f'(x)\)</span> 는 <span class="math inline">\(f(x)\)</span> 의 도함수입니다.</li>
+<li><span class="math inline">\(u'(x)\)</span> 는 <span class="math inline">\(u(x)\)</span> 의 도함수입니다.</li>
+<li><span class="math inline">\(v'(x)\)</span> 는 <span class="math inline">\(v(x)\)</span> 의 도함수입니다.</li>
+</ul>
+<p>몫의 미분법칙은 복잡한 함수의 미분을 단순화하고, 다양한 수학적 문제를 해결하는 데 중요한 도구입니다. 이 법칙의 특징은 다음과 같습니다:</p>
+<ol type="1">
+<li><strong>분자와 분모의 역할</strong>: 분자의 미분에 분모를 곱하고, 분모의 미분에 분자를 곱한 후, 이 두 값을 뺍니다.</li>
+<li><strong>분모의 제곱</strong>: 결과적으로 분모의 제곱이 분모로 들어갑니다.</li>
+<li><strong>적용 조건</strong>: 분모 <span class="math inline">\(v(x)\)</span> 는 0 이 아니어야 합니다. 이는 함수가 정의되지 않는 점을 피하기 위함입니다.</li>
+</ol>
+</section>
+<section id="적분" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="적분"><span class="header-section-number">2.9</span> 적분</h2>
+<p>관련 개념: <a href="#확률밀도함수와-확률분포함수">확률밀도함수와 확률분포함수</a></p>
+<p>적분은 고대 그리스의 아르키메데스가 처음 아이디어를 제시했으며, 이후 앙리 르베그와 같은 수학자들에 의해 이론적으로 완성되었습니다. 적분은 물리학, 공학, 경제학 등 다양한 분야에서 널리 사용되며, 예를 들어 곡면으로 이루어진 수영장을 채우기 위해 필요한 물의 양을 계산하는 데 활용될 수 있습니다.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>적분은 크게 두 가지로 나뉩니다: 부정적분과 정적분입니다. 부정적분은 함수의 원시함수를 찾는 과정이며, 정적분은 특정 구간에서의 함수의 값을 계산하는 과정입니다.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> 적분의 주요 특징과 의미는 다음과 같습니다:</p>
+<ol type="1">
+<li>정의: 적분은 함수의 그래프 아래 면적을 계산하는 방법입니다.</li>
+<li>종류:
+<ul>
+<li>부정적분: 함수의 원시함수를 찾는 과정</li>
+<li>정적분: 특정 구간에서의 함수의 값을 계산하는 과정 <a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></li>
+</ul></li>
+<li>정적분의 개념: 주어진 함수의 구간을 아주 작은 직사각형들로 나누어 그 넓이의 합을 구하는 방식입니다.</li>
+<li>리만 적분: 가장 일반적으로 사용되는 적분 형식 중 하나로, 함수를 잘게 나누어 근사값을 구하는 방식입니다.</li>
+<li>미적분학의 기본 정리: 미분과 적분이 서로 역연산 관계에 있음을 보여주는 중요한 정리입니다.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></li>
+<li>응용: 적분은 물리학, 공학, 경제학 등 다양한 분야에서 사용되며, 면적, 부피, 일, 에너지 등 다양한 물리량을 계산하는 데 활용됩니다.</li>
+</ol>
+</section>
+</section>
+<section id="벡터와-행렬" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 벡터와 행렬</h1>
+<section id="벡터" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="벡터"><span class="header-section-number">3.1</span> 벡터</h2>
+<p>관련개념: <a href="#덧셈,뺄셈,스칼라-곱셈">덧셈, 뺄셈, 스칼라 곱셈</a>, <a href="#편미분">편미분</a></p>
+<p>벡터는 수학과 물리학에서 크기와 방향을 동시에 가지는 양을 나타내는 개념입니다. 벡터는 일반적으로 화살표로 표현되며, 시작점과 끝점을 통해 방향과 크기를 나타냅니다. 주요 특징은 다음과 같습니다:</p>
+<ol type="1">
+<li><strong>크기와 방향</strong>: 벡터는 크기 (길이) 와 방향을 가지며, 이 두 가지 요소로 정의됩니다. 크기는 벡터의 길이를 나타내고, 방향은 벡터가 가리키는 방향을 나타냅니다.</li>
+<li><strong>자유벡터</strong>: 벡터는 시점 (시작점) 이 자유로울 수 있으며, 같은 크기와 방향을 가지면 동일한 벡터로 간주됩니다. 이러한 벡터를 자유벡터라고 합니다.</li>
+<li><strong>벡터의 연산</strong>: 벡터는 덧셈, 뺄셈, 스칼라 곱 등의 연산이 가능합니다. 이러한 연산을 통해 벡터의 크기와 방향을 조작할 수 있습니다.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></li>
+<li><strong>벡터 공간</strong>: 벡터는 벡터 공간의 원소로 간주되며, 벡터 공간은 벡터의 선형 결합으로 구성됩니다. 벡터 공간은 수학적 구조를 정의하는 데 중요한 역할을 합니다.</li>
+</ol>
+</section>
+<section id="덧셈-뺄셈-스칼라-곱셈" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="덧셈-뺄셈-스칼라-곱셈"><span class="header-section-number">3.2</span> 덧셈, 뺄셈, 스칼라 곱셈</h2>
+<p>관련개념: <a href="#길이와-거리">길이와 거리</a></p>
+<p>벡터의 덧셈과 뺄셈은 벡터의 결합과 분리를 나타내며, 스칼라 곱셈은 벡터의 크기를 조절하는 데 사용됩니다.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> 각 연산의 정의는 다음과 같습니다:</p>
+<p><strong>벡터의 덧셈</strong>: 두 벡터 <span class="math inline">\(\mathbf{a}\)</span> 와 <span class="math inline">\(\mathbf{b}\)</span> 의 덧셈은 대응하는 성분끼리 더하는 것입니다. - 수식: <span class="math inline">\(\mathbf{a} + \mathbf{b} = (a_1 + b_1, a_2 + b_2, \ldots, a_n + b_n)\)</span> - 특징: 벡터 덧셈은 교환법칙과 결합법칙이 성립합니다.</p>
+<p><strong>벡터의 뺄셈</strong>: 두 벡터 <span class="math inline">\(\mathbf{a}\)</span> 와 <span class="math inline">\(\mathbf{b}\)</span> 의 뺄셈은 대응하는 성분끼리 빼는 것입니다. - 수식: <span class="math inline">\(\mathbf{a} - \mathbf{b} = (a_1 - b_1, a_2 - b_2, \ldots, a_n - b_n)\)</span> - 특징: 벡터 뺄셈은 벡터 덧셈과 유사하게 처리되며, 벡터의 방향을 반대로 하는 것과 같습니다.</p>
+<p><strong>스칼라 곱셈</strong>: 벡터 <span class="math inline">\(\mathbf{a}\)</span> 에 스칼라 <span class="math inline">\(c\)</span> 를 곱하는 것은 벡터의 각 성분에 <span class="math inline">\(c\)</span> 를 곱하는 것입니다.</p>
+<ul>
+<li>수식: <span class="math inline">\(c\mathbf{a} = (ca_1, ca_2, \ldots, ca_n)\)</span></li>
+<li>특징: 스칼라 곱셈은 벡터의 크기를 변화시키며, 방향은 변하지 않습니다. 스칼라가 음수일 경우 벡터의 방향이 반대가 됩니다.</li>
+</ul>
+</section>
+<section id="길이와-거리" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="길이와-거리"><span class="header-section-number">3.3</span> 길이와 거리</h2>
+<p>관련개념: <a href="#내적">내적</a>, <a href="#코사인-유사도">코사인 유사도</a></p>
+<p><strong>벡터의 길이</strong>: 벡터의 길이 (또는 크기) 는 벡터가 나타내는 화살표의 길이를 의미하며, 이는 벡터의 각 성분의 제곱의 합의 제곱근으로 계산됩니다.</p>
+<ul>
+<li>수식: 벡터 <span class="math inline">\(\mathbf{v} = (v_1, v_2, \ldots, v_n)\)</span> 의 길이는 다음과 같이 정의됩니다: <span class="math display">\[
+\|\mathbf{v}\| = \sqrt{v_1^2 + v_2^2 + \ldots + v_n^2}
+\]</span></li>
+<li>특징: 벡터의 길이는 항상 0 이상의 값을 가지며, 벡터가 원점에서 얼마나 떨어져 있는지를 나타냅니다.</li>
+</ul>
+<p><strong>벡터 간의 거리</strong>: 두 벡터 사이의 거리는 두 벡터를 연결하는 선분의 길이를 의미합니다. - 수식: 벡터 <span class="math inline">\(\mathbf{u} = (u_1, u_2, \ldots, u_n)\)</span> 와 <span class="math inline">\(\mathbf{v} = (v_1, v_2, \ldots, v_n)\)</span> 사이의 거리는 다음과 같이 정의됩니다: <span class="math display">\[
+  \text{거리}(\mathbf{u}, \mathbf{v}) = \sqrt{(u_1 - v_1)^2 + (u_2 - v_2)^2 + \ldots + (u_n - v_n)^2}
+  \]</span> - 특징: 이 거리는 유클리드 거리로, 두 점 사이의 직선 거리를 측정하며, 항상 0 이상의 값을 가집니다.</p>
+</section>
+<section id="삼각함수" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="삼각함수"><span class="header-section-number">3.4</span> 삼각함수</h2>
+<p>관련개념: <a href="#내적">내적</a></p>
+<p>삼각함수는 삼각형의 각과 변의 관계를 나타내는 함수로, 주로 직각삼각형에서 정의됩니다.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> 삼각함수의 주요 정의는 다음과 같습니다:</p>
+<ol type="1">
+<li><p>사인 (Sine, <span class="math inline">\(\sin\)</span>): 직각삼각형에서 한 각의 사인은 그 각의 대변의 길이를 빗변의 길이로 나눈 값입니다.</p></li>
+<li><p>코사인 (Cosine, <span class="math inline">\(\cos\)</span>): 직각삼각형에서 한 각의 코사인은 그 각의 인접변의 길이를 빗변의 길이로 나눈 값입니다.</p></li>
+<li><p>탄젠트 (Tangent, <span class="math inline">\(\tan\)</span>): 직각삼각형에서 한 각의 탄젠트는 그 각의 대변의 길이를 인접변의 길이로 나눈 값입니다.</p></li>
+</ol>
+</section>
+<section id="내적" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="내적"><span class="header-section-number">3.5</span> 내적</h2>
+<p>관련개념: <a href="#코사인-유사도">코사인 유사도</a>, <a href="#행렬과-행렬-연산">행렬과 행렬 연산</a>, <a href="#경사하강법">경사하강법</a></p>
+<p>내적은 두 벡터의 각 성분을 곱한 후 더하는 연산으로, 실수체에서는 이중선형 (bilinear) 함수로 정의됩니다. 이는 두 벡터의 방향이 얼마나 일치하는지를 나타냅니다.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> 내적의 정의는 다음과 같습니다:</p>
+<ul>
+<li><p>수식: 두 벡터 <span class="math inline">\(\mathbf{a} = (a_1, a_2, \ldots, a_n)\)</span> 와 <span class="math inline">\(\mathbf{b} = (b_1, b_2, \ldots, b_n)\)</span> 의 내적은 다음과 같이 계산됩니다: <span class="math display">\[
+\mathbf{a} \cdot \mathbf{b} = a_1b_1 + a_2b_2 + \ldots + a_nb_n
+\]</span></p></li>
+<li><p>성질:</p>
+<ol type="1">
+<li><strong>교환법칙</strong>: <span class="math inline">\(\mathbf{a} \cdot \mathbf{b} = \mathbf{b} \cdot \mathbf{a}\)</span></li>
+<li><strong>분배법칙</strong>: <span class="math inline">\(\mathbf{a} \cdot (\mathbf{b} + \mathbf{c}) = \mathbf{a} \cdot \mathbf{b} + \mathbf{a} \cdot \mathbf{c}\)</span></li>
+<li><strong>스칼라곱과의 호환성</strong>: <span class="math inline">\(c(\mathbf{a} \cdot \mathbf{b}) = (c\mathbf{a}) \cdot \mathbf{b} = \mathbf{a} \cdot (c\mathbf{b})\)</span>, 여기서 <span class="math inline">\(c\)</span> 는 스칼라입니다.</li>
+</ol></li>
+</ul>
+</section>
+<section id="코사인-유사도" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="코사인-유사도"><span class="header-section-number">3.6</span> 코사인 유사도</h2>
+<p>코사인 유사도 (Cosine Similarity) 는 두 벡터 간의 유사도를 측정하는 방법으로, 두 벡터 사이의 코사인 각도를 이용하여 유사도를 계산합니다. 코사인 유사도는 벡터의 방향에 기반하여 유사성을 측정하기 때문에, 크기에 영향을 받지 않고 패턴이나 방향의 유사성을 평가하는 데 적합합니다. 따라서 자연어 처리 (NLP) 에서 문서 간의 유사도를 측정하거나 추천 시스템에서 아이템 간의 유사도를 계산하는 데 널리 사용됩니다. 코사인 유사도는 다음과 같은 특징을 가지고 있습니다:</p>
+<ol type="1">
+<li><p>정의: 코사인 유사도는 두 벡터가 이루는 각의 코사인을 계산하여 두 벡터의 방향이 얼마나 유사한지를 나타냅니다. 수식으로는 다음과 같이 표현됩니다: <span class="math display">\[
+\text{Cosine Similarity} = \frac{\mathbf{A} \cdot \mathbf{B}}{\|\mathbf{A}\| \|\mathbf{B}\|}
+\]</span> 여기서 <span class="math inline">\(\mathbf{A} \cdot \mathbf{B}\)</span> 는 두 벡터의 내적이고, <span class="math inline">\(\|\mathbf{A}\|\)</span> 와 <span class="math inline">\(\|\mathbf{B}\|\)</span> 는 각각 벡터의 크기 (길이) 입니다.</p></li>
+<li><p>특징:</p>
+<ul>
+<li>코사인 유사도는 -1 에서 1 사이의 값을 가지며, 1 에 가까울수록 두 벡터의 방향이 유사하다는 것을 의미합니다.</li>
+<li>벡터의 크기보다는 방향에 초점을 맞추기 때문에, 문서의 길이가 다르거나 크기가 다른 벡터를 비교할 때 유용합니다 <a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></li>
+</ul></li>
+</ol>
+</section>
+<section id="행렬과-행렬-연산" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="행렬과-행렬-연산"><span class="header-section-number">3.7</span> 행렬과 행렬 연산</h2>
+<p>행렬은 수 또는 다항식 등을 직사각형 모양으로 배열한 것입니다. 행렬은 수학과 과학의 다양한 분야에서 사용되며, 특히 물리학, 컴퓨터 그래픽스, 확률론, 통계학 등에서 중요한 역할을 합니다. 행렬에 대한 주요 연산은 다음과 같습니다:</p>
+<ol type="1">
+<li><strong>덧셈</strong>: 같은 크기의 두 행렬에 대해서만 정의되며, 대응하는 원소끼리 더합니다.</li>
+<li><strong>스칼라배</strong>: 행렬의 각 원소에 스칼라를 곱하는 연산입니다.</li>
+<li><strong>곱셈</strong>: 첫 번째 행렬의 열의 수와 두 번째 행렬의 행의 수가 같을 때 정의됩니다. 결과 행렬의 각 원소는 첫 번째 행렬의 행과 두 번째 행렬의 열의 원소를 곱한 후 합한 값입니다.</li>
+<li><strong>전치 행렬</strong>: 행과 열을 교환한 행렬입니다. 즉, 원래 행렬의 <span class="math inline">\(i\)</span>- 행, <span class="math inline">\(j\)</span>- 열의 원소가 전치 행렬에서는 <span class="math inline">\(j\)</span>- 행, <span class="math inline">\(i\)</span>- 열의 원소가 됩니다.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></li>
+<li><strong>역행렬</strong>: 정방행렬 (정사각 행렬) 에 대해서만 정의되며, 행렬 곱셈의 역원 역할을 합니다. 모든 정방행렬이 역행렬을 가지는 것은 아닙니다.</li>
+<li><strong>행렬식</strong>: 정방행렬에 대해 정의되는 값으로, 행렬의 특성을 나타냅니다. 기하학적으로는 행렬이 나타내는 변환의 부피 스케일링을 의미합니다.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></li>
+</ol>
+</section>
+</section>
+<section id="다변수-함수의-미분" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 다변수 함수의 미분</h1>
+<section id="다변수-함수" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="다변수-함수"><span class="header-section-number">4.1</span> 다변수 함수</h2>
+<p>관련개념: <a href="#함수">함수</a>, <a href="#편미분">편미분</a></p>
+<p>다변수 함수는 두 개 이상의 독립변수를 가지는 함수를 의미합니다. 단변수 함수의 개념을 고차원으로 확장한 것으로 더 복잡한 현상을 수학적으로 표현할 때 사용합니다. 주요 특징과 정의는 다음과 같습니다:</p>
+<ol type="1">
+<li><strong>정의</strong>: 다변수 함수는 여러 개의 입력 변수를 받아 하나의 출력값을 반환하는 함수입니다. 일반적으로 다음과 같이 표현됩니다: <span class="math inline">\(f(x_1, x_2, ..., x_n) = y\)</span> 여기서 <span class="math inline">\(x_1, x_2, ..., x_n\)</span> 은 독립변수이고, <span class="math inline">\(y\)</span> 는 종속변수입니다.</li>
+<li><strong>정의역</strong>: 다변수 함수의 정의역은 n 차원 공간의 부분집합입니다. 예를 들어, 2 변수 함수의 경우 정의역은 2 차원 평면의 일부가 됩니다.</li>
+<li><strong>치역</strong>: 함수의 출력값들의 집합으로 일반적으로 실수 집합의 부분집합입니다.</li>
+<li><strong>그래프</strong>: 다변수 함수의 그래프는 <span class="math inline">\(n+1\)</span> 차원 공간에 존재합니다. 예를 들어, 2 변수 함수의 그래프는 3 차원 공간에 표현됩니다.</li>
+<li><strong>연속성과 미분가능성</strong>: 단변수 함수와 마찬가지로 다변수 함수도 연속성과 미분가능성을 가질 수 있습니다. 다만, 이를 판단하는 기준이 더 복잡해집니다.</li>
+<li><strong>편미분</strong>: 다변수 함수에서는 각 변수에 대한 편미분을 고려해야 합니다. 이는 다른 변수들을 상수로 취급하고 한 변수에 대해서만 미분하는 것을 의미합니다.</li>
+</ol>
+</section>
+<section id="편미분" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="편미분"><span class="header-section-number">4.2</span> 편미분</h2>
+<p>관련개념: <a href="#극한과-미분">극한과 미분</a>, <a href="#벡터">벡터</a>, <a href="#전미분">전미분</a>, <a href="#전미분과-합성함수">전미분과 함성함수</a></p>
+<p>편미분은 다변수 함수에서 특정 변수에 대해 미분하는 것을 의미합니다. 편미분의 주요 특징과 정의는 다음과 같습니다:</p>
+<ol type="1">
+<li>정의: 다변수 함수 <span class="math inline">\(f(x, y, z, ...)\)</span> 에서 한 변수에 대해서만 미분하고 나머지 변수들은 상수로 취급하여 미분하는 것입니다.</li>
+<li>표기법: 편미분은 일반적으로 <span class="math inline">\(∂\)</span> 기호를 사용하여 표현합니다. 예를 들어, <span class="math inline">\(f(x,y)\)</span> 의 <span class="math inline">\(x\)</span> 에 대한 편미분은 <span class="math inline">\(∂f/∂x\)</span> 로 표기합니다.</li>
+<li>계산 방법: 편미분을 계산할 때는 미분하려는 변수 이외의 모든 변수를 상수로 취급하고 일반적인 미분 규칙을 적용합니다.</li>
+<li>기하학적 의미: 편미분은 다변수 함수의 그래프에서 특정 방향으로의 기울기를 나타냅니다.</li>
+<li>전미분과의 관계: 모든 변수에 대한 편미분을 종합하여 전미분을 구할 수 있습니다.</li>
+</ol>
+<p>편미분은 복잡한 다변수 함수의 동작을 이해하고 분석하는 데 중요한 도구로, 현대 과학과 공학의 여러 분야에서 핵심적인 역할을 합니다.</p>
+</section>
+<section id="전미분" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="전미분"><span class="header-section-number">4.3</span> 전미분</h2>
+<p>관련개념: <a href="#편미분">편미분</a>, <a href="#극한과-미분">극한과 미분</a>, <a href="#전미분과-합성함수">전미분과 합성함수</a>, <a href="#경사하강법">경사하강법</a></p>
+<p>전미분은 다변수 함수의 변화량을 특정 지점에서 근사화하는 방법으로, 각 변수의 변화에 따른 함수 값의 총 변화를 나타냅니다. 전미분은 다변수 함수의 변화를 이해하고 분석하는 데 중요한 도구로, 특히 복잡한 시스템의 근사해를 구하는 데 유용합니다.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> 전미분은 다음과 같이 정의할 수 있습니다:</p>
+<ol type="1">
+<li><p>정의: 다변수 함수 <span class="math inline">\(f(x_1, x_2, \ldots, x_n)\)</span> 의 전미분은 각 변수의 작은 변화에 대한 함수의 총 변화량을 근사화하는 선형 표현입니다. 이는 함수의 변화량을 각 변수의 변화량에 비례하여 나타냅니다.</p></li>
+<li><p>수식: 함수 <span class="math inline">\(f(x, y)\)</span> 의 전미분은 다음과 같이 표현됩니다: <span class="math display">\[
+df = \frac{\partial f}{\partial x} dx + \frac{\partial f}{\partial y} dy
+\]</span> 여기서 <span class="math inline">\(\frac{\partial f}{\partial x}\)</span> 와 <span class="math inline">\(\frac{\partial f}{\partial y}\)</span> 는 각각 <span class="math inline">\(x\)</span> 와 <span class="math inline">\(y\)</span> 에 대한 편미분이며, <span class="math inline">\(dx\)</span> 와 <span class="math inline">\(dy\)</span> 는 <span class="math inline">\(x\)</span> 와 <span class="math inline">\(y\)</span> 의 작은 변화량입니다.</p></li>
+<li><p>기하학적 의미: 전미분은 함수의 그래프에서 접평면의 방정식을 구성하며, 이는 함수의 변화율을 각 변수 방향으로 나타내는 벡터의 합으로 이해할 수 있습니다.</p></li>
+</ol>
+</section>
+<section id="전미분과-합성함수" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="전미분과-합성함수"><span class="header-section-number">4.4</span> 전미분과 합성함수</h2>
+<p>관련개념: <a href="#편미분">편미분</a>, <a href="#전미분">전미분</a>, <a href="#합성함수의-미분">합성함수의 미분</a></p>
+<p>전미분과 합성함수는 모두 복잡한 함수의 변화를 분석하는 데 중요한 도구입니다. 전미분은 다변수 함수의 전체적인 변화를 이해하는 데 사용되며, 합성함수는 여러 단계의 변환을 거치는 함수를 다룰 때 유용합니다.</p>
+<p><strong>전미분</strong>: 전미분은 다변수 함수의 모든 변수에 대한 변화를 동시에 고려한 미분입니다.</p>
+<ul>
+<li>다변수 함수 <span class="math inline">\(f(x, y, ...)\)</span> 의 전미분은 각 변수의 편미분을 모두 더한 형태로 표현됩니다.</li>
+<li>예를 들어, 2 변수 함수 <span class="math inline">\(f(x, y)\)</span> 의 전미분은 다음과 같이 정의됩니다: <span class="math display">\[df = (∂f/∂x)dx + (∂f/∂y)dy\]</span></li>
+<li>여기서 <span class="math inline">\(∂f/∂x\)</span> 와 <span class="math inline">\(∂f/∂y\)</span> 는 각각 <span class="math inline">\(x\)</span> 와 <span class="math inline">\(y\)</span> 에 대한 편미분이며, <span class="math inline">\(dx\)</span> 와 <span class="math inline">\(dy\)</span> 는 <span class="math inline">\(x\)</span> 와 <span class="math inline">\(y\)</span> 의 미소 변화량을 나타냅니다.</li>
+</ul>
+<p><strong>합성함수</strong>: 합성함수는 두 개 이상의 함수를 연속적으로 적용하여 만든 새로운 함수입니다.</p>
+<ul>
+<li>함수 <span class="math inline">\(f\)</span> 와 <span class="math inline">\(g\)</span> 가 있을 때, <span class="math inline">\((g ∘ f)(x) = g(f(x))\)</span> 로 정의되는 함수를 <span class="math inline">\(f\)</span> 와 <span class="math inline">\(g\)</span> 의 합성함수라고 합니다.</li>
+<li>합성함수는 한 함수의 출력을 다른 함수의 입력으로 사용하는 것을 의미합니다.</li>
+<li>합성함수의 미분에는 연쇄법칙이 적용됩니다. 즉, <span class="math inline">\((g ∘ f)'(x) = g'(f(x)) · f'(x)\)</span> 입니다.</li>
+</ul>
+</section>
+<section id="손실함수" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="손실함수"><span class="header-section-number">4.5</span> 손실함수</h2>
+<p>관련개념: <a href="#미분과-적분">미분과 적분</a>, <a href="#편미분">편미분</a>, <a href="#가능도함수와-최대가능도-추정">가능도함수와 최대가능도 추정</a>, <a href="#경사하강법">경사하강법</a></p>
+<p>손실함수는 모델이 예측한 값과 실제 정답 사이의 차이를 수치화하는 함수입니다. 이는 모델이 얼마나 잘못 예측하고 있는지를 측정하는 도구로, 학습 과정에서 모델의 성능을 개선하는 데 사용됩니다.</p>
+<section id="역할" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="역할"><span class="header-section-number">4.5.1</span> 역할</h3>
+<ol type="1">
+<li><strong>성능 평가</strong>: 모델의 예측 정확도를 평가합니다.</li>
+<li><strong>학습 방향 제시</strong>: 손실값을 최소화하는 방향으로 모델을 조정합니다.</li>
+<li><strong>최적화 기준</strong>: 모델 파라미터를 조정하는 기준이 됩니다.</li>
+</ol>
+</section>
+<section id="주요-손실함수-종류" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="주요-손실함수-종류"><span class="header-section-number">4.5.2</span> 주요 손실함수 종류</h3>
+<p>회귀 문제에서의 손실함수:</p>
+<ol type="1">
+<li><strong>MSE (Mean Squared Error)</strong>: 가장 기본적인 손실함수, 예측값과 실제값의 차이를 제곱하여 평균을 냄, 이상치에 민감할 수 있음.</li>
+<li><strong>MAE (Mean Absolute Error)</strong>: 예측값과 실제값의 절대 차이의 평균, MSE 에 비해 이상치에 덜 민감함.</li>
+<li><strong>RMSE (Root Mean Squared Error)</strong>: MSE 에 제곱근을 취한 값</li>
+</ol>
+<p>분류 문제에서의 손실함수:</p>
+<ul>
+<li>엔트로피 개념을 활용한 손실함수를 주로 사용합니다.</li>
+</ul>
+</section>
+</section>
+<section id="경사하강법" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="경사하강법"><span class="header-section-number">4.6</span> 경사하강법</h2>
+<p>관련개념: <a href="#극대와-극소">극대와 극소</a>, <a href="#내적">내적</a></p>
+<p>경사하강법 (Gradient Descent) 은 주어진 함수의 최소값을 찾기 위한 최적화 알고리즘입니다. 이 방법은 함수의 기울기 (gradient) 를 이용하여 함수의 값을 점진적으로 줄여나가는 방식으로 작동합니다. 경사하강법은 함수의 최적화 문제를 해결하는 데 중요한 도구로, 특히 기계 학습에서 모델의 학습과 최적화에 사용됩니다 .경사하강법의 주요 특징은 다음과 같습니다:</p>
+<ol type="1">
+<li><p>목적: 경사하강법은 함수의 최소값을 찾는 것을 목표로 합니다. 이는 손실 함수 (loss function) 를 최소화하는 데 사용되며, 특히 기계 학습에서 모델의 최적화에 널리 활용됩니다.</p></li>
+<li><p>작동 원리:</p>
+<ul>
+<li>함수의 현재 위치에서의 기울기를 계산합니다.</li>
+<li>기울기의 반대 방향으로 일정한 크기 (step size 또는 learning rate) 만큼 이동합니다.</li>
+<li>이 과정을 반복하여 함수의 값을 점진적으로 줄입니다.</li>
+</ul></li>
+<li><p>수식:</p>
+<ul>
+<li>변수 <span class="math inline">\(\theta\)</span> 에 대해 경사하강법의 업데이트 규칙은 다음과 같이 표현됩니다: <span class="math display">\[
+\theta := \theta - \alpha \nabla f(\theta)
+\]</span> 여기서 <span class="math inline">\(\alpha\)</span> 는 학습률 (learning rate), <span class="math inline">\(\nabla f(\theta)\)</span> 는 함수 <span class="math inline">\(f\)</span> 의 <span class="math inline">\(\theta\)</span> 에서의 기울기입니다.</li>
+</ul></li>
+<li><p>변형: 경사하강법에는 여러 변형이 존재합니다. 예를 들어, 확률적 경사하강법 (Stochastic Gradient Descent, SGD) 은 데이터의 전체 집합 대신 무작위로 선택된 일부 데이터를 사용하여 기울기를 계산합니다.</p></li>
+</ol>
+</section>
+</section>
+<section id="지수함수와-로그함수" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 지수함수와 로그함수</h1>
+<section id="지수함수" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="지수함수"><span class="header-section-number">5.1</span> 지수함수</h2>
+<p>관련개념: <a href="#로그함수">로그함수</a>, <a href="#시그모이드-함수">시그모이드 함수</a>, <a href="#소프트맥스-함수">소프트맥스 함수</a>, <a href="#확률밀도함수와-확률분포함수">확률밀도함수와 확률분포함수</a></p>
+<p>지수함수는 일반적으로 <span class="math inline">\(f(x) = a^x\)</span> 형태로 표현되며, 여기서 <span class="math inline">\(a\)</span> 는 양의 상수 (기저, base) 이고, <span class="math inline">\(x\)</span> 는 지수입니다. 가장 흔히 사용되는 기저는 자연상수 <span class="math inline">\(e\)</span> 로, 이 경우의 지수함수는 <span class="math inline">\(f(x) = e^x\)</span> 입니다.</p>
+<ol type="1">
+<li>특징:
+<ul>
+<li><strong>연속성과 미분 가능성</strong>: 지수함수는 모든 실수 <span class="math inline">\(x\)</span> 에 대해 연속적이며 미분 가능합니다.</li>
+<li><strong>증가 또는 감소</strong>: 기저 <span class="math inline">\(a\)</span> 가 1 보다 크면 함수는 증가하고, 0 보다 크고 1 보다 작으면 함수는 감소합니다.</li>
+<li><strong>고유한 미분 특성</strong>: 특히 <span class="math inline">\(f(x) = e^x\)</span> 의 경우, 미분해도 자기 자신이 되는 고유한 성질을 가집니다. 즉, <span class="math inline">\(\frac{d}{dx} e^x = e^x\)</span>.</li>
+</ul></li>
+</ol>
+</section>
+<section id="로그함수" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="로그함수"><span class="header-section-number">5.2</span> 로그함수</h2>
+<p>관련개념: <a href="#합성함수와-역함수">합성함수와 역함수</a>, <a href="#로그함수와-미분">로그함수와 미분</a>, <a href="#가능도함수와-최대가능도-추정">가능도함수와 최대가능도 추정</a></p>
+<p>로그함수는 지수함수의 역함수로 정의되며, 다음과 같은 특징을 가집니다:</p>
+<ol type="1">
+<li><p>정의: 로그함수는 일반적으로 <span class="math inline">\(y = \log_a x\)</span> 형태로 표현됩니다. 여기서 <span class="math inline">\(a\)</span> 는 로그의 밑 (base) 이며, <span class="math inline">\(x\)</span> 는 진수입니다. 이는 <span class="math inline">\(a^y = x\)</span> 와 동일한 의미를 가집니다.</p></li>
+<li><p>주요 성질:</p>
+<ul>
+<li>로그함수는 양수에 대해서만 정의됩니다. 즉, <span class="math inline">\(x &gt; 0\)</span> 일 때만 정의됩니다.</li>
+<li><span class="math inline">\(\log_a 1 = 0\)</span> (모든 양의 실수 <span class="math inline">\(a\)</span> 에 대해)</li>
+<li><span class="math inline">\(\log_a a = 1\)</span></li>
+<li>로그함수는 단조 증가 함수입니다.</li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>&nbsp;단조 증가 함수란 x 값이 증가할 때 y 값도 항상 증가하거나 같은 값을 유지하는 함수를 말합니다. 이 성질 때문에 로그함수는 넓은 범위의 값을 좁은 범위로 압축하는 데 유용하게 사용됩니다. 예를 들어, 지진의 규모나 소리의 강도를 표현하는 데 사용됩니다.</p>
+</div>
+</div>
+<ol start="3" type="1">
+<li>특별한 경우:
+<ul>
+<li>자연로그: <span class="math inline">\(\ln x = \log_e x\)</span> (밑이 자연상수 <span class="math inline">\(e\)</span> 인 경우)</li>
+<li>상용로그: <span class="math inline">\(\log x = \log_{10} x\)</span> (밑이 10 인 경우)</li>
+</ul></li>
+<li>로그의 성질:
+<ul>
+<li>곱의 로그: <span class="math inline">\(\log_a (xy) = \log_a x + \log_a y\)</span></li>
+<li>몫의 로그: <span class="math inline">\(\log_a (x/y) = \log_a x - \log_a y\)</span></li>
+<li>거듭제곱의 로그: <span class="math inline">\(log_a (x^n) = n \log_a x\)</span></li>
+</ul></li>
+</ol>
+</section>
+<section id="로그함수의-미분" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="로그함수의-미분"><span class="header-section-number">5.3</span> 로그함수의 미분</h2>
+<p>관련개념: <a href="#극한과-미분">극한과 미분</a>, <a href="#지수함수의-미분">지수함수의 미분</a>, <a href="#가능도함수와-최대가능도-추정">가능도함수와 최대가능도 추정</a></p>
+<p>로그함수의 미분은 다음과 같이 정의됩니다:</p>
+<ol type="1">
+<li><p>자연로그 함수 <span class="math inline">\(ln(x)\)</span> 의 미분: <span class="math display">\[ \frac{d}{dx} \ln(x) = \frac{1}{x}, \quad x &gt; 0 \]</span></p></li>
+<li><p>일반적인 로그함수 <span class="math inline">\(log_a(x)\)</span> 의 미분: <span class="math display">\[ \frac{d}{dx} \log_a(x) = \frac{1}{x \ln(a)}, \quad x &gt; 0, a &gt; 0, a \neq 1 \]</span></p></li>
+</ol>
+<p>로그함수의 주요 특징은 다음과 같습니다:</p>
+<ol type="1">
+<li>로그함수의 미분은 항상 함수 자체의 역수에 비례합니다.</li>
+<li>자연로그의 경우, 미분 결과가 단순히 <span class="math inline">\(1/x\)</span> 로 나타납니다. 이는 자연로그가 미분 관점에서 가장 단순한 형태를 가진다는 것을 보여줍니다.</li>
+<li>일반 로그함수의 경우, 밑 (base) 에 따라 추가적인 상수 <span class="math inline">\(1/ln(a)\)</span> 가 곱해집니다.</li>
+<li>로그함수의 미분은 <span class="math inline">\(x &gt; 0\)</span> 인 양수 영역에서만 정의됩니다. 이는 로그함수 자체가 양수 영역에서만 정의되기 때문입니다.</li>
+<li>로그함수의 미분은 <span class="math inline">\(x\)</span> 가 증가함에 따라 감소하는 형태를 보입니다. 이는 로그함수의 증가 속도가 <span class="math inline">\(x\)</span> 가 커질수록 느려짐을 의미합니다.</li>
+</ol>
+</section>
+<section id="지수함수의-미분" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="지수함수의-미분"><span class="header-section-number">5.4</span> 지수함수의 미분</h2>
+<p>관련개념: <a href="#합성함수의-미분">합성함수의 미분</a>, <a href="#시그모이드-함수">시그모이드 함수</a></p>
+<p>지수함수의 미분은 다음과 같이 정의됩니다:</p>
+<ol type="1">
+<li><p>자연지수 함수 <span class="math inline">\(e^x\)</span> 의 미분: <span class="math display">\[ \frac{d}{dx} e^x = e^x \]</span> 이는 자연지수 함수의 가장 중요한 특징 중 하나로, 미분해도 자기 자신이 됩니다.</p></li>
+<li><p>일반적인 지수함수 a^x 의 미분 (<span class="math inline">\(a &gt; 0, a ≠ 1\)</span>): <span class="math display">\[ \frac{d}{dx} a^x = a^x \ln(a) \]</span></p></li>
+</ol>
+<p>이 정의의 주요 특징은 다음과 같습니다:</p>
+<ol type="1">
+<li>지수함수의 미분은 항상 자기 자신에 비례합니다. 이는 지수함수의 성장률이 함수값에 비례한다는 것을 의미합니다.</li>
+<li>자연지수 함수 <span class="math inline">\(e^x\)</span> 의 경우, 미분 결과가 단순히 자기 자신이 됩니다. 이는 <span class="math inline">\(e^x\)</span> 가 미분 관점에서 가장 단순한 형태를 가진다는 것을 보여줍니다.</li>
+<li>일반 지수함수의 경우, 밑 (base) 에 따라 추가적인 상수 <span class="math inline">\(ln(a)\)</span> 가 곱해집니다.</li>
+<li>지수함수의 미분은 모든 실수에 대해 정의되며, 항상 양수입니다 (<span class="math inline">\(a &gt; 0\)</span> 인 경우).</li>
+<li>지수함수의 미분은 <span class="math inline">\(x\)</span> 가 증가함에 따라 지수적으로 증가하는 형태를 보입니다. 이는 지수함수의 성장 속도가 <span class="math inline">\(x\)</span> 가 커질수록 빨라짐을 의미합니다.</li>
+</ol>
+</section>
+<section id="시그모이드-함수" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="시그모이드-함수"><span class="header-section-number">5.5</span> 시그모이드 함수</h2>
+<p>관련개념: <a href="#다항식의-미분">다항식의 미분</a>, <a href="#지수함수의-미분">지수함수의 미분</a>, <a href="#합성함수의-미분">합성함수의 미분</a>, <a href="#로그함수">로그함수</a></p>
+<p>시그모이드 함수 (Sigmoid function) 는 S 자 모양의 곡선을 그리는 함수로, 주로 기계학습과 신경망에서 활성화 함수로 사용됩니다. 시그모이드 함수의 정의와 주요 특징은 다음과 같습니다:</p>
+<ol type="1">
+<li><p>정의: 시그모이드 함수는 일반적으로 다음과 같이 정의됩니다: <span class="math display">\[ f(x) = \frac{1}{1 + e^{-x}} \]</span> 여기서 <span class="math inline">\(e\)</span> 는 자연상수 (약 2.71828) 입니다.</p></li>
+<li><p>특징:</p>
+<ul>
+<li>함수의 출력 범위는 0 에서 1 사이입니다.</li>
+<li><span class="math inline">\(x\)</span> 가 음의 무한대로 갈 때 함수값은 0 에 가까워지고, 양의 무한대로 갈 때 1 에 가까워집니다.</li>
+<li><span class="math inline">\(x = 0\)</span> 일 때 함수값은 0.5 입니다.</li>
+<li>함수는 연속적이며 모든 점에서 미분 가능합니다.</li>
+</ul></li>
+<li><p>미분: 시그모이드 함수의 미분은 다음과 같습니다: <span class="math display">\[ f'(x) = f(x)(1 - f(x)) \]</span> 이 특성은 신경망의 역전파 알고리즘에서 중요하게 사용됩니다.</p></li>
+</ol>
+</section>
+<section id="소프트맥스-함수" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="소프트맥스-함수"><span class="header-section-number">5.6</span> 소프트맥스 함수</h2>
+<p>관련개념: <a href="#합성함수의-미분">합성함수의 미분</a>, <a href="#시그모이드함수">시그모이드함수</a>, <a href="#몫의-미분">몫의 미분</a>, <a href="#편미분">편미분</a></p>
+<p>소프트맥스 함수는 다중 클래스 분류 문제에서 주로 사용되는 함수로, 주어진 입력 벡터를 확률 분포로 변환하는 역할을 합니다. 이 함수는 다음과 같은 특징과 정의를 가집니다:</p>
+<ol type="1">
+<li><p>정의: 소프트맥스 함수는 <span class="math inline">\(k\)</span> 차원의 입력 벡터 <span class="math inline">\(z\)</span> 를 받아 각 클래스에 대한 확률을 계산합니다. 각 클래스 <span class="math inline">\(i\)</span> 에 대한 확률 <span class="math inline">\(p_i\)</span> 는 다음과 같이 정의됩니다:</p>
+<p><span class="math display">\[ p_i = \frac{e^{z_i}}{\sum_{j=1}^{k} e^{z_j}} \]</span></p>
+<p>여기서 <span class="math inline">\(e\)</span> 는 자연상수이고, <span class="math inline">\(z_i\)</span> 는 입력 벡터의 <span class="math inline">\(i\)</span> 번째 요소입니다.</p></li>
+<li><p>특징:</p>
+<ul>
+<li><strong>확률 분포</strong>: 소프트맥스 함수의 출력은 확률 분포를 이루며, 모든 출력 값의 합은 1 이 됩니다.</li>
+<li><strong>분류 작업</strong>: 각 요소가 특정 클래스에 속할 확률을 나타내므로, 다중 클래스 분류 작업에 적합합니다.<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></li>
+</ul></li>
+<li><p>응용:</p>
+<ul>
+<li><strong>신경망의 출력층</strong>: 신경망에서 소프트맥스 함수는 출력층에 사용되어 각 클래스에 대한 확률을 계산합니다.</li>
+<li><strong>역전파 가능</strong>: 미분 가능하기 때문에 신경망의 학습 과정에서 역전파 알고리즘을 통해 최적화할 수 있습니다.<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a></li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="확률과-통계" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 확률과 통계</h1>
+<section id="확률변수와-확률-분포" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="확률변수와-확률-분포"><span class="header-section-number">6.1</span> 확률변수와 확률 분포</h2>
+<p><strong>확률변수</strong>는 확률적인 결과에 따라 값이 바뀌는 변수를 의미합니다. 이는 확률실험의 가능한 결과에 수치적 값을 할당하는 함수로 이해할 수 있습니다. 확률변수는 다음과 같은 유형으로 나뉩니다:</p>
+<ul>
+<li><strong>이산확률변수</strong>: 가능한 값이 유한하거나 셀 수 있는 경우. 예를 들어, 주사위를 던졌을 때 나오는 숫자.</li>
+<li><strong>연속확률변수</strong>: 가능한 값이 연속적인 경우. 예를 들어, 특정 구간 내에서의 온도 측정값.</li>
+</ul>
+<p>확률변수는 측정 가능한 함수로, 확률공간에서 정의되며, 일반적으로 실수값을 가집니다.<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></p>
+<p><strong>확률 분포</strong>는 확률변수가 취할 수 있는 값과 그 값이 발생할 확률을 나타내는 함수입니다. 확률 분포는 확률변수의 유형에 따라 다음과 같이 구분됩니다:</p>
+<ul>
+<li><strong>이산확률분포</strong>: 이산확률변수의 확률 분포로, 각 가능한 값에 대해 확률을 할당합니다. 예를 들어, 이항분포, 포아송분포 등이 있습니다.</li>
+<li><strong>연속확률분포</strong>: 연속확률변수의 확률 분포로, 확률 밀도 함수를 통해 정의됩니다. 예를 들어, 정규분포, 지수분포 등이 있습니다.</li>
+</ul>
+<p>확률 분포는 확률변수의 특성을 설명하고, 데이터 분석 및 예측 모델링에 필수적인 역할을 합니다.</p>
+</section>
+<section id="확률밀도함수와-확률분포함수" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="확률밀도함수와-확률분포함수"><span class="header-section-number">6.2</span> 확률밀도함수와 확률분포함수</h2>
+<p>관련개념: <a href="#극한과-미분">극한과 미분</a>, <a href="#적분">적분</a>, <a href="#지수함수">지수함수</a></p>
+<p>확률밀도함수 (Probability Density Function, PDF): 확률밀도함수는 연속 확률변수의 확률 분포를 나타내는 함수입니다. 특정 구간 내에서 확률변수가 취할 수 있는 값의 확률을 나타내며, 특정 값에서의 확률은 정의되지 않습니다.</p>
+<ul>
+<li>확률밀도함수의 적분은 확률을 나타내며, 전체 영역에 대한 적분은 1 이 됩니다.</li>
+<li>특정 구간 <span class="math inline">\([a, b]\)</span> 에서 확률변수가 존재할 확률은 확률밀도함수를 해당 구간에서 적분한 값으로 계산됩니다.</li>
+<li>특정 값에서의 확률은 0 이지만, 구간을 통해 확률을 계산합니다.<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a></li>
+</ul>
+<p>확률분포함수 (Probability Distribution Function, CDF): 확률분포함수는 확률변수가 특정 값 이하일 확률을 나타내는 함수입니다. 이산 확률변수와 연속 확률변수 모두에 대해 정의됩니다.</p>
+<ul>
+<li>확률분포함수는 단조 증가 함수이며, 0 에서 1 사이의 값을 가집니다.</li>
+<li>연속 확률변수의 경우, 확률밀도함수의 적분으로 표현할 수 있습니다.</li>
+<li>이산 확률변수의 경우, 각 값의 확률을 누적하여 나타냅니다.</li>
+</ul>
+</section>
+<section id="가능도함수와-최대가능도-추정" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="가능도함수와-최대가능도-추정"><span class="header-section-number">6.3</span> 가능도함수와 최대가능도 추정</h2>
+<p>관련개념: <a href="#극대와-극소">극대와 극소</a>, <a href="#로그함수">로그함수</a>, <a href="#로그함수의-미분">로그함수의 미분</a>, <a href="#확률밀도함수와-확률분포함수">확률밀도함수와 확률분포함수</a></p>
+<p>가능도 함수 (Likelihood Function): 가능도 함수는 주어진 데이터가 특정한 확률 분포를 따를 확률을 나타내는 함수입니다. 이는 주로 모수 추정에서 사용되며, 특정 모수 값이 주어졌을 때 관측된 데이터가 발생할 가능성을 계산합니다.</p>
+<ul>
+<li><strong>표기</strong>: 일반적으로 가능도 함수는 <span class="math inline">\(L(\theta | x)\)</span> 로 표현되며, 여기서 <span class="math inline">\(\theta\)</span> 는 모수 (parameter), <span class="math inline">\(x\)</span> 는 관측된 데이터입니다.</li>
+<li><strong>특징</strong>: 가능도 함수는 확률 분포의 모수에 대한 함수로, 데이터가 주어졌을 때 모수가 어떤 값을 가질 가능성이 높은지를 평가합니다.</li>
+</ul>
+<p>최대가능도 추정 (Maximum Likelihood Estimation, MLE): 최대가능도 추정은 가능도 함수를 최대화하는 모수 값을 찾는 방법입니다. 즉, 주어진 데이터에 대해 가장 가능성이 높은 모수 값을 추정하는 방법입니다.</p>
+<ul>
+<li><strong>방법</strong>: MLE 는 가능도 함수의 최대값을 찾는 최적화 문제로, 보통 미분을 통해 가능도 함수의 극대점을 찾습니다.</li>
+<li><strong>응용</strong>: MLE 는 다양한 통계 모델에서 모수 추정에 널리 사용되며, 특히 회귀 분석, 분류 문제, 베이지안 통계 등에서 중요한 역할을 합니다.</li>
+</ul>
+</section>
+</section>
+<section id="reference" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Reference</h1>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>https://thebook.io/007019/<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>https://darkpgmr.tistory.com/45<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>https://darkpgmr.tistory.com/45<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>https://namu.wiki/w/%ED%95%A8%EC%88%98<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>https://holymath.tistory.com/entry/%ED%95%A9%EC%84%B1%ED%95%A8%EC%88%98%EC%9D%98-%EA%B8%B0%EB%B3%B8%EC%84%B1%EC%A7%88<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>https://namu.wiki/w/%ED%95%A8%EC%88%98<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>https://ko.wikipedia.org/wiki/%EC%A0%81%EB%B6%84<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>https://namu.wiki/w/%EC%A0%81%EB%B6%84<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>https://unolab.tistory.com/entry/%EC%A0%81%EB%B6%84%EC%9D%98-%EC%A0%95%EC%9D%98-%EC%A0%95%EC%A0%81%EB%B6%84%EC%9D%98-%EC%A0%95%EC%9D%98<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>https://www.youtube.com/watch?v=LEr4RdMxpLY<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>https://www.youtube.com/watch?v=LsQoiETuBBc<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>https://angeloyeo.github.io/2020/09/07/basic_vector_operation.html<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>https://blog.naver.com/pss2072/220798287435<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>https://namu.wiki/w/%EB%82%B4%EC%A0%81<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>https://wikidocs.net/24603<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>http://bigdata.dongguk.ac.kr/lectures/disc_math/_book/matrix.html<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p>https://minusi.tistory.com/entry/%ED%96%89%EB%A0%AC-%EB%8C%80%EC%88%98<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>https://namu.wiki/w/%EB%AF%B8%EB%B6%84%ED%98%95%EC%8B%9D<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>https://syj9700.tistory.com/38<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>https://hyunhp.tistory.com/696<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>https://www.datadata.link/qa66/<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22"><p>https://www.youtube.com/watch?v=S1WIW662LJQ<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
