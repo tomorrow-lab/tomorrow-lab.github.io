@@ -1,7 +1,6 @@
 project:
   type: website
 
-
 website:
   title: "tomorrow-lab"
   site-url: https://tomorrow-lab.github.io/
@@ -17,20 +16,34 @@ website:
     tracking-id: "G-31EWCYNR0V"
     anonymize-ip: true
   # (additional metadata excluded for brevity)
-  margin-header: subscribe.html
   # body-header: "google_analytics.html"
+  # body-footer: Markdown to insert below each page’s body.
+  margin-header: subscribe.html
+  # margin-footer:
   reader-mode: true
   navbar:
     right:
       - about.qmd
       - book.qmd
-      - resume.qmd
+      # - resume.qmd
       - icon: sign-do-not-enter
         href: https://partrita.github.io
       - icon: github
         href: https://github.com/partrita
       - icon: twitter-x
         href: https://twitter.com/partrita
+      - icon: rss
+        href: index.xml
+  search: 
+    location: navbar
+    type: overlay #or textbox
+  # announcement:
+  #   icon: info-circle
+  #   dismissable: true
+  #   content: "Alert - this is some information that you should pay attention to"
+  #   type: info
+  #   position: above-navbar
+
 format:
   html:
     include-in-header: google_analytics.html
@@ -40,5 +53,10 @@ format:
     toc: true
     # css: styles.css
     number-sections: true
+    code-overflow: wrap
+    code-tools: true
+    highlight-style: github
+    smooth-scroll: true
+
 execute:
-    freeze: true
+    freeze: auto

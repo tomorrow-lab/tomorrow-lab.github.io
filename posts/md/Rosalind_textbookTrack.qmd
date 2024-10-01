@@ -4,17 +4,16 @@ author: "Taeyoon Kim"
 categories: [Python, Rosalind, Bioinformatics, Tip]
 draft: false
 date: "2024-09-28"
-date-modified: "2024-09-28"
+date-modified: last-modified
 ---
 
 ![](Rosalind_textbookTrack.png){width=100% fig-align="center"}
-
 
 Phillip Compeau 와 Pavel Pevzner 가 쓴 책 "[능동적 접근 방식의 생물정보학 알고리즘](https://www.bioinformaticsalgorithms.org/)" 에서 제공되는 연습 문제 모음입니다.
 
 [Rosalind](https://rosalind.info/) 는 [프로젝트 오일러](http://projecteuler.net/), [구글 코드 잼](http://code.google.com/codejam) 에서 영감을 얻었습니다. 이 프로젝트의 이름은 DNA 이중나선을 발견하는 데 기여한 [로잘린드 프랭클린](http://en.wikipedia.org/wiki/Rosalind_Franklin) 에서 따왔습니다. Rosalind 는 프로그래밍 실력을 키우고자 하는 생물학자와 분자생물학의 계산 문제를 접해본 적이 없는 프로그래머들에게 도움이 될 것입니다.
 
-# Compute the Number of Times a Pattern Appears in a Text
+## Compute the Number of Times a Pattern Appears in a Text
 
 This is the first problem in a collection of "code challenges" to accompany [Bioinformatics Algorithms: An Active-Learning Approach](http://bioinformaticsalgorithms.org/) by Phillip Compeau & Pavel Pevzner.
 
@@ -3133,3 +3132,1183 @@ result = calculate_pattern_distance_to_strings(pattern, dna_strings)
 print(result)
 ```
 
+# Generate the k-mer Composition of a String
+
+String Composition Problem, Generate the k-mer composition of a string.
+
+Given: An integer _k_ and a string _Text_.
+
+Return: _Composition__k_(_Text_) (the _k_-mers can be provided in any order).
+
+## Sample Dataset
+
+```
+5
+CAATCCAAC
+```
+
+## Sample Output
+
+```
+CAATC
+AATCC
+ATCCA
+TCCAA
+CCAAC
+```
+
+## Solution
+
+```python
+from typing import Iterator
+
+def generate_kmers(sequence: str, kmer_length: int) -> Iterator[str]:
+    for i in range(len(sequence) - kmer_length + 1):
+        yield sequence[i:i + kmer_length]
+
+sample_input: str = """
+5
+CAATCCAAC
+"""
+
+input_lines: list[str] = sample_input.strip().split("\n")
+kmer_length: int = int(input_lines[0])
+dna_sequence: str = input_lines[1]
+
+for kmer in generate_kmers(dna_sequence, kmer_length):
+    print(kmer)
+```
+
+# Reconstruct a String from its Genome Path
+
+String Spelled by a Genome Path Problem, Find the string spelled by a genome path.
+
+Given: A sequence of _k_-mers _Pattern1, ... , Patternn_ such that the last _k - 1_ symbols of _Patterni_ are equal to the first _k - 1_ symbols of _Patterni+1_ for _i_ from 1 to n-1.
+
+Return: A string _Text_ of length _k+n-1_ where the _i_-th _k_-mer in _Text_ is equal to _Patterni_ for all _i_.
+
+## Sample Dataset
+
+```
+ACCGA
+CCGAA
+CGAAG
+GAAGC
+AAGCT
+```
+
+## Sample Output
+
+```
+ACCGAAGCT
+```
+
+## Solution
+
+```python
+from typing import List
+
+def reconstruct_dna_sequence(kmers: List[str]) -> str:
+    reconstructed_sequence: str = kmers[0]
+    for i in range(1, len(kmers)):
+        reconstructed_sequence += kmers[i][-1]
+    return reconstructed_sequence
+
+sample_input: str = """
+ACCGA
+CCGAA
+CGAAG
+GAAGC
+AAGCT
+"""
+
+kmer_list: List[str] = sample_input.strip().split("\n")
+print(reconstruct_dna_sequence(kmer_list))
+```
+
+# Construct the Overlap Graph of a Collection of k-mers
+
+Overlap Graph Problem, Construct the overlap graph of a collection of k-mers.
+
+Given: A collection _Patterns_ of _k_-mers.
+
+Return: The overlap graph _Overlap_(_Patterns_), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
+
+## Sample Dataset
+
+```
+ATGCG
+GCATG
+CATGC
+AGGCA
+GGCAT
+```
+
+## Sample Output
+
+```
+GCATG -> CATGC
+CATGC -> ATGCG
+AGGCA -> GGCAT
+GGCAT -> GCATG
+```
+
+## Solution
+
+```python
+from typing import List
+
+def overlap_graph(patterns: List[str]) -> List[tuple[str, str]]:
+    adj_list = []
+    for i in range(len(patterns)):
+        for j in range(len(patterns)):
+            if i != j and patterns[i][1:] == patterns[j][:-1]:
+                adj_list.append((patterns[i], patterns[j]))
+    return adj_list
+
+sample_input = """
+ATGCG
+GCATG
+CATGC
+AGGCA
+GGCAT
+"""
+
+Patterns: List[str] = sample_input.strip().split("\n")
+
+adj_list = overlap_graph(Patterns)
+for edge in adj_list:
+    print(f"{edge[0]} -> {edge[1]}")
+```
+
+# Construct the De Bruijn Graph of a String
+
+De Bruijn Graph from a String Problem. Construct the de Bruijn graph of a string.
+
+Given: An integer _k_ and a string _Text_.
+
+Return:_DeBruijn__k_(_Text_), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
+
+## Sample Dataset
+
+```
+4
+AAGATTCTCTAC
+```
+
+## Sample Output
+
+```
+AAG -> AGA
+AGA -> GAT
+ATT -> TTC
+CTA -> TAC
+CTC -> TCT
+GAT -> ATT
+TCT -> CTA,CTC
+TTC -> TCT
+```
+
+## Solution
+
+```python
+from collections import OrderedDict
+from typing import List, Set, OrderedDict as OrderedDictType
+
+def construct_de_bruijn_graph(sequence: str, kmer_length: int) -> OrderedDictType[str, Set[str]]:
+    adjacency_list: OrderedDictType[str, Set[str]] = OrderedDict()
+    
+    for i in range(len(sequence) - kmer_length + 2):
+        adjacency_list[sequence[i:i + kmer_length - 1]] = set()
+
+    for i in range(len(sequence) - kmer_length + 1):
+        prefix = sequence[i:i + kmer_length - 1]
+        suffix = sequence[i + 1:i + kmer_length]
+        adjacency_list[prefix].add(suffix)
+
+    return adjacency_list
+
+sample_input: str = """
+4
+AAGATTCTCTAC
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+kmer_length: int = int(input_lines[0])
+dna_sequence: str = input_lines[1]
+
+adjacency_list = construct_de_bruijn_graph(dna_sequence, kmer_length)
+for node, neighbors in adjacency_list.items():
+    if neighbors:
+        print(f"{node} -> {','.join(neighbors)}")
+```
+
+# Construct the De Bruijn Graph of a Collection of k-mers
+
+De Bruijn Graph from _k_-mers Problem. Construct the de Bruijn graph from a collection of k-mers.
+
+Given: A collection of _k_-mers _Patterns_.
+
+Return: The de Bruijn graph _DeBruijn_(_Patterns_), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
+
+## Sample Dataset
+
+```
+GAGG
+CAGG
+GGGG
+GGGA
+CAGG
+AGGG
+GGAG
+```
+
+## Sample Output
+
+```
+GAG -> AGG
+CAG -> AGG,AGG
+GGG -> GGG,GGA
+AGG -> GGG
+GGA -> GAG
+```
+
+## Solution
+
+```python
+from typing import List, Dict
+
+def construct_de_bruijn_graph(kmers: List[str]) -> Dict[str, List[str]]:
+    adjacency_list: Dict[str, List[str]] = {}
+    for kmer in kmers:
+        prefix = kmer[:-1]
+        suffix = kmer[1:]
+        if prefix not in adjacency_list:
+            adjacency_list[prefix] = [suffix]
+        else:
+            adjacency_list[prefix].append(suffix)
+    return adjacency_list
+
+sample_input: str = """
+GAGG
+CAGG
+GGGG
+GGGA
+CAGG
+AGGG
+GGAG
+"""
+
+kmer_list: List[str] = sample_input.strip().split("\n")
+
+adjacency_list = construct_de_bruijn_graph(kmer_list)
+for node, neighbors in adjacency_list.items():
+    print(f"{node} -> {','.join(neighbors)}")
+```
+
+# Find an Eulerian Cycle in a Graph
+
+Eulerian Cycle Problem, Find an Eulerian cycle in a graph.
+
+Given: An Eulerian directed graph, in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
+
+Return: An [Eulerian cycle](https://rosalind.info/glossary/eulerian-cycle/) in this graph.
+
+## Sample Dataset
+
+```
+0 -> 3
+1 -> 0
+2 -> 1,6
+3 -> 2
+4 -> 2
+5 -> 4
+6 -> 5,8
+7 -> 9
+8 -> 7
+9 -> 6
+```
+
+## Sample Output
+
+```
+6->8->7->9->6->5->4->2->1->0->3->2->6
+```
+
+## Solution
+
+```python
+from re import split
+from random import choice
+from typing import Dict, List, Tuple
+
+def parse_adjacency_list(adjacency_list_text: List[str]) -> Dict[str, List[str]]:
+    adjacency_dict: Dict[str, List[str]] = {}
+    for element in adjacency_list_text:
+        node, neighbors = split(' -> ', element)
+        adjacency_dict[node] = neighbors.split(',')
+    return adjacency_dict
+
+def remove_edge(graph: Dict[str, List[str]], source: str, target: str) -> Dict[str, List[str]]:
+    graph[source].remove(target)
+    if not graph[source]:
+        del graph[source]
+    return graph
+
+def find_eulerian_cycle(graph: Dict[str, List[str]]) -> List[str]:
+    # Form a cycle by randomly walking in the graph
+    start_node, edges = choice(list(graph.items()))
+    next_node = choice(edges)
+    graph = remove_edge(graph, start_node, next_node)
+
+    cycle: List[str] = [start_node, next_node]
+    current_node = next_node
+    while current_node != start_node:
+        edges = graph[current_node]
+        next_node = choice(edges)
+        graph = remove_edge(graph, current_node, next_node)
+        current_node = next_node
+        cycle.append(current_node)
+
+    while graph:
+        potential_starts: List[Tuple[int, str]] = [(idx, node) for idx, node in enumerate(cycle) if node in graph]
+        idx, new_start = choice(potential_starts)
+
+        # Form new_cycle by traversing cycle (starting at new_start) and then randomly walking
+        new_cycle = cycle[idx:] + cycle[1:idx + 1]
+
+        next_node = choice(graph[new_start])
+        graph = remove_edge(graph, new_start, next_node)
+        current_node = next_node
+        new_cycle.append(current_node)
+        while current_node != new_start:
+            edges = graph[current_node]
+            next_node = choice(edges)
+            graph = remove_edge(graph, current_node, next_node)
+            current_node = next_node
+            new_cycle.append(current_node)
+        cycle = new_cycle
+    return cycle
+
+sample_input: str = """
+0 -> 3
+1 -> 0
+2 -> 1,6
+3 -> 2
+4 -> 2
+5 -> 4
+6 -> 5,8
+7 -> 9
+8 -> 7
+9 -> 6
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+adjacency_list = parse_adjacency_list(input_lines)
+
+print("->".join(find_eulerian_cycle(adjacency_list)))
+```
+
+# Find an Eulerian Path in a Graph
+
+Eulerian Path Problem, Find an Eulerian path in a graph.
+
+Given: A [directed graph](https://rosalind.info/glossary/directed-graph/) that contains an Eulerian path, where the graph is given in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
+
+Return: An Eulerian path in this graph.
+
+## Sample Dataset
+
+```
+0 -> 2
+1 -> 3
+2 -> 1
+3 -> 0,4
+6 -> 3,7
+7 -> 8
+8 -> 9
+9 -> 6
+```
+
+## Sample Output
+
+```
+6->7->8->9->6->3->0->2->1->3->4
+```
+
+## Solution
+
+```python
+from re import split
+from random import choice
+from typing import Dict, List, Tuple
+
+def parse_adjacency_list(adjacency_text: List[str]) -> Dict[str, List[str]]:
+    adjacency_dict: Dict[str, List[str]] = {}
+    for line in adjacency_text:
+        node, neighbors = split(' -> ', line)
+        adjacency_dict[node] = neighbors.split(',')
+    return adjacency_dict
+
+def remove_edge(graph: Dict[str, List[str]], source: str, target: str) -> Dict[str, List[str]]:
+    graph[source].remove(target)
+    if not graph[source]:
+        del graph[source]
+    return graph
+
+def find_eulerian_cycle(graph: Dict[str, List[str]]) -> List[str]:
+    start_node, edges = choice(list(graph.items()))
+    next_node = choice(edges)
+    graph = remove_edge(graph, start_node, next_node)
+
+    cycle: List[str] = [start_node, next_node]
+    current_node = next_node
+    while current_node != start_node:
+        edges = graph[current_node]
+        next_node = choice(edges)
+        graph = remove_edge(graph, current_node, next_node)
+        current_node = next_node
+        cycle.append(current_node)
+
+    while graph:
+        potential_starts: List[Tuple[int, str]] = [(idx, node) for idx, node in enumerate(cycle) if node in graph]
+        idx, new_start = choice(potential_starts)
+
+        new_cycle = cycle[idx:] + cycle[1:idx + 1]
+
+        next_node = choice(graph[new_start])
+        graph = remove_edge(graph, new_start, next_node)
+        current_node = next_node
+        new_cycle.append(current_node)
+        while current_node != new_start:
+            edges = graph[current_node]
+            next_node = choice(edges)
+            graph = remove_edge(graph, current_node, next_node)
+            current_node = next_node
+            new_cycle.append(current_node)
+        cycle = new_cycle
+    return cycle
+
+def find_eulerian_path(graph: Dict[str, List[str]]) -> List[str]:
+    degree_differences: Dict[str, int] = {}
+    for source, targets in graph.items():
+        degree_differences[source] = degree_differences.get(source, 0) + len(targets)
+        for target in targets:
+            degree_differences[target] = degree_differences.get(target, 0) - 1
+
+    start_node = [node for node, diff in degree_differences.items() if diff == -1][0]
+    end_node = [node for node, diff in degree_differences.items() if diff == 1][0]
+    
+    if start_node in graph:
+        graph[start_node].append(end_node)
+    else:
+        graph[start_node] = [end_node]
+
+    cycle = find_eulerian_cycle(graph)
+    for idx, node in enumerate(cycle):
+        if node == start_node and cycle[(idx + 1) % len(cycle)] == end_node:
+            return cycle[idx + 1:] + cycle[1:idx + 1]
+
+    return cycle  # This should never happen if the input is valid
+
+sample_input: str = """
+0 -> 2
+1 -> 3
+2 -> 1
+3 -> 0,4
+6 -> 3,7
+7 -> 8
+8 -> 9
+9 -> 6
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+adjacency_list = parse_adjacency_list(input_lines)
+
+print("->".join(find_eulerian_path(adjacency_list)))
+```
+
+# Reconstruct a String from its k-mer Composition
+
+String Reconstruction Problem. Reconstruct a string from its k-mer composition.
+
+Given: An integer _k_ followed by a list of _k_-mers _Patterns_.
+
+Return: A string _Text_ with _k_-mer composition equal to _Patterns_. (If multiple answers exist, you may return any one.)
+
+## Sample Dataset
+
+```
+4
+CTTA
+ACCA
+TACC
+GGCT
+GCTT
+TTAC
+```
+
+## Sample Output
+
+```
+GGCTTACCA
+```
+
+## Solution
+
+```python
+from typing import List, Dict, Tuple
+from random import choice
+
+def construct_de_bruijn_graph(kmers: List[str]) -> Dict[str, List[str]]:
+    adjacency_dict: Dict[str, List[str]] = {}
+    for kmer in kmers:
+        prefix = kmer[:-1]
+        suffix = kmer[1:]
+        if prefix not in adjacency_dict:
+            adjacency_dict[prefix] = [suffix]
+        else:
+            adjacency_dict[prefix].append(suffix)
+    return adjacency_dict
+
+def remove_edge(graph: Dict[str, List[str]], source: str, target: str) -> Dict[str, List[str]]:
+    graph[source].remove(target)
+    if not graph[source]:
+        del graph[source]
+    return graph
+
+def find_eulerian_cycle(graph: Dict[str, List[str]]) -> List[str]:
+    start_node, edges = choice(list(graph.items()))
+    next_node = choice(edges)
+    graph = remove_edge(graph, start_node, next_node)
+
+    cycle: List[str] = [start_node, next_node]
+    current_node = next_node
+    while current_node != start_node:
+        edges = graph[current_node]
+        next_node = choice(edges)
+        graph = remove_edge(graph, current_node, next_node)
+        current_node = next_node
+        cycle.append(current_node)
+
+    while graph:
+        potential_starts: List[Tuple[int, str]] = [(idx, node) for idx, node in enumerate(cycle) if node in graph]
+        idx, new_start = choice(potential_starts)
+
+        new_cycle = cycle[idx:] + cycle[1:idx + 1]
+
+        next_node = choice(graph[new_start])
+        graph = remove_edge(graph, new_start, next_node)
+        current_node = next_node
+        new_cycle.append(current_node)
+        while current_node != new_start:
+            edges = graph[current_node]
+            next_node = choice(edges)
+            graph = remove_edge(graph, current_node, next_node)
+            current_node = next_node
+            new_cycle.append(current_node)
+        cycle = new_cycle
+    return cycle
+
+def find_eulerian_path(graph: Dict[str, List[str]]) -> List[str]:
+    degree_differences: Dict[str, int] = {}
+    for source, targets in graph.items():
+        degree_differences[source] = degree_differences.get(source, 0) + len(targets)
+        for target in targets:
+            degree_differences[target] = degree_differences.get(target, 0) - 1
+
+    start_node = [node for node, diff in degree_differences.items() if diff == -1][0]
+    end_node = [node for node, diff in degree_differences.items() if diff == 1][0]
+    
+    if start_node in graph:
+        graph[start_node].append(end_node)
+    else:
+        graph[start_node] = [end_node]
+
+    cycle = find_eulerian_cycle(graph)
+    for idx, node in enumerate(cycle):
+        if node == start_node and cycle[(idx + 1) % len(cycle)] == end_node:
+            return cycle[idx + 1:] + cycle[1:idx + 1]
+
+    return cycle  # This should never happen if the input is valid
+
+def reconstruct_string(kmers: List[str]) -> str:
+    adjacency_list = construct_de_bruijn_graph(kmers)
+    path = find_eulerian_path(adjacency_list)
+    reconstructed_string = path[0][:-1]
+    for node in path:
+        reconstructed_string += node[-1]
+    return reconstructed_string
+
+sample_input: str = """
+4
+CTTA
+ACCA
+TACC
+GGCT
+GCTT
+TTAC
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+k: int = int(input_lines[0])
+kmers: List[str] = input_lines[1:]
+
+print(reconstruct_string(kmers))
+```
+
+# Find a k-Universal Circular String
+
+ _k_-Universal Circular String Problem. Find a k-universal circular binary string.
+
+Given: An integer _k_.
+
+Return: A _k_-universal circular string. (If multiple answers exist, you may return any one.)
+
+## Sample Dataset
+
+```4```
+
+## Sample Output
+
+```
+1111010010110000
+```
+
+## Solution
+
+```python
+from typing import List, Dict, Tuple
+from random import choice
+
+def construct_de_bruijn_graph(kmers: List[str]) -> Dict[str, List[str]]:
+    adjacency_dict: Dict[str, List[str]] = {}
+    for kmer in kmers:
+        prefix = kmer[:-1]
+        suffix = kmer[1:]
+        if prefix not in adjacency_dict:
+            adjacency_dict[prefix] = [suffix]
+        else:
+            adjacency_dict[prefix].append(suffix)
+    return adjacency_dict
+
+def remove_edge(graph: Dict[str, List[str]], source: str, target: str) -> Dict[str, List[str]]:
+    graph[source].remove(target)
+    if not graph[source]:
+        del graph[source]
+    return graph
+
+def find_eulerian_cycle(graph: Dict[str, List[str]]) -> List[str]:
+    start_node, edges = choice(list(graph.items()))
+    next_node = choice(edges)
+    graph = remove_edge(graph, start_node, next_node)
+
+    cycle: List[str] = [start_node, next_node]
+    current_node = next_node
+    while current_node != start_node:
+        edges = graph[current_node]
+        next_node = choice(edges)
+        graph = remove_edge(graph, current_node, next_node)
+        current_node = next_node
+        cycle.append(current_node)
+
+    while graph:
+        potential_starts: List[Tuple[int, str]] = [(idx, node) for idx, node in enumerate(cycle) if node in graph]
+        idx, new_start = choice(potential_starts)
+
+        new_cycle = cycle[idx:] + cycle[1:idx + 1]
+
+        next_node = choice(graph[new_start])
+        graph = remove_edge(graph, new_start, next_node)
+        current_node = next_node
+        new_cycle.append(current_node)
+        while current_node != new_start:
+            edges = graph[current_node]
+            next_node = choice(edges)
+            graph = remove_edge(graph, current_node, next_node)
+            current_node = next_node
+            new_cycle.append(current_node)
+        cycle = new_cycle
+    return cycle
+
+def generate_k_universal_circular_string(k: int) -> str:
+    kmers: List[str] = []
+    for i in range(2 ** k):
+        kmer = format(i, f'0{k}b')
+        kmers.append(kmer)
+
+    adjacency_list = construct_de_bruijn_graph(kmers)
+    cycle = find_eulerian_cycle(adjacency_list)
+
+    cycle = cycle[:len(cycle) - k + 1]
+    circular_string = cycle[0][:-1]
+    for node in cycle:
+        circular_string += node[-1]
+    return circular_string
+
+sample_input: str = """
+4
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+k: int = int(input_lines[0])
+
+print(generate_k_universal_circular_string(k))
+```
+
+# Reconstruct a String from its Paired Composition
+
+String Reconstruction from Read-Pairs Problem. Reconstruct a string from its paired composition.
+
+Given: Integers _k_ and _d_ followed by a collection of paired _k_-mers _PairedReads_.
+
+Return: A string _Text_ with (_k_, _d_)-mer composition equal to _PairedReads_. (If multiple answers exist, you may return any one.)
+
+## Sample Dataset
+
+```
+4 2
+GAGA|TTGA
+TCGT|GATG
+CGTG|ATGT
+TGGT|TGAG
+GTGA|TGTT
+GTGG|GTGA
+TGAG|GTTG
+GGTC|GAGA
+GTCG|AGAT
+```
+
+## Sample Output
+
+```
+GTGGTCGTGAGATGTTGA
+```
+
+## Solution
+
+```python
+import sys
+from collections import defaultdict
+from typing import List, Tuple, Dict
+from random import choice
+
+def remove_edge(graph: Dict[str, List[str]], source: str, target: str) -> Dict[str, List[str]]:
+    graph[source].remove(target)
+    if not graph[source]:
+        del graph[source]
+    return graph
+
+def find_eulerian_cycle(graph: Dict[str, List[str]]) -> List[str]:
+    start_node, edges = choice(list(graph.items()))
+    next_node = choice(edges)
+    graph = remove_edge(graph, start_node, next_node)
+
+    cycle: List[str] = [start_node, next_node]
+    current_node = next_node
+    while current_node != start_node:
+        edges = graph[current_node]
+        next_node = choice(edges)
+        graph = remove_edge(graph, current_node, next_node)
+        current_node = next_node
+        cycle.append(current_node)
+
+    while graph:
+        potential_starts: List[Tuple[int, str]] = [(idx, node) for idx, node in enumerate(cycle) if node in graph]
+        idx, new_start = choice(potential_starts)
+
+        new_cycle = cycle[idx:] + cycle[1:idx + 1]
+
+        next_node = choice(graph[new_start])
+        graph = remove_edge(graph, new_start, next_node)
+        current_node = next_node
+        new_cycle.append(current_node)
+        while current_node != new_start:
+            edges = graph[current_node]
+            next_node = choice(edges)
+            graph = remove_edge(graph, current_node, next_node)
+            current_node = next_node
+            new_cycle.append(current_node)
+        cycle = new_cycle
+    return cycle
+
+def find_eulerian_path(graph: Dict[str, List[str]]) -> List[str]:
+    degree_differences: Dict[str, int] = {}
+    for source, targets in graph.items():
+        degree_differences[source] = degree_differences.get(source, 0) + len(targets)
+        for target in targets:
+            degree_differences[target] = degree_differences.get(target, 0) - 1
+
+    start_node = [node for node, diff in degree_differences.items() if diff == -1][0]
+    end_node = [node for node, diff in degree_differences.items() if diff == 1][0]
+    
+    if start_node in graph:
+        graph[start_node].append(end_node)
+    else:
+        graph[start_node] = [end_node]
+
+    cycle = find_eulerian_cycle(graph)
+    for idx, node in enumerate(cycle):
+        if node == start_node and cycle[(idx + 1) % len(cycle)] == end_node:
+            return cycle[idx + 1:] + cycle[1:idx + 1]
+
+    return cycle  # This should never happen if the input is valid
+
+def construct_de_bruijn_graph_paired_reads(paired_reads: List[Tuple[str, str]]) -> Dict[Tuple[str, str], List[Tuple[str, str]]]:
+    graph = defaultdict(list)
+    for pair in paired_reads:
+        graph[(pair[0][:-1], pair[1][:-1])].append((pair[0][1:], pair[1][1:]))
+    return graph
+
+def string_spelled_by_gapped_patterns(gapped_patterns: List[Tuple[str, str]], k: int, d: int) -> str:
+    prefix_string = ''.join(pattern[0][0] for pattern in gapped_patterns[:-1]) + gapped_patterns[-1][0]
+    suffix_string = ''.join(pattern[1][0] for pattern in gapped_patterns[:-1]) + gapped_patterns[-1][1]
+    
+    for i in range(k + d + 1, len(prefix_string)):
+        if prefix_string[i] != suffix_string[i - k - d - 1]:
+            return "-1"
+    return prefix_string + suffix_string[len(suffix_string) - k - d - 1:]
+
+def reconstruct_string_from_read_pairs(k: int, d: int, paired_reads: List[Tuple[str, str]]) -> str:
+    graph = construct_de_bruijn_graph_paired_reads(paired_reads)
+    path = find_eulerian_path(graph)
+    return string_spelled_by_gapped_patterns(path, k - 1, d)
+
+sample_input: str = """
+4 2
+GAGA|TTGA
+TCGT|GATG
+CGTG|ATGT
+TGGT|TGAG
+GTGA|TGTT
+GTGG|GTGA
+TGAG|GTTG
+GGTC|GAGA
+GTCG|AGAT
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+k, d = map(int, input_lines[0].split())
+paired_reads: List[Tuple[str, str]] = [tuple(line.split("|")) for line in input_lines[1:]]
+
+print(reconstruct_string_from_read_pairs(k, d, paired_reads))
+```
+
+# Generate Contigs from a Collection of Reads
+
+Contig Generation Problem. Generate the contigs from a collection of reads (with imperfect coverage).
+
+Given: A collection of k-mers _Patterns_.
+
+Return: All contigs in _DeBruijn(Patterns)_. (You may return the strings in any order.)
+
+## Sample Dataset
+
+```
+ATG
+ATG
+TGT
+TGG
+CAT
+GGA
+GAT
+AGA
+```
+
+## Sample Output
+
+```
+AGA ATG ATG CAT GAT TGGA TGT
+```
+
+## Solution
+
+```python
+from typing import List, Dict, Tuple
+from collections import defaultdict
+
+def construct_de_bruijn_graph(kmers: List[str]) -> Dict[str, List[str]]:
+    adjacency_dict: Dict[str, List[str]] = defaultdict(list)
+    for kmer in kmers:
+        prefix, suffix = kmer[:-1], kmer[1:]
+        adjacency_dict[prefix].append(suffix)
+    return adjacency_dict
+
+def remove_edge(graph: Dict[str, List[str]], source: str, target: str) -> Dict[str, List[str]]:
+    graph[source].remove(target)
+    if not graph[source]:
+        del graph[source]
+    return graph
+
+def find_maximal_non_branching_paths(graph: Dict[str, List[str]]) -> List[List[str]]:
+    paths: List[List[str]] = []
+    in_out_degrees: Dict[str, List[int]] = {}
+
+    # Calculate in and out degrees
+    for source, targets in graph.items():
+        if source not in in_out_degrees:
+            in_out_degrees[source] = [0, len(targets)]
+        else:
+            in_out_degrees[source][1] += len(targets)
+
+        for target in targets:
+            if target not in in_out_degrees:
+                in_out_degrees[target] = [1, 0]
+            else:
+                in_out_degrees[target][0] += 1
+
+    # Find all non-branching paths
+    for node in list(in_out_degrees):
+        if in_out_degrees[node] != [1, 1]:
+            if in_out_degrees[node][1] > 0:
+                while node in graph:
+                    next_node = graph[node][0]
+                    non_branching_path = [node, next_node]
+                    graph = remove_edge(graph, node, next_node)
+                    while in_out_degrees[next_node] == [1, 1]:
+                        following_node = graph[next_node][0]
+                        non_branching_path.append(following_node)
+                        graph = remove_edge(graph, next_node, following_node)
+                        next_node = following_node
+                    paths.append(non_branching_path)
+
+    # Find isolated cycles
+    while graph:
+        start_node = next(iter(graph))
+        current_node = graph[start_node][0]
+        graph = remove_edge(graph, start_node, current_node)
+        cycle = [start_node, current_node]
+        while current_node != start_node:
+            next_node = graph[current_node][0]
+            cycle.append(next_node)
+            graph = remove_edge(graph, current_node, next_node)
+            current_node = next_node
+        paths.append(cycle)
+
+    return paths
+
+def generate_contigs(kmers: List[str]) -> List[str]:
+    graph = construct_de_bruijn_graph(kmers)
+    paths = find_maximal_non_branching_paths(graph)
+    contigs: List[str] = []
+    for path in paths:
+        contig = path[0]
+        for node in path[1:]:
+            contig += node[-1]
+        contigs.append(contig)
+    return contigs
+
+sample_input: str = """
+ATG
+ATG
+TGT
+TGG
+CAT
+GGA
+GAT
+AGA
+"""
+
+kmers: List[str] = sample_input.strip().split("\n")
+contigs = generate_contigs(kmers)
+contigs.sort()
+print(" ".join(contigs))
+```
+
+# Construct a String Spelled by a Gapped Genome Path
+
+Gapped Genome Path String Problem. Reconstruct a string from a sequence of (k,d)-mers corresponding to a path in a paired de Bruijn graph.
+
+Given: A sequence of _(k, d)_-mers (_a1|b1_), ... , (_an|bn_) such that _Suffix(ai|bi) = Prefix(ai+1|bi+1)_ for all _i_ from 1 to n-1.
+
+Return: A string _Text_ where the _i_-th _k_-mer in _Text_ is equal to _Suffix(ai|bi)_ for all _i_ from 1 to n, if such a string exists.
+
+## Sample Dataset
+
+```
+4 2
+GACC|GCGC
+ACCG|CGCC
+CCGA|GCCG
+CGAG|CCGG
+GAGC|CGGA
+```
+
+## Sample Output
+
+```
+GACCGAGCGCCGGA
+```
+
+## Solution
+
+```python
+from typing import List, Tuple
+
+def reconstruct_string_from_gapped_patterns(gapped_patterns: List[Tuple[str, str]], k: int, d: int) -> str:
+    prefix_string = ''
+    suffix_string = ''
+    for i, (prefix, suffix) in enumerate(gapped_patterns):
+        if i != len(gapped_patterns) - 1:
+            prefix_string += prefix[0]
+            suffix_string += suffix[0]
+        else:
+            prefix_string += prefix
+            suffix_string += suffix
+    
+    for i in range(k + d + 1, len(prefix_string)):
+        if prefix_string[i] != suffix_string[i - k - d - 1]:
+            return "-1"
+    
+    return prefix_string + suffix_string[len(suffix_string) - k - d - 1:]
+
+sample_input: str = """
+4 2
+GACC|GCGC
+ACCG|CGCC
+CCGA|GCCG
+CGAG|CCGG
+GAGC|CGGA
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+k, d = map(int, input_lines[0].split())
+gapped_patterns: List[Tuple[str, str]] = [tuple(line.split("|")) for line in input_lines[1:]]
+
+print(reconstruct_string_from_gapped_patterns(gapped_patterns, k - 1, d))
+```
+
+# Generate All Maximal Non-Branching Paths in a Graph
+
+ Maximal Non-Branching Path Problem. Find all maximal non-branching paths in a graph.
+
+Given: The adjacency list of a graph whose nodes are integers.
+
+Return: The collection of all maximal non-branching paths in the graph.
+
+## Sample Dataset
+
+```
+1 -> 2
+2 -> 3
+3 -> 4,5
+6 -> 7
+7 -> 6
+```
+
+## Sample Output
+
+```
+1 -> 2 -> 3
+3 -> 4
+3 -> 5
+6 -> 7 -> 6
+```
+
+## Solution
+
+```python
+from typing import List, Dict, Tuple
+from re import split
+
+def parse_adjacency_list(adjacency_text: List[str]) -> Dict[str, List[str]]:
+    adjacency_dict: Dict[str, List[str]] = {}
+    for line in adjacency_text:
+        source, targets = split(' -> ', line)
+        adjacency_dict[source] = targets.split(',')
+    return adjacency_dict
+
+def remove_edge(graph: Dict[str, List[str]], source: str, target: str) -> Dict[str, List[str]]:
+    graph[source].remove(target)
+    if not graph[source]:
+        del graph[source]
+    return graph
+
+def find_maximal_non_branching_paths(graph: Dict[str, List[str]]) -> List[List[str]]:
+    paths: List[List[str]] = []
+    in_out_degrees: Dict[str, List[int]] = {}
+
+    # Calculate in and out degrees
+    for node, neighbors in graph.items():
+        if node not in in_out_degrees:
+            in_out_degrees[node] = [0, len(neighbors)]
+        else:
+            in_out_degrees[node][1] += len(neighbors)
+
+        for neighbor in neighbors:
+            if neighbor not in in_out_degrees:
+                in_out_degrees[neighbor] = [1, 0]
+            else:
+                in_out_degrees[neighbor][0] += 1
+
+    # Find all non-branching paths
+    for node in list(in_out_degrees):
+        if in_out_degrees[node] != [1, 1]:
+            if in_out_degrees[node][1] > 0:
+                while node in graph:
+                    next_node = graph[node][0]
+                    non_branching_path = [node, next_node]
+                    graph = remove_edge(graph, node, next_node)
+                    while in_out_degrees[next_node] == [1, 1]:
+                        following_node = graph[next_node][0]
+                        non_branching_path.append(following_node)
+                        graph = remove_edge(graph, next_node, following_node)
+                        next_node = following_node
+                    paths.append(non_branching_path)
+
+    # Find isolated cycles
+    while graph:
+        start_node = next(iter(graph))
+        current_node = graph[start_node][0]
+        graph = remove_edge(graph, start_node, current_node)
+        cycle = [start_node, current_node]
+        while current_node != start_node:
+            next_node = graph[current_node][0]
+            cycle.append(next_node)
+            graph = remove_edge(graph, current_node, next_node)
+            current_node = next_node
+        paths.append(cycle)
+
+    return paths
+
+sample_input: str = """
+1 -> 2
+2 -> 3
+3 -> 4,5
+6 -> 7
+7 -> 6
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+adjacency_list = parse_adjacency_list(input_lines)
+
+result = find_maximal_non_branching_paths(adjacency_list)
+for path in result:
+    print(" -> ".join(path))
+```
+
+# Translate an RNA String into an Amino Acid String
+
+Protein Translation Problem. Translate an [RNA string](https://rosalind.info/glossary/rna-string/) into an [amino acid string](https://rosalind.info/glossary/protein-string/).
+
+Given: An RNA string _Pattern_.
+
+Return: The translation of _Pattern_ into an amino acid string _Peptide_.
+
+## Sample Dataset
+
+```
+AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA
+```
+
+## Sample Output
+
+```
+MAMAPRTEINSTRING
+```
+
+## Solution
+
+```python
+
+```
