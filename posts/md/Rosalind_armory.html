@@ -90,7 +90,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "/",
     "s"
   ],
-  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -114,6 +113,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
+<style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -191,6 +191,11 @@ window.Quarto = {
 </i> 
 <span class="menu-text"></span></a>
   </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -209,7 +214,7 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
-<div style="padding-bottom: 25px;">
+<div style="padding-bottom: 30px;">
     <script async="" src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script>
 </div>
 </div></div>
@@ -315,7 +320,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Rosalind Armory 문제풀이</h1>
+<div class="quarto-title-block"><div><h1 class="title">Rosalind Armory 문제풀이</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">Python</div>
     <div class="quarto-category">Rosalind</div>
@@ -345,7 +350,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 28, 2024</p>
+      <p class="date-modified">October 1, 2024</p>
     </div>
   </div>
     
@@ -361,7 +366,7 @@ window.Quarto = {
 <p><img src="Rosalind_armory.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
 </figure>
 </div>
-<p>생물 정보학 분석을 위해 사용할 수 있는 소프트웨어는 이미 많습니다. <a href="../../posts/md/Rosalind_stronghold.html">stronghold</a>에서는 알고리즘을 직접 구현했다면, 여기 <a href="../../posts/md/Rosalind_armory.html">armory</a>에서는 이미 존재하는 도구를 사용하여 비슷한 문제를 풀어봅니다.</p>
+<p>생물 정보학 분석을 위해 사용할 수 있는 소프트웨어는 이미 많습니다. <a href="../../posts/md/Rosalind_stronghold.html">Rosalind_Stronghold</a> 에서는 알고리즘을 직접 구현했다면, 여기 <a href="../../posts/md/Rosalind_armory.html">Rosalind_Armory</a> 에서는 이미 존재하는 도구를 사용하여 비슷한 문제를 풀어봅니다.</p>
 <p><a href="https://rosalind.info/">Rosalind</a> 는 <a href="http://projecteuler.net/">프로젝트 오일러</a>, <a href="http://code.google.com/codejam">구글 코드 잼</a> 에서 영감을 얻었습니다. 이 프로젝트의 이름은 DNA 이중나선을 발견하는 데 기여한 <a href="http://en.wikipedia.org/wiki/Rosalind_Franklin">로잘린드 프랭클린</a> 에서 따왔습니다. Rosalind 는 프로그래밍 실력을 키우고자 하는 생물학자와 분자생물학의 계산 문제를 접해본 적이 없는 프로그래머들에게 도움이 될 것입니다.</p>
 <section id="introduction-to-the-bioinformatics-armory" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction to the Bioinformatics Armory</h1>
@@ -1388,6 +1393,8 @@ GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT</code></pre>
 <span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+<!-- -->
+
 </section>
 </section>
 
@@ -1625,6 +1632,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -1955,10 +2013,1187 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb45" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Rosalind Armory 문제풀이"</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Taeyoon Kim"</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [Python, Rosalind, Bioinformatics, Tip]</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2024-09-28"</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="al">![](Rosalind_armory.png)</span>{width=100% fig-align="center"}</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>생물 정보학 분석을 위해 사용할 수 있는 소프트웨어는 이미 많습니다. <span class="co">[</span><span class="ot">Rosalind_Stronghold</span><span class="co">](/posts/md/Rosalind_stronghold.html)</span> 에서는 알고리즘을 직접 구현했다면, 여기 <span class="co">[</span><span class="ot">Rosalind_Armory</span><span class="co">](/posts/md/Rosalind_armory.html)</span> 에서는 이미 존재하는 도구를 사용하여 비슷한 문제를 풀어봅니다.</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Rosalind</span><span class="co">](https://rosalind.info/)</span> 는 <span class="co">[</span><span class="ot">프로젝트 오일러</span><span class="co">](http://projecteuler.net/)</span>, <span class="co">[</span><span class="ot">구글 코드 잼</span><span class="co">](http://code.google.com/codejam)</span> 에서 영감을 얻었습니다. 이 프로젝트의 이름은 DNA 이중나선을 발견하는 데 기여한 <span class="co">[</span><span class="ot">로잘린드 프랭클린</span><span class="co">](http://en.wikipedia.org/wiki/Rosalind_Franklin)</span> 에서 따왔습니다. Rosalind 는 프로그래밍 실력을 키우고자 하는 생물학자와 분자생물학의 계산 문제를 접해본 적이 없는 프로그래머들에게 도움이 될 것입니다.</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction to the Bioinformatics Armory</span></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>This initial problem is aimed at familiarizing you with Rosalind's task-solving pipeline. To solve it, you merely have to take a given&nbsp;<span class="co">[</span><span class="ot">DNA</span><span class="co">](https://rosalind.info/glossary/dna/)</span>&nbsp;<span class="co">[</span><span class="ot">sequence</span><span class="co">](https://rosalind.info/glossary/genetic-string/)</span>&nbsp;and find its&nbsp;<span class="co">[</span><span class="ot">nucleotide</span><span class="co">](https://rosalind.info/glossary/nucleotide/)</span>&nbsp;counts; this problem is equivalent to&nbsp;<span class="co">[</span><span class="ot">“Counting DNA Nucleotides”</span><span class="co">](https://rosalind.info/problems/dna/)</span>&nbsp;in the&nbsp;<span class="co">[</span><span class="ot">Stronghold</span><span class="co">](http://rosalind.info/problems/list-view/)</span>.</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>Of the many tools for&nbsp;<span class="co">[</span><span class="ot">DNA</span><span class="co">](https://rosalind.info/glossary/dna/)</span>&nbsp;sequence analysis, one of the most popular is the&nbsp;<span class="co">[</span><span class="ot">Sequence Manipulation Suite</span><span class="co">](https://rosalind.info/glossary/sms-2/)</span>. Commonly known as SMS 2, it comprises a collection of programs for generating, formatting, and analyzing short&nbsp;<span class="co">[</span><span class="ot">strands</span><span class="co">](https://rosalind.info/glossary/strand/)</span>&nbsp;of DNA and&nbsp;<span class="co">[</span><span class="ot">polypeptides</span><span class="co">](https://rosalind.info/glossary/polypeptide/)</span>.</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>One of the simplest SMS 2 programs, called&nbsp;<span class="in">`DNA stats`</span>, counts the number of occurrences of each nucleotide in a given strand of DNA. An online interface for&nbsp;<span class="in">`DNA stats`</span>&nbsp;can be found&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.bioinformatics.org/sms2/dna_stats.html)</span>.</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A&nbsp;<span class="co">[</span><span class="ot">DNA string</span><span class="co">](https://rosalind.info/glossary/dna-string/)</span>&nbsp;$s$&nbsp;of length at most 1000&nbsp;<span class="co">[</span><span class="ot">bp</span><span class="co">](https://rosalind.info/glossary/base-pair/)</span>.</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;Four integers (separated by spaces) representing the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in&nbsp;$s$.&nbsp;</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>**Note**: You must provide your answer in the format shown in the sample output below.</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a><span class="in">AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC</span></span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a><span class="in">20 12 17 21</span></span>
+<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb45-46"><a href="#cb45-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-47"><a href="#cb45-47" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_dna_symbols(dna):</span>
+<span id="cb45-48"><a href="#cb45-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the symbols we're interested in</span></span>
+<span id="cb45-49"><a href="#cb45-49" aria-hidden="true" tabindex="-1"></a>    symbols <span class="op">=</span> [<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>]</span>
+<span id="cb45-50"><a href="#cb45-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-51"><a href="#cb45-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use Counter to count occurrences of each symbol in the DNA</span></span>
+<span id="cb45-52"><a href="#cb45-52" aria-hidden="true" tabindex="-1"></a>    dna_counter <span class="op">=</span> Counter(dna)</span>
+<span id="cb45-53"><a href="#cb45-53" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-54"><a href="#cb45-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a dictionary with counts for each symbol of interest</span></span>
+<span id="cb45-55"><a href="#cb45-55" aria-hidden="true" tabindex="-1"></a>    symbols_count <span class="op">=</span> {symbol: dna_counter.get(symbol, <span class="dv">0</span>) <span class="cf">for</span> symbol <span class="kw">in</span> symbols}</span>
+<span id="cb45-56"><a href="#cb45-56" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-57"><a href="#cb45-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> symbols_count</span>
+<span id="cb45-58"><a href="#cb45-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-59"><a href="#cb45-59" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-60"><a href="#cb45-60" aria-hidden="true" tabindex="-1"></a><span class="st">AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC</span></span>
+<span id="cb45-61"><a href="#cb45-61" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb45-62"><a href="#cb45-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-63"><a href="#cb45-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the symbols count</span></span>
+<span id="cb45-64"><a href="#cb45-64" aria-hidden="true" tabindex="-1"></a>symbols_count <span class="op">=</span> count_dna_symbols(sample_input)</span>
+<span id="cb45-65"><a href="#cb45-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-66"><a href="#cb45-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the counts in the desired format</span></span>
+<span id="cb45-67"><a href="#cb45-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">" "</span>.join(<span class="bu">str</span>(symbols_count[symbol]) <span class="cf">for</span> symbol <span class="kw">in</span> [<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>]))</span>
+<span id="cb45-68"><a href="#cb45-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-69"><a href="#cb45-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-70"><a href="#cb45-70" aria-hidden="true" tabindex="-1"></a><span class="fu"># GenBank Introduction</span></span>
+<span id="cb45-71"><a href="#cb45-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-72"><a href="#cb45-72" aria-hidden="true" tabindex="-1"></a>GenBank comprises several subdivisions:</span>
+<span id="cb45-73"><a href="#cb45-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-74"><a href="#cb45-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Nucleotide</span><span class="co">](http://www.ncbi.nlm.nih.gov/nucleotide)</span>: a collection of&nbsp;<span class="co">[</span><span class="ot">nucleic acid</span><span class="co">](https://rosalind.info/glossary/nucleic-acid/)</span>&nbsp;<span class="co">[</span><span class="ot">sequences</span><span class="co">](https://rosalind.info/glossary/genetic-string/)</span>&nbsp;from several sources.</span>
+<span id="cb45-75"><a href="#cb45-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Genome Survey Sequence</span><span class="co">](http://www.ncbi.nlm.nih.gov/gss)</span>&nbsp;(GSS): uncharacterized short&nbsp;<span class="co">[</span><span class="ot">genomic</span><span class="co">](https://rosalind.info/glossary/genome/)</span>&nbsp;sequences.</span>
+<span id="cb45-76"><a href="#cb45-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Expressed Sequence Tags</span><span class="co">](https://www.ncbi.nlm.nih.gov/est)</span>, (EST): uncharacterized short&nbsp;<span class="co">[</span><span class="ot">cDNA</span><span class="co">](https://rosalind.info/glossary/complementary-dna/)</span>&nbsp;sequences.</span>
+<span id="cb45-77"><a href="#cb45-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-78"><a href="#cb45-78" aria-hidden="true" tabindex="-1"></a>Searching the Nucleotide database with general text queries will produce the most relevant results. You can also use a simple query based on protein name, gene name or&nbsp;<span class="co">[</span><span class="ot">gene symbol</span><span class="co">](https://rosalind.info/glossary/gene-symbol/)</span>.</span>
+<span id="cb45-79"><a href="#cb45-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-80"><a href="#cb45-80" aria-hidden="true" tabindex="-1"></a>To limit your search to only certain kinds of records, you can search using GenBank's&nbsp;<span class="co">[</span><span class="ot">Limits</span><span class="co">](http://www.ncbi.nlm.nih.gov/nuccore/limits)</span>&nbsp;page or alternatively use the&nbsp;<span class="in">`Filter your results`</span>&nbsp;field to select categories of records after a search.</span>
+<span id="cb45-81"><a href="#cb45-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-82"><a href="#cb45-82" aria-hidden="true" tabindex="-1"></a>If you can not find what you are searching for, check how the database interpreted your query by investigating the&nbsp;<span class="in">`Search details`</span>&nbsp;field on the right side of the page. This field automatically translates your search into standard keywords.</span>
+<span id="cb45-83"><a href="#cb45-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-84"><a href="#cb45-84" aria-hidden="true" tabindex="-1"></a>For example, if you search for&nbsp;<span class="in">`Drosophila`</span>, the&nbsp;<span class="in">`Search details`</span>&nbsp;field will contain (<span class="in">`Drosophila[All Fields]`</span>), and you will obtain all entries that mention&nbsp;_Drosophila_&nbsp;(including all its&nbsp;[endosymbionts](https://rosalind.info/glossary/endosymbiont/)). You can restrict your search to only organisms belonging to the&nbsp;_Drosophila_&nbsp;<span class="co">[</span><span class="ot">genus</span><span class="co">](https://rosalind.info/glossary/genus/)</span>&nbsp;by using a search tag and searching for&nbsp;<span class="in">`Drosophila[Organism]`</span>.</span>
+<span id="cb45-85"><a href="#cb45-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-86"><a href="#cb45-86" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A&nbsp;<span class="co">[</span><span class="ot">genus</span><span class="co">](https://rosalind.info/glossary/genus/)</span>&nbsp;name, followed by two dates in YYYY/M/D format.</span>
+<span id="cb45-87"><a href="#cb45-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-88"><a href="#cb45-88" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;The number of Nucleotide GenBank entries for the given genus that were published between the dates specified.</span>
+<span id="cb45-89"><a href="#cb45-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-90"><a href="#cb45-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-91"><a href="#cb45-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-92"><a href="#cb45-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-93"><a href="#cb45-93" aria-hidden="true" tabindex="-1"></a><span class="in">Anthoxanthum</span></span>
+<span id="cb45-94"><a href="#cb45-94" aria-hidden="true" tabindex="-1"></a><span class="in">2003/7/25</span></span>
+<span id="cb45-95"><a href="#cb45-95" aria-hidden="true" tabindex="-1"></a><span class="in">2005/12/27</span></span>
+<span id="cb45-96"><a href="#cb45-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-97"><a href="#cb45-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-98"><a href="#cb45-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-99"><a href="#cb45-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-100"><a href="#cb45-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-101"><a href="#cb45-101" aria-hidden="true" tabindex="-1"></a><span class="in">7</span></span>
+<span id="cb45-102"><a href="#cb45-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-103"><a href="#cb45-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-104"><a href="#cb45-104" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-105"><a href="#cb45-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-106"><a href="#cb45-106" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-107"><a href="#cb45-107" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez</span>
+<span id="cb45-108"><a href="#cb45-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-109"><a href="#cb45-109" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_nucleotide_genbank_entries(genus_name, start_date, end_date):</span>
+<span id="cb45-110"><a href="#cb45-110" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb45-111"><a href="#cb45-111" aria-hidden="true" tabindex="-1"></a><span class="co">    Retrieve the count of Nucleotide GenBank entries for a given genus and date range.</span></span>
+<span id="cb45-112"><a href="#cb45-112" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb45-113"><a href="#cb45-113" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb45-114"><a href="#cb45-114" aria-hidden="true" tabindex="-1"></a><span class="co">    genus_name (str): The name of the genus to search for.</span></span>
+<span id="cb45-115"><a href="#cb45-115" aria-hidden="true" tabindex="-1"></a><span class="co">    start_date (str): The start date of the publication range (format: YYYY/MM/DD).</span></span>
+<span id="cb45-116"><a href="#cb45-116" aria-hidden="true" tabindex="-1"></a><span class="co">    end_date (str): The end date of the publication range (format: YYYY/MM/DD).</span></span>
+<span id="cb45-117"><a href="#cb45-117" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb45-118"><a href="#cb45-118" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb45-119"><a href="#cb45-119" aria-hidden="true" tabindex="-1"></a><span class="co">    int: The count of entries found.</span></span>
+<span id="cb45-120"><a href="#cb45-120" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb45-121"><a href="#cb45-121" aria-hidden="true" tabindex="-1"></a>    Entrez.email <span class="op">=</span> <span class="st">"byterube@gmail.com"</span>  <span class="co"># Replace with your email</span></span>
+<span id="cb45-122"><a href="#cb45-122" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-123"><a href="#cb45-123" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="ss">f'"</span><span class="sc">{</span>genus_name<span class="sc">}</span><span class="ss">"[Organism] AND ("</span><span class="sc">{</span>start_date<span class="sc">}</span><span class="ss">"[Publication Date] : "</span><span class="sc">{</span>end_date<span class="sc">}</span><span class="ss">"[Publication Date])'</span></span>
+<span id="cb45-124"><a href="#cb45-124" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-125"><a href="#cb45-125" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb45-126"><a href="#cb45-126" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> Entrez.esearch(db<span class="op">=</span><span class="st">"nucleotide"</span>, term<span class="op">=</span>query) <span class="im">as</span> handle:</span>
+<span id="cb45-127"><a href="#cb45-127" aria-hidden="true" tabindex="-1"></a>            record <span class="op">=</span> Entrez.read(handle)</span>
+<span id="cb45-128"><a href="#cb45-128" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="bu">int</span>(record[<span class="st">"Count"</span>])</span>
+<span id="cb45-129"><a href="#cb45-129" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb45-130"><a href="#cb45-130" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"An error occurred: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb45-131"><a href="#cb45-131" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb45-132"><a href="#cb45-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-133"><a href="#cb45-133" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input data</span></span>
+<span id="cb45-134"><a href="#cb45-134" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-135"><a href="#cb45-135" aria-hidden="true" tabindex="-1"></a><span class="st">Anthoxanthum</span></span>
+<span id="cb45-136"><a href="#cb45-136" aria-hidden="true" tabindex="-1"></a><span class="st">2003/7/25</span></span>
+<span id="cb45-137"><a href="#cb45-137" aria-hidden="true" tabindex="-1"></a><span class="st">2005/12/27</span></span>
+<span id="cb45-138"><a href="#cb45-138" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb45-139"><a href="#cb45-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-140"><a href="#cb45-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting input values</span></span>
+<span id="cb45-141"><a href="#cb45-141" aria-hidden="true" tabindex="-1"></a>genus_name <span class="op">=</span> sample_input[<span class="dv">0</span>]</span>
+<span id="cb45-142"><a href="#cb45-142" aria-hidden="true" tabindex="-1"></a>start_date <span class="op">=</span> sample_input[<span class="dv">1</span>]</span>
+<span id="cb45-143"><a href="#cb45-143" aria-hidden="true" tabindex="-1"></a>end_date <span class="op">=</span> sample_input[<span class="dv">2</span>]</span>
+<span id="cb45-144"><a href="#cb45-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-145"><a href="#cb45-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the count of GenBank entries</span></span>
+<span id="cb45-146"><a href="#cb45-146" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> get_nucleotide_genbank_entries(genus_name, start_date, end_date)</span>
+<span id="cb45-147"><a href="#cb45-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-148"><a href="#cb45-148" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb45-149"><a href="#cb45-149" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(count)</span>
+<span id="cb45-150"><a href="#cb45-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-151"><a href="#cb45-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-152"><a href="#cb45-152" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Formats</span></span>
+<span id="cb45-153"><a href="#cb45-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-154"><a href="#cb45-154" aria-hidden="true" tabindex="-1"></a>GenBank can be accessed&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.ncbi.nlm.nih.gov/genbank/)</span>. A detailed description of the GenBank format can be found&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html)</span>. A tool, from the&nbsp;<span class="co">[</span><span class="ot">SMS 2</span><span class="co">](https://rosalind.info/glossary/sms-2/)</span>&nbsp;package, for converting GenBank to FASTA can be found&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.bioinformatics.org/sms2/genbank_fasta.html)</span>.</span>
+<span id="cb45-155"><a href="#cb45-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-156"><a href="#cb45-156" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A collection of&nbsp;$n$&nbsp;($n≤10$) GenBank entry IDs.</span>
+<span id="cb45-157"><a href="#cb45-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-158"><a href="#cb45-158" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;The shortest of the strings associated with the IDs in&nbsp;<span class="co">[</span><span class="ot">FASTA</span><span class="co">](https://rosalind.info/glossary/fasta-format/)</span>&nbsp;format.</span>
+<span id="cb45-159"><a href="#cb45-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-160"><a href="#cb45-160" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-161"><a href="#cb45-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-162"><a href="#cb45-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-163"><a href="#cb45-163" aria-hidden="true" tabindex="-1"></a><span class="in">FJ817486 JX069768 JX469983</span></span>
+<span id="cb45-164"><a href="#cb45-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-165"><a href="#cb45-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-166"><a href="#cb45-166" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-167"><a href="#cb45-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-168"><a href="#cb45-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-169"><a href="#cb45-169" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;JX469983.1 Zea mays subsp. mays clone UT3343 G2-like transcription factor mRNA, partial cds</span></span>
+<span id="cb45-170"><a href="#cb45-170" aria-hidden="true" tabindex="-1"></a><span class="in">ATGATGTATCATGCGAAGAATTTTTCTGTGCCCTTTGCTCCGCAGAGGGCACAGGATAATGAGCATGCAA</span></span>
+<span id="cb45-171"><a href="#cb45-171" aria-hidden="true" tabindex="-1"></a><span class="in">GTAATATTGGAGGTATTGGTGGACCCAACATAAGCAACCCTGCTAATCCTGTAGGAAGTGGGAAACAACG</span></span>
+<span id="cb45-172"><a href="#cb45-172" aria-hidden="true" tabindex="-1"></a><span class="in">GCTACGGTGGACATCGGATCTTCATAATCGCTTTGTGGATGCCATCGCCCAGCTTGGTGGACCAGACAGA</span></span>
+<span id="cb45-173"><a href="#cb45-173" aria-hidden="true" tabindex="-1"></a><span class="in">GCTACACCTAAAGGGGTTCTCACTGTGATGGGTGTACCAGGGATCACAATTTATCATGTGAAGAGCCATC</span></span>
+<span id="cb45-174"><a href="#cb45-174" aria-hidden="true" tabindex="-1"></a><span class="in">TGCAGAAGTATCGCCTTGCAAAGTATATACCCGACTCTCCTGCTGAAGGTTCCAAGGACGAAAAGAAAGA</span></span>
+<span id="cb45-175"><a href="#cb45-175" aria-hidden="true" tabindex="-1"></a><span class="in">TTCGAGTGATTCCCTCTCGAACACGGATTCGGCACCAGGATTGCAAATCAATGAGGCACTAAAGATGCAA</span></span>
+<span id="cb45-176"><a href="#cb45-176" aria-hidden="true" tabindex="-1"></a><span class="in">ATGGAGGTTCAGAAGCGACTACATGAGCAACTCGAGGTTCAAAGACAACTGCAACTAAGAATTGAAGCAC</span></span>
+<span id="cb45-177"><a href="#cb45-177" aria-hidden="true" tabindex="-1"></a><span class="in">AAGGAAGATACTTGCAGATGATCATTGAGGAGCAACAAAAGCTTGGTGGATCAATTAAGGCTTCTGAGGA</span></span>
+<span id="cb45-178"><a href="#cb45-178" aria-hidden="true" tabindex="-1"></a><span class="in">TCAGAAGCTTTCTGATTCACCTCCAAGCTTAGATGACTACCCAGAGAGCATGCAACCTTCTCCCAAGAAA</span></span>
+<span id="cb45-179"><a href="#cb45-179" aria-hidden="true" tabindex="-1"></a><span class="in">CCAAGGATAGACGCATTATCACCAGATTCAGAGCGCGATACAACACAACCTGAATTCGAATCCCATTTGA</span></span>
+<span id="cb45-180"><a href="#cb45-180" aria-hidden="true" tabindex="-1"></a><span class="in">TCGGTCCGTGGGATCACGGCATTGCATTCCCAGTGGAGGAGTTCAAAGCAGGCCCTGCTATGAGCAAGTC</span></span>
+<span id="cb45-181"><a href="#cb45-181" aria-hidden="true" tabindex="-1"></a><span class="in">A</span></span>
+<span id="cb45-182"><a href="#cb45-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-183"><a href="#cb45-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-184"><a href="#cb45-184" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-185"><a href="#cb45-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-186"><a href="#cb45-186" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-187"><a href="#cb45-187" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez, SeqIO</span>
+<span id="cb45-188"><a href="#cb45-188" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb45-189"><a href="#cb45-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-190"><a href="#cb45-190" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_shortest_sequence(entry_ids: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb45-191"><a href="#cb45-191" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb45-192"><a href="#cb45-192" aria-hidden="true" tabindex="-1"></a><span class="co">    Fetch nucleotide sequences for given entry IDs and print the shortest one in FASTA format.</span></span>
+<span id="cb45-193"><a href="#cb45-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-194"><a href="#cb45-194" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb45-195"><a href="#cb45-195" aria-hidden="true" tabindex="-1"></a><span class="co">    entry_ids (List[str]): A list of GenBank entry IDs.</span></span>
+<span id="cb45-196"><a href="#cb45-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-197"><a href="#cb45-197" aria-hidden="true" tabindex="-1"></a><span class="co">    Raises:</span></span>
+<span id="cb45-198"><a href="#cb45-198" aria-hidden="true" tabindex="-1"></a><span class="co">    Exception: If there's an error fetching or parsing the sequences.</span></span>
+<span id="cb45-199"><a href="#cb45-199" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb45-200"><a href="#cb45-200" aria-hidden="true" tabindex="-1"></a>    Entrez.email <span class="op">=</span> <span class="st">"byterube@gmail.com"</span>  <span class="co"># Replace with your email</span></span>
+<span id="cb45-201"><a href="#cb45-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-202"><a href="#cb45-202" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb45-203"><a href="#cb45-203" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fetch sequences</span></span>
+<span id="cb45-204"><a href="#cb45-204" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> Entrez.efetch(db<span class="op">=</span><span class="st">"nucleotide"</span>, <span class="bu">id</span><span class="op">=</span>entry_ids, rettype<span class="op">=</span><span class="st">"fasta"</span>, retmode<span class="op">=</span><span class="st">"text"</span>) <span class="im">as</span> handle:</span>
+<span id="cb45-205"><a href="#cb45-205" aria-hidden="true" tabindex="-1"></a>            records <span class="op">=</span> <span class="bu">list</span>(SeqIO.parse(handle, <span class="st">"fasta"</span>))</span>
+<span id="cb45-206"><a href="#cb45-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-207"><a href="#cb45-207" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> records:</span>
+<span id="cb45-208"><a href="#cb45-208" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"No sequences found for the given entry IDs."</span>)</span>
+<span id="cb45-209"><a href="#cb45-209" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
+<span id="cb45-210"><a href="#cb45-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-211"><a href="#cb45-211" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find and print the shortest sequence</span></span>
+<span id="cb45-212"><a href="#cb45-212" aria-hidden="true" tabindex="-1"></a>        shortest_record <span class="op">=</span> <span class="bu">min</span>(records, key<span class="op">=</span><span class="kw">lambda</span> record: <span class="bu">len</span>(record.seq))</span>
+<span id="cb45-213"><a href="#cb45-213" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(shortest_record.<span class="bu">format</span>(<span class="st">"fasta"</span>))</span>
+<span id="cb45-214"><a href="#cb45-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-215"><a href="#cb45-215" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb45-216"><a href="#cb45-216" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"An error occurred: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb45-217"><a href="#cb45-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-218"><a href="#cb45-218" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input data</span></span>
+<span id="cb45-219"><a href="#cb45-219" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-220"><a href="#cb45-220" aria-hidden="true" tabindex="-1"></a><span class="st">FJ817486 JX069768 JX469983</span></span>
+<span id="cb45-221"><a href="#cb45-221" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb45-222"><a href="#cb45-222" aria-hidden="true" tabindex="-1"></a>entry_ids <span class="op">=</span> sample_input.split()</span>
+<span id="cb45-223"><a href="#cb45-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-224"><a href="#cb45-224" aria-hidden="true" tabindex="-1"></a><span class="co"># Get and print the shortest sequence</span></span>
+<span id="cb45-225"><a href="#cb45-225" aria-hidden="true" tabindex="-1"></a>get_shortest_sequence(entry_ids)</span>
+<span id="cb45-226"><a href="#cb45-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-227"><a href="#cb45-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-228"><a href="#cb45-228" aria-hidden="true" tabindex="-1"></a><span class="fu"># New Motif Discovery</span></span>
+<span id="cb45-229"><a href="#cb45-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-230"><a href="#cb45-230" aria-hidden="true" tabindex="-1"></a>The novel-motif finding tool MEME can be found&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://meme-suite.org/tools/meme)</span>.</span>
+<span id="cb45-231"><a href="#cb45-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-232"><a href="#cb45-232" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A set of protein strings in FASTA format that share some motif with minimum length 20.</span>
+<span id="cb45-233"><a href="#cb45-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-234"><a href="#cb45-234" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;<span class="co">[</span><span class="ot">Regular expression</span><span class="co">](https://rosalind.info/glossary/motif-regular-expression/)</span>&nbsp;for the best-scoring motif.</span>
+<span id="cb45-235"><a href="#cb45-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-236"><a href="#cb45-236" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-237"><a href="#cb45-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-238"><a href="#cb45-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-239"><a href="#cb45-239" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_7142</span></span>
+<span id="cb45-240"><a href="#cb45-240" aria-hidden="true" tabindex="-1"></a><span class="in">PFTADSMDTSNMAQCRVEDLWWCWIPVHKNPHSFLKTWSPAAGHRGWQFDHNFFVYMMGQ</span></span>
+<span id="cb45-241"><a href="#cb45-241" aria-hidden="true" tabindex="-1"></a><span class="in">FYMTKYNHGYAPARRKRFMCQTFFILTFMHFCFRRAHSMVEWCPLTTVSQFDCTPCAIFE</span></span>
+<span id="cb45-242"><a href="#cb45-242" aria-hidden="true" tabindex="-1"></a><span class="in">WGFMMEFPCFRKQMHHQSYPPQNGLMNFNMTISWYQMKRQHICHMWAEVGILPVPMPFNM</span></span>
+<span id="cb45-243"><a href="#cb45-243" aria-hidden="true" tabindex="-1"></a><span class="in">SYQIWEKGMSMGCENNQKDNEVMIMCWTSDIKKDGPEIWWMYNLPHYLTATRIGLRLALY</span></span>
+<span id="cb45-244"><a href="#cb45-244" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_4494</span></span>
+<span id="cb45-245"><a href="#cb45-245" aria-hidden="true" tabindex="-1"></a><span class="in">VPHRVNREGFPVLDNTFHEQEHWWKEMHVYLDALCHCPEYLDGEKVYFNLYKQQISCERY</span></span>
+<span id="cb45-246"><a href="#cb45-246" aria-hidden="true" tabindex="-1"></a><span class="in">PIDHPSQEIGFGGKQHFTRTEFHTFKADWTWFWCEPTMQAQEIKIFDEQGTSKLRYWADF</span></span>
+<span id="cb45-247"><a href="#cb45-247" aria-hidden="true" tabindex="-1"></a><span class="in">QRMCEVPSGGCVGFEDSQYYENQWQREEYQCGRIKSFNKQYEHDLWWCWIPVHKKPHSFL</span></span>
+<span id="cb45-248"><a href="#cb45-248" aria-hidden="true" tabindex="-1"></a><span class="in">KTWSPAAGHRGWQFDHNFFSTKCSCIMSNCCQPPQQCGQYLTSVCWCCPEYEYVTKREEM</span></span>
+<span id="cb45-249"><a href="#cb45-249" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_3636</span></span>
+<span id="cb45-250"><a href="#cb45-250" aria-hidden="true" tabindex="-1"></a><span class="in">ETCYVSQLAYCRGPLLMNDGGYGPLLMNDGGYTISWYQAEEAFPLRWIFMMFWIDGHSCF</span></span>
+<span id="cb45-251"><a href="#cb45-251" aria-hidden="true" tabindex="-1"></a><span class="in">NKESPMLVTQHALRGNFWDMDTCFMPNTLNQLPVRIVEFAKELIKKEFCMNWICAPDPMA</span></span>
+<span id="cb45-252"><a href="#cb45-252" aria-hidden="true" tabindex="-1"></a><span class="in">GNSQFIHCKNCFHNCFRQVGMDLWWCWIPVHKNPHSFLKTWSPAAGHRGWQFDHNFFQMM</span></span>
+<span id="cb45-253"><a href="#cb45-253" aria-hidden="true" tabindex="-1"></a><span class="in">GHQDWGTQTFSCMHWVGWMGWVDCNYDARAHPEFYTIREYADITWYSDTSSNFRGRIGQN</span></span>
+<span id="cb45-254"><a href="#cb45-254" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-255"><a href="#cb45-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-256"><a href="#cb45-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-257"><a href="#cb45-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-258"><a href="#cb45-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-259"><a href="#cb45-259" aria-hidden="true" tabindex="-1"></a><span class="in">DLWWCWIPVHK[NK]PHSFLKTWSPAAGHRGWQFDHNFF</span></span>
+<span id="cb45-260"><a href="#cb45-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-261"><a href="#cb45-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-262"><a href="#cb45-262" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-263"><a href="#cb45-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-264"><a href="#cb45-264" aria-hidden="true" tabindex="-1"></a>install MM</span>
+<span id="cb45-265"><a href="#cb45-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-266"><a href="#cb45-266" aria-hidden="true" tabindex="-1"></a><span class="fu"># Pairwise Global Alignment</span></span>
+<span id="cb45-267"><a href="#cb45-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-268"><a href="#cb45-268" aria-hidden="true" tabindex="-1"></a>An online interface to EMBOSS's&nbsp;<span class="in">`Needle`</span>&nbsp;tool for aligning&nbsp;<span class="co">[</span><span class="ot">DNA</span><span class="co">](https://rosalind.info/glossary/dna-string/)</span>&nbsp;and&nbsp;<span class="co">[</span><span class="ot">RNA strings</span><span class="co">](https://rosalind.info/glossary/rna-string/)</span>&nbsp;can be found&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.ebi.ac.uk/Tools/psa/emboss_needle/nucleotide.html)</span>.</span>
+<span id="cb45-269"><a href="#cb45-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-270"><a href="#cb45-270" aria-hidden="true" tabindex="-1"></a>Use:</span>
+<span id="cb45-271"><a href="#cb45-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-272"><a href="#cb45-272" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The&nbsp;<span class="co">[</span><span class="ot">DNAfull</span><span class="co">](https://rosalind.info/glossary/dnafull/)</span>&nbsp;scoring matrix; note that DNAfull uses&nbsp;<span class="co">[</span><span class="ot">IUPAC notation</span><span class="co">](https://rosalind.info/glossary/iupac-notation/)</span>&nbsp;for ambiguous nucleotides.</span>
+<span id="cb45-273"><a href="#cb45-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Gap opening penalty of 10.</span>
+<span id="cb45-274"><a href="#cb45-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Gap extension penalty of 1.</span>
+<span id="cb45-275"><a href="#cb45-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-276"><a href="#cb45-276" aria-hidden="true" tabindex="-1"></a>For our purposes, the "pair" output format will work fine; this format shows the two strings aligned at the bottom of the output file beneath some statistics about the alignment.</span>
+<span id="cb45-277"><a href="#cb45-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-278"><a href="#cb45-278" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;Two GenBank IDs.</span>
+<span id="cb45-279"><a href="#cb45-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-280"><a href="#cb45-280" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;The maximum global alignment score between the DNA strings associated with these IDs.</span>
+<span id="cb45-281"><a href="#cb45-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-282"><a href="#cb45-282" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-283"><a href="#cb45-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-284"><a href="#cb45-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-285"><a href="#cb45-285" aria-hidden="true" tabindex="-1"></a><span class="in">JX205496.1 JX469991.1</span></span>
+<span id="cb45-286"><a href="#cb45-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-287"><a href="#cb45-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-288"><a href="#cb45-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-289"><a href="#cb45-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-290"><a href="#cb45-290" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-291"><a href="#cb45-291" aria-hidden="true" tabindex="-1"></a><span class="in">257</span></span>
+<span id="cb45-292"><a href="#cb45-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-293"><a href="#cb45-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-294"><a href="#cb45-294" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-295"><a href="#cb45-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-296"><a href="#cb45-296" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-297"><a href="#cb45-297" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez, SeqIO</span>
+<span id="cb45-298"><a href="#cb45-298" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Align</span>
+<span id="cb45-299"><a href="#cb45-299" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> Seq</span>
+<span id="cb45-300"><a href="#cb45-300" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Optional</span>
+<span id="cb45-301"><a href="#cb45-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-302"><a href="#cb45-302" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_sequences(genbank_ids: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[Seq]:</span>
+<span id="cb45-303"><a href="#cb45-303" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb45-304"><a href="#cb45-304" aria-hidden="true" tabindex="-1"></a><span class="co">    Fetch sequences from GenBank given a list of IDs.</span></span>
+<span id="cb45-305"><a href="#cb45-305" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb45-306"><a href="#cb45-306" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb45-307"><a href="#cb45-307" aria-hidden="true" tabindex="-1"></a><span class="co">    genbank_ids (List[str]): List of GenBank IDs.</span></span>
+<span id="cb45-308"><a href="#cb45-308" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb45-309"><a href="#cb45-309" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb45-310"><a href="#cb45-310" aria-hidden="true" tabindex="-1"></a><span class="co">    List[Seq]: List of Seq objects representing the fetched sequences.</span></span>
+<span id="cb45-311"><a href="#cb45-311" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb45-312"><a href="#cb45-312" aria-hidden="true" tabindex="-1"></a>    Entrez.email <span class="op">=</span> <span class="st">"byterube@gmail.com"</span>  <span class="co"># Replace with your email</span></span>
+<span id="cb45-313"><a href="#cb45-313" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb45-314"><a href="#cb45-314" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> Entrez.efetch(db<span class="op">=</span><span class="st">"nucleotide"</span>, <span class="bu">id</span><span class="op">=</span>genbank_ids, rettype<span class="op">=</span><span class="st">"fasta"</span>, retmode<span class="op">=</span><span class="st">"text"</span>) <span class="im">as</span> handle:</span>
+<span id="cb45-315"><a href="#cb45-315" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> [record.seq <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(handle, <span class="st">"fasta"</span>)]</span>
+<span id="cb45-316"><a href="#cb45-316" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb45-317"><a href="#cb45-317" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error fetching sequences: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb45-318"><a href="#cb45-318" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span>
+<span id="cb45-319"><a href="#cb45-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-320"><a href="#cb45-320" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> align_sequences(seq1: Seq, seq2: Seq) <span class="op">-&gt;</span> Optional[<span class="bu">float</span>]:</span>
+<span id="cb45-321"><a href="#cb45-321" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb45-322"><a href="#cb45-322" aria-hidden="true" tabindex="-1"></a><span class="co">    Perform global alignment of two sequences using Bio.Align.PairwiseAligner.</span></span>
+<span id="cb45-323"><a href="#cb45-323" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb45-324"><a href="#cb45-324" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb45-325"><a href="#cb45-325" aria-hidden="true" tabindex="-1"></a><span class="co">    seq1 (Seq): First sequence.</span></span>
+<span id="cb45-326"><a href="#cb45-326" aria-hidden="true" tabindex="-1"></a><span class="co">    seq2 (Seq): Second sequence.</span></span>
+<span id="cb45-327"><a href="#cb45-327" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb45-328"><a href="#cb45-328" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb45-329"><a href="#cb45-329" aria-hidden="true" tabindex="-1"></a><span class="co">    Optional[float]: Alignment score, or None if alignment fails.</span></span>
+<span id="cb45-330"><a href="#cb45-330" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb45-331"><a href="#cb45-331" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb45-332"><a href="#cb45-332" aria-hidden="true" tabindex="-1"></a>        aligner <span class="op">=</span> Align.PairwiseAligner()</span>
+<span id="cb45-333"><a href="#cb45-333" aria-hidden="true" tabindex="-1"></a>        aligner.mode <span class="op">=</span> <span class="st">'global'</span></span>
+<span id="cb45-334"><a href="#cb45-334" aria-hidden="true" tabindex="-1"></a>        aligner.match_score <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb45-335"><a href="#cb45-335" aria-hidden="true" tabindex="-1"></a>        aligner.mismatch_score <span class="op">=</span> <span class="op">-</span><span class="dv">4</span></span>
+<span id="cb45-336"><a href="#cb45-336" aria-hidden="true" tabindex="-1"></a>        aligner.open_gap_score <span class="op">=</span> <span class="op">-</span><span class="dv">10</span></span>
+<span id="cb45-337"><a href="#cb45-337" aria-hidden="true" tabindex="-1"></a>        aligner.extend_gap_score <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb45-338"><a href="#cb45-338" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb45-339"><a href="#cb45-339" aria-hidden="true" tabindex="-1"></a>        alignments <span class="op">=</span> aligner.align(seq1, seq2)</span>
+<span id="cb45-340"><a href="#cb45-340" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> alignments.score</span>
+<span id="cb45-341"><a href="#cb45-341" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb45-342"><a href="#cb45-342" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error during alignment: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb45-343"><a href="#cb45-343" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb45-344"><a href="#cb45-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-345"><a href="#cb45-345" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input data</span></span>
+<span id="cb45-346"><a href="#cb45-346" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-347"><a href="#cb45-347" aria-hidden="true" tabindex="-1"></a><span class="st">JX462666.1 NM_001251956.1</span></span>
+<span id="cb45-348"><a href="#cb45-348" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb45-349"><a href="#cb45-349" aria-hidden="true" tabindex="-1"></a>genbank_ids <span class="op">=</span> sample_input.strip().split()</span>
+<span id="cb45-350"><a href="#cb45-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-351"><a href="#cb45-351" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch sequences</span></span>
+<span id="cb45-352"><a href="#cb45-352" aria-hidden="true" tabindex="-1"></a>sequences <span class="op">=</span> fetch_sequences(genbank_ids)</span>
+<span id="cb45-353"><a href="#cb45-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-354"><a href="#cb45-354" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform alignment</span></span>
+<span id="cb45-355"><a href="#cb45-355" aria-hidden="true" tabindex="-1"></a>alignment_score <span class="op">=</span> align_sequences(sequences[<span class="dv">0</span>], sequences[<span class="dv">1</span>])</span>
+<span id="cb45-356"><a href="#cb45-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-357"><a href="#cb45-357" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> alignment_score <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb45-358"><a href="#cb45-358" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>alignment_score<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb45-359"><a href="#cb45-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-360"><a href="#cb45-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-361"><a href="#cb45-361" aria-hidden="true" tabindex="-1"></a><span class="fu"># FASTQ format introduction</span></span>
+<span id="cb45-362"><a href="#cb45-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-363"><a href="#cb45-363" aria-hidden="true" tabindex="-1"></a>Sometimes it's necessary to convert data from FASTQ format to FASTA format. For example, you may want to perform a BLAST search using reads in FASTQ format obtained from your brand new Illumina Genome Analyzer.</span>
+<span id="cb45-364"><a href="#cb45-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-365"><a href="#cb45-365" aria-hidden="true" tabindex="-1"></a>Links:</span>
+<span id="cb45-366"><a href="#cb45-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-367"><a href="#cb45-367" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A FASTQ to FASTA converter can be accessed from the&nbsp;<span class="co">[</span><span class="ot">Sequence conversion website</span><span class="co">](http://sequenceconversion.bugaco.com/converter/biology/sequences/index.php)</span></span>
+<span id="cb45-368"><a href="#cb45-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-369"><a href="#cb45-369" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A free GUI converter developed by BlastStation is available&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.blaststation.com/freestuff/en/fastq2fasta.php)</span>&nbsp;for download or as an add-on to Google Chrome.</span>
+<span id="cb45-370"><a href="#cb45-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-371"><a href="#cb45-371" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>There is a&nbsp;<span class="co">[</span><span class="ot">FASTQ to FASTA converter</span><span class="co">](https://main.g2.bx.psu.edu/root?tool_id=cshl_fastq_to_fasta)</span>&nbsp;in the&nbsp;<span class="co">[</span><span class="ot">Galaxy</span><span class="co">](https://rosalind.info/glossary/galaxy/)</span>&nbsp;web platform. Note that you should register in the Galaxy and upload your file prior to using this tool.</span>
+<span id="cb45-372"><a href="#cb45-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-373"><a href="#cb45-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-374"><a href="#cb45-374" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;FASTQ file</span>
+<span id="cb45-375"><a href="#cb45-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-376"><a href="#cb45-376" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;Corresponding FASTA records</span>
+<span id="cb45-377"><a href="#cb45-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-378"><a href="#cb45-378" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-379"><a href="#cb45-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-380"><a href="#cb45-380" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-381"><a href="#cb45-381" aria-hidden="true" tabindex="-1"></a><span class="in">@SEQ_ID</span></span>
+<span id="cb45-382"><a href="#cb45-382" aria-hidden="true" tabindex="-1"></a><span class="in">GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT</span></span>
+<span id="cb45-383"><a href="#cb45-383" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-384"><a href="#cb45-384" aria-hidden="true" tabindex="-1"></a><span class="in">!*((((***+))%%%++)(%%%%)***-+*****))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65</span></span>
+<span id="cb45-385"><a href="#cb45-385" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-386"><a href="#cb45-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-387"><a href="#cb45-387" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-388"><a href="#cb45-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-389"><a href="#cb45-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-390"><a href="#cb45-390" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;SEQ_ID</span></span>
+<span id="cb45-391"><a href="#cb45-391" aria-hidden="true" tabindex="-1"></a><span class="in">GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT</span></span>
+<span id="cb45-392"><a href="#cb45-392" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-393"><a href="#cb45-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-394"><a href="#cb45-394" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-395"><a href="#cb45-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-396"><a href="#cb45-396" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-397"><a href="#cb45-397" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb45-398"><a href="#cb45-398" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb45-399"><a href="#cb45-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-400"><a href="#cb45-400" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_fastq_to_fasta(fastq_string):</span>
+<span id="cb45-401"><a href="#cb45-401" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb45-402"><a href="#cb45-402" aria-hidden="true" tabindex="-1"></a><span class="co">    Convert a FASTQ string to a FASTA string.</span></span>
+<span id="cb45-403"><a href="#cb45-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-404"><a href="#cb45-404" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb45-405"><a href="#cb45-405" aria-hidden="true" tabindex="-1"></a><span class="co">    fastq_string (str): Input FASTQ formatted string.</span></span>
+<span id="cb45-406"><a href="#cb45-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-407"><a href="#cb45-407" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb45-408"><a href="#cb45-408" aria-hidden="true" tabindex="-1"></a><span class="co">    str: FASTA formatted string.</span></span>
+<span id="cb45-409"><a href="#cb45-409" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb45-410"><a href="#cb45-410" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create file-like objects for input and output</span></span>
+<span id="cb45-411"><a href="#cb45-411" aria-hidden="true" tabindex="-1"></a>    fastq_handle <span class="op">=</span> StringIO(fastq_string)</span>
+<span id="cb45-412"><a href="#cb45-412" aria-hidden="true" tabindex="-1"></a>    fasta_handle <span class="op">=</span> StringIO()</span>
+<span id="cb45-413"><a href="#cb45-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-414"><a href="#cb45-414" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Perform the conversion</span></span>
+<span id="cb45-415"><a href="#cb45-415" aria-hidden="true" tabindex="-1"></a>    SeqIO.convert(fastq_handle, <span class="st">'fastq'</span>, fasta_handle, <span class="st">'fasta'</span>)</span>
+<span id="cb45-416"><a href="#cb45-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-417"><a href="#cb45-417" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the FASTA string and reset the StringIO</span></span>
+<span id="cb45-418"><a href="#cb45-418" aria-hidden="true" tabindex="-1"></a>    fasta_handle.seek(<span class="dv">0</span>)</span>
+<span id="cb45-419"><a href="#cb45-419" aria-hidden="true" tabindex="-1"></a>    fasta_string <span class="op">=</span> fasta_handle.read()</span>
+<span id="cb45-420"><a href="#cb45-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-421"><a href="#cb45-421" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fasta_string</span>
+<span id="cb45-422"><a href="#cb45-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-423"><a href="#cb45-423" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample FASTQ input</span></span>
+<span id="cb45-424"><a href="#cb45-424" aria-hidden="true" tabindex="-1"></a>fastq <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-425"><a href="#cb45-425" aria-hidden="true" tabindex="-1"></a><span class="st">@SEQ_ID</span></span>
+<span id="cb45-426"><a href="#cb45-426" aria-hidden="true" tabindex="-1"></a><span class="st">GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT</span></span>
+<span id="cb45-427"><a href="#cb45-427" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-428"><a href="#cb45-428" aria-hidden="true" tabindex="-1"></a><span class="st">!*((((***+))</span><span class="sc">%%</span><span class="st">%++)(</span><span class="sc">%%%%</span><span class="st">)***-+*****))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65</span></span>
+<span id="cb45-429"><a href="#cb45-429" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip()</span>
+<span id="cb45-430"><a href="#cb45-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-431"><a href="#cb45-431" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert FASTQ to FASTA</span></span>
+<span id="cb45-432"><a href="#cb45-432" aria-hidden="true" tabindex="-1"></a>fasta <span class="op">=</span> convert_fastq_to_fasta(fastq)</span>
+<span id="cb45-433"><a href="#cb45-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-434"><a href="#cb45-434" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the resulting FASTA</span></span>
+<span id="cb45-435"><a href="#cb45-435" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fasta)</span>
+<span id="cb45-436"><a href="#cb45-436" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-437"><a href="#cb45-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-438"><a href="#cb45-438" aria-hidden="true" tabindex="-1"></a><span class="fu"># Read Quality Distribution</span></span>
+<span id="cb45-439"><a href="#cb45-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-440"><a href="#cb45-440" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A version of&nbsp;<span class="co">[</span><span class="ot">FastQC</span><span class="co">](https://rosalind.info/glossary/fastqc/)</span>&nbsp;can be downloaded&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)</span>&nbsp;and run locally on any operating system with a suitable Java Runtime Environment (JRE) installed.</span>
+<span id="cb45-441"><a href="#cb45-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-442"><a href="#cb45-442" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>An online version of FastQC is also available&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://galaxy.nbic.nl/root?tool_id=fastqc)</span>&nbsp;in the "Andromeda"&nbsp;<span class="co">[</span><span class="ot">Galaxy</span><span class="co">](https://rosalind.info/glossary/galaxy/)</span>&nbsp;instance.</span>
+<span id="cb45-443"><a href="#cb45-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-444"><a href="#cb45-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-445"><a href="#cb45-445" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A quality threshold, along with FASTQ entries for multiple reads.</span>
+<span id="cb45-446"><a href="#cb45-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-447"><a href="#cb45-447" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;The number of reads whose average quality is below the threshold.</span>
+<span id="cb45-448"><a href="#cb45-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-449"><a href="#cb45-449" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-450"><a href="#cb45-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-451"><a href="#cb45-451" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-452"><a href="#cb45-452" aria-hidden="true" tabindex="-1"></a><span class="in">28</span></span>
+<span id="cb45-453"><a href="#cb45-453" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0041</span></span>
+<span id="cb45-454"><a href="#cb45-454" aria-hidden="true" tabindex="-1"></a><span class="in">GGCCGGTCTATTTACGTTCTCACCCGACGTGACGTACGGTCC</span></span>
+<span id="cb45-455"><a href="#cb45-455" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-456"><a href="#cb45-456" aria-hidden="true" tabindex="-1"></a><span class="in">6.3536354;&lt;211/0?::6/-2051)-*"40/.,+%)</span></span>
+<span id="cb45-457"><a href="#cb45-457" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0041</span></span>
+<span id="cb45-458"><a href="#cb45-458" aria-hidden="true" tabindex="-1"></a><span class="in">TCGTATGCGTAGCACTTGGTACAGGAAGTGAACATCCAGGAT</span></span>
+<span id="cb45-459"><a href="#cb45-459" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-460"><a href="#cb45-460" aria-hidden="true" tabindex="-1"></a><span class="in">AH@FGGGJ&lt;GB&lt;&lt;9:GD=D@GG9=?A@DC=;:?&gt;839/4856</span></span>
+<span id="cb45-461"><a href="#cb45-461" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0041</span></span>
+<span id="cb45-462"><a href="#cb45-462" aria-hidden="true" tabindex="-1"></a><span class="in">ATTCGGTAATTGGCGTGAATCTGTTCTGACTGATAGAGACAA</span></span>
+<span id="cb45-463"><a href="#cb45-463" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-464"><a href="#cb45-464" aria-hidden="true" tabindex="-1"></a><span class="in">@DJEJEA?JHJ@8?F?IA3=;8@C95=;=?;&gt;D/:;74792.</span></span>
+<span id="cb45-465"><a href="#cb45-465" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-466"><a href="#cb45-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-467"><a href="#cb45-467" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-468"><a href="#cb45-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-469"><a href="#cb45-469" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-470"><a href="#cb45-470" aria-hidden="true" tabindex="-1"></a><span class="in">1</span></span>
+<span id="cb45-471"><a href="#cb45-471" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-472"><a href="#cb45-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-473"><a href="#cb45-473" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-474"><a href="#cb45-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-475"><a href="#cb45-475" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-476"><a href="#cb45-476" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb45-477"><a href="#cb45-477" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb45-478"><a href="#cb45-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-479"><a href="#cb45-479" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> phre(data):</span>
+<span id="cb45-480"><a href="#cb45-480" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb45-481"><a href="#cb45-481" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert the string input to a file-like object</span></span>
+<span id="cb45-482"><a href="#cb45-482" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> StringIO(data) <span class="im">as</span> f:</span>
+<span id="cb45-483"><a href="#cb45-483" aria-hidden="true" tabindex="-1"></a>        threshold <span class="op">=</span> <span class="bu">int</span>(f.readline().strip())</span>
+<span id="cb45-484"><a href="#cb45-484" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Parse the FASTQ data from the string</span></span>
+<span id="cb45-485"><a href="#cb45-485" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(f, <span class="st">"fastq"</span>):</span>
+<span id="cb45-486"><a href="#cb45-486" aria-hidden="true" tabindex="-1"></a>            quality <span class="op">=</span> record.letter_annotations[<span class="st">"phred_quality"</span>]</span>
+<span id="cb45-487"><a href="#cb45-487" aria-hidden="true" tabindex="-1"></a>            average_quality <span class="op">=</span> <span class="bu">sum</span>(quality) <span class="op">/</span> <span class="bu">len</span>(quality)</span>
+<span id="cb45-488"><a href="#cb45-488" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> average_quality <span class="op">&lt;</span> threshold:</span>
+<span id="cb45-489"><a href="#cb45-489" aria-hidden="true" tabindex="-1"></a>                count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb45-490"><a href="#cb45-490" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb45-491"><a href="#cb45-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-492"><a href="#cb45-492" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input data</span></span>
+<span id="cb45-493"><a href="#cb45-493" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-494"><a href="#cb45-494" aria-hidden="true" tabindex="-1"></a><span class="st">28</span></span>
+<span id="cb45-495"><a href="#cb45-495" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0041</span></span>
+<span id="cb45-496"><a href="#cb45-496" aria-hidden="true" tabindex="-1"></a><span class="st">GGCCGGTCTATTTACGTTCTCACCCGACGTGACGTACGGTCC</span></span>
+<span id="cb45-497"><a href="#cb45-497" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-498"><a href="#cb45-498" aria-hidden="true" tabindex="-1"></a><span class="st">6.3536354;&lt;211/0?::6/-2051)-*"40/.,+%)</span></span>
+<span id="cb45-499"><a href="#cb45-499" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0041</span></span>
+<span id="cb45-500"><a href="#cb45-500" aria-hidden="true" tabindex="-1"></a><span class="st">TCGTATGCGTAGCACTTGGTACAGGAAGTGAACATCCAGGAT</span></span>
+<span id="cb45-501"><a href="#cb45-501" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-502"><a href="#cb45-502" aria-hidden="true" tabindex="-1"></a><span class="st">AH@FGGGJ&lt;GB&lt;&lt;9:GD=D@GG9=?A@DC=;:?&gt;839/4856</span></span>
+<span id="cb45-503"><a href="#cb45-503" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0041</span></span>
+<span id="cb45-504"><a href="#cb45-504" aria-hidden="true" tabindex="-1"></a><span class="st">ATTCGGTAATTGGCGTGAATCTGTTCTGACTGATAGAGACAA</span></span>
+<span id="cb45-505"><a href="#cb45-505" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-506"><a href="#cb45-506" aria-hidden="true" tabindex="-1"></a><span class="st">@DJEJEA?JHJ@8?F?IA3=;8@C95=;=?;&gt;D/:;74792.</span></span>
+<span id="cb45-507"><a href="#cb45-507" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip()</span>
+<span id="cb45-508"><a href="#cb45-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-509"><a href="#cb45-509" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> phre(sample_input)</span>
+<span id="cb45-510"><a href="#cb45-510" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span>
+<span id="cb45-511"><a href="#cb45-511" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-512"><a href="#cb45-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-513"><a href="#cb45-513" aria-hidden="true" tabindex="-1"></a><span class="fu"># Protein Translation</span></span>
+<span id="cb45-514"><a href="#cb45-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-515"><a href="#cb45-515" aria-hidden="true" tabindex="-1"></a>The 20 commonly occurring amino acids are abbreviated by using 20 letters from the English&nbsp;<span class="co">[</span><span class="ot">alphabet</span><span class="co">](https://rosalind.info/glossary/alphabet/)</span>&nbsp;(all letters except for B, J, O, U, X, and Z).&nbsp;<span class="co">[</span><span class="ot">Protein strings</span><span class="co">](https://rosalind.info/glossary/protein-string/)</span>&nbsp;are constructed from these 20 symbols. The&nbsp;<span class="co">[</span><span class="ot">RNA codon table</span><span class="co">](https://rosalind.info/glossary/rna-codon-table/)</span>&nbsp;shows the encoding from each RNA codon to the amino acid alphabet.</span>
+<span id="cb45-516"><a href="#cb45-516" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-517"><a href="#cb45-517" aria-hidden="true" tabindex="-1"></a>The&nbsp;<span class="in">`Translate`</span>&nbsp;tool from the&nbsp;<span class="co">[</span><span class="ot">SMS 2</span><span class="co">](https://rosalind.info/glossary/sms-2/)</span>&nbsp;package can be found&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.bioinformatics.org/sms2/translate.html)</span>&nbsp;in the&nbsp;<span class="co">[</span><span class="ot">SMS 2</span><span class="co">](https://rosalind.info/glossary/sms-2/)</span>&nbsp;package</span>
+<span id="cb45-518"><a href="#cb45-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-519"><a href="#cb45-519" aria-hidden="true" tabindex="-1"></a>A detailed list of genetic code variants (codon tables) along with indexes representing these codes (1 = standard genetic code, etc.) can be obtained&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.bioinformatics.org/JaMBW/2/3/TranslationTables.html)</span>.</span>
+<span id="cb45-520"><a href="#cb45-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-521"><a href="#cb45-521" aria-hidden="true" tabindex="-1"></a>For now, when translating&nbsp;<span class="co">[</span><span class="ot">DNA</span><span class="co">](https://rosalind.info/glossary/dna-string/)</span>&nbsp;and&nbsp;<span class="co">[</span><span class="ot">RNA strings</span><span class="co">](https://rosalind.info/glossary/rna-string/)</span>, we will start with the first letter of the string and ignore stop codons.</span>
+<span id="cb45-522"><a href="#cb45-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-523"><a href="#cb45-523" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A DNA string&nbsp;ss&nbsp;of length at most 10&nbsp;<span class="co">[</span><span class="ot">kbp</span><span class="co">](https://rosalind.info/glossary/kbp/)</span>, and a protein string translated by&nbsp;ss.</span>
+<span id="cb45-524"><a href="#cb45-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-525"><a href="#cb45-525" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;The index of the genetic code variant that was used for translation. (If multiple solutions exist, you may return any one.)</span>
+<span id="cb45-526"><a href="#cb45-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-527"><a href="#cb45-527" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-528"><a href="#cb45-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-529"><a href="#cb45-529" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-530"><a href="#cb45-530" aria-hidden="true" tabindex="-1"></a><span class="in">ATGGCCATGGCGCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA</span></span>
+<span id="cb45-531"><a href="#cb45-531" aria-hidden="true" tabindex="-1"></a><span class="in">MAMAPRTEINSTRING</span></span>
+<span id="cb45-532"><a href="#cb45-532" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-533"><a href="#cb45-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-534"><a href="#cb45-534" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-535"><a href="#cb45-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-536"><a href="#cb45-536" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-537"><a href="#cb45-537" aria-hidden="true" tabindex="-1"></a><span class="in">1</span></span>
+<span id="cb45-538"><a href="#cb45-538" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-539"><a href="#cb45-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-540"><a href="#cb45-540" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-541"><a href="#cb45-541" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-542"><a href="#cb45-542" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-543"><a href="#cb45-543" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> translate</span>
+<span id="cb45-544"><a href="#cb45-544" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-545"><a href="#cb45-545" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_genetic_code(dna, protein):</span>
+<span id="cb45-546"><a href="#cb45-546" aria-hidden="true" tabindex="-1"></a>    <span class="co"># List of genetic code table IDs to check</span></span>
+<span id="cb45-547"><a href="#cb45-547" aria-hidden="true" tabindex="-1"></a>    table_ids <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>,]</span>
+<span id="cb45-548"><a href="#cb45-548" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-549"><a href="#cb45-549" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> table <span class="kw">in</span> table_ids:</span>
+<span id="cb45-550"><a href="#cb45-550" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb45-551"><a href="#cb45-551" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Translate DNA using the current table</span></span>
+<span id="cb45-552"><a href="#cb45-552" aria-hidden="true" tabindex="-1"></a>            translated <span class="op">=</span> translate(dna, table<span class="op">=</span>table, to_stop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb45-553"><a href="#cb45-553" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb45-554"><a href="#cb45-554" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Check if the translated protein matches the given protein</span></span>
+<span id="cb45-555"><a href="#cb45-555" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> translated <span class="op">==</span> protein:</span>
+<span id="cb45-556"><a href="#cb45-556" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> table</span>
+<span id="cb45-557"><a href="#cb45-557" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span>:</span>
+<span id="cb45-558"><a href="#cb45-558" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If there's an error with a particular table, skip it</span></span>
+<span id="cb45-559"><a href="#cb45-559" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb45-560"><a href="#cb45-560" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-561"><a href="#cb45-561" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no matching table is found</span></span>
+<span id="cb45-562"><a href="#cb45-562" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb45-563"><a href="#cb45-563" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-564"><a href="#cb45-564" aria-hidden="true" tabindex="-1"></a><span class="co"># Read input</span></span>
+<span id="cb45-565"><a href="#cb45-565" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-566"><a href="#cb45-566" aria-hidden="true" tabindex="-1"></a><span class="st">ATGGCCATGGCGCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA</span></span>
+<span id="cb45-567"><a href="#cb45-567" aria-hidden="true" tabindex="-1"></a><span class="st">MAMAPRTEINSTRING</span></span>
+<span id="cb45-568"><a href="#cb45-568" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb45-569"><a href="#cb45-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-570"><a href="#cb45-570" aria-hidden="true" tabindex="-1"></a>dna <span class="op">=</span> sample_input[<span class="dv">0</span>]</span>
+<span id="cb45-571"><a href="#cb45-571" aria-hidden="true" tabindex="-1"></a>protein <span class="op">=</span> sample_input[<span class="dv">1</span>]</span>
+<span id="cb45-572"><a href="#cb45-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-573"><a href="#cb45-573" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the genetic code</span></span>
+<span id="cb45-574"><a href="#cb45-574" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> find_genetic_code(dna, protein)</span>
+<span id="cb45-575"><a href="#cb45-575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-576"><a href="#cb45-576" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb45-577"><a href="#cb45-577" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> result:</span>
+<span id="cb45-578"><a href="#cb45-578" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(result)</span>
+<span id="cb45-579"><a href="#cb45-579" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb45-580"><a href="#cb45-580" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No matching genetic code found."</span>)</span>
+<span id="cb45-581"><a href="#cb45-581" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-582"><a href="#cb45-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-583"><a href="#cb45-583" aria-hidden="true" tabindex="-1"></a><span class="fu"># Read Filtration by Quality</span></span>
+<span id="cb45-584"><a href="#cb45-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-585"><a href="#cb45-585" aria-hidden="true" tabindex="-1"></a>Poor-quality reads can be filtered out using the&nbsp;<span class="in">`FASTQ Quality Filter`</span>&nbsp;tool from the&nbsp;<span class="co">[</span><span class="ot">FASTX</span><span class="co">](https://rosalind.info/glossary/fastx/)</span>&nbsp;toolkit. A command-line version of FASTX can be downloaded for Linux or MacOS from its&nbsp;<span class="co">[</span><span class="ot">website</span><span class="co">](http://hannonlab.cshl.edu/fastx_toolkit/)</span>. An online interface for the&nbsp;<span class="in">`FASTQ Quality Filter`</span>&nbsp;is also available&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](https://main.g2.bx.psu.edu/root?tool_id=cshl_fastq_quality_filter)</span>&nbsp;within the&nbsp;<span class="co">[</span><span class="ot">Galaxy</span><span class="co">](https://rosalind.info/glossary/galaxy/)</span>&nbsp;web platform.</span>
+<span id="cb45-586"><a href="#cb45-586" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-587"><a href="#cb45-587" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A quality threshold value&nbsp;qq, percentage of bases&nbsp;pp, and set of FASTQ entries.</span>
+<span id="cb45-588"><a href="#cb45-588" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-589"><a href="#cb45-589" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;Number of reads in filtered FASTQ entries</span>
+<span id="cb45-590"><a href="#cb45-590" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-591"><a href="#cb45-591" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-592"><a href="#cb45-592" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-593"><a href="#cb45-593" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-594"><a href="#cb45-594" aria-hidden="true" tabindex="-1"></a><span class="in">20 90</span></span>
+<span id="cb45-595"><a href="#cb45-595" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049_1</span></span>
+<span id="cb45-596"><a href="#cb45-596" aria-hidden="true" tabindex="-1"></a><span class="in">GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG</span></span>
+<span id="cb45-597"><a href="#cb45-597" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-598"><a href="#cb45-598" aria-hidden="true" tabindex="-1"></a><span class="in">FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527+,</span></span>
+<span id="cb45-599"><a href="#cb45-599" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049_2</span></span>
+<span id="cb45-600"><a href="#cb45-600" aria-hidden="true" tabindex="-1"></a><span class="in">AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT</span></span>
+<span id="cb45-601"><a href="#cb45-601" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-602"><a href="#cb45-602" aria-hidden="true" tabindex="-1"></a><span class="in">1&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;1,*3+*!</span></span>
+<span id="cb45-603"><a href="#cb45-603" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049_3</span></span>
+<span id="cb45-604"><a href="#cb45-604" aria-hidden="true" tabindex="-1"></a><span class="in">ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA</span></span>
+<span id="cb45-605"><a href="#cb45-605" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-606"><a href="#cb45-606" aria-hidden="true" tabindex="-1"></a><span class="in">B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</span></span>
+<span id="cb45-607"><a href="#cb45-607" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-608"><a href="#cb45-608" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-609"><a href="#cb45-609" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-610"><a href="#cb45-610" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-611"><a href="#cb45-611" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-612"><a href="#cb45-612" aria-hidden="true" tabindex="-1"></a><span class="in">2</span></span>
+<span id="cb45-613"><a href="#cb45-613" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-614"><a href="#cb45-614" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-615"><a href="#cb45-615" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-616"><a href="#cb45-616" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-617"><a href="#cb45-617" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-618"><a href="#cb45-618" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb45-619"><a href="#cb45-619" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.SeqRecord <span class="im">import</span> SeqRecord</span>
+<span id="cb45-620"><a href="#cb45-620" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> Seq</span>
+<span id="cb45-621"><a href="#cb45-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-622"><a href="#cb45-622" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quality_filtration(data):</span>
+<span id="cb45-623"><a href="#cb45-623" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read the threshold and percentage from the first line</span></span>
+<span id="cb45-624"><a href="#cb45-624" aria-hidden="true" tabindex="-1"></a>    t, p <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, data[<span class="dv">0</span>].strip().split())</span>
+<span id="cb45-625"><a href="#cb45-625" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-626"><a href="#cb45-626" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb45-627"><a href="#cb45-627" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Process the FASTQ data</span></span>
+<span id="cb45-628"><a href="#cb45-628" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(data), <span class="dv">4</span>):</span>
+<span id="cb45-629"><a href="#cb45-629" aria-hidden="true" tabindex="-1"></a>        sequence <span class="op">=</span> data[i<span class="op">+</span><span class="dv">1</span>].strip()</span>
+<span id="cb45-630"><a href="#cb45-630" aria-hidden="true" tabindex="-1"></a>        quality_string <span class="op">=</span> data[i<span class="op">+</span><span class="dv">3</span>].strip()</span>
+<span id="cb45-631"><a href="#cb45-631" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb45-632"><a href="#cb45-632" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert quality string to Phred scores</span></span>
+<span id="cb45-633"><a href="#cb45-633" aria-hidden="true" tabindex="-1"></a>        phred_quality <span class="op">=</span> [<span class="bu">ord</span>(char) <span class="op">-</span> <span class="dv">33</span> <span class="cf">for</span> char <span class="kw">in</span> quality_string]</span>
+<span id="cb45-634"><a href="#cb45-634" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb45-635"><a href="#cb45-635" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Perform quality check</span></span>
+<span id="cb45-636"><a href="#cb45-636" aria-hidden="true" tabindex="-1"></a>        passes <span class="op">=</span> <span class="bu">sum</span>(ph <span class="op">&gt;=</span> t <span class="cf">for</span> ph <span class="kw">in</span> phred_quality)</span>
+<span id="cb45-637"><a href="#cb45-637" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (passes <span class="op">/</span> <span class="bu">len</span>(phred_quality)) <span class="op">*</span> <span class="dv">100</span> <span class="op">&gt;=</span> p:</span>
+<span id="cb45-638"><a href="#cb45-638" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb45-639"><a href="#cb45-639" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-640"><a href="#cb45-640" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb45-641"><a href="#cb45-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-642"><a href="#cb45-642" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb45-643"><a href="#cb45-643" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-644"><a href="#cb45-644" aria-hidden="true" tabindex="-1"></a><span class="st">20 90</span></span>
+<span id="cb45-645"><a href="#cb45-645" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0049_1</span></span>
+<span id="cb45-646"><a href="#cb45-646" aria-hidden="true" tabindex="-1"></a><span class="st">GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG</span></span>
+<span id="cb45-647"><a href="#cb45-647" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-648"><a href="#cb45-648" aria-hidden="true" tabindex="-1"></a><span class="st">FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527+,</span></span>
+<span id="cb45-649"><a href="#cb45-649" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0049_2</span></span>
+<span id="cb45-650"><a href="#cb45-650" aria-hidden="true" tabindex="-1"></a><span class="st">AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT</span></span>
+<span id="cb45-651"><a href="#cb45-651" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-652"><a href="#cb45-652" aria-hidden="true" tabindex="-1"></a><span class="st">1&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;1,*3+*!</span></span>
+<span id="cb45-653"><a href="#cb45-653" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0049_3</span></span>
+<span id="cb45-654"><a href="#cb45-654" aria-hidden="true" tabindex="-1"></a><span class="st">ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA</span></span>
+<span id="cb45-655"><a href="#cb45-655" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-656"><a href="#cb45-656" aria-hidden="true" tabindex="-1"></a><span class="st">B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</span></span>
+<span id="cb45-657"><a href="#cb45-657" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb45-658"><a href="#cb45-658" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-659"><a href="#cb45-659" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the function with the sample input</span></span>
+<span id="cb45-660"><a href="#cb45-660" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> quality_filtration(sample_input)</span>
+<span id="cb45-661"><a href="#cb45-661" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(count)</span>
+<span id="cb45-662"><a href="#cb45-662" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-663"><a href="#cb45-663" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-664"><a href="#cb45-664" aria-hidden="true" tabindex="-1"></a><span class="fu"># Complementing a Strand of DNA</span></span>
+<span id="cb45-665"><a href="#cb45-665" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-666"><a href="#cb45-666" aria-hidden="true" tabindex="-1"></a>Recall that in a&nbsp;<span class="co">[</span><span class="ot">DNA string</span><span class="co">](https://rosalind.info/glossary/dna-string/)</span>&nbsp;ss, 'A' and 'T' are complements of each other, as are 'C' and 'G'. Furthermore, the reverse complement of&nbsp;$s$&nbsp;is the string&nbsp;$s^c$&nbsp;formed by reversing the symbols of&nbsp;ss&nbsp;and then taking the complement of each symbol (e.g., the reverse complement of "GTCA" is "TGAC").</span>
+<span id="cb45-667"><a href="#cb45-667" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-668"><a href="#cb45-668" aria-hidden="true" tabindex="-1"></a>The&nbsp;<span class="in">`Reverse Complement`</span>&nbsp;program from the&nbsp;<span class="co">[</span><span class="ot">SMS 2</span><span class="co">](https://rosalind.info/glossary/sms-2/)</span>&nbsp;package can be run online&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.bioinformatics.org/sms2/rev_comp.html)</span>.</span>
+<span id="cb45-669"><a href="#cb45-669" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-670"><a href="#cb45-670" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A collection of&nbsp;$n$&nbsp;($n≤10$) DNA strings.</span>
+<span id="cb45-671"><a href="#cb45-671" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-672"><a href="#cb45-672" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;The number of given strings that match their reverse complements.</span>
+<span id="cb45-673"><a href="#cb45-673" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-674"><a href="#cb45-674" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-675"><a href="#cb45-675" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-676"><a href="#cb45-676" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-677"><a href="#cb45-677" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_64</span></span>
+<span id="cb45-678"><a href="#cb45-678" aria-hidden="true" tabindex="-1"></a><span class="in">ATAT</span></span>
+<span id="cb45-679"><a href="#cb45-679" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_48</span></span>
+<span id="cb45-680"><a href="#cb45-680" aria-hidden="true" tabindex="-1"></a><span class="in">GCATA</span></span>
+<span id="cb45-681"><a href="#cb45-681" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-682"><a href="#cb45-682" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-683"><a href="#cb45-683" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-684"><a href="#cb45-684" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-685"><a href="#cb45-685" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-686"><a href="#cb45-686" aria-hidden="true" tabindex="-1"></a><span class="in">1</span></span>
+<span id="cb45-687"><a href="#cb45-687" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-688"><a href="#cb45-688" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-689"><a href="#cb45-689" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-690"><a href="#cb45-690" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-691"><a href="#cb45-691" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-692"><a href="#cb45-692" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb45-693"><a href="#cb45-693" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> Seq</span>
+<span id="cb45-694"><a href="#cb45-694" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb45-695"><a href="#cb45-695" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-696"><a href="#cb45-696" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_palindrome(seq):</span>
+<span id="cb45-697"><a href="#cb45-697" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Check if a sequence is equal to its reverse complement."""</span></span>
+<span id="cb45-698"><a href="#cb45-698" aria-hidden="true" tabindex="-1"></a>    my_seq <span class="op">=</span> Seq(seq)</span>
+<span id="cb45-699"><a href="#cb45-699" aria-hidden="true" tabindex="-1"></a>    reverse_seq <span class="op">=</span> my_seq.reverse_complement()</span>
+<span id="cb45-700"><a href="#cb45-700" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> my_seq <span class="op">==</span> reverse_seq</span>
+<span id="cb45-701"><a href="#cb45-701" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-702"><a href="#cb45-702" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_palindromic_sequences(seqs):</span>
+<span id="cb45-703"><a href="#cb45-703" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Count the number of palindromic sequences in the list."""</span></span>
+<span id="cb45-704"><a href="#cb45-704" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(is_palindrome(seq) <span class="cf">for</span> seq <span class="kw">in</span> seqs)</span>
+<span id="cb45-705"><a href="#cb45-705" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-706"><a href="#cb45-706" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_fasta_input(fasta_input):</span>
+<span id="cb45-707"><a href="#cb45-707" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Parse FASTA formatted input and return a list of sequences."""</span></span>
+<span id="cb45-708"><a href="#cb45-708" aria-hidden="true" tabindex="-1"></a>    fasta_io <span class="op">=</span> StringIO(fasta_input)</span>
+<span id="cb45-709"><a href="#cb45-709" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">str</span>(record.seq) <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(fasta_io, <span class="st">"fasta"</span>)]</span>
+<span id="cb45-710"><a href="#cb45-710" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-711"><a href="#cb45-711" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb45-712"><a href="#cb45-712" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-713"><a href="#cb45-713" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_64</span></span>
+<span id="cb45-714"><a href="#cb45-714" aria-hidden="true" tabindex="-1"></a><span class="st">ATAT</span></span>
+<span id="cb45-715"><a href="#cb45-715" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_48</span></span>
+<span id="cb45-716"><a href="#cb45-716" aria-hidden="true" tabindex="-1"></a><span class="st">GCATA</span></span>
+<span id="cb45-717"><a href="#cb45-717" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb45-718"><a href="#cb45-718" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-719"><a href="#cb45-719" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the sequences</span></span>
+<span id="cb45-720"><a href="#cb45-720" aria-hidden="true" tabindex="-1"></a>sequences <span class="op">=</span> parse_fasta_input(sample_input)</span>
+<span id="cb45-721"><a href="#cb45-721" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-722"><a href="#cb45-722" aria-hidden="true" tabindex="-1"></a><span class="co"># Count palindromic sequences</span></span>
+<span id="cb45-723"><a href="#cb45-723" aria-hidden="true" tabindex="-1"></a>palindrome_count <span class="op">=</span> count_palindromic_sequences(sequences)</span>
+<span id="cb45-724"><a href="#cb45-724" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-725"><a href="#cb45-725" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb45-726"><a href="#cb45-726" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(palindrome_count)</span>
+<span id="cb45-727"><a href="#cb45-727" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-728"><a href="#cb45-728" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-729"><a href="#cb45-729" aria-hidden="true" tabindex="-1"></a><span class="fu"># Base Quality Distribution</span></span>
+<span id="cb45-730"><a href="#cb45-730" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-731"><a href="#cb45-731" aria-hidden="true" tabindex="-1"></a>Quality of the bases can vary depends on position in read due to nature of the sequencing procedure. One can check this quality distribution using "Per Base Sequence Quality" module of the&nbsp;<span class="co">[</span><span class="ot">FastQC</span><span class="co">](https://rosalind.info/glossary/fastqc/)</span>&nbsp;program.</span>
+<span id="cb45-732"><a href="#cb45-732" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-733"><a href="#cb45-733" aria-hidden="true" tabindex="-1"></a>Average accepted quality values is a 10 for the lower quartile and 25 for median. If the values falls below this limit, then the module returns a warning.</span>
+<span id="cb45-734"><a href="#cb45-734" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-735"><a href="#cb45-735" aria-hidden="true" tabindex="-1"></a>Note that for the reads &gt;50bp long FastQC will group the bases. To show data for every base in the read use "--nogroup" option.</span>
+<span id="cb45-736"><a href="#cb45-736" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-737"><a href="#cb45-737" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;FASTQ file, quality threshold&nbsp;$q$</span>
+<span id="cb45-738"><a href="#cb45-738" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-739"><a href="#cb45-739" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;Number of positions where mean base quality falls below given threshold</span>
+<span id="cb45-740"><a href="#cb45-740" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-741"><a href="#cb45-741" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-742"><a href="#cb45-742" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-743"><a href="#cb45-743" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-744"><a href="#cb45-744" aria-hidden="true" tabindex="-1"></a><span class="in">26</span></span>
+<span id="cb45-745"><a href="#cb45-745" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0029</span></span>
+<span id="cb45-746"><a href="#cb45-746" aria-hidden="true" tabindex="-1"></a><span class="in">GCCCCAGGGAACCCTCCGACCGAGGATCGT</span></span>
+<span id="cb45-747"><a href="#cb45-747" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-748"><a href="#cb45-748" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;?F?@6&lt;C&lt;HF?&lt;85486B;85:8488/2/</span></span>
+<span id="cb45-749"><a href="#cb45-749" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0029</span></span>
+<span id="cb45-750"><a href="#cb45-750" aria-hidden="true" tabindex="-1"></a><span class="in">TGTGATGGCTCTCTGAATGGTTCAGGCAGT</span></span>
+<span id="cb45-751"><a href="#cb45-751" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-752"><a href="#cb45-752" aria-hidden="true" tabindex="-1"></a><span class="in">@J@H@&gt;B9:B;&lt;D==:&lt;;:,&lt;::?463-,,</span></span>
+<span id="cb45-753"><a href="#cb45-753" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0029</span></span>
+<span id="cb45-754"><a href="#cb45-754" aria-hidden="true" tabindex="-1"></a><span class="in">CACTCTTACTCCCTAGCCGAACTCCTTTTT</span></span>
+<span id="cb45-755"><a href="#cb45-755" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-756"><a href="#cb45-756" aria-hidden="true" tabindex="-1"></a><span class="in">=88;99637@5,4664-65)/?4-2+)$)$</span></span>
+<span id="cb45-757"><a href="#cb45-757" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0029</span></span>
+<span id="cb45-758"><a href="#cb45-758" aria-hidden="true" tabindex="-1"></a><span class="in">GATTATGATATCAGTTGGCTCCGAGAGCGT</span></span>
+<span id="cb45-759"><a href="#cb45-759" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-760"><a href="#cb45-760" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;@BGE@8C9=B9:B&lt;&gt;&gt;&gt;7?B&gt;7:02+33.</span></span>
+<span id="cb45-761"><a href="#cb45-761" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-762"><a href="#cb45-762" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-763"><a href="#cb45-763" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-764"><a href="#cb45-764" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-765"><a href="#cb45-765" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-766"><a href="#cb45-766" aria-hidden="true" tabindex="-1"></a><span class="in">17</span></span>
+<span id="cb45-767"><a href="#cb45-767" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-768"><a href="#cb45-768" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-769"><a href="#cb45-769" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-770"><a href="#cb45-770" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-771"><a href="#cb45-771" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-772"><a href="#cb45-772" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb45-773"><a href="#cb45-773" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb45-774"><a href="#cb45-774" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-775"><a href="#cb45-775" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_threshold_and_fastq(data):</span>
+<span id="cb45-776"><a href="#cb45-776" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Parse the threshold and FASTQ data from the input string."""</span></span>
+<span id="cb45-777"><a href="#cb45-777" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> data.strip().split(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb45-778"><a href="#cb45-778" aria-hidden="true" tabindex="-1"></a>    threshold <span class="op">=</span> <span class="bu">int</span>(lines[<span class="dv">0</span>])</span>
+<span id="cb45-779"><a href="#cb45-779" aria-hidden="true" tabindex="-1"></a>    fastq_data <span class="op">=</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>.join(lines[<span class="dv">1</span>:])</span>
+<span id="cb45-780"><a href="#cb45-780" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> threshold, fastq_data</span>
+<span id="cb45-781"><a href="#cb45-781" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-782"><a href="#cb45-782" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_quality_scores(fastq_data):</span>
+<span id="cb45-783"><a href="#cb45-783" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Extract quality scores from FASTQ data."""</span></span>
+<span id="cb45-784"><a href="#cb45-784" aria-hidden="true" tabindex="-1"></a>    fastq_io <span class="op">=</span> StringIO(fastq_data)</span>
+<span id="cb45-785"><a href="#cb45-785" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [record.letter_annotations[<span class="st">"phred_quality"</span>] </span>
+<span id="cb45-786"><a href="#cb45-786" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(fastq_io, <span class="st">"fastq"</span>)]</span>
+<span id="cb45-787"><a href="#cb45-787" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-788"><a href="#cb45-788" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_below_threshold(qualities, threshold):</span>
+<span id="cb45-789"><a href="#cb45-789" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Count positions where the average quality score is below the threshold."""</span></span>
+<span id="cb45-790"><a href="#cb45-790" aria-hidden="true" tabindex="-1"></a>    num_sequences <span class="op">=</span> <span class="bu">len</span>(qualities)</span>
+<span id="cb45-791"><a href="#cb45-791" aria-hidden="true" tabindex="-1"></a>    num_positions <span class="op">=</span> <span class="bu">len</span>(qualities[<span class="dv">0</span>])</span>
+<span id="cb45-792"><a href="#cb45-792" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb45-793"><a href="#cb45-793" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-794"><a href="#cb45-794" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_positions):</span>
+<span id="cb45-795"><a href="#cb45-795" aria-hidden="true" tabindex="-1"></a>        average_quality <span class="op">=</span> <span class="bu">sum</span>(q[i] <span class="cf">for</span> q <span class="kw">in</span> qualities) <span class="op">/</span> num_sequences</span>
+<span id="cb45-796"><a href="#cb45-796" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> average_quality <span class="op">&lt;</span> threshold:</span>
+<span id="cb45-797"><a href="#cb45-797" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb45-798"><a href="#cb45-798" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-799"><a href="#cb45-799" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb45-800"><a href="#cb45-800" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-801"><a href="#cb45-801" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bphr(data):</span>
+<span id="cb45-802"><a href="#cb45-802" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate the number of positions with average quality below the threshold."""</span></span>
+<span id="cb45-803"><a href="#cb45-803" aria-hidden="true" tabindex="-1"></a>    threshold, fastq_data <span class="op">=</span> parse_threshold_and_fastq(data)</span>
+<span id="cb45-804"><a href="#cb45-804" aria-hidden="true" tabindex="-1"></a>    qualities <span class="op">=</span> extract_quality_scores(fastq_data)</span>
+<span id="cb45-805"><a href="#cb45-805" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count_below_threshold(qualities, threshold)</span>
+<span id="cb45-806"><a href="#cb45-806" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-807"><a href="#cb45-807" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb45-808"><a href="#cb45-808" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-809"><a href="#cb45-809" aria-hidden="true" tabindex="-1"></a><span class="st">26</span></span>
+<span id="cb45-810"><a href="#cb45-810" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0029</span></span>
+<span id="cb45-811"><a href="#cb45-811" aria-hidden="true" tabindex="-1"></a><span class="st">GCCCCAGGGAACCCTCCGACCGAGGATCGT</span></span>
+<span id="cb45-812"><a href="#cb45-812" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-813"><a href="#cb45-813" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;?F?@6&lt;C&lt;HF?&lt;85486B;85:8488/2/</span></span>
+<span id="cb45-814"><a href="#cb45-814" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0029</span></span>
+<span id="cb45-815"><a href="#cb45-815" aria-hidden="true" tabindex="-1"></a><span class="st">TGTGATGGCTCTCTGAATGGTTCAGGCAGT</span></span>
+<span id="cb45-816"><a href="#cb45-816" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-817"><a href="#cb45-817" aria-hidden="true" tabindex="-1"></a><span class="st">@J@H@&gt;B9:B;&lt;D==:&lt;;:,&lt;::?463-,,</span></span>
+<span id="cb45-818"><a href="#cb45-818" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0029</span></span>
+<span id="cb45-819"><a href="#cb45-819" aria-hidden="true" tabindex="-1"></a><span class="st">CACTCTTACTCCCTAGCCGAACTCCTTTTT</span></span>
+<span id="cb45-820"><a href="#cb45-820" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-821"><a href="#cb45-821" aria-hidden="true" tabindex="-1"></a><span class="st">=88;99637@5,4664-65)/?4-2+)$)$</span></span>
+<span id="cb45-822"><a href="#cb45-822" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0029</span></span>
+<span id="cb45-823"><a href="#cb45-823" aria-hidden="true" tabindex="-1"></a><span class="st">GATTATGATATCAGTTGGCTCCGAGAGCGT</span></span>
+<span id="cb45-824"><a href="#cb45-824" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-825"><a href="#cb45-825" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;@BGE@8C9=B9:B&lt;&gt;&gt;&gt;7?B&gt;7:02+33.</span></span>
+<span id="cb45-826"><a href="#cb45-826" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb45-827"><a href="#cb45-827" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-828"><a href="#cb45-828" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> bphr(sample_input)</span>
+<span id="cb45-829"><a href="#cb45-829" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(count)</span>
+<span id="cb45-830"><a href="#cb45-830" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-831"><a href="#cb45-831" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-832"><a href="#cb45-832" aria-hidden="true" tabindex="-1"></a><span class="fu"># Finding Genes with ORFs</span></span>
+<span id="cb45-833"><a href="#cb45-833" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-834"><a href="#cb45-834" aria-hidden="true" tabindex="-1"></a>An ORF begins with a start codon and ends either at a stop codon or at the end of the string. We will assume the standard genetic code for translating an&nbsp;<span class="co">[</span><span class="ot">RNA string</span><span class="co">](https://rosalind.info/glossary/rna-string/)</span>&nbsp;into a&nbsp;<span class="co">[</span><span class="ot">protein string</span><span class="co">](https://rosalind.info/glossary/protein-string/)</span>&nbsp;(i.e., see the standard&nbsp;<span class="co">[</span><span class="ot">RNA codon table</span><span class="co">](https://rosalind.info/glossary/rna-codon-table/)</span>).</span>
+<span id="cb45-835"><a href="#cb45-835" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-836"><a href="#cb45-836" aria-hidden="true" tabindex="-1"></a><span class="in">`ORF finder`</span>&nbsp;from the&nbsp;<span class="co">[</span><span class="ot">SMS 2</span><span class="co">](https://rosalind.info/glossary/sms-2/)</span>&nbsp;package can be run online&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.bioinformatics.org/sms2/orf_find.html)</span>.</span>
+<span id="cb45-837"><a href="#cb45-837" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-838"><a href="#cb45-838" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;A&nbsp;<span class="co">[</span><span class="ot">DNA string</span><span class="co">](https://rosalind.info/glossary/dna-string/)</span>&nbsp;$s$&nbsp;of length at most 1&nbsp;<span class="co">[</span><span class="ot">kbp</span><span class="co">](https://rosalind.info/glossary/kbp/)</span>.</span>
+<span id="cb45-839"><a href="#cb45-839" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-840"><a href="#cb45-840" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;The longest protein string that can be translated from an ORF of&nbsp;$s$. If more than one protein string of maximum length exists, then you may output any solution.</span>
+<span id="cb45-841"><a href="#cb45-841" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-842"><a href="#cb45-842" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-843"><a href="#cb45-843" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-844"><a href="#cb45-844" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-845"><a href="#cb45-845" aria-hidden="true" tabindex="-1"></a><span class="in">AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG</span></span>
+<span id="cb45-846"><a href="#cb45-846" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-847"><a href="#cb45-847" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-848"><a href="#cb45-848" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-849"><a href="#cb45-849" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-850"><a href="#cb45-850" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-851"><a href="#cb45-851" aria-hidden="true" tabindex="-1"></a><span class="in">MLLGSFRLIPKETLIQVAGSSPCNLS</span></span>
+<span id="cb45-852"><a href="#cb45-852" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-853"><a href="#cb45-853" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-854"><a href="#cb45-854" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-855"><a href="#cb45-855" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-856"><a href="#cb45-856" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-857"><a href="#cb45-857" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> Seq</span>
+<span id="cb45-858"><a href="#cb45-858" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-859"><a href="#cb45-859" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gene_ORFs(dna_sequence):</span>
+<span id="cb45-860"><a href="#cb45-860" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Finds and prints the longest open reading frame (ORF) from a DNA sequence."""</span></span>
+<span id="cb45-861"><a href="#cb45-861" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> translate_sequence(seq):</span>
+<span id="cb45-862"><a href="#cb45-862" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Translate a sequence in all three reading frames and split by stop codons."""</span></span>
+<span id="cb45-863"><a href="#cb45-863" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [<span class="bu">str</span>(seq[i:].translate(to_stop<span class="op">=</span><span class="va">False</span>)).split(<span class="st">"*"</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>)]</span>
+<span id="cb45-864"><a href="#cb45-864" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-865"><a href="#cb45-865" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a Seq object from the DNA sequence</span></span>
+<span id="cb45-866"><a href="#cb45-866" aria-hidden="true" tabindex="-1"></a>    seq <span class="op">=</span> Seq(dna_sequence)</span>
+<span id="cb45-867"><a href="#cb45-867" aria-hidden="true" tabindex="-1"></a>    seq_reverse <span class="op">=</span> seq.reverse_complement()</span>
+<span id="cb45-868"><a href="#cb45-868" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-869"><a href="#cb45-869" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Translate the sequence and its reverse complement in all reading frames</span></span>
+<span id="cb45-870"><a href="#cb45-870" aria-hidden="true" tabindex="-1"></a>    proteins <span class="op">=</span> []</span>
+<span id="cb45-871"><a href="#cb45-871" aria-hidden="true" tabindex="-1"></a>    proteins.extend(translate_sequence(seq))</span>
+<span id="cb45-872"><a href="#cb45-872" aria-hidden="true" tabindex="-1"></a>    proteins.extend(translate_sequence(seq_reverse))</span>
+<span id="cb45-873"><a href="#cb45-873" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-874"><a href="#cb45-874" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Flatten the list of lists</span></span>
+<span id="cb45-875"><a href="#cb45-875" aria-hidden="true" tabindex="-1"></a>    proteins <span class="op">=</span> [protein <span class="cf">for</span> sublist <span class="kw">in</span> proteins <span class="cf">for</span> protein <span class="kw">in</span> sublist]</span>
+<span id="cb45-876"><a href="#cb45-876" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-877"><a href="#cb45-877" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find ORFs starting with 'M' and sort by length</span></span>
+<span id="cb45-878"><a href="#cb45-878" aria-hidden="true" tabindex="-1"></a>    orfs <span class="op">=</span> <span class="bu">sorted</span>([protein[protein.find(<span class="st">"M"</span>):] <span class="cf">for</span> protein <span class="kw">in</span> proteins <span class="cf">if</span> <span class="st">"M"</span> <span class="kw">in</span> protein], key<span class="op">=</span><span class="bu">len</span>, reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb45-879"><a href="#cb45-879" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> orfs</span>
+<span id="cb45-880"><a href="#cb45-880" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-881"><a href="#cb45-881" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb45-882"><a href="#cb45-882" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-883"><a href="#cb45-883" aria-hidden="true" tabindex="-1"></a><span class="st">AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG</span></span>
+<span id="cb45-884"><a href="#cb45-884" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb45-885"><a href="#cb45-885" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-886"><a href="#cb45-886" aria-hidden="true" tabindex="-1"></a><span class="co"># Strip any leading/trailing whitespace</span></span>
+<span id="cb45-887"><a href="#cb45-887" aria-hidden="true" tabindex="-1"></a>dna <span class="op">=</span> sample_input.strip()</span>
+<span id="cb45-888"><a href="#cb45-888" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-889"><a href="#cb45-889" aria-hidden="true" tabindex="-1"></a><span class="co"># Find and print the longest ORF</span></span>
+<span id="cb45-890"><a href="#cb45-890" aria-hidden="true" tabindex="-1"></a>orfs <span class="op">=</span> gene_ORFs(dna)</span>
+<span id="cb45-891"><a href="#cb45-891" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orfs[<span class="dv">0</span>])</span>
+<span id="cb45-892"><a href="#cb45-892" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-893"><a href="#cb45-893" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-894"><a href="#cb45-894" aria-hidden="true" tabindex="-1"></a><span class="fu"># Base Filtration by Quality</span></span>
+<span id="cb45-895"><a href="#cb45-895" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-896"><a href="#cb45-896" aria-hidden="true" tabindex="-1"></a>Bad quality bases can be easily trimmed out using certain threshold (defined by quality plot similar to what we did in&nbsp;<span class="co">[</span><span class="ot">“Base Quality Distribution”</span><span class="co">](https://rosalind.info/problems/bphr/)</span>) There is a lot of trimming tools, you can try one of following:</span>
+<span id="cb45-897"><a href="#cb45-897" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-898"><a href="#cb45-898" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">FASTQ Quality Trimmer</span><span class="co">](https://main.g2.bx.psu.edu/root?tool_id=fastq_quality_trimmer)</span>&nbsp;tool on the&nbsp;<span class="co">[</span><span class="ot">Galaxy</span><span class="co">](https://rosalind.info/glossary/galaxy/)</span>. It uses a "sliding window" approach so for a simple trimming of the ends you should set window size 1.</span>
+<span id="cb45-899"><a href="#cb45-899" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-900"><a href="#cb45-900" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Trimmomatic</span><span class="co">](https://rosalind.info/glossary/trimmomatic/)</span>. It is a command-line java-based tool, detail description and download link can be found&nbsp;<span class="co">[</span><span class="ot">here</span><span class="co">](http://www.usadellab.org/cms/index.php?page=trimmomatic)</span>. For a simple trimming from both ends you should specify parameters LEADING and TRAILING.</span>
+<span id="cb45-901"><a href="#cb45-901" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-902"><a href="#cb45-902" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-903"><a href="#cb45-903" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;FASTQ file, quality cut-off value&nbsp;$q$, Phred33 quality score assumed.</span>
+<span id="cb45-904"><a href="#cb45-904" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-905"><a href="#cb45-905" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;FASTQ file trimmed from the both ends (removed leading and trailing bases with quality lower than&nbsp;$q$)</span>
+<span id="cb45-906"><a href="#cb45-906" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-907"><a href="#cb45-907" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-908"><a href="#cb45-908" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-909"><a href="#cb45-909" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-910"><a href="#cb45-910" aria-hidden="true" tabindex="-1"></a><span class="in">20</span></span>
+<span id="cb45-911"><a href="#cb45-911" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049</span></span>
+<span id="cb45-912"><a href="#cb45-912" aria-hidden="true" tabindex="-1"></a><span class="in">GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG</span></span>
+<span id="cb45-913"><a href="#cb45-913" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-914"><a href="#cb45-914" aria-hidden="true" tabindex="-1"></a><span class="in">FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527+,</span></span>
+<span id="cb45-915"><a href="#cb45-915" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049</span></span>
+<span id="cb45-916"><a href="#cb45-916" aria-hidden="true" tabindex="-1"></a><span class="in">AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT</span></span>
+<span id="cb45-917"><a href="#cb45-917" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-918"><a href="#cb45-918" aria-hidden="true" tabindex="-1"></a><span class="in">1&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;1,*3+*!</span></span>
+<span id="cb45-919"><a href="#cb45-919" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049</span></span>
+<span id="cb45-920"><a href="#cb45-920" aria-hidden="true" tabindex="-1"></a><span class="in">ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA</span></span>
+<span id="cb45-921"><a href="#cb45-921" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-922"><a href="#cb45-922" aria-hidden="true" tabindex="-1"></a><span class="in">B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</span></span>
+<span id="cb45-923"><a href="#cb45-923" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-924"><a href="#cb45-924" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-925"><a href="#cb45-925" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-926"><a href="#cb45-926" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-927"><a href="#cb45-927" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-928"><a href="#cb45-928" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049</span></span>
+<span id="cb45-929"><a href="#cb45-929" aria-hidden="true" tabindex="-1"></a><span class="in">GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACAC</span></span>
+<span id="cb45-930"><a href="#cb45-930" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-931"><a href="#cb45-931" aria-hidden="true" tabindex="-1"></a><span class="in">FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527</span></span>
+<span id="cb45-932"><a href="#cb45-932" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049</span></span>
+<span id="cb45-933"><a href="#cb45-933" aria-hidden="true" tabindex="-1"></a><span class="in">ATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCT</span></span>
+<span id="cb45-934"><a href="#cb45-934" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-935"><a href="#cb45-935" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;</span></span>
+<span id="cb45-936"><a href="#cb45-936" aria-hidden="true" tabindex="-1"></a><span class="in">@Rosalind_0049</span></span>
+<span id="cb45-937"><a href="#cb45-937" aria-hidden="true" tabindex="-1"></a><span class="in">ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCT</span></span>
+<span id="cb45-938"><a href="#cb45-938" aria-hidden="true" tabindex="-1"></a><span class="in">+</span></span>
+<span id="cb45-939"><a href="#cb45-939" aria-hidden="true" tabindex="-1"></a><span class="in">B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8</span></span>
+<span id="cb45-940"><a href="#cb45-940" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-941"><a href="#cb45-941" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-942"><a href="#cb45-942" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-943"><a href="#cb45-943" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-944"><a href="#cb45-944" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-945"><a href="#cb45-945" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_to_phred(quality_string):</span>
+<span id="cb45-946"><a href="#cb45-946" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert a quality string to Phred scores."""</span></span>
+<span id="cb45-947"><a href="#cb45-947" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">ord</span>(char) <span class="op">-</span> <span class="dv">33</span> <span class="cf">for</span> char <span class="kw">in</span> quality_string]</span>
+<span id="cb45-948"><a href="#cb45-948" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-949"><a href="#cb45-949" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_quality_bounds(phred_quality, threshold):</span>
+<span id="cb45-950"><a href="#cb45-950" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Find the start and end indices where quality is &gt;= threshold."""</span></span>
+<span id="cb45-951"><a href="#cb45-951" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb45-952"><a href="#cb45-952" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> start <span class="op">&lt;</span> <span class="bu">len</span>(phred_quality) <span class="kw">and</span> phred_quality[start] <span class="op">&lt;</span> threshold:</span>
+<span id="cb45-953"><a href="#cb45-953" aria-hidden="true" tabindex="-1"></a>        start <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb45-954"><a href="#cb45-954" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-955"><a href="#cb45-955" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> <span class="bu">len</span>(phred_quality)</span>
+<span id="cb45-956"><a href="#cb45-956" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> end <span class="op">&gt;</span> start <span class="kw">and</span> phred_quality[end<span class="op">-</span><span class="dv">1</span>] <span class="op">&lt;</span> threshold:</span>
+<span id="cb45-957"><a href="#cb45-957" aria-hidden="true" tabindex="-1"></a>        end <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb45-958"><a href="#cb45-958" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-959"><a href="#cb45-959" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> start, end</span>
+<span id="cb45-960"><a href="#cb45-960" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-961"><a href="#cb45-961" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_fastq_record(identifier, sequence, quality_string, start, end):</span>
+<span id="cb45-962"><a href="#cb45-962" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Format a FASTQ record with the given bounds."""</span></span>
+<span id="cb45-963"><a href="#cb45-963" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"@</span><span class="sc">{</span>identifier<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>sequence[start:end]<span class="sc">}</span><span class="ch">\n</span><span class="ss">+</span><span class="ch">\n</span><span class="sc">{</span>quality_string[start:end]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb45-964"><a href="#cb45-964" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-965"><a href="#cb45-965" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Base_Filtration_Quality(data):</span>
+<span id="cb45-966"><a href="#cb45-966" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Process FASTQ data and filter based on quality threshold."""</span></span>
+<span id="cb45-967"><a href="#cb45-967" aria-hidden="true" tabindex="-1"></a>    threshold <span class="op">=</span> <span class="bu">int</span>(data[<span class="dv">0</span>])</span>
+<span id="cb45-968"><a href="#cb45-968" aria-hidden="true" tabindex="-1"></a>    filtered_records <span class="op">=</span> []</span>
+<span id="cb45-969"><a href="#cb45-969" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-970"><a href="#cb45-970" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(data), <span class="dv">4</span>):</span>
+<span id="cb45-971"><a href="#cb45-971" aria-hidden="true" tabindex="-1"></a>        identifier <span class="op">=</span> data[i].strip()</span>
+<span id="cb45-972"><a href="#cb45-972" aria-hidden="true" tabindex="-1"></a>        sequence <span class="op">=</span> data[i<span class="op">+</span><span class="dv">1</span>].strip()</span>
+<span id="cb45-973"><a href="#cb45-973" aria-hidden="true" tabindex="-1"></a>        quality_string <span class="op">=</span> data[i<span class="op">+</span><span class="dv">3</span>].strip()</span>
+<span id="cb45-974"><a href="#cb45-974" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb45-975"><a href="#cb45-975" aria-hidden="true" tabindex="-1"></a>        phred_quality <span class="op">=</span> convert_to_phred(quality_string)</span>
+<span id="cb45-976"><a href="#cb45-976" aria-hidden="true" tabindex="-1"></a>        start, end <span class="op">=</span> find_quality_bounds(phred_quality, threshold)</span>
+<span id="cb45-977"><a href="#cb45-977" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb45-978"><a href="#cb45-978" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> start <span class="op">&lt;</span> end:</span>
+<span id="cb45-979"><a href="#cb45-979" aria-hidden="true" tabindex="-1"></a>            filtered_record <span class="op">=</span> format_fastq_record(identifier, sequence, quality_string, start, end)</span>
+<span id="cb45-980"><a href="#cb45-980" aria-hidden="true" tabindex="-1"></a>            filtered_records.append(filtered_record)</span>
+<span id="cb45-981"><a href="#cb45-981" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-982"><a href="#cb45-982" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> filtered_records</span>
+<span id="cb45-983"><a href="#cb45-983" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-984"><a href="#cb45-984" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb45-985"><a href="#cb45-985" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-986"><a href="#cb45-986" aria-hidden="true" tabindex="-1"></a><span class="st">20</span></span>
+<span id="cb45-987"><a href="#cb45-987" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0049</span></span>
+<span id="cb45-988"><a href="#cb45-988" aria-hidden="true" tabindex="-1"></a><span class="st">GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG</span></span>
+<span id="cb45-989"><a href="#cb45-989" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-990"><a href="#cb45-990" aria-hidden="true" tabindex="-1"></a><span class="st">FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527+,</span></span>
+<span id="cb45-991"><a href="#cb45-991" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0050</span></span>
+<span id="cb45-992"><a href="#cb45-992" aria-hidden="true" tabindex="-1"></a><span class="st">AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT</span></span>
+<span id="cb45-993"><a href="#cb45-993" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-994"><a href="#cb45-994" aria-hidden="true" tabindex="-1"></a><span class="st">1&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;1,*3+*!</span></span>
+<span id="cb45-995"><a href="#cb45-995" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0051</span></span>
+<span id="cb45-996"><a href="#cb45-996" aria-hidden="true" tabindex="-1"></a><span class="st">ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA</span></span>
+<span id="cb45-997"><a href="#cb45-997" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb45-998"><a href="#cb45-998" aria-hidden="true" tabindex="-1"></a><span class="st">B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</span></span>
+<span id="cb45-999"><a href="#cb45-999" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb45-1000"><a href="#cb45-1000" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1001"><a href="#cb45-1001" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the input and print the results</span></span>
+<span id="cb45-1002"><a href="#cb45-1002" aria-hidden="true" tabindex="-1"></a>filtered_records <span class="op">=</span> Base_Filtration_Quality(sample_input)</span>
+<span id="cb45-1003"><a href="#cb45-1003" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> filtered_records:</span>
+<span id="cb45-1004"><a href="#cb45-1004" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(record)</span>
+<span id="cb45-1005"><a href="#cb45-1005" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1006"><a href="#cb45-1006" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1007"><a href="#cb45-1007" aria-hidden="true" tabindex="-1"></a><span class="fu"># Suboptimal Local Alignment</span></span>
+<span id="cb45-1008"><a href="#cb45-1008" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1009"><a href="#cb45-1009" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;Two DNA strings&nbsp;ss&nbsp;and&nbsp;t&nbsp;in&nbsp;<span class="co">[</span><span class="ot">FASTA format</span><span class="co">](https://rosalind.info/glossary/fasta-format/)</span>&nbsp;that share some short inexact repeat&nbsp;r&nbsp;of 32-40&nbsp;<span class="co">[</span><span class="ot">bp</span><span class="co">](https://rosalind.info/glossary/base-pair/)</span>. By "inexact" we mean that&nbsp;rr&nbsp;may appear with slight modifications (each repeat differ by&nbsp;≤3 changes/<span class="co">[</span><span class="ot">indels</span><span class="co">](https://rosalind.info/glossary/indel/)</span>).</span>
+<span id="cb45-1010"><a href="#cb45-1010" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1011"><a href="#cb45-1011" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;The total number of occurrences of&nbsp;r&nbsp;as a substring of&nbsp;s, followed by the total number of occurrences of r&nbsp;as a substring of&nbsp;t.</span>
+<span id="cb45-1012"><a href="#cb45-1012" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1013"><a href="#cb45-1013" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-1014"><a href="#cb45-1014" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1015"><a href="#cb45-1015" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1016"><a href="#cb45-1016" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_12</span></span>
+<span id="cb45-1017"><a href="#cb45-1017" aria-hidden="true" tabindex="-1"></a><span class="in">GACTCCTTTGTTTGCCTTAAATAGATACATATTTACTCTTGACTCTTTTGTTGGCCTTAAATAGATACATATTTGTGCGACTCCACGAGTGATTCGTA</span></span>
+<span id="cb45-1018"><a href="#cb45-1018" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_37</span></span>
+<span id="cb45-1019"><a href="#cb45-1019" aria-hidden="true" tabindex="-1"></a><span class="in">ATGGACTCCTTTGTTTGCCTTAAATAGATACATATTCAACAAGTGTGCACTTAGCCTTGCCGACTCCTTTGTTTGCCTTAAATAGATACATATTTG</span></span>
+<span id="cb45-1020"><a href="#cb45-1020" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1021"><a href="#cb45-1021" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1022"><a href="#cb45-1022" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-1023"><a href="#cb45-1023" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1024"><a href="#cb45-1024" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1025"><a href="#cb45-1025" aria-hidden="true" tabindex="-1"></a><span class="in">2 2</span></span>
+<span id="cb45-1026"><a href="#cb45-1026" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1027"><a href="#cb45-1027" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1028"><a href="#cb45-1028" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-1029"><a href="#cb45-1029" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1030"><a href="#cb45-1030" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-1031"><a href="#cb45-1031" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb45-1032"><a href="#cb45-1032" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb45-1033"><a href="#cb45-1033" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1034"><a href="#cb45-1034" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hamming_distance(s1, s2):</span>
+<span id="cb45-1035"><a href="#cb45-1035" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(c1 <span class="op">!=</span> c2 <span class="cf">for</span> c1, c2 <span class="kw">in</span> <span class="bu">zip</span>(s1, s2))</span>
+<span id="cb45-1036"><a href="#cb45-1036" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1037"><a href="#cb45-1037" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_inexact_repeats(pattern, seq, max_mismatches<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb45-1038"><a href="#cb45-1038" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb45-1039"><a href="#cb45-1039" aria-hidden="true" tabindex="-1"></a>    pattern_length <span class="op">=</span> <span class="bu">len</span>(pattern)</span>
+<span id="cb45-1040"><a href="#cb45-1040" aria-hidden="true" tabindex="-1"></a>    seq_length <span class="op">=</span> <span class="bu">len</span>(seq)</span>
+<span id="cb45-1041"><a href="#cb45-1041" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-1042"><a href="#cb45-1042" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(seq_length <span class="op">-</span> pattern_length <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb45-1043"><a href="#cb45-1043" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> hamming_distance(seq[i:i<span class="op">+</span>pattern_length], pattern) <span class="op">&lt;=</span> max_mismatches:</span>
+<span id="cb45-1044"><a href="#cb45-1044" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb45-1045"><a href="#cb45-1045" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-1046"><a href="#cb45-1046" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb45-1047"><a href="#cb45-1047" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1048"><a href="#cb45-1048" aria-hidden="true" tabindex="-1"></a><span class="co"># Your sample input</span></span>
+<span id="cb45-1049"><a href="#cb45-1049" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-1050"><a href="#cb45-1050" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_12</span></span>
+<span id="cb45-1051"><a href="#cb45-1051" aria-hidden="true" tabindex="-1"></a><span class="st">GACTCCTTTGTTTGCCTTAAATAGATACATATTTACTCTTGACTCTTTTGTTGGCCTTAAATAGATACATATTTGTGCGACTCCACGAGTGATTCGTA</span></span>
+<span id="cb45-1052"><a href="#cb45-1052" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_37</span></span>
+<span id="cb45-1053"><a href="#cb45-1053" aria-hidden="true" tabindex="-1"></a><span class="st">ATGGACTCCTTTGTTTGCCTTAAATAGATACATATTCAACAAGTGTGCACTTAGCCTTGCCGACTCCTTTGTTTGCCTTAAATAGATACATATTTG</span></span>
+<span id="cb45-1054"><a href="#cb45-1054" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb45-1055"><a href="#cb45-1055" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1056"><a href="#cb45-1056" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the FASTA data</span></span>
+<span id="cb45-1057"><a href="#cb45-1057" aria-hidden="true" tabindex="-1"></a>fasta_io <span class="op">=</span> StringIO(sample_input.strip())</span>
+<span id="cb45-1058"><a href="#cb45-1058" aria-hidden="true" tabindex="-1"></a>sequences <span class="op">=</span> <span class="bu">list</span>(SeqIO.parse(fasta_io, <span class="st">"fasta"</span>))</span>
+<span id="cb45-1059"><a href="#cb45-1059" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1060"><a href="#cb45-1060" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the sequences as strings</span></span>
+<span id="cb45-1061"><a href="#cb45-1061" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="bu">str</span>(sequences[<span class="dv">0</span>].seq)</span>
+<span id="cb45-1062"><a href="#cb45-1062" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="bu">str</span>(sequences[<span class="dv">1</span>].seq)</span>
+<span id="cb45-1063"><a href="#cb45-1063" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1064"><a href="#cb45-1064" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the shared inexact repeat</span></span>
+<span id="cb45-1065"><a href="#cb45-1065" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll use a simple approach: try all substrings of length 32-40 from s as potential repeats</span></span>
+<span id="cb45-1066"><a href="#cb45-1066" aria-hidden="true" tabindex="-1"></a>best_repeat <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb45-1067"><a href="#cb45-1067" aria-hidden="true" tabindex="-1"></a>best_count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb45-1068"><a href="#cb45-1068" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1069"><a href="#cb45-1069" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> length <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">32</span>, <span class="dv">41</span>):</span>
+<span id="cb45-1070"><a href="#cb45-1070" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(s) <span class="op">-</span> length <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb45-1071"><a href="#cb45-1071" aria-hidden="true" tabindex="-1"></a>        potential_repeat <span class="op">=</span> s[i:i<span class="op">+</span>length]</span>
+<span id="cb45-1072"><a href="#cb45-1072" aria-hidden="true" tabindex="-1"></a>        count_s <span class="op">=</span> count_inexact_repeats(potential_repeat, s)</span>
+<span id="cb45-1073"><a href="#cb45-1073" aria-hidden="true" tabindex="-1"></a>        count_t <span class="op">=</span> count_inexact_repeats(potential_repeat, t)</span>
+<span id="cb45-1074"><a href="#cb45-1074" aria-hidden="true" tabindex="-1"></a>        total_count <span class="op">=</span> count_s <span class="op">+</span> count_t</span>
+<span id="cb45-1075"><a href="#cb45-1075" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb45-1076"><a href="#cb45-1076" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> total_count <span class="op">&gt;</span> best_count:</span>
+<span id="cb45-1077"><a href="#cb45-1077" aria-hidden="true" tabindex="-1"></a>            best_count <span class="op">=</span> total_count</span>
+<span id="cb45-1078"><a href="#cb45-1078" aria-hidden="true" tabindex="-1"></a>            best_repeat <span class="op">=</span> potential_repeat</span>
+<span id="cb45-1079"><a href="#cb45-1079" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1080"><a href="#cb45-1080" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the occurrences of the best repeat in both sequences</span></span>
+<span id="cb45-1081"><a href="#cb45-1081" aria-hidden="true" tabindex="-1"></a>count_s <span class="op">=</span> count_inexact_repeats(best_repeat, s)</span>
+<span id="cb45-1082"><a href="#cb45-1082" aria-hidden="true" tabindex="-1"></a>count_t <span class="op">=</span> count_inexact_repeats(best_repeat, t)</span>
+<span id="cb45-1083"><a href="#cb45-1083" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1084"><a href="#cb45-1084" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>count_s<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>count_t<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb45-1085"><a href="#cb45-1085" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1086"><a href="#cb45-1086" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1087"><a href="#cb45-1087" aria-hidden="true" tabindex="-1"></a><span class="fu"># Global Multiple Alignment</span></span>
+<span id="cb45-1088"><a href="#cb45-1088" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1089"><a href="#cb45-1089" aria-hidden="true" tabindex="-1"></a>One of the first and commonly used programs for MSA is&nbsp;<span class="co">[</span><span class="ot">Clustal</span><span class="co">](https://rosalind.info/glossary/clustal/)</span>, developed by Des Higgins in 1988. The current version using the same approach is called&nbsp;<span class="co">[</span><span class="ot">ClustalW2</span><span class="co">](https://rosalind.info/glossary/clustal/)</span>, and it is embedded in many software packages. There is even a modification of ClustalW2 called&nbsp;<span class="co">[</span><span class="ot">ClustalX</span><span class="co">](https://rosalind.info/glossary/clustal/)</span>&nbsp;that provides a graphical user interface for MSA.</span>
+<span id="cb45-1090"><a href="#cb45-1090" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1091"><a href="#cb45-1091" aria-hidden="true" tabindex="-1"></a>See the link below for a convenient online interface that runs Clustal on the&nbsp;<span class="co">[</span><span class="ot">EBI</span><span class="co">](https://rosalind.info/glossary/european-bioinformatics-institute/)</span>&nbsp;website:</span>
+<span id="cb45-1092"><a href="#cb45-1092" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1093"><a href="#cb45-1093" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">ClustalW2</span><span class="co">](http://www.ebi.ac.uk/Tools/msa/clustalw2/)</span></span>
+<span id="cb45-1094"><a href="#cb45-1094" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1095"><a href="#cb45-1095" aria-hidden="true" tabindex="-1"></a>Select "Protein" or "DNA", then either paste your sequence in one of the listed formats or upload an entire file. To obtain a more accurate alignment, leave&nbsp;<span class="in">`Alignment type: slow`</span>&nbsp;selected: if you choose to run Clustal on only two sequences, then the parameter options correspond to those in&nbsp;<span class="in">`Needle`</span>&nbsp;(see&nbsp;<span class="co">[</span><span class="ot">“Pairwise Global Alignment”</span><span class="co">](https://rosalind.info/problems/need/)</span>).</span>
+<span id="cb45-1096"><a href="#cb45-1096" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1097"><a href="#cb45-1097" aria-hidden="true" tabindex="-1"></a>Given:&nbsp;Set of nucleotide strings in FASTA format.</span>
+<span id="cb45-1098"><a href="#cb45-1098" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1099"><a href="#cb45-1099" aria-hidden="true" tabindex="-1"></a>Return:&nbsp;ID of the string most different from the others.</span>
+<span id="cb45-1100"><a href="#cb45-1100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1101"><a href="#cb45-1101" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Dataset</span></span>
+<span id="cb45-1102"><a href="#cb45-1102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1103"><a href="#cb45-1103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1104"><a href="#cb45-1104" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_18</span></span>
+<span id="cb45-1105"><a href="#cb45-1105" aria-hidden="true" tabindex="-1"></a><span class="in">GACATGTTTGTTTGCCTTAAACTCGTGGCGGCCTAGCCGTAAGTTAAG</span></span>
+<span id="cb45-1106"><a href="#cb45-1106" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_23</span></span>
+<span id="cb45-1107"><a href="#cb45-1107" aria-hidden="true" tabindex="-1"></a><span class="in">ACTCATGTTTGTTTGCCTTAAACTCTTGGCGGCTTAGCCGTAACTTAAG</span></span>
+<span id="cb45-1108"><a href="#cb45-1108" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_51</span></span>
+<span id="cb45-1109"><a href="#cb45-1109" aria-hidden="true" tabindex="-1"></a><span class="in">TCCTATGTTTGTTTGCCTCAAACTCTTGGCGGCCTAGCCGTAAGGTAAG</span></span>
+<span id="cb45-1110"><a href="#cb45-1110" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_7</span></span>
+<span id="cb45-1111"><a href="#cb45-1111" aria-hidden="true" tabindex="-1"></a><span class="in">CACGTCTGTTCGCCTAAAACTTTGATTGCCGGCCTACGCTAGTTAGTTA</span></span>
+<span id="cb45-1112"><a href="#cb45-1112" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;Rosalind_28</span></span>
+<span id="cb45-1113"><a href="#cb45-1113" aria-hidden="true" tabindex="-1"></a><span class="in">GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT</span></span>
+<span id="cb45-1114"><a href="#cb45-1114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1115"><a href="#cb45-1115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1116"><a href="#cb45-1116" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sample Output</span></span>
+<span id="cb45-1117"><a href="#cb45-1117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1118"><a href="#cb45-1118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1119"><a href="#cb45-1119" aria-hidden="true" tabindex="-1"></a><span class="in">Rosalind_7</span></span>
+<span id="cb45-1120"><a href="#cb45-1120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-1121"><a href="#cb45-1121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1122"><a href="#cb45-1122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
+<span id="cb45-1123"><a href="#cb45-1123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1124"><a href="#cb45-1124" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb45-1125"><a href="#cb45-1125" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb45-1126"><a href="#cb45-1126" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb45-1127"><a href="#cb45-1127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1128"><a href="#cb45-1128" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simple_msa(sequences):</span>
+<span id="cb45-1129"><a href="#cb45-1129" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the length of the longest sequence</span></span>
+<span id="cb45-1130"><a href="#cb45-1130" aria-hidden="true" tabindex="-1"></a>    max_length <span class="op">=</span> <span class="bu">max</span>(<span class="bu">len</span>(seq) <span class="cf">for</span> seq <span class="kw">in</span> sequences)</span>
+<span id="cb45-1131"><a href="#cb45-1131" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-1132"><a href="#cb45-1132" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pad shorter sequences with gaps</span></span>
+<span id="cb45-1133"><a href="#cb45-1133" aria-hidden="true" tabindex="-1"></a>    aligned_sequences <span class="op">=</span> [seq.ljust(max_length, <span class="st">'-'</span>) <span class="cf">for</span> seq <span class="kw">in</span> sequences]</span>
+<span id="cb45-1134"><a href="#cb45-1134" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-1135"><a href="#cb45-1135" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> aligned_sequences</span>
+<span id="cb45-1136"><a href="#cb45-1136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1137"><a href="#cb45-1137" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_differences(seq1, seq2):</span>
+<span id="cb45-1138"><a href="#cb45-1138" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(a <span class="op">!=</span> b <span class="cf">for</span> a, b <span class="kw">in</span> <span class="bu">zip</span>(seq1, seq2))</span>
+<span id="cb45-1139"><a href="#cb45-1139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1140"><a href="#cb45-1140" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_most_different_sequence(fasta_string):</span>
+<span id="cb45-1141"><a href="#cb45-1141" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parse the FASTA string</span></span>
+<span id="cb45-1142"><a href="#cb45-1142" aria-hidden="true" tabindex="-1"></a>    fasta_io <span class="op">=</span> StringIO(fasta_string)</span>
+<span id="cb45-1143"><a href="#cb45-1143" aria-hidden="true" tabindex="-1"></a>    sequences <span class="op">=</span> <span class="bu">list</span>(SeqIO.parse(fasta_io, <span class="st">"fasta"</span>))</span>
+<span id="cb45-1144"><a href="#cb45-1144" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-1145"><a href="#cb45-1145" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Perform a simple multiple sequence alignment</span></span>
+<span id="cb45-1146"><a href="#cb45-1146" aria-hidden="true" tabindex="-1"></a>    aligned_seqs <span class="op">=</span> simple_msa([<span class="bu">str</span>(seq.seq) <span class="cf">for</span> seq <span class="kw">in</span> sequences])</span>
+<span id="cb45-1147"><a href="#cb45-1147" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-1148"><a href="#cb45-1148" aria-hidden="true" tabindex="-1"></a>    n_seqs <span class="op">=</span> <span class="bu">len</span>(aligned_seqs)</span>
+<span id="cb45-1149"><a href="#cb45-1149" aria-hidden="true" tabindex="-1"></a>    avg_distances <span class="op">=</span> []</span>
+<span id="cb45-1150"><a href="#cb45-1150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1151"><a href="#cb45-1151" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_seqs):</span>
+<span id="cb45-1152"><a href="#cb45-1152" aria-hidden="true" tabindex="-1"></a>        total_distance <span class="op">=</span> <span class="bu">sum</span>(calculate_differences(aligned_seqs[i], aligned_seqs[j]) </span>
+<span id="cb45-1153"><a href="#cb45-1153" aria-hidden="true" tabindex="-1"></a>                             <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_seqs) <span class="cf">if</span> i <span class="op">!=</span> j)</span>
+<span id="cb45-1154"><a href="#cb45-1154" aria-hidden="true" tabindex="-1"></a>        avg_distances.append(total_distance <span class="op">/</span> (n_seqs <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb45-1155"><a href="#cb45-1155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1156"><a href="#cb45-1156" aria-hidden="true" tabindex="-1"></a>    most_different_index <span class="op">=</span> avg_distances.index(<span class="bu">max</span>(avg_distances))</span>
+<span id="cb45-1157"><a href="#cb45-1157" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sequences[most_different_index].<span class="bu">id</span></span>
+<span id="cb45-1158"><a href="#cb45-1158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1159"><a href="#cb45-1159" aria-hidden="true" tabindex="-1"></a><span class="co"># Your sample dataset</span></span>
+<span id="cb45-1160"><a href="#cb45-1160" aria-hidden="true" tabindex="-1"></a>sample_data <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb45-1161"><a href="#cb45-1161" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_18</span></span>
+<span id="cb45-1162"><a href="#cb45-1162" aria-hidden="true" tabindex="-1"></a><span class="st">GACATGTTTGTTTGCCTTAAACTCGTGGCGGCCTAGCCGTAAGTTAAG</span></span>
+<span id="cb45-1163"><a href="#cb45-1163" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_23</span></span>
+<span id="cb45-1164"><a href="#cb45-1164" aria-hidden="true" tabindex="-1"></a><span class="st">ACTCATGTTTGTTTGCCTTAAACTCTTGGCGGCTTAGCCGTAACTTAAG</span></span>
+<span id="cb45-1165"><a href="#cb45-1165" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_51</span></span>
+<span id="cb45-1166"><a href="#cb45-1166" aria-hidden="true" tabindex="-1"></a><span class="st">TCCTATGTTTGTTTGCCTCAAACTCTTGGCGGCCTAGCCGTAAGGTAAG</span></span>
+<span id="cb45-1167"><a href="#cb45-1167" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_7</span></span>
+<span id="cb45-1168"><a href="#cb45-1168" aria-hidden="true" tabindex="-1"></a><span class="st">CACGTCTGTTCGCCTAAAACTTTGATTGCCGGCCTACGCTAGTTAGTTA</span></span>
+<span id="cb45-1169"><a href="#cb45-1169" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_28</span></span>
+<span id="cb45-1170"><a href="#cb45-1170" aria-hidden="true" tabindex="-1"></a><span class="st">GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT</span></span>
+<span id="cb45-1171"><a href="#cb45-1171" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb45-1172"><a href="#cb45-1172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-1173"><a href="#cb45-1173" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> find_most_different_sequence(sample_data)</span>
+<span id="cb45-1174"><a href="#cb45-1174" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span>
+<span id="cb45-1175"><a href="#cb45-1175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 
 
 
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

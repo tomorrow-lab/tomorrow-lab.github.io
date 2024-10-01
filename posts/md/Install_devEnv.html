@@ -90,7 +90,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "/",
     "s"
   ],
-  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -114,6 +113,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
+<style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
 
 
@@ -162,6 +162,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </i> 
 <span class="menu-text"></span></a>
   </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -180,7 +185,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
-<div style="padding-bottom: 25px;">
+<div style="padding-bottom: 30px;">
     <script async="" src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script>
 </div>
 </div></div>
@@ -234,7 +239,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">파이썬과 R 개발 환경 설정하기</h1>
+<div class="quarto-title-block"><div><h1 class="title">파이썬과 R 개발 환경 설정하기</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">R</div>
     <div class="quarto-category">Package manager</div>
@@ -267,7 +272,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 1, 2024</p>
+      <p class="date-modified">October 1, 2024</p>
     </div>
   </div>
     
@@ -643,6 +648,8 @@ Tip
 <p>이러한 명령어들을 활용하면&nbsp;<code>Bioconductor</code>&nbsp;패키지를 효과적으로 관리하고, 필요한 생물정보학 도구들을 손쉽게 사용할 수 있습니다.</p>
 
 
+<!-- -->
+
 </section>
 </section>
 </section>
@@ -881,6 +888,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -1211,10 +1269,374 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb24" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "파이썬과 R 개발 환경 설정하기"</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Taeyoon Kim"</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [R, Package manager, Virtual environment, Bioconductor, Python, Tip, Data science]</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-01-04"</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="al">![](Install_devEnv.png)</span>{**width**=100% fig-align="center"}</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu"># 파이썬 설치하기 {.tabset}</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>파이썬은 아주 인기있는 프로그래밍 언어로, 웹 사이트는 물론 게임, 과학용 소프트웨어, 그래픽 소프트웨어 등 다양한 것을 만들 수 있습니다. 파이썬은 1980 년대 후반에&nbsp;**귀도 반 로썸**&nbsp;프로그래밍 언어를 기계 뿐만 아니라 인간도 읽을 수 있도록 만들고자 탄생한 언어입니다. 파이썬이 다른 프로그래밍 언어보다 훨씬 간단하게 보이고, 배우기도 쉬운 이유도 그 때문이죠. 이를 바탕으로 과거 15 년 동안&nbsp;**numpy**,**scipy**,**matplotlib**,**jupyter**&nbsp;같이 널리 사용되는 패키지가 개발되어있습니다. 파이썬은 사용중인 OS 의 종류에 따라서 설치방법이 다릅니다.</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Windows</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>사용 중인 컴퓨터 윈도우 운영체제가 32 비트인지 64 비트인지 확인하세요.</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">공식 웹사이트</span><span class="co">](https://www.python.org/downloads/windows/)</span> 에서 다운로드 할 수 있습니다.</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>64 비트 버전의 Windows 인 경우&nbsp;_Windows x86-64 executable installer_ 를 다운로드하세요.</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>32 비트 버전은&nbsp;_Windows x86 executable installer_ 을 다운로드하세요.</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>설치 프로그램을 다운로드 한 후에 실행 (더블 클릭) 하고 지시 사항을 따르세요.</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## MacOS</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">공식 사이트</span><span class="co">](https://www.python.org/downloads/release/python-351/)</span> 로 가서 파이썬 설치 파일을 다운 받으세요.</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linux</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>리눅스에는 이미 파이썬이 설치되어 있습니다. 터미널에 다음 명령어를 입력하면 설치된 버전을 확인 할 수 있습니다.</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python3 <span class="at">--version</span></span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="fu"># 파이썬 가상환경과 패키지 매니저</span></span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>파이썬 생태계의 패키지들은 서로 복잡한 의존성을 가지고 있어 많은 문제가 발생합니다. 따라서 항상 패키지 매니저를 사용하는 것을 권장합니다.</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## pip&nbsp;+&nbsp;virtualenv</span></span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>pip와&nbsp;virtualenv는 파이썬 개발 환경에서 가장 오래 사용되었고 또한 자주 사용되는 도구입니다.&nbsp;pip는 파이썬에 기본적으로 포함되어 있는 패키지 관리자로 PyPI(Python Package Index) 에 등록된 패키지를 설치하고 관리할 수 있습니다.&nbsp;virtualenv 는 가상 환경을 생성하여 프로젝트마다 독립된 파이썬 환경을 가질 수 있게 해주는 패키지입니다. 다른 프로젝트와 충돌 없이 패키지를 관리하려면 필수적으로 사용해야 합니다.</span>
+<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning}</span>
+<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a><span class="in">`pip`</span> 는 아래와 같은 몇 가지 근본적인 문제를 가지고 있습니다.</span>
+<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**의존성 충돌 (Dependency Conflicts)**&nbsp;여러 패키지를 설치할 때 각 패키지가 서로 다른 버전의 동일한 종속성을 요구할 경우 의존성 충돌이 발생하며 프로젝트에서 예기치 않은 동작이나 오류를 발생시킬 수 있습니다.</span>
+<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**글로벌 설치 문제**&nbsp;기본적으로&nbsp;<span class="in">`pip`</span> 는 전역 파이썬 환경에 패키지를 설치합니다. 이로 인해, 여러 프로젝트에서 동일한 패키지 버전을 공유하게 되어 프로젝트 간에 종속성 충돌이 발생할 수 있습니다. 특히, 프로젝트마다 요구되는 패키지 버전이 다른 경우에 문제가 됩니다.</span>
+<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**환경 관리의 어려움**&nbsp;<span class="in">`pip`</span> 는 파이썬 환경을 별도로 관리하지 않으므로 전역 환경에 설치된 패키지들이 서로 영향을 미칠 수 있습니다. 이로 인해, 동일한 시스템에서 여러 프로젝트를 작업할 때 각 프로젝트의 요구 사항을 일관되게 유지하기 어려워집니다. 이를 해결하기 위해&nbsp;<span class="in">`virtualenv`</span> 와 같은 도구를 사용해 가상 환경을 생성해야 합니다.</span>
+<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**보안 문제**&nbsp;<span class="in">`pip`</span> 는 기본적으로 모든 패키지를 신뢰합니다. 악의적인 사용자가 배포한 패키지가 PyPI 에 업로드되면, 이를 설치하는 과정에서 보안 문제가 발생할 수 있습니다.</span>
+<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**복잡한 패키지 관리**&nbsp;복잡한 프로젝트에서는 수많은 패키지와 버전들을 관리해야 하는데,&nbsp;<span class="in">`pip`</span> 는 기본적으로 이러한 복잡한 종속성 트리를 관리하는 데 최적화되어 있지 않습니다. 이는 특정 패키지 설치 시 종속성 문제가 발생할 때 수동으로 해결해야 하는 번거로움으로 이어질 수 있습니다. 이러한 문제들로 인해, 많은 개발자들이&nbsp;<span class="in">`pipenv`</span>&nbsp;또는&nbsp;<span class="in">`poetry`</span>&nbsp;같은 도구들을 사용하여 환경과 패키지 관리를 하고 있습니다.</span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a><span class="in">`pip`</span> 는 파이썬에 기본적으로 설치되어 있어 상관이 없지만,&nbsp;<span class="in">`virtualenv`</span> 는&nbsp;<span class="in">`pip`</span> 를 사용해 설치할 수 있습니다. 다음 단계를 따라 설치하면 됩니다. 먼저 터미널 (또는 명령 프롬프트) 을 열고 다음 명령어를 입력합니다. 이 명령어는 최신 버전의&nbsp;<span class="in">`virtualenv`</span> 를 설치합니다.</span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a><span class="in">pip install virtualenv</span></span>
+<span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a><span class="in">`virtualenv`</span> 가 올바르게 설치되었는지 확인하려면, 다음 명령어를 입력하여 버전을 확인할 수 있습니다.</span>
+<span id="cb24-64"><a href="#cb24-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-66"><a href="#cb24-66" aria-hidden="true" tabindex="-1"></a><span class="in">virtualenv --version</span></span>
+<span id="cb24-67"><a href="#cb24-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-68"><a href="#cb24-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-69"><a href="#cb24-69" aria-hidden="true" tabindex="-1"></a>버전 번호가 출력되면&nbsp;<span class="in">`virtualenv`</span> 가 성공적으로 설치된 것입니다.</span>
+<span id="cb24-70"><a href="#cb24-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-71"><a href="#cb24-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### 가상환경</span></span>
+<span id="cb24-72"><a href="#cb24-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-73"><a href="#cb24-73" aria-hidden="true" tabindex="-1"></a>기본적으로&nbsp;<span class="in">`pip`</span> 는 전역 (global) 파이썬 환경에 패키지를 설치하기 때문에 필연적으로 의존성 문제가 발생합니다. 그러나&nbsp;<span class="in">`virtualenv`</span> 를 사용하면 각 프로젝트마다 별도의 가상 환경을 만들어 서로 다른 패키지 버전이나 설정을 유지할 수 있습니다. 이는 프로젝트 간의 종속성 충돌을 방지하고, 개발 환경을 안정적으로 유지하는 데 도움이 됩니다.</span>
+<span id="cb24-74"><a href="#cb24-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-75"><a href="#cb24-75" aria-hidden="true" tabindex="-1"></a><span class="fu">#### `virtualenv`&nbsp;주요 커맨드</span></span>
+<span id="cb24-76"><a href="#cb24-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-77"><a href="#cb24-77" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**virtualenv 설치**:&nbsp;<span class="in">`bash pip install virtualenv`</span></span>
+<span id="cb24-78"><a href="#cb24-78" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**가상 환경 생성**:&nbsp;<span class="in">`bash python -m virtualenv 가상환경명`</span>&nbsp;<span class="in">`가상환경명`</span> 은 원하는 이름으로 지정할 수 있습니다. 이 명령어는&nbsp;<span class="in">`가상환경명`</span> 이라는 폴더를 생성하고, 그 안에 독립된 파이썬 실행 파일과&nbsp;<span class="in">`pip`</span> 를 포함한 환경을 구성합니다.</span>
+<span id="cb24-79"><a href="#cb24-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-80"><a href="#cb24-80" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**가상 환경 활성화**:</span>
+<span id="cb24-81"><a href="#cb24-81" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>**Windows**:&nbsp;<span class="in">`bash 가상환경명\Scripts\activate`</span></span>
+<span id="cb24-82"><a href="#cb24-82" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>**Mac/Linux**:&nbsp;<span class="in">`bash source 가상환경명/bin/activate`</span>&nbsp;가상 환경이 활성화되면, 터미널 프롬프트에&nbsp;<span class="in">`(가상환경명)`</span> 이 표시됩니다. 이 상태에서&nbsp;<span class="in">`pip`</span> 로 설치된 패키지는 전역 환경이 아닌 해당 가상 환경에 설치됩니다.</span>
+<span id="cb24-83"><a href="#cb24-83" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**가상 환경 비활성화**:&nbsp;<span class="in">`bash deactivate`</span>&nbsp;가상 환경에서 벗어나기 위해 이 명령어를 사용합니다.</span>
+<span id="cb24-84"><a href="#cb24-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-85"><a href="#cb24-85" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**가상 환경 내 패키지 관리**:</span>
+<span id="cb24-86"><a href="#cb24-86" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>**패키지 설치**:&nbsp;<span class="in">`bash pip install 패키지명`</span>&nbsp;활성화된 가상 환경에 패키지를 설치합니다.</span>
+<span id="cb24-87"><a href="#cb24-87" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>**설치된 패키지 목록 저장**&nbsp;(dependencies list):&nbsp;<span class="in">`bash pip freeze &gt; requirements.txt`</span>&nbsp;현재 가상 환경에 설치된 모든 패키지의 목록을&nbsp;<span class="in">`requirements.txt`</span>&nbsp;파일로 저장합니다.</span>
+<span id="cb24-88"><a href="#cb24-88" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>**목록에 따른 패키지 설치**:&nbsp;<span class="in">`bash pip install -r requirements.txt`</span>&nbsp;<span class="in">`requirements.txt`</span>&nbsp;파일에 기록된 패키지들을 한 번에 설치합니다.</span>
+<span id="cb24-89"><a href="#cb24-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-90"><a href="#cb24-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### 의존성 관리하기</span></span>
+<span id="cb24-91"><a href="#cb24-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-92"><a href="#cb24-92" aria-hidden="true" tabindex="-1"></a><span class="in">`pip`</span> 는 다음과 같은 기능을 지원합니다:</span>
+<span id="cb24-93"><a href="#cb24-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-94"><a href="#cb24-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**패키지 설치**: 파이썬 패키지를 설치합니다.</span>
+<span id="cb24-95"><a href="#cb24-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**패키지 업그레이드**: 기존에 설치된 패키지를 최신 버전으로 업그레이드합니다.</span>
+<span id="cb24-96"><a href="#cb24-96" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**패키지 제거**: 더 이상 필요하지 않은 패키지를 삭제합니다.</span>
+<span id="cb24-97"><a href="#cb24-97" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**패키지 목록 보기**: 현재 설치된 패키지의 목록을 볼 수 있습니다.</span>
+<span id="cb24-98"><a href="#cb24-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-99"><a href="#cb24-99" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 주요&nbsp;`pip`&nbsp;커맨드</span></span>
+<span id="cb24-100"><a href="#cb24-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-101"><a href="#cb24-101" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**패키지 설치**:&nbsp;<span class="in">`bash pip install 패키지명`</span></span>
+<span id="cb24-102"><a href="#cb24-102" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**패키지 업그레이드**:&nbsp;<span class="in">`bash pip install --upgrade 패키지명`</span></span>
+<span id="cb24-103"><a href="#cb24-103" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**패키지 제거**:&nbsp;<span class="in">`bash pip uninstall 패키지명`</span></span>
+<span id="cb24-104"><a href="#cb24-104" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**설치된 패키지 목록 보기**:&nbsp;<span class="in">`bash pip list`</span></span>
+<span id="cb24-105"><a href="#cb24-105" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**패키지의 특정 버전 설치**:&nbsp;<span class="in">`bash pip install 패키지명==버전`</span></span>
+<span id="cb24-106"><a href="#cb24-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-107"><a href="#cb24-107" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb24-108"><a href="#cb24-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-109"><a href="#cb24-109" aria-hidden="true" tabindex="-1"></a>가상환경과 라이브러리 관리 팁 1.&nbsp;**프로젝트마다 가상 환경 생성**: 프로젝트를 시작할 때마다 새로운 가상 환경을 생성하여, 프로젝트 간에 라이브러리 충돌을 방지하는 것이 좋습니다. 2.&nbsp;**requirements.txt 활용**: 프로젝트의 의존성을 공유하거나 배포할 때&nbsp;`requirements.txt`&nbsp;파일을 사용하면, 다른 사람이 동일한 환경을 쉽게 설정할 수 있습니다. 3.&nbsp;**가상 환경 폴더 관리**:&nbsp;<span class="in">`virtualenv`</span> 로 생성된 가상 환경 폴더는 일반적으로 프로젝트 폴더 내에 두거나, 중앙 관리 폴더를 만들어 관리할 수 있습니다.</span>
+<span id="cb24-110"><a href="#cb24-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-111"><a href="#cb24-111" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb24-112"><a href="#cb24-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-113"><a href="#cb24-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conda</span></span>
+<span id="cb24-114"><a href="#cb24-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-115"><a href="#cb24-115" aria-hidden="true" tabindex="-1"></a><span class="in">`conda`</span> 는 패키지 매니저로 가상환경을 만들고 파이썬 패키지의 의존성을 관리하고, 설치, 삭제, 업데이트 등을 할 수 있습니다.&nbsp;<span class="in">`conda`</span> 는 기본적으로&nbsp;<span class="co">[</span><span class="ot">Anaconda</span><span class="co">](https://www.anaconda.com/)</span> 라는 파이썬 기반의 데이터 분석에 특화된 각종 패키지를 모아놓은 플랫폼에서 개발되었습니다. 다시말해&nbsp;<span class="in">`Anaconda`</span> 를 설치하면 자동으로&nbsp;<span class="in">`conda`</span> 도 설치가 됩니다.</span>
+<span id="cb24-116"><a href="#cb24-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-117"><a href="#cb24-117" aria-hidden="true" tabindex="-1"></a>만약&nbsp;<span class="in">`Anaconda`</span> 에서 패키지 관리 메니저인&nbsp;<span class="in">`conda`</span> 만을 설치 하고 싶다면&nbsp;<span class="co">[</span><span class="ot">miniconda</span><span class="co">](https://conda.io/miniconda.html)</span> 를 설치 하면 됩니다. 저는 개인적으로&nbsp;<span class="in">`Miniconda`</span> 를 사용하는 것을 추천합니다.&nbsp;<span class="in">`Anaconda`</span> 는 라이센스 문제와 설치 용량이 크다는 단점이 있기 때문입니다.</span>
+<span id="cb24-118"><a href="#cb24-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-119"><a href="#cb24-119" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conda 사용법</span></span>
+<span id="cb24-120"><a href="#cb24-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-121"><a href="#cb24-121" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 가상환경</span></span>
+<span id="cb24-122"><a href="#cb24-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-123"><a href="#cb24-123" aria-hidden="true" tabindex="-1"></a>새로운 프로젝트를 시작할때면 항상 새로운 가상환경을 만들어 작업하는것이 좋습니다. 새로운 가상환경&nbsp;<span class="in">`ENV_NAME`</span> 을 만드는 예시를 들어보겠습니다.</span>
+<span id="cb24-124"><a href="#cb24-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-125"><a href="#cb24-125" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>터미널에 다음과 같이 입력해 새로운 가상환경을 만듭니다.</span>
+<span id="cb24-126"><a href="#cb24-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-127"><a href="#cb24-127" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb24-128"><a href="#cb24-128" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> ENV_NAME</span>
+<span id="cb24-129"><a href="#cb24-129" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> ENV_NAME <span class="at">-f</span> requirements.txt <span class="co"># 의존성 파일로 부터 가상환경을 만들때 사용하는 코드</span></span>
+<span id="cb24-130"><a href="#cb24-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-131"><a href="#cb24-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-132"><a href="#cb24-132" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>가상환경을 사용하기 위해서는 활성화 (activate) 시켜줘야 합니다. 활성화되면 터미널에&nbsp;<span class="in">`(ENV_NAME)`</span> 이 표시됩니다.</span>
+<span id="cb24-133"><a href="#cb24-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-134"><a href="#cb24-134" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb24-135"><a href="#cb24-135" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate ENV_NAME</span>
+<span id="cb24-136"><a href="#cb24-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-137"><a href="#cb24-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-138"><a href="#cb24-138" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>만약 가상환경을 종료하고 싶다면 비활성화 (deactivate) 하면 됩니다.</span>
+<span id="cb24-139"><a href="#cb24-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-140"><a href="#cb24-140" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb24-141"><a href="#cb24-141" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
+<span id="cb24-142"><a href="#cb24-142" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-143"><a href="#cb24-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-144"><a href="#cb24-144" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>이미 생성한 가상환경의 목록은 다음과 같이 확인 할 수 있습니다.</span>
+<span id="cb24-145"><a href="#cb24-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-146"><a href="#cb24-146" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb24-147"><a href="#cb24-147" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env list</span>
+<span id="cb24-148"><a href="#cb24-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-149"><a href="#cb24-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-150"><a href="#cb24-150" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>생성한 가상환경을 제거하는 명령어는 다음과 같습니다.</span>
+<span id="cb24-151"><a href="#cb24-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-152"><a href="#cb24-152" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb24-153"><a href="#cb24-153" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env remove <span class="at">-n</span> ENV_NAME</span>
+<span id="cb24-154"><a href="#cb24-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-155"><a href="#cb24-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-156"><a href="#cb24-156" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 의존성 관리하기</span></span>
+<span id="cb24-157"><a href="#cb24-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-158"><a href="#cb24-158" aria-hidden="true" tabindex="-1"></a>자주 사용하는&nbsp;<span class="in">`conda`</span>&nbsp;명령어는 아래와 같습니다. 예시로&nbsp;<span class="in">`numpy`</span> 를 설치하는 상황을 가정합니다.</span>
+<span id="cb24-159"><a href="#cb24-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-160"><a href="#cb24-160" aria-hidden="true" tabindex="-1"></a>|기능|명령어|</span>
+<span id="cb24-161"><a href="#cb24-161" aria-hidden="true" tabindex="-1"></a>|---|---|</span>
+<span id="cb24-162"><a href="#cb24-162" aria-hidden="true" tabindex="-1"></a>|패키지 설치|conda install numpy|</span>
+<span id="cb24-163"><a href="#cb24-163" aria-hidden="true" tabindex="-1"></a>|동시에 여러 패키지를 설치|conda install numpy scipy pandas|</span>
+<span id="cb24-164"><a href="#cb24-164" aria-hidden="true" tabindex="-1"></a>|특정 버전 설치|conda install “numpy=1.10”|</span>
+<span id="cb24-165"><a href="#cb24-165" aria-hidden="true" tabindex="-1"></a>|패키지 제거|conda remove numpy|</span>
+<span id="cb24-166"><a href="#cb24-166" aria-hidden="true" tabindex="-1"></a>|패키지 업데이트|conda update numpy|</span>
+<span id="cb24-167"><a href="#cb24-167" aria-hidden="true" tabindex="-1"></a>|모든 패키지 업데이트|conda update –all|</span>
+<span id="cb24-168"><a href="#cb24-168" aria-hidden="true" tabindex="-1"></a>|설치된 목록 출력|conda list|</span>
+<span id="cb24-169"><a href="#cb24-169" aria-hidden="true" tabindex="-1"></a>|설치하려는 패키지 검색|conda search numpy|</span>
+<span id="cb24-170"><a href="#cb24-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-171"><a href="#cb24-171" aria-hidden="true" tabindex="-1"></a>만약 Conda 에서 패키지를 찾을 수 없다면&nbsp;<span class="in">`pip`</span> 을 사용해보세요</span>
+<span id="cb24-172"><a href="#cb24-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-173"><a href="#cb24-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conda 제거하기 </span></span>
+<span id="cb24-174"><a href="#cb24-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-175"><a href="#cb24-175" aria-hidden="true" tabindex="-1"></a>만약&nbsp;<span class="in">`conda`</span> 를 제거하고 싶다면 다음과 같이 하면 됩니다.</span>
+<span id="cb24-176"><a href="#cb24-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-177"><a href="#cb24-177" aria-hidden="true" tabindex="-1"></a>**Windows**</span>
+<span id="cb24-178"><a href="#cb24-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-179"><a href="#cb24-179" aria-hidden="true" tabindex="-1"></a>제어판에 들어가서&nbsp;_Python(Anaconda)_&nbsp;혹은&nbsp;_Python(Miniconda)_ 를 제거합니다.</span>
+<span id="cb24-180"><a href="#cb24-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-181"><a href="#cb24-181" aria-hidden="true" tabindex="-1"></a>**Linux, MacOS**</span>
+<span id="cb24-182"><a href="#cb24-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-183"><a href="#cb24-183" aria-hidden="true" tabindex="-1"></a>단순하게 아래 디렉토리만 삭제하면 됩니다.</span>
+<span id="cb24-184"><a href="#cb24-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-185"><a href="#cb24-185" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb24-186"><a href="#cb24-186" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/miniconda</span>
+<span id="cb24-187"><a href="#cb24-187" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/anaconda</span>
+<span id="cb24-188"><a href="#cb24-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-189"><a href="#cb24-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-190"><a href="#cb24-190" aria-hidden="true" tabindex="-1"></a><span class="fu"># R 설치하기 {.tabset}</span></span>
+<span id="cb24-191"><a href="#cb24-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-192"><a href="#cb24-192" aria-hidden="true" tabindex="-1"></a><span class="in">`R`</span> 은 주로 데이터 분석, 통계 모델링, 시각화 작업에 사용되며 다양한 통계 기법을 제공합니다.&nbsp;<span class="in">`R`</span> 은 연구자, 통계학자, 데이터 과학자들 사이에 널리 사용되며 데이터를 탐색하고 모델링하며 결과를 시각적으로 표현하는 데 매우 유용합니다.&nbsp;<span class="in">`R`</span>&nbsp;문법과 통계처리 부분은&nbsp;<span class="in">`AT&amp;T`</span>&nbsp;벨 연구소가 개발했던&nbsp;<span class="in">`S`</span> 를 참고해 만들어졌습니다.</span>
+<span id="cb24-193"><a href="#cb24-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-194"><a href="#cb24-194" aria-hidden="true" tabindex="-1"></a><span class="fu">## Windows</span></span>
+<span id="cb24-195"><a href="#cb24-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-196"><a href="#cb24-196" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**CRAN 웹사이트 방문**:</span>
+<span id="cb24-197"><a href="#cb24-197" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span><span class="in">`R`</span> 의 공식 배포 사이트인 CRAN(Comprehensive R Archive Network) 에서 설치 파일을 다운로드할 수 있습니다.&nbsp;<span class="co">[</span><span class="ot">CRAN</span><span class="co">](https://cran.r-project.org/)</span>&nbsp;웹사이트를 방문합니다.</span>
+<span id="cb24-198"><a href="#cb24-198" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**R 다운로드**:</span>
+<span id="cb24-199"><a href="#cb24-199" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>CRAN 홈페이지에서&nbsp;<span class="in">`Download R for Windows`</span>&nbsp;링크를 클릭합니다.</span>
+<span id="cb24-200"><a href="#cb24-200" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>이후&nbsp;<span class="in">`base`</span>&nbsp;링크를 선택하여&nbsp;<span class="in">`R`</span> 의 기본 설치 파일을 다운로드합니다.</span>
+<span id="cb24-201"><a href="#cb24-201" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**설치 파일 실행**:</span>
+<span id="cb24-202"><a href="#cb24-202" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>다운로드한&nbsp;<span class="in">`.exe`</span>&nbsp;파일을 실행합니다.</span>
+<span id="cb24-203"><a href="#cb24-203" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>설치 마법사가 시작되며 기본 설정을 따라 설치를 진행합니다. 특별히 변경할 사항이 없으면 기본값을 그대로 사용해도 됩니다.</span>
+<span id="cb24-204"><a href="#cb24-204" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**R 실행**:</span>
+<span id="cb24-205"><a href="#cb24-205" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>설치가 완료되면, Windows 의 시작 메뉴에서&nbsp;<span class="in">`R`</span> 을 실행할 수 있습니다. 기본적인 콘솔이 실행됩니다.</span>
+<span id="cb24-206"><a href="#cb24-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-207"><a href="#cb24-207" aria-hidden="true" tabindex="-1"></a><span class="fu">## macOS</span></span>
+<span id="cb24-208"><a href="#cb24-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-209"><a href="#cb24-209" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**CRAN 웹사이트 방문**:</span>
+<span id="cb24-210"><a href="#cb24-210" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>macOS 사용자도&nbsp;<span class="co">[</span><span class="ot">CRAN</span><span class="co">](https://cran.r-project.org/)</span>&nbsp;웹사이트에서&nbsp;<span class="in">`R`</span>&nbsp;설치 파일을 다운로드합니다.</span>
+<span id="cb24-211"><a href="#cb24-211" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**R 다운로드**:</span>
+<span id="cb24-212"><a href="#cb24-212" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span><span class="in">`Download R for macOS`</span>&nbsp;링크를 클릭합니다.</span>
+<span id="cb24-213"><a href="#cb24-213" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>이후 적절한&nbsp;<span class="in">`R`</span>&nbsp;버전의&nbsp;<span class="in">`.pkg`</span>&nbsp;파일을 다운로드합니다.</span>
+<span id="cb24-214"><a href="#cb24-214" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**설치 파일 실행**:</span>
+<span id="cb24-215"><a href="#cb24-215" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>다운로드한&nbsp;<span class="in">`.pkg`</span>&nbsp;파일을 실행하여 설치를 진행합니다.</span>
+<span id="cb24-216"><a href="#cb24-216" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>설치 과정에서 여러 단계를 거치며 기본값으로 진행하면 됩니다.</span>
+<span id="cb24-217"><a href="#cb24-217" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**R 실행**:</span>
+<span id="cb24-218"><a href="#cb24-218" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>설치가 완료되면 응용 프로그램 폴더에서&nbsp;<span class="in">`R`</span> 을 실행할 수 있습니다.</span>
+<span id="cb24-219"><a href="#cb24-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-220"><a href="#cb24-220" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linux</span></span>
+<span id="cb24-221"><a href="#cb24-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-222"><a href="#cb24-222" aria-hidden="true" tabindex="-1"></a><span class="in">`Linux`</span> 에서는 보통 패키지 관리자를 통해&nbsp;<span class="in">`R`</span> 을 설치합니다. 여기서는 우분투 (Ubuntu) 를 예로 들어 설명하겠습니다.</span>
+<span id="cb24-223"><a href="#cb24-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-224"><a href="#cb24-224" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**리포지토리 업데이트**:</span>
+<span id="cb24-225"><a href="#cb24-225" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>터미널을 열고 시스템 패키지 목록을 업데이트합니다.</span>
+<span id="cb24-226"><a href="#cb24-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-227"><a href="#cb24-227" aria-hidden="true" tabindex="-1"></a>        <span class="in">```bash</span></span>
+<span id="cb24-228"><a href="#cb24-228" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sudo</span> apt update</span>
+<span id="cb24-229"><a href="#cb24-229" aria-hidden="true" tabindex="-1"></a>        <span class="in">```</span></span>
+<span id="cb24-230"><a href="#cb24-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-231"><a href="#cb24-231" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**R 설치**:</span>
+<span id="cb24-232"><a href="#cb24-232" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>기본 패키지 관리자를 사용하여&nbsp;<span class="in">`R`</span> 을 설치합니다.</span>
+<span id="cb24-233"><a href="#cb24-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-234"><a href="#cb24-234" aria-hidden="true" tabindex="-1"></a>        <span class="in">```bash</span></span>
+<span id="cb24-235"><a href="#cb24-235" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sudo</span> apt install r-base</span>
+<span id="cb24-236"><a href="#cb24-236" aria-hidden="true" tabindex="-1"></a>        <span class="in">```</span></span>
+<span id="cb24-237"><a href="#cb24-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-238"><a href="#cb24-238" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**R 실행**:</span>
+<span id="cb24-239"><a href="#cb24-239" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>설치가 완료되면, 터미널에서&nbsp;<span class="in">`R`</span>&nbsp;명령어를 입력하여 콘솔을 실행할 수 있습니다.</span>
+<span id="cb24-240"><a href="#cb24-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-241"><a href="#cb24-241" aria-hidden="true" tabindex="-1"></a>        <span class="in">```bash</span></span>
+<span id="cb24-242"><a href="#cb24-242" aria-hidden="true" tabindex="-1"></a>        <span class="ex">R</span></span>
+<span id="cb24-243"><a href="#cb24-243" aria-hidden="true" tabindex="-1"></a>        <span class="in">```</span></span>
+<span id="cb24-244"><a href="#cb24-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-245"><a href="#cb24-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-246"><a href="#cb24-246" aria-hidden="true" tabindex="-1"></a><span class="fu">## RStudio 설치</span></span>
+<span id="cb24-247"><a href="#cb24-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-248"><a href="#cb24-248" aria-hidden="true" tabindex="-1"></a><span class="in">`R`</span> 의 기본 콘솔 외에 통합 개발 환경 (IDE) 를 사용하고 싶다면&nbsp;<span class="in">`RStudio`</span> 를 설치할 수 있습니다. 다만 개인용도로만 무료임으로 라이센스를 항상 확인하세요.</span>
+<span id="cb24-249"><a href="#cb24-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-250"><a href="#cb24-250" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**RStudio 다운로드**:</span>
+<span id="cb24-251"><a href="#cb24-251" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span><span class="co">[</span><span class="ot">RStudio 공식 웹사이트</span><span class="co">](https://rstudio.com/products/rstudio/download/)</span> 에서 운영 체제에 맞는 설치 파일을 다운로드합니다.</span>
+<span id="cb24-252"><a href="#cb24-252" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**RStudio 설치**:</span>
+<span id="cb24-253"><a href="#cb24-253" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>다운로드한 파일을 실행하여 설치를 진행합니다. 설치 과정은 간단하며, 기본값으로 진행하면 됩니다.</span>
+<span id="cb24-254"><a href="#cb24-254" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**RStudio 실행**:</span>
+<span id="cb24-255"><a href="#cb24-255" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>설치가 완료되면, RStudio 를 실행하여 R 환경을 더욱 효율적으로 사용할 수 있습니다.</span>
+<span id="cb24-256"><a href="#cb24-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-257"><a href="#cb24-257" aria-hidden="true" tabindex="-1"></a><span class="fu"># R 가상환경과 패키지 관리 매니저</span></span>
+<span id="cb24-258"><a href="#cb24-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-259"><a href="#cb24-259" aria-hidden="true" tabindex="-1"></a><span class="in">`R`</span>&nbsp;또한 다양한 패키지를 사용하여 분석 작업을 수행합니다. 따라서 패키지 관리와 가상환경 설정을 통해 서로 다른 프로젝트 간의 의존성 충돌을 방지하고 일관된 환경을 유지하는 것이 중요합니다.</span>
+<span id="cb24-260"><a href="#cb24-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-261"><a href="#cb24-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## 가상환경</span></span>
+<span id="cb24-262"><a href="#cb24-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-263"><a href="#cb24-263" aria-hidden="true" tabindex="-1"></a><span class="fu">### renv</span></span>
+<span id="cb24-264"><a href="#cb24-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-265"><a href="#cb24-265" aria-hidden="true" tabindex="-1"></a><span class="in">`renv`</span> 는&nbsp;<span class="in">`R`</span> 의 가상환경 관리 도구로,&nbsp;<span class="in">`Python`</span> 의&nbsp;<span class="in">`virtualenv`</span> 나&nbsp;<span class="in">`conda`</span> 와 유사한 역할을 합니다.&nbsp;<span class="in">`renv`</span> 는 각 프로젝트마다 독립된 라이브러리 환경을 설정하여, 서로 다른 프로젝트에서 사용하는 패키지가 충돌하지 않도록 도와줍니다.</span>
+<span id="cb24-266"><a href="#cb24-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-267"><a href="#cb24-267" aria-hidden="true" tabindex="-1"></a>**`renv` 의 주요 기능**</span>
+<span id="cb24-268"><a href="#cb24-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-269"><a href="#cb24-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>프로젝트별로 패키지 라이브러리 폴더를 생성하여, 각 프로젝트마다 고유한 환경을 유지.</span>
+<span id="cb24-270"><a href="#cb24-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`renv.lock`</span>&nbsp;파일을 사용하여 프로젝트에 필요한 패키지 버전과 의존성을 기록.</span>
+<span id="cb24-271"><a href="#cb24-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`renv`</span> 를 사용하면 특정 시점의 패키지 상태를 다른 시스템에서 동일하게 재현 가능.</span>
+<span id="cb24-272"><a href="#cb24-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-273"><a href="#cb24-273" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**`renv`&nbsp;설치**:</span>
+<span id="cb24-274"><a href="#cb24-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-275"><a href="#cb24-275" aria-hidden="true" tabindex="-1"></a>    <span class="in">```r</span></span>
+<span id="cb24-276"><a href="#cb24-276" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"renv"</span>)</span>
+<span id="cb24-277"><a href="#cb24-277" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb24-278"><a href="#cb24-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-279"><a href="#cb24-279" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**프로젝트 초기화**: 프로젝트 디렉토리에서&nbsp;<span class="in">`renv`</span> 를 초기화합니다. 이는 새로운 가상환경을 생성하고,&nbsp;<span class="in">`renv.lock`</span>&nbsp;파일을 생성합니다.</span>
+<span id="cb24-280"><a href="#cb24-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-281"><a href="#cb24-281" aria-hidden="true" tabindex="-1"></a>    <span class="in">```r</span></span>
+<span id="cb24-282"><a href="#cb24-282" aria-hidden="true" tabindex="-1"></a>    renv<span class="sc">::</span><span class="fu">init</span>()</span>
+<span id="cb24-283"><a href="#cb24-283" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb24-284"><a href="#cb24-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-285"><a href="#cb24-285" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**패키지 설치**: 일반적인 방법으로 패키지를 설치하면 해당 패키지는 현재&nbsp;<span class="in">`renv`</span>&nbsp;환경에 설치됩니다.</span>
+<span id="cb24-286"><a href="#cb24-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-287"><a href="#cb24-287" aria-hidden="true" tabindex="-1"></a>    <span class="in">```r</span></span>
+<span id="cb24-288"><a href="#cb24-288" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb24-289"><a href="#cb24-289" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb24-290"><a href="#cb24-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-291"><a href="#cb24-291" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**환경 스냅샷 생성**: 프로젝트의 현재 상태를 기록하여&nbsp;<span class="in">`renv.lock`</span>&nbsp;파일에 저장합니다.</span>
+<span id="cb24-292"><a href="#cb24-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-293"><a href="#cb24-293" aria-hidden="true" tabindex="-1"></a>    <span class="in">```r</span></span>
+<span id="cb24-294"><a href="#cb24-294" aria-hidden="true" tabindex="-1"></a>    renv<span class="sc">::</span><span class="fu">snapshot</span>()</span>
+<span id="cb24-295"><a href="#cb24-295" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb24-296"><a href="#cb24-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-297"><a href="#cb24-297" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**환경 복원**: 다른 시스템에서 동일한 환경을 재현하기 위해,&nbsp;<span class="in">`renv.lock`</span>&nbsp;파일을 사용하여 패키지 환경을 복원합니다.</span>
+<span id="cb24-298"><a href="#cb24-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-299"><a href="#cb24-299" aria-hidden="true" tabindex="-1"></a>    <span class="in">```r</span></span>
+<span id="cb24-300"><a href="#cb24-300" aria-hidden="true" tabindex="-1"></a>    renv<span class="sc">::</span><span class="fu">restore</span>()</span>
+<span id="cb24-301"><a href="#cb24-301" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb24-302"><a href="#cb24-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-303"><a href="#cb24-303" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**가상환경 해제**: 프로젝트의 가상환경을 해제하고 전역 라이브러리를 사용하도록 변경합니다.</span>
+<span id="cb24-304"><a href="#cb24-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-305"><a href="#cb24-305" aria-hidden="true" tabindex="-1"></a>    <span class="in">```r</span></span>
+<span id="cb24-306"><a href="#cb24-306" aria-hidden="true" tabindex="-1"></a>    renv<span class="sc">::</span><span class="fu">deactivate</span>()</span>
+<span id="cb24-307"><a href="#cb24-307" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb24-308"><a href="#cb24-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-309"><a href="#cb24-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-310"><a href="#cb24-310" aria-hidden="true" tabindex="-1"></a><span class="fu">## 의존성 관리하기</span></span>
+<span id="cb24-311"><a href="#cb24-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-312"><a href="#cb24-312" aria-hidden="true" tabindex="-1"></a><span class="fu">### CRAN</span></span>
+<span id="cb24-313"><a href="#cb24-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-314"><a href="#cb24-314" aria-hidden="true" tabindex="-1"></a>대부분의&nbsp;<span class="in">`R`</span>&nbsp;패키지는 CRAN(Comprehensive R Archive Network) 을 통해 설치 및 관리됩니다.&nbsp;<span class="in">`CRAN`</span> 은&nbsp;<span class="in">`R`</span>&nbsp;패키지의 공식 저장소로 일반적인 분석 작업에 필요한 대부분의 패키지를 제공합니다.</span>
+<span id="cb24-315"><a href="#cb24-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-316"><a href="#cb24-316" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 주요 CRAN 커맨드</span></span>
+<span id="cb24-317"><a href="#cb24-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-318"><a href="#cb24-318" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`install.packages()`</span>: 기본적으로 CRAN 에서 패키지를 설치하는 함수입니다.</span>
+<span id="cb24-319"><a href="#cb24-319" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`library()`</span>: 패키지를 로드하는 함수입니다. 한 번 설치된 패키지는 프로젝트에서 사용할 때마다&nbsp;<span class="in">`library(패키지명)`</span> 을 통해 불러올 수 있습니다.</span>
+<span id="cb24-320"><a href="#cb24-320" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`update.packages()`</span>: 설치된 모든 패키지를 최신 버전으로 업데이트하는 함수입니다.</span>
+<span id="cb24-321"><a href="#cb24-321" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`remove.packages()`</span>: 설치된 패키지를 제거하는 함수입니다.</span>
+<span id="cb24-322"><a href="#cb24-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-323"><a href="#cb24-323" aria-hidden="true" tabindex="-1"></a><span class="fu">### `Bioconductor`: 생물정보학용 패키지 매니저</span></span>
+<span id="cb24-324"><a href="#cb24-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-325"><a href="#cb24-325" aria-hidden="true" tabindex="-1"></a>생물정보학 연구에서 자주 사용되는&nbsp;<span class="in">`R`</span>&nbsp;패키지는&nbsp;<span class="in">`Bioconductor`</span> 를 통해 관리됩니다.&nbsp;<span class="in">`Bioconductor`</span> 는&nbsp;<span class="in">`CRAN`</span> 을 통해 설치해 사용할 수 있습니다. 주요 명령어는 아래와 같습니다.</span>
+<span id="cb24-326"><a href="#cb24-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-327"><a href="#cb24-327" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**BiocManager 설치**:</span>
+<span id="cb24-328"><a href="#cb24-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-329"><a href="#cb24-329" aria-hidden="true" tabindex="-1"></a>    <span class="in">```r</span></span>
+<span id="cb24-330"><a href="#cb24-330" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb24-331"><a href="#cb24-331" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb24-332"><a href="#cb24-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-333"><a href="#cb24-333" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Bioconductor 패키지 설치**:</span>
+<span id="cb24-334"><a href="#cb24-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-335"><a href="#cb24-335" aria-hidden="true" tabindex="-1"></a>    <span class="in">```r</span></span>
+<span id="cb24-336"><a href="#cb24-336" aria-hidden="true" tabindex="-1"></a>    BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"패키지명"</span>)</span>
+<span id="cb24-337"><a href="#cb24-337" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb24-338"><a href="#cb24-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-339"><a href="#cb24-339" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Bioconductor 패키지 제거**</span>
+<span id="cb24-340"><a href="#cb24-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-341"><a href="#cb24-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-342"><a href="#cb24-342" aria-hidden="true" tabindex="-1"></a>특정&nbsp;<span class="in">`Bioconductor`</span>&nbsp;패키지를 제거하려면&nbsp;<span class="in">`remove.packages()`</span>&nbsp;함수를 사용합니다:</span>
+<span id="cb24-343"><a href="#cb24-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-344"><a href="#cb24-344" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb24-345"><a href="#cb24-345" aria-hidden="true" tabindex="-1"></a><span class="fu">remove.packages</span>(<span class="st">"패키지명"</span>)</span>
+<span id="cb24-346"><a href="#cb24-346" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-347"><a href="#cb24-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-348"><a href="#cb24-348" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>특정&nbsp;<span class="in">`Bioconductor`</span>&nbsp;버전을 사용하고 싶다면 (예: 3.13):</span>
+<span id="cb24-349"><a href="#cb24-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-350"><a href="#cb24-350" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb24-351"><a href="#cb24-351" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="at">version =</span> <span class="st">"3.13"</span>)</span>
+<span id="cb24-352"><a href="#cb24-352" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-353"><a href="#cb24-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-354"><a href="#cb24-354" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Bioconductor 패키지 검색**</span>
+<span id="cb24-355"><a href="#cb24-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-356"><a href="#cb24-356" aria-hidden="true" tabindex="-1"></a>Bioconductor 에서 특정 패키지를 검색하려면:</span>
+<span id="cb24-357"><a href="#cb24-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-358"><a href="#cb24-358" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb24-359"><a href="#cb24-359" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">available</span>(<span class="st">"패키지명"</span>)</span>
+<span id="cb24-360"><a href="#cb24-360" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-361"><a href="#cb24-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-362"><a href="#cb24-362" aria-hidden="true" tabindex="-1"></a>이러한 명령어들을 활용하면&nbsp;<span class="in">`Bioconductor`</span>&nbsp;패키지를 효과적으로 관리하고, 필요한 생물정보학 도구들을 손쉽게 사용할 수 있습니다.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 
 
 
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
