@@ -15,15 +15,15 @@ Phillip Compeau 와 Pavel Pevzner 가 쓴 책 "[능동적 접근 방식의 생�
 
 ## Compute the Number of Times a Pattern Appears in a Text
 
-This is the first problem in a collection of "code challenges" to accompany [Bioinformatics Algorithms: An Active-Learning Approach](http://bioinformaticsalgorithms.org/) by Phillip Compeau & Pavel Pevzner.
+This is the first problem in a collection of"code challenges"to accompany [Bioinformatics Algorithms: An Active-Learning Approach](http://bioinformaticsalgorithms.org/) by Phillip Compeau & Pavel Pevzner.
 
-A [k-mer](https://rosalind.info/glossary/k-mer/) is a [string](https://rosalind.info/glossary/string/) of length _k_. We define _Count_(_Text_, _Pattern_) as the number of times that a _k_-mer _Pattern_ appears as a [substring](https://rosalind.info/glossary/substring/) of _Text_.
+A [k-mer](https://rosalind.info/glossary/k-mer/) is a [string](https://rosalind.info/glossary/string/) of length *k*. We define *Count*(*Text*, *Pattern*) as the number of times that a *k*-mer *Pattern* appears as a [substring](https://rosalind.info/glossary/substring/) of *Text*.
 
-For example, We note that $Count(CGATATATCCATAGCGATATATCCATAG,ATAATA)$ is equal to 3 (not 2) since we should account for overlapping occurrences of _Pattern_ in _Text_.
+For example, We note that $Count(CGATATATCCATAGCGATATATCCATAG,ATAATA)$ is equal to 3 (not 2) since we should account for overlapping occurrences of *Pattern* in *Text*.
 
-Given: {DNA strings}} _Text_ and _Pattern_.
+Given: {DNA strings}} *Text* and *Pattern*.
 
-Return: _Count_(_Text_, _Pattern_).
+Return: *Count*(*Text*, *Pattern*).
 
 ## Sample Dataset
 
@@ -67,11 +67,11 @@ print(count_pattern_occurrences(text, pattern))
 
 # Find the Most Frequent Words in a String
 
-We say that _Pattern_ is a **most frequent k-mer** in _Text_ if it maximizes _Count_(_Text_, _Pattern_) among all [k-mers](https://rosalind.info/glossary/k-mer/). For example, "ACTAT" is a most frequent 5-mer in "ACAACTATGCATCACTATCGGGAACTATCCT", and "ATA" is a most frequent 3-mer of "CGATATATCCATAG".
+We say that *Pattern* is a **most frequent k-mer** in *Text* if it maximizes *Count*(*Text*, *Pattern*) among all [k-mers](https://rosalind.info/glossary/k-mer/). For example,"ACTAT"is a most frequent 5-mer in"ACAACTATGCATCACTATCGGGAACTATCCT", and"ATA"is a most frequent 3-mer of"CGATATATCCATAG".
 
-Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Text_ and an integer _k_.
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) *Text* and an integer *k*.
 
-Return: All most frequent _k_-mers in _Text_ (in any order).
+Return: All most frequent *k*-mers in *Text* (in any order).
 
 ## Sample Dataset
 
@@ -127,9 +127,9 @@ print(*most_frequent)
 
 Find the reverse complement of a DNA string.
 
-Given: A DNA string _Pattern_.
+Given: A DNA string *Pattern*.
 
-Return: $\overline{Pattern}$, the reverse complement of _Pattern_.
+Return: $\overline{Pattern}$, the reverse complement of *Pattern*.
 
 ## Sample Dataset
 
@@ -164,9 +164,9 @@ print(reverse_complement(sequence))
 
 Pattern Matching Problem, Find all occurrences of a pattern in a string.
 
-Given: Strings _Pattern_ and _Genome_.
+Given: Strings *Pattern* and *Genome*.
 
-Return: All starting positions in _Genome_ where _Pattern_ appears as a substring. Use [0-based indexing](https://rosalind.info/glossary/0-based-numbering/).
+Return: All starting positions in *Genome* where *Pattern* appears as a substring. Use [0-based indexing](https://rosalind.info/glossary/0-based-numbering/).
 
 ## Sample Dataset
 
@@ -213,9 +213,9 @@ print(*find_pattern_indices(text, pattern))
 
 Clump Finding Problem, Find patterns forming clumps in a string.
 
-Given: A string _Genome_, and integers _k_, _L_, and _t_.
+Given: A string *Genome*, and integers *k*, *L*, and *t*.
 
-Return: All distinct _k_-mers forming (_L_, _t_)-clumps in _Genome_.
+Return: All distinct *k*-mers forming (*L*, *t*)-clumps in *Genome*.
 
 ## Sample Dataset
 
@@ -274,9 +274,9 @@ print(*clumps)
 
 Minimum Skew Problem, Find a position in a genome minimizing the skew.
 
-Given: A DNA string _Genome_.
+Given: A DNA string *Genome*.
 
-Return: All integer(s) _i_ minimizing _Skew_(_Prefix__i_ (_Text_)) over all values of _i_ (from 0 to |_Genome_|).
+Return: All integer(s) *i* minimizing *Skew*(*Prefix__i* (*Text*)) over all values of *i* (from 0 to |*Genome*|).
 
 ## Sample Dataset
 
@@ -364,9 +364,9 @@ print(hamming_distance)
 
 Approximate Pattern Matching Problem, Find all approximate occurrences of a pattern in a string.
 
-Given: Strings _Pattern_ and _Text_ along with an integer _d_.
+Given: Strings *Pattern* and *Text* along with an integer *d*.
 
-Return: All starting positions where _Pattern_ appears as a substring of _Text_ with at most _d_ mismatches.
+Return: All starting positions where *Pattern* appears as a substring of *Text* with at most *d* mismatches.
 
 ## Sample Dataset
 
@@ -417,9 +417,9 @@ print(*match_positions)
 
 Frequent Words with Mismatches Problem, Find the most frequent k-mers with mismatches in a string.
 
-Given: A string _Text_ as well as integers _k_ and _d_.
+Given: A string *Text* as well as integers *k* and *d*.
 
-Return: All most frequent _k_-mers with up to _d_ mismatches in _Text_.
+Return: All most frequent *k*-mers with up to *d* mismatches in *Text*.
 
 ## Sample Dataset
 
@@ -489,9 +489,9 @@ print(*most_frequent_kmers)
 
 Frequent Words with Mismatches and Reverse Complements Problem. Find the most frequent k-mers (with mismatches and reverse complements) in a DNA string.
 
-Given: A DNA string _Text_ as well as integers _k_ and _d_.
+Given: A DNA string *Text* as well as integers *k* and *d*.
 
-Return: All _k_-mers _Pattern_ maximizing the sum _Count__d_(_Text_, $Pattern$) + _Count__d_(_Text_, $\overline{Pattern}$}) over all possible _k_-mers.
+Return: All *k*-mers *Pattern* maximizing the sum *Count__d*(*Text*, $Pattern$) + *Count__d*(*Text*, $\overline{Pattern}$}) over all possible *k*-mers.
 
 ## Sample Dataset
 
@@ -563,9 +563,9 @@ print(*find_most_frequent(approximate_kmer_counts))
 
 Computing a Frequency Array, Generate the frequency array of a DNA string.
 
-Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Text_ and an integer _k_.
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) *Text* and an integer *k*.
 
-Return: The frequency array of _k_-mers in _Text_.
+Return: The frequency array of *k*-mers in *Text*.
 
 ## Sample Dataset
 
@@ -625,9 +625,9 @@ print(*kmer_frequencies
 
 Implement PatternToNumber, Convert a DNA string to a number.
 
-Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Pattern_.
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) *Pattern*.
 
-Return: _PatternToNumber_(_Pattern_).
+Return: *PatternToNumber*(*Pattern*).
 
 ## Sample Dataset
 
@@ -674,9 +674,9 @@ print(result)
 
 Implement NumberToPattern, Convert an integer to its corresponding DNA string.
 
-Given: Integers _index_ and _k_.
+Given: Integers *index* and *k*.
 
-Return: _NumberToPattern_(_index_, _k_).
+Return: *NumberToPattern*(*index*, *k*).
 
 ## Sample Dataset
 
@@ -723,9 +723,9 @@ print(dna_pattern)
 
 Generate the d-Neighborhood of a String Find all the neighbors of a pattern.
 
-Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Pattern_ and an integer _d_.
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) *Pattern* and an integer *d*.
 
-Return: The collection of strings _Neighbors_(_Pattern_, _d_).
+Return: The collection of strings *Neighbors*(*Pattern*, *d*).
 
 ## Sample Dataset
 
@@ -794,14 +794,11 @@ neighbor_sequences = generate_neighbors(sequence, max_distance)
 print(*sorted(neighbor_sequences), sep="\n")
 ```
 
-
-
-
 ----
 
 # Compute the Probability of a Hidden Path
 
-Given: A hidden path $π$ followed by the states _States_ and transition matrix _Transition_ of an HMM ($Σ$, _States_, _Transition_, _Emission_).
+Given: A hidden path $π$ followed by the states *States* and transition matrix *Transition* of an HMM ($Σ$, *States*, *Transition*, *Emission*).
 
 Return: The probability of this path, $Pr(π)$. You may assume that initial probabilities are equal.
 
@@ -872,9 +869,9 @@ print(f"{result_probability:e}")
 
 # Compute the Probability of an Outcome Given a Hidden Path
 
-Given: A string _x_, followed by the alphabet _Σ_ from which _x_ was constructed, followed by a hidden path _π_, followed by the states _States_ and emission matrix _Emission_ of an HMM (_Σ_, _States_, _Transition_, _Emission_).
+Given: A string *x*, followed by the alphabet *Σ* from which *x* was constructed, followed by a hidden path *π*, followed by the states *States* and emission matrix *Emission* of an HMM (*Σ*, *States*, *Transition*, *Emission*).
 
-Return: The conditional probability $Pr(x|π)$ that string _x_ will be emitted by the HMM given the hidden path _π_.
+Return: The conditional probability $Pr(x|π)$ that string *x* will be emitted by the HMM given the hidden path *π*.
 
 ## Sample Dataset
 
@@ -950,9 +947,9 @@ print(f"{result_probability:e}")
 
 # Implement the Viterbi Algorithm
 
-Given: A string _x_, followed by the alphabet _Σ_ from which _x_ was constructed, followed by the states _States_, transition matrix _Transition_, and emission matrix _Emission_ of an HMM (_Σ_, _States_, _Transition_, _Emission_).
+Given: A string *x*, followed by the alphabet *Σ* from which *x* was constructed, followed by the states *States*, transition matrix *Transition*, and emission matrix *Emission* of an HMM (*Σ*, *States*, *Transition*, *Emission*).
 
-Return: A path that maximizes the (unconditional) probability Pr(_x_, _π_) over all possible paths _π_.
+Return: A path that maximizes the (unconditional) probability Pr(*x*, *π*) over all possible paths *π*.
 
 ## Sample Dataset
 
@@ -1067,9 +1064,9 @@ print(result)
 
 # Compute the Probability of a String Emitted by an HMM
 
-Given: A string _x_, followed by the alphabet _Σ_ from which _x_ was constructed, followed by the states _States_, transition matrix _Transition_, and emission matrix _Emission_ of an HMM (_Σ_, _States_, _Transition_, _Emission_).
+Given: A string *x*, followed by the alphabet *Σ* from which *x* was constructed, followed by the states *States*, transition matrix *Transition*, and emission matrix *Emission* of an HMM (*Σ*, *States*, *Transition*, *Emission*).
 
-Return: The probability Pr(_x_) that the HMM emits _x_.
+Return: The probability Pr(*x*) that the HMM emits *x*.
 
 ## Sample Dataset
 
@@ -1167,9 +1164,9 @@ print(result)
 
 # Construct a Profile HMM
 
-Given: A threshold _θ_, followed by an alphabet _Σ_, followed by a multiple alignment _Alignment_ whose strings are formed from _Σ_.
+Given: A threshold *θ*, followed by an alphabet *Σ*, followed by a multiple alignment *Alignment* whose strings are formed from *Σ*.
 
-Return: The transition and emission probabilities of the profile HMM _HMM_(_Alignment_, _θ_).
+Return: The transition and emission probabilities of the profile HMM *HMM*(*Alignment*, *θ*).
 
 ## Sample Dataset
 
@@ -1337,9 +1334,9 @@ print_emission_probabilities(emission_probs, alphabet)
 
 # Construct a Profile HMM with Pseudocounts
 
-Given: A threshold _θ_ and a pseudocount _σ_, followed by an alphabet _Σ_, followed by a multiple alignment _Alignment_ whose strings are formed from _Σ_.
+Given: A threshold *θ* and a pseudocount *σ*, followed by an alphabet *Σ*, followed by a multiple alignment *Alignment* whose strings are formed from *Σ*.
 
-Return: The transition and emission probabilities of the profile HMM _HMM_(_Alignment_, _θ_, _σ_).
+Return: The transition and emission probabilities of the profile HMM *HMM*(*Alignment*, *θ*, *σ*).
 
 ## Sample Dataset
 
@@ -1788,7 +1785,7 @@ main(sample_input)
 
 # Estimate the Parameters of an HMM
 
-Given: A sequence of emitted symbols x = x1 . . . xn in an alphabet ∑ and a path $π = π_1 . . . π_n$ generated by a k-state HMM with unknown transition and emission probabilities.
+Given: A sequence of emitted symbols x = x1... xn in an alphabet ∑ and a path $π = π_1... π_n$ generated by a k-state HMM with unknown transition and emission probabilities.
 
 Return: A matrix of transition probabilities Transition and a matrix of emission probabilities Emission that maximize $Pr(x,π)$ over all possible matrices of transition and emission probabilities.
 
@@ -1904,9 +1901,9 @@ main(sample_input)
 
 # Implement Viterbi Learning
 
-Given: A sequence of emitted symbols $x=x_1 ... x_n$ in an alphabet _A_, generated by a _k_-state HMM with unknown transition and emission probabilities, initial _Transition_ and _Emission_ matrices and a number of iterations _i_.
+Given: A sequence of emitted symbols $x=x_1... x_n$ in an alphabet *A*, generated by a *k*-state HMM with unknown transition and emission probabilities, initial *Transition* and *Emission* matrices and a number of iterations *i*.
 
-Return: A matrix of transition probabilities _Transition_ and a matrix of emission probabilities _Emission_ that maximizes $Pr(x,π)$ over all possible transition and emission matrices and over all hidden paths _π_.
+Return: A matrix of transition probabilities *Transition* and a matrix of emission probabilities *Emission* that maximizes $Pr(x,π)$ over all possible transition and emission matrices and over all hidden paths *π*.
 
 ## Sample Dataset
 
@@ -2068,7 +2065,7 @@ main(sample_input)
 
 # Solve the Soft Decoding Problem
 
-Given: A string _x_, followed by the alphabet _Σ_ from which _x_ was constructed, followed by the states _States_, transition matrix _Transition_, and emission matrix _Emission_ of an HMM (_Σ_, _States_, _Transition_, _Emission_).
+Given: A string *x*, followed by the alphabet *Σ* from which *x* was constructed, followed by the states *States*, transition matrix *Transition*, and emission matrix *Emission* of an HMM (*Σ*, *States*, *Transition*, *Emission*).
 
 Return: The probability $Pr(π_i=k|x)$ that the HMM was in state k at step i (for each state k and each step i).
 
@@ -2377,9 +2374,9 @@ main(sample_input)
 
 Construct the graph of a spectrum.
 
-Given: A space-delimited list of integers _Spectrum_.
+Given: A space-delimited list of integers *Spectrum*.
 
-Return: _Graph(Spectrum)_.
+Return: *Graph(Spectrum)*.
 
 **Note:** In this chapter, all dataset problems implicitly use the standard integer-valued mass table for the regular twenty amino acids. Examples sometimes use imaginary amino acids X and Z having respective integer masses 4 and 5.
 
@@ -2448,9 +2445,9 @@ for start_mass, edges in spectrum_graph(masses).items():
 
 Implanted Motif Problem. Implement MotifEnumeration (shown above) to find all (k, d)-motifs in a collection of strings.
 
-Given: Integers _k_ and _d_, followed by a collection of strings _Dna_.
+Given: Integers *k* and *d*, followed by a collection of strings *Dna*.
 
-Return: All (_k_, _d_)-motifs in _Dna_.
+Return: All (*k*, *d*)-motifs in *Dna*.
 
 ## Sample Dataset
 
@@ -2529,9 +2526,9 @@ print(*sorted(enumerate_motifs(dna_sequences, kmer_length, max_distance)))
 
 Median String Problem, Find a median string.
 
-Given: An integer _k_ and a collection of strings _Dna_.
+Given: An integer *k* and a collection of strings *Dna*.
 
-Return: A _k_-mer _Pattern_ that minimizes _d_(_Pattern_, _Dna_) over all _k_-mers _Pattern_. (If multiple answers exist, you may return any one.)
+Return: A *k*-mer *Pattern* that minimizes *d*(*Pattern*, *Dna*) over all *k*-mers *Pattern*. (If multiple answers exist, you may return any one.)
 
 ## Sample Dataset
 
@@ -2602,11 +2599,11 @@ print(result)
 
 # Find a Profile-most Probable k-mer in a String
 
-Profile-most Probable _k_-mer Problem, Find a Profile-most probable k-mer in a string.
+Profile-most Probable *k*-mer Problem, Find a Profile-most probable k-mer in a string.
 
-Given: A string _Text_, an integer _k_, and a 4 × _k_ matrix _Profile_.
+Given: A string *Text*, an integer *k*, and a 4 × *k* matrix *Profile*.
 
-Return: A _Profile_-most probable _k_-mer in _Text_. (If multiple answers exist, you may return any one.)
+Return: A *Profile*-most probable *k*-mer in *Text*. (If multiple answers exist, you may return any one.)
 
 ## Sample Dataset
 
@@ -2668,9 +2665,9 @@ print(result)
 
  Implement, GreedyMotifSearch.
 
-Given: Integers _k_ and _t_, followed by a collection of strings _Dna_.
+Given: Integers *k* and *t*, followed by a collection of strings *Dna*.
 
-Return: A collection of strings _BestMotifs_ resulting from running _GreedyMotifSearch_(_Dna_, _k_, _t_). If at any step you find more than one _Profile_-most probable _k_-mer in a given string, use the one occurring first.
+Return: A collection of strings *BestMotifs* resulting from running *GreedyMotifSearch*(*Dna*, *k*, *t*). If at any step you find more than one *Profile*-most probable *k*-mer in a given string, use the one occurring first.
 
 ## Sample Dataset
 
@@ -2764,11 +2761,11 @@ print(*result, sep="\n")
 
 # Implement GreedyMotifSearch with Pseudocounts
 
-Implement. _GreedyMotifSearch_ with Pseudocounts.
+Implement. *GreedyMotifSearch* with Pseudocounts.
 
-Given: Integers _k_ and _t_, followed by a collection of strings _Dna_.
+Given: Integers *k* and *t*, followed by a collection of strings *Dna*.
 
-Return: A collection of strings _BestMotifs_ resulting from running _GreedyMotifSearch_(_Dna_, _k_, _t_) with pseudocounts. If at any step you find more than one _Profile_-most probable _k_-mer in a given string, use the one occurring first.
+Return: A collection of strings *BestMotifs* resulting from running *GreedyMotifSearch*(*Dna*, *k*, *t*) with pseudocounts. If at any step you find more than one *Profile*-most probable *k*-mer in a given string, use the one occurring first.
 
 ## Sample Dataset
 
@@ -2859,11 +2856,11 @@ print(*result, sep="\n")
 
 # Implement RandomizedMotifSearch
 
-Implement _RandomizedMotifSearch_.
+Implement *RandomizedMotifSearch*.
 
-Given: Positive integers _k_ and _t_, followed by a collection of strings _Dna_.
+Given: Positive integers *k* and *t*, followed by a collection of strings *Dna*.
 
-Return: A collection _BestMotifs_ resulting from running _RandomizedMotifSearch_(_Dna_, _k_, _t_) 1000 times. Remember to use pseudocounts!
+Return: A collection *BestMotifs* resulting from running *RandomizedMotifSearch*(*Dna*, *k*, *t*) 1000 times. Remember to use pseudocounts!
 
 ## Sample Dataset
 
@@ -2971,11 +2968,11 @@ print(*result, sep="\n")
 
 # Implement GibbsSampler
 
-Implement, _GibbsSampler_.
+Implement, *GibbsSampler*.
 
-Given: Integers _k_, _t_, and _N_, followed by a collection of strings _Dna_.
+Given: Integers *k*, *t*, and *N*, followed by a collection of strings *Dna*.
 
-Return: The strings _BestMotifs_ resulting from running _GibbsSampler_(_Dna_, _k_, _t_, _N_) with 20 random starts. Remember to use pseudocounts!
+Return: The strings *BestMotifs* resulting from running *GibbsSampler*(*Dna*, *k*, *t*, *N*) with 20 random starts. Remember to use pseudocounts!
 
 ## Sample Dataset
 
@@ -3081,11 +3078,11 @@ print(*result, sep="\n")
 
 # Implement DistanceBetweenPatternAndStrings
 
-Compute DistanceBetweenPatternAndStrings. _Find the distance between a pattern and a set of strings._.
+Compute DistanceBetweenPatternAndStrings. *Find the distance between a pattern and a set of strings.*.
 
-Given: A [DNA string](https://rosalind.info/glossary/dna-string/) _Pattern_ and a collection of DNA strings _Dna_.
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) *Pattern* and a collection of DNA strings *Dna*.
 
-Return: _DistanceBetweenPatternAndStrings_(_Pattern_, _Dna_).
+Return: *DistanceBetweenPatternAndStrings*(*Pattern*, *Dna*).
 
 ## Sample Dataset
 
@@ -3136,9 +3133,9 @@ print(result)
 
 String Composition Problem, Generate the k-mer composition of a string.
 
-Given: An integer _k_ and a string _Text_.
+Given: An integer *k* and a string *Text*.
 
-Return: _Composition__k_(_Text_) (the _k_-mers can be provided in any order).
+Return: *Composition__k*(*Text*) (the *k*-mers can be provided in any order).
 
 ## Sample Dataset
 
@@ -3183,9 +3180,9 @@ for kmer in generate_kmers(dna_sequence, kmer_length):
 
 String Spelled by a Genome Path Problem, Find the string spelled by a genome path.
 
-Given: A sequence of _k_-mers _Pattern1, ... , Patternn_ such that the last _k - 1_ symbols of _Patterni_ are equal to the first _k - 1_ symbols of _Patterni+1_ for _i_ from 1 to n-1.
+Given: A sequence of *k*-mers *Pattern1,..., Patternn* such that the last *k - 1* symbols of *Patterni* are equal to the first *k - 1* symbols of *Patterni+1* for *i* from 1 to n-1.
 
-Return: A string _Text_ of length _k+n-1_ where the _i_-th _k_-mer in _Text_ is equal to _Patterni_ for all _i_.
+Return: A string *Text* of length *k+n-1* where the *i*-th *k*-mer in *Text* is equal to *Patterni* for all *i*.
 
 ## Sample Dataset
 
@@ -3230,9 +3227,9 @@ print(reconstruct_dna_sequence(kmer_list))
 
 Overlap Graph Problem, Construct the overlap graph of a collection of k-mers.
 
-Given: A collection _Patterns_ of _k_-mers.
+Given: A collection *Patterns* of *k*-mers.
 
-Return: The overlap graph _Overlap_(_Patterns_), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
+Return: The overlap graph *Overlap*(*Patterns*), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
 
 ## Sample Dataset
 
@@ -3285,9 +3282,9 @@ for edge in adj_list:
 
 De Bruijn Graph from a String Problem. Construct the de Bruijn graph of a string.
 
-Given: An integer _k_ and a string _Text_.
+Given: An integer *k* and a string *Text*.
 
-Return:_DeBruijn__k_(_Text_), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
+Return:*DeBruijn__k*(*Text*), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
 
 ## Sample Dataset
 
@@ -3345,11 +3342,11 @@ for node, neighbors in adjacency_list.items():
 
 # Construct the De Bruijn Graph of a Collection of k-mers
 
-De Bruijn Graph from _k_-mers Problem. Construct the de Bruijn graph from a collection of k-mers.
+De Bruijn Graph from *k*-mers Problem. Construct the de Bruijn graph from a collection of k-mers.
 
-Given: A collection of _k_-mers _Patterns_.
+Given: A collection of *k*-mers *Patterns*.
 
-Return: The de Bruijn graph _DeBruijn_(_Patterns_), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
+Return: The de Bruijn graph *DeBruijn*(*Patterns*), in the form of an [adjacency list](https://rosalind.info/glossary/adjacency-list/).
 
 ## Sample Dataset
 
@@ -3632,9 +3629,9 @@ print("->".join(find_eulerian_path(adjacency_list)))
 
 String Reconstruction Problem. Reconstruct a string from its k-mer composition.
 
-Given: An integer _k_ followed by a list of _k_-mers _Patterns_.
+Given: An integer *k* followed by a list of *k*-mers *Patterns*.
 
-Return: A string _Text_ with _k_-mer composition equal to _Patterns_. (If multiple answers exist, you may return any one.)
+Return: A string *Text* with *k*-mer composition equal to *Patterns*. (If multiple answers exist, you may return any one.)
 
 ## Sample Dataset
 
@@ -3759,11 +3756,11 @@ print(reconstruct_string(kmers))
 
 # Find a k-Universal Circular String
 
- _k_-Universal Circular String Problem. Find a k-universal circular binary string.
+ *k*-Universal Circular String Problem. Find a k-universal circular binary string.
 
-Given: An integer _k_.
+Given: An integer *k*.
 
-Return: A _k_-universal circular string. (If multiple answers exist, you may return any one.)
+Return: A *k*-universal circular string. (If multiple answers exist, you may return any one.)
 
 ## Sample Dataset
 
@@ -3860,9 +3857,9 @@ print(generate_k_universal_circular_string(k))
 
 String Reconstruction from Read-Pairs Problem. Reconstruct a string from its paired composition.
 
-Given: Integers _k_ and _d_ followed by a collection of paired _k_-mers _PairedReads_.
+Given: Integers *k* and *d* followed by a collection of paired *k*-mers *PairedReads*.
 
-Return: A string _Text_ with (_k_, _d_)-mer composition equal to _PairedReads_. (If multiple answers exist, you may return any one.)
+Return: A string *Text* with (*k*, *d*)-mer composition equal to *PairedReads*. (If multiple answers exist, you may return any one.)
 
 ## Sample Dataset
 
@@ -3998,9 +3995,9 @@ print(reconstruct_string_from_read_pairs(k, d, paired_reads))
 
 Contig Generation Problem. Generate the contigs from a collection of reads (with imperfect coverage).
 
-Given: A collection of k-mers _Patterns_.
+Given: A collection of k-mers *Patterns*.
 
-Return: All contigs in _DeBruijn(Patterns)_. (You may return the strings in any order.)
+Return: All contigs in *DeBruijn(Patterns)*. (You may return the strings in any order.)
 
 ## Sample Dataset
 
@@ -4119,9 +4116,9 @@ print(" ".join(contigs))
 
 Gapped Genome Path String Problem. Reconstruct a string from a sequence of (k,d)-mers corresponding to a path in a paired de Bruijn graph.
 
-Given: A sequence of _(k, d)_-mers (_a1|b1_), ... , (_an|bn_) such that _Suffix(ai|bi) = Prefix(ai+1|bi+1)_ for all _i_ from 1 to n-1.
+Given: A sequence of *(k, d)*-mers (*a1|b1*),..., (*an|bn*) such that *Suffix(ai|bi) = Prefix(ai+1|bi+1)* for all *i* from 1 to n-1.
 
-Return: A string _Text_ where the _i_-th _k_-mer in _Text_ is equal to _Suffix(ai|bi)_ for all _i_ from 1 to n, if such a string exists.
+Return: A string *Text* where the *i*-th *k*-mer in *Text* is equal to *Suffix(ai|bi)* for all *i* from 1 to n, if such a string exists.
 
 ## Sample Dataset
 
@@ -4291,9 +4288,9 @@ for path in result:
 
 Protein Translation Problem. Translate an [RNA string](https://rosalind.info/glossary/rna-string/) into an [amino acid string](https://rosalind.info/glossary/protein-string/).
 
-Given: An RNA string _Pattern_.
+Given: An RNA string *Pattern*.
 
-Return: The translation of _Pattern_ into an amino acid string _Peptide_.
+Return: The translation of *Pattern* into an amino acid string *Peptide*.
 
 ## Sample Dataset
 
@@ -4305,6 +4302,3013 @@ AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA
 
 ```
 MAMAPRTEINSTRING
+```
+
+## Solution
+
+```python
+from typing import Dict, List
+
+def translate_rna_to_protein(rna_sequence: str) -> str:
+    # RNA 코돈을 아미노산으로 변환하는 딕셔너리
+    codon_table: Dict[str, str] = {
+        'UUU': 'F', 'UUC': 'F', 'UUA': 'L', 'UUG': 'L',
+        'UCU': 'S', 'UCC': 'S', 'UCA': 'S', 'UCG': 'S',
+        'UAU': 'Y', 'UAC': 'Y', 'UAA': '*', 'UAG': '*',
+        'UGU': 'C', 'UGC': 'C', 'UGA': '*', 'UGG': 'W',
+        'CUU': 'L', 'CUC': 'L', 'CUA': 'L', 'CUG': 'L',
+        'CCU': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P',
+        'CAU': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG': 'Q',
+        'CGU': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R',
+        'AUU': 'I', 'AUC': 'I', 'AUA': 'I', 'AUG': 'M',
+        'ACU': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T',
+        'AAU': 'N', 'AAC': 'N', 'AAA': 'K', 'AAG': 'K',
+        'AGU': 'S', 'AGC': 'S', 'AGA': 'R', 'AGG': 'R',
+        'GUU': 'V', 'GUC': 'V', 'GUA': 'V', 'GUG': 'V',
+        'GCU': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
+        'GAU': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
+        'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
+    }
+    
+    protein_sequence: str = ""
+    
+    # RNA 서열을 3개의 뉴클레오티드(코돈)씩 나누어 처리
+    for i in range(0, len(rna_sequence), 3):
+        codon: str = rna_sequence[i:i+3]
+        
+        # 코돈이 3개의 뉴클레오티드로 완전하지 않으면 중단
+        if len(codon) != 3:
+            break
+        
+        # 코돈을 아미노산으로 변환
+        amino_acid: str = codon_table.get(codon, '')
+        
+        # 종결 코돈('*')을 만나면 번역 중단
+        if amino_acid == '*':
+            break
+        
+        protein_sequence += amino_acid
+    
+    return protein_sequence
+
+# 입력 RNA 서열
+sample_input: str = """
+AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA
+"""
+
+rna_sequence: str = ''.join(sample_input.strip().split())
+
+# RNA를 단백질로 번역
+protein: str = translate_rna_to_protein(rna_sequence)
+
+print(protein)
+```
+
+# Find Substrings of a Genome Encoding a Given Amino Acid String
+
+Peptide Encoding Problem, Find substrings of a genome encoding a given amino acid sequence.
+
+Given: A [DNA string](https://rosalind.info/glossary/dna-string/) *Text* and an [amino acid string](https://rosalind.info/glossary/protein-string/) *Peptide*.
+
+Return: All substrings of *Text* encoding *Peptide* (if any such substrings exist).
+
+## Sample Dataset
+
+```
+ATGGCCATGGCCCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA
+MA
+```
+
+## Sample Output
+
+```
+ATGGCC
+GGCCAT
+ATGGCC
+```
+
+## Solution
+
+```python
+from typing import Dict, List
+
+def translate_rna_to_protein(rna_sequence: str) -> str:
+    codon_to_amino_acid: Dict[str, str] = {
+        'UUU': 'F', 'UUC': 'F', 'UUA': 'L', 'UUG': 'L',
+        'UCU': 'S', 'UCC': 'S', 'UCA': 'S', 'UCG': 'S',
+        'UAU': 'Y', 'UAC': 'Y', 'UAA': '*', 'UAG': '*',
+        'UGU': 'C', 'UGC': 'C', 'UGA': '*', 'UGG': 'W',
+        'CUU': 'L', 'CUC': 'L', 'CUA': 'L', 'CUG': 'L',
+        'CCU': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P',
+        'CAU': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG': 'Q',
+        'CGU': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R',
+        'AUU': 'I', 'AUC': 'I', 'AUA': 'I', 'AUG': 'M',
+        'ACU': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T',
+        'AAU': 'N', 'AAC': 'N', 'AAA': 'K', 'AAG': 'K',
+        'AGU': 'S', 'AGC': 'S', 'AGA': 'R', 'AGG': 'R',
+        'GUU': 'V', 'GUC': 'V', 'GUA': 'V', 'GUG': 'V',
+        'GCU': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
+        'GAU': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
+        'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
+    }
+    
+    protein_sequence: List[str] = []
+    
+    for i in range(0, len(rna_sequence), 3):
+        codon: str = rna_sequence[i:i+3]
+        
+        if len(codon) != 3:
+            break
+        
+        amino_acid: str = codon_to_amino_acid.get(codon, '')
+        
+        if amino_acid == '*':
+            break
+        
+        protein_sequence.append(amino_acid)
+    
+    return ''.join(protein_sequence)
+
+def reverse_complement(dna_sequence: str) -> str:
+    return dna_sequence[::-1].translate(str.maketrans("ACGT", "TGCA"))
+
+def dna_to_rna(dna_sequence: str) -> str:
+    return dna_sequence.replace("T", "U")
+
+def find_peptide_encoding_substrings(dna_sequence: str, peptide: str) -> List[str]:
+    substring_length: int = len(peptide) * 3
+    encoding_substrings: List[str] = []
+
+    for i in range(len(dna_sequence) - substring_length + 1):
+        dna_substring: str = dna_sequence[i:i + substring_length]
+        reverse_complement_substring: str = reverse_complement(dna_substring)
+
+        rna_substring: str = dna_to_rna(dna_substring)
+        reverse_complement_rna: str = dna_to_rna(reverse_complement_substring)
+
+        if (translate_rna_to_protein(rna_substring) == peptide or 
+            translate_rna_to_protein(reverse_complement_rna) == peptide):
+            encoding_substrings.append(dna_substring)
+
+    return encoding_substrings
+
+sample_input: str = """
+ATGGCCATGGCCCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA
+MA
+"""
+
+dna_sequence, peptide = sample_input.strip().split('\n')
+result: List[str] = find_peptide_encoding_substrings(dna_sequence, peptide)
+print("\n".join(result))
+```
+
+# Generate the Theoretical Spectrum of a Cyclic Peptide
+
+ Generating Theoretical Spectrum Problem, Generate the theoretical spectrum of a cyclic peptide.
+
+Given: An amino acid string *Peptide*.
+
+Return: *Cyclospectrum*(*Peptide*).
+
+## Sample Dataset
+
+```
+LEQN
+```
+
+## Sample Output
+
+```
+0 113 114 128 129 227 242 242 257 355 356 370 371 484
+```
+
+## Solution
+
+```python
+from typing import Dict, List
+
+AMINO_ACID_MASSES: Dict[str, int] = {
+    'A': 71, 'C': 103, 'E': 129, 'D': 115, 'G': 57, 'F': 147, 'I': 113, 'H': 137, 'K': 128, 'M': 131,
+    'L': 113, 'N': 114, 'Q': 128, 'P': 97, 'S': 87, 'R': 156, 'T': 101, 'W': 186, 'V': 99, 'Y': 163
+}
+
+def calculate_cyclospectrum(peptide: str) -> List[int]:
+    total_mass: int = sum(AMINO_ACID_MASSES[amino_acid] for amino_acid in peptide)
+    spectrum: List[int] = [0, total_mass]
+    circular_peptide: str = peptide + peptide
+    
+    for subpeptide_length in range(1, len(peptide)):
+        for start_index in range(len(peptide)):
+            subpeptide: str = circular_peptide[start_index:start_index + subpeptide_length]
+            subpeptide_mass: int = sum(AMINO_ACID_MASSES[amino_acid] for amino_acid in subpeptide)
+            spectrum.append(subpeptide_mass)
+    
+    return sorted(spectrum)
+
+sample_input: str = """
+LEQN
+"""
+
+input_peptide: str = sample_input.strip()
+
+result: List[int] = calculate_cyclospectrum(input_peptide)
+print(" ".join(map(str, result)))
+```
+
+# Compute the Number of Peptides of Given Total Mass
+
+Counting Peptides with Given Mass Problem, Compute the number of peptides of given total mass.
+
+Given: An integer *m*.
+
+Return: The number of linear peptides having integer mass *m*.
+
+## Sample Dataset
+
+```
+1024
+```
+
+## Sample Output
+
+```
+14712706211
+```
+
+## Solution
+
+```python
+from collections import defaultdict
+from typing import List, Dict
+
+AMINO_ACID_MASSES: List[int] = [57, 71, 87, 97, 99, 101, 103, 113, 114, 115, 128, 129, 131, 137, 147, 156, 163, 186]
+LIGHTEST_AMINO_ACID: int = min(AMINO_ACID_MASSES)
+
+def count_possible_peptides(target_mass: int) -> int:
+    peptide_count: Dict[int, int] = defaultdict(int)
+    
+    for current_mass in range(LIGHTEST_AMINO_ACID, target_mass + 1):
+        peptide_count[current_mass] = sum(1 for amino_acid_mass in AMINO_ACID_MASSES if amino_acid_mass == current_mass)
+        
+        for amino_acid_mass in AMINO_ACID_MASSES:
+            if current_mass >= amino_acid_mass:
+                peptide_count[current_mass] += peptide_count[current_mass - amino_acid_mass]
+
+    return peptide_count[target_mass]
+
+sample_input: str = """
+1024
+"""
+target_peptide_mass: int = int(sample_input.strip())
+result: int = count_possible_peptides(target_peptide_mass)
+print(result)
+```
+
+# Find a Cyclic Peptide with Theoretical Spectrum Matching an Ideal Spectrum
+
+Cyclopeptide Sequencing Problem, Given an ideal experimental spectrum, find a cyclic peptide whose theoretical spectrum matches the experimental spectrum.
+
+Given: A collection of (possibly repeated) integers *Spectrum* corresponding to an ideal experimental spectrum.
+
+Return: Every amino acid string *Peptide* such that *Cyclospectrum*(*Peptide*) = *Spectrum* (if such a string exists).
+
+## Sample Dataset
+
+```
+0 113 128 186 241 299 314 427
+```
+
+## Sample Output
+
+```
+113-128-186 113-186-128 186-128-113 128-186-113 186-113-128 128-113-186
+```
+
+## Solution
+
+```python
+from typing import List, Set
+
+AMINO_ACID_MASSES: List[int] = [57, 71, 87, 97, 99, 101, 103, 113, 114, 115, 128, 129, 131, 137, 147, 156, 163, 186]
+
+def calculate_cyclospectrum(peptide: List[int]) -> List[int]:
+    spectrum: List[int] = [0, sum(peptide)]
+    extended_peptide: List[int] = peptide + peptide
+    for k in range(1, len(peptide)):
+        for i in range(len(peptide)):
+            subpeptide: List[int] = extended_peptide[i:i + k]
+            spectrum.append(sum(subpeptide))
+    spectrum.sort()
+    return spectrum
+
+def calculate_linear_spectrum(peptide: List[int]) -> List[int]:
+    prefix_mass: List[int] = [0]
+    for mass in peptide:
+        prefix_mass.append(prefix_mass[-1] + mass)
+    linear_spectrum: List[int] = [0]
+    for i in range(len(peptide)):
+        for j in range(i + 1, len(peptide) + 1):
+            linear_spectrum.append(prefix_mass[j] - prefix_mass[i])
+    linear_spectrum.sort()
+    return linear_spectrum
+
+def expand_peptides(peptides: List[List[int]]) -> List[List[int]]:
+    expanded_peptides: List[List[int]] = []
+    for peptide in peptides:
+        for mass in AMINO_ACID_MASSES:
+            expanded_peptides.append(peptide + [mass])
+    return expanded_peptides
+
+def is_consistent(peptide: List[int], spectrum: List[int]) -> bool:
+    if sum(peptide) > spectrum[-1] - AMINO_ACID_MASSES[0]:
+        return False
+    peptide_spectrum: List[int] = calculate_linear_spectrum(peptide)
+    return all(mass in spectrum for mass in peptide_spectrum)
+
+def cyclopeptide_sequencing(spectrum: List[int]) -> Set[str]:
+    candidate_peptides: List[List[int]] = [[]]
+    result: Set[str] = set()
+    
+    while candidate_peptides:
+        candidate_peptides = expand_peptides(candidate_peptides)
+        for peptide in candidate_peptides[:]:
+            if sum(peptide) == spectrum[-1]:
+                if calculate_cyclospectrum(peptide) == spectrum:
+                    result.add("-".join(map(str, peptide)))
+                candidate_peptides.remove(peptide)
+            elif not is_consistent(peptide, spectrum):
+                candidate_peptides.remove(peptide)
+    
+    return result
+
+sample_input: str = """
+0 113 128 186 241 299 314 427
+"""
+
+input_spectrum: List[int] = [int(x) for x in sample_input.strip().split()]
+
+result: Set[str] = cyclopeptide_sequencing(input_spectrum)
+print(" ".join(result))
+```
+
+# Compute the Score of a Cyclic Peptide Against a Spectrum
+
+Cyclic Peptide Scoring Problem, Compute the score of a cyclic peptide against a spectrum.
+
+Given: An amino acid string *Peptide* and a collection of integers *Spectrum*.
+
+Return: The score of *Peptide* against *Spectrum*, *Score*(*Peptide*, *Spectrum*).
+
+## Sample Dataset
+
+```
+NQEL
+0 99 113 114 128 227 257 299 355 356 370 371 484
+```
+
+## Sample Output
+
+```
+11
+```
+
+## Solution
+
+```python
+from typing import Dict, List
+
+AMINO_ACID_MASSES: Dict[str, int] = {
+    'A': 71, 'C': 103, 'E': 129, 'D': 115, 'G': 57, 'F': 147, 'I': 113, 'H': 137, 'K': 128, 'M': 131,
+    'L': 113, 'N': 114, 'Q': 128, 'P': 97, 'S': 87, 'R': 156, 'T': 101, 'W': 186, 'V': 99, 'Y': 163
+}
+
+def calculate_cyclospectrum(peptide: str) -> List[int]:
+    total_mass: int = sum(AMINO_ACID_MASSES[aa] for aa in peptide)
+    spectrum: List[int] = [0, total_mass]
+    extended_peptide: str = peptide + peptide
+    
+    for length in range(1, len(peptide)):
+        for start in range(len(peptide)):
+            subpeptide: str = extended_peptide[start:start + length]
+            subpeptide_mass: int = sum(AMINO_ACID_MASSES[aa] for aa in subpeptide)
+            spectrum.append(subpeptide_mass)
+    
+    spectrum.sort()
+    return spectrum
+
+def calculate_score(peptide: str, experimental_spectrum: List[int]) -> int:
+    theoretical_spectrum: List[int] = calculate_cyclospectrum(peptide)
+    score: int = 0
+    unique_masses: set = set(theoretical_spectrum + experimental_spectrum)
+    
+    for mass in unique_masses:
+        score += min(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))
+    
+    return score
+
+sample_input: str = """
+NQEL
+0 99 113 114 128 227 257 299 355 356 370 371 484
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+input_peptide: str = input_lines[0]
+input_spectrum: List[int] = [int(x) for x in input_lines[1].split()]
+
+result: int = calculate_score(input_peptide, input_spectrum)
+print(result)
+```
+
+# Implement LeaderboardCyclopeptideSequencing
+
+Implement *LeaderboardCyclopeptideSequencing*
+
+Given: An integer *N* and a collection of integers *Spectrum*.
+
+Return: *LeaderPeptide* after running *LeaderboardCyclopeptideSequencing*(*Spectrum*, *N*).
+
+## Sample Dataset
+
+```
+10
+0 71 113 129 147 200 218 260 313 331 347 389 460
+```
+
+## Sample Output
+
+```
+113-147-71-129
+```
+
+## Solution
+
+```python
+from typing import List, Set, Dict
+
+AMINO_ACID_MASSES: List[int] = [57, 71, 87, 97, 99, 101, 103, 113, 114, 115, 128, 129, 131, 137, 147, 156, 163, 186]
+
+def expand_peptides(peptides: List[List[int]]) -> List[List[int]]:
+    expanded_peptides: List[List[int]] = []
+    for peptide in peptides:
+        for mass in AMINO_ACID_MASSES:
+            expanded_peptides.append(peptide + [mass])
+    return expanded_peptides
+
+def calculate_cyclospectrum(peptide: List[int]) -> List[int]:
+    total_mass: int = sum(peptide)
+    spectrum: List[int] = [0, total_mass]
+    extended_peptide: List[int] = peptide + peptide
+    
+    for length in range(1, len(peptide)):
+        for start in range(len(peptide)):
+            subpeptide: List[int] = extended_peptide[start:start + length]
+            subpeptide_mass: int = sum(subpeptide)
+            spectrum.append(subpeptide_mass)
+    
+    spectrum.sort()
+    return spectrum
+
+def is_consistent(peptide: List[int], spectrum: List[int]) -> bool:
+    peptide_spectrum: List[int] = calculate_cyclospectrum(peptide)
+    return all(peptide_spectrum.count(mass) <= spectrum.count(mass) for mass in set(peptide_spectrum))
+
+def cyclopeptide_sequencing(spectrum: List[int]) -> Set[str]:
+    result: Set[str] = set()
+    candidate_peptides: List[List[int]] = [[]]
+    while candidate_peptides:
+        candidate_peptides = expand_peptides(candidate_peptides)
+        for peptide in candidate_peptides[:]:
+            if sum(peptide) == spectrum[-1]:
+                if calculate_cyclospectrum(peptide) == spectrum:
+                    result.add("-".join(map(str, peptide)))
+                candidate_peptides.remove(peptide)
+            elif not is_consistent(peptide, spectrum):
+                candidate_peptides.remove(peptide)
+    return result
+
+def calculate_score(peptide: List[int], spectrum: List[int]) -> int:
+    peptide_spectrum: List[int] = calculate_cyclospectrum(peptide)
+    score: int = 0
+    unique_masses: Set[int] = set(peptide_spectrum + spectrum)
+    for mass in unique_masses:
+        score += min(peptide_spectrum.count(mass), spectrum.count(mass))
+    return score
+
+def trim_leaderboard(leaderboard: List[List[int]], spectrum: List[int], n: int) -> List[List[int]]:
+    if len(leaderboard) <= n:
+        return leaderboard
+
+    scores: Dict[int, int] = {}
+    for i, peptide in enumerate(leaderboard):
+        scores[i] = calculate_score(peptide, spectrum)
+
+    sorted_scores: List[int] = sorted(scores.values(), reverse=True)
+    threshold: int = sorted_scores[n - 1] if n <= len(sorted_scores) else sorted_scores[-1]
+
+    return [leaderboard[idx] for idx, score in scores.items() if score >= threshold]
+
+def leaderboard_cyclopeptide_sequencing(spectrum: List[int], n: int) -> List[int]:
+    leaderboard: List[List[int]] = [[]]
+    leader_peptide: List[int] = []
+
+    while leaderboard:
+        leaderboard = expand_peptides(leaderboard)
+        for peptide in leaderboard[:]:
+            if sum(peptide) == spectrum[-1]:
+                if calculate_score(peptide, spectrum) > calculate_score(leader_peptide, spectrum):
+                    leader_peptide = peptide
+            elif sum(peptide) > spectrum[-1]:
+                leaderboard.remove(peptide)
+        leaderboard = trim_leaderboard(leaderboard, spectrum, n)
+    return leader_peptide
+
+sample_input: str = """
+10
+0 71 113 129 147 200 218 260 313 331 347 389 460
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+n: int = int(input_lines[0])
+spectrum: List[int] = [int(x) for x in input_lines[1].split()]
+
+result: List[int] = leaderboard_cyclopeptide_sequencing(spectrum, n)
+print("-".join(map(str, result)))
+```
+
+# Generate the Convolution of a Spectrum
+
+Spectral Convolution Problem, Compute the convolution of a spectrum.
+
+Given: A collection of integers *Spectrum*.
+
+Return: The list of elements in the convolution of *Spectrum* in decreasing order of their multiplicities. If an element has multiplicity *k*, it should appear exactly *k* times.
+
+## Sample Dataset
+
+```
+0 137 186 323
+```
+
+## Sample Output
+
+```
+137 137 186 186 323 49
+```
+
+## Solution
+
+```python
+from typing import List, Dict
+
+def calculate_spectrum_convolution(spectrum: List[int]) -> List[int]:
+    spectrum.sort()
+    convolution_list: List[int] = []
+    
+    for i in range(len(spectrum) - 1):
+        for j in range(i + 1, len(spectrum)):
+            mass_difference: int = spectrum[j] - spectrum[i]
+            if mass_difference != 0:
+                convolution_list.append(mass_difference)
+
+    frequency_dict: Dict[int, int] = {}
+    for mass in set(convolution_list):
+        frequency_dict[mass] = convolution_list.count(mass)
+
+    sorted_masses: List[int] = sorted(frequency_dict, key=frequency_dict.get, reverse=True)
+    
+    result: List[int] = []
+    for mass in sorted_masses:
+        result.extend([mass] * frequency_dict[mass])
+    
+    return result
+
+sample_input: str = """
+0 137 186 323
+"""
+
+input_spectrum: List[int] = [int(x) for x in sample_input.strip().split()]
+
+convolution_result: List[int] = calculate_spectrum_convolution(input_spectrum)
+print(" ".join(map(str, convolution_result)))
+```
+
+# Implement ConvolutionCyclopeptideSequencing
+
+Implement *ConvolutionCyclopeptideSequencing*.
+
+Given: An integer *M*, an integer *N*, and a collection of (possibly repeated) integers *Spectrum*.
+
+Return: A cyclic peptide LeaderPeptide with amino acids taken only from the top *M* elements (and ties) of the convolution of *Spectrum* that fall between 57 and 200, and where the size of *Leaderboard* is restricted to the top *N* (and ties).
+
+## Sample Dataset
+
+```
+20
+60
+57 57 71 99 129 137 170 186 194 208 228 265 285 299 307 323 356 364 394 422 493
+```
+
+## Sample Output
+
+```
+99-71-137-57-72-57
+```
+
+## Solution
+
+```python
+from typing import List, Dict, Tuple
+
+def calculate_spectrum_convolution(spectrum: List[int]) -> List[int]:
+    spectrum.sort()
+    convolution_list: List[int] = []
+    for i in range(len(spectrum) - 1):
+        for j in range(i, len(spectrum)):
+            if spectrum[j] - spectrum[i] != 0:
+                convolution_list.append(spectrum[j] - spectrum[i])
+
+    frequency_dict: Dict[int, int] = {}
+    for mass in set(convolution_list):
+        frequency_dict[mass] = convolution_list.count(mass)
+
+    sorted_masses: List[int] = [k for k, _ in sorted(frequency_dict.items(), key=lambda item: item[1], reverse=True)]
+    result: List[int] = []
+    for mass in sorted_masses:
+        result += [mass] * frequency_dict[mass]
+    return result
+
+def trim_leaderboard(leaderboard: List[List[int]], spectrum: List[int], n: int) -> List[List[int]]:
+    if len(leaderboard) <= n:
+        return leaderboard
+
+    scores: Dict[int, int] = {}
+    for i, peptide in enumerate(leaderboard):
+        scores[i] = calculate_score(peptide, spectrum)
+
+    sorted_scores: List[int] = sorted(scores.values(), reverse=True)
+    threshold: int = sorted_scores[n - 1]
+
+    return [leaderboard[idx] for idx, score in scores.items() if score >= threshold]
+
+def calculate_cyclospectrum(peptide: List[int]) -> List[int]:
+    spectrum: List[int] = [0, sum(peptide)]
+    extended_peptide: List[int] = peptide + peptide
+    for k in range(1, len(peptide)):
+        for i in range(len(peptide)):
+            subpeptide: List[int] = extended_peptide[i:i + k]
+            spectrum.append(sum(subpeptide))
+    spectrum.sort()
+    return spectrum
+
+def calculate_score(peptide: List[int], spectrum: List[int]) -> int:
+    peptide_spectrum: List[int] = calculate_cyclospectrum(peptide)
+    score: int = 0
+    unique_masses: set = set(peptide_spectrum + spectrum)
+    for mass in unique_masses:
+        score += min(peptide_spectrum.count(mass), spectrum.count(mass))
+    return score
+
+def find_top_masses(spectrum: List[int], m: int) -> List[int]:
+    convolution: List[int] = calculate_spectrum_convolution(spectrum)
+    filtered_convolution: List[int] = [x for x in convolution if 57 <= x <= 200]
+
+    frequency_dict: Dict[int, int] = {}
+    for mass in set(filtered_convolution):
+        frequency_dict[mass] = filtered_convolution.count(mass)
+
+    sorted_elements: List[Tuple[int, int]] = sorted(frequency_dict.items(), key=lambda kv: kv[1], reverse=True)
+    top_masses: List[int] = [mass for mass, freq in sorted_elements if freq >= sorted_elements[m - 1][1]]
+    top_masses.sort()
+    return top_masses
+
+def expand_peptides(peptides: List[List[int]], masses: List[int]) -> List[List[int]]:
+    expanded_peptides: List[List[int]] = []
+    for peptide in peptides:
+        for mass in masses:
+            expanded_peptides.append(peptide + [mass])
+    return expanded_peptides
+
+def convolution_cyclopeptide_sequencing(spectrum: List[int], m: int, n: int) -> List[int]:
+    masses: List[int] = find_top_masses(spectrum, m)
+    leaderboard: List[List[int]] = [[]]
+    leader_peptide: List[int] = []
+
+    while leaderboard:
+        leaderboard = expand_peptides(leaderboard, masses)
+        for peptide in leaderboard[:]:
+            if sum(peptide) == spectrum[-1]:
+                if calculate_score(peptide, spectrum) > calculate_score(leader_peptide, spectrum):
+                    leader_peptide = peptide
+            elif sum(peptide) > spectrum[-1]:
+                leaderboard.remove(peptide)
+        leaderboard = trim_leaderboard(leaderboard, spectrum, n)
+    return leader_peptide
+
+sample_input: str = """
+20
+60
+57 57 71 99 129 137 170 186 194 208 228 265 285 299 307 323 356 364 394 422 493
+"""
+input_lines: List[str] = sample_input.strip().split("\n")
+m: int = int(input_lines[0])
+n: int = int(input_lines[1])
+spectrum: List[int] = [int(x) for x in input_lines[2].split()]
+
+result: List[int] = convolution_cyclopeptide_sequencing(spectrum, m, n)
+print("-".join(map(str, result)))
+```
+
+# Generate the Theoretical Spectrum of a Linear Peptide
+
+Linear Spectrum Problem, Generate the ideal linear spectrum of a peptide.
+
+Given: An [amino acid string](https://rosalind.info/glossary/protein-string/) *Peptide*.
+
+Return: The linear spectrum of *Peptide*.
+
+## Sample Dataset
+
+```
+NQEL
+```
+
+## Sample Output
+
+```
+0 113 114 128 129 242 242 257 370 371 484
+```
+
+## Solution
+
+```python
+from typing import List, Dict
+
+AMINO_ACID_MASSES: Dict[str, int] = {
+    'A': 71, 'C': 103, 'E': 129, 'D': 115, 'G': 57, 'F': 147, 'I': 113, 'H': 137,
+    'K': 128, 'M': 131, 'L': 113, 'N': 114, 'Q': 128, 'P': 97, 'S': 87, 'R': 156,
+    'T': 101, 'W': 186, 'V': 99, 'Y': 163
+}
+
+def calculate_linear_spectrum(peptide: str) -> List[int]:
+    prefix_masses: List[int] = [0]
+    
+    for amino_acid in peptide:
+        current_mass = prefix_masses[-1] + AMINO_ACID_MASSES[amino_acid]
+        prefix_masses.append(current_mass)
+    
+    linear_spectrum: List[int] = [0]
+    
+    for i in range(len(peptide)):
+        for j in range(i + 1, len(peptide) + 1):
+            subpeptide_mass = prefix_masses[j] - prefix_masses[i]
+            linear_spectrum.append(subpeptide_mass)
+    
+    return sorted(linear_spectrum)
+
+# Sample input
+sample_peptide: str = "NQEL"
+
+# Calculate and print the linear spectrum
+result: List[int] = calculate_linear_spectrum(sample_peptide)
+print(" ".join(map(str, result)))
+```
+
+# Compute the Score of a Linear Peptide
+
+Linear Peptide Scoring Problem, Compute the score of a linear peptide with respect to a spectrum.
+
+Given: An amino acid string *Peptide* and a collection of integers *LinearSpectrum*.
+
+Return: The linear score of *Peptide* against *Spectrum*, *LinearScore*(*Peptide*, *Spectrum*).
+
+## Sample Dataset
+
+```
+NQEL
+0 99 113 114 128 227 257 299 355 356 370 371 484
+```
+
+## Sample Output
+
+```
+8
+```
+
+## Solution
+
+```python
+from typing import List, Dict
+
+AMINO_ACID_MASSES: Dict[str, int] = {
+    'A': 71, 'C': 103, 'E': 129, 'D': 115, 'G': 57, 'F': 147, 'I': 113, 'H': 137,
+    'K': 128, 'M': 131, 'L': 113, 'N': 114, 'Q': 128, 'P': 97, 'S': 87, 'R': 156,
+    'T': 101, 'W': 186, 'V': 99, 'Y': 163
+}
+
+def calculate_linear_spectrum(peptide: str) -> List[int]:
+    prefix_masses: List[int] = [0]
+    
+    for amino_acid in peptide:
+        current_mass = prefix_masses[-1] + AMINO_ACID_MASSES[amino_acid]
+        prefix_masses.append(current_mass)
+    
+    linear_spectrum: List[int] = [0]
+    
+    for i in range(len(peptide)):
+        for j in range(i + 1, len(peptide) + 1):
+            subpeptide_mass = prefix_masses[j] - prefix_masses[i]
+            linear_spectrum.append(subpeptide_mass)
+    
+    return sorted(linear_spectrum)
+
+def calculate_linear_score(peptide: str, experimental_spectrum: List[int]) -> int:
+    theoretical_spectrum: List[int] = calculate_linear_spectrum(peptide)
+    score: int = 0
+    unique_masses: set = set(theoretical_spectrum + experimental_spectrum)
+    
+    for mass in unique_masses:
+        score += min(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))
+    
+    return score
+
+# Sample input
+sample_input: str = """
+NQEL
+0 99 113 114 128 227 257 299 355 356 370 371 484
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+input_peptide: str = input_lines[0]
+input_spectrum: List[int] = [int(x) for x in input_lines[1].split()]
+
+# Calculate and print the linear score
+result: int = calculate_linear_score(input_peptide, input_spectrum)
+print(result)
+```
+
+# Trim a Peptide Leaderboard
+
+Trim Problem, Trim a leaderboard of peptides.
+
+Given: A leaderboard of linear peptides *Leaderboard*, a linear spectrum *Spectrum*, and an integer *N*.
+
+Return: The top *N* peptides from *Leaderboard* scored against *Spectrum*. Remember to use *LinearScore*.
+
+## Sample Dataset
+
+```
+LAST ALST TLLT TQAS
+0 71 87 101 113 158 184 188 259 271 372
+2
+```
+
+## Sample Output
+
+```
+LAST ALST
+```
+
+## Solution
+
+```python
+from typing import List, Dict
+
+AMINO_ACID_MASSES: Dict[str, int] = {
+    'A': 71, 'C': 103, 'E': 129, 'D': 115, 'G': 57, 'F': 147, 'I': 113, 'H': 137,
+    'K': 128, 'M': 131, 'L': 113, 'N': 114, 'Q': 128, 'P': 97, 'S': 87, 'R': 156,
+    'T': 101, 'W': 186, 'V': 99, 'Y': 163
+}
+
+def calculate_linear_spectrum(peptide: str) -> List[int]:
+    prefix_masses: List[int] = [0]
+    
+    for amino_acid in peptide:
+        current_mass = prefix_masses[-1] + AMINO_ACID_MASSES[amino_acid]
+        prefix_masses.append(current_mass)
+    
+    linear_spectrum: List[int] = [0]
+    
+    for i in range(len(peptide)):
+        for j in range(i + 1, len(peptide) + 1):
+            subpeptide_mass = prefix_masses[j] - prefix_masses[i]
+            linear_spectrum.append(subpeptide_mass)
+    
+    return sorted(linear_spectrum)
+
+def calculate_linear_score(peptide: str, experimental_spectrum: List[int]) -> int:
+    theoretical_spectrum: List[int] = calculate_linear_spectrum(peptide)
+    score: int = 0
+    unique_masses: set = set(theoretical_spectrum + experimental_spectrum)
+    
+    for mass in unique_masses:
+        score += min(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))
+    
+    return score
+
+def trim_leaderboard(leaderboard: List[str], spectrum: List[int], n: int) -> List[str]:
+    if len(leaderboard) <= n:
+        return leaderboard
+
+    peptide_scores: Dict[int, int] = {}
+    for i, peptide in enumerate(leaderboard):
+        peptide_scores[i] = calculate_linear_score(peptide, spectrum)
+
+    sorted_scores: List[int] = sorted(peptide_scores.values(), reverse=True)
+    score_threshold: int = sorted_scores[n - 1]
+
+    return [leaderboard[idx] for idx, score in peptide_scores.items() if score >= score_threshold]
+
+# Sample input
+sample_input: str = """
+LAST ALST TLLT TQAS
+0 71 87 101 113 158 184 188 259 271 372
+2
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+input_leaderboard: List[str] = input_lines[0].split()
+input_spectrum: List[int] = [int(x) for x in input_lines[1].split()]
+input_n: int = int(input_lines[2])
+
+result: List[str] = trim_leaderboard(input_leaderboard, input_spectrum, input_n)
+print(" ".join(result))
+```
+
+# Solve the Turnpike Problem
+
+Turnpike Problem. Given all pairwise distances between points on a line segment, reconstruct the positions of those points.
+
+Given: A collection of integers *L*.
+
+Return: A set *A* such that $∆A$ = *L*.
+
+## Sample Dataset
+
+```
+-10 -8 -7 -6 -5 -4 -3 -3 -2 -2 0 0 0 0 0 2 2 3 3 4 5 6 7 8 10
+```
+
+## Sample Output
+
+```
+0 2 4 7 10
+```
+
+## Solution
+
+```python
+from typing import List, Set, Optional
+
+def calculate_absolute_differences(set_a: Set[int], set_b: Set[int]) -> List[int]:
+    return [abs(a - b) for a in set_a for b in set_b]
+
+def is_multiset_subset(subset: List[int], superset: List[int]) -> bool:
+    return all(subset.count(elem) <= superset.count(elem) for elem in set(subset))
+
+def multiset_difference(set_a: List[int], set_b: List[int]) -> List[int]:
+    difference: List[int] = []
+    unique_elements: Set[int] = set(set_a)
+    for elem in unique_elements:
+        count_difference = set_a.count(elem) - set_b.count(elem)
+        if count_difference > 0:
+            difference.extend([elem] * count_difference)
+    return sorted(difference)
+
+def place_elements(distances: List[int]) -> Optional[Set[int]]:
+    if not distances:
+        return placed_elements
+
+    current_distance: int = distances[-1]
+    
+    # Try placing on the left
+    left_differences: List[int] = calculate_absolute_differences({current_distance}, placed_elements)
+    if is_multiset_subset(left_differences, distances):
+        placed_elements.add(current_distance)
+        remaining_distances_left: List[int] = multiset_difference(distances, left_differences)
+        left_result: Optional[Set[int]] = place_elements(remaining_distances_left)
+        if left_result:
+            return left_result
+        placed_elements.remove(current_distance)
+
+    # Try placing on the right
+    right_differences: List[int] = calculate_absolute_differences({total_width - current_distance}, placed_elements)
+    if is_multiset_subset(right_differences, distances):
+        placed_elements.add(total_width - current_distance)
+        remaining_distances_right: List[int] = multiset_difference(distances, right_differences)
+        right_result: Optional[Set[int]] = place_elements(remaining_distances_right)
+        if right_result:
+            return right_result
+        placed_elements.remove(total_width - current_distance)
+
+    return None
+
+# Sample input
+sample_input: str = """
+-10 -8 -7 -6 -5 -4 -3 -3 -2 -2 0 0 0 0 0 2 2 3 3 4 5 6 7 8 10
+"""
+
+input_distances: List[int] = [int(x) for x in sample_input.strip().split()]
+positive_distances: List[int] = [x for x in input_distances if x > 0]
+
+total_width: int = positive_distances.pop(-1)
+placed_elements: Set[int] = {0, total_width}
+
+result: Optional[Set[int]] = place_elements(positive_distances)
+print(" ".join(map(str, sorted(result))))
+```
+
+# Find the Minimum Number of Coins Needed to Make Change
+
+The Change Problem, Find the minimum number of coins needed to make change
+
+Given: An integer *money* and an array *Coins* of positive integers.
+
+Return: The minimum number of coins with denominations *Coins* that changes *money*.
+
+## Sample Dataset
+
+```
+40
+1,5,10,20,25,50
+```
+
+## Sample Output
+
+```
+2
+```
+
+## Solution
+
+```python
+from typing import List
+
+def min_coins_for_change(target_amount: int, available_coins: List[int]) -> int:
+    min_coins_needed = [0]
+    for current_amount in range(1, target_amount + 1):
+        min_coins_needed.append(target_amount + 1)
+        for coin in available_coins:
+            if current_amount >= coin:
+                coins_for_current = min_coins_needed[current_amount - coin] + 1
+                if coins_for_current < min_coins_needed[current_amount]:
+                    min_coins_needed[current_amount] = coins_for_current
+    return min_coins_needed[target_amount]
+
+sample_input = """
+40
+1,5,10,20,25,50
+"""
+
+input_lines = sample_input.strip().split("\n")
+target_amount = int(input_lines[0])
+available_coins = [int(x) for x in input_lines[1].split(",")]
+
+print(min_coins_for_change(target_amount, available_coins))
+```
+
+# Find the Length of a Longest Path in a Manhattan-like Grid
+
+Length of a Longest Path in the Manhattan Tourist Problem. Find the length of a longest path in a rectangular city.
+
+Given: Integers *n* and *m*, followed by an *n* × (*m*+1) matrix *Down* and an (*n*+1) × *m* matrix *Right*. The two matrices are separated by the"-"symbol.
+
+Return: The length of a longest path from source (0, 0) to sink (*n*, *m*) in the *n* × *m* rectangular grid whose edges are defined by the matrices *Down* and *Right*.
+
+## Sample Dataset
+
+```
+4 4
+1 0 2 4 3
+4 6 5 2 1
+4 4 5 2 1
+5 6 8 5 3
+-
+3 2 4 0
+3 2 4 2
+0 7 3 3
+3 3 0 2
+1 3 2 2
+```
+
+## Sample Output
+
+```
+34
+```
+
+## Solution
+
+```python
+from typing import List, Tuple
+
+def parse_manhattan_tourist_input(input_text: str) -> Tuple[int, int, List[List[int]], List[List[int]]]:
+    lines = input_text.strip().split('\n')
+    rows, cols = map(int, lines[0].split())
+    
+    down_weights = [[0] * (cols + 1) for _ in range(rows)]
+    for i in range(rows):
+        line = list(map(int, lines[i + 1].split()))
+        for j in range(cols + 1):
+            down_weights[i][j] = line[j]
+
+    separator_index = rows + 1
+    right_weights = [[0] * cols for _ in range(rows + 1)]
+    for i in range(rows + 1):
+        line = list(map(int, lines[i + separator_index + 1].split()))
+        for j in range(cols):
+            right_weights[i][j] = line[j]
+
+    return rows, cols, down_weights, right_weights
+
+def calculate_longest_manhattan_path(rows: int, cols: int, down_weights: List[List[int]], right_weights: List[List[int]]) -> int:
+    path_scores = [[0] * (cols + 1) for _ in range(rows + 1)]
+    
+    for i in range(1, rows + 1):
+        path_scores[i][0] = path_scores[i - 1][0] + down_weights[i - 1][0]
+
+    for j in range(1, cols + 1):
+        path_scores[0][j] = path_scores[0][j - 1] + right_weights[0][j - 1]
+
+    for i in range(1, rows + 1):
+        for j in range(1, cols + 1):
+            path_scores[i][j] = max(path_scores[i - 1][j] + down_weights[i - 1][j],
+                                    path_scores[i][j - 1] + right_weights[i][j - 1])
+    
+    return path_scores[rows][cols]
+
+sample_input = """
+4 4
+1 0 2 4 3
+4 6 5 2 1
+4 4 5 2 1
+5 6 8 5 3
+-
+3 2 4 0
+3 2 4 2
+0 7 3 3
+3 3 0 2
+1 3 2 2
+"""
+
+rows, cols, down_weights, right_weights = parse_manhattan_tourist_input(sample_input)
+longest_path_score = calculate_longest_manhattan_path(rows, cols, down_weights, right_weights)
+print(f"{longest_path_score}")
+```
+
+# Find a Longest Common Subsequence of Two Strings
+
+Longest Common Subsequence Problem.
+
+Given: Two strings.
+
+Return: A longest common subsequence of these strings.
+
+## Sample Dataset
+
+```
+AACCTTGG
+ACACTGTGA
+```
+
+## Sample Output
+
+```
+AACTGG
+```
+
+## Solution
+
+```python
+from typing import List, Tuple
+
+def longest_common_subsequence(sequence1: str, sequence2: str) -> str:
+    padded_seq1 = '-' + sequence1
+    padded_seq2 = '-' + sequence2
+
+    score_matrix: List[List[int]] = [[0 for _ in range(len(padded_seq2))] for _ in range(len(padded_seq1))]
+    backtrack_matrix: List[List[str]] = [['' for _ in range(len(padded_seq2))] for _ in range(len(padded_seq1))]
+
+    for i in range(1, len(padded_seq1)):
+        for j in range(1, len(padded_seq2)):
+            match_score = score_matrix[i - 1][j - 1] + (1 if padded_seq1[i] == padded_seq2[j] else 0)
+            score_matrix[i][j] = max(score_matrix[i - 1][j], score_matrix[i][j - 1], match_score)
+
+            if score_matrix[i][j] == score_matrix[i - 1][j]:
+                backtrack_matrix[i][j] = "up"
+            elif score_matrix[i][j] == score_matrix[i][j - 1]:
+                backtrack_matrix[i][j] = "left"
+            else:
+                backtrack_matrix[i][j] = "diag"
+
+    lcs = ""
+    i, j = len(padded_seq1) - 1, len(padded_seq2) - 1
+    while i > 0 and j > 0:
+        if backtrack_matrix[i][j] == "diag":
+            lcs = padded_seq1[i] + lcs
+            i -= 1
+            j -= 1
+        elif backtrack_matrix[i][j] == "left":
+            j -= 1
+        else:
+            i -= 1
+
+    return lcs
+
+sample_input = """
+AACCTTGG
+ACACTGTGA
+"""
+
+input_lines = sample_input.strip().split("\n")
+sequence1 = input_lines[0]
+sequence2 = input_lines[1]
+
+print(longest_common_subsequence(sequence1, sequence2))
+```
+
+# Find the Longest Path in a DAG
+
+Longest Path in a DAG Problem. Find a longest path between two nodes in an edge-weighted DAG.
+
+Given: An integer representing the source node of a graph, followed by an integer representing the sink node of the graph, followed by an edge-weighted graph. The graph is represented by a modified [adjacency list](https://rosalind.info/glossary/adjacency-list/) in which the notation"0->1:7"indicates that an edge connects node 0 to node 1 with weight 7.
+
+Return: The length of a longest path in the graph, followed by a longest path. (If multiple longest paths exist, you may return any one.)
+
+## Sample Dataset
+
+```
+0
+4
+0->1:7
+0->2:4
+2->3:2
+1->4:1
+3->4:3
+```
+
+## Sample Output
+
+```
+9
+0->2->3->4
+```
+
+## Solution
+
+```python
+from typing import List, Tuple, Dict, Optional
+
+class Node:
+    def __init__(self, label: str):
+        self.label: str = label
+        self.parent_nodes: List[Tuple['Node', int]] = []
+        self.target_nodes: List[Tuple['Node', int]] = []
+        self.visited: bool = False
+
+class DAG:
+    def __init__(self):
+        self.nodes_dict: Dict[str, Node] = {}
+        self.distances: Dict[str, float] = {}
+        self.backtrack: Dict[str, Optional[str]] = {}
+
+    def add_node(self, label: str) -> Node:
+        if label in self.nodes_dict:
+            return self.nodes_dict[label]
+
+        new_node = Node(label)
+        self.nodes_dict[label] = new_node
+        return new_node
+
+    def construct_dag(self, adjacency_list: List[str]) -> None:
+        for line in adjacency_list:
+            source_label, temp = line.split("->")
+            target_label, weight_str = temp.split(":")
+            weight = int(weight_str)
+
+            source_node = self.add_node(source_label)
+            target_node = self.add_node(target_label)
+
+            source_node.target_nodes.append((target_node, weight))
+            target_node.parent_nodes.append((source_node, weight))
+
+    def topological_sort_util(self, current_node: Node, sorted_labels: List[str]) -> None:
+        current_node.visited = True
+        for neighbor, _ in current_node.target_nodes:
+            if not neighbor.visited:
+                self.topological_sort_util(neighbor, sorted_labels)
+        sorted_labels.insert(0, current_node.label)
+
+    def topological_sort(self) -> List[str]:
+        sorted_labels: List[str] = []
+        for node in self.nodes_dict.values():
+            if not node.visited:
+                self.topological_sort_util(node, sorted_labels)
+        return sorted_labels
+
+    def longest_path(self, source: str, sink: str) -> Tuple[float, List[str]]:
+        for label in self.nodes_dict:
+            self.distances[label] = float("-inf")
+
+        self.distances[source] = 0
+        self.backtrack[source] = None
+
+        topological_order = self.topological_sort()
+        for label in topological_order:
+            current_node = self.nodes_dict[label]
+            for target_node, weight in current_node.target_nodes:
+                if self.distances[target_node.label] < self.distances[label] + weight:
+                    self.distances[target_node.label] = self.distances[label] + weight
+                    self.backtrack[target_node.label] = label
+
+        path: List[str] = [sink]
+        current_label = self.backtrack[sink]
+        while current_label != source:
+            path = [current_label] + path
+            current_label = self.backtrack[current_label]
+        path = [source] + path
+        return self.distances[sink], path
+
+# Sample input
+sample_input: str = """
+0
+4
+0->1:7
+0->2:4
+2->3:2
+1->4:1
+3->4:3
+"""
+
+input_lines = sample_input.strip().split("\n")
+source_label: str = input_lines[0]
+sink_label: str = input_lines[1]
+adjacency_list: List[str] = input_lines[2:]
+
+graph = DAG()
+graph.construct_dag(adjacency_list)
+longest_distance, longest_path = graph.longest_path(source_label, sink_label)
+print(longest_distance)
+print("->".join(longest_path))
+```
+
+# Find a Highest-Scoring Alignment of Two Strings
+
+Global Alignment Problem. Find the highest-scoring alignment between two strings using a scoring matrix.
+
+Given: Two [amino acid strings](https://rosalind.info/glossary/protein-string/).
+
+Return: The maximum alignment score of these strings followed by an alignment achieving this maximum score. Use the [BLOSUM62](https://rosalind.info/glossary/blosum62/) scoring matrix and indel penalty σ = 5. (If multiple alignments achieving the maximum score exist, you may return any one.)
+
+## Sample Dataset
+
+```
+PLEASANTLY
+MEANLY
+```
+
+## Sample Output
+
+```
+8
+PLEASANTLY
+-MEA--N-LY
+```
+
+## Solution
+
+```python
+from typing import Dict, Tuple, List
+
+BLOSUM62: Dict[Tuple[str, str], int] = {
+    ('W', 'F'): 1, ('L', 'R'): -2, ('S', 'P'): -1, ('V', 'T'): 0,
+    ('Q', 'Q'): 5, ('N', 'A'): -2, ('Z', 'Y'): -2, ('W', 'R'): -3,
+    ('Q', 'A'): -1, ('S', 'D'): 0, ('H', 'H'): 8, ('S', 'H'): -1,
+    ('H', 'D'): -1, ('L', 'N'): -3, ('W', 'A'): -3, ('Y', 'M'): -1,
+    ('G', 'R'): -2, ('Y', 'I'): -1, ('Y', 'E'): -2, ('B', 'Y'): -3,
+    ('Y', 'A'): -2, ('V', 'D'): -3, ('B', 'S'): 0, ('Y', 'Y'): 7,
+    ('G', 'N'): 0, ('E', 'C'): -4, ('Y', 'Q'): -1, ('Z', 'Z'): 4,
+    ('V', 'A'): 0, ('C', 'C'): 9, ('M', 'R'): -1, ('V', 'E'): -2,
+    ('T', 'N'): 0, ('P', 'P'): 7, ('V', 'I'): 3, ('V', 'S'): -2,
+    ('Z', 'P'): -1, ('V', 'M'): 1, ('T', 'F'): -2, ('V', 'Q'): -2,
+    ('K', 'K'): 5, ('P', 'D'): -1, ('I', 'H'): -3, ('I', 'D'): -3,
+    ('T', 'R'): -1, ('P', 'L'): -3, ('K', 'G'): -2, ('M', 'N'): -2,
+    ('P', 'H'): -2, ('F', 'Q'): -3, ('Z', 'G'): -2, ('X', 'L'): -1,
+    ('T', 'M'): -1, ('Z', 'C'): -3, ('X', 'H'): -1, ('D', 'R'): -2,
+    ('B', 'W'): -4, ('X', 'D'): -1, ('Z', 'K'): 1, ('F', 'A'): -2,
+    ('Z', 'W'): -3, ('F', 'E'): -3, ('D', 'N'): 1, ('B', 'K'): 0,
+    ('X', 'X'): -1, ('F', 'I'): 0, ('B', 'G'): -1, ('X', 'T'): 0,
+    ('F', 'M'): 0, ('B', 'C'): -3, ('Z', 'I'): -3, ('Z', 'V'): -2,
+    ('S', 'S'): 4, ('L', 'Q'): -2, ('W', 'E'): -3, ('Q', 'R'): 1,
+    ('N', 'N'): 6, ('W', 'M'): -1, ('Q', 'C'): -3, ('W', 'I'): -3,
+    ('S', 'C'): -1, ('L', 'A'): -1, ('S', 'G'): 0, ('L', 'E'): -3,
+    ('W', 'Q'): -2, ('H', 'G'): -2, ('S', 'K'): 0, ('Q', 'N'): 0,
+    ('N', 'R'): 0, ('H', 'C'): -3, ('Y', 'N'): -2, ('G', 'Q'): -2,
+    ('Y', 'F'): 3, ('C', 'A'): 0, ('V', 'L'): 1, ('G', 'E'): -2,
+    ('G', 'A'): 0, ('K', 'R'): 2, ('E', 'D'): 2, ('Y', 'R'): -2,
+    ('M', 'Q'): 0, ('T', 'I'): -1, ('C', 'D'): -3, ('V', 'F'): -1,
+    ('T', 'A'): 0, ('T', 'P'): -1, ('B', 'P'): -2, ('T', 'E'): -1,
+    ('V', 'N'): -3, ('P', 'G'): -2, ('M', 'A'): -1, ('K', 'H'): -1,
+    ('V', 'R'): -3, ('P', 'C'): -3, ('M', 'E'): -2, ('K', 'L'): -2,
+    ('V', 'V'): 4, ('M', 'I'): 1, ('T', 'Q'): -1, ('I', 'G'): -4,
+    ('P', 'K'): -1, ('M', 'M'): 5, ('K', 'D'): -1, ('I', 'C'): -1,
+    ('Z', 'D'): 1, ('F', 'R'): -3, ('X', 'K'): -1, ('Q', 'D'): 0,
+    ('X', 'G'): -1, ('Z', 'L'): -3, ('X', 'C'): -2, ('Z', 'H'): 0,
+    ('B', 'L'): -4, ('B', 'H'): 0, ('F', 'F'): 6, ('X', 'W'): -2,
+    ('B', 'D'): 4, ('D', 'A'): -2, ('S', 'L'): -2, ('X', 'S'): 0,
+    ('F', 'N'): -3, ('S', 'R'): -1, ('W', 'D'): -4, ('V', 'Y'): -1,
+    ('W', 'L'): -2, ('H', 'R'): 0, ('W', 'H'): -2, ('H', 'N'): 1,
+    ('W', 'T'): -2, ('T', 'T'): 5, ('S', 'F'): -2, ('W', 'P'): -4,
+    ('L', 'D'): -4, ('B', 'I'): -3, ('L', 'H'): -3, ('S', 'N'): 1,
+    ('B', 'T'): -1, ('L', 'L'): 4, ('Y', 'K'): -2, ('E', 'Q'): 2,
+    ('Y', 'G'): -3, ('Z', 'S'): 0, ('Y', 'C'): -2, ('G', 'D'): -1,
+    ('B', 'V'): -3, ('E', 'A'): -1, ('Y', 'W'): 2, ('E', 'E'): 5,
+    ('Y', 'S'): -2, ('C', 'N'): -3, ('V', 'C'): -1, ('T', 'H'): -2,
+    ('P', 'R'): -2, ('V', 'G'): -3, ('T', 'L'): -1, ('V', 'K'): -2,
+    ('K', 'Q'): 1, ('R', 'A'): -1, ('I', 'R'): -3, ('T', 'D'): -1,
+    ('P', 'F'): -4, ('I', 'N'): -3, ('K', 'I'): -3, ('M', 'D'): -3,
+    ('V', 'W'): -3, ('W', 'W'): 11, ('M', 'H'): -2, ('P', 'N'): -2,
+    ('K', 'A'): -1, ('M', 'L'): 2, ('K', 'E'): 1, ('Z', 'E'): 4,
+    ('X', 'N'): -1, ('Z', 'A'): -1, ('Z', 'M'): -1, ('X', 'F'): -1,
+    ('K', 'C'): -3, ('B', 'Q'): 0, ('X', 'B'): -1, ('B', 'M'): -3,
+    ('F', 'C'): -2, ('Z', 'Q'): 3, ('X', 'Z'): -1, ('F', 'G'): -3,
+    ('B', 'E'): 1, ('X', 'V'): -1, ('F', 'K'): -3, ('B', 'A'): -2,
+    ('X', 'R'): -1, ('D', 'D'): 6, ('W', 'G'): -2, ('Z', 'F'): -3,
+    ('S', 'Q'): 0, ('W', 'C'): -2, ('W', 'K'): -3, ('H', 'Q'): 0,
+    ('L', 'C'): -1, ('W', 'N'): -4, ('S', 'A'): 1, ('L', 'G'): -4,
+    ('W', 'S'): -3, ('S', 'E'): 0, ('H', 'E'): 0, ('S', 'I'): -2,
+    ('H', 'A'): -2, ('S', 'M'): -1, ('Y', 'L'): -1, ('Y', 'H'): 2,
+    ('Y', 'D'): -3, ('E', 'R'): 0, ('X', 'P'): -2, ('G', 'G'): 6,
+    ('G', 'C'): -3, ('E', 'N'): 0, ('Y', 'T'): -2, ('Y', 'P'): -3,
+    ('T', 'K'): -1, ('A', 'A'): 4, ('P', 'Q'): -1, ('T', 'C'): -1,
+    ('V', 'H'): -3, ('T', 'G'): -2, ('I', 'Q'): -3, ('Z', 'T'): -1,
+    ('C', 'R'): -3, ('V', 'P'): -2, ('P', 'E'): -1, ('M', 'C'): -1,
+    ('K', 'N'): 0, ('I', 'I'): 4, ('P', 'A'): -1, ('M', 'G'): -3,
+    ('T', 'S'): 1, ('I', 'E'): -3, ('P', 'M'): -2, ('M', 'K'): -1,
+    ('I', 'A'): -1, ('P', 'I'): -3, ('R', 'R'): 5, ('X', 'M'): -1,
+    ('L', 'I'): 2, ('X', 'I'): -1, ('Z', 'B'): 1, ('X', 'E'): -1,
+    ('Z', 'N'): 0, ('X', 'A'): 0, ('B', 'R'): -1, ('B', 'N'): 3,
+    ('F', 'D'): -3, ('X', 'Y'): -1, ('Z', 'R'): 0, ('F', 'H'): -1,
+    ('B', 'F'): -3, ('F', 'L'): 0, ('X', 'Q'): -1, ('B', 'B'): 4
+}
+
+def global_alignment(sequence1: str, sequence2: str, indel_penalty: int = 5) -> Tuple[int, str, str]:
+    padded_seq1: str = "-" + sequence1
+    padded_seq2: str = "-" + sequence2
+
+    score_matrix: List[List[int]] = [[0 for _ in range(len(padded_seq2))] for _ in range(len(padded_seq1))]
+    backtrack_matrix: List[List[str]] = [['' for _ in range(len(padded_seq2))] for _ in range(len(padded_seq1))]
+
+    for j in range(len(padded_seq2)):
+        score_matrix[0][j] = -indel_penalty * j
+        backtrack_matrix[0][j] = "left"
+
+    for i in range(len(padded_seq1)):
+        score_matrix[i][0] = -indel_penalty * i
+        backtrack_matrix[i][0] = "up"
+
+    for i in range(1, len(padded_seq1)):
+        for j in range(1, len(padded_seq2)):
+            key: Tuple[str, str] = (padded_seq1[i], padded_seq2[j]) if (padded_seq1[i], padded_seq2[j]) in BLOSUM62 else (padded_seq2[j], padded_seq1[i])
+            diagonal_score: int = score_matrix[i - 1][j - 1] + BLOSUM62[key]
+            up_score: int = score_matrix[i - 1][j] - indel_penalty
+            left_score: int = score_matrix[i][j - 1] - indel_penalty
+            score_matrix[i][j] = max(diagonal_score, up_score, left_score)
+            
+            if score_matrix[i][j] == diagonal_score:
+                backtrack_matrix[i][j] = "diagonal"
+            elif score_matrix[i][j] == up_score:
+                backtrack_matrix[i][j] = "up"
+            else:
+                backtrack_matrix[i][j] = "left"
+
+    i: int = len(padded_seq1) - 1
+    j: int = len(padded_seq2) - 1
+    aligned_seq1: str = ""
+    aligned_seq2: str = ""
+    
+    while i != 0 or j != 0:
+        direction: str = backtrack_matrix[i][j]
+        if direction == "diagonal":
+            aligned_seq1 = padded_seq1[i] + aligned_seq1
+            aligned_seq2 = padded_seq2[j] + aligned_seq2
+            i -= 1
+            j -= 1
+        elif direction == "up":
+            aligned_seq1 = padded_seq1[i] + aligned_seq1
+            aligned_seq2 = "-" + aligned_seq2
+            i -= 1
+        else:
+            aligned_seq1 = "-" + aligned_seq1
+            aligned_seq2 = padded_seq2[j] + aligned_seq2
+            j -= 1
+
+    return score_matrix[len(padded_seq1) - 1][len(padded_seq2) - 1], aligned_seq1, aligned_seq2
+
+# Sample input
+sample_input: str = """
+PLEASANTLY
+MEANLY
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+sequence1: str = input_lines[0]
+sequence2: str = input_lines[1]
+alignment_score: int
+aligned_sequence1: str
+aligned_sequence2: str
+alignment_score, aligned_sequence1, aligned_sequence2 = global_alignment(sequence1, sequence2)
+print(alignment_score)
+print(aligned_sequence1)
+print(aligned_sequence2)
+```
+
+# Find a Highest-Scoring Local Alignment of Two Strings
+
+Local Alignment Problem, Find the highest-scoring local alignment between two strings.
+
+Given: Two [amino acid strings](https://rosalind.info/glossary/protein-string/).
+
+Return: The maximum score of a local alignment of the strings, followed by a local alignment of these strings achieving the maximum score. Use the [PAM250](https://rosalind.info/glossary/pam250/) scoring matrix and indel penalty σ = 5. (If multiple local alignments achieving the maximum score exist, you may return any one.)
+
+## Sample Dataset
+
+```
+MEANLY
+PENALTY
+```
+
+## Sample Output
+
+```
+15
+EANL-Y
+ENALTY
+```
+
+## Solution
+
+```python
+from typing import Dict, List, Tuple, Optional
+
+PAM250: Dict[str, Dict[str, int]] = {
+        'A': {'A': 2, 'C': -2, 'D': 0, 'E': 0, 'F': -3, 'G': 1, 'H': -1, 'I': -1, 'K': -1, 'L': -2, 'M': -1, 'N': 0,
+                'P': 1, 'Q': 0, 'R': -2, 'S': 1, 'T': 1, 'V': 0, 'W': -6, 'Y': -3},
+          'C': {'A': -2, 'C': 12, 'D': -5, 'E': -5, 'F': -4, 'G': -3, 'H': -3, 'I': -2, 'K': -5, 'L': -6, 'M': -5,
+                'N': -4, 'P': -3, 'Q': -5, 'R': -4, 'S': 0, 'T': -2, 'V': -2, 'W': -8, 'Y': 0},
+          'D': {'A': 0, 'C': -5, 'D': 4, 'E': 3, 'F': -6, 'G': 1, 'H': 1, 'I': -2, 'K': 0, 'L': -4, 'M': -3, 'N': 2,
+                'P': -1, 'Q': 2, 'R': -1, 'S': 0, 'T': 0, 'V': -2, 'W': -7, 'Y': -4},
+          'E': {'A': 0, 'C': -5, 'D': 3, 'E': 4, 'F': -5, 'G': 0, 'H': 1, 'I': -2, 'K': 0, 'L': -3, 'M': -2, 'N': 1,
+                'P': -1, 'Q': 2, 'R': -1, 'S': 0, 'T': 0, 'V': -2, 'W': -7, 'Y': -4},
+          'F': {'A': -3, 'C': -4, 'D': -6, 'E': -5, 'F': 9, 'G': -5, 'H': -2, 'I': 1, 'K': -5, 'L': 2, 'M': 0, 'N': -3,
+                'P': -5, 'Q': -5, 'R': -4, 'S': -3, 'T': -3, 'V': -1, 'W': 0, 'Y': 7},
+          'G': {'A': 1, 'C': -3, 'D': 1, 'E': 0, 'F': -5, 'G': 5, 'H': -2, 'I': -3, 'K': -2, 'L': -4, 'M': -3, 'N': 0,
+                'P': 0, 'Q': -1, 'R': -3, 'S': 1, 'T': 0, 'V': -1, 'W': -7, 'Y': -5},
+          'H': {'A': -1, 'C': -3, 'D': 1, 'E': 1, 'F': -2, 'G': -2, 'H': 6, 'I': -2, 'K': 0, 'L': -2, 'M': -2, 'N': 2,
+                'P': 0, 'Q': 3, 'R': 2, 'S': -1, 'T': -1, 'V': -2, 'W': -3, 'Y': 0},
+          'I': {'A': -1, 'C': -2, 'D': -2, 'E': -2, 'F': 1, 'G': -3, 'H': -2, 'I': 5, 'K': -2, 'L': 2, 'M': 2, 'N': -2,
+                'P': -2, 'Q': -2, 'R': -2, 'S': -1, 'T': 0, 'V': 4, 'W': -5, 'Y': -1},
+          'K': {'A': -1, 'C': -5, 'D': 0, 'E': 0, 'F': -5, 'G': -2, 'H': 0, 'I': -2, 'K': 5, 'L': -3, 'M': 0, 'N': 1,
+                'P': -1, 'Q': 1, 'R': 3, 'S': 0, 'T': 0, 'V': -2, 'W': -3, 'Y': -4},
+          'L': {'A': -2, 'C': -6, 'D': -4, 'E': -3, 'F': 2, 'G': -4, 'H': -2, 'I': 2, 'K': -3, 'L': 6, 'M': 4, 'N': -3,
+                'P': -3, 'Q': -2, 'R': -3, 'S': -3, 'T': -2, 'V': 2, 'W': -2, 'Y': -1},
+          'M': {'A': -1, 'C': -5, 'D': -3, 'E': -2, 'F': 0, 'G': -3, 'H': -2, 'I': 2, 'K': 0, 'L': 4, 'M': 6, 'N': -2,
+                'P': -2, 'Q': -1, 'R': 0, 'S': -2, 'T': -1, 'V': 2, 'W': -4, 'Y': -2},
+          'N': {'A': 0, 'C': -4, 'D': 2, 'E': 1, 'F': -3, 'G': 0, 'H': 2, 'I': -2, 'K': 1, 'L': -3, 'M': -2, 'N': 2,
+                'P': 0, 'Q': 1, 'R': 0, 'S': 1, 'T': 0, 'V': -2, 'W': -4, 'Y': -2},
+          'P': {'A': 1, 'C': -3, 'D': -1, 'E': -1, 'F': -5, 'G': 0, 'H': 0, 'I': -2, 'K': -1, 'L': -3, 'M': -2, 'N': 0,
+                'P': 6, 'Q': 0, 'R': 0, 'S': 1, 'T': 0, 'V': -1, 'W': -6, 'Y': -5},
+          'Q': {'A': 0, 'C': -5, 'D': 2, 'E': 2, 'F': -5, 'G': -1, 'H': 3, 'I': -2, 'K': 1, 'L': -2, 'M': -1, 'N': 1,
+                'P': 0, 'Q': 4, 'R': 1, 'S': -1, 'T': -1, 'V': -2, 'W': -5, 'Y': -4},
+          'R': {'A': -2, 'C': -4, 'D': -1, 'E': -1, 'F': -4, 'G': -3, 'H': 2, 'I': -2, 'K': 3, 'L': -3, 'M': 0, 'N': 0,
+                'P': 0, 'Q': 1, 'R': 6, 'S': 0, 'T': -1, 'V': -2, 'W': 2, 'Y': -4},
+          'S': {'A': 1, 'C': 0, 'D': 0, 'E': 0, 'F': -3, 'G': 1, 'H': -1, 'I': -1, 'K': 0, 'L': -3, 'M': -2, 'N': 1,
+                'P': 1, 'Q': -1, 'R': 0, 'S': 2, 'T': 1, 'V': -1, 'W': -2, 'Y': -3},
+          'T': {'A': 1, 'C': -2, 'D': 0, 'E': 0, 'F': -3, 'G': 0, 'H': -1, 'I': 0, 'K': 0, 'L': -2, 'M': -1, 'N': 0,
+                'P': 0, 'Q': -1, 'R': -1, 'S': 1, 'T': 3, 'V': 0, 'W': -5, 'Y': -3},
+          'V': {'A': 0, 'C': -2, 'D': -2, 'E': -2, 'F': -1, 'G': -1, 'H': -2, 'I': 4, 'K': -2, 'L': 2, 'M': 2, 'N': -2,
+                'P': -1, 'Q': -2, 'R': -2, 'S': -1, 'T': 0, 'V': 4, 'W': -6, 'Y': -2},
+          'W': {'A': -6, 'C': -8, 'D': -7, 'E': -7, 'F': 0, 'G': -7, 'H': -3, 'I': -5, 'K': -3, 'L': -2, 'M': -4,
+                'N': -4, 'P': -6, 'Q': -5, 'R': 2, 'S': -2, 'T': -5, 'V': -6, 'W': 17, 'Y': 0},
+          'Y': {'A': -3, 'C': 0, 'D': -4, 'E': -4, 'F': 7, 'G': -5, 'H': 0, 'I': -1, 'K': -4, 'L': -1, 'M': -2, 'N': -2,
+                'P': -5, 'Q': -4, 'R': -4, 'S': -3, 'T': -3, 'V': -2, 'W': 0, 'Y': 10}}
+
+def local_alignment(sequence1: str, sequence2: str, indel_penalty: int = 5) -> Tuple[int, str, str]:
+    padded_seq1: str = "-" + sequence1
+    padded_seq2: str = "-" + sequence2
+
+    score_matrix: List[List[int]] = [[0 for _ in range(len(padded_seq2))] for _ in range(len(padded_seq1))]
+    backtrack_matrix: List[List[Optional[str]]] = [[None for _ in range(len(padded_seq2))] for _ in range(len(padded_seq1))]
+
+    for i in range(1, len(padded_seq1)):
+        for j in range(1, len(padded_seq2)):
+            key1: str = padded_seq1[i] if padded_seq1[i] in PAM250 else padded_seq2[j]
+            key2: str = padded_seq2[j] if padded_seq1[i] in PAM250 else padded_seq1[i]
+
+            diagonal_score: int = score_matrix[i - 1][j - 1] + PAM250[key1][key2]
+            up_score: int = score_matrix[i - 1][j] - indel_penalty
+            left_score: int = score_matrix[i][j - 1] - indel_penalty
+            score_matrix[i][j] = max(diagonal_score, up_score, left_score, 0)
+
+            if score_matrix[i][j] == diagonal_score:
+                backtrack_matrix[i][j] = "diagonal"
+            elif score_matrix[i][j] == up_score:
+                backtrack_matrix[i][j] = "up"
+            elif score_matrix[i][j] == left_score:
+                backtrack_matrix[i][j] = "left"
+
+    max_score: int = -1
+    max_i: int = 0
+    max_j: int = 0
+    for i in range(len(padded_seq1)):
+        for j in range(len(padded_seq2)):
+            if score_matrix[i][j] > max_score:
+                max_score = score_matrix[i][j]
+                max_i, max_j = i, j
+
+    i: int = max_i
+    j: int = max_j
+    aligned_seq1: str = ""
+    aligned_seq2: str = ""
+    while backtrack_matrix[i][j] is not None:
+        direction: str = backtrack_matrix[i][j]
+        if direction == "diagonal":
+            aligned_seq1 = padded_seq1[i] + aligned_seq1
+            aligned_seq2 = padded_seq2[j] + aligned_seq2
+            i -= 1
+            j -= 1
+        elif direction == "up":
+            aligned_seq1 = padded_seq1[i] + aligned_seq1
+            aligned_seq2 = "-" + aligned_seq2
+            i -= 1
+        else:
+            aligned_seq1 = "-" + aligned_seq1
+            aligned_seq2 = padded_seq2[j] + aligned_seq2
+            j -= 1
+
+    return max_score, aligned_seq1, aligned_seq2
+
+# Sample input
+sample_input: str = """
+MEANLY
+PENALTY
+"""
+
+input_lines: List[str] = sample_input.strip().split("\n")
+sequence1: str = input_lines[0]
+sequence2: str = input_lines[1]
+
+alignment_score: int
+aligned_sequence1: str
+aligned_sequence2: str
+alignment_score, aligned_sequence1, aligned_sequence2 = local_alignment(sequence1, sequence2)
+print(alignment_score)
+print(aligned_sequence1)
+print(aligned_sequence2)
+```
+
+# Compute the Edit Distance Between Two Strings
+
+Edit Distance Problem. Find the edit distance between two strings.
+
+Given: Two [amino acid strings](https://rosalind.info/glossary/protein-string/).
+
+Return: The [edit distance](https://rosalind.info/glossary/edit-distance/) between these strings.
+
+## Sample Dataset
+
+```
+PLEASANTLY
+MEANLY
+```
+
+## Sample Output
+
+```
+5
+```
+
+## Solution
+
+```python
+def calculate_edit_distance(source: str, target: str) -> int:
+    distance_matrix = {}
+    
+    for target_index in range(len(target) + 1):
+        distance_matrix[target_index, 0] = target_index
+    
+    for source_index in range(len(source) + 1):
+        distance_matrix[0, source_index] = source_index
+
+    for target_index in range(len(target)):
+        for source_index in range(len(source)):
+            if source[source_index] == target[target_index]:
+                distance_matrix[target_index + 1, source_index + 1] = distance_matrix[target_index, source_index]
+            else:
+                distance_matrix[target_index + 1, source_index + 1] = min([
+                    distance_matrix[target_index + 1, source_index],
+                    distance_matrix[target_index, source_index],
+                    distance_matrix[target_index, source_index + 1]
+                ]) + 1
+
+    return distance_matrix[len(target), len(source)]
+
+sample_input: str = """
+PLEASANTLY
+MEANLY
+"""
+
+source, target = sample_input.strip().split("\n")
+print(calculate_edit_distance(source, target))
+```
+
+# Find a Highest-Scoring Fitting Alignment of Two Strings
+
+Fitting Alignment Problem. Construct a highest-scoring fitting alignment between two strings.
+
+Given: Two [DNA strings](https://rosalind.info/glossary/dna-string/) *v* and *w*, where *v* has length at most 10000 and *w* has length at most 1000.
+
+Return: The maximum score of a fitting alignment of *v* and *w*, followed by a fitting alignment achieving this maximum score. Use the simple scoring method in which matches count +1 and both the mismatch and indel penalties are equal to 1. (If multiple fitting alignments achieving the maximum score exist, you may return any one.)
+
+## Sample Dataset
+
+```
+GTAGGCTTAAGGTTA
+TAGATA
+```
+
+## Sample Output
+
+```
+2
+TAGGCTTA
+TAGA--TA
+```
+
+## Solution
+
+```python
+from typing import Tuple, Dict
+
+def calculate_fitting_alignment(sequence1: str, sequence2: str) -> Tuple[int, str, str]:
+    score_matrix: Dict[Tuple[int, int], int] = {}
+    path_matrix: Dict[Tuple[int, int], str] = {}
+    
+    for seq2_index in range(len(sequence2) + 1):
+        score_matrix[seq2_index, 0] = -seq2_index
+        path_matrix[seq2_index, 0] = "↑"
+    for seq1_index in range(len(sequence1) + 1):
+        score_matrix[0, seq1_index] = 0
+        path_matrix[0, seq1_index] = "←"
+
+    score_matrix[0, 0] = 0
+    for seq2_index in range(len(sequence2)):
+        for seq1_index in range(len(sequence1)):
+            current_position = (seq2_index + 1, seq1_index + 1)
+            match_score = 1 if sequence1[seq1_index] == sequence2[seq2_index] else -1
+            options = [
+                score_matrix[seq2_index, seq1_index] + match_score,
+                score_matrix[seq2_index, seq1_index + 1] - 1,
+                score_matrix[seq2_index + 1, seq1_index] - 1,
+            ]
+            score_matrix[current_position] = max(options)
+            path_matrix[current_position] = ["↖", "↑", "←"][options.index(max(options))]
+
+    final_scores = [score_matrix[len(sequence2), i] for i in range(len(sequence1) + 1)]
+    max_score = max(final_scores)
+    seq1_end_index = final_scores.index(max_score)
+    seq2_end_index = len(sequence2)
+
+    aligned_seq1, aligned_seq2 = "", ""
+    while seq1_end_index > 0 and seq2_end_index > 0:
+        if path_matrix[seq2_end_index, seq1_end_index] == "↖":
+            aligned_seq1 += sequence1[seq1_end_index - 1]
+            aligned_seq2 += sequence2[seq2_end_index - 1]
+            seq2_end_index, seq1_end_index = seq2_end_index - 1, seq1_end_index - 1
+        elif path_matrix[seq2_end_index, seq1_end_index] == "←":
+            aligned_seq1 += sequence1[seq1_end_index - 1]
+            aligned_seq2 += "-"
+            seq1_end_index = seq1_end_index - 1
+        elif path_matrix[seq2_end_index, seq1_end_index] == "↑":
+            aligned_seq1 += "-"
+            aligned_seq2 += sequence2[seq2_end_index - 1]
+            seq2_end_index = seq2_end_index - 1
+
+    return max_score, aligned_seq1[::-1], aligned_seq2[::-1]
+
+sample_input: str = """
+GTAGGCTTAAGGTTA
+TAGATA
+"""
+
+sequence1, sequence2 = sample_input.strip().split("\n")
+print(*calculate_fitting_alignment(sequence1, sequence2), sep="\n")
+```
+
+# Find a Highest-Scoring Overlap Alignment of Two Strings
+
+Overlap Alignment Problem. Construct a highest-scoring overlap alignment between two strings.
+
+Given: Two [protein strings](https://rosalind.info/glossary/protein-string/) *v* and *w*, each of length at most 1000.
+
+Return: The score of an optimal overlap alignment of *v* and *w*, followed by an alignment of a suffix *v'* of *v* and a prefix *w'* of *w* achieving this maximum score. Use an alignment score in which matches count +1 and both the mismatch and indel penalties are 2. (If multiple overlap alignments achieving the maximum score exist, you may return any one.)
+
+## Sample Dataset
+
+```
+PAWHEAE
+HEAGAWGHEE
+```
+
+## Sample Output
+
+```
+1
+HEAE
+HEAG
+```
+
+## Solution
+
+```python
+from typing import Tuple, Dict
+
+def calculate_overlap_alignment(sequence1: str, sequence2: str, mismatch_penalty: int = -2) -> Tuple[int, str, str]:
+    score_matrix: Dict[Tuple[int, int], int] = {}
+    path_matrix: Dict[Tuple[int, int], str] = {}
+    
+    for seq2_index in range(len(sequence2) + 1):
+        score_matrix[seq2_index, 0] = seq2_index * mismatch_penalty
+        path_matrix[seq2_index, 0] = "↑"
+    for seq1_index in range(len(sequence1) + 1):
+        score_matrix[0, seq1_index] = 0
+        path_matrix[0, seq1_index] = "←"
+
+    score_matrix[0, 0] = 0
+    for seq2_index in range(len(sequence2)):
+        for seq1_index in range(len(sequence1)):
+            current_position = (seq2_index + 1, seq1_index + 1)
+            match_score = 1 if sequence1[seq1_index] == sequence2[seq2_index] else mismatch_penalty
+            options = [
+                score_matrix[seq2_index, seq1_index] + match_score,
+                score_matrix[seq2_index, seq1_index + 1] + mismatch_penalty,
+                score_matrix[seq2_index + 1, seq1_index] + mismatch_penalty,
+            ]
+            score_matrix[current_position] = max(options)
+            path_matrix[current_position] = ["↖", "↑", "←"][options.index(max(options))]
+
+    final_scores = [score_matrix[seq2_index, len(sequence1)] for seq2_index in range(len(sequence2) + 1)]
+    max_score = max(final_scores)
+    seq2_end_index = final_scores.index(max_score)
+    seq1_end_index = len(sequence1)
+
+    aligned_seq1, aligned_seq2 = "", ""
+    while seq1_end_index > 0 and seq2_end_index > 0:
+        if path_matrix[seq2_end_index, seq1_end_index] == "↖":
+            aligned_seq1 += sequence1[seq1_end_index - 1]
+            aligned_seq2 += sequence2[seq2_end_index - 1]
+            seq2_end_index, seq1_end_index = seq2_end_index - 1, seq1_end_index - 1
+        elif path_matrix[seq2_end_index, seq1_end_index] == "←":
+            aligned_seq1 += sequence1[seq1_end_index - 1]
+            aligned_seq2 += "-"
+            seq1_end_index = seq1_end_index - 1
+        elif path_matrix[seq2_end_index, seq1_end_index] == "↑":
+            aligned_seq1 += "-"
+            aligned_seq2 += sequence2[seq2_end_index - 1]
+            seq2_end_index = seq2_end_index - 1
+
+    return max_score, aligned_seq1[::-1], aligned_seq2[::-1]
+
+sample_input: str = """
+PAWHEAE
+HEAGAWGHEE
+"""
+
+sequence1, sequence2 = sample_input.strip().split("\n")
+print(*calculate_overlap_alignment(sequence1, sequence2), sep="\n")
+```
+
+# Align Two Strings Using Affine Gap Penalties
+
+Alignment with Affine Gap Penalties Problem. Construct a highest-scoring global alignment of two strings (with affine gap penalties).
+
+Given: Two amino acid strings *v* and *w* (each of length at most 100).
+
+Return: The maximum alignment score between *v* and *w*, followed by an alignment of *v* and *w* achieving this maximum score. Use the [BLOSUM62](https://rosalind.info/glossary/blosum62/) scoring matrix, a gap opening penalty of 11, and a gap extension penalty of 1.
+
+## Sample Dataset
+
+```
+PRTEINS
+PRTWPSEIN
+```
+
+## Sample Output
+
+```
+8
+PRT---EINS
+PRTWPSEIN-
+```
+
+## Solution
+
+```python
+from typing import Dict, Tuple, List, Optional
+
+BLOSUM62: Dict[Tuple[str, str], int] = {
+    ('W', 'F'): 1, ('L', 'R'): -2, ('S', 'P'): -1, ('V', 'T'): 0,
+    ('Q', 'Q'): 5, ('N', 'A'): -2, ('Z', 'Y'): -2, ('W', 'R'): -3,
+    ('Q', 'A'): -1, ('S', 'D'): 0, ('H', 'H'): 8, ('S', 'H'): -1,
+    ('H', 'D'): -1, ('L', 'N'): -3, ('W', 'A'): -3, ('Y', 'M'): -1,
+    ('G', 'R'): -2, ('Y', 'I'): -1, ('Y', 'E'): -2, ('B', 'Y'): -3,
+    ('Y', 'A'): -2, ('V', 'D'): -3, ('B', 'S'): 0, ('Y', 'Y'): 7,
+    ('G', 'N'): 0, ('E', 'C'): -4, ('Y', 'Q'): -1, ('Z', 'Z'): 4,
+    ('V', 'A'): 0, ('C', 'C'): 9, ('M', 'R'): -1, ('V', 'E'): -2,
+    ('T', 'N'): 0, ('P', 'P'): 7, ('V', 'I'): 3, ('V', 'S'): -2,
+    ('Z', 'P'): -1, ('V', 'M'): 1, ('T', 'F'): -2, ('V', 'Q'): -2,
+    ('K', 'K'): 5, ('P', 'D'): -1, ('I', 'H'): -3, ('I', 'D'): -3,
+    ('T', 'R'): -1, ('P', 'L'): -3, ('K', 'G'): -2, ('M', 'N'): -2,
+    ('P', 'H'): -2, ('F', 'Q'): -3, ('Z', 'G'): -2, ('X', 'L'): -1,
+    ('T', 'M'): -1, ('Z', 'C'): -3, ('X', 'H'): -1, ('D', 'R'): -2,
+    ('B', 'W'): -4, ('X', 'D'): -1, ('Z', 'K'): 1, ('F', 'A'): -2,
+    ('Z', 'W'): -3, ('F', 'E'): -3, ('D', 'N'): 1, ('B', 'K'): 0,
+    ('X', 'X'): -1, ('F', 'I'): 0, ('B', 'G'): -1, ('X', 'T'): 0,
+    ('F', 'M'): 0, ('B', 'C'): -3, ('Z', 'I'): -3, ('Z', 'V'): -2,
+    ('S', 'S'): 4, ('L', 'Q'): -2, ('W', 'E'): -3, ('Q', 'R'): 1,
+    ('N', 'N'): 6, ('W', 'M'): -1, ('Q', 'C'): -3, ('W', 'I'): -3,
+    ('S', 'C'): -1, ('L', 'A'): -1, ('S', 'G'): 0, ('L', 'E'): -3,
+    ('W', 'Q'): -2, ('H', 'G'): -2, ('S', 'K'): 0, ('Q', 'N'): 0,
+    ('N', 'R'): 0, ('H', 'C'): -3, ('Y', 'N'): -2, ('G', 'Q'): -2,
+    ('Y', 'F'): 3, ('C', 'A'): 0, ('V', 'L'): 1, ('G', 'E'): -2,
+    ('G', 'A'): 0, ('K', 'R'): 2, ('E', 'D'): 2, ('Y', 'R'): -2,
+    ('M', 'Q'): 0, ('T', 'I'): -1, ('C', 'D'): -3, ('V', 'F'): -1,
+    ('T', 'A'): 0, ('T', 'P'): -1, ('B', 'P'): -2, ('T', 'E'): -1,
+    ('V', 'N'): -3, ('P', 'G'): -2, ('M', 'A'): -1, ('K', 'H'): -1,
+    ('V', 'R'): -3, ('P', 'C'): -3, ('M', 'E'): -2, ('K', 'L'): -2,
+    ('V', 'V'): 4, ('M', 'I'): 1, ('T', 'Q'): -1, ('I', 'G'): -4,
+    ('P', 'K'): -1, ('M', 'M'): 5, ('K', 'D'): -1, ('I', 'C'): -1,
+    ('Z', 'D'): 1, ('F', 'R'): -3, ('X', 'K'): -1, ('Q', 'D'): 0,
+    ('X', 'G'): -1, ('Z', 'L'): -3, ('X', 'C'): -2, ('Z', 'H'): 0,
+    ('B', 'L'): -4, ('B', 'H'): 0, ('F', 'F'): 6, ('X', 'W'): -2,
+    ('B', 'D'): 4, ('D', 'A'): -2, ('S', 'L'): -2, ('X', 'S'): 0,
+    ('F', 'N'): -3, ('S', 'R'): -1, ('W', 'D'): -4, ('V', 'Y'): -1,
+    ('W', 'L'): -2, ('H', 'R'): 0, ('W', 'H'): -2, ('H', 'N'): 1,
+    ('W', 'T'): -2, ('T', 'T'): 5, ('S', 'F'): -2, ('W', 'P'): -4,
+    ('L', 'D'): -4, ('B', 'I'): -3, ('L', 'H'): -3, ('S', 'N'): 1,
+    ('B', 'T'): -1, ('L', 'L'): 4, ('Y', 'K'): -2, ('E', 'Q'): 2,
+    ('Y', 'G'): -3, ('Z', 'S'): 0, ('Y', 'C'): -2, ('G', 'D'): -1,
+    ('B', 'V'): -3, ('E', 'A'): -1, ('Y', 'W'): 2, ('E', 'E'): 5,
+    ('Y', 'S'): -2, ('C', 'N'): -3, ('V', 'C'): -1, ('T', 'H'): -2,
+    ('P', 'R'): -2, ('V', 'G'): -3, ('T', 'L'): -1, ('V', 'K'): -2,
+    ('K', 'Q'): 1, ('R', 'A'): -1, ('I', 'R'): -3, ('T', 'D'): -1,
+    ('P', 'F'): -4, ('I', 'N'): -3, ('K', 'I'): -3, ('M', 'D'): -3,
+    ('V', 'W'): -3, ('W', 'W'): 11, ('M', 'H'): -2, ('P', 'N'): -2,
+    ('K', 'A'): -1, ('M', 'L'): 2, ('K', 'E'): 1, ('Z', 'E'): 4,
+    ('X', 'N'): -1, ('Z', 'A'): -1, ('Z', 'M'): -1, ('X', 'F'): -1,
+    ('K', 'C'): -3, ('B', 'Q'): 0, ('X', 'B'): -1, ('B', 'M'): -3,
+    ('F', 'C'): -2, ('Z', 'Q'): 3, ('X', 'Z'): -1, ('F', 'G'): -3,
+    ('B', 'E'): 1, ('X', 'V'): -1, ('F', 'K'): -3, ('B', 'A'): -2,
+    ('X', 'R'): -1, ('D', 'D'): 6, ('W', 'G'): -2, ('Z', 'F'): -3,
+    ('S', 'Q'): 0, ('W', 'C'): -2, ('W', 'K'): -3, ('H', 'Q'): 0,
+    ('L', 'C'): -1, ('W', 'N'): -4, ('S', 'A'): 1, ('L', 'G'): -4,
+    ('W', 'S'): -3, ('S', 'E'): 0, ('H', 'E'): 0, ('S', 'I'): -2,
+    ('H', 'A'): -2, ('S', 'M'): -1, ('Y', 'L'): -1, ('Y', 'H'): 2,
+    ('Y', 'D'): -3, ('E', 'R'): 0, ('X', 'P'): -2, ('G', 'G'): 6,
+    ('G', 'C'): -3, ('E', 'N'): 0, ('Y', 'T'): -2, ('Y', 'P'): -3,
+    ('T', 'K'): -1, ('A', 'A'): 4, ('P', 'Q'): -1, ('T', 'C'): -1,
+    ('V', 'H'): -3, ('T', 'G'): -2, ('I', 'Q'): -3, ('Z', 'T'): -1,
+    ('C', 'R'): -3, ('V', 'P'): -2, ('P', 'E'): -1, ('M', 'C'): -1,
+    ('K', 'N'): 0, ('I', 'I'): 4, ('P', 'A'): -1, ('M', 'G'): -3,
+    ('T', 'S'): 1, ('I', 'E'): -3, ('P', 'M'): -2, ('M', 'K'): -1,
+    ('I', 'A'): -1, ('P', 'I'): -3, ('R', 'R'): 5, ('X', 'M'): -1,
+    ('L', 'I'): 2, ('X', 'I'): -1, ('Z', 'B'): 1, ('X', 'E'): -1,
+    ('Z', 'N'): 0, ('X', 'A'): 0, ('B', 'R'): -1, ('B', 'N'): 3,
+    ('F', 'D'): -3, ('X', 'Y'): -1, ('Z', 'R'): 0, ('F', 'H'): -1,
+    ('B', 'F'): -3, ('F', 'L'): 0, ('X', 'Q'): -1, ('B', 'B'): 4
+}
+
+def insert_gap(sequence: str, position: int) -> str:
+    """Insert a gap ('-') into the sequence at the specified position."""
+    return sequence[:position] + "-" + sequence[position:]
+
+def global_alignment_affine(seq1: str, seq2: str, gap_open_penalty: int = -11, gap_extend_penalty: int = -1) -> Tuple[int, str, str]:
+    """
+    Perform global sequence alignment with affine gap penalty.
+    
+    Args:
+    seq1 (str): First sequence to align
+    seq2 (str): Second sequence to align
+    gap_open_penalty (int): Penalty for opening a gap
+    gap_extend_penalty (int): Penalty for extending a gap
+    
+    Returns:
+    Tuple[int, str, str]: Alignment score and aligned sequences
+    """
+    scoring_matrix: Dict[Tuple[str, str], int] = BLOSUM62
+    match_score: Dict[Tuple[int, int], int] = {}
+    gap_seq1_score: Dict[Tuple[int, int], int] = {}
+    gap_seq2_score: Dict[Tuple[int, int], int] = {}
+    prev_match: Dict[Tuple[int, int], int] = {}
+    prev_gap_seq1: Dict[Tuple[int, int], int] = {}
+    prev_gap_seq2: Dict[Tuple[int, int], int] = {}
+
+    # Initialize matrices
+    gap_seq1_score[0, 0] = match_score[0, 0] = gap_seq2_score[0, 0] = 0
+    for i in range(1, len(seq1) + 1):
+        gap_seq1_score[i, 0] = gap_open_penalty + (i - 1) * gap_extend_penalty
+        match_score[i, 0] = gap_open_penalty + (i - 1) * gap_extend_penalty
+        gap_seq2_score[i, 0] = gap_open_penalty * 10  # Large penalty to avoid this case
+    for j in range(1, len(seq2) + 1):
+        gap_seq2_score[0, j] = gap_open_penalty + (j - 1) * gap_extend_penalty
+        match_score[0, j] = gap_open_penalty + (j - 1) * gap_extend_penalty
+        gap_seq1_score[0, j] = gap_open_penalty * 10  # Large penalty to avoid this case
+
+    # Fill matrices
+    for i in range(1, len(seq1) + 1):
+        for j in range(1, len(seq2) + 1):
+            # Calculate scores for gap in seq1
+            gap_seq1_options: List[int] = [
+                gap_seq1_score[i - 1, j] + gap_extend_penalty,
+                match_score[i - 1, j] + gap_open_penalty
+            ]
+            gap_seq1_score[i, j] = max(gap_seq1_options)
+            prev_gap_seq1[i, j] = gap_seq1_options.index(gap_seq1_score[i, j])
+
+            # Calculate scores for gap in seq2
+            gap_seq2_options: List[int] = [
+                gap_seq2_score[i, j - 1] + gap_extend_penalty,
+                match_score[i, j - 1] + gap_open_penalty
+            ]
+            gap_seq2_score[i, j] = max(gap_seq2_options)
+            prev_gap_seq2[i, j] = gap_seq2_options.index(gap_seq2_score[i, j])
+
+            # Calculate match/mismatch score
+            blosum_score: int = scoring_matrix.get((seq1[i-1], seq2[j-1]), scoring_matrix.get((seq2[j-1], seq1[i-1]), 0))
+            match_options: List[int] = [
+                gap_seq1_score[i, j],
+                match_score[i - 1, j - 1] + blosum_score,
+                gap_seq2_score[i, j]
+            ]
+            match_score[i, j] = max(match_options)
+            prev_match[i, j] = match_options.index(match_score[i, j])
+
+    # Traceback
+    i, j = len(seq1), len(seq2)
+    aligned_seq1, aligned_seq2 = seq1, seq2
+
+    scores: List[int] = [gap_seq1_score[i, j], match_score[i, j], gap_seq2_score[i, j]]
+    max_score: int = max(scores)
+    current_matrix: int = scores.index(max_score)
+
+    while i * j != 0:
+        if current_matrix == 0:  # In gap_seq1_score matrix
+            if prev_gap_seq1[i, j] == 1:
+                current_matrix = 1
+            i -= 1
+            aligned_seq2 = insert_gap(aligned_seq2, j)
+        elif current_matrix == 1:  # In match_score matrix
+            if prev_match[i, j] == 1:
+                i -= 1
+                j -= 1
+            else:
+                current_matrix = prev_match[i, j]
+        else:  # In gap_seq2_score matrix
+            if prev_gap_seq2[i, j] == 1:
+                current_matrix = 1
+            j -= 1
+            aligned_seq1 = insert_gap(aligned_seq1, i)
+
+    # Handle remaining overhangs
+    while i > 0:
+        aligned_seq2 = insert_gap(aligned_seq2, 0)
+        i -= 1
+    while j > 0:
+        aligned_seq1 = insert_gap(aligned_seq1, 0)
+        j -= 1
+
+    return max_score, aligned_seq1, aligned_seq2
+
+# Sample usage
+sample_input: str = """
+PRTEINS
+PRTWPSEIN
+"""
+
+seq1, seq2 = sample_input.strip().split("\n")
+alignment_score, aligned_seq1, aligned_seq2 = global_alignment_affine(seq1, seq2)
+print(alignment_score, aligned_seq1, aligned_seq2, sep="\n")
+```
+
+# Find a Middle Edge in an Alignment Graph in Linear Space
+
+Middle Edge in Linear Space Problem. Find a middle edge in the alignment graph in linear space.
+
+Given: Two [amino acid strings](https://rosalind.info/glossary/protein-string/).
+
+Return: A middle edge in the alignment graph of these strings, where the optimal path is defined by the [BLOSUM62](https://rosalind.info/glossary/blosum62/) scoring matrix and a linear indel penalty equal to 5. Return the middle edge in the form"(*i*, *j*) (*k*, *l*)", where (*i*, *j*) connects to (*k*, *l*).
+
+## Sample Dataset
+
+```
+PLEASANTLY
+MEASNLY
+```
+
+## Sample Output
+
+```
+(4, 3) (5, 4)
+```
+
+## Solution
+
+```python
+from math import floor
+from typing import Dict, Tuple, List
+
+BLOSUM62: Dict[Tuple[str, str], int] = {
+    ('W', 'F'): 1, ('L', 'R'): -2, ('S', 'P'): -1, ('V', 'T'): 0,
+    ('Q', 'Q'): 5, ('N', 'A'): -2, ('Z', 'Y'): -2, ('W', 'R'): -3,
+    ('Q', 'A'): -1, ('S', 'D'): 0, ('H', 'H'): 8, ('S', 'H'): -1,
+    ('H', 'D'): -1, ('L', 'N'): -3, ('W', 'A'): -3, ('Y', 'M'): -1,
+    ('G', 'R'): -2, ('Y', 'I'): -1, ('Y', 'E'): -2, ('B', 'Y'): -3,
+    ('Y', 'A'): -2, ('V', 'D'): -3, ('B', 'S'): 0, ('Y', 'Y'): 7,
+    ('G', 'N'): 0, ('E', 'C'): -4, ('Y', 'Q'): -1, ('Z', 'Z'): 4,
+    ('V', 'A'): 0, ('C', 'C'): 9, ('M', 'R'): -1, ('V', 'E'): -2,
+    ('T', 'N'): 0, ('P', 'P'): 7, ('V', 'I'): 3, ('V', 'S'): -2,
+    ('Z', 'P'): -1, ('V', 'M'): 1, ('T', 'F'): -2, ('V', 'Q'): -2,
+    ('K', 'K'): 5, ('P', 'D'): -1, ('I', 'H'): -3, ('I', 'D'): -3,
+    ('T', 'R'): -1, ('P', 'L'): -3, ('K', 'G'): -2, ('M', 'N'): -2,
+    ('P', 'H'): -2, ('F', 'Q'): -3, ('Z', 'G'): -2, ('X', 'L'): -1,
+    ('T', 'M'): -1, ('Z', 'C'): -3, ('X', 'H'): -1, ('D', 'R'): -2,
+    ('B', 'W'): -4, ('X', 'D'): -1, ('Z', 'K'): 1, ('F', 'A'): -2,
+    ('Z', 'W'): -3, ('F', 'E'): -3, ('D', 'N'): 1, ('B', 'K'): 0,
+    ('X', 'X'): -1, ('F', 'I'): 0, ('B', 'G'): -1, ('X', 'T'): 0,
+    ('F', 'M'): 0, ('B', 'C'): -3, ('Z', 'I'): -3, ('Z', 'V'): -2,
+    ('S', 'S'): 4, ('L', 'Q'): -2, ('W', 'E'): -3, ('Q', 'R'): 1,
+    ('N', 'N'): 6, ('W', 'M'): -1, ('Q', 'C'): -3, ('W', 'I'): -3,
+    ('S', 'C'): -1, ('L', 'A'): -1, ('S', 'G'): 0, ('L', 'E'): -3,
+    ('W', 'Q'): -2, ('H', 'G'): -2, ('S', 'K'): 0, ('Q', 'N'): 0,
+    ('N', 'R'): 0, ('H', 'C'): -3, ('Y', 'N'): -2, ('G', 'Q'): -2,
+    ('Y', 'F'): 3, ('C', 'A'): 0, ('V', 'L'): 1, ('G', 'E'): -2,
+    ('G', 'A'): 0, ('K', 'R'): 2, ('E', 'D'): 2, ('Y', 'R'): -2,
+    ('M', 'Q'): 0, ('T', 'I'): -1, ('C', 'D'): -3, ('V', 'F'): -1,
+    ('T', 'A'): 0, ('T', 'P'): -1, ('B', 'P'): -2, ('T', 'E'): -1,
+    ('V', 'N'): -3, ('P', 'G'): -2, ('M', 'A'): -1, ('K', 'H'): -1,
+    ('V', 'R'): -3, ('P', 'C'): -3, ('M', 'E'): -2, ('K', 'L'): -2,
+    ('V', 'V'): 4, ('M', 'I'): 1, ('T', 'Q'): -1, ('I', 'G'): -4,
+    ('P', 'K'): -1, ('M', 'M'): 5, ('K', 'D'): -1, ('I', 'C'): -1,
+    ('Z', 'D'): 1, ('F', 'R'): -3, ('X', 'K'): -1, ('Q', 'D'): 0,
+    ('X', 'G'): -1, ('Z', 'L'): -3, ('X', 'C'): -2, ('Z', 'H'): 0,
+    ('B', 'L'): -4, ('B', 'H'): 0, ('F', 'F'): 6, ('X', 'W'): -2,
+    ('B', 'D'): 4, ('D', 'A'): -2, ('S', 'L'): -2, ('X', 'S'): 0,
+    ('F', 'N'): -3, ('S', 'R'): -1, ('W', 'D'): -4, ('V', 'Y'): -1,
+    ('W', 'L'): -2, ('H', 'R'): 0, ('W', 'H'): -2, ('H', 'N'): 1,
+    ('W', 'T'): -2, ('T', 'T'): 5, ('S', 'F'): -2, ('W', 'P'): -4,
+    ('L', 'D'): -4, ('B', 'I'): -3, ('L', 'H'): -3, ('S', 'N'): 1,
+    ('B', 'T'): -1, ('L', 'L'): 4, ('Y', 'K'): -2, ('E', 'Q'): 2,
+    ('Y', 'G'): -3, ('Z', 'S'): 0, ('Y', 'C'): -2, ('G', 'D'): -1,
+    ('B', 'V'): -3, ('E', 'A'): -1, ('Y', 'W'): 2, ('E', 'E'): 5,
+    ('Y', 'S'): -2, ('C', 'N'): -3, ('V', 'C'): -1, ('T', 'H'): -2,
+    ('P', 'R'): -2, ('V', 'G'): -3, ('T', 'L'): -1, ('V', 'K'): -2,
+    ('K', 'Q'): 1, ('R', 'A'): -1, ('I', 'R'): -3, ('T', 'D'): -1,
+    ('P', 'F'): -4, ('I', 'N'): -3, ('K', 'I'): -3, ('M', 'D'): -3,
+    ('V', 'W'): -3, ('W', 'W'): 11, ('M', 'H'): -2, ('P', 'N'): -2,
+    ('K', 'A'): -1, ('M', 'L'): 2, ('K', 'E'): 1, ('Z', 'E'): 4,
+    ('X', 'N'): -1, ('Z', 'A'): -1, ('Z', 'M'): -1, ('X', 'F'): -1,
+    ('K', 'C'): -3, ('B', 'Q'): 0, ('X', 'B'): -1, ('B', 'M'): -3,
+    ('F', 'C'): -2, ('Z', 'Q'): 3, ('X', 'Z'): -1, ('F', 'G'): -3,
+    ('B', 'E'): 1, ('X', 'V'): -1, ('F', 'K'): -3, ('B', 'A'): -2,
+    ('X', 'R'): -1, ('D', 'D'): 6, ('W', 'G'): -2, ('Z', 'F'): -3,
+    ('S', 'Q'): 0, ('W', 'C'): -2, ('W', 'K'): -3, ('H', 'Q'): 0,
+    ('L', 'C'): -1, ('W', 'N'): -4, ('S', 'A'): 1, ('L', 'G'): -4,
+    ('W', 'S'): -3, ('S', 'E'): 0, ('H', 'E'): 0, ('S', 'I'): -2,
+    ('H', 'A'): -2, ('S', 'M'): -1, ('Y', 'L'): -1, ('Y', 'H'): 2,
+    ('Y', 'D'): -3, ('E', 'R'): 0, ('X', 'P'): -2, ('G', 'G'): 6,
+    ('G', 'C'): -3, ('E', 'N'): 0, ('Y', 'T'): -2, ('Y', 'P'): -3,
+    ('T', 'K'): -1, ('A', 'A'): 4, ('P', 'Q'): -1, ('T', 'C'): -1,
+    ('V', 'H'): -3, ('T', 'G'): -2, ('I', 'Q'): -3, ('Z', 'T'): -1,
+    ('C', 'R'): -3, ('V', 'P'): -2, ('P', 'E'): -1, ('M', 'C'): -1,
+    ('K', 'N'): 0, ('I', 'I'): 4, ('P', 'A'): -1, ('M', 'G'): -3,
+    ('T', 'S'): 1, ('I', 'E'): -3, ('P', 'M'): -2, ('M', 'K'): -1,
+    ('I', 'A'): -1, ('P', 'I'): -3, ('R', 'R'): 5, ('X', 'M'): -1,
+    ('L', 'I'): 2, ('X', 'I'): -1, ('Z', 'B'): 1, ('X', 'E'): -1,
+    ('Z', 'N'): 0, ('X', 'A'): 0, ('B', 'R'): -1, ('B', 'N'): 3,
+    ('F', 'D'): -3, ('X', 'Y'): -1, ('Z', 'R'): 0, ('F', 'H'): -1,
+    ('B', 'F'): -3, ('F', 'L'): 0, ('X', 'Q'): -1, ('B', 'B'): 4
+}
+
+def calculate_alignment_scores(
+    sequence1: str,
+    sequence2: str,
+    scoring_matrix: Dict[Tuple[str, str], int],
+    gap_penalty: int
+) -> Tuple[List[int], List[int]]:
+    current_scores = list(range(0, (len(sequence1) + 1) * gap_penalty, gap_penalty))
+    backtrack = [0] * (len(sequence1) + 1)
+    
+    for j in range(1, len(sequence2) + 1):
+        previous_scores = current_scores[:]
+        current_scores[0] = previous_scores[0] + gap_penalty
+        for i in range(1, len(sequence1) + 1):
+            options = [
+                previous_scores[i] + gap_penalty,
+                current_scores[i - 1] + gap_penalty,
+                previous_scores[i - 1] + scoring_matrix.get(
+                    (sequence1[i - 1], sequence2[j - 1]),
+                    scoring_matrix.get((sequence2[j - 1], sequence1[i - 1]), 0)
+                ),
+            ]
+            current_scores[i] = max(options)
+            backtrack[i] = options.index(current_scores[i])
+    
+    return current_scores, backtrack
+
+def find_middle_edge(
+    sequence1: str,
+    sequence2: str,
+    scoring_matrix: Dict[Tuple[str, str], int],
+    gap_penalty: int
+) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+    midpoint = floor(len(sequence2) / 2)
+    
+    forward_scores, _ = calculate_alignment_scores(
+        sequence1, sequence2[:midpoint], scoring_matrix, gap_penalty
+    )
+    reverse_scores, reverse_backtrack = calculate_alignment_scores(
+        sequence1[::-1], sequence2[midpoint:][::-1], scoring_matrix, gap_penalty
+    )
+    
+    total_scores = [f + r for f, r in zip(forward_scores, reverse_scores[::-1])]
+    best_score_index = total_scores.index(max(total_scores))
+    
+    start_node = (best_score_index, midpoint)
+    possible_moves = [
+        (start_node[0], start_node[1] + 1),
+        (start_node[0] + 1, start_node[1]),
+        (start_node[0] + 1, start_node[1] + 1)
+    ]
+    end_node = possible_moves[reverse_backtrack[::-1][best_score_index]]
+    
+    return (start_node, end_node)
+
+# Sample usage
+sample_input: str = """
+PLEASANTLY
+MEASNLY
+"""
+
+sequence1, sequence2 = sample_input.strip().split("\n")
+result = find_middle_edge(sequence1, sequence2, BLOSUM62, -5)
+print(result)
+```
+
+# Align Two Strings Using Linear Space
+
+Global Alignment in Linear Space Problem. Find the highest-scoring alignment between two strings using a scoring matrix in linear space.
+
+Given: Two **long** [amino acid strings](https://rosalind.info/glossary/protein-string/) (of length approximately 10,000).
+
+Return: The maximum alignment score of these strings, followed by an alignment achieving this maximum score. Use the [BLOSUM62](https://rosalind.info/glossary/blosum62/) scoring matrix and indel penalty σ = 5.
+
+## Sample Dataset
+
+```
+PLEASANTLY
+MEANLY
+```
+
+## Sample Output
+
+```
+8
+PLEASANTLY
+-MEA--N-LY
+```
+
+## Solution
+
+```python
+from math import floor
+from typing import Dict, Tuple, List
+
+BLOSUM62: Dict[Tuple[str, str], int] = {
+    ('W', 'F'): 1, ('L', 'R'): -2, ('S', 'P'): -1, ('V', 'T'): 0,
+    ('Q', 'Q'): 5, ('N', 'A'): -2, ('Z', 'Y'): -2, ('W', 'R'): -3,
+    ('Q', 'A'): -1, ('S', 'D'): 0, ('H', 'H'): 8, ('S', 'H'): -1,
+    ('H', 'D'): -1, ('L', 'N'): -3, ('W', 'A'): -3, ('Y', 'M'): -1,
+    ('G', 'R'): -2, ('Y', 'I'): -1, ('Y', 'E'): -2, ('B', 'Y'): -3,
+    ('Y', 'A'): -2, ('V', 'D'): -3, ('B', 'S'): 0, ('Y', 'Y'): 7,
+    ('G', 'N'): 0, ('E', 'C'): -4, ('Y', 'Q'): -1, ('Z', 'Z'): 4,
+    ('V', 'A'): 0, ('C', 'C'): 9, ('M', 'R'): -1, ('V', 'E'): -2,
+    ('T', 'N'): 0, ('P', 'P'): 7, ('V', 'I'): 3, ('V', 'S'): -2,
+    ('Z', 'P'): -1, ('V', 'M'): 1, ('T', 'F'): -2, ('V', 'Q'): -2,
+    ('K', 'K'): 5, ('P', 'D'): -1, ('I', 'H'): -3, ('I', 'D'): -3,
+    ('T', 'R'): -1, ('P', 'L'): -3, ('K', 'G'): -2, ('M', 'N'): -2,
+    ('P', 'H'): -2, ('F', 'Q'): -3, ('Z', 'G'): -2, ('X', 'L'): -1,
+    ('T', 'M'): -1, ('Z', 'C'): -3, ('X', 'H'): -1, ('D', 'R'): -2,
+    ('B', 'W'): -4, ('X', 'D'): -1, ('Z', 'K'): 1, ('F', 'A'): -2,
+    ('Z', 'W'): -3, ('F', 'E'): -3, ('D', 'N'): 1, ('B', 'K'): 0,
+    ('X', 'X'): -1, ('F', 'I'): 0, ('B', 'G'): -1, ('X', 'T'): 0,
+    ('F', 'M'): 0, ('B', 'C'): -3, ('Z', 'I'): -3, ('Z', 'V'): -2,
+    ('S', 'S'): 4, ('L', 'Q'): -2, ('W', 'E'): -3, ('Q', 'R'): 1,
+    ('N', 'N'): 6, ('W', 'M'): -1, ('Q', 'C'): -3, ('W', 'I'): -3,
+    ('S', 'C'): -1, ('L', 'A'): -1, ('S', 'G'): 0, ('L', 'E'): -3,
+    ('W', 'Q'): -2, ('H', 'G'): -2, ('S', 'K'): 0, ('Q', 'N'): 0,
+    ('N', 'R'): 0, ('H', 'C'): -3, ('Y', 'N'): -2, ('G', 'Q'): -2,
+    ('Y', 'F'): 3, ('C', 'A'): 0, ('V', 'L'): 1, ('G', 'E'): -2,
+    ('G', 'A'): 0, ('K', 'R'): 2, ('E', 'D'): 2, ('Y', 'R'): -2,
+    ('M', 'Q'): 0, ('T', 'I'): -1, ('C', 'D'): -3, ('V', 'F'): -1,
+    ('T', 'A'): 0, ('T', 'P'): -1, ('B', 'P'): -2, ('T', 'E'): -1,
+    ('V', 'N'): -3, ('P', 'G'): -2, ('M', 'A'): -1, ('K', 'H'): -1,
+    ('V', 'R'): -3, ('P', 'C'): -3, ('M', 'E'): -2, ('K', 'L'): -2,
+    ('V', 'V'): 4, ('M', 'I'): 1, ('T', 'Q'): -1, ('I', 'G'): -4,
+    ('P', 'K'): -1, ('M', 'M'): 5, ('K', 'D'): -1, ('I', 'C'): -1,
+    ('Z', 'D'): 1, ('F', 'R'): -3, ('X', 'K'): -1, ('Q', 'D'): 0,
+    ('X', 'G'): -1, ('Z', 'L'): -3, ('X', 'C'): -2, ('Z', 'H'): 0,
+    ('B', 'L'): -4, ('B', 'H'): 0, ('F', 'F'): 6, ('X', 'W'): -2,
+    ('B', 'D'): 4, ('D', 'A'): -2, ('S', 'L'): -2, ('X', 'S'): 0,
+    ('F', 'N'): -3, ('S', 'R'): -1, ('W', 'D'): -4, ('V', 'Y'): -1,
+    ('W', 'L'): -2, ('H', 'R'): 0, ('W', 'H'): -2, ('H', 'N'): 1,
+    ('W', 'T'): -2, ('T', 'T'): 5, ('S', 'F'): -2, ('W', 'P'): -4,
+    ('L', 'D'): -4, ('B', 'I'): -3, ('L', 'H'): -3, ('S', 'N'): 1,
+    ('B', 'T'): -1, ('L', 'L'): 4, ('Y', 'K'): -2, ('E', 'Q'): 2,
+    ('Y', 'G'): -3, ('Z', 'S'): 0, ('Y', 'C'): -2, ('G', 'D'): -1,
+    ('B', 'V'): -3, ('E', 'A'): -1, ('Y', 'W'): 2, ('E', 'E'): 5,
+    ('Y', 'S'): -2, ('C', 'N'): -3, ('V', 'C'): -1, ('T', 'H'): -2,
+    ('P', 'R'): -2, ('V', 'G'): -3, ('T', 'L'): -1, ('V', 'K'): -2,
+    ('K', 'Q'): 1, ('R', 'A'): -1, ('I', 'R'): -3, ('T', 'D'): -1,
+    ('P', 'F'): -4, ('I', 'N'): -3, ('K', 'I'): -3, ('M', 'D'): -3,
+    ('V', 'W'): -3, ('W', 'W'): 11, ('M', 'H'): -2, ('P', 'N'): -2,
+    ('K', 'A'): -1, ('M', 'L'): 2, ('K', 'E'): 1, ('Z', 'E'): 4,
+    ('X', 'N'): -1, ('Z', 'A'): -1, ('Z', 'M'): -1, ('X', 'F'): -1,
+    ('K', 'C'): -3, ('B', 'Q'): 0, ('X', 'B'): -1, ('B', 'M'): -3,
+    ('F', 'C'): -2, ('Z', 'Q'): 3, ('X', 'Z'): -1, ('F', 'G'): -3,
+    ('B', 'E'): 1, ('X', 'V'): -1, ('F', 'K'): -3, ('B', 'A'): -2,
+    ('X', 'R'): -1, ('D', 'D'): 6, ('W', 'G'): -2, ('Z', 'F'): -3,
+    ('S', 'Q'): 0, ('W', 'C'): -2, ('W', 'K'): -3, ('H', 'Q'): 0,
+    ('L', 'C'): -1, ('W', 'N'): -4, ('S', 'A'): 1, ('L', 'G'): -4,
+    ('W', 'S'): -3, ('S', 'E'): 0, ('H', 'E'): 0, ('S', 'I'): -2,
+    ('H', 'A'): -2, ('S', 'M'): -1, ('Y', 'L'): -1, ('Y', 'H'): 2,
+    ('Y', 'D'): -3, ('E', 'R'): 0, ('X', 'P'): -2, ('G', 'G'): 6,
+    ('G', 'C'): -3, ('E', 'N'): 0, ('Y', 'T'): -2, ('Y', 'P'): -3,
+    ('T', 'K'): -1, ('A', 'A'): 4, ('P', 'Q'): -1, ('T', 'C'): -1,
+    ('V', 'H'): -3, ('T', 'G'): -2, ('I', 'Q'): -3, ('Z', 'T'): -1,
+    ('C', 'R'): -3, ('V', 'P'): -2, ('P', 'E'): -1, ('M', 'C'): -1,
+    ('K', 'N'): 0, ('I', 'I'): 4, ('P', 'A'): -1, ('M', 'G'): -3,
+    ('T', 'S'): 1, ('I', 'E'): -3, ('P', 'M'): -2, ('M', 'K'): -1,
+    ('I', 'A'): -1, ('P', 'I'): -3, ('R', 'R'): 5, ('X', 'M'): -1,
+    ('L', 'I'): 2, ('X', 'I'): -1, ('Z', 'B'): 1, ('X', 'E'): -1,
+    ('Z', 'N'): 0, ('X', 'A'): 0, ('B', 'R'): -1, ('B', 'N'): 3,
+    ('F', 'D'): -3, ('X', 'Y'): -1, ('Z', 'R'): 0, ('F', 'H'): -1,
+    ('B', 'F'): -3, ('F', 'L'): 0, ('X', 'Q'): -1, ('B', 'B'): 4
+}
+
+def calculate_alignment_scores(
+    sequence1: str,
+    sequence2: str,
+    scoring_matrix: Dict[Tuple[str, str], int],
+    gap_penalty: int
+) -> Tuple[List[int], List[int]]:
+    current_scores = list(range(0, (len(sequence1) + 1) * gap_penalty, gap_penalty))
+    backtrack = [0] * (len(sequence1) + 1)
+    
+    for j in range(1, len(sequence2) + 1):
+        previous_scores = current_scores[:]
+        current_scores[0] = previous_scores[0] + gap_penalty
+        for i in range(1, len(sequence1) + 1):
+            options = [
+                previous_scores[i] + gap_penalty,
+                current_scores[i - 1] + gap_penalty,
+                previous_scores[i - 1] + scoring_matrix.get(
+                    (sequence1[i - 1], sequence2[j - 1]),
+                    scoring_matrix.get((sequence2[j - 1], sequence1[i - 1]), 0)
+                ),
+            ]
+            current_scores[i] = max(options)
+            backtrack[i] = options.index(current_scores[i])
+    
+    return current_scores, backtrack
+
+def find_middle_edge(
+    sequence1: str,
+    sequence2: str,
+    scoring_matrix: Dict[Tuple[str, str], int],
+    gap_penalty: int
+) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+    midpoint = floor(len(sequence2) / 2)
+    
+    forward_scores, _ = calculate_alignment_scores(
+        sequence1, sequence2[:midpoint], scoring_matrix, gap_penalty
+    )
+    reverse_scores, reverse_backtrack = calculate_alignment_scores(
+        sequence1[::-1], sequence2[midpoint:][::-1], scoring_matrix, gap_penalty
+    )
+    
+    total_scores = [f + r for f, r in zip(forward_scores, reverse_scores[::-1])]
+    best_score_index = total_scores.index(max(total_scores))
+    
+    start_node = (best_score_index, midpoint)
+    possible_moves = [
+        (start_node[0], start_node[1] + 1),
+        (start_node[0] + 1, start_node[1]),
+        (start_node[0] + 1, start_node[1] + 1)
+    ]
+    end_node = possible_moves[reverse_backtrack[::-1][best_score_index]]
+    
+    return (start_node, end_node)
+
+def calculate_alignment_score(
+    aligned_seq1: str,
+    aligned_seq2: str,
+    scoring_matrix: Dict[Tuple[str, str], int],
+    gap_penalty: int
+) -> int:
+    return sum(
+        gap_penalty if aligned_seq1[i] == "-" or aligned_seq2[i] == "-" else
+        scoring_matrix.get((aligned_seq1[i], aligned_seq2[i]),
+                           scoring_matrix.get((aligned_seq2[i], aligned_seq1[i]), 0))
+        for i in range(len(aligned_seq1))
+    )
+
+def find_alignment_path(
+    sequence1: str,
+    sequence2: str,
+    scoring_matrix: Dict[Tuple[str, str], int],
+    gap_penalty: int
+) -> str:
+    def linear_space_alignment(top: int, bottom: int, left: int, right: int) -> str:
+        if left == right:
+            return "↓" * (bottom - top)
+        elif top == bottom:
+            return "→" * (right - left)
+        else:
+            ((i, j), (i2, j2)) = find_middle_edge(
+                sequence1[top:bottom], sequence2[left:right], scoring_matrix, gap_penalty
+            )
+            edge = "↓" if j == j2 else "→" if i == i2 else "↘"
+            return (
+                linear_space_alignment(top, i + top, left, j + left) +
+                edge +
+                linear_space_alignment(i2 + top, bottom, j2 + left, right)
+            )
+
+    return linear_space_alignment(0, len(sequence1), 0, len(sequence2))
+
+def construct_alignment(
+    alignment_path: str,
+    sequence1: str,
+    sequence2: str
+) -> Tuple[str, str]:
+    aligned_seq1, aligned_seq2 = "", ""
+    i, j = 0, 0
+    for direction in alignment_path:
+        if direction == "↘":
+            aligned_seq1 += sequence1[i]
+            aligned_seq2 += sequence2[j]
+            i += 1
+            j += 1
+        elif direction == "↓":
+            aligned_seq1 += sequence1[i]
+            aligned_seq2 += "-"
+            i += 1
+        else:
+            aligned_seq1 += "-"
+            aligned_seq2 += sequence2[j]
+            j += 1
+    return aligned_seq1, aligned_seq2
+
+# Sample usage
+sample_input: str = """
+PLEASANTLY
+MEANLY
+"""
+
+sequence1, sequence2 = sample_input.strip().split("\n")
+scoring_matrix = BLOSUM62
+alignment_path = find_alignment_path(sequence1, sequence2, scoring_matrix, -5)
+aligned_seq1, aligned_seq2 = construct_alignment(alignment_path, sequence1, sequence2)
+print(calculate_alignment_score(aligned_seq1, aligned_seq2, scoring_matrix, -5))
+print(aligned_seq1, aligned_seq2, sep="\n")
+```
+
+# Find a Highest-Scoring Multiple Sequence Alignment
+
+Multiple Longest Common Subsequence Problem. Find a longest common subsequence of multiple strings.
+
+Given: Three [DNA strings](https://rosalind.info/glossary/dna-string/).
+
+Return: The maximum score of a multiple alignment of these three strings, followed by a multiple alignment of the three strings achieving this maximum. Use a scoring function in which the score of an alignment column is 1 if all three symbols are identical and 0 otherwise. (If more than one multiple alignment achieve the maximum, you may return any one.)
+
+## Sample Dataset
+
+```
+ATATCCG
+TCCGA
+ATGTACTG
+```
+
+## Sample Output
+
+```
+3
+ATATCC-G-
+---TCC-GA
+ATGTACTG-
+```
+
+## Solution
+
+```python
+from itertools import product
+from typing import List, Tuple, Dict
+
+# Check if the coordinates are non-negative in the alignment matrix
+def is_valid_coordinate(pointer: Tuple[int, ...], position: Tuple[int, ...]) -> bool:
+    return all([i >= 0 for i in get_previous_position(position, pointer)])
+
+# Get the previous position given a current position and a pointer
+def get_previous_position(position: Tuple[int, ...], pointer: Tuple[int, ...]) -> Tuple[int, ...]:
+    return tuple([p + d for p, d in zip(position, pointer)])
+
+# Calculate the score for a given position and pointer
+def calculate_score(sequences: List[str], position: Tuple[int, ...], pointer: Tuple[int, ...]) -> int:
+    if pointer == (-1, -1, -1):
+        bases = [sequences[i][j] for i, j in enumerate(get_previous_position(position, pointer))]
+        return int(all(base == bases[0] for base in bases))
+    else:
+        return 0
+
+# Generate possible previous cell pointers
+def generate_moves(dimension: int) -> List[Tuple[int, ...]]:
+    return list(product([0, -1], repeat=dimension))[1:]
+
+def multiple_sequence_alignment(sequences: List[str]) -> Tuple[int, str, str, str]:
+    scores: Dict[Tuple[int, ...], int] = {}
+    pointers: Dict[Tuple[int, ...], Tuple[int, ...]] = {}
+    scores[(0, 0, 0)] = 0
+    
+    ranges = [range(0, len(seq) + 1) for seq in sequences]
+    
+    for position in product(*ranges):
+        valid_pointers = list(filter(lambda x: is_valid_coordinate(x, position), generate_moves(3)))
+        if not valid_pointers:
+            continue
+        
+        possible_scores = [scores[get_previous_position(position, ptr)] + calculate_score(sequences, position, ptr) for ptr in valid_pointers]
+        scores[position] = max(possible_scores)
+        pointers[position] = valid_pointers[possible_scores.index(max(possible_scores))]
+
+    # Traceback to recover alignment
+    total_score = scores[position]
+    aligned_sequences = ["", "", ""]
+    
+    while any([x > 0 for x in position]):
+        pointer = pointers[position]
+        for i, seq in enumerate(sequences):
+            aligned_sequences[i] += seq[position[i] - 1] if pointer[i] == -1 else "-"
+        position = get_previous_position(position, pointer)
+
+    return (total_score, 
+            aligned_sequences[0][::-1], 
+            aligned_sequences[1][::-1], 
+            aligned_sequences[2][::-1])
+
+sample_input = """
+ATATCCG
+TCCGA
+ATGTACTG
+"""
+
+sequences = sample_input.strip().split("\n")
+alignment_score, seq1, seq2, seq3 = multiple_sequence_alignment(sequences)
+print(alignment_score)
+print(seq1)
+print(seq2)
+print(seq3)
+```
+
+# Find a Topological Ordering of a DAG
+
+Topological Ordering Problem. Find a topological ordering of a directed acyclic graph.
+
+Given: The [adjacency list](https://rosalind.info/glossary/adjacency-list/) of a graph (with nodes represented by integers).
+
+Return: A topological ordering of this graph.
+
+## Sample Dataset
+
+```
+1 -> 2
+2 -> 3
+4 -> 2
+5 -> 3
+```
+
+## Sample Output
+
+```
+1, 4, 5, 2, 3
+```
+
+## Solution
+
+```python
+from typing import Dict, List, Tuple, Set
+
+NodeLabel = str
+Graph = Dict[NodeLabel, List[NodeLabel]]
+
+def create_graph(edge_list: List[str]) -> Graph:
+    graph: Graph = {}
+    for edge in edge_list:
+        source, targets = edge.split(" -> ")
+        target_list = targets.split(",")
+        if source not in graph:
+            graph[source] = []
+        graph[source].extend(target_list)
+        for target in target_list:
+            if target not in graph:
+                graph[target] = []
+    return graph
+
+def depth_first_search(graph: Graph, node: NodeLabel, visited: Set[NodeLabel], stack: List[NodeLabel]) -> None:
+    visited.add(node)
+    for neighbor in graph.get(node, []):
+        if neighbor not in visited:
+            depth_first_search(graph, neighbor, visited, stack)
+    stack.insert(0, node)
+
+def topological_sort(graph: Graph) -> List[NodeLabel]:
+    visited: Set[NodeLabel] = set()
+    stack: List[NodeLabel] = []
+    for node in graph:
+        if node not in visited:
+            depth_first_search(graph, node, visited, stack)
+    return stack
+
+def parse_input(input_text: str) -> List[str]:
+    return input_text.strip().split("\n")
+
+# Sample usage
+sample_input = """
+1 -> 2
+2 -> 3
+4 -> 2
+5 -> 3
+"""
+
+edge_list = parse_input(sample_input)
+graph = create_graph(edge_list)
+sorted_nodes = topological_sort(graph)
+print(", ".join(sorted_nodes))
+```
+
+# Implement GreedySorting to Sort a Permutation by Reversals
+
+Implement *GreedySorting*.
+
+Given: A [signed permutation](https://rosalind.info/glossary/signed-permutation/) *P*.
+
+Return: The sequence of permutations corresponding to applying *GreedySorting* to *P*, ending with the identity permutation.
+
+## Sample Dataset
+
+```
+(-3 +4 +1 +5 -2)
+```
+
+## Sample Output
+
+```
+(-1 -4 +3 +5 -2)
+(+1 -4 +3 +5 -2)
+(+1 +2 -5 -3 +4)
+(+1 +2 +3 +5 +4)
+(+1 +2 +3 -4 -5)
+(+1 +2 +3 +4 -5)
+(+1 +2 +3 +4 +5)
+```
+
+## Solution
+
+```python
+from typing import List, Tuple
+
+def perform_k_sorting_reversal(permutation: List[int], k: int) -> List[int]:
+    j = k
+    while abs(permutation[j]) != k + 1:
+        j += 1
+    permutation[k:j+1] = [-x for x in reversed(permutation[k:j+1])]
+    return permutation
+
+def greedy_sorting(permutation: List[int]) -> List[List[int]]:
+    reversal_sequence: List[List[int]] = []
+    for k in range(len(permutation)):
+        while permutation[k] != k + 1:
+            permutation = perform_k_sorting_reversal(permutation, k)
+            reversal_sequence.append(list(permutation))
+    return reversal_sequence
+
+def parse_permutation(input_text: str) -> List[int]:
+    cleaned_input = input_text.strip().replace("(", "").replace(")", "")
+    return [int(x) for x in cleaned_input.split()]
+
+def format_permutation(permutation: List[int]) -> str:
+    formatted_elements = [("+" if x > 0 else "") + str(x) for x in permutation]
+    return "(" + " ".join(formatted_elements) + ")"
+
+# Sample usage
+sample_input = """
+(-3 +4 +1 +5 -2)
+"""
+
+initial_permutation = parse_permutation(sample_input)
+sorting_sequence = greedy_sorting(initial_permutation)
+
+for permutation in sorting_sequence:
+    print(format_permutation(permutation))
+```
+
+# Compute the Number of Breakpoints in a Permutation
+
+Number of Breakpoints Problem. Find the number of breakpoints in a permutation.
+
+Given: A [signed permutation](https://rosalind.info/glossary/signed-permutation/) *P*.
+
+Return: The number of breakpoints in *P*.
+
+## Sample Dataset
+
+```
+(+3 +4 +5 -12 -8 -7 -6 +1 +2 +10 +9 -11 +13 +14)
+```
+
+## Sample Output
+
+```
+8
+```
+
+## Solution
+
+```python
+from typing import List
+
+def count_breakpoints(permutation: List[int]) -> int:
+    augmented_permutation = [0] + permutation + [max(permutation) + 1]
+    breakpoint_count = 0
+    
+    for i in range(1, len(augmented_permutation) - 1):
+        if augmented_permutation[i] != augmented_permutation[i - 1] + 1:
+            breakpoint_count += 1
+    
+    return breakpoint_count
+
+sample_input = """
+(+3 +4 +5 -12 -8 -7 -6 +1 +2 +10 +9 -11 +13 +14)
+"""
+
+permutation_string = sample_input.strip()
+permutation_string = permutation_string.replace("(", "").replace(")", "")
+permutation = [int(x) for x in permutation_string.split()]
+
+print(count_breakpoints(permutation))
+```
+
+# Compute the 2-Break Distance Between a Pair of Genomes
+
+2-Break Distance Problem. Find the 2-break distance between two genomes.
+
+Given: Two genomes with circular chromosomes on the same set of synteny blocks.
+
+Return: The 2-break distance between these two genomes.
+
+## Sample Dataset
+
+```
+(+1 +2 +3 +4 +5 +6)
+(+1 -3 -6 -5)(+2 -4)
+```
+
+## Sample Output
+
+```
+3
+```
+
+## Solution
+
+```python
+import re
+from collections import defaultdict
+from typing import List, Dict, Set, DefaultDict
+
+def find_component(start_node: int, graph: Dict[int, List[int]]) -> Set[int]:
+    queue: List[int] = [start_node]
+    visited: Set[int] = set()
+    while queue:
+        current_node = queue.pop(0)
+        visited.add(current_node)
+        for neighbor in graph[current_node]:
+            if neighbor not in visited:
+                queue.append(neighbor)
+    return visited
+
+def parse_genome_graph(genome_string: str) -> DefaultDict[int, List[int]]:
+    genome_graph: DefaultDict[int, List[int]] = defaultdict(list)
+    for component in re.findall(r"\((.+?)\)", genome_string):
+        chromosome = list(map(int, component.split()))
+        for i in range(len(chromosome) - 1):
+            genome_graph[chromosome[i]].append(-chromosome[i + 1])
+            genome_graph[-chromosome[i + 1]].append(chromosome[i])
+        genome_graph[chromosome[-1]].append(-chromosome[0])
+        genome_graph[-chromosome[0]].append(chromosome[-1])
+    return genome_graph
+
+def breakpoint_graph(genome1: DefaultDict[int, List[int]], genome2: DefaultDict[int, List[int]]) -> Dict[int, List[int]]:
+    combined_graph: Dict[int, List[int]] = {}
+    for node in genome1.keys():
+        combined_graph[node] = genome1[node] + genome2[node]
+    return combined_graph
+
+def calculate_two_break_distance(genomes: List[DefaultDict[int, List[int]]]) -> int:
+    combined_graph = breakpoint_graph(*genomes)
+    nodes: Set[int] = set(combined_graph.keys())
+    num_blocks = len(nodes) // 2
+    num_components = 0
+    while nodes:
+        component = find_component(next(iter(nodes)), combined_graph)
+        nodes -= component
+        num_components += 1
+    return num_blocks - num_components
+
+sample_input = """
+(+1 +2 +3 +4 +5 +6)
+(+1 -3 -6 -5)(+2 -4)
+"""
+
+input_lines = sample_input.strip().split("\n")
+genomes = [parse_genome_graph(genome_string) for genome_string in input_lines]
+print(calculate_two_break_distance(genomes))
+```
+
+# Find a Shortest Transformation of One Genome into Another by 2-Breaks
+
+2-Break Sorting Problem. Find a shortest transformation of one genome into another by 2-breaks.
+
+Given: Two genomes with circular chromosomes on the same set of synteny blocks.
+
+Return: The sequence of genomes resulting from applying a shortest sequence of 2-breaks transforming one genome into the other.
+
+## Sample Dataset
+
+```
+(+1 -2 -3 +4)
+(+1 +2 -4 -3)
+```
+
+## Sample Output
+
+```
+(+1 -2 -3 +4)
+(+1 +2 -3 +4)
+(+1 +2 -4 +3)
+(+1 +2 -4 -3)
+```
+
+## Solution
+
+```python
+import re
+from collections import defaultdict
+from typing import List, Dict, Set, Generator, DefaultDict
+
+def find_component(start_node: int, graph: Dict[int, List[int]]) -> Set[int]:
+    queue: List[int] = [start_node]
+    visited: Set[int] = set()
+    while queue:
+        current_node = queue.pop(0)
+        visited.add(current_node)
+        for neighbor in graph[current_node]:
+            if neighbor not in visited:
+                queue.append(neighbor)
+    return visited
+
+def parse_genome_graph(genome_string: str) -> DefaultDict[int, List[int]]:
+    genome_graph: DefaultDict[int, List[int]] = defaultdict(list)
+    for component in re.findall(r"\((.+?)\)", genome_string):
+        chromosome = list(map(int, component.split()))
+        for i in range(len(chromosome) - 1):
+            genome_graph[chromosome[i]].append(-chromosome[i + 1])
+            genome_graph[-chromosome[i + 1]].append(chromosome[i])
+        genome_graph[chromosome[-1]].append(-chromosome[0])
+        genome_graph[-chromosome[0]].append(chromosome[-1])
+    return genome_graph
+
+def breakpoint_graph(genome1: DefaultDict[int, List[int]], genome2: DefaultDict[int, List[int]]) -> Dict[int, List[int]]:
+    combined_graph: Dict[int, List[int]] = {}
+    for node in genome1.keys():
+        combined_graph[node] = genome1[node] + genome2[node]
+    return combined_graph
+
+def format_perm(perm: List[int]) -> str:
+    return "(" + " ".join([f"{x:+}" for x in perm]) + ")"
+
+def find_components(graph: Dict[int, List[int]]) -> Generator[Set[int], None, None]:
+    nodes: Set[int] = set(graph.keys())
+    while nodes:
+        component = find_component(next(iter(nodes)), graph)
+        nodes = nodes - component
+        yield component
+
+def non_trivial_cycle_nodes(graph: Dict[int, List[int]]) -> List[int] | None:
+    for component in find_components(graph):
+        if len(component) > 2:
+            return list(component)
+    return None
+
+def find_genome_component(start_node: int, graph: Dict[int, List[int]]) -> List[int]:
+    queue: List[int] = [start_node]
+    visited: List[int] = []
+    while queue:
+        current_node = queue.pop(0)
+        visited.append(current_node)
+        for neighbor in graph[current_node]:
+            if -neighbor not in visited:
+                queue.append(-neighbor)
+    return visited
+
+def format_genome_graph(genome_graph: Dict[int, List[int]]) -> str:
+    nodes: Set[int] = set(genome_graph.keys())
+    components: List[List[int]] = []
+    while nodes:
+        component = find_genome_component(next(iter(nodes)), genome_graph)
+        nodes = nodes - set(component)
+        nodes = nodes - set(-x for x in component)
+        components.append(component)
+    return "".join([format_perm(c) for c in components])
+
+def add_edge(graph: Dict[int, List[int]], node1: int, node2: int) -> None:
+    graph[node1].append(node2)
+    graph[node2].append(node1)
+
+def del_edge(graph: Dict[int, List[int]], node1: int, node2: int) -> None:
+    graph[node1].remove(node2)
+    graph[node2].remove(node1)
+
+def ba6d(genome1: DefaultDict[int, List[int]], genome2: DefaultDict[int, List[int]]) -> Generator[str, None, None]:
+    combined_graph = breakpoint_graph(genome1, genome2)
+    nodes = non_trivial_cycle_nodes(combined_graph)
+    yield format_genome_graph(genome1)
+    while nodes:
+        j = nodes[0]
+        i2 = genome2[nodes[0]][0]
+        i = genome1[j][0]
+        j2 = genome1[i2][0]
+
+        del_edge(genome1, i, j)
+        del_edge(genome1, i2, j2)
+        add_edge(genome1, j, i2)
+        add_edge(genome1, j2, i)
+
+        yield format_genome_graph(genome1)
+        combined_graph = breakpoint_graph(genome1, genome2)
+        nodes = non_trivial_cycle_nodes(combined_graph)
+
+sample_input = """
+(+1 -2 -3 +4)
+(+1 +2 -4 -3)
+"""
+
+genome1, genome2 = [parse_genome_graph(s) for s in sample_input.strip().split("\n")]
+for genome in ba6d(genome1, genome2):
+    print(genome)
+```
+
+# Find All Shared k-mers of a Pair of Strings
+
+Shared *k*-mers Problem. Given two strings, find all their shared k-mers.
+
+Given: An integer *k* and two strings.
+
+Return: All *k*-mers shared by these strings, in the form of ordered pairs (*x*, *y*) corresponding to starting positions of these k-mers in the respective strings.
+
+## Sample Dataset
+
+```
+3
+AAACTCATC
+TTTCAAATC
+```
+
+## Sample Output
+
+```
+(0, 4)
+(0, 0)
+(4, 2)
+(6, 6)
 ```
 
 ## Solution

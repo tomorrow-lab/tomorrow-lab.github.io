@@ -40,20 +40,16 @@ Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](ht
 ## Solution
 
 ```python
-def fibonacci(n):
-    # 피보나치 수열을 저장할 리스트 초기화
-    fib = [0] * (n + 1)
-    # 첫 번째와 두 번째 피보나치 수 설정
+def fibonacci(n: int) -> int:
+    fib: list[int] = [0] * (n + 1)
     fib[1] = 1
     
-    # 피보나치 수열 계산
     for i in range(2, n + 1):
         fib[i] = fib[i - 1] + fib[i - 2]
     
     return fib[n]
 
-# 예제 사용
-n = 6
+n: int = 6
 print(f"피보나치 수열의 {n}번째 항: {fibonacci(n)}")
 ```
 
@@ -61,10 +57,11 @@ print(f"피보나치 수열의 {n}번째 항: {fibonacci(n)}")
 
 ```python
 import gmpy2
+from gmpy2 import mpz
 
-def fibonacci_gmpy2(n):
-    a = gmpy2.mpz(0)
-    b = gmpy2.mpz(1)
+def fibonacci_gmpy2(n: int) -> mpz:
+    a: mpz = gmpy2.mpz(0)
+    b: mpz = gmpy2.mpz(1)
     
     for _ in range(n):
         a, b = b, a + b
@@ -72,8 +69,8 @@ def fibonacci_gmpy2(n):
     return a
 
 # 예제 사용
-n = 60000
-result = fibonacci_gmpy2(n)
+n: int = 60000
+result: mpz = fibonacci_gmpy2(n)
 
 print(f"피보나치 수열의 {n}번째 항:")
 print(result)
@@ -90,7 +87,7 @@ The problem is to find a given set of keys in a given array.
 
 Given: Two positive integers $n≤10^5$ and $m≤10^5$, a sorted [array](https://rosalind.info/glossary/algo-array/) A[1..n] of integers from $−10^5$ to $10^5$ and a list of mm integers $−10^5≤k1,k2,…,km≤10^5$.
 
-Return: For each $k_i$, output an index $1≤j≤n$ s.t. $A[j]=k_i$ or "-1" if there is no such index.
+Return: For each $k_i$, output an index $1≤j≤n$ s.t. $A[j]=k_i$ or"-1"if there is no such index.
 
 ## Sample Dataset
 
@@ -110,7 +107,9 @@ Return: For each $k_i$, output an index $1≤j≤n$ s.t. $A[j]=k_i$ or "-1
 ## Solution
 
 ```python
-def binary_search(arr, target):
+from typing import List, Tuple
+
+def binary_search(arr: List[int], target: int) -> int:
     low, high = 0, len(arr) - 1
     
     while low <= high:
@@ -124,7 +123,7 @@ def binary_search(arr, target):
     
     return -1  # Target not found
 
-def parse_input(input_str):
+def parse_input(input_str: str) -> Tuple[int, int, List[int], List[int]]:
     lines = input_str.strip().split("\n")
     n = int(lines[0])
     m = int(lines[1])
@@ -142,7 +141,7 @@ sample_input = """
 
 n, m, array, items = parse_input(sample_input)
 
-results = [str(binary_search(array, item)) for item in items]
+results: List[str] = [str(binary_search(array, item)) for item in items]
 print(' '.join(results))
 ```
 
@@ -180,13 +179,15 @@ Return: The number of swaps performed by insertion sort algorithm on A[1..n].
 ## Solution
 
 ```python
-def parse_input(input_str):
+from typing import List
+
+def parse_input(input_str: str) -> List[int]:
     lines = input_str.strip().split("\n")
     n = int(lines[0])  # Get the number of elements
     array = list(map(int, lines[1].split()))
     return array
 
-def insertion_sort(array):
+def insertion_sort(array: List[int]) -> int:
     swaps = 0
     for i in range(1, len(array)):
         key = array[i]
@@ -204,8 +205,8 @@ sample_input = """
 6 10 4 5 1 2
 """
 
-array = parse_input(sample_input)
-swap_count = insertion_sort(array)
+array: List[int] = parse_input(sample_input)
+swap_count: int = insertion_sort(array)
 print(f"{swap_count}")
 ```
 
@@ -239,16 +240,18 @@ Return: An array $D[1..n]$ where $D[i]$ is the degree of vertex i.
 ## Solution
 
 ```python
-def parse_input(input_str):
+from typing import List, Tuple
+
+def parse_input(input_str: str) -> Tuple[int, List[int]]:
     lines = input_str.strip().split("\n")
     nodes, edges = map(int, lines[0].split())
-    edge_list = []
+    edge_list: List[int] = []
     for line in lines[1:]:
         edge_list.extend(map(int, line.split()))
     return nodes, edge_list
 
-def calculate_degrees(nodes, edge_list):
-    degrees = [0] * nodes
+def calculate_degrees(nodes: int, edge_list: List[int]) -> List[int]:
+    degrees: List[int] = [0] * nodes
     for node in edge_list:
         degrees[node - 1] += 1
     return degrees
@@ -265,8 +268,10 @@ sample_input = """
 4 1
 """
 
+nodes: int
+edge_list: List[int]
 nodes, edge_list = parse_input(sample_input)
-degrees = calculate_degrees(nodes, edge_list)
+degrees: List[int] = calculate_degrees(nodes, edge_list)
 print(" ".join(map(str, degrees)))
 ```
 
@@ -297,10 +302,12 @@ Return: An array D[1..n] where D[i] is the sum of the degrees of $i$'s nei
 ## Solution
 
 ```python
-def parse_input(input_str):
+from typing import List, Tuple, Dict
+
+def parse_input(input_str: str) -> Tuple[int, List[List[int]]]:
     lines = input_str.strip().split("\n")
     nodes, edges = map(int, lines[0].split())
-    edge_list = []
+    edge_list: List[List[int]] = []
     for line in lines[1:]:
         edge_list.append(list(map(int, line.split())))
     return nodes, edge_list
@@ -313,17 +320,19 @@ sample_input = """
 2 4
 """
 
+nodes: int
+edges_list: List[List[int]]
 nodes, edges_list = parse_input(sample_input)
 
 # Create an adjacency list
-nodes_neighbours = {str(i+1): [] for i in range(nodes)}
+nodes_neighbours: Dict[str, List[str]] = {str(i+1): [] for i in range(nodes)}
 for edge in edges_list:
     nodes_neighbours[str(edge[0])].append(str(edge[1]))
     nodes_neighbours[str(edge[1])].append(str(edge[0]))
 
 # Calculate and print the sum of neighbors' degrees
 for i in range(1, nodes + 1):
-    sum_of_neighbors_degrees = sum(len(nodes_neighbours[str(neighbor)]) for neighbor in nodes_neighbours[str(i)])
+    sum_of_neighbors_degrees: int = sum(len(nodes_neighbours[str(neighbor)]) for neighbor in nodes_neighbours[str(i)])
     print(sum_of_neighbors_degrees, end=" ")
 ```
 
@@ -331,9 +340,9 @@ for i in range(1, nodes + 1):
 
 An array A[1..n] is said to have a majority element if more than half of its entries are the same.
 
-Given: A positive integer k≤20, a positive integer $n≤10^4$, and k arrays of size n containing positive integers not exceeding $10^5$.
+Given: A positive integer k≤20, a positive integer $n≤10^4$, and k arrays of size $n$ containing positive integers not exceeding $10^5$.
 
-Return: For each array, output an element of this array occurring strictly more than n/2 times if such element exists, and "-1" otherwise.
+Return: For each array, output an element of this array occurring strictly more than $\frac{n}{2}$ times if such element exists, and"-1"otherwise.
 
 Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](https://rosalind.info/glossary/algo-algorithms-by-dasgupta-papadimitriou-vazirani-mcgraw-hill-2006/).
 
@@ -356,10 +365,12 @@ Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](ht
 ## Solution
 
 ```python
-def string_to_int_list(string):
+from typing import List
+
+def string_to_int_list(string: str) -> List[int]:
     return list(map(int, string.split()))
 
-def find_possible_majority(numbers):
+def find_possible_majority(numbers: List[int]) -> int:
     leader_index = 0
     leader_count = 1
     for i in range(len(numbers)):
@@ -372,12 +383,12 @@ def find_possible_majority(numbers):
             leader_count = 1
     return numbers[leader_index]
 
-def is_majority(numbers, candidate):
+def is_majority(numbers: List[int], candidate: int) -> bool:
     count = sum(1 for num in numbers if num == candidate)
     return count > len(numbers) / 2
 
 # Using Moore's voting algorithm
-def find_majority(numbers):
+def find_majority(numbers: List[int]) -> int:
     candidate = find_possible_majority(numbers)
     return candidate if is_majority(numbers, candidate) else -1
 
@@ -390,13 +401,13 @@ sample_input = """
 """
 
 _, *number_lists = sample_input.strip().split("\n")
-number_lists = [string_to_int_list(line) for line in number_lists]
+number_lists: List[List[int]] = [string_to_int_list(line) for line in number_lists]
 print(*[find_majority(numbers) for numbers in number_lists])
 ```
 
 # Merge Two Sorted Arrays
 
-The merging procedure is an essential part of [“Merge Sort”](https://rosalind.info/problems/ms/) (which is considered in one of the next problems).
+The merging procedure is an essential part of [Merge Sort](https://rosalind.info/problems/ms/) (which is considered in one of the next problems).
 
 Given: A positive integer $n≤10^5$ and a sorted array A[1..n] of integers from $−10^5$ to $10^5$, a positive integer $m≤10^5$ and a sorted array $B[1..m]$ of integers from $−10^5$ to $10^5$.
 
@@ -527,7 +538,7 @@ for arr in arrays:
 
 Given: A positive integer $k≤20$, a positive integer $n≤10^4$, and $k$ arrays of size $n$ containing integers from $−10^5$ to $10^5$.
 
-Return: For each array $A[1..n]$, output three different indices $1≤p<q<r≤n$ such that $A[p]+A[q]+A[r]=0$ if exist, and "-1" otherwise.
+Return: For each array $A[1..n]$, output three different indices $1≤p<q<r≤n$ such that $A[p]+A[q]+A[r]=0$ if exist, and"-1"otherwise.
 
 ## Sample Dataset
 
@@ -714,16 +725,18 @@ Return: The number of connected components in the graph.
 ## Solution
 
 ```python
-def parse_integers(input_string):
+from typing import List, Dict, Set, Union
+
+def parse_integers(input_string: str) -> List[int]:
     return list(map(int, input_string.split()))
     
-def parse_graph(input_lines, is_directed=False, is_weighted=False):
+def parse_graph(input_lines: List[str], is_directed: bool = False, is_weighted: bool = False) -> Dict[int, List[Union[int, Dict[str, int]]]]:
     graph_info = input_lines[0]
     if graph_info == "":
         graph_info = input_lines[1]
     num_nodes, num_edges = parse_integers(graph_info)
     edge_list = input_lines[1:num_edges+1]
-    adjacency_list = {}
+    adjacency_list: Dict[int, List[Union[int, Dict[str, int]]]] = {}
 
     for node in range(1, num_nodes + 1):
         adjacency_list[node] = list()
@@ -742,8 +755,8 @@ def parse_graph(input_lines, is_directed=False, is_weighted=False):
 
     return adjacency_list
 
-def find_connected_component(start_node, graph):
-    def depth_first_search(current_node, visited_nodes):
+def find_connected_component(start_node: int, graph: Dict[int, List[int]]) -> Set[int]:
+    def depth_first_search(current_node: int, visited_nodes: Set[int]) -> Set[int]:
         visited_nodes.add(current_node)
         for neighbor in graph[current_node]:
             if neighbor not in visited_nodes:
@@ -752,9 +765,9 @@ def find_connected_component(start_node, graph):
 
     return depth_first_search(start_node, set())
 
-def find_all_components(graph):
+def find_all_components(graph: Dict[int, List[int]]) -> List[Set[int]]:
     unvisited_nodes = set(graph.keys())
-    all_components = list()
+    all_components: List[Set[int]] = list()
     while unvisited_nodes:
         component = find_connected_component(next(iter(unvisited_nodes)), graph)
         unvisited_nodes -= component
@@ -778,7 +791,7 @@ sample_input = """
 8 12
 """
 
-graph = parse_graph(sample_input.strip().split("\n"))
+graph: Dict[int, List[int]] = parse_graph(sample_input.strip().split("\n"))
 print(len(find_all_components(graph)))
 ```
 
@@ -786,7 +799,7 @@ print(len(find_all_components(graph)))
 
 A [binary heap](https://rosalind.info/glossary/algo-binary-heap/) is a [binary tree](https://rosalind.info/glossary/algo-binary-tree/) based data structure that is often used to implement [priority queues](https://rosalind.info/glossary/algo-priority-queue/). Binary heaps, in turn, can be easily implemented using an array if the underlying tree is a complete binary tree. The tree nodes have a natural ordering: row by row, starting at the root and moving left to right within each row. If there are nn nodes, this ordering specifies their positions 1,2,…,n within the array. Moving up and down the tree is easily simulated on the array, using the fact that node number j has parent $⌈j/2⌉$ and children 2j and 2j+1.
 
-The goal of this problem is to build a heap from the given array. For this, go from the end to the beginning of a given array and let each element "bubble up".
+The goal of this problem is to build a heap from the given array. For this, go from the end to the beginning of a given array and let each element"bubble up".
 
 Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](https://rosalind.info/glossary/algo-algorithms-by-dasgupta-papadimitriou-vazirani-mcgraw-hill-2006/).
 
@@ -996,7 +1009,7 @@ print(*numbers)
 
 Given: A positive integer k≤20 and k [simple undirected graphs](https://rosalind.info/glossary/algo-simple-graph/) with $n≤400$ vertices in the [edge list format](https://rosalind.info/glossary/algo-edge-list-format/).
 
-Return: For each graph, output "1" if it contains a simple cycle (that is, a cycle which doesn’t intersect itself) of length $4$ and "-1" otherwise.
+Return: For each graph, output"1"if it contains a simple cycle (that is, a cycle which doesn't intersect itself) of length $4$ and"-1"otherwise.
 
 Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](https://rosalind.info/glossary/algo-algorithms-by-dasgupta-papadimitriou-vazirani-mcgraw-hill-2006/).
 
@@ -1108,7 +1121,7 @@ print(*results)
 
 # Testing Bipartiteness
 
-A _bipartite_ graph is a graph $G=(V,E)$ whose vertices can be partitioned into two sets ($V=V_1∪V_2$ and $V_1∩V_2=∅$) such that there are no edges between vertices in the same set (for instance, if $u,v∈V1$, then there is no edge between u and v).
+A *bipartite* graph is a graph $G=(V,E)$ whose vertices can be partitioned into two sets ($V=V_1∪V_2$ and $V_1∩V_2=∅$) such that there are no edges between vertices in the same set (for instance, if $u,v∈V1$, then there is no edge between u and v).
 
 There are many other ways to formulate this property. For instance, an undirected graph is bipartite if and only if it can be colored with just two colors. Another one: an undirected graph is bipartite if and only if it contains no cycles of odd length.
 
@@ -1116,7 +1129,7 @@ Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](ht
 
 Given: A positive integer k≤20 and k [simple graphs](https://rosalind.info/glossary/algo-simple-graph/) in the [edge list format](https://rosalind.info/glossary/algo-edge-list-format/) with at most $10^3$ vertices each.
 
-Return: For each graph, output "1" if it is bipartite and "-1" otherwise.
+Return: For each graph, output"1"if it is bipartite and"-1"otherwise.
 
 ## Sample Dataset
 
@@ -1222,7 +1235,7 @@ print(*results)
 
 Given: A positive integer $k≤20$ and k [simple directed graphs](https://rosalind.info/glossary/algo-simple-directed-graph/) in the [edge list format](https://rosalind.info/glossary/algo-edge-list-format/) with at most $10^3$ vertices and $3⋅10^3$ edges each.
 
-Return: For each graph, output "1" if the graph is [acyclic](https://rosalind.info/glossary/algo-directed-acyclic-graph/) and "-1" otherwise.
+Return: For each graph, output"1"if the graph is [acyclic](https://rosalind.info/glossary/algo-directed-acyclic-graph/) and"-1"otherwise.
 
 ## Sample Dataset
 
@@ -1458,7 +1471,7 @@ print(*dijkstra(graph))
 The heap sort algorithm first transforms a given array into a [max heap](https://rosalind.info/glossary/algo-heap/) (recall the problem [“Building a Heap”](https://rosalind.info/problems/hea/)). It then repeats the following two simple steps $n−1$ times:
 
 - Swap the last element of the heap with its root and decrease the size of the heap by 1.
-- "Sift-down" the new root element to its proper place.
+- "Sift-down"the new root element to its proper place.
 
 Given: A positive integer $n≤10^5$ and an array A[1..n] of integers from $−10^5$ to $10^5$.
 
@@ -1737,7 +1750,7 @@ print(*result)
 
 Given: A positive integer $k≤20$ and k [simple directed graphs](https://rosalind.info/glossary/algo-simple-directed-graph/) with positive integer edge weights and at most $10^3$ vertices in the [edge list format](https://rosalind.info/glossary/algo-edge-list-format/).
 
-Return: For each graph, output the length of a shortest cycle going through the first specified edge if there is a cycle and "-1" otherwise.
+Return: For each graph, output the length of a shortest cycle going through the first specified edge if there is a cycle and"-1"otherwise.
 
 ## Sample Dataset
 
@@ -2179,7 +2192,7 @@ A Hamiltonian path is a path in a graph that visits each vertex exactly once. Ch
 
 Given: A positive integer k≤20 and k [simple directed acyclic graphs](https://rosalind.info/glossary/algo-simple-directed-acyclic-graph/) in the [edge list format](https://rosalind.info/glossary/algo-edge-list-format/) with at most $10^3$ vertices each.
 
-Return: For each graph, if it contains a Hamiltonian path output "1" followed by a Hamiltonian path (i.e., a list of vertices), otherwise output "-1".
+Return: For each graph, if it contains a Hamiltonian path output"1"followed by a Hamiltonian path (i.e., a list of vertices), otherwise output"-1".
 
 ## Sample Dataset
 
@@ -2288,7 +2301,7 @@ The task is to use [Bellman-Ford algorithm](https://rosalind.info/glossary/algo
 
 Given: A positive integer k≤20 and k [simple directed graphs](https://rosalind.info/glossary/algo-simple-directed-graph/) with integer edge weights from $−10^3$ to $10^3$ and $n≤10^3$ vertices in the [edge list format](https://rosalind.info/glossary/algo-edge-list-format/).
 
-Return: For each graph, output "1" if it contains a negative weight cycle and "-1" otherwise.
+Return: For each graph, output"1"if it contains a negative weight cycle and"-1"otherwise.
 
 ## Sample Dataset
 
@@ -2406,7 +2419,7 @@ print(*[detect_negative_weight_cycle(graph) for graph in graphs])
 
 Comparing the algorithms for [sorting](https://rosalind.info/glossary/algo-sorting-algorithm/) and [“Median”](https://rosalind.info/problems/med/) finding we notice that, beyond the common [divide-and-conquer](https://rosalind.info/glossary/algo-divide-and-conquer/) philosophy and structure, they are exact opposites. [“Merge Sort”](https://rosalind.info/problems/ms/) splits the array in two in the most convenient way (first half, second half), without any regard to the magnitudes of the elements in each half; but then it works hard to put the sorted subarrays together. In contrast, the median algorithm is careful about its splitting (smaller numbers first, then the larger ones), but its work ends with the recursive call.
 
-_Quick sort_ is a sorting algorithm that splits the array in exactly the same way as the median algorithm; and once the subarrays are sorted, by two recursive calls, there is nothing more to do. Its worst-case performance is $Θ(n2)$, like that of median-finding. But it can be proved that its average case is $O(n \log ⁡n)$; furthermore, empirically it outperforms other sorting algorithms. This has made quicksort a favorite in many applications— for instance, it is the basis of the code by which really enormous files are sorted.
+*Quick sort* is a sorting algorithm that splits the array in exactly the same way as the median algorithm; and once the subarrays are sorted, by two recursive calls, there is nothing more to do. Its worst-case performance is $Θ(n2)$, like that of median-finding. But it can be proved that its average case is $O(n \log ⁡n)$; furthermore, empirically it outperforms other sorting algorithms. This has made quicksort a favorite in many applications— for instance, it is the basis of the code by which really enormous files are sorted.
 
 Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](https://rosalind.info/glossary/algo-algorithms-by-dasgupta-papadimitriou-vazirani-mcgraw-hill-2006/).
 
@@ -2600,7 +2613,7 @@ print(len(list(strongly_connected_components(graph))))
 
 # 2-Satisfiability
 
-In the 2SAT problem, you are given a set of _clauses_, where each clause is the dis-junction (OR) of two literals (a literal is a Boolean variable or the negation of a Boolean variable). You are looking for a way to assign a value true or false to each of the variables so that all clauses are satisfied — that is, there is at least one true literal in each clause. For example, here’s an instance of 2SAT:
+In the 2SAT problem, you are given a set of *clauses*, where each clause is the dis-junction (OR) of two literals (a literal is a Boolean variable or the negation of a Boolean variable). You are looking for a way to assign a value true or false to each of the variables so that all clauses are satisfied — that is, there is at least one true literal in each clause. For example, here's an instance of 2SAT:
 
 $$(x1 \lor \bar x2 \land (\bar x1 \lor \bar x3) \land (x1 \lor x2) \land (\bar x3 \lor x4)\land(\bar x1 \lor x4).$$
 
@@ -2618,7 +2631,7 @@ Note that the clause $(α∨β)$ is equivalent to either of the implications 
 
 4. Carry out this construction for the instance of 2SAT given above, and for the instance you constructed in 2.
 5. Show that if $GI$ has a strongly connected component containing both $x$ and $\bar x$ for some variable $x$, then I has no satisfying assignment.
-6. Now show the converse of 4: namely, that if none of $GI$’s strongly connected components contain both a literal and its negation, then the instance I must be satisfiable. (Hint: Assign values to the variables as follows: repeatedly pick a sink strongly connected component of $GI$. Assign value true to all literals in the sink, assign false to their negations, and delete all of these. Show that this ends up discovering a satisfying assignment.)
+6. Now show the converse of 4: namely, that if none of $GI$'s strongly connected components contain both a literal and its negation, then the instance I must be satisfiable. (Hint: Assign values to the variables as follows: repeatedly pick a sink strongly connected component of $GI$. Assign value true to all literals in the sink, assign false to their negations, and delete all of these. Show that this ends up discovering a satisfying assignment.)
 7. Conclude that there is a [linear-time](https://rosalind.info/glossary/algo-linear/) algorithm for solving 2SAT.
 
 Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](https://rosalind.info/glossary/algo-algorithms-by-dasgupta-papadimitriou-vazirani-mcgraw-hill-2006/).
@@ -2794,7 +2807,7 @@ with RecursionLimitManager(5000):
 
 Given: A positive integer k≤20 and k [simple directed graphs](https://rosalind.info/glossary/algo-simple-directed-graph/) with at most $10^3$ vertices and $2⋅10^3$ edges each in the [edge list format](https://rosalind.info/glossary/algo-edge-list-format/).
 
-Return: For each graph, output a vertex from which all other vertices are reachable (if such a vertex exists) and "-1" otherwise.
+Return: For each graph, output a vertex from which all other vertices are reachable (if such a vertex exists) and"-1"otherwise.
 
 Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](https://rosalind.info/glossary/algo-algorithms-by-dasgupta-papadimitriou-vazirani-mcgraw-hill-2006/).
 
@@ -2899,11 +2912,11 @@ print(*[find_good_start_node(g) for g in graphs])
 
 # Semi-Connected Graph
 
-A directed graph is _semi-connected_ if for all pairs of vertices i,j there is either a path from i to j or a path from j to i.
+A directed graph is *semi-connected* if for all pairs of vertices i,j there is either a path from i to j or a path from j to i.
 
 Given: A positive integer k≤20 and k [simple directed graphs](https://rosalind.info/glossary/algo-simple-directed-graph/) with at most $10^3$ vertices each in the [edge list format](https://rosalind.info/glossary/algo-edge-list-format/).
 
-Return: For each graph, output "1" if the graph is semi-connected and "-1" otherwise.
+Return: For each graph, output"1"if the graph is semi-connected and"-1"otherwise.
 
 ## Sample Dataset
 
@@ -3090,11 +3103,11 @@ There are two subclasses of graphs that automatically exclude the possibility of
 
 As before, we need to perform a sequence of updates (recall [Bellman-Ford algorithm](https://rosalind.info/glossary/algo-bellman-ford-algorithm/)) that includes every shortest path as a subsequence. The key source of efficiency is that
 
-> In any path of a DAG, the vertices appear in increasing linearized order.
+>In any path of a DAG, the vertices appear in increasing linearized order.
 
 Therefore, it is enough to [linearize](https://rosalind.info/glossary/algo-topological-sorting/) (that is, topologically sort) the DAG by [depth-first search](https://rosalind.info/glossary/algo-depth-first-search/), and then visit the vertices in sorted order, updating the edges out of each. The algorithm is given below.
 
-Notice that our scheme doesn’t require edges to be positive. In particular, we can find _longest paths_ in a DAG by the same algorithm: just negate all edge lengths.
+Notice that our scheme doesn't require edges to be positive. In particular, we can find *longest paths* in a DAG by the same algorithm: just negate all edge lengths.
 
 Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](https://rosalind.info/glossary/algo-algorithms-by-dasgupta-papadimitriou-vazirani-mcgraw-hill-2006/).
 
