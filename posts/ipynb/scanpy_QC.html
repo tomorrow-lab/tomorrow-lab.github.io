@@ -551,10 +551,8 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>미토콘드리아 유전자 비율은 좀 더 엄격하게 3 MAD 기준으로 필터링하고 백분율이 8%를 초과하는 세포도 제외합니다.</p>
 <div id="f7f3211a-8976-42b9-a922-73735d641714" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"mt_outlier"</span>] <span class="op">=</span> is_outlier(adata, <span class="st">"pct_counts_mt"</span>, <span class="dv">3</span>) <span class="op">|</span> (</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    adata.obs[<span class="st">"pct_counts_mt"</span>] <span class="op">&gt;</span> <span class="dv">8</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>adata.obs.mt_outlier.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"mt_outlier"</span>] <span class="op">=</span> is_outlier(adata, <span class="st">"pct_counts_mt"</span>, <span class="dv">3</span>) <span class="op">|</span> (adata.obs[<span class="st">"pct_counts_mt"</span>] <span class="op">&gt;</span> <span class="dv">8</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>adata.obs.mt_outlier.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>mt_outlier
 False    12054

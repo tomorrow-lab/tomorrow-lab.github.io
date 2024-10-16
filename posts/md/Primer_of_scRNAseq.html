@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Taeyoon Kim">
+<meta name="dcterms.date" content="2024-10-16">
+
+<title>scRNA-seq 소개 – tomorrow-lab</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-31EWCYNR0V"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+
+
+<meta property="og:title" content="scRNA-seq 소개 – tomorrow-lab">
+<meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:site_name" content="tomorrow-lab">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">tomorrow-lab</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../book.html"> 
+<span class="menu-text">Book</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-sign-do-not-enter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/partrita"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/partrita"> <i class="bi bi-twitter-x" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<div style="padding-bottom: 30px;">
+    <script async="" src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script>
+</div>
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#scrna-seq-이란-무엇인가" id="toc-scrna-seq-이란-무엇인가" class="nav-link active" data-scroll-target="#scrna-seq-이란-무엇인가"><span class="header-section-number">1</span> scRNA-seq 이란 무엇인가?</a></li>
+  <li><a href="#세포-지도-cell-atlas-란-무엇인가" id="toc-세포-지도-cell-atlas-란-무엇인가" class="nav-link" data-scroll-target="#세포-지도-cell-atlas-란-무엇인가"><span class="header-section-number">2</span> 세포 지도 (Cell Atlas) 란 무엇인가?</a></li>
+  <li><a href="#scrna-seq-데이터의-잠재적인-문제" id="toc-scrna-seq-데이터의-잠재적인-문제" class="nav-link" data-scroll-target="#scrna-seq-데이터의-잠재적인-문제"><span class="header-section-number">3</span> scRNA-seq 데이터의 잠재적인 문제</a></li>
+  <li><a href="#scrna-기반-모델" id="toc-scrna-기반-모델" class="nav-link" data-scroll-target="#scrna-기반-모델"><span class="header-section-number">4</span> scRNA 기반 모델</a>
+  <ul class="collapse">
+  <li><a href="#역사" id="toc-역사" class="nav-link" data-scroll-target="#역사"><span class="header-section-number">4.1</span> 역사</a></li>
+  <li><a href="#universal-cell-embeddings" id="toc-universal-cell-embeddings" class="nav-link" data-scroll-target="#universal-cell-embeddings"><span class="header-section-number">4.2</span> Universal Cell Embeddings</a></li>
+  </ul></li>
+  <li><a href="#앞으로는-어떻게-될까" id="toc-앞으로는-어떻게-될까" class="nav-link" data-scroll-target="#앞으로는-어떻게-될까"><span class="header-section-number">5</span> 앞으로는 어떻게 될까?</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">scRNA-seq 소개</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+  <div class="quarto-categories">
+    <div class="quarto-category">scRNA-seq</div>
+    <div class="quarto-category">Bioinformatics</div>
+    <div class="quarto-category">Tip</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Taeyoon Kim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 16, 2024</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">October 16, 2024</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Primer_of_scRNAseq.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+<p>얼마전 뉴욕 타임즈에 <a href="https://www.nytimes.com/2024/03/10/science/ai-learning-biology.html">A.I. Is Learning What It Means to Be Alive</a> 라는 제목의 기사가 공개되었습니다. 해당 기사에서 에 <code>scRNA-seq</code> 기초 모델이 단일 세포 RNA 시퀀싱 (scRNA) 데이터를 해석, 사용, 적용하는 방식을 어떻게 변화시킬 수 있는지에 대한 이야기가 있었는데 이 포스팅에서 더 깊이 파고들어 살펴보고자 합니다.</p>
+<div class="callout-warnning">
+<p>이 글은 <a href="https://www.owlposting.com/p/the-lore-behind-scrna-seq-foundation-models?utm_source=substack&amp;utm_medium=email#footnote-anchor-2-143614943">A primer on scRNA-seq foundation models (owlposting.com)</a>를 번역 및 요약한 글입니다. 단일 세포 생물학은 최신의 기술로 많은 부분에서 뜨거운 논쟁이 벌어지고 있습니다. 따라서 이 글의 일부는 다른 사람의 의견과 다를 수 있다는 점을 기억하세요.</p>
+</div>
+<section id="scrna-seq-이란-무엇인가" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> scRNA-seq 이란 무엇인가?</h1>
+<p>먼저 모든 세포의 세포 정체성 (cellular identity) 을 알고 싶다는 생각을 해봅시다. 그러면 가장 먼저 드는 질문은 ” 세포의 정체성이란 정확히 무엇일까요?” 입니다. 세포 유형(cell types) 일까요?</p>
+<p>뇌와 같은 장기를 생각해 보면 뇌에는 뉴런, 신경교세포, 희돌기아교세포 등 다양한 유형의 세포들이 있을 것입니다. 그렇다면 이런 세포들 간의 기능적 차이는 무엇이며, 과학자들은 어떤 기준에 따라 세포의 유형(cell type)을 명명했을까요?</p>
+<p>가장 흔한 방법은 세포 내에 존재하는 단백질, 세포 표면에 존재하는 단백질, 세포가 분비하는 단백질 등을 통해 명명하는 것입니다. 동일한 단백질을 많이 공유하는 세포를 묶어서 세포의 정체성을 나타내었습니다. 실제로 단백질은 세포가 주변 세포와 소통하는 방법이며 자원을 섭취하고 자극에 반응하는등 수많은 과정에 관여합니다. 다만 단백질이 실제로 진정한 세포의 분화 요소는 아니며 대사산물이나 후성유전학적 변형이 더 중요하다는 주장도 있습니다. 하지만 <strong>세포 상태는 세포가 가지고 있는 단백질로 가장 잘 이해할 수 있다</strong> 는 가정을 하고 다음으로 넘어가죠.</p>
+<p>그렇다면 세포 안의 단백질량을 정확히 측정할 수 있을까요? 물론 지금도 계속 사용되지만 과거에는 아래와 같은 방법들이 많이 사용되었습니다.</p>
+<ol type="1">
+<li>면역세포화학법 (Immunocytochemistry): 기본 원리는 단백질에 달라붙도록 특정 파장의 빛을 비추면 켜지는 작은 형광체가 부착된 항체를 사용하는 것입니다. 세포를 채취해 그 위에 이 항체를 뿌리면 형광 현미경으로 세포를 관찰할 수 있습니다. 예를 들어 목적 단백질이 주로 세포 표면에 있는 경우 각 세포 주변에 밝은 윤곽선을 볼 수 있습니다.</li>
+<li>유세포 분석법 (Flow Cytometry): 이 기술은 특정 단백질을 검출하기 위해 항체를 사용한다는 점에서 면역세포화학법과 유사합니다. 그러나 유세포 분석은 현미경으로 세포를 보는 대신 유세포 분석기라는 특수 기기를 사용하여 세포를 하나씩 분석합니다. 분석기 내부에서 세포는 한 번에 하나씩 채널을 통과하며 세포가 통과할 때마다 레이저를 쏩니다. 세포가 형광 항체로 표지된 경우 유세포 분석기는 방출된 형광을 감지해 세포에 존재하는 단백질의 양을 정량화합니다.</li>
+<li>질량 분석법 (Mass spectrometry): 기본적으로 세포를 가져다가 분해한 다음 그 안에 있는 모든 단백질을 분석하여 어떤 단백질이 있었는지를 파악하는 방법입니다. 먼저 효소를 사용하여 세포 단백질을 작은 조각으로 자릅니다. 이렇게 만들어진 펩타이드 조각은 일반적으로 약 10~20 개의 아미노산 길이입니다. 이 펩타이드 조각이 질량 분석기 내부로 들어가 질량 대 전하비 (m/z) 에 따라 분리되어 데이터를 얻을 수 있습니다. 그런 다음 이 데이터를 처리해 어떤 펩타이드가 존재했는지, 더 나아가 그 펩타이드가 어떤 단백질에서 유래했는지 식별합니다. 확인된 펩타이드를 단백질 데이터베이스와 비교해 어떤 단백질이 존재했는지 확인하고 정량화할 수 있습니다.</li>
+</ol>
+<p>이런 방법들은 물론 좋은 분석법이지만 인체의 모든 세포의 단백질 지형을 파악하려는 원대한 목표에는 적절하지 않았습니다. 면역세포화학법은 시간이 많이 걸리고, 알려진 단백질에 결합하는 알려진 항체가 필요하며 (모든 단백질에 있는 것은 아닙니다!) 처리량이 매우 낮습니다 (세포 천개를 측정하는 것도 어렵습니다.). 유세포 분석은 처리량은 높지만 마찬가지로 알려진 항체에 의존하며, 뇌 조직이나 지방 조직과 같이 쉽게 현탁할 수 없는 조직에는 적용하기 어렵습니다. 마지막질량 분석법은 알려진 항체에 의존하지는 않지만 단백질 함량을 정확하게 판독하려면 엄청난 수의 세포가 필요하고, 희귀한 단백질을 놓칠 수 있으며 가장 시간이 많이 소요되는 방법입니다.</p>
+<p>그러면 이제 어떻게 해야 할까요? 안타깝게도 세포의 단백질 지형을 학습하는 것은 지금까지 해결되지 않은 문제입니다. 그 문제를 해결하기 위한 접근법 중 하나가 RNA-seq 입니다. RNA-seq 은 간단히 말하면 세포내의 모든 mRNA 를 분리해 분석하는 방법입니다. mRNA 는 세포의 DNA 에서 전사 (Translation) 되어 리보솜으로 운반되며, mRNA 의 코돈 조각 (3 개의 염기서열이 1 개의 코돈) 을 해석해 단일 아미노산이 합성되어 사슬로 연결합니다. 예를 들면 mRNA 가 <code>UUU-GUA-CCA</code> 로 구성된 경우, 이는 아미노산 <code>Phe-Val-Pro</code> 의 단백질로 매핑됩니다.</p>
+<p>그렇다면 특정 시점의 모든 mRNA 를 측정하면 간접적인 단백질의 발현량도 알 수 있지 않을까요? 글쎄요, 그렇게 간단하지는 않습니다.</p>
+<p>먼저, 모든 mRNA 가 동일한 속도나 효율로 단백질로 번역되는 것은 아닙니다. 일부 안정적인 mRNA 가 존재하기는 하지만 대체로 mRNA 는 세포안에서 빠르게 분해됩니다. 즉, 리보솜에 의해 해당 단백질이 많이 만들어지기도 하고 한 번만 만들어지거나 만들어지지 않을 수도 있습니다. 다시 말해 세포 내 mRNA 의 양이 항상 단백질의 양과 완전 일치하지 않습니다.</p>
+<p>또한 단백질 반감기가 다양하기 때문에 현재 세포에 풍부한 단백질은 mRNA 가 분해되었더라도 아직 존재할 수 있습니다. 반대로 mRNA 의 양이 늘어났지만 아직 단백질이 번역되지 않아 검출이 불가능한 경우도 있습니다.</p>
+<p>마지막으로 mRNA 는 단백질에 완벽하게 일대일 매핑되지 않는데 많은 단백질이 PTM(post transcriptional modification) 을 거치므로 특정 환경에서는 같은 서열이어도 다른 구조를 가질 수 있기 때문입니다.</p>
+<p>이런 mRNA 와 단백질 발현의 관계의 문제에 대해 2016 년 Cell에 실린 <a href="https://www.cell.com/cell/pdf/S0092-8674(16)30270-7.pdf">On the Dependency of Cellular Protein Levels on mRNA Abundance</a> 논문에서는 다음과 같이 말했습니다.</p>
+<blockquote class="blockquote">
+<p>정상 상태에서는 mRNA 수준이 단백질 수준을 설명합니다. 세포의 ’ 정상 상태 ’ 라는 것을 정의하는 것이 어렵지만 일반적으로 실험에 사용되는 세포의 평균 단백질 및/또는 mRNA 수준이 몇 시간정도 안정적으로 유지되면 정상 상태로 간주합니다. 지난 15 년 동안 발표된 수많은 연구에 따르면 이러한 상황에서 단백질 수준의 유전자 간 변화는 주로 각각의 mRNA 수준에 의해 결정됩니다.</p>
+</blockquote>
+<p>또 <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2413246/">다른 연구</a> 에 따르면 mRNA 와 단백질 발현 수준간의 관계에 대한 분산이 조직에 따라 46-68% 로 알려져 있습니다. 그러니 전반적으로 mRNA 전사체 데이터가 세포 정체성의 근사치라고 할 수 있습니다.</p>
+</section>
+<section id="세포-지도-cell-atlas-란-무엇인가" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 세포 지도 (Cell Atlas) 란 무엇인가?</h1>
+<p>세포 지도는 수백 개의 기관과 수천 명의 과학자가 참여하는 테라바이트 크기의 데이터베이스입니다. 여기에는 다양한 조직의 수십만 개의 개별 세포의 전사체 데이터가 포함되어 있습니다. 즉, 여러 당사자가 ’ 전사체 지도 ’ 를 서로 공유하고 데이터를 결합 하려는 노력입니다. 이 글을 쓰는 현재 <a href="https://tabula-sapiens-portal.ds.czbiohub.org/">사람</a>,&nbsp;<a href="https://tabula-muris.ds.czbiohub.org/">생쥐</a>,&nbsp;<a href="https://www.science.org/doi/10.1126/science.aam8940">선충</a>,&nbsp;<a href="https://www.nature.com/articles/s41586-022-04587-3">영장류</a>,&nbsp;<a href="https://www.frontiersin.org/articles/10.3389/fcell.2021.743421/full">제브라피쉬</a>,&nbsp;<a href="https://www.science.org/doi/10.1126/science.abk2432">초파리</a> 등에 대한 세포 지도가 만들어져 있으며 그 중 상당수는 특정 질병에 대한 정보도 포함하고 있습니다.</p>
+<p>사람의 세포 지도는 서두에서 언급한 목표인 “모든 세포에 대한 세포 정체성을 알아내는 것” 을 해결하려는 시도 중 하나입니다. 과학자들은 관심 있는 조직에서 병든 세포 상태와 건강한 세포 상태가 어떻게 다른지 이해하고, 약물 반응을 예측하고, 새로운 단백질/유전자/세포 유형을 완전히 밝혀내는 데 사용할 수 있기를 바라고 있죠.</p>
+</section>
+<section id="scrna-seq-데이터의-잠재적인-문제" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> scRNA-seq 데이터의 잠재적인 문제</h1>
+<p>방대한 양의 scRNA-seq 데이터를 생성하는 것은 점점 쉬워지고 있지만 이를 검증하는 것은 더 어려워 지고 있습니다. 그것은 scRNA-seq 데이터가 가지고 있는 잠재적인 두 가지 문제가 있기 때문입니다.</p>
+<ol type="1">
+<li>배치 통합 (Batch integration) 문제: scRNA-seq 데이터에는 실험자의 작업 방식에 약간의 차이로 인해 고유한 이상 현상이 발생합니다. 이것을 배치 효과라 합니다. 그래서 서로 다른 데이터 세트간의 결합이 어렵습니다. 배치 효과를 제거하는 방법은 많이 알려져 있지만 아직까지는 모델 수준입니다.</li>
+<li>세포 유형 주석 (Cell annotation) 문제: 일반적으로 세포 유형은 특정 마커 유전자 (예: Treg 세포의 경우 FOXP3) 의 발현 여부에 따라 주석을 달고, 마커가 없거나 여러 개의 마커를 가진 세포의 경우 보다 명확하게 정의된 유형을 가진 세포와의 전사체 근접성을 비교해 주석을 답니다. 그런데 세포를 비교하는 기준은 세포 유형에 따라 달라지는 경우가 많고 희귀하거나 잘 알려지지 않은 세포 유형에 대해서는 신뢰할 수 있는 결과를 얻기 어렵습니다.</li>
+</ol>
+<p>이 두 가지 문제가 해결되면 scRNA-seq 데이터는 훨씬 더 유용해 질 것 입니다. 특히 만약 전사체를 동일한 수치 공간으로 변환할 수 있도록 일반화된 모델을 만들어낸다면 단순히 세포 유형을 예측하는 것 뿐만 아니라 세포에 대해 훨씬 더 많이 이해할 수 있을 것입니다. 예를 들면 제 2 형 당뇨병 환자 샘플을 통해 과도한 당분이 세포에 어떤 변화를 일으키는지 알 수 있을 것이고 세포가 어떻게 변화되는지 이해할 수 있을 것입니다. 또한 기반 모델은 학습된 데이터를 뛰어넘어 특정 약물이 세포 상태를 어떻게 변화시킬지 예측하고 종양 발생 궤적을 이해하거나 생검이 불가능한 희귀 질환 환자의 전사체를 예측할 수도 있을 겁니다.</p>
+</section>
+<section id="scrna-기반-모델" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> scRNA 기반 모델</h1>
+<section id="역사" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="역사"><span class="header-section-number">4.1</span> 역사</h2>
+<p>기반 모델 (Foundation Models) 은 일반적으로 광범위한 데이터에 대해 학습된 모델로 다양한 다운스트림 분석을 적용 (예: 미세 조정) 할 수 있는 모델입니다. 이런 기술은 자연어 처리 분야에서 가장 널리 사용되지만 최근에는 이미지 (DALL-E), 오디오 (MusicGen), 심지어 아미노산 서열 (ESM2) 등 다양한 분야로 확장되었습니다.</p>
+<p>거의 모든 다른 개념과 마찬가지로 임베딩 개념은 2010 년대 초까지 거슬러 올라가는 등 이전에도 광범위하게 시도되어 왔으며 기반 모델이 임베딩 개념을 처음 고안한 것은 아닙니다. 하지만 단순한 선형 임베딩 방식에 의존하거나 훈련된 정확한 섭동에 국한되거나 비교적 작은 데이터 세트에 대해 훈련되는 등 그 범위는 제한적이었습니다. <a href="https://markovbio.github.io/scaling-laws-of-agency/">마크오브바이오의 블로그 게시물</a> 에서 이런 단점에 대해 자세히 설명합니다. <a href="https://www.nature.com/articles/s41592-018-0229-2">scVI</a> 와 같이 다양한 데이터 세트에서 훈련된 비선형 데이터 변환을 다룬 논문이 몇 편 있었지만, 그 결과는 논문으로서 흥미롭기는 하지만 실제로 유용하기에는 여전히 모호한 영역에 머물러 있었습니다.</p>
+<p>하지만 혁신적인 <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a> 논문에 의해 거대 모델과 방대한 양의 데이터가 특별한 모델을 만들 수 있다는 믿음이 점점 커지면서 생물학자들은 자체적인 scRNA-seq 기반 모델을 구축하기 시작했습니다. 2024 년 3 월 현재, <a href="https://www.biorxiv.org/content/10.1101/2022.11.20.517285v1">scFormer</a>,&nbsp;<a href="https://www.biorxiv.org/content/10.1101/2023.05.29.542705v1">scFoundation</a>,&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10949956/">GeneFormer</a>,&nbsp;<a href="https://www.nature.com/articles/s42256-022-00534-z">scBERT</a>,&nbsp;<a href="https://www.nature.com/articles/s41592-024-02201-0">scGPT</a>,&nbsp;<a href="https://www.biorxiv.org/content/10.1101/2023.11.28.568918v1">Universal Cell Embeddings</a> 등 여러 가지의 기반 모델이 공개되었습니다. 이런 모델들이 만들어질 수 있었던 원동력은 앞서 이야기한 바 있는 세포 지도입니다. 각각의 모델은 지난 10 년 동안 모아왔던 여러 개의 세포 지도 데이터를 학습 데이터로 사용해 그 어떤 모델보다 세포 상태를 더 잘 이해할 수 있게 되었습니다.</p>
+</section>
+<section id="universal-cell-embeddings" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="universal-cell-embeddings"><span class="header-section-number">4.2</span> Universal Cell Embeddings</h2>
+<p>UCE 는 2023 년 11 월에 공개되었으며 scRNA-seq 데이터를 분석하는 사람들에게 정말 중요한 도구가 될 것으로 보입니다. 아래와 같은 특징이 있기 때문이죠.</p>
+<ol type="1">
+<li>다른 기반 모델들은 인간 세포에 한정된 반면에 UCE 모델은 인간, 생쥐, 여우원숭이, 제브라피쉬, 돼지, 붉은털원숭이, 필리핀원숭이 (cynomolgus monkey), 발톱개구리등의 총 8 가지 종의 데이터셋을 학습에 사용하였습니다.</li>
+<li>UCE 모델은 미세 조정이 필요 없는 유일한 모델입니다. 즉, 추가적인 학습없이도 103 개의 조직 및 다양한 종의 세포를 분류 할 수 있습니다.</li>
+<li><a href="https://www.czbiohub.org/">Chan Zuckerberg Biohub Network</a> 의 지원을 받고 있습니다. Chan Zuckerberg Biohub Network 은 <a href="https://tabula-sapiens-portal.ds.czbiohub.org/">타불라 사피엔스</a>, <a href="https://tabula-muris.ds.czbiohub.org/">타불라 무리스</a>, <a href="https://github.com/czbiohub-sf/tabula-muris-senis">타불라 무리스 세니스</a>, <a href="https://tabula-microcebus.ds.czbiohub.org/">타불라 마이크로세버스</a>, <a href="https://cellxgene.cziscience.com/">CellXGene</a> 등 <code>scRNA-seq</code> 데이터를 가장 많이 생성하고 공개하는 곳입니다.</li>
+<li>다른 기반 모델보다 성능이 뛰어납니다.</li>
+<li>완전히 새로운 종에서 수집한 세포의 임베딩을 UMAP 으로 그려볼 수 있습니다. UCE 는 종간의 정보도 학습했기 때문에 (물론 임베딩 플롯은 항상 약간의 논란이 있을 수 있지만) 영장류와 닭 세포 유형을 분리할 수도 있습니다. <a href="https://www.nature.com/articles/s41592-024-02191-z">자세한 알아보기</a>.</li>
+<li>새로운 세포 유형을 찾을 수 있습니다. 희귀한 세포 유형이 포함된 scRNA 데이터셋을 통해 제로 샷 임베딩을 수행하면 새로운 세포 유형을 구분하는 간단한 이진 분류기를 만들 수 있습니다. 이 분류기를 사용하면 그동안 데이터 세트에 흩어져 있는 세포들을 찾아 낼 수 있는 것입니다.</li>
+<li>마지막으로 암조직(COPD 및 IPF)과 정상 조직의 유전자 발현 차이를 조사할 수 도 있습니다. 여기서 흥미로운 점은 이 유전자 발현의 차이가 새롭게 발견한 희귀 세포 유형에서 발생했다는 것입니다.</li>
+</ol>
+<p>3 년이 지난 후에도 여전히 강세를 보이는 알파폴드 같은 모델처럼 UCE 가 기반 모델의 승자가 될까요? 아직 확신하긴 어렵습니다. 다만 UCE이 현재 가장 좋은 성능을 보이는 모델이라는 것은 확실해 보입니다.</p>
+</section>
+</section>
+<section id="앞으로는-어떻게-될까" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 앞으로는 어떻게 될까?</h1>
+<p>scRNA-seq 기술이 발전하면서 앞으로 더 크고 많은 데이터를 모으게 될 것입니다. 그러면 이런 기반 모델이 더 이상 RNA-seq에만 적용되는 것이 아니라 대사체학, 단백질체학, 후성유전체학, 그리고 공간 전사체학 등 세포와 관련된 모든 데이터에 적용되는 세상이 올 것입니다. 그리고 이미 <a href="https://www.biorxiv.org/content/10.1101/2023.09.24.559168v1">ATAC-seq에서 수집한 전사 영역을 학습하기 위해 염색질 접근성 데이터를 사용하는 기초 모델에 대한 논문</a>과 <a href="https://www.science.org/doi/10.1126/science.ade2574">UCE 사전 학습의 일부를 사용해 단백질 구조를 예측한 논문</a>등이 나오고 있습니다. 모든 생물학 데이터들을 기계학습에 활용하는 것은 시간 문제입니다. 가까운 미래에 더욱 흥미로운 모델과 활용법이 우리를 놀랍게 할 것입니다.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "scRNA-seq 소개"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Taeyoon Kim"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [scRNA-seq, Bioinformatics, Tip]</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2024-10-16"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="al">![](Primer_of_scRNAseq.png)</span>{width=100% fig-align="center"}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>얼마전 뉴욕 타임즈에 <span class="co">[</span><span class="ot">A.I. Is Learning What It Means to Be Alive</span><span class="co">](https://www.nytimes.com/2024/03/10/science/ai-learning-biology.html)</span> 라는 제목의 기사가 공개되었습니다. 해당 기사에서 에 <span class="in">`scRNA-seq`</span> 기초 모델이 단일 세포 RNA 시퀀싱 (scRNA) 데이터를 해석, 사용, 적용하는 방식을 어떻게 변화시킬 수 있는지에 대한 이야기가 있었는데 이 포스팅에서 더 깊이 파고들어 살펴보고자 합니다.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>:::{.callout-warnning}</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>이 글은 <span class="co">[</span><span class="ot">A primer on scRNA-seq foundation models (owlposting.com)</span><span class="co">](https://www.owlposting.com/p/the-lore-behind-scrna-seq-foundation-models?utm_source=substack&amp;utm_medium=email#footnote-anchor-2-143614943)</span>를 번역 및 요약한 글입니다. 단일 세포 생물학은 최신의 기술로 많은 부분에서 뜨거운 논쟁이 벌어지고 있습니다. 따라서 이 글의 일부는 다른 사람의 의견과 다를 수 있다는 점을 기억하세요.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># scRNA-seq 이란 무엇인가?</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>먼저 모든 세포의 세포 정체성 (cellular identity) 을 알고 싶다는 생각을 해봅시다. 그러면 가장 먼저 드는 질문은 " 세포의 정체성이란 정확히 무엇일까요?" 입니다. 세포 유형(cell types) 일까요?</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>뇌와 같은 장기를 생각해 보면 뇌에는 뉴런, 신경교세포, 희돌기아교세포 등 다양한 유형의 세포들이 있을 것입니다. 그렇다면 이런 세포들 간의 기능적 차이는 무엇이며, 과학자들은 어떤 기준에 따라 세포의 유형(cell type)을 명명했을까요?</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>가장 흔한 방법은 세포 내에 존재하는 단백질, 세포 표면에 존재하는 단백질, 세포가 분비하는 단백질 등을 통해 명명하는 것입니다. 동일한 단백질을 많이 공유하는 세포를 묶어서 세포의 정체성을 나타내었습니다. 실제로 단백질은 세포가 주변 세포와 소통하는 방법이며 자원을 섭취하고 자극에 반응하는등 수많은 과정에 관여합니다. 다만 단백질이 실제로 진정한 세포의 분화 요소는 아니며 대사산물이나 후성유전학적 변형이 더 중요하다는 주장도 있습니다. 하지만 **세포 상태는 세포가 가지고 있는 단백질로 가장 잘 이해할 수 있다** 는 가정을 하고 다음으로 넘어가죠.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>그렇다면 세포 안의 단백질량을 정확히 측정할 수 있을까요? 물론 지금도 계속 사용되지만 과거에는 아래와 같은 방법들이 많이 사용되었습니다.</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>면역세포화학법 (Immunocytochemistry): 기본 원리는 단백질에 달라붙도록 특정 파장의 빛을 비추면 켜지는 작은 형광체가 부착된 항체를 사용하는 것입니다. 세포를 채취해 그 위에 이 항체를 뿌리면 형광 현미경으로 세포를 관찰할 수 있습니다. 예를 들어 목적 단백질이 주로 세포 표면에 있는 경우 각 세포 주변에 밝은 윤곽선을 볼 수 있습니다.</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>유세포 분석법 (Flow Cytometry): 이 기술은 특정 단백질을 검출하기 위해 항체를 사용한다는 점에서 면역세포화학법과 유사합니다. 그러나 유세포 분석은 현미경으로 세포를 보는 대신 유세포 분석기라는 특수 기기를 사용하여 세포를 하나씩 분석합니다. 분석기 내부에서 세포는 한 번에 하나씩 채널을 통과하며 세포가 통과할 때마다 레이저를 쏩니다. 세포가 형광 항체로 표지된 경우 유세포 분석기는 방출된 형광을 감지해 세포에 존재하는 단백질의 양을 정량화합니다.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>질량 분석법 (Mass spectrometry): 기본적으로 세포를 가져다가 분해한 다음 그 안에 있는 모든 단백질을 분석하여 어떤 단백질이 있었는지를 파악하는 방법입니다. 먼저 효소를 사용하여 세포 단백질을 작은 조각으로 자릅니다. 이렇게 만들어진 펩타이드 조각은 일반적으로 약 10~20 개의 아미노산 길이입니다. 이 펩타이드 조각이 질량 분석기 내부로 들어가 질량 대 전하비 (m/z) 에 따라 분리되어 데이터를 얻을 수 있습니다. 그런 다음 이 데이터를 처리해 어떤 펩타이드가 존재했는지, 더 나아가 그 펩타이드가 어떤 단백질에서 유래했는지 식별합니다. 확인된 펩타이드를 단백질 데이터베이스와 비교해 어떤 단백질이 존재했는지 확인하고 정량화할 수 있습니다.</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>이런 방법들은 물론 좋은 분석법이지만 인체의 모든 세포의 단백질 지형을 파악하려는 원대한 목표에는 적절하지 않았습니다. 면역세포화학법은 시간이 많이 걸리고, 알려진 단백질에 결합하는 알려진 항체가 필요하며 (모든 단백질에 있는 것은 아닙니다!) 처리량이 매우 낮습니다 (세포 천개를 측정하는 것도 어렵습니다.). 유세포 분석은 처리량은 높지만 마찬가지로 알려진 항체에 의존하며, 뇌 조직이나 지방 조직과 같이 쉽게 현탁할 수 없는 조직에는 적용하기 어렵습니다. 마지막질량 분석법은 알려진 항체에 의존하지는 않지만 단백질 함량을 정확하게 판독하려면 엄청난 수의 세포가 필요하고, 희귀한 단백질을 놓칠 수 있으며 가장 시간이 많이 소요되는 방법입니다.</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>그러면 이제 어떻게 해야 할까요? 안타깝게도 세포의 단백질 지형을 학습하는 것은 지금까지 해결되지 않은 문제입니다. 그 문제를 해결하기 위한 접근법 중 하나가 RNA-seq 입니다. RNA-seq 은 간단히 말하면 세포내의 모든 mRNA 를 분리해 분석하는 방법입니다. mRNA 는 세포의 DNA 에서 전사 (Translation) 되어 리보솜으로 운반되며, mRNA 의 코돈 조각 (3 개의 염기서열이 1 개의 코돈) 을 해석해 단일 아미노산이 합성되어 사슬로 연결합니다. 예를 들면 mRNA 가 <span class="in">`UUU-GUA-CCA`</span> 로 구성된 경우, 이는 아미노산 <span class="in">`Phe-Val-Pro`</span> 의 단백질로 매핑됩니다.</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>그렇다면 특정 시점의 모든 mRNA 를 측정하면 간접적인 단백질의 발현량도 알 수 있지 않을까요? 글쎄요, 그렇게 간단하지는 않습니다.</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>먼저, 모든 mRNA 가 동일한 속도나 효율로 단백질로 번역되는 것은 아닙니다. 일부 안정적인 mRNA 가 존재하기는 하지만 대체로 mRNA 는 세포안에서 빠르게 분해됩니다. 즉, 리보솜에 의해 해당 단백질이 많이 만들어지기도 하고 한 번만 만들어지거나 만들어지지 않을 수도 있습니다. 다시 말해 세포 내 mRNA 의 양이 항상 단백질의 양과 완전 일치하지 않습니다. </span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>또한 단백질 반감기가 다양하기 때문에 현재 세포에 풍부한 단백질은 mRNA 가 분해되었더라도 아직 존재할 수 있습니다. 반대로 mRNA 의 양이 늘어났지만 아직 단백질이 번역되지 않아 검출이 불가능한 경우도 있습니다.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>마지막으로 mRNA 는 단백질에 완벽하게 일대일 매핑되지 않는데 많은 단백질이 PTM(post transcriptional modification) 을 거치므로 특정 환경에서는 같은 서열이어도 다른 구조를 가질 수 있기 때문입니다.</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>이런 mRNA 와 단백질 발현의 관계의 문제에 대해 2016 년 Cell에 실린 <span class="co">[</span><span class="ot">On the Dependency of Cellular Protein Levels on mRNA Abundance</span><span class="co">]</span>(https://www.cell.com/cell/pdf/S0092-8674(16)30270-7.pdf) 논문에서는 다음과 같이 말했습니다.</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; 정상 상태에서는 mRNA 수준이 단백질 수준을 설명합니다. 세포의 ' 정상 상태 ' 라는 것을 정의하는 것이 어렵지만 일반적으로 실험에 사용되는 세포의 평균 단백질 및/또는 mRNA 수준이 몇 시간정도 안정적으로 유지되면 정상 상태로 간주합니다. 지난 15 년 동안 발표된 수많은 연구에 따르면 이러한 상황에서 단백질 수준의 유전자 간 변화는 주로 각각의 mRNA 수준에 의해 결정됩니다.</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>또 <span class="co">[</span><span class="ot">다른 연구</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2413246/)</span> 에 따르면 mRNA 와 단백질 발현 수준간의 관계에 대한 분산이 조직에 따라 46-68% 로 알려져 있습니다. 그러니 전반적으로 mRNA 전사체 데이터가 세포 정체성의 근사치라고 할 수 있습니다.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="fu"># 세포 지도 (Cell Atlas) 란 무엇인가?</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>세포 지도는 수백 개의 기관과 수천 명의 과학자가 참여하는 테라바이트 크기의 데이터베이스입니다. 여기에는 다양한 조직의 수십만 개의 개별 세포의 전사체 데이터가 포함되어 있습니다. 즉, 여러 당사자가 ' 전사체 지도 ' 를 서로 공유하고 데이터를 결합 하려는 노력입니다. 이 글을 쓰는 현재 <span class="co">[</span><span class="ot">사람</span><span class="co">](https://tabula-sapiens-portal.ds.czbiohub.org/)</span>,&nbsp;<span class="co">[</span><span class="ot">생쥐</span><span class="co">](https://tabula-muris.ds.czbiohub.org/)</span>,&nbsp;<span class="co">[</span><span class="ot">선충</span><span class="co">](https://www.science.org/doi/10.1126/science.aam8940)</span>,&nbsp;<span class="co">[</span><span class="ot">영장류</span><span class="co">](https://www.nature.com/articles/s41586-022-04587-3)</span>,&nbsp;<span class="co">[</span><span class="ot">제브라피쉬</span><span class="co">](https://www.frontiersin.org/articles/10.3389/fcell.2021.743421/full)</span>,&nbsp;<span class="co">[</span><span class="ot">초파리</span><span class="co">](https://www.science.org/doi/10.1126/science.abk2432)</span> 등에 대한 세포 지도가 만들어져 있으며 그 중 상당수는 특정 질병에 대한 정보도 포함하고 있습니다.</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a> 사람의 세포 지도는 서두에서 언급한 목표인 "모든 세포에 대한 세포 정체성을 알아내는 것" 을 해결하려는 시도 중 하나입니다. 과학자들은 관심 있는 조직에서 병든 세포 상태와 건강한 세포 상태가 어떻게 다른지 이해하고, 약물 반응을 예측하고, 새로운 단백질/유전자/세포 유형을 완전히 밝혀내는 데 사용할 수 있기를 바라고 있죠.</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="fu"># scRNA-seq 데이터의 잠재적인 문제</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>방대한 양의 scRNA-seq 데이터를 생성하는 것은 점점 쉬워지고 있지만 이를 검증하는 것은 더 어려워 지고 있습니다. 그것은 scRNA-seq 데이터가 가지고 있는 잠재적인 두 가지 문제가 있기 때문입니다.</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>배치 통합 (Batch integration) 문제: scRNA-seq 데이터에는 실험자의 작업 방식에 약간의 차이로 인해 고유한 이상 현상이 발생합니다. 이것을 배치 효과라 합니다. 그래서 서로 다른 데이터 세트간의 결합이 어렵습니다. 배치 효과를 제거하는 방법은 많이 알려져 있지만 아직까지는 모델 수준입니다.</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>세포 유형 주석 (Cell annotation) 문제: 일반적으로 세포 유형은 특정 마커 유전자 (예: Treg 세포의 경우 FOXP3) 의 발현 여부에 따라 주석을 달고, 마커가 없거나 여러 개의 마커를 가진 세포의 경우 보다 명확하게 정의된 유형을 가진 세포와의 전사체 근접성을 비교해 주석을 답니다. 그런데 세포를 비교하는 기준은 세포 유형에 따라 달라지는 경우가 많고 희귀하거나 잘 알려지지 않은 세포 유형에 대해서는 신뢰할 수 있는 결과를 얻기 어렵습니다.</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>이 두 가지 문제가 해결되면 scRNA-seq 데이터는 훨씬 더 유용해 질 것 입니다. 특히 만약 전사체를 동일한 수치 공간으로 변환할 수 있도록 일반화된 모델을 만들어낸다면 단순히 세포 유형을 예측하는 것 뿐만 아니라 세포에 대해 훨씬 더 많이 이해할 수 있을 것입니다. 예를 들면 제 2 형 당뇨병 환자 샘플을 통해 과도한 당분이 세포에 어떤 변화를 일으키는지 알 수 있을 것이고 세포가 어떻게 변화되는지 이해할 수 있을 것입니다. 또한 기반 모델은 학습된 데이터를 뛰어넘어 특정 약물이 세포 상태를 어떻게 변화시킬지 예측하고 종양 발생 궤적을 이해하거나 생검이 불가능한 희귀 질환 환자의 전사체를 예측할 수도 있을 겁니다.</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="fu"># scRNA 기반 모델</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="fu">## 역사</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>기반 모델 (Foundation Models) 은 일반적으로 광범위한 데이터에 대해 학습된 모델로 다양한 다운스트림 분석을 적용 (예: 미세 조정) 할 수 있는 모델입니다. 이런 기술은 자연어 처리 분야에서 가장 널리 사용되지만 최근에는 이미지 (DALL-E), 오디오 (MusicGen), 심지어 아미노산 서열 (ESM2) 등 다양한 분야로 확장되었습니다.</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>거의 모든 다른 개념과 마찬가지로 임베딩 개념은 2010 년대 초까지 거슬러 올라가는 등 이전에도 광범위하게 시도되어 왔으며 기반 모델이 임베딩 개념을 처음 고안한 것은 아닙니다. 하지만 단순한 선형 임베딩 방식에 의존하거나 훈련된 정확한 섭동에 국한되거나 비교적 작은 데이터 세트에 대해 훈련되는 등 그 범위는 제한적이었습니다. <span class="co">[</span><span class="ot">마크오브바이오의 블로그 게시물</span><span class="co">](https://markovbio.github.io/scaling-laws-of-agency/)</span> 에서 이런 단점에 대해 자세히 설명합니다. <span class="co">[</span><span class="ot">scVI</span><span class="co">](https://www.nature.com/articles/s41592-018-0229-2)</span> 와 같이 다양한 데이터 세트에서 훈련된 비선형 데이터 변환을 다룬 논문이 몇 편 있었지만, 그 결과는 논문으로서 흥미롭기는 하지만 실제로 유용하기에는 여전히 모호한 영역에 머물러 있었습니다.</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>하지만 혁신적인 <span class="co">[</span><span class="ot">Attention Is All You Need</span><span class="co">](https://arxiv.org/abs/1706.03762)</span> 논문에 의해 거대 모델과 방대한 양의 데이터가 특별한 모델을 만들 수 있다는 믿음이 점점 커지면서 생물학자들은 자체적인 scRNA-seq 기반 모델을 구축하기 시작했습니다. 2024 년 3 월 현재, <span class="co">[</span><span class="ot">scFormer</span><span class="co">](https://www.biorxiv.org/content/10.1101/2022.11.20.517285v1)</span>,&nbsp;<span class="co">[</span><span class="ot">scFoundation</span><span class="co">](https://www.biorxiv.org/content/10.1101/2023.05.29.542705v1)</span>,&nbsp;<span class="co">[</span><span class="ot">GeneFormer</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10949956/)</span>,&nbsp;<span class="co">[</span><span class="ot">scBERT</span><span class="co">](https://www.nature.com/articles/s42256-022-00534-z)</span>,&nbsp;<span class="co">[</span><span class="ot">scGPT</span><span class="co">](https://www.nature.com/articles/s41592-024-02201-0)</span>,&nbsp;<span class="co">[</span><span class="ot">Universal Cell Embeddings</span><span class="co">](https://www.biorxiv.org/content/10.1101/2023.11.28.568918v1)</span> 등 여러 가지의 기반 모델이 공개되었습니다. 이런 모델들이 만들어질 수 있었던 원동력은 앞서 이야기한 바 있는 세포 지도입니다. 각각의 모델은 지난 10 년 동안 모아왔던 여러 개의 세포 지도 데이터를 학습 데이터로 사용해 그 어떤 모델보다 세포 상태를 더 잘 이해할 수 있게 되었습니다.</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## Universal Cell Embeddings</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a> UCE 는 2023 년 11 월에 공개되었으며 scRNA-seq 데이터를 분석하는 사람들에게 정말 중요한 도구가 될 것으로 보입니다. 아래와 같은 특징이 있기 때문이죠.</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>다른 기반 모델들은 인간 세포에 한정된 반면에 UCE 모델은 인간, 생쥐, 여우원숭이, 제브라피쉬, 돼지, 붉은털원숭이, 필리핀원숭이 (cynomolgus monkey), 발톱개구리등의 총 8 가지 종의 데이터셋을 학습에 사용하였습니다.</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>UCE 모델은 미세 조정이 필요 없는 유일한 모델입니다. 즉, 추가적인 학습없이도 103 개의 조직 및 다양한 종의 세포를 분류 할 수 있습니다.</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="co">[</span><span class="ot">Chan Zuckerberg Biohub Network</span><span class="co">](https://www.czbiohub.org/)</span> 의 지원을 받고 있습니다. Chan Zuckerberg Biohub Network 은 <span class="co">[</span><span class="ot">타불라 사피엔스</span><span class="co">](https://tabula-sapiens-portal.ds.czbiohub.org/)</span>, <span class="co">[</span><span class="ot">타불라 무리스</span><span class="co">](https://tabula-muris.ds.czbiohub.org/)</span>, <span class="co">[</span><span class="ot">타불라 무리스 세니스</span><span class="co">](https://github.com/czbiohub-sf/tabula-muris-senis)</span>, <span class="co">[</span><span class="ot">타불라 마이크로세버스</span><span class="co">](https://tabula-microcebus.ds.czbiohub.org/)</span>, <span class="co">[</span><span class="ot">CellXGene</span><span class="co">](https://cellxgene.cziscience.com/)</span> 등 <span class="in">`scRNA-seq`</span> 데이터를 가장 많이 생성하고 공개하는 곳입니다.</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>다른 기반 모델보다 성능이 뛰어납니다.</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>완전히 새로운 종에서 수집한 세포의 임베딩을 UMAP 으로 그려볼 수 있습니다. UCE 는 종간의 정보도 학습했기 때문에 (물론 임베딩 플롯은 항상 약간의 논란이 있을 수 있지만) 영장류와 닭 세포 유형을 분리할 수도 있습니다. <span class="co">[</span><span class="ot">자세한 알아보기</span><span class="co">](https://www.nature.com/articles/s41592-024-02191-z)</span>.</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>새로운 세포 유형을 찾을 수 있습니다. 희귀한 세포 유형이 포함된 scRNA 데이터셋을 통해 제로 샷 임베딩을 수행하면 새로운 세포 유형을 구분하는 간단한 이진 분류기를 만들 수 있습니다. 이 분류기를 사용하면 그동안 데이터 세트에 흩어져 있는 세포들을 찾아 낼 수 있는 것입니다.</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>마지막으로 암조직(COPD 및 IPF)과 정상 조직의 유전자 발현 차이를 조사할 수 도 있습니다. 여기서 흥미로운 점은 이 유전자 발현의 차이가 새롭게 발견한 희귀 세포 유형에서 발생했다는 것입니다. </span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>3 년이 지난 후에도 여전히 강세를 보이는 알파폴드 같은 모델처럼 UCE 가 기반 모델의 승자가 될까요?  아직 확신하긴 어렵습니다. 다만 UCE이 현재 가장 좋은 성능을 보이는 모델이라는 것은 확실해 보입니다.</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="fu"># 앞으로는 어떻게 될까?</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>scRNA-seq 기술이 발전하면서 앞으로 더 크고 많은 데이터를 모으게 될 것입니다. 그러면 이런 기반 모델이 더 이상 RNA-seq에만 적용되는 것이 아니라 대사체학, 단백질체학, 후성유전체학, 그리고 공간 전사체학 등 세포와 관련된 모든 데이터에 적용되는 세상이 올 것입니다. 그리고 이미 <span class="co">[</span><span class="ot">ATAC-seq에서 수집한 전사 영역을 학습하기 위해 염색질 접근성 데이터를 사용하는 기초 모델에 대한 논문</span><span class="co">](https://www.biorxiv.org/content/10.1101/2023.09.24.559168v1)</span>과 <span class="co">[</span><span class="ot">UCE 사전 학습의 일부를 사용해 단백질 구조를 예측한 논문</span><span class="co">](https://www.science.org/doi/10.1126/science.ade2574)</span>등이 나오고 있습니다. 모든 생물학 데이터들을 기계학습에 활용하는 것은 시간 문제입니다. 가까운 미래에 더욱 흥미로운 모델과 활용법이 우리를 놀랍게 할 것입니다.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -398,13 +398,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> file_name <span class="kw">in</span> files:</span>
 <span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>        sample_name <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>sample_type<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>file_name<span class="sc">.</span>split(<span class="st">'_'</span>)[<span class="op">-</span><span class="dv">1</span>]<span class="sc">.</span>split(<span class="st">'.'</span>)[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span></span>
 <span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>        file_path <span class="op">=</span> os.path.join(path_covid, file_name)</span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>        data_list.append(</span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>            read_and_process(file_path, sample_type.capitalize(), sample_name)</span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 병합</span></span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> data_list[<span class="dv">0</span>].concatenate(<span class="op">*</span>data_list[<span class="dv">1</span>:])</span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>        data_list.append(read_and_process(file_path, sample_type.capitalize(), sample_name))</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 병합</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> data_list[<span class="dv">0</span>].concatenate(<span class="op">*</span>data_list[<span class="dv">1</span>:])</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="36">
 <pre><code>AnnData object with n_obs × n_vars = 12000 × 33538
     obs: 'type', 'sample', 'batch'
@@ -1014,9 +1012,7 @@ Note
 </div>
 <p>바이올린 플롯을 그려 <code>XIST</code>과 <code>chrY</code> 비율을 살펴보죠.</p>
 <div id="cell-48" class="cell" data-fig-height="5" data-fig-width="10" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sc.pl.violin(</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    adata, [<span class="st">"XIST-counts"</span>, <span class="st">"percent_chrY"</span>], jitter<span class="op">=</span><span class="fl">0.4</span>, groupby<span class="op">=</span><span class="st">"sample"</span>, rotation<span class="op">=</span><span class="dv">45</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sc.pl.violin(adata, [<span class="st">"XIST-counts"</span>, <span class="st">"percent_chrY"</span>], jitter<span class="op">=</span><span class="fl">0.4</span>, groupby<span class="op">=</span><span class="st">"sample"</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1031,16 +1027,14 @@ Note
 <h2 data-number="3.7" class="anchored" data-anchor-id="세포-주기-예측"><span class="header-section-number">3.7</span> 세포 주기 예측</h2>
 <p>이제 세포 주기에 대한 예측을 해봅니다. 세포 주기를 예측하는 원리는 세포 주기 참조 유전자의 목록과 비교해서 유전자의 평균 발현에 대한 차이를 계산하는 것입니다. 따라서 세포 주기 참조 유전자 목록이 필요합니다. 여기에서는 Regev 연구소에서 만든 파일을 사용해 메타데이터에 S 단계에 대한 점수, G2M 단계에 대한 점수, 예측된 세포 주기 단계를 추가하겠습니다.</p>
 <div id="cell-51" class="cell" data-execution_count="58">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cell_cycle_genes <span class="op">=</span> [</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    x.strip() <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">open</span>(path_parent <span class="op">+</span> <span class="st">"/regev_lab_cell_cycle_genes.txt"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2개의 목록으로 분할</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>s_genes <span class="op">=</span> cell_cycle_genes[:<span class="dv">43</span>]</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>g2m_genes <span class="op">=</span> cell_cycle_genes[<span class="dv">43</span>:]</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>cell_cycle_genes <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> cell_cycle_genes <span class="cf">if</span> x <span class="kw">in</span> adata.var_names]</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"포함되어 있는 세포 주기 유전자의 수: </span><span class="sc">{</span><span class="bu">len</span>(cell_cycle_genes)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cell_cycle_genes <span class="op">=</span> [x.strip() <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">open</span>(path_parent <span class="op">+</span> <span class="st">"/regev_lab_cell_cycle_genes.txt"</span>)]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2개의 목록으로 분할</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>s_genes <span class="op">=</span> cell_cycle_genes[:<span class="dv">43</span>]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>g2m_genes <span class="op">=</span> cell_cycle_genes[<span class="dv">43</span>:]</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>cell_cycle_genes <span class="op">=</span> [x <span class="cf">for</span> x <span class="kw">in</span> cell_cycle_genes <span class="cf">if</span> x <span class="kw">in</span> adata.var_names]</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"포함되어 있는 세포 주기 유전자의 수: </span><span class="sc">{</span><span class="bu">len</span>(cell_cycle_genes)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>포함되어 있는 세포 주기 유전자의 수: 94</code></pre>
 </div>
@@ -1159,25 +1153,21 @@ Note
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>required_var_columns <span class="op">=</span> [<span class="st">"gene_ids"</span>, <span class="st">"feature_types"</span>, <span class="st">"genome"</span>]  <span class="co"># 실제 필요한 열로 대체</span></span>
 <span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co"># obs에서 필요한 열만 남기고 삭제</span></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>obs_columns_to_drop <span class="op">=</span> [</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    col <span class="cf">for</span> col <span class="kw">in</span> adata.obs.columns <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> required_obs_columns</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>adata.obs.drop(columns<span class="op">=</span>obs_columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="co"># var에서 필요한 열만 남기고 삭제</span></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>var_columns_to_drop <span class="op">=</span> [</span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>    col <span class="cf">for</span> col <span class="kw">in</span> adata.var.columns <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> required_var_columns</span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>adata.var.drop(columns<span class="op">=</span>var_columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="co"># uns, obsm, varm, obsp 속성 삭제</span></span>
-<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>adata.uns <span class="op">=</span> {}</span>
-<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>adata.obsm <span class="op">=</span> {}</span>
-<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>adata.varm <span class="op">=</span> {}</span>
-<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>adata.obsp <span class="op">=</span> {}</span>
-<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 확인</span></span>
-<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>obs_columns_to_drop <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> adata.obs.columns <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> required_obs_columns]</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>adata.obs.drop(columns<span class="op">=</span>obs_columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co"># var에서 필요한 열만 남기고 삭제</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>var_columns_to_drop <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> adata.var.columns <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> required_var_columns]</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>adata.var.drop(columns<span class="op">=</span>var_columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="co"># uns, obsm, varm, obsp 속성 삭제</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>adata.uns <span class="op">=</span> {}</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>adata.obsm <span class="op">=</span> {}</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>adata.varm <span class="op">=</span> {}</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>adata.obsp <span class="op">=</span> {}</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 확인</span></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>AnnData object with n_obs × n_vars = 7227 × 19094
     obs: 'type', 'sample', 'batch'

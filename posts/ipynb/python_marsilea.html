@@ -299,7 +299,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>그런 다음 <code>add_layer()</code>를 사용하여 캔버스에 바이올린 플롯을 추가합니다. 마지막으로 <code>render()</code>를 호출하여 시각화를 그립니다.</p>
 <div id="cell-4" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.randn(<span class="dv">8</span>, <span class="dv">6</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cb <span class="op">=</span> ma.ClusterBoard(data, height<span class="op">=</span><span class="dv">2</span>, margin<span class="op">=</span><span class="fl">.5</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cb <span class="op">=</span> ma.ClusterBoard(data, height<span class="op">=</span><span class="dv">2</span>, margin<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cb.add_layer(mp.Violin(data, color<span class="op">=</span><span class="st">"#FF6D60"</span>))</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>cb.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -331,13 +331,11 @@ Note
 </div>
 </div>
 <div id="cell-6" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cb.vsplit(labels<span class="op">=</span>[<span class="st">"c1"</span>, <span class="st">"c1"</span>, <span class="st">"c2"</span>, <span class="st">"c2"</span>, <span class="st">"c3"</span>, <span class="st">"c3"</span>],</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>          order<span class="op">=</span>[<span class="st">"c1"</span>, <span class="st">"c2"</span>, <span class="st">"c3"</span>], spacing<span class="op">=</span><span class="fl">.08</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>group_labels <span class="op">=</span> mp.Chunk([<span class="st">"c1"</span>, <span class="st">"c2"</span>, <span class="st">"c3"</span>],</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                        [<span class="st">"#FF6D60"</span>, <span class="st">"#F7D060"</span>, <span class="st">"#F3E99F"</span>])</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>cb.add_top(group_labels, size<span class="op">=</span><span class="fl">.2</span>, pad<span class="op">=</span><span class="fl">.1</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cb.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cb.vsplit(labels<span class="op">=</span>[<span class="st">"c1"</span>, <span class="st">"c1"</span>, <span class="st">"c2"</span>, <span class="st">"c2"</span>, <span class="st">"c3"</span>, <span class="st">"c3"</span>], order<span class="op">=</span>[<span class="st">"c1"</span>, <span class="st">"c2"</span>, <span class="st">"c3"</span>], spacing<span class="op">=</span><span class="fl">0.08</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>group_labels <span class="op">=</span> mp.Chunk([<span class="st">"c1"</span>, <span class="st">"c2"</span>, <span class="st">"c3"</span>], [<span class="st">"#FF6D60"</span>, <span class="st">"#F7D060"</span>, <span class="st">"#F3E99F"</span>])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>cb.add_top(group_labels, size<span class="op">=</span><span class="fl">0.2</span>, pad<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cb.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -367,7 +365,7 @@ Note
 <h2 data-number="2.4" class="anchored" data-anchor-id="하단-플롯-및-제목-추가"><span class="header-section-number">2.4</span> 하단 플롯 및 제목 추가</h2>
 <p>우리는 메인 시각화에 더 많은 플롯을 추가할 수 있습니다. 여기서는 바 플롯을 하단에 추가하고 <code>add_title()</code>을 사용하여 맨 위에 제목을 추가합니다.</p>
 <div id="cell-10" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cb.add_bottom(ma.plotter.Bar(data, color<span class="op">=</span><span class="st">"#577D86"</span>), size<span class="op">=</span><span class="dv">2</span>, pad<span class="op">=</span><span class="fl">.1</span>)</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cb.add_bottom(ma.plotter.Bar(data, color<span class="op">=</span><span class="st">"#577D86"</span>), size<span class="op">=</span><span class="dv">2</span>, pad<span class="op">=</span><span class="fl">0.1</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cb.add_title(top<span class="op">=</span><span class="st">"My First Marsilea Example"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>cb.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -416,9 +414,8 @@ Note
 <div id="cell-13" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> marsilea.plotter <span class="im">import</span> SeqLogo</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>np.random.randint(<span class="dv">1</span>, <span class="dv">10</span>, (<span class="dv">4</span>, <span class="dv">12</span>)),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                      index<span class="op">=</span><span class="bu">list</span>(<span class="st">"ACGT"</span>))</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>np.random.randint(<span class="dv">1</span>, <span class="dv">10</span>, (<span class="dv">4</span>, <span class="dv">12</span>)), index<span class="op">=</span><span class="bu">list</span>(<span class="st">"ACGT"</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
@@ -718,28 +715,28 @@ Note
 <h2 data-number="4.2" class="anchored" data-anchor-id="색상-팔레트-및-데이터-준비"><span class="header-section-number">4.2</span> 색상 팔레트 및 데이터 준비</h2>
 <div id="cell-18" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>color_encode <span class="op">=</span> {</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'A'</span>: <span class="st">'#f76ab4'</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'C'</span>: <span class="st">'#ff7f00'</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'D'</span>: <span class="st">'#e41a1c'</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'E'</span>: <span class="st">'#e41a1c'</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'F'</span>: <span class="st">'#84380b'</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'G'</span>: <span class="st">'#f76ab4'</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'H'</span>: <span class="st">'#3c58e5'</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'I'</span>: <span class="st">'#12ab0d'</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'K'</span>: <span class="st">'#3c58e5'</span>,</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'L'</span>: <span class="st">'#12ab0d'</span>,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'M'</span>: <span class="st">'#12ab0d'</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'N'</span>: <span class="st">'#972aa8'</span>,</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'P'</span>: <span class="st">'#12ab0d'</span>,</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Q'</span>: <span class="st">'#972aa8'</span>,</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'R'</span>: <span class="st">'#3c58e5'</span>,</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'S'</span>: <span class="st">'#ff7f00'</span>,</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'T'</span>: <span class="st">'#ff7f00'</span>,</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'V'</span>: <span class="st">'#12ab0d'</span>,</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'W'</span>: <span class="st">'#84380b'</span>,</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Y'</span>: <span class="st">'#84380b'</span>,</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'-'</span>: <span class="st">'white'</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A"</span>: <span class="st">"#f76ab4"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C"</span>: <span class="st">"#ff7f00"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D"</span>: <span class="st">"#e41a1c"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E"</span>: <span class="st">"#e41a1c"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F"</span>: <span class="st">"#84380b"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G"</span>: <span class="st">"#f76ab4"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"H"</span>: <span class="st">"#3c58e5"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"I"</span>: <span class="st">"#12ab0d"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"K"</span>: <span class="st">"#3c58e5"</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"L"</span>: <span class="st">"#12ab0d"</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"M"</span>: <span class="st">"#12ab0d"</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"N"</span>: <span class="st">"#972aa8"</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"P"</span>: <span class="st">"#12ab0d"</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Q"</span>: <span class="st">"#972aa8"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"R"</span>: <span class="st">"#3c58e5"</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"S"</span>: <span class="st">"#ff7f00"</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"T"</span>: <span class="st">"#ff7f00"</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"V"</span>: <span class="st">"#12ab0d"</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"W"</span>: <span class="st">"#84380b"</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Y"</span>: <span class="st">"#84380b"</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"-"</span>: <span class="st">"white"</span>,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>max_aa <span class="op">=</span> []</span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>freq <span class="op">=</span> []</span>
@@ -773,16 +770,19 @@ Note
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ch <span class="op">=</span> ma.CatHeatmap(seq.to_numpy(), palette<span class="op">=</span>color_encode, height<span class="op">=</span>height, width<span class="op">=</span>width)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ch.add_layer(ma.plotter.TextMesh(seq.to_numpy()))</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ch.add_top(ma.plotter.SeqLogo(logo, color_encode<span class="op">=</span>color_encode), pad<span class="op">=</span><span class="fl">.1</span>, size<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ch.add_left(ma.plotter.Labels(seq.index), pad<span class="op">=</span><span class="fl">.1</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ch.add_bottom(ma.plotter.Labels(mock_ticks, rotation<span class="op">=</span><span class="dv">0</span>), pad<span class="op">=</span><span class="fl">.1</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ch.add_top(ma.plotter.SeqLogo(logo, color_encode<span class="op">=</span>color_encode), pad<span class="op">=</span><span class="fl">0.1</span>, size<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ch.add_left(ma.plotter.Labels(seq.index), pad<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ch.add_bottom(ma.plotter.Labels(mock_ticks, rotation<span class="op">=</span><span class="dv">0</span>), pad<span class="op">=</span><span class="fl">0.1</span>)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>ch.add_bottom(ma.plotter.Labels(position, rotation<span class="op">=</span><span class="dv">0</span>))</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>ch.add_bottom(ma.plotter.Numbers(freq, width<span class="op">=</span><span class="fl">.9</span>, color<span class="op">=</span><span class="st">"#FFB11B"</span>, show_value<span class="op">=</span><span class="va">False</span>),</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>              name<span class="op">=</span><span class="st">"freq_bar"</span>, size<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>ch.add_bottom(ma.plotter.Labels(max_aa, rotation<span class="op">=</span><span class="dv">0</span>), pad<span class="op">=</span><span class="fl">.1</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>ch.render()</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>ch.get_ax(<span class="st">"freq_bar"</span>).set_axis_off()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>ch.add_bottom(</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    ma.plotter.Numbers(freq, width<span class="op">=</span><span class="fl">0.9</span>, color<span class="op">=</span><span class="st">"#FFB11B"</span>, show_value<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"freq_bar"</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>ch.add_bottom(ma.plotter.Labels(max_aa, rotation<span class="op">=</span><span class="dv">0</span>), pad<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>ch.render()</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>ch.get_ax(<span class="st">"freq_bar"</span>).set_axis_off()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -799,12 +799,12 @@ Note
 <section id="데이터-불러오기-1" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="데이터-불러오기-1"><span class="header-section-number">5.1</span> 데이터 불러오기</h2>
 <div id="cell-22" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> ma.load_data(<span class="st">'les_miserables'</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> data[<span class="st">'nodes'</span>]</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> data[<span class="st">'links'</span>]</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> ma.load_data(<span class="st">"les_miserables"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> data[<span class="st">"nodes"</span>]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> data[<span class="st">"links"</span>]</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> nodes[<span class="st">'value'</span>].to_numpy().reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> nodes[<span class="st">'group'</span>].to_numpy().reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>sizes <span class="op">=</span> nodes[<span class="st">"value"</span>].to_numpy().reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> nodes[<span class="st">"group"</span>].to_numpy().reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>{'nodes':                name  group  value
@@ -852,23 +852,28 @@ Note
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="dv">7</span>: <span class="st">"#009FBD"</span>,</span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">8</span>: <span class="st">"#77037B"</span>,</span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="dv">9</span>: <span class="st">"#4F4557"</span>,</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>: <span class="st">"#B0DAFF"</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>: <span class="st">"#B0DAFF"</span>,</span>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>link_colors <span class="op">=</span> [palette[nodes.iloc[i].group] <span class="cf">for</span> i <span class="kw">in</span> links[<span class="st">'source'</span>]]</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>link_colors <span class="op">=</span> [palette[nodes.iloc[i].group] <span class="cf">for</span> i <span class="kw">in</span> links[<span class="st">"source"</span>]]</span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>height <span class="op">=</span> <span class="fl">.5</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>height <span class="op">=</span> <span class="fl">0.5</span></span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> height <span class="op">*</span> <span class="bu">len</span>(nodes) <span class="op">/</span> <span class="dv">3</span></span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>sh <span class="op">=</span> ma.SizedHeatmap(sizes, colors, palette<span class="op">=</span>palette, sizes<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">200</span>),</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>                     frameon<span class="op">=</span><span class="va">False</span>, height<span class="op">=</span>height, width<span class="op">=</span>width)</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>sh.add_bottom(mp.Labels(nodes[<span class="st">'name'</span>], fontsize<span class="op">=</span><span class="dv">8</span>))</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>arc <span class="op">=</span> mp.Arc(nodes.index, links.to_numpy(),</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>             colors<span class="op">=</span>link_colors, lw<span class="op">=</span><span class="fl">.5</span>, alpha<span class="op">=</span><span class="fl">.5</span>)</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>sh.add_top(arc, size<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>sh.add_title(top<span class="op">=</span><span class="st">"Character relationships in Les Miserables"</span>,</span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>             align<span class="op">=</span><span class="st">"right"</span>, fontstyle<span class="op">=</span><span class="st">"italic"</span>)</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>sh.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>sh <span class="op">=</span> ma.SizedHeatmap(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    sizes,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    colors,</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span>palette,</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    sizes<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">200</span>),</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span>height,</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span>width,</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>sh.add_bottom(mp.Labels(nodes[<span class="st">"name"</span>], fontsize<span class="op">=</span><span class="dv">8</span>))</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>arc <span class="op">=</span> mp.Arc(nodes.index, links.to_numpy(), colors<span class="op">=</span>link_colors, lw<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>sh.add_top(arc, size<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>sh.add_title(top<span class="op">=</span><span class="st">"Character relationships in Les Miserables"</span>, align<span class="op">=</span><span class="st">"right"</span>, fontstyle<span class="op">=</span><span class="st">"italic"</span>)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>sh.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -888,10 +893,10 @@ Note
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> legendkit <span class="im">import</span> cat_legend</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> LinearSegmentedColormap</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>embryo <span class="op">=</span> ma.load_data(<span class="st">'mouse_embryo'</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>embryo <span class="op">=</span> ma.load_data(<span class="st">"mouse_embryo"</span>)</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>xmax <span class="op">=</span> embryo[<span class="st">'cell_x'</span>].<span class="bu">max</span>()</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>ymax <span class="op">=</span> embryo[<span class="st">'cell_y'</span>].<span class="bu">max</span>()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>xmax <span class="op">=</span> embryo[<span class="st">"cell_x"</span>].<span class="bu">max</span>()</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>ymax <span class="op">=</span> embryo[<span class="st">"cell_y"</span>].<span class="bu">max</span>()</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>xstart, xend <span class="op">=</span> <span class="op">-</span>xmax <span class="op">*</span> <span class="fl">0.05</span>, xmax <span class="op">*</span> <span class="fl">1.05</span></span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>ystart, yend <span class="op">=</span> <span class="op">-</span>ymax <span class="op">*</span> <span class="fl">0.05</span>, ymax <span class="op">*</span> <span class="fl">1.05</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
@@ -903,13 +908,14 @@ Note
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_xy_hist(ct):</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> embryo[embryo[<span class="st">'cell_type'</span>] <span class="op">==</span> ct][<span class="st">'cell_x'</span>].to_numpy()</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> embryo[embryo[<span class="st">'cell_type'</span>] <span class="op">==</span> ct][<span class="st">'cell_y'</span>].to_numpy()</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> embryo[embryo[<span class="st">"cell_type"</span>] <span class="op">==</span> ct][<span class="st">"cell_x"</span>].to_numpy()</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> embryo[embryo[<span class="st">"cell_type"</span>] <span class="op">==</span> ct][<span class="st">"cell_y"</span>].to_numpy()</span>
 <span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    xhist, _ <span class="op">=</span> np.histogram(x, bins<span class="op">=</span><span class="bu">xrange</span>)</span>
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    yhist, _ <span class="op">=</span> np.histogram(y, bins<span class="op">=</span>yrange)</span>
 <span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xhist, yhist</span>
 <span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>embryo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>embryo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 
@@ -1024,29 +1030,29 @@ Note
 <p>각 세포 유형에 대한 색상을 지정하고 시각화합니다.</p>
 <div id="cell-28" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>colormap <span class="op">=</span> {</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Cavity'</span>: <span class="st">'#6d32e6'</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Brain'</span>: <span class="st">'#bf024f'</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Meninges'</span>: <span class="st">'#d147a3'</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Choroid plexus'</span>: <span class="st">'#b3a726'</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Cartilage primordium'</span>: <span class="st">'#103a14'</span>,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Jaw and tooth'</span>: <span class="st">'#ef833a'</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Connective tissue'</span>: <span class="st">'#b38b5c'</span>,</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Epidermis'</span>: <span class="st">'#35586d'</span>,</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Lung primordium'</span>: <span class="st">'#3cb44b'</span>,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Sympathetic nerve'</span>: <span class="st">'#dfdce0'</span>,</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Liver'</span>: <span class="st">'#bd3add'</span>,</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mucosal epithelium'</span>: <span class="st">'#0bd3b1'</span>,</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'GI tract'</span>: <span class="st">'#ff4374'</span>,</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mesentery'</span>: <span class="st">'#b74c11'</span>,</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Dorsal root ganglion'</span>: <span class="st">'#036df4'</span>,</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Muscle'</span>: <span class="st">'#dd7936'</span>,</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mesothelium'</span>: <span class="st">'#5c5ca6'</span>,</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Blood vessel'</span>: <span class="st">'#be9b72'</span>,</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Urogenital ridge'</span>: <span class="st">'#d3245a'</span>,</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Heart'</span>: <span class="st">'#03fff4'</span>,</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Pancreas'</span>: <span class="st">'#f062f9'</span>,</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Kidney'</span>: <span class="st">'#62cfe8'</span>,</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Ovary'</span>: <span class="st">'#c923b1'</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cavity"</span>: <span class="st">"#6d32e6"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Brain"</span>: <span class="st">"#bf024f"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Meninges"</span>: <span class="st">"#d147a3"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Choroid plexus"</span>: <span class="st">"#b3a726"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cartilage primordium"</span>: <span class="st">"#103a14"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Jaw and tooth"</span>: <span class="st">"#ef833a"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Connective tissue"</span>: <span class="st">"#b38b5c"</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Epidermis"</span>: <span class="st">"#35586d"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lung primordium"</span>: <span class="st">"#3cb44b"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sympathetic nerve"</span>: <span class="st">"#dfdce0"</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Liver"</span>: <span class="st">"#bd3add"</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mucosal epithelium"</span>: <span class="st">"#0bd3b1"</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"GI tract"</span>: <span class="st">"#ff4374"</span>,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mesentery"</span>: <span class="st">"#b74c11"</span>,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dorsal root ganglion"</span>: <span class="st">"#036df4"</span>,</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Muscle"</span>: <span class="st">"#dd7936"</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mesothelium"</span>: <span class="st">"#5c5ca6"</span>,</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Blood vessel"</span>: <span class="st">"#be9b72"</span>,</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Urogenital ridge"</span>: <span class="st">"#d3245a"</span>,</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Heart"</span>: <span class="st">"#03fff4"</span>,</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pancreas"</span>: <span class="st">"#f062f9"</span>,</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Kidney"</span>: <span class="st">"#62cfe8"</span>,</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ovary"</span>: <span class="st">"#c923b1"</span>,</span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> <span class="dv">5</span></span>
@@ -1055,13 +1061,13 @@ Note
 <span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>cell_types <span class="op">=</span> [<span class="st">"Brain"</span>, <span class="st">"Cartilage primordium"</span>, <span class="st">"Liver"</span>, <span class="st">"Heart"</span>, <span class="st">"GI tract"</span>]</span>
 <span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> cell_types:</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    b.add_canvas(<span class="st">"bottom"</span>, size<span class="op">=</span><span class="fl">.2</span>, pad<span class="op">=</span><span class="fl">.1</span>, name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">-x"</span>)</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    b.add_canvas(<span class="st">"right"</span>, size<span class="op">=</span><span class="fl">.2</span>, pad<span class="op">=</span><span class="fl">.1</span>, name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">-y"</span>)</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    b.add_canvas(<span class="st">"bottom"</span>, size<span class="op">=</span><span class="fl">0.2</span>, pad<span class="op">=</span><span class="fl">0.1</span>, name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">-x"</span>)</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    b.add_canvas(<span class="st">"right"</span>, size<span class="op">=</span><span class="fl">0.2</span>, pad<span class="op">=</span><span class="fl">0.1</span>, name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">-y"</span>)</span>
 <span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>b.render()</span>
 <span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw cell</span></span>
 <span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> b.get_main_ax()</span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> ax.scatter(embryo[<span class="st">'cell_x'</span>], embryo[<span class="st">'cell_y'</span>], s<span class="op">=</span><span class="dv">1</span>, c<span class="op">=</span>embryo[<span class="st">'colors'</span>])</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> ax.scatter(embryo[<span class="st">"cell_x"</span>], embryo[<span class="st">"cell_y"</span>], s<span class="op">=</span><span class="dv">1</span>, c<span class="op">=</span>embryo[<span class="st">"colors"</span>])</span>
 <span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>points.set_rasterized(<span class="va">True</span>)</span>
 <span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(xstart, xend)</span>
 <span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(ystart, yend)</span>
@@ -1078,7 +1084,7 @@ Note
 <span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>    x_ax <span class="op">=</span> b.get_ax(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">-x"</span>)</span>
 <span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>    x_ax.pcolormesh(xh.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), cmap<span class="op">=</span>cmap)</span>
 <span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    x_ax.set_axis_off()</span>
-<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    x_ax.text(<span class="dv">0</span>, <span class="fl">.5</span>, n, va<span class="op">=</span><span class="st">"center"</span>, ha<span class="op">=</span><span class="st">"right"</span>, transform<span class="op">=</span>x_ax.transAxes)</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    x_ax.text(<span class="dv">0</span>, <span class="fl">0.5</span>, n, va<span class="op">=</span><span class="st">"center"</span>, ha<span class="op">=</span><span class="st">"right"</span>, transform<span class="op">=</span>x_ax.transAxes)</span>
 <span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>    y_ax <span class="op">=</span> b.get_ax(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">-y"</span>)</span>
 <span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>    y_ax.pcolormesh(yh.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), cmap<span class="op">=</span>cmap)</span>
@@ -1102,17 +1108,33 @@ Note
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> normalize</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>pbmc3k <span class="op">=</span> ma.load_data(<span class="st">"pbmc3k"</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>exp <span class="op">=</span> pbmc3k[<span class="st">'exp'</span>]</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>pct_cells <span class="op">=</span> pbmc3k[<span class="st">'pct_cells'</span>]</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> pbmc3k[<span class="st">'count'</span>]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>exp <span class="op">=</span> pbmc3k[<span class="st">"exp"</span>]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>pct_cells <span class="op">=</span> pbmc3k[<span class="st">"pct_cells"</span>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> pbmc3k[<span class="st">"count"</span>]</span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> normalize(exp.to_numpy(), axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>cell_cat <span class="op">=</span> [<span class="st">'Lymphoid'</span>, <span class="st">'Myeloid'</span>, <span class="st">'Lymphoid'</span>, <span class="st">'Lymphoid'</span>,</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Lymphoid'</span>, <span class="st">'Myeloid'</span>, <span class="st">'Myeloid'</span>, <span class="st">'Myeloid'</span>]</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>cell_names <span class="op">=</span> [<span class="st">'CD4 T'</span>, <span class="st">'CD14</span><span class="ch">\n</span><span class="st">Monocytes'</span>, <span class="st">'B'</span>, <span class="st">'CD8 T'</span>, <span class="st">'NK'</span>,</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>              <span class="st">'FCGR3A</span><span class="ch">\n</span><span class="st">Monocytes'</span>, <span class="st">'Dendritic'</span>, <span class="st">'Megakaryocytes'</span>]</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>pct_cells</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>cell_cat <span class="op">=</span> [</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lymphoid"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Myeloid"</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lymphoid"</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lymphoid"</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Lymphoid"</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Myeloid"</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Myeloid"</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Myeloid"</span>,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>cell_names <span class="op">=</span> [</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CD4 T"</span>,</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CD14</span><span class="ch">\n</span><span class="st">Monocytes"</span>,</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B"</span>,</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CD8 T"</span>,</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NK"</span>,</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FCGR3A</span><span class="ch">\n</span><span class="st">Monocytes"</span>,</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dendritic"</span>,</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Megakaryocytes"</span>,</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>pct_cells</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
@@ -1270,35 +1292,36 @@ Note
 <div id="cell-31" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make plots</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cells_proportion <span class="op">=</span> mp.SizedMesh(</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    pct_cells, size_norm<span class="op">=</span>Normalize(vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">100</span>),</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"#6E75A4"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, sizes<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">600</span>),</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    size_legend_kws<span class="op">=</span>{<span class="st">"title"</span>: <span class="st">"</span><span class="sc">% o</span><span class="st">f cells"</span>, <span class="st">"show_at"</span>: [<span class="fl">.3</span>, <span class="fl">.5</span>, <span class="fl">.8</span>, <span class="dv">1</span>]}</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>mark_high <span class="op">=</span> mp.MarkerMesh(matrix <span class="op">&gt;</span> <span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"yellow"</span>, label<span class="op">=</span><span class="st">"High"</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>cell_count <span class="op">=</span> mp.Numbers(count[<span class="st">'Value'</span>], color<span class="op">=</span><span class="st">"#fac858"</span>, label<span class="op">=</span><span class="st">"Cell Count"</span>)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>cell_exp <span class="op">=</span> mp.Violin(exp, label<span class="op">=</span><span class="st">"Expression"</span>, linewidth<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">"#ee6666"</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                     density_norm<span class="op">=</span><span class="st">"count"</span>)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>cell_types <span class="op">=</span> mp.Labels(cell_names, align<span class="op">=</span><span class="st">"center"</span>)</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> mp.Labels(exp.columns)</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Group plots together</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> ma.Heatmap(matrix, cmap<span class="op">=</span><span class="st">"Reds"</span>, label<span class="op">=</span><span class="st">"Normalized</span><span class="ch">\n</span><span class="st">Expression"</span>,</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>               width<span class="op">=</span><span class="fl">4.5</span>, height<span class="op">=</span><span class="fl">5.5</span>)</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>h.add_layer(cells_proportion)</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co"># h.add_layer(mark_high)</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>h.add_right(cell_count, pad<span class="op">=</span><span class="fl">.1</span>, size<span class="op">=</span><span class="fl">.7</span>)</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>h.add_top(cell_exp, pad<span class="op">=</span><span class="fl">.1</span>, size<span class="op">=</span><span class="fl">.75</span>, name<span class="op">=</span><span class="st">"exp"</span>)</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>h.add_left(cell_types)</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>h.add_bottom(gene_names)</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>h.hsplit(labels<span class="op">=</span>cell_cat, order<span class="op">=</span>[<span class="st">'Lymphoid'</span>, <span class="st">'Myeloid'</span>])</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>h.add_left(mp.Chunk([<span class="st">'Lymphoid'</span>, <span class="st">'Myeloid'</span>], [<span class="st">"#33A6B8"</span>, <span class="st">"#B481BB"</span>]),</span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>           pad<span class="op">=</span><span class="fl">.05</span>)</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>h.add_dendrogram(<span class="st">"left"</span>, colors<span class="op">=</span>[<span class="st">"#33A6B8"</span>, <span class="st">"#B481BB"</span>])</span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>h.add_dendrogram(<span class="st">"bottom"</span>)</span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>h.add_legends(<span class="st">"right"</span>, align_stacks<span class="op">=</span><span class="st">"center"</span>, align_legends<span class="op">=</span><span class="st">"top"</span>, pad<span class="op">=</span><span class="fl">.2</span>)</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>h.set_margin(<span class="fl">.2</span>)</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>h.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    pct_cells,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    size_norm<span class="op">=</span>Normalize(vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">100</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">"#6E75A4"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    linewidth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    sizes<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">600</span>),</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    size_legend_kws<span class="op">=</span>{<span class="st">"title"</span>: <span class="st">"</span><span class="sc">% o</span><span class="st">f cells"</span>, <span class="st">"show_at"</span>: [<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="dv">1</span>]},</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>mark_high <span class="op">=</span> mp.MarkerMesh(matrix <span class="op">&gt;</span> <span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"yellow"</span>, label<span class="op">=</span><span class="st">"High"</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>cell_count <span class="op">=</span> mp.Numbers(count[<span class="st">"Value"</span>], color<span class="op">=</span><span class="st">"#fac858"</span>, label<span class="op">=</span><span class="st">"Cell Count"</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>cell_exp <span class="op">=</span> mp.Violin(exp, label<span class="op">=</span><span class="st">"Expression"</span>, linewidth<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">"#ee6666"</span>, density_norm<span class="op">=</span><span class="st">"count"</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>cell_types <span class="op">=</span> mp.Labels(cell_names, align<span class="op">=</span><span class="st">"center"</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> mp.Labels(exp.columns)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Group plots together</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> ma.Heatmap(matrix, cmap<span class="op">=</span><span class="st">"Reds"</span>, label<span class="op">=</span><span class="st">"Normalized</span><span class="ch">\n</span><span class="st">Expression"</span>, width<span class="op">=</span><span class="fl">4.5</span>, height<span class="op">=</span><span class="fl">5.5</span>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>h.add_layer(cells_proportion)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co"># h.add_layer(mark_high)</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>h.add_right(cell_count, pad<span class="op">=</span><span class="fl">0.1</span>, size<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>h.add_top(cell_exp, pad<span class="op">=</span><span class="fl">0.1</span>, size<span class="op">=</span><span class="fl">0.75</span>, name<span class="op">=</span><span class="st">"exp"</span>)</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>h.add_left(cell_types)</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>h.add_bottom(gene_names)</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>h.hsplit(labels<span class="op">=</span>cell_cat, order<span class="op">=</span>[<span class="st">"Lymphoid"</span>, <span class="st">"Myeloid"</span>])</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>h.add_left(mp.Chunk([<span class="st">"Lymphoid"</span>, <span class="st">"Myeloid"</span>], [<span class="st">"#33A6B8"</span>, <span class="st">"#B481BB"</span>]), pad<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>h.add_dendrogram(<span class="st">"left"</span>, colors<span class="op">=</span>[<span class="st">"#33A6B8"</span>, <span class="st">"#B481BB"</span>])</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>h.add_dendrogram(<span class="st">"bottom"</span>)</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>h.add_legends(<span class="st">"right"</span>, align_stacks<span class="op">=</span><span class="st">"center"</span>, align_legends<span class="op">=</span><span class="st">"top"</span>, pad<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>h.set_margin(<span class="fl">0.2</span>)</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>h.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

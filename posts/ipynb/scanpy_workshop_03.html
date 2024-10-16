@@ -542,16 +542,14 @@ Note
 <li>단점: 분산을 과대추정함으로 인해 실제 차이가 있는 유전자도 덜 민감하게 검출될 수 있습니다.</li>
 </ul>
 <div id="cell-23" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    adata, <span class="st">"louvain_0.6"</span>, method<span class="op">=</span><span class="st">"t-test_overestim_var"</span>, key_added<span class="op">=</span><span class="st">"t-test_ov"</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    n_genes<span class="op">=</span><span class="dv">25</span>,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    sharey<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"t-test_ov"</span>,</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    ncols<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"louvain_0.6"</span>, method<span class="op">=</span><span class="st">"t-test_overestim_var"</span>, key_added<span class="op">=</span><span class="st">"t-test_ov"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    n_genes<span class="op">=</span><span class="dv">25</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    sharey<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"t-test_ov"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    ncols<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -591,12 +589,12 @@ Note
 <p>위에서 얻은 <code>T-test</code>, <code>T-test_ov</code>, <code>Wilcox</code> 결과를 비교해보죠. 클러스터 <code>0</code>에 대한 DEG 리스트를 가져와 벤다이어 그램을 그려봅니다.</p>
 <div id="cell-27" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster 0 DEG 비교, 기본적으로 상위 100개만 저장합니다.</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>wc <span class="op">=</span> sc.get.rank_genes_groups_df(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    adata, group<span class="op">=</span><span class="st">"0"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>, pval_cutoff<span class="op">=</span><span class="fl">0.01</span>, log2fc_min<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)[<span class="st">"names"</span>]</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>tt <span class="op">=</span> sc.get.rank_genes_groups_df(</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    adata, group<span class="op">=</span><span class="st">"0"</span>, key<span class="op">=</span><span class="st">"t-test"</span>, pval_cutoff<span class="op">=</span><span class="fl">0.01</span>, log2fc_min<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>)[<span class="st">"names"</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>wc <span class="op">=</span> sc.get.rank_genes_groups_df(adata, group<span class="op">=</span><span class="st">"0"</span>, key<span class="op">=</span><span class="st">"wilcoxon"</span>, pval_cutoff<span class="op">=</span><span class="fl">0.01</span>, log2fc_min<span class="op">=</span><span class="dv">0</span>)[</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"names"</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>tt <span class="op">=</span> sc.get.rank_genes_groups_df(adata, group<span class="op">=</span><span class="st">"0"</span>, key<span class="op">=</span><span class="st">"t-test"</span>, pval_cutoff<span class="op">=</span><span class="fl">0.01</span>, log2fc_min<span class="op">=</span><span class="dv">0</span>)[</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"names"</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>tt_ov <span class="op">=</span> sc.get.rank_genes_groups_df(</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    adata, group<span class="op">=</span><span class="st">"0"</span>, key<span class="op">=</span><span class="st">"t-test_ov"</span>, pval_cutoff<span class="op">=</span><span class="fl">0.01</span>, log2fc_min<span class="op">=</span><span class="dv">0</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>)[<span class="st">"names"</span>]</span>
