@@ -44,6 +44,7 @@ date-modified: last-modified
 
 공식 홈페이지에서는 아래 명령어를 통해 설치하는 것을 추천합니다. 하지만 저는 [Homebrew](https://brew.sh/)를 통해서 설치하는 것을 선호합니다. `brew install pixi`를 터미널에 입력하면 간단하게 할 수 있습니다. 물론 사전에 `Homebrew`를 해둔 상태에서 말이죠.
 
+::: {.panel-tabset}
 
 ## 리눅스 혹은 맥 
 
@@ -61,6 +62,8 @@ iwr -useb https://pixi.sh/install.ps1 | iex
 
 위의 명령은 자동으로 최신 버전의 `pixi`를 다운로드해 `LocalAppData/pixi/bin`에 설치합니다. 또한 `LocalAppData/pixi/bin`을 자동으로 경로에 추가하여 어디에서나 `pixi`를 호출할 수 있게 합니다.
 
+:::
+
 :::{.callout-tip}
 설치가 끝나고 바로 사용하려면 터미널을 다시 시작해야 합니다.
 :::
@@ -68,6 +71,7 @@ iwr -useb https://pixi.sh/install.ps1 | iex
 
 # 삭제하기
 
+::: {.panel-tabset}
 ## 리눅스 혹은 맥
 
 ```bash
@@ -81,6 +85,8 @@ iwr -useb https://pixi.sh/install.ps1 | iex
 ```bash
 $PIXI_BIN = "$Env:LocalAppData\pixi\bin\pixi"; Remove-Item -Path $PIXI_BIN
 ```
+:::
+
 
 # 기본 사용법
 
@@ -108,7 +114,7 @@ $PIXI_BIN = "$Env:LocalAppData\pixi\bin\pixi"; Remove-Item -Path $PIXI_BIN
 
 ## 의존성 추가
 
-원하는 패키지는 아래 명령어로 추가합니다. [Prefix.dev](https://prefix.dev/)에서 검색을 통해 지원되는 패키지와 명령어를 확인할 수 있습니다. 
+의존성을 추가할 때 가장 먼저 해야 할 작업은 파이썬 버전을 지정하는 것입니다. pixi는 자체적으로 Python 버전을 설치하는 것을 지원합니다. 아래와 같이 `pixi add` 명령어를 사용하세요.
 
 ```bash
 ❯ pixi add python==3.10
@@ -131,6 +137,9 @@ $PIXI_BIN = "$Env:LocalAppData\pixi\bin\pixi"; Remove-Item -Path $PIXI_BIN
 :::{.callout-note}
 `pixi.lock`파일은 `pixi add`를 실행하거나 수동으로 `pixi.toml` 파일을 변경한 뒤 `pixi install`을 실행할 때 생성됩니다.
 :::
+
+다른 원하는 패키지는 설치할 때도 `pixi add` 명령어로 추가 할 수 있습니다. 항상 [Prefix.dev](https://prefix.dev/)에서 접속해서 지원되는 패키지를 검색하고 명령어를 확인해 보도록 하세요.
+
 
 ### 채널 추가하기
 
@@ -226,6 +235,8 @@ Python 3.10.0
 
 저처럼 `brew` 명령어로 설치를 했다면 `brew uninstall pixi`로 간단하게 할 수 있습니다. 그렇지 않더라도 시스템에서 `pixi`를 제거하려면, 단순히 바이너리를 삭제하는 아래 명령어를 사용하면 됩니다. 다만 아래 명령어를 실행한 후에도, `pixi`로 설치한 도구들은 계속 사용할 수 있습니다. 이것들도 함께 제거하고 싶다면, `~/.pixi` 디렉토리 전체를 삭제하고, 사용하는 쉘의 설정 파일에서 해당 경로를 삭제하면 됩니다.
 
+::: {.panel-tabset}
+
 ## 리눅스와 맥
 
 ```bash
@@ -237,6 +248,8 @@ Python 3.10.0
 ```powershell
 $PIXI_BIN = "$Env:LocalAppData\pixi\bin\pixi"; Remove-Item -Path $PIXI_BIN
 ```
+
+:::
 
 # 마치며
 
