@@ -5,6 +5,8 @@ categories: [Python, Tip, Productivity, Programming,  Cheatsheet]
 draft: false
 date: "2024-12-21"
 date-modified: last-modified
+execute:
+  echo: false
 ---
 
 ![](Tip_python.png){width=100% fig-align="center"}
@@ -56,11 +58,10 @@ date-modified: last-modified
 외부 클래스나 함수를 `import`할 때 주의해야 할 점은 다음 세 가지입니다. 첫 번째는 `import`하는 순서입니다. 아래와 같은 순서로 라이브러리를 불러오세요.
 
 ```python
-import 표준 라이브러리
-
-import 서드파티 라이브러리
-
-import 개인적으로 작성한 라이브러리
+#| echo: false
+import 표준라이브러리
+import 서드파티라이브러리
+import 개인적으로_작성한라이브러리
 ```
 
 모듈 단위로 불러오는 것이 좋습니다. 예를 들어 `from pkg.module_1 import class_1` 대신 `from pkg import module_1`으로 하고, 이후에 `my_class = module_1.class_1()`과 같이 코드를 작성합니다.
@@ -68,6 +69,7 @@ import 개인적으로 작성한 라이브러리
 ##### 여러 라이브러리를 한 줄에 불러오지 않기
 
 ```python
+#| echo: false
 import pkg, pkg2  # 이 경우 아래와 같이 한 줄씩 작성합니다.
 
 import pkg
@@ -189,14 +191,8 @@ Google style과 Numpy style은 길이가 길어 저는 reStructuredText style을
 ```python
 class User:
     """본 시스템을 사용하는 어카운트 유저를 표시하는 클래스이다.
-
-    :param name: 유저의 어카운트 명
+    :param name: 유저명
     :param user_type: 어카운트 타입 (admin 또는 normal)
-
-    :Example:
-
-    >>> import User
-    >>> taro = User("taro", "admin")
     """
 
     def __init__(self, name: str, user_type: str):
@@ -205,17 +201,9 @@ class User:
 
     def print_user_type(self):
         """유저의 타입을 출력한다.
-
         :param None: 입력 인수가 없다.
         :return: user_type을 문자열로 출력한다.
         :rtype: str
-
-        :Example:
-
-        >>> import User
-        >>> taro = User("taro", "admin")
-        >>> taro.print_user_type()
-        admin
         """
         print(self.user_type)
 ```

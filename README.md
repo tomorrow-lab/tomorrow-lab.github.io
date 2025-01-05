@@ -7,18 +7,21 @@ This GitHub repository is a blog I created using the tool called Quora. The cont
 It's always a good idea to preview the blog before publish it.
 
 ```
-quarto preview
+pixi run preview
 ```
 
 ## Publishing
 
+I add github action for publishing. Just `git push origin` will cover it.
+
+<!-- 
 Once you have configured the source branch and updated your .gitignore, navigate to the directory where your project / git repository is located, make sure you are not on the gh-pages branch, and execute the quarto publish command for GitHub Pages:
 
 ```
-quarto publish gh-pages
+pixi run start
 ```
 
-The publish command will confirm that you want to publish, render your content, copy the output to a special gh-pages branch, push that branch to GitHub, and then open a browser to view your site once it is deployed.
+The publish command will confirm that you want to publish, render your content, copy the output to a special gh-pages branch, push that branch to GitHub, and then open a browser to view your site once it is deployed. -->
 
 # 참고 사이트
 
