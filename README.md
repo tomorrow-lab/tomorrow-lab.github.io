@@ -6,7 +6,7 @@ This GitHub repository is a blog I created using the tool called Quora. The cont
 
 It's always a good idea to preview the blog before publish it.
 
-```
+```bash
 pixi run preview
 ```
 

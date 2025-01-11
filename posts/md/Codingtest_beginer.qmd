@@ -1,0 +1,3939 @@
+---
+title: "코딩테스트 입문"
+author: "Taeyoon Kim"
+categories: [Coding test, Python, Rust, Cheatsheet]
+draft: false
+date: "2025-01-11"
+date-modified: last-modified
+---
+
+![](Codingtest.png){width=100% fig-align="center"}
+
+코딩테스트 입문 테스트의 출처는 https://school.programmers.co.kr 입니다. 
+
+# Day1 사칙연산
+
+## 두 수의 합
+
+정수 `num1` 과 `num2` 가 주어질 때, `num1` 과 `num2` 의 합을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(num1:int, num2: int) -> int:
+	return num1 + num2
+```
+
+### 러스트
+
+```rust
+fn solution(num1: i32, num2: i32) -> i32 {
+    num1 + num2
+}
+
+fn main() {
+    let num1 = 5;
+    let num2 = 10;
+    let result = solution(num1, num2);
+    println!("The sum of {} and {} is {}", num1, num2, result);
+}
+```
+
+## 두 수의 차
+
+정수 `num1` 과 `num2` 가 주어질 때, `num1` 에서 `num2` 를 뺀 값을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(num1:int, num2:int) -> int:
+    return num1 - num2
+```
+
+### 러스트
+
+```rust
+fn solution(num1: i32, num2: i32) -> i32 {
+    num1 - num2
+}
+
+fn main() {
+    let num1 = 15;
+    let num2 = 5;
+    let result = solution(num1, num2);
+    println!("The result of {} - {} is {}", num1, num2, result);
+}
+```
+
+## 두 수의 곱
+
+정수 `num1`, `num2` 가 매개변수 주어집니다. `num1` 과 `num2` 를 곱한 값을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(num1:int, num2:int)  -> int:
+    return num1 * num2
+```
+
+### 러스트
+
+```rust
+fn solution(num1: i32, num2: i32) -> i32 {
+    num1 * num2
+}
+
+fn main() {
+    let num1 = 6;
+    let num2 = 7;
+    let result = solution(num1, num2);
+    println!("The result of {} * {} is {}", num1, num2, result);
+}
+```
+
+## 몫 구하기
+
+정수 `num1`, `num2` 가 매개변수로 주어질 때, `num1` 을 `num2` 로 나눈 몫을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(num1:int , num2:int) -> int:
+    return num1 // num2
+```
+
+### 러스트
+
+```rust
+fn solution(num1: i32, num2: i32) -> i32 {
+    num1 / num2
+}
+
+fn main() {
+    let num1 = 20;
+    let num2 = 4;
+    
+    // Ensure num2 is not zero to avoid division by zero error
+    if num2 != 0 {
+        let result = solution(num1, num2);
+        println!("The result of {} // {} is {}", num1, num2, result);
+    } else {
+        println!("Error: Division by zero is not allowed.");
+    }
+}
+```
+
+# Day2 사칙연산, 조건문, 배열
+
+## 두 수의 나눗셈
+
+정수 num1 과 num2 가 매개변수로 주어질 때, num1 을 num2 로 나눈 값에 1,000 을 곱한 후 정수 부분을 return 하도록 soltuion 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(num1L int, num2:int) -> int:
+    answer = num1 / num2 * 1000
+    return int(answer)
+```
+
+### 러스트
+
+```rust
+fn solution(num1: f64, num2: i32) -> i32 {
+    let answer = num1 / num2 as f64 * 1000.0;
+    answer as i32
+}
+
+fn main() {
+    let num1 = 20.0; // Using f64 for floating-point division
+    let num2 = 4;
+
+    if num2 != 0 {
+        let result = solution(num1, num2);
+        println!("The result of ({} / {}) * 1000 is {}", num1, num2, result);
+    } else {
+        println!("Error: Division by zero is not allowed.");
+    }
+}
+```
+
+## 숫자 비교하기
+
+정수 num1 과 num2 가 매개변수로 주어집니다. 두 수가 같으면 1 다르면 -1 을 retrun 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(num1:int, num2:int) -> int:
+    if num1 == num2:
+        answer = 1
+        return answer
+    else:
+        answer = -1
+    return answer
+```
+
+### 러스트
+
+```rust
+fn solution(num1: i32, num2: i32) -> i32 {
+    if num1 == num2 {
+        return 1;
+    } else {
+        return -1;
+    }
+}
+
+fn main() {
+    let num1 = 10;
+    let num2 = 10;
+
+    let result = solution(num1, num2);
+    println!("The result of comparing {} and {} is {}", num1, num2, result);
+}
+```
+
+## 분수의 덧셈
+
+첫 번째 분수의 분자와 분모를 뜻하는 numer1, denom1, 두 번째 분수의 분자와 분모를 뜻하는 numer2, denom2 가 매개변수로 주어집니다. 두 분수를 더한 값을 기약 분수로 나타냈을 때 분자와 분모를 순서대로 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def gcd(a: int, b: int) -> int:
+    while b:
+        a, b = b, a % b
+    return a
+
+def solution(numer1: int, denom1: int, numer2: int, denom2: int) -> List[int]:
+    # Fraction addition
+    numer = numer1 * denom2 + numer2 * denom1
+    denom = denom1 * denom2
+
+    # Reduce to simplest form
+    divisor = gcd(numer, denom)
+    numer //= divisor
+    denom //= divisor
+
+    return [numer, denom]
+```
+
+### 러스트
+
+```rust
+fn gcd(a: i32, b: i32) -> i32 {
+    let mut a = a;
+    let mut b = b;
+    while b != 0 {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+    a
+}
+
+fn solution(numer1: i32, denom1: i32, numer2: i32, denom2: i32) -> Vec<i32> {
+    // Fraction addition
+    let numer = numer1 * denom2 + numer2 * denom1;
+    let denom = denom1 * denom2;
+
+    // Reduce to simplest form
+    let divisor = gcd(numer, denom);
+    let reduced_numer = numer / divisor;
+    let reduced_denom = denom / divisor;
+
+    vec![reduced_numer, reduced_denom]
+}
+
+fn main() {
+    let numer1 = 1; // First numerator
+    let denom1 = 2; // First denominator
+    let numer2 = 1; // Second numerator
+    let denom2 = 3; // Second denominator
+
+    let result = solution(numer1, denom1, numer2, denom2);
+    println!("The result of adding fractions is {}/{}", result[0], result[1]);
+}
+```
+
+## 배열 두 배 만들기
+
+정수 배열 numbers 가 매개변수로 주어집니다. numbers 의 각 원소에 두배한 원소를 가진 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(numbers:int) -> List[int]:
+    return [num * 2 for num in numbers]
+```
+
+### 러스트
+
+```rust
+fn solution(numbers: Vec<i32>) -> Vec<i32> {
+    numbers.iter().map(|&num| num * 2).collect()
+}
+
+fn main() {
+    let numbers = vec![1, 2, 3, 4, 5]; // Example input
+    let doubled_numbers = solution(numbers);
+    
+    println!("Doubled numbers: {:?}", doubled_numbers);
+}
+```
+
+# Day3 사칙연산, 배열, 수학
+
+## 나머지 구하기
+
+정수 num1, num2 가 매개변수로 주어질 때, num1 를 num2 로 나눈 나머지를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(num1: int, num2: int) -> int:
+    answer = num1 % num2
+    return answer
+```
+
+### 러스트
+
+```rust
+fn solution(num1: i32, num2: i32) -> i32 {
+    let answer = num1 % num2;
+    answer
+}
+
+fn main() {
+    let num1 = 10; // Example input
+    let num2 = 3;  // Example input
+
+    let result = solution(num1, num2);
+    println!("The remainder of {} % {} is {}", num1, num2, result);
+}
+```
+
+## 중앙값 구하기
+
+중앙값은 어떤 주어진 값들을 크기의 순서대로 정렬했을 때 가장 중앙에 위치하는 값을 의미합니다. 예를 들어 1, 2, 7, 10, 11 의 중앙값은 7 입니다. 정수 배열 array 가 매개변수로 주어질 때, 중앙값을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(array: List[int]) -> int:
+    sorted_array = sorted(array)
+    middle_index = len(array) // 2
+    return sorted_array[middle_index]
+```
+
+### 러스트
+
+```rust
+fn solution(array: Vec<i32>) -> i32 {
+    let mut sorted_array = array.clone(); // Clone the input array to sort it
+    sorted_array.sort(); // Sort the array
+
+    let middle_index = sorted_array.len() / 2; // Calculate the middle index
+    sorted_array[middle_index] // Return the middle element
+}
+
+fn main() {
+    let array = vec![3, 1, 4, 1, 5, 9, 2]; // Example input
+    let median = solution(array);
+    
+    println!("The median is {}", median);
+}
+```
+
+## 최빈값 구하기
+
+최빈값은 주어진 값 중에서 가장 자주 나오는 값을 의미합니다. 정수 배열 array 가 매개변수로 주어질 때, 최빈값을 return 하도록 solution 함수를 완성해보세요. 최빈값이 여러 개면 -1 을 return 합니다.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(array: List[int]) -> int:
+    count = {}
+    for num in array:
+        count[num] = count.get(num, 0) + 1
+    
+    max_count = max(count.values())
+    mode = [num for num, freq in count.items() if freq == max_count]
+    
+    return mode[0] if len(mode) == 1 else -1
+```
+
+### 러스트
+
+```rust
+use std::collections::HashMap;
+
+fn solution(array: Vec<i32>) -> i32 {
+    let mut count = HashMap::new();
+
+    // Count the frequency of each number
+    for &num in &array {
+        *count.entry(num).or_insert(0) += 1;
+    }
+
+    // Find the maximum frequency
+    let max_count = *count.values().max().unwrap_or(&0);
+    
+    // Collect numbers that have the maximum frequency
+    let mode: Vec<i32> = count.iter()
+        .filter(|&(_, &freq)| freq == max_count)
+        .map(|(&num, _)| num)
+        .collect();
+
+    // Return the mode or -1 if there is no unique mode
+    if mode.len() == 1 {
+        mode[0]
+    } else {
+        -1
+    }
+}
+
+fn main() {
+    let array = vec![1, 2, 2, 3, 3, 4]; // Example input
+    let result = solution(array);
+    
+    println!("The mode is {}", result);
+}
+```
+
+## 짝수는 싫어요
+
+정수 n 이 매개변수로 주어질 때, n 이하의 홀수가 오름차순으로 담긴 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(n: int) -> List[int]:
+    return [i for i in range(1, n+1, 2)]
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32) -> Vec<i32> {
+    (1..=n).step_by(2).collect() // Generate odd numbers from 1 to n
+}
+
+fn main() {
+    let n = 10; // Example input
+    let odd_numbers = solution(n);
+    
+    println!("Odd numbers from 1 to {}: {:?}", n, odd_numbers);
+}
+```
+
+# Day4 수학, 배열
+
+## 피자 나눠 먹기 (1)
+
+머쓱이네 피자가게는 피자를 일곱 조각으로 잘라 줍니다. 피자를 나눠먹을 사람의 수 n 이 주어질 때, 모든 사람이 피자를 한 조각 이상 먹기 위해 필요한 피자의 수를 return 하는 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(n: int) -> int:
+	answer = (n + 6) // 7
+	return answer
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32) -> i32 {
+    (n + 6) / 7
+}
+
+fn main() {
+    // Example usage
+    let result = solution(15);
+    println!("{}", result);
+}
+```
+
+## 피자 나눠 먹기 (2)
+
+머쓱이네 피자가게는 피자를 여섯 조각으로 잘라 줍니다. 피자를 나눠먹을 사람의 수 n 이 매개변수로 주어질 때, n 명이 주문한 피자를 남기지 않고 모두 같은 수의 피자 조각을 먹어야 한다면 최소 몇 판을 시켜야 하는지를 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+import math
+
+def solution(n: int) -> int:
+	slices_per_pizza = 6
+	lcm = (n*slices_per_pizza) // math.gcd(n, slices_per_pizza)
+	answer = lcm // slices_per_pizza
+	return answer
+```
+
+### 러스트
+
+```rust
+use num::integer::lcm;
+
+fn solution(n: i32) -> i32 {
+    let slices_per_pizza = 6;
+    let lcm_value = lcm(n, slices_per_pizza);
+    lcm_value / slices_per_pizza
+}
+
+fn main() {
+    // Example usage
+    let result = solution(10);
+    println!("{}", result);
+}
+```
+
+## 피자 나눠 먹기 (3)
+
+머쓱이네 피자가게는 피자를 두 조각에서 열 조각까지 원하는 조각 수로 잘라줍니다. 피자 조각 수 `slice` 와 피자를 먹는 사람의 수 `n` 이 매개변수로 주어질 때, `n` 명의 사람이 최소 한 조각 이상 피자를 먹으려면 최소 몇 판의 피자를 시켜야 하는지를 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(slice: int, n: int) -> int:
+    # 피자 판 수는 n을 slice로 나누고 올림한 값
+    answer = (n + slice - 1) // slice
+    return answer
+```
+
+### 러스트
+
+```rust
+fn solution(slice: i32, n: i32) -> i32 {
+    (n + slice - 1) / slice
+}
+
+fn main() {
+    // Example usage
+    let result = solution(7, 10);
+    println!("{}", result);
+}
+```
+
+## 배열의 평균값
+
+정수 배열 `numbers` 가 매개변수로 주어집니다. `numbers` 의 원소의 평균값을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(numbers: List[int]) -> List[int]:
+    # numbers의 합계를 구하고, 이를 numbers의 길이로 나누어 평균을 구합니다.
+    answer = sum(numbers) / len(numbers)
+    return answer
+```
+
+### 러스트
+
+```rust
+fn solution(numbers: &[i32]) -> f64 {
+    let sum: i32 = numbers.iter().sum();
+    let count = numbers.len() as f64;
+    sum as f64 / count
+}
+
+fn main() {
+    // Example usage
+    let numbers = vec![1, 2, 3, 4, 5];
+    let result = solution(&numbers);
+    println!("{}", result);
+}
+```
+
+# Day5 수학, 배열
+
+## 옷가게 할인 받기
+
+머쓱이네 옷가게는 10 만 원 이상 사면 5%, 30 만 원 이상 사면 10%, 50 만 원 이상 사면 20% 를 할인해줍니다. 구매한 옷의 가격 `price` 가 주어질 때, 지불해야 할 금액을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(price: int) -> int:
+	if price >= 500000:
+		price *= 0.8
+	elif price >= 300000:
+		price *= 0.9
+	elif price >= 100000:
+		price *= 0.95
+	return int(price)	
+```
+
+### 러스트
+
+```rust
+fn solution(price: i32) -> i32 {
+    let discounted_price = if price >= 500000 {
+        (price as f64 * 0.8) as i32
+    } else if price >= 300000 {
+        (price as f64 * 0.9) as i32
+    } else if price >= 100000 {
+        (price as f64 * 0.95) as i32
+    } else {
+        price
+    };
+
+    discounted_price
+}
+
+fn main() {
+    // Example usage
+    let result = solution(150000);
+    println!("{}", result);
+}
+```
+
+## 아이스 아메리카노
+
+머쓱이는 추운 날에도 아이스 아메리카노만 마십니다. 아이스 아메리카노는 한잔에 5,500 원입니다. 머쓱이가 가지고 있는 돈 `money` 가 매개변수로 주어질 때, 머쓱이가 최대로 마실 수 있는 아메리카노의 잔 수와 남는 돈을 순서대로 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(money: int) -> List[int]:
+    price_per_americano: int = 5500
+    number_of_americanos: int = money // price_per_americano
+    remaining_money: int = money % price_per_americano
+    return [number_of_americanos, remaining_money]
+```
+
+### 러스트
+
+```rust
+fn solution(money: i32) -> Vec<i32> {
+    let price_per_americano: i32 = 5500;
+    let number_of_americanos: i32 = money / price_per_americano;
+    let remaining_money: i32 = money % price_per_americano;
+    vec![number_of_americanos, remaining_money]
+}
+
+fn main() {
+    // Example usage
+    let result = solution(25000);
+    println!("{:?}", result);
+}
+```
+
+## 나이 출력
+
+머쓱이는 선생님이 몇 년도에 태어났는지 궁금해졌습니다. 2022 년 기준 선생님의 나이 `age` 가 주어질 때, 선생님의 출생 연도를 return 하는 solution 함수를 완성해주세요
+
+### 파이썬
+
+```python
+def solution(age: int) -> int:
+    return 2022 - age + 1
+```
+
+### 러스트
+
+```rust
+fn solution(age: i32) -> i32 {
+    2022 - age + 1
+}
+
+fn main() {
+    // Example usage
+    let result = solution(40);
+    println!("{}", result);
+}
+```
+
+## 배열 뒤집기
+
+정수가 들어 있는 배열 `num_list` 가 매개변수로 주어집니다. `num_list` 의 원소의 순서를 거꾸로 뒤집은 배열을 return 하도록 solution 함수를 완성해주세요
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(num_list: List[int]) -> List[int]:
+	answer = num_list[::-1]
+	return answer
+```
+
+### 러스트
+
+```rust
+fn solution(num_list: &[i32]) -> Vec<i32> {
+    num_list.iter().rev().cloned().collect()
+}
+
+fn main() {
+    // Example usage
+    let numbers = vec![1, 2, 3, 4, 5];
+    let result = solution(&numbers);
+    println!("{:?}", result);
+}
+```
+
+# Day6 문자열, 반복문, 출력, 배열, 조건문
+
+## 문자열 뒤집기
+
+문자열 `my_string` 이 매개변수로 주어집니다. `my_string` 을 거꾸로 뒤집은 문자열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str) -> str:
+	return my_string[::-1]
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str) -> String {
+    my_string.chars().rev().collect()
+}
+```
+
+## 직각삼각형 출력하기
+
+`*` 의 높이와 너비를 1 이라고 했을 때, `*` 을 이용해 직각 이등변 삼각형을 그리려고합니다. 정수 n 이 주어지면 높이와 너비가 n 인 직각 이등변 삼각형을 출력하도록 코드를 작성해보세요.
+
+### 파이썬
+
+```python
+n = int(input())
+print("\n".join("*" * i for i in range(1, n + 1)))
+```
+
+### 러스트
+
+```rust
+use std::io::stdin;
+
+fn main() {
+    let mut input = String::new();
+    
+    // Read input from the user
+    stdin().read_line(&mut input).expect("Failed to read line");
+    
+    // Parse input to an integer
+    let n: usize = input.trim().parse().expect("Please enter a valid number");
+    
+    // Generate and print the star pattern
+    for i in 1..=n {
+        println!("{}", "*".repeat(i));
+    }
+}
+```
+
+## 짝수 홀수 개수
+
+정수가 담긴 리스트 `num_list` 가 주어질 때, `num_list` 의 원소 중 짝수와 홀수의 개수를 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(num_list: List[int]) -> List[int]:
+    even_count = sum(1 for num in num_list if num % 2 == 0)
+    odd_count = len(num_list) - even_count
+    return [even_count, odd_count]
+```
+
+### 러스트
+
+```rust
+fn solution(num_list: Vec<i32>) -> Vec<i32> {
+    let even_count = num_list.iter().filter(|&num| num % 2 == 0).count() as i32;
+    let odd_count = num_list.len() as i32 - even_count;
+    vec![even_count, odd_count]
+}
+```
+
+## 문자 반복 출력하기
+
+문자열 `my_string` 과 정수 `n` 이 매개변수로 주어질 때, `my_string` 에 들어있는 각 문자를 `n` 만큼 반복한 문자열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str, n: int) -> str:
+    return ''.join([char * n for char in my_string])
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str, n: usize) -> String {
+    my_string.chars().map(|c| c.to_string().repeat(n)).collect()
+}
+```
+
+# Day7 문자열, 조건문, 수학, 반복문
+
+## 특정 문자 제거하기
+
+문자열 `my_string` 과 문자 `letter` 이 매개변수로 주어집니다. `my_string` 에서 `letter` 를 제거한 문자열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str, letter: int) -> str:
+	return my_string.replace(letter, "")
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str, letter: char) -> String{
+    my_string.replace(letter, "")
+}
+
+fn main() {
+    let result = solution("Hello, World!", 'o');
+    println!("{}", result); // "Hell, Wrld!" 출력
+}
+```
+
+## 각도기
+
+각에서 0 도 초과 90 도 미만은 예각, 90 도는 직각, 90 도 초과 180 도 미만은 둔각 180 도는 평각으로 분류합니다. 각 `angle` 이 매개변수로 주어질 때 예각일 때 1, 직각일 때 2, 둔각일 때 3, 평각일 때 4 를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(angle: int) -> int:
+    if angle == 90:
+        return 2  # 직각
+    elif angle == 180:
+        return 4  # 평각
+    elif 0 < angle < 90:
+        return 1  # 예각
+    elif 90 < angle < 180:
+        return 3  # 둔각
+```
+
+### 러스트
+
+```rust
+fn solution(angle: i32) -> i32 {
+    if angle == 90 {
+        2
+    } else if angle == 180 {
+        4
+    } else if (0 < angle) && (angle < 90) {
+        1
+    } else if (90 < angle) && (angle < 180) {
+        3
+    } else {
+        0
+    }
+}
+
+fn main() {
+    println!("{}", solution(90));  // 2 출력
+    println!("{}", solution(180)); // 4 출력
+    println!("{}", solution(45));  // 1 출력
+    println!("{}", solution(120)); // 3 출력
+}
+```
+
+## 양꼬치
+
+머쓱이네 양꼬치 가게는 10 인분을 먹으면 음료수 하나를 서비스로 줍니다. 양꼬치는 1 인분에 12,000 원, 음료수는 2,000 원입니다. 정수 `n` 과 `k` 가 매개변수로 주어졌을 때, 양꼬치 `n` 인분과 음료수 `k` 개를 먹었다면 총얼마를 지불해야 하는지 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(n: int, k:int) -> int:
+    # 양꼬치 가격 계산
+    cost_of_kebabs = n * 12000
+    # 음료수 가격 계산
+    cost_of_drinks = (k - (n // 10)) * 2000
+    # 총 지불 금액 계산
+    total_cost = cost_of_kebabs + cost_of_drinks
+    return total_cost
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32, k: i32) -> i32 {
+    // 양꼬치 가격 계산
+    let cost_of_kebabs = n * 12000;
+    // 음료수 가격 계산
+    let cost_of_drinks = (k - (n / 10)) * 2000;
+    // 총 지불 금액 계산
+    let total_cost = cost_of_kebabs + cost_of_drinks;
+    total_cost
+}
+
+fn main() {
+    let result = solution(10, 3);
+    println!("총 지불 금액: {}", result);
+}
+```
+
+## 짝수의 합
+
+정수 `n` 이 주어질 때, `n` 이하의 짝수를 모두 더한 값을 return 하도록 solution 함수를 작성해주세요.
+
+### 파이썬
+
+```python
+def solution(n: int) -> int:
+    # 짝수의 합을 저장할 변수
+    total_sum = 0
+    # 2부터 n까지 짝수만 더함
+    for i in range(2, n + 1, 2):
+        total_sum += i
+    return total_sum
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32) -> i32 {
+    // 짝수의 합을 저장할 변수
+    let mut total_sum = 0;
+    // 2부터 n까지 짝수만 더함
+    for i in (2..=n).step_by(2) {
+        total_sum += i;
+    }
+    total_sum
+}
+
+fn main() {
+    let result = solution(10);
+    println!("1부터 10까지 짝수의 합: {}", result);
+}
+```
+
+# Day8 배열, 구현, 수학
+
+## 배열 자르기
+
+정수 배열 `numbers` 와 정수 `num1`, `num2` 가 매개변수로 주어질 때, `numbers` 의 `num1` 번 째 인덱스부터 `num2` 번째 인덱스까지 자른 정수 배열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(numbers: int, num1: int, num2: int) -> List[int]:
+    # 리스트 슬라이싱을 사용하여 num1번째 인덱스부터 num2번째 인덱스까지 추출
+    return numbers[num1:num2 + 1]
+```
+
+### 러스트
+
+```rust
+fn solution(numbers: &[i32], num1: usize, num2: usize) -> Vec<i32> {
+    // num1 인덱스부터 num2+1 인덱스까지의 요소들을 새 벡터로 복사
+    numbers[num1..=num2].to_vec()
+}
+
+fn main() {
+    let numbers = vec![1, 2, 3, 4, 5];
+    let result = solution(&numbers, 1, 3);
+    println!("{:?}", result); // 출력: [2, 3, 4]
+}
+```
+
+## 외계행성의 나이
+
+우주여행을 하던 머쓱이는 엔진 고장으로 PROGRAMMERS-962 행성에 불시착하게 됐습니다. 입국심사에서 나이를 말해야 하는데, PROGRAMMERS-962 행성에서는 나이를 알파벳으로 말하고 있습니다. a 는 0, b 는 1, c 는 2, ..., j 는 9 입니다. 예를 들어 23 살은 cd, 51 살은 fb 로 표현합니다. 나이 `age` 가 매개변수로 주어질 때 PROGRAMMER-962 식 나이를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(age: int) -> str:
+    # 숫자를 알파벳으로 매핑하는 딕셔너리 생성
+    age_map = {str(i): chr(97 + i) for i in range(10)}
+    
+    # age를 문자열로 변환하고 각 숫자를 해당하는 알파벳으로 변환
+    return ''.join(age_map[digit] for digit in str(age))
+```
+
+### 러스트
+
+```rust
+fn solution(age: u32) -> String {
+    // 숫자를 알파벳으로 매핑하는 배열 생성
+    let age_map: [char; 10] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    
+    // age를 문자열로 변환하고 각 숫자를 해당하는 알파벳으로 변환
+    age.to_string()
+        .chars()
+        .map(|c| age_map[c.to_digit(10).unwrap() as usize])
+        .collect()
+}
+
+fn main() {
+    let result = solution(23);
+    println!("{}", result); // 출력: "cd"
+}
+```
+
+## 진료 순서 정하기
+
+외과의사 머쓱이는 응급실에 온 환자의 응급도를 기준으로 진료 순서를 정하려고 합니다. 정수 배열 `emergency` 가 매개변수로 주어질 때 응급도가 높은 순서대로 진료 순서를 정한 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(emergency: List[int]) -> List[int]:
+    # 응급도와 인덱스를 함께 저장한 리스트 생성
+    sorted_emergency = sorted([(e, i) for i, e in enumerate(emergency)], reverse=True)
+    
+    # 결과 리스트 초기화
+    result = [0] * len(emergency)
+    
+    # 정렬된 리스트를 순회하며 순서 할당
+    for rank, (_, index) in enumerate(sorted_emergency, 1):
+        result[index] = rank
+    
+    return result
+```
+
+### 러스트
+
+```rust
+fn solution(emergency: Vec<i32>) -> Vec<i32> {
+    // 응급도와 인덱스를 함께 저장한 벡터 생성
+    let mut sorted_emergency: Vec<(i32, usize)> = emergency
+        .iter()
+        .enumerate()
+        .map(|(i, &e)| (e, i))
+        .collect();
+    
+    // 응급도를 기준으로 내림차순 정렬
+    sorted_emergency.sort_by(|a, b| b.cmp(&a));
+    
+    // 결과 벡터 초기화
+    let mut result = vec![0; emergency.len()];
+    
+    // 정렬된 벡터를 순회하며 순서 할당
+    for (rank, &(_, index)) in sorted_emergency.iter().enumerate() {
+        result[index] = (rank + 1) as i32;
+    }
+    
+    result
+}
+
+fn main() {
+    let emergency = vec![3, 76, 24];
+    let result = solution(emergency);
+    println!("{:?}", result); // 출력: [3, 1, 2]
+}
+```
+
+## 순서쌍의 개수
+
+순서쌍이란 두 개의 숫자를 순서를 정하여 짝지어 나타낸 쌍으로 (a, b) 로 표기합니다. 자연수 `n` 이 매개변수로 주어질 때 두 숫자의 곱이 `n` 인 자연수 순서쌍의 개수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(n: int) -> int:
+    count = 0
+    for i in range(1, int(n**0.5) + 1):
+        if n % i == 0:
+            count += 1  # (i, n//i)
+            if i != n // i:
+                count += 1  # (n//i, i) if i and n//i are different
+    return count
+```
+
+### 러스트
+
+```rust
+fn solution(n: u64) -> u64 {
+    let mut count = 0;
+    let sqrt_n = (n as f64).sqrt() as u64;
+
+    for i in 1..=sqrt_n {
+        if n % i == 0 {
+            count += 1;  // (i, n/i)
+            if i != n / i {
+                count += 1;  // (n/i, i) if i and n/i are different
+            }
+        }
+    }
+
+    count
+}
+
+fn main() {
+    let n = 20;
+    let result = solution(n);
+    println!("Number of factors of {}: {}", n, result); // 출력: Number of factors of 20: 6
+}
+```
+
+# Day9 수학, 문자열, 해시, 완전탐색, 조건문
+
+## 개미 군단
+
+개미 군단이 사냥을 나가려고 합니다. 개미군단은 사냥감의 체력에 딱 맞는 병력을 데리고 나가려고 합니다. 장군개미는 5 의 공격력을, 병정개미는 3 의 공격력을 일개미는 1 의 공격력을 가지고 있습니다. 예를 들어 체력 23 의 여치를 사냥하려고 할 때, 일개미 23 마리를 데리고 가도 되지만, 장군개미 네 마리와 병정개미 한 마리를 데리고 간다면 더 적은 병력으로 사냥할 수 있습니다. 사냥감의 체력 `hp` 가 매개변수로 주어질 때, 사냥감의 체력에 딱 맞게 최소한의 병력을 구성하려면 몇 마리의 개미가 필요한지를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(hp: int) -> int:
+    # 장군개미의 수를 계산
+    general_ants = hp // 5
+    hp %= 5
+    
+    # 병정개미의 수를 계산
+    soldier_ants = hp // 3
+    hp %= 3
+    
+    # 일개미의 수를 계산
+    worker_ants = hp // 1
+    
+    # 총 개미 수 반환
+    return general_ants + soldier_ants + worker_ants
+```
+
+### 러스트
+
+```rust
+fn solution(mut hp: i32) -> i32 {
+    // 장군개미의 수를 계산
+    let general_ants = hp / 5;
+    hp %= 5;
+    
+    // 병정개미의 수를 계산
+    let soldier_ants = hp / 3;
+    hp %= 3;
+    
+    // 일개미의 수를 계산
+    let worker_ants = hp;
+    
+    // 총 개미 수 반환
+    general_ants + soldier_ants + worker_ants
+}
+
+fn main() {
+    let hp = 23;
+    let result = solution(hp);
+    println!("Total number of ants needed for {} HP: {}", hp, result);
+    // 출력: Total number of ants needed for 23 HP: 5
+}
+```
+
+## 모스부호 (1)
+
+머쓱이는 친구에게 모스부호를 이용한 편지를 받았습니다. 그냥은 읽을 수 없어 이를 해독하는 프로그램을 만들려고 합니다. 문자열 `letter` 가 매개변수로 주어질 때, `letter` 를 영어 소문자로 바꾼 문자열을 return 하도록 solution 함수를 완성해보세요.
+모스부호는 다음과 같습니다.
+
+### 파이썬
+
+```python
+def solution(letter: int) -> str:
+    morse = { 
+        '.-':'a','-...':'b','-.-.':'c','-..':'d','.':'e','..-.':'f',
+        '--.':'g','....':'h','..':'i','.---':'j','-.-':'k','.-..':'l',
+        '--':'m','-.':'n','---':'o','.--.':'p','--.-':'q','.-.':'r',
+        '...':'s','-':'t','..-':'u','...-':'v','.--':'w','-..-':'x',
+        '-.--':'y','--..':'z'
+    }
+    
+    # 공백을 기준으로 모스 부호를 분리
+    morse_codes = letter.split()
+    
+    # 각 모스 부호를 해당하는 알파벳으로 변환
+    decoded = [morse[code] for code in morse_codes]
+    
+    # 변환된 알파벳들을 하나의 문자열로 결합
+    return ''.join(decoded)
+```
+
+### 러스트
+
+```rust
+use std::collections::HashMap;
+
+fn solution(letter: &str) -> String {
+    let morse: HashMap<&str, char> = [
+        (".-", 'a'), ("-...", 'b'), ("-.-.", 'c'), ("-..", 'd'), (".", 'e'), ("..-.", 'f'),
+        ("--.", 'g'), ("....", 'h'), ("..", 'i'), (".---", 'j'), ("-.-", 'k'), (".-..", 'l'),
+        ("--", 'm'), ("-.", 'n'), ("---", 'o'), (".--.", 'p'), ("--.-", 'q'), (".-.", 'r'),
+        ("...", 's'), ("-", 't'), ("..-", 'u'), ("...-", 'v'), (".--", 'w'), ("-..-", 'x'),
+        ("-.--", 'y'), ("--..", 'z')
+    ].iter().cloned().collect();
+
+    letter
+        .split_whitespace()
+        .filter_map(|code| morse.get(code).copied())
+        .collect()
+}
+
+fn main() {
+    // 테스트 케이스들
+    let test_cases = vec![
+        ".... . .-.. .-.. ---",
+        ".-- --- .-. .-.. -...",
+        ".-. ..- ... -",
+    ];
+
+    for (i, case) in test_cases.iter().enumerate() {
+        let result = solution(case);
+        println!("Test case {}: '{}' -> '{}'", i + 1, case, result);
+    }
+}
+```
+
+## 가위 바위 보
+
+가위는 2 바위는 0 보는 5 로 표현합니다. 가위 바위 보를 내는 순서대로 나타낸 문자열 `rsp` 가 매개변수로 주어질 때, rsp 에 저장된 가위 바위 보를 모두 이기는 경우를 순서대로 나타낸 문자열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(rsp: int) -> int:
+    # 가위(2)는 바위(0)에게 지고, 바위(0)는 보(5)에게 지고, 보(5)는 가위(2)에게 집니다.
+    win_map = {'2': '0', '0': '5', '5': '2'}
+    
+    # 각 문자에 대해 이기는 경우를 매핑하여 새로운 문자열 생성
+    return ''.join(win_map[char] for char in rsp)
+```
+
+### 러스트
+
+```rust
+use std::collections::HashMap;
+
+fn solution(rsp: &str) -> String {
+    // 가위(2)는 바위(0)에게 지고, 바위(0)는 보(5)에게 지고, 보(5)는 가위(2)에게 집니다.
+    let win_map: HashMap<char, char> = [
+        ('2', '0'),
+        ('0', '5'),
+        ('5', '2'),
+    ].iter().cloned().collect();
+
+    // 각 문자에 대해 이기는 경우를 매핑하여 새로운 문자열 생성
+    rsp.chars()
+        .filter_map(|c| win_map.get(&c))
+        .collect()
+}
+
+fn main() {
+    // 테스트 케이스
+    let test_cases = vec!["2", "205"];
+
+    for (i, case) in test_cases.iter().enumerate() {
+        let result = solution(case);
+        println!("Test case {}: '{}' -> '{}'", i + 1, case, result);
+    }
+}
+```
+
+## 구슬을 나누는 경우의 수
+
+머쓱이는 구슬을 친구들에게 나누어주려고 합니다. 구슬은 모두 다르게 생겼습니다. 머쓱이가 갖고 있는 구슬의 개수 `balls` 와 친구들에게 나누어 줄 구슬 개수 `share` 이 매개변수로 주어질 때, `balls` 개의 구슬 중 `share` 개의 구슬을 고르는 가능한 모든 경우의 수를 return 하는 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import Union
+
+def solution(balls: int, share: int) -> Union[int, float]:
+    # 분자 계산
+    numerator: int = 1
+    for i in range(balls, balls - share, -1):
+        numerator *= i
+    
+    # 분모 계산
+    denominator: int = 1
+    for i in range(1, share + 1):
+        denominator *= i
+    
+    # 결과 반환
+    return numerator // denominator
+```
+
+### 러스트
+
+```rust
+fn solution(balls: u64, share: u64) -> u64 {
+    // 분자 계산
+    let mut numerator: u64 = 1;
+    for i in (balls - share + 1..=balls).rev() {
+        numerator *= i;
+    }
+    
+    // 분모 계산
+    let mut denominator: u64 = 1;
+    for i in 1..=share {
+        denominator *= i;
+    }
+    
+    // 결과 반환
+    numerator / denominator
+}
+
+fn main() {
+    // 테스트
+    let test_cases = [(5, 3), (3, 2), (10, 5)];
+    
+    for (balls, share) in test_cases.iter() {
+        let result = solution(*balls, *share);
+        println!("Balls: {}, Share: {} -> Result: {}", balls, share, result);
+    }
+}
+```
+
+# Day 10 조건문, 배열, 수학, 시뮬레이션
+
+## 점의 위치 구하기
+
+사분면은 한 평면을 x 축과 y 축을 기준으로 나눈 네 부분입니다. 사분면은 아래와 같이 1 부터 4 까지 번호를매깁니다.
+- x 좌표와 y 좌표가 모두 양수이면 제 1 사분면에 속합니다.
+- x 좌표가 음수, y 좌표가 양수이면 제 2 사분면에 속합니다.
+- x 좌표와 y 좌표가 모두 음수이면 제 3 사분면에 속합니다.
+- x 좌표가 양수, y 좌표가 음수이면 제 4 사분면에 속합니다.
+
+x 좌표 (x, y) 를 차례대로 담은 정수 배열 `dot` 이 매개변수로 주어집니다. 좌표 `dot` 이 사분면 중 어디에 속하는지 1, 2, 3, 4 중 하나를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(dot: List[int]) -> int:
+    x, y = dot
+    
+    if x > 0 and y > 0:
+        return 1
+    elif x < 0 and y > 0:
+        return 2
+    elif x < 0 and y < 0:
+        return 3
+    else:
+        return 4
+```
+
+### 러스트
+
+```rust
+fn solution(dot: &[i32]) -> i32 {
+    let (x, y) = (dot[0], dot[1]);
+    
+    if x > 0 && y > 0 {
+        1
+    } else if x < 0 && y > 0 {
+        2
+    } else if x < 0 && y < 0 {
+        3
+    } else {
+        4
+    }
+}
+
+fn main() {
+    let dot = vec![3, 2];
+    println!("Result: {}", solution(&dot));
+}
+```
+
+## 2 차원으로 만들기
+
+정수 배열 `num_list` 와 정수 `n` 이 매개변수로 주어집니다. `num_list` 를 다음 설명과 같이 2 차원 배열로 바꿔 return 하도록 solution 함수를 완성해주세요.
+
+`num_list` 가 [1, 2, 3, 4, 5, 6, 7, 8] 로 길이가 8 이고 `n` 이 2 이므로 `num_list` 를 2 * 4 배열로 다음과 같이 변경합니다. 2 차원으로 바꿀 때에는 num_list 의 원소들을 앞에서부터 n 개씩 나눠 2 차원 배열로 변경합니다.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(num_list: List[int], n: int) -> List[List[int]]:
+    return [num_list[i:i+n] for i in range(0, len(num_list), n)]
+```
+
+### 러스트
+
+```rust
+fn solution(num_list: &[i32], n: usize) -> Vec<Vec<i32>> {
+    num_list.chunks(n).map(|chunk| chunk.to_vec()).collect()
+}
+
+fn main() {
+    let num_list = vec![1, 2, 3, 4, 5, 6, 7, 8];
+    let n = 3;
+    let result = solution(&num_list, n);
+    println!("Result: {:?}", result);
+}```
+
+## 공 던지기
+
+머쓱이는 친구들과 동그랗게 서서 공 던지기 게임을 하고 있습니다. 공은 1번부터 던지며 오른쪽으로 한 명을 건너뛰고 그다음 사람에게만 던질 수 있습니다. 친구들의 번호가 들어있는 정수 배열 `numbers`와 정수 `K`가 주어질 때, `k`번째로 공을 던지는 사람의 번호는 무엇인지 return 하도록 solution 함수를 완성해보세요.
+### 파이썬
+```python
+from typing import List
+
+def solution(numbers: List[int], k: int) -> int:
+    return numbers[(2 * (k - 1)) % len(numbers)]
+```
+
+### 러스트
+
+```rust
+fn solution(numbers: &[i32], k: usize) -> i32 {
+    numbers[(2 * (k - 1)) % numbers.len()]
+}
+
+fn main() {
+    let numbers = vec![1, 2, 3, 4, 5];
+    let k = 3;
+    let result = solution(&numbers, k);
+    println!("Result: {}", result);
+} 
+```
+
+## 배열 회전시키기
+
+정수가 담긴 배열 `numbers` 와 문자열 `direction` 가 매개변수로 주어집니다. 배열 `numbers` 의 원소를 `direction` 방향으로 한 칸씩 회전시킨 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List, Literal
+
+def solution(numbers: List[int], direction: Literal["right", "left"]) -> List[int]:
+    if direction == "right":
+        return [numbers[-1]] + numbers[:-1]
+    else:  # direction == "left"
+        return numbers[1:] + [numbers[0]]
+```
+
+### 러스트
+
+```rust
+#[derive(PartialEq)]
+enum Direction {
+    Right,
+    Left,
+}
+
+fn solution(numbers: &[i32], direction: Direction) -> Vec<i32> {
+    let mut result = Vec::with_capacity(numbers.len());
+    
+    match direction {
+        Direction::Right => {
+            if let Some(&last) = numbers.last() {
+                result.push(last);
+                result.extend_from_slice(&numbers[..numbers.len() - 1]);
+            }
+        },
+        Direction::Left => {
+            result.extend_from_slice(&numbers[1..]);
+            if let Some(&first) = numbers.first() {
+                result.push(first);
+            }
+        },
+    }
+    
+    result
+}
+
+fn main() {
+    let numbers = vec![1, 2, 3];
+    let right_result = solution(&numbers, Direction::Right);
+    let left_result = solution(&numbers, Direction::Left);
+    
+    println!("Right rotation: {:?}", right_result);
+    println!("Left rotation: {:?}", left_result);
+}
+```
+
+# Day11 수학, 반복문
+
+머쓱이는 직육면체 모양의 상자를 하나 가지고 있는데 이 상자에 정육면체 모양의 주사위를 최대한 많이 채우고 싶습니다. 상자의 가로, 세로, 높이가 저장되어있는 배열 `box` 와 주사위 모서리의 길이 정수 `n` 이 매개변수로 주어졌을 때, 상자에 들어갈 수 있는 주사위의 최대 개수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(box: List[int], n: int) -> int:
+    return (box[0] // n) * (box[1] // n) * (box[2] // n)
+```
+
+### 러스트
+
+```rust
+fn solution(box_dims: &[i32; 3], n: i32) -> i32 {
+    (box_dims[0] / n) * (box_dims[1] / n) * (box_dims[2] / n)
+}
+
+fn main() {
+    let box_dims = [4, 5, 6];
+    let n = 3;
+    let result = solution(&box_dims, n);
+    println!("Result: {}", result);
+}
+```
+
+## 합성수 찾기
+
+약수의 개수가 세 개 이상인 수를 합성수라고 합니다. 자연수 `n` 이 매개변수로 주어질 때 `n` 이하의 합성수의 개수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(n: int) -> int:
+    count = 0
+    for num in range(4, n + 1):  # 4부터 n까지 순회
+        if is_composite(num):
+            count += 1
+    return count
+
+def is_composite(num: int) -> bool:
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return True
+    return False
+```
+
+### 러스트
+
+```rust
+fn solution(n: u32) -> u32 {
+    (4..=n).filter(|&num| is_composite(num)).count() as u32
+}
+
+fn is_composite(num: u32) -> bool {
+    (2..=((num as f64).sqrt() as u32)).any(|i| num % i == 0)
+}
+
+fn main() {
+    let n = 10;
+    let result = solution(n);
+    println!("Number of composite numbers up to {}: {}", n, result);
+}
+```
+
+## 최댓값 만들기 (1)
+
+정수 배열 `numbers` 가 매개변수로 주어집니다. `numbers` 의 원소 중 두 개를 곱해 만들 수 있는 최댓값을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(numbers: List[int]) -> int:
+    numbers.sort(reverse=True)  # 리스트를 내림차순으로 정렬
+    return numbers[0] * numbers[1]  # 가장 큰 두 수를 곱함
+```
+
+### 러스트
+
+```rust
+fn solution(mut numbers: Vec<i32>) -> i32 {
+    numbers.sort_unstable_by(|a, b| b.cmp(a));  // Sort in descending order
+    numbers[0] * numbers[1]  // Multiply the two largest numbers
+}
+
+fn main() {
+    let numbers = vec![1, 2, 3, 4, 5];
+    let result = solution(numbers);
+    println!("Result: {}", result);
+}
+```
+
+## 팩토리얼
+
+`i` 팩토리얼 $i!$ 은 1 부터 i 까지 정수의 곱을 의미합니다. 예를들어 $5! = 5 * 4 * 3 * 2 * 1 = 120$ 입니다. 정수 n 이 주어질 때 $i! ≤ n$ 조건을 만족하는 가장 큰 정수 i 를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(n: int) -> int:
+    factorial = 1
+    i = 1
+    while factorial <= n:
+        i += 1
+        factorial *= i
+    return i - 1
+```
+
+### 러스트
+
+```rust
+fn solution(n: u64) -> u64 {
+    let mut factorial: u64 = 1;
+    let mut i: u64 = 1;
+    while factorial <= n {
+        i += 1;
+        factorial *= i;
+    }
+    i - 1
+}
+
+fn main() {
+    let n = 3628800;
+    let result = solution(n);
+    println!("Result: {}", result);
+}
+```
+
+# Day12 문자열, 정렬, 사칙연산, 수학
+
+## 모음 제거
+
+영어에선 a, e, i, o, u 다섯 가지 알파벳을 모음으로 분류합니다. 문자열 `my_string` 이 매개변수로 주어질 때 모음을 제거한 문자열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str) -> str:
+    vowels = 'aeiou'
+    return ''.join(char for char in my_string if char not in vowels)
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str) -> String {
+    let vowels = "aeiou";
+    my_string
+        .chars()
+        .filter(|c| !vowels.contains(*c))
+        .collect()
+}
+
+fn main() {
+    let input = "hello world";
+    let result = solution(input);
+    println!("{}", result); // Output: "hll wrld"
+}
+```
+
+## 문자열 정렬하기 (1)
+
+문자열 `my_string` 이 매개변수로 주어질 때, `my_string` 안에 있는 숫자만 골라 오름차순 정렬한 리스트를 return 하도록 solution 함수를 작성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(my_string: str) -> List[int]:
+    return sorted([int(char) for char in my_string if char.isdigit()])
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str) -> Vec<i32> {
+    let mut digits: Vec<i32> = my_string
+        .chars()
+        .filter_map(|c| c.to_digit(10).map(|d| d as i32))
+        .collect();
+    
+    digits.sort();
+    digits
+}
+
+fn main() {
+    let input = "a1b2c3";
+    let result = solution(input);
+    println!("{:?}", result); // Output: [1, 2, 3]
+}
+```
+
+## 숨어있는 숫자의 덧셈 (1)
+
+문자열 `my_string` 이 매개변수로 주어집니다. `my_string` 안의 모든 자연수들의 합을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str) -> int:
+    return sum(int(char) for char in my_string if char.isdigit())
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str) -> i32 {
+    my_string
+        .chars()
+        .filter_map(|c| c.to_digit(10).map(|d| d as i32)) // Convert characters to digits
+        .sum() // Sum the digits
+}
+
+fn main() {
+    let input = "a1b2c3";
+    let result = solution(input);
+    println!("{}", result); // Output: 6
+}
+```
+
+## 소인수분해
+
+소인수분해란 어떤 수를 소수들의 곱으로 표현하는 것입니다. 예를 들어 12 를 소인수 분해하면 2 * 2 * 3 으로 나타낼 수 있습니다. 따라서 12 의 소인수는 2 와 3 입니다. 자연수 `n` 이 매개변수로 주어질 때 `n` 의 소인수를 오름차순으로 담은 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(n: int) -> List[int]:
+    factors = []
+    divisor = 2
+    
+    while divisor * divisor <= n:
+        if n % divisor == 0:
+            factors.append(divisor)
+            n //= divisor
+        else:
+            divisor += 1
+    
+    if n > 1:
+        factors.append(n)
+    
+    return sorted(set(factors))
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32) -> Vec<i32> {
+    let mut factors = Vec::new();
+    let mut divisor = 2;
+    let mut num = n; // Create a mutable copy of n
+
+    while divisor * divisor <= num {
+        if num % divisor == 0 {
+            factors.push(divisor);
+            num /= divisor; // Use the mutable copy
+        } else {
+            divisor += 1;
+        }
+    }
+
+    if num > 1 {
+        factors.push(num);
+    }
+
+    // Use a HashSet to remove duplicates, then collect and sort
+    let mut unique_factors: Vec<i32> = factors.into_iter().collect();
+    unique_factors.sort();
+    unique_factors.dedup(); // Remove duplicates
+
+    unique_factors
+}
+
+fn main() {
+    let input = 28;
+    let result = solution(input);
+    println!("{:?}", result); // Output: [2, 7]
+}
+```
+
+# Day13 문자열, 배열, 사칙연산, 수학, 조건문
+
+## 컨트롤 제트
+
+숫자와 "Z"가 공백으로 구분되어 담긴 문자열이 주어집니다. 문자열에 있는 숫자를 차례대로 더하려고 합니다. 이 때 "Z"가 나오면 바로 전에 더했던 숫자를 뺀다는 뜻입니다. 숫자와 "Z"로 이루어진 문자열 `s` 가 주어질 때, 머쓱이가 구한 값을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(s: str) -> int:
+    stack: list[int] = []
+    for item in s.split():
+        if item == 'Z':
+            if stack:  # 스택이 비어있지 않은 경우에만 pop
+                stack.pop()
+        else:
+            stack.append(int(item))
+    return sum(stack)
+```
+
+### 러스트
+
+```rust
+fn solution(s: &str) -> i32 {
+    let mut stack: Vec<i32> = Vec::new();
+    
+    for item in s.split_whitespace() {
+        if item == "Z" {
+            if !stack.is_empty() {
+                stack.pop();
+            }
+        } else {
+            if let Ok(num) = item.parse::<i32>() {
+                stack.push(num);
+            }
+        }
+    }
+    
+    stack.iter().sum()
+}
+
+fn main() {
+    let input = "1 2 3 Z 4 5";
+    let result = solution(input);
+    println!("Result: {}", result); // Output: Result: 12
+}
+```
+
+## 배열 원소의 길이
+
+문자열 배열 `strlist` 가 매개변수로 주어집니다. `strlist` 각 원소의 길이를 담은 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(strlist:int ) -> List[int]:
+    return [len(s) for s in strlist]
+```
+
+### 러스트
+
+```rust
+fn solution(strlist: &[String]) -> Vec<usize> {
+    strlist.iter().map(|s| s.len()).collect()
+}
+
+fn main() {
+    let input = vec![
+        String::from("We"), 
+        String::from("are"), 
+        String::from("the"), 
+        String::from("world!")
+    ];
+    let result = solution(&input);
+    println!("Result: {:?}", result);
+}
+```
+
+## 중복된 문자 제거
+
+문자열 `my_string` 이 매개변수로 주어집니다. `my_string` 에서 중복된 문자를 제거하고 하나의 문자만 남긴 문자열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str) -> str:
+    seen: set[str] = set()
+    return ''.join(ch for ch in my_string if not (ch in seen or seen.add(ch)))
+```
+
+### 러스트
+
+```rust
+ use std::collections::HashSet;
+
+fn solution(my_string: &str) -> String {
+    let mut seen = HashSet::new();
+    my_string.chars()
+        .filter(|&ch| seen.insert(ch))
+        .collect()
+}
+
+fn main() {
+    let input = "people";
+    let result = solution(input);
+    println!("Result: {}", result);
+}
+```
+
+## 삼각형의 완성조건 (1)
+
+선분 세 개로 삼각형을 만들기 위해서는 다음과 같은 조건을 만족해야 합니다.
+- 가장 긴 변의 길이는 다른 두 변의 길이의 합보다 작아야 합니다.
+삼각형의 세 변의 길이가 담긴 배열 `sides` 이 매개변수로 주어집니다. 세 변으로 삼각형을 만들 수 있다면 1, 만들 수 없다면 2 를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(sides: List[int]) -> int:
+    sides.sort()  # 배열을 오름차순으로 정렬
+    return 1 if sides[0] + sides[1] > sides[2] else 2
+```
+
+### 러스트
+
+```rust
+fn solution(mut sides: Vec<i32>) -> i32 {
+    sides.sort();  // 배열을 오름차순으로 정렬
+    if sides[0] + sides[1] > sides[2] { 1 } else { 2 }
+}
+
+fn main() {
+    let input = vec![1, 2, 3];
+    let result = solution(input);
+    println!("Result: {}", result);
+}
+```
+
+# Day14
+
+## 가까운 수
+
+정수 배열 array 와 정수 n 이 매개변수로 주어질 때, array 에 들어있는 정수 중 n 과 가장 가까운 수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(array: List[int], n: int) -> int:
+    array.sort()  # Sort the array in ascending order
+    closest: int = array[0]  # Initialize closest number with the first element
+    min_diff: int = abs(n - array[0])  # Initialize minimum difference
+    
+    for num in array:
+        diff: int = abs(n - num)
+        if diff < min_diff:
+            min_diff = diff
+            closest = num
+        elif diff == min_diff and num < closest:
+            closest = num
+    
+    return closest
+```
+
+### 러스트
+
+```rust
+fn solution(mut array: Vec<i32>, n: i32) -> i32 {
+    array.sort_unstable();  // Sort the array in ascending order
+    let mut closest = array[0];  // Initialize closest number with the first element
+    let mut min_diff = (n - array[0]).abs();  // Initialize minimum difference
+    
+    for &num in &array {
+        let diff = (n - num).abs();
+        if diff < min_diff {
+            min_diff = diff;
+            closest = num;
+        } else if diff == min_diff && num < closest {
+            closest = num;
+        }
+    }
+    
+    closest
+}
+
+fn main() {
+    let array = vec![1, 2, 3, 4, 5];
+    let n = 3;
+    let result = solution(array, n);
+    println!("Closest number: {}", result);
+}
+```
+
+## 369 게임
+
+머쓱이는 친구들과 369 게임을 하고 있습니다. 369 게임은 1 부터 숫자를 하나씩 대며 3, 6, 9 가 들어가는 숫자는 숫자 대신 3, 6, 9 의 개수만큼 박수를 치는 게임입니다. 머쓱이가 말해야하는 숫자 order 가 매개변수로 주어질 때, 머쓱이가 쳐야할 박수 횟수를 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(order: int) -> int:
+    return str(order).count('3') + str(order).count('6') + str(order).count('9')
+```
+
+### 러스트
+
+```rust
+fn solution(order: u32) -> u32 {
+    order
+        .to_string()
+        .chars()
+        .filter(|&c| c == '3' || c == '6' || c == '9')
+        .count() as u32
+}
+
+fn main() {
+    let order = 29423;
+    let result = solution(order);
+    println!("Number of 3, 6, 9 occurrences: {}", result);
+}
+```
+
+## 암호해독
+
+군 전략가 머쓱이는 전쟁 중 적군이 다음과 같은 암호 체계를 사용한다는 것을 알아냈습니다.
+
+- 암호화된 문자열 cipher 를 주고받습니다.
+- 그 문자열에서 code 의 배수 번째 글자만 진짜 암호입니다.
+
+문자열 cipher 와 정수 code 가 매개변수로 주어질 때 해독된 암호 문자열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(cipher: str, code: int) -> str:
+    return cipher[code-1::code]
+```
+
+### 러스트
+
+```rust
+fn solution(cipher: &str, code: usize) -> String {
+    cipher.chars()
+        .skip(code - 1)
+        .step_by(code)
+        .collect()
+}
+
+fn main() {
+    let cipher = "dfjardstddetckdaccccdegk";
+    let code = 4;
+    let result = solution(cipher, code);
+    println!("Decoded message: {}", result);
+}
+```
+
+## 대문자와 소문자
+
+문자열 `my_string` 이 매개변수로 주어질 때, 대문자는 소문자로 소문자는 대문자로 변환한 문자열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str) -> str:
+    return my_string.swapcase()
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str) -> String {
+    my_string.chars().map(|c| {
+        if c.is_uppercase() {
+            c.to_lowercase().next().unwrap()
+        } else if c.is_lowercase() {
+            c.to_uppercase().next().unwrap()
+        } else {
+            c
+        }
+    }).collect()
+}
+
+fn main() {
+    let my_string = "Hello World!";
+    let result = solution(my_string);
+    println!("Swapped case: {}", result);
+}
+```
+
+# Day15 문자열, 해시, 배열, 수하
+
+## 영어가 싫어요
+
+영어가 싫은 머쓱이는 영어로 표기되어있는 숫자를 수로 바꾸려고 합니다. 문자열 numbers 가 매개변수로 주어질 때, numbers 를 정수로 바꿔 return 하도록 solution 함수를 완성해 주세요.
+
+### 파이썬
+
+```python
+def solution(numbers: str) -> int:
+    num_dict = {
+        'zero': '0', 'one': '1', 'two': '2', 'three': '3', 'four': '4',
+        'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'
+    }
+    
+    for word, digit in num_dict.items():
+        numbers = numbers.replace(word, digit)
+    
+    return int(numbers)
+```
+
+### 러스트
+
+```rust
+use std::collections::HashMap;
+
+fn solution(numbers: &str) -> i32 {
+    let num_dict: HashMap<&str, &str> = [
+        ("zero", "0"), ("one", "1"), ("two", "2"), ("three", "3"), ("four", "4"),
+        ("five", "5"), ("six", "6"), ("seven", "7"), ("eight", "8"), ("nine", "9")
+    ].iter().cloned().collect();
+
+    let mut result = numbers.to_string();
+    for (word, digit) in num_dict.iter() {
+        result = result.replace(word, digit);
+    }
+
+    result.parse().unwrap()
+}
+
+fn main() {
+    let result = solution("onetwothree");
+    println!("{}", result); // This will print: 123
+}
+```
+
+## 인덱스 바꾸기
+
+문자열 my_string 과 정수 num1, num2 가 매개변수로 주어질 때, my_string 에서 인덱스 num1 과 인덱스 num2 에 해당하는 문자를 바꾼 문자열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str, num1: int, num2: int) -> str:
+    string_list = list(my_string)
+    string_list[num1], string_list[num2] = string_list[num2], string_list[num1]
+    return ''.join(string_list)
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str, num1: usize, num2: usize) -> String {
+    let mut chars: Vec<char> = my_string.chars().collect();
+    chars.swap(num1, num2);
+    chars.into_iter().collect()
+}
+fn main() {
+    let result = solution("hello", 1, 2);
+    println!("{}", result); // This will print: "hlelo"
+}
+```
+
+## 한 번만 등장한 문자
+
+문자열 s 가 매개변수로 주어집니다. s 에서 한 번만 등장하는 문자를 사전 순으로 정렬한 문자열을 return 하도록 solution 함수를 완성해보세요. 한 번만 등장하는 문자가 없을 경우 빈 문자열을 return 합니다.
+
+### 파이썬
+
+```python
+from collections import Counter
+from typing import List
+
+def solution(s: str) -> str:
+    # Count the occurrences of each character
+    char_counts: Counter[str] = Counter(s)
+    
+    # Filter characters that appear only once and sort them
+    unique_chars: List[str] = sorted([char for char, count in char_counts.items() if count == 1])
+    
+    # Join the characters into a string
+    return ''.join(unique_chars)
+```
+
+### 러스트
+
+```rust
+use std::collections::HashMap;
+
+fn solution(s: &str) -> String {
+    // Count the occurrences of each character
+    let mut char_counts = HashMap::new();
+    for c in s.chars() {
+        *char_counts.entry(c).or_insert(0) += 1;
+    }
+    
+    // Filter characters that appear only once and sort them
+    let mut unique_chars: Vec<char> = char_counts
+        .into_iter()
+        .filter(|&(_, count)| count == 1)
+        .map(|(char, _)| char)
+        .collect();
+    
+    // Sort the unique characters
+    unique_chars.sort_unstable();
+    
+    // Join the characters into a string
+    unique_chars.into_iter().collect()
+}
+
+fn main() {
+    let result = solution("abcabcabc");
+    println!("{}", result); // This will print: ""
+
+    let result2 = solution("abcabcabcd");
+    println!("{}", result2); // This will print: "d"
+}
+```
+
+## 악수 구하기
+
+정수 n 이 매개변수로 주어질 때, n 의 약수를 오름차순으로 담은 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(n: int) -> List[int]:
+    divisors: List[int] = []
+    for i in range(1, int(n**0.5) + 1):
+        if n % i == 0:
+            divisors.append(i)
+            if i != n // i:
+                divisors.append(n // i)
+    return sorted(divisors)
+```
+
+### 러스트
+
+```rust
+fn solution(n: u64) -> Vec<u64> {
+    let mut divisors = Vec::new();
+    let sqrt = (n as f64).sqrt() as u64;
+
+    for i in 1..=sqrt {
+        if n % i == 0 {
+            divisors.push(i);
+            if i != n / i {
+                divisors.push(n / i);
+            }
+        }
+    }
+
+    divisors.sort_unstable();
+    divisors
+}
+fn main() {
+    let result = solution(12);
+    println!("{:?}", result); // This will print: [1, 2, 3, 4, 6, 12]
+}
+```
+
+# Day16 문자열, 수학, 배열, 조건문
+
+## 편지
+
+머쓱이는 할머니께 생신 축하 편지를 쓰려고 합니다. 할머니가 보시기 편하도록 글자 한 자 한 자를 가로 2cm 크기로 적으려고 하며, 편지를 가로로만 적을 때, 축하 문구 message 를 적기 위해 필요한 편지지의 최소 가로길이를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(message: str) -> int:
+    return len(message) * 2
+```
+
+### 러스트
+
+```rust
+fn solution(message: &str) -> i32 {
+	(message.len() * 2) as i32
+}
+fn main() {
+    let result = "hello";
+	println!("{}",solution(result));
+}
+```
+
+## 가장 큰 수 찾기
+
+정수 배열 array 가 매개변수로 주어질 때, 가장 큰 수와 그 수의 인덱스를 담은 배열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List, Union
+
+def solution(array: List[Union[int, float]]) -> List[Union[int, float]]:
+    max_value = max(array)
+    max_index = array.index(max_value)
+    return [max_value, max_index]
+```
+
+### 러스트
+
+```rust
+fn solution(array: &[i32]) -> (i32, usize) {
+    let max_value = *array.iter().max().unwrap();
+    let max_index = array.iter().position(|&x| x == max_value).unwrap();
+    (max_value, max_index)
+}
+
+fn main() {
+    // Test case
+    let array = vec![3, 1, 4, 1, 5, 9, 2, 6, 5];
+    
+    // Call the solution function
+    let (max_value, max_index) = solution(&array);
+    
+    // Print the results
+    println!("Maximum value: {}, Index: {}", max_value, max_index);
+}
+```
+
+## 문자열 계산하기
+
+my_string 은 $3 + 5$ 처럼 문자열로 된 수식입니다. 문자열 my_string 이 매개변수로 주어질 때, 수식을 계산한 값을 return 하는 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str) -> int:
+    elements = my_string.split()
+    result = int(elements[0])
+    
+    for i in range(1, len(elements), 2):
+        operator = elements[i]
+        number = int(elements[i + 1])
+        
+        if operator == '+':
+            result += number
+        elif operator == '-':
+            result -= number
+    
+    return result
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str) -> i32 {
+    let elements: Vec<&str> = my_string.split_whitespace().collect();
+    let mut result: i32 = elements[0].parse().unwrap();
+
+    for i in (1..elements.len()).step_by(2) {
+        let operator = elements[i];
+        let number: i32 = elements[i + 1].parse().unwrap();
+
+        match operator {
+            "+" => result += number,
+            "-" => result -= number,
+            _ => panic!("Unsupported operator: {}", operator),
+        }
+    }
+
+    result
+}
+
+fn main() {
+    // Test case
+    let input = "3 + 5 - 2 + 8";
+    
+    // Call the solution function
+    let result = solution(input);
+    
+    // Print the result
+    println!("Result: {}", result);
+}
+```
+
+## 배열의 유사도
+
+두 배열이 얼마나 유사한지 확인해보려고 합니다. 문자열 배열 s1 과 s2 가 주어질 때 같은 원소의 개수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(s1: List[str], s2: List[str]) -> int:
+    count = 0
+    for item in s1:
+        if item in s2:
+            count += 1
+    return count
+```
+
+### 러스트
+
+```rust
+fn solution(s1: &[&str], s2: &[&str]) -> usize {
+    let mut count = 0;
+    
+    for &item in s1 {
+        if s2.contains(&item) {
+            count += 1;
+        }
+    }
+    
+    count
+}
+
+fn main() {
+    // Test case
+    let s1 = vec!["apple", "banana", "cherry"];
+    let s2 = vec!["banana", "kiwi", "apple", "grape"];
+    
+    // Call the solution function
+    let result = solution(&s1, &s2);
+    
+    // Print the result
+    println!("Count of common elements: {}", result);
+}
+```
+
+# Day17 문자열, 수학, 조건문, 배열, 사칙연산
+
+## 숫자 찾기
+
+정수 num 과 k 가 매개변수로 주어질 때, num 을 이루는 숫자 중에 k 가 있으면 num 의 그 숫자가 있는 자리 수를 return 하고 없으면 $-1$ 을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(num: int, k: int) -> int:
+	num_str = str(num)
+	k_str = str(k)
+	index = num_str.find(k_str)
+	if index != -1:
+		return index + 1
+	else:
+		return -1
+```
+
+### 러스트
+
+```rust
+fn solution(num: i32, k: i32) -> i32 {
+    let num_str = num.to_string();
+    let k_str = k.to_string();
+    
+    match num_str.find(&k_str) {
+        Some(index) => (index + 1) as i32,
+        None => -1,
+    }
+}
+
+fn main() {
+    let test_cases = vec![
+        (42, 2),
+        (123, 4),
+        (5678, 7)
+    ];
+
+    for (num, k) in test_cases {
+        let result = solution(num, k);
+        println!("Number: {}, Search Digit: {}, Result: {}", num, k, result);
+    }
+}
+```
+
+## n 의 배수 고르기
+
+정수 n 과 정수 배열 numlist 가 매개변수로 주어질 때, numlist 에서 n 의 배수가 아닌 수들을 제거한 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(n: int, numlist: list[int]) -> list[int]:
+    return [num for num in numlist if num % n == 0]
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32, numlist: &[i32]) -> Vec<i32> {
+    numlist.iter().cloned().filter(|&num| num % n == 0).collect()
+}
+
+fn main() {
+    let n = 3;
+    let numlist = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let result = solution(n, &numlist);
+    println!("{:?}", result);
+}
+```
+
+## 자릿수 더하기
+
+정수 n 이 매개변수로 주어질 때 n 의 각 자리 숫자의 합을 return 하도록 solution 함수를 완성해주세요
+
+### 파이썬
+
+```python
+def solution(n: int) -> int:
+    return sum(int(digit) for digit in str(n))
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32) -> i32 {
+    n.to_string()
+        .chars()
+        .map(|digit| digit.to_digit(10).unwrap() as i32)
+        .sum()
+}
+
+fn main() {
+    let n = 12345;
+    let result = solution(n);
+    println!("{}", result);
+}
+```
+
+## OX 퀴즈
+
+덧셈, 뺄셈 수식들이 $X [연산자] Y = Z$ 형태로 들어있는 문자열 배열 quiz 가 매개변수로 주어집니다. 수식이 옳다면 "O"를 틀리다면 "X"를 순서대로 담은 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(quiz: list[str]) -> list[str]:
+    result = []
+    for equation in quiz:
+        left, right = equation.split('=')
+        left = left.strip()
+        right = right.strip()
+        
+        if eval(left) == int(right):
+            result.append("O")
+        else:
+            result.append("X")
+    
+    return result
+```
+
+### 러스트
+
+```rust
+fn solution(quiz: Vec<String>) -> Vec<String> {
+    quiz.iter().map(|equation| {
+        let parts: Vec<&str> = equation.split('=').collect();
+        let left = parts[0].trim();
+        let right = parts[1].trim();
+        
+        let left_result = evaluate_expression(left);
+        let right_result: i32 = right.parse().unwrap();
+        
+        if left_result == right_result {
+            "O".to_string()
+        } else {
+            "X".to_string()
+        }
+    }).collect()
+}
+
+fn evaluate_expression(expr: &str) -> i32 {
+    let tokens: Vec<&str> = expr.split_whitespace().collect();
+    let mut result = tokens[0].parse::<i32>().unwrap();
+    
+    for i in (1..tokens.len()).step_by(2) {
+        let operator = tokens[i];
+        let operand = tokens[i+1].parse::<i32>().unwrap();
+        
+        match operator {
+            "+" => result += operand,
+            "-" => result -= operand,
+            "*" => result *= operand,
+            "/" => result /= operand,
+            _ => panic!("Unknown operator"),
+        }
+    }
+    
+    result
+}
+
+fn main() {
+    let quiz = vec![
+        "3 + 4 = 7".to_string(),
+        "5 * 6 = 30".to_string(),
+        "19 - 6 = 13".to_string(),
+    ];
+    
+    let result = solution(quiz);
+    println!("{:?}", result);
+}
+```
+
+# Day18 문자열, 수학, 조건문, 정렬
+
+## 문자열안에 문자열
+
+문자열 str1, str2 가 매개변수로 주어집니다. str1 안에 str2 가 있다면 1 을 없다면 2 를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(str1: str, str2: str) -> int:
+    return 1 if str2 in str1 else 2
+```
+
+### 러스트
+
+```rust
+fn solution(str1: &str, str2: &str) -> i32 {
+    if str1.contains(str2) {
+        1
+    } else {
+        2
+    }
+}
+
+fn main() {
+    let str1 = "Hello, world!";
+    let str2 = "world";
+    let result = solution(str1, str2);
+    println!("{}", result); // Output: 1
+}
+```
+
+## 제곱수 판별하기
+
+어떤 자연수를 제곱했을 때 나오는 정수를 제곱수라고 합니다. 정수 n 이 매개변수로 주어질 때, n 이 제곱수라면 1 을 아니라면 2 를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+import math
+
+def solution(n: int) -> int:
+    return 1 if math.isqrt(n) ** 2 == n else 2
+```
+
+### 러스트
+
+```rust
+fn solution(n: i64) -> i32 {
+    if (n as f64).sqrt().powi(2) as i64 == n {
+        1
+    } else {
+        2
+    }
+}
+
+fn main() {
+    let test_cases = 16;
+    println!("{}", solution(test_cases)); 
+}
+```
+
+## 세균증식
+
+어떤 세균은 1 시간에 두배만큼 증식한다고 합니다. 처음 세균의 마리수 n 과 경과한 시간 t 가 매개변수로 주어질 때 t 시간 후 세균의 수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(n: int, t: int) -> int:
+    return n * (2 ** t)
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32, t: i32) -> i32 {
+    n * (2_i32.pow(t as u32))
+}
+
+fn main() {
+    let n = 3;
+    let t = 2;
+    let result = solution(n, t);
+    
+    println!("Result for n = {}, t = {}: {}", n, t, result);
+}
+```
+
+## 문자열 정렬하기 (2)
+
+영어 대소문자로 이루어진 문자열 my_string 이 매개변수로 주어질 때, my_string 을 모두 소문자로 바꾸고 알파벳 순서대로 정렬한 문자열을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(my_string: str) -> str:
+    return ''.join(sorted(my_string.lower()))
+```
+
+### 러스트
+
+```rust
+fn solution(my_string: &str) -> String {
+    let mut chars: Vec<char> = my_string.to_lowercase().chars().collect();
+    chars.sort_unstable();
+    chars.into_iter().collect()
+}
+
+fn main() {
+    let result = solution("Bcad");
+    println!("Result: {}", result);
+}
+```
+
+# Day19 문자열, 배열, 조건문
+
+## 7 의 배수
+
+머쓱이는 행운의 숫자 7 을 가장 좋아합니다. 정수 배열 array 가 매개변수로 주어질 때, 7 이 총 몇 개 있는지 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(array: List[int]) -> int:
+	return str(array).count("7")
+```
+
+### 러스트
+
+```rust
+fn solution(array: &[i32]) -> usize {
+    array.iter()
+        .map(|&num| num.to_string())
+        .collect::<String>()
+        .matches('7')
+        .count()
+}
+
+fn main() {
+    let example_array = vec![7, 77, 17, 27, 70];
+    let result = solution(&example_array);
+    
+    println!("Input array: {:?}", example_array);
+    println!("Number of '7's: {}", result);
+}
+```
+
+## 잘라서 배열로 저장하기
+
+문자열 `my_str` 과 n 이 매개변수로 주어질 때, `my_str` 을 길이 n 씩 잘라서 저장한 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(my_str: str, n: int) -> List[str]:
+    answer: List[str] = []
+    for i in range(0, len(my_str), n):
+        answer.append(my_str[i:i+n])
+    return answer
+```
+
+### 러스트
+
+```rust
+fn solution(my_str: &str, n: usize) -> Vec<String> {
+    let mut answer: Vec<String> = Vec::new();
+    for i in (0..my_str.len()).step_by(n) {
+        answer.push(my_str[i..std::cmp::min(i + n, my_str.len())].to_string());
+    }
+    answer
+}
+
+fn main() {
+    let result = solution("abcdefghij", 3);
+    println!("Result: {:?}", result);
+}
+```
+
+## 중복된 숫자 개수
+
+정수가 담긴 배열 array 와 정수 n 이 매개변수로 주어질 때, array 에 n 이 몇 개 있는 지를 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(array: List[int], n: int) -> int:
+    return array.count(n)
+```
+
+### 러스트
+
+```rust
+fn solution(array: &[i32], n: i32) -> usize {
+    array.iter().filter(|&&x| x == n).count()
+}
+
+fn main() {
+    let array = vec![1, 1, 2, 3, 4, 5, 1];
+    let n = 1;
+    let result = solution(&array, n);
+    println!("Number of occurrences of {} in {:?}: {}", n, array, result);
+}
+```
+
+## 머쓱이보다 키 큰 사람
+
+머쓱이는 학교에서 키 순으로 줄을 설 때 몇 번째로 서야 하는지 궁금해졌습니다. 머쓱이네 반 친구들의 키가 담긴 정수 배열 array 와 머쓱이의 키 height 가 매개변수로 주어질 때, 머쓱이보다 키 큰 사람 수를 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(array: List[int], height: int) -> int:
+	return sum(1 for person in array if person > height)
+```
+
+### 러스트
+
+```rust
+fn solution(array: &[i32], height: i32) -> usize {
+    array.iter().filter(|&&person| person > height).count()
+}
+
+fn main() {
+    let array = vec![180, 170, 165, 175, 190, 160];
+    let height = 170;
+    let result = solution(&array, height);
+    println!("Number of people taller than {}: {}", height, result);
+}
+```
+
+# Day20 수학, 시뮬레이션, 문자열, 사칙연산
+
+## 직사각형 넓이 구하기
+
+2 차원 좌표 평면에 변이 축과 평행한 직사각형이 있습니다. 직사각형 네 꼭짓점의 좌표 $[[x1, y1], [x2, y2], [x3, y3], [x4, y4]]$ 가 담겨있는 배열 dots 가 매개변수로 주어질 때, 직사각형의 넓이를 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List, Tuple
+
+def solution(dots: List[Tuple[int, int]]) -> int:
+    x_coords = [dot[0] for dot in dots]
+    y_coords = [dot[1] for dot in dots]
+    
+    width = max(x_coords) - min(x_coords)
+    height = max(y_coords) - min(y_coords)
+    
+    return width * height
+```
+
+### 러스트
+
+```rust
+fn solution(dots: &Vec<(i32, i32)>) -> i32 {
+    let x_coords: Vec<i32> = dots.iter().map(|&(x, _)| x).collect();
+    let y_coords: Vec<i32> = dots.iter().map(|&(_, y)| y).collect();
+    
+    let width = x_coords.iter().max().unwrap() - x_coords.iter().min().unwrap();
+    let height = y_coords.iter().max().unwrap() - y_coords.iter().min().unwrap();
+    
+    width * height
+}
+
+fn main() {
+    let dots = vec![(1, 1), (2, 2), (3, 3), (4, 4)];
+    let result = solution(&dots);
+    println!("Area: {}", result);
+}
+```
+
+## 캐릭터의 좌표
+
+머쓱이는 RPG 게임을 하고 있습니다. 게임에는 up, down, left, right 방향키가 있으며 각 키를 누르면 위, 아래, 왼쪽, 오른쪽으로 한 칸씩 이동합니다. 예를 들어 ` [0,0]` 에서 up 을 누른다면 캐릭터의 좌표는 `[0, 1]`, down 을 누른다면 `[0, -1]`, left 를 누른다면 `[-1, 0]`, right 를 누른다면 `[1, 0]` 입니다. 머쓱이가 입력한 방향키의 배열 keyinput 와 맵의 크기 board 이 매개변수로 주어집니다. 캐릭터는 항상 `[0,0]` 에서 시작할 때 키 입력이 모두 끝난 뒤에 캐릭터의 좌표 `[x, y]` 를 return 하도록 solution 함수를 완성해주세요.
+
+- `[0, 0]` 은 board 의 정 중앙에 위치합니다. 예를 들어 board 의 가로 크기가 9 라면 캐릭터는 왼쪽으로 최대 ` [-4, 0]` 까지 오른쪽으로 최대 `[4, 0]` 까지 이동할 수 있습니다.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(keyinput: List[str], board: List[int]) -> List[int]:
+    x, y = 0, 0
+    max_x, max_y = board[0] // 2, board[1] // 2
+
+    for key in keyinput:
+        if key == "left" and x > -max_x:
+            x -= 1
+        elif key == "right" and x < max_x:
+            x += 1
+        elif key == "up" and y < max_y:
+            y += 1
+        elif key == "down" and y > -max_y:
+            y -= 1
+
+    return [x, y]
+```
+
+### 러스트
+
+```rust
+fn solution(keyinput: &[String], board: &[i32]) -> Vec<i32> {
+    let mut x = 0;
+    let mut y = 0;
+    let max_x = board[0] / 2;
+    let max_y = board[1] / 2;
+
+    for key in keyinput {
+        match key.as_str() {
+            "left" if x > -max_x => x -= 1,
+            "right" if x < max_x => x += 1,
+            "up" if y < max_y => y += 1,
+            "down" if y > -max_y => y -= 1,
+            _ => {}
+        }
+    }
+
+    vec![x, y]
+}
+
+fn main() {
+    let keyinput = vec![
+        "left".to_string(),
+        "right".to_string(),
+        "up".to_string(),
+        "right".to_string(),
+    ];
+    let board = vec![11, 11];
+    let result = solution(&keyinput, &board);
+    println!("Final position: {:?}", result);
+}
+```
+
+## 최댓값 만들기 (2)
+
+정수 배열 numbers 가 매개변수로 주어집니다. numbers 의 원소 중 두 개를 곱해 만들 수 있는 최댓값을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(numbers: List[int]) -> int:
+    numbers.sort()  # 리스트를 오름차순으로 정렬
+    return max(numbers[0] * numbers[1], numbers[-1] * numbers[-2])
+```
+
+### 러스트
+
+```rust
+fn solution(mut numbers: Vec<i32>) -> i32 {
+    numbers.sort();  // Sort the vector in ascending order
+    numbers[0] * numbers[1].max(numbers[numbers.len() - 1] * numbers[numbers.len() - 2])
+}
+
+fn main() {
+    let numbers = vec![1, 2, 3, 4, 5];
+    let result = solution(numbers);
+    println!("Result: {}", result);
+}
+```
+
+## 다항식 더하기
+
+한 개 이상의 항의 합으로 이루어진 식을 다항식이라고 합니다. 다항식을 계산할 때는 동류항끼리 계산해 정리합니다. 덧셈으로 이루어진 다항식 polynomial 이 매개변수로 주어질 때, 동류항끼리 더한 결괏값을 문자열로 return 하도록 solution 함수를 완성해보세요. 같은 식이라면 가장 짧은 수식을 return 합니다.
+
+### 파이썬
+
+```python
+def solution(polynomial: str) -> str:
+    x_terms: int = 0
+    constant: int = 0
+    
+    for term in polynomial.split(' + '):
+        if 'x' in term:
+            coef: str = term.replace('x', '') or '1'
+            x_terms += int(coef)
+        else:
+            constant += int(term)
+    
+    result: list[str] = []
+    if x_terms:
+        result.append(f"{x_terms if x_terms > 1 else ''}x")
+    if constant:
+        result.append(str(constant))
+    
+    return ' + '.join(result) if result else '0'
+```
+
+### 러스트
+
+```rust
+fn solution(polynomial: &str) -> String {
+    let mut x_terms = 0;
+    let mut constant = 0;
+    
+    for term in polynomial.split(" + ") {
+        if term.contains('x') {
+            let coef = term.replace('x', "");
+            x_terms += coef.parse::<i32>().unwrap_or(1);
+        } else {
+            constant += term.parse::<i32>().unwrap();
+        }
+    }
+    
+    let mut result = Vec::new();
+    if x_terms != 0 {
+        result.push(if x_terms > 1 {
+            format!("{}x", x_terms)
+        } else {
+            "x".to_string()
+        });
+    }
+    if constant != 0 {
+        result.push(constant.to_string());
+    }
+    
+    if result.is_empty() {
+        "0".to_string()
+    } else {
+        result.join(" + ")
+    }
+}
+
+fn main() {
+    let polynomial = "3x + 7 + x";
+    let result = solution(polynomial);
+    println!("Result: {}", result);
+}
+```
+
+# Day 21 문자열, 사칙연산, 시뮬레이션, 2 차원배열, 수학, 배열
+
+## 숨어있는 숫자의 덧셈 (2)
+
+문자열 my_string 이 매개변수로 주어집니다. my_string 은 소문자, 대문자, 자연수로만 구성되어있습니다. my_string 안의 자연수들의 합을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+import re
+from typing import List
+
+def solution(my_string: str) -> int:
+    numbers: List[str] = re.findall(r'\d+', my_string)
+    return sum(map(int, numbers))
+```
+
+### 러스트
+
+```rust
+use regex::Regex;
+
+fn solution(my_string: &str) -> i32 {
+    let re = Regex::new(r"\d+").unwrap();
+    re.find_iter(my_string)
+        .filter_map(|m| m.as_str().parse::<i32>().ok())
+        .sum()
+}
+
+fn main() {
+    let test_string = "aAb1B2cC34oOp";
+    let result = solution(test_string);
+    println!("Sum of numbers in '{}': {}", test_string, result);
+}
+```
+
+## 안전지대
+
+다음 처럼 지뢰가 있는 지역과 지뢰에 인접한 위, 아래, 좌, 우 대각선 칸을 모두 위험지역으로 분류합니다.
+
+```
+X | X  |  X
+X | O  |  X
+X | X  |  X
+```
+
+지뢰는 2 차원 배열 board 에 1 로 표시되어 있고 board 에는 지뢰가 매설 된 지역 1 과, 지뢰가 없는 지역 0 만 존재합니다.
+지뢰가 매설된 지역의 지도 board 가 매개변수로 주어질 때, 안전한 지역의 칸 수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List, Set, Tuple
+
+def solution(board: List[List[int]]) -> int:
+    n: int = len(board)
+    danger_zones: Set[Tuple[int, int]] = set()
+    
+    def mark_danger_zone(i: int, j: int) -> None:
+        for di in range(-1, 2):
+            for dj in range(-1, 2):
+                ni, nj = i + di, j + dj
+                if 0 <= ni < n and 0 <= nj < n:
+                    danger_zones.add((ni, nj))
+
+    for i, row in enumerate(board):
+        for j, cell in enumerate(row):
+            if cell == 1:
+                mark_danger_zone(i, j)
+    
+    return n * n - len(danger_zones)
+```
+
+### 러스트
+
+```rust
+fn solution(board: &Vec<Vec<i32>>) -> i32 {
+    let n = board.len();
+    let mut danger_zones = std::collections::HashSet::new();
+
+    fn mark_danger_zone(i: i32, j: i32, n: i32, danger_zones: &mut std::collections::HashSet<(i32, i32)>) {
+        for di in -1..=1 {
+            for dj in -1..=1 {
+                let ni = i + di;
+                let nj = j + dj;
+                if ni >= 0 && ni < n && nj >= 0 && nj < n {
+                    danger_zones.insert((ni, nj));
+                }
+            }
+        }
+    }
+
+    for (i, row) in board.iter().enumerate() {
+        for (j, &cell) in row.iter().enumerate() {
+            if cell == 1 {
+                mark_danger_zone(i as i32, j as i32, n as i32, &mut danger_zones);
+            }
+        }
+    }
+
+    (n * n - danger_zones.len()) as i32
+}
+
+fn main() {
+    let board = vec![
+        vec![0, 0, 0, 0, 0],
+        vec![0, 0, 0, 0, 0],
+        vec![0, 0, 0, 0, 0],
+        vec![0, 0, 1, 0, 0],
+        vec![0, 0, 0, 0, 0]
+    ];
+    
+    println!("Safe squares: {}", solution(&board));
+}
+```
+
+## 삼각형의 완성조건 (2)
+
+선분 세 개로 삼각형을 만들기 위해서는 다음과 같은 조건을 만족해야 합니다.
+
+- 가장 긴 변의 길이는 다른 두 변의 길이의 합보다 작아야 합니다.
+
+삼각형의 두 변의 길이가 담긴 배열 sides 이 매개변수로 주어집니다. 나머지 한 변이 될 수 있는 정수의 개수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(sides: List[int]) -> int:
+    max_side: int = max(sides)
+    min_side: int = min(sides)
+    
+    # Case 1: 주어진 두 변 중 긴 변이 가장 긴 경우
+    count1: int = max_side - (max_side - min_side)
+    
+    # Case 2: 새로운 변이 가장 긴 경우
+    count2: int = (max_side + min_side) - max_side - 1
+    
+    return count1 + count2
+```
+
+### 러스트
+
+```rust
+fn solution(sides: &[i32]) -> i32 {
+    let max_side = *sides.iter().max().unwrap();
+    let min_side = *sides.iter().min().unwrap();
+    
+    // Case 1: 주어진 두 변 중 긴 변이 가장 긴 경우
+    let count1 = max_side - (max_side - min_side);
+    
+    // Case 2: 새로운 변이 가장 긴 경우
+    let count2 = (max_side + min_side) - max_side - 1;
+    
+    count1 + count2
+}
+
+fn main() {
+    let sides = vec![1, 2];
+    println!("Result: {}", solution(&sides));
+}
+```
+
+## 외계어 사전
+
+PROGRAMMERS-962 행성에 불시착한 우주비행사 머쓱이는 외계행성의 언어를 공부하려고 합니다. 알파벳이 담긴 배열 spell 과 외계어 사전 dic 이 매개변수로 주어집니다. spell 에 담긴 알파벳을 한번씩만 모두 사용한 단어가 dic 에 존재한다면 1, 존재하지 않는다면 2 를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List, Set
+
+def solution(spell: List[str], dic: List[str]) -> int:
+    spell_set: Set[str] = set(spell)
+    
+    for word in dic:
+        if set(word) == spell_set and len(word) == len(spell):
+            return 1
+    
+    return 2
+```
+
+### 러스트
+
+```rust
+use std::collections::HashSet;
+
+fn solution(spell: &[String], dic: &[String]) -> i32 {
+    let spell_set: HashSet<char> = spell.iter().flat_map(|s| s.chars()).collect();
+    
+    for word in dic {
+        let word_set: HashSet<char> = word.chars().collect();
+        if word_set == spell_set && word.len() == spell.len() {
+            return 1;
+        }
+    }
+    
+    2
+}
+
+fn main() {
+    let spell = vec!["p".to_string(), "o".to_string(), "s".to_string()];
+    let dic = vec!["sod".to_string(), "eocd".to_string(), "qixm".to_string(), "adio".to_string(), "soo".to_string()];
+    
+    println!("Result: {}", solution(&spell, &dic));
+}
+```
+
+# Day22 dp, 수학, 조건문, 배열
+
+## 저주의 숫자 3
+
+3x 마을 사람들은 3 을 저주의 숫자라고 생각하기 때문에 3 의 배수와 숫자 3 을 사용하지 않습니다. 3x 마을 사람들의 숫자는 다음과 같습니다.
+
+| 10 진법 | 3x 마을에서 쓰는 숫자 | 10 진법 | 3x 마을에서 쓰는 숫자 |
+| ------:| ---------------------:| ------ | --------------------- |
+|      1 |                     1 | 6      | 8                     |
+|      2 |                     2 | 7      | 10                    |
+|      3 |                     4 | 8      | 11                    |
+|      4 |                     5 | 9      | 14                    |
+|      5 |                     7 | 10     | 16                    |
+
+정수 n 이 매개변수로 주어질 때, n 을 3x 마을에서 사용하는 숫자로 바꿔 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(n: int) -> int:
+    answer: int = 0
+    for i in range(n):
+        answer += 1
+        while answer % 3 == 0 or '3' in str(answer):
+            answer += 1
+    return answer
+```
+
+### 러스트
+
+```rust
+fn solution(n: i32) -> i32 {
+    let mut answer: i32 = 0;
+    for _ in 0..n {
+        answer += 1;
+        while answer % 3 == 0 || answer.to_string().contains('3') {
+            answer += 1;
+        }
+    }
+    answer
+}
+
+fn main() {
+    let n = 15;
+    let result = solution(n);
+    println!("solution({}) = {}", n, result);
+}
+```
+
+## 평행
+
+점 네 개의 좌표를 담은 이차원 배열 dots 가 다음과 같이 매개변수로 주어집니다. `[[x1, y1], [x2, y2], [x3, y3], [x4, y4]]`
+주어진 네 개의 점을 두 개씩 이었을 때, 두 직선이 평행이 되는 경우가 있으면 1 을 없으면 0 을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List, Tuple
+
+def gradient(arr1: Tuple[int, int], arr2: Tuple[int, int]) -> float:
+    """두 점 간의 기울기를 계산하는 함수"""
+    # 기울기 = (y2 - y1) / (x2 - x1)
+    return (arr2[1] - arr1[1]) / (arr2[0] - arr1[0])
+
+def solution(dots: List[Tuple[int, int]]) -> int:
+    """주어진 네 개의 점이 이루는 두 직선이 평행한지 확인하는 함수"""
+    # 첫 번째와 두 번째 점, 세 번째와 네 번째 점을 이은 직선의 기울기를 비교
+    if gradient(dots[0], dots[1]) == gradient(dots[2], dots[3]):
+        return 1
+    # 첫 번째와 세 번째 점, 두 번째와 네 번째 점을 이은 직선의 기울기를 비교
+    elif gradient(dots[0], dots[2]) == gradient(dots[1], dots[3]):
+        return 1
+    # 첫 번째와 네 번째 점, 두 번째와 세 번째 점을 이은 직선의 기울기를 비교
+    elif gradient(dots[0], dots[3]) == gradient(dots[1], dots[2]):
+        return 1
+    
+    # 어떤 경우에도 평행하지 않은 경우 0 반환
+    return 0
+```
+
+### 러스트
+
+```rust
+type Point = (i32, i32);
+
+fn gradient(arr1: &Point, arr2: &Point) -> f64 {
+    (arr2.1 - arr1.1) as f64 / (arr2.0 - arr1.0) as f64
+}
+
+fn solution(dots: &[Point]) -> i32 {
+    if gradient(&dots[0], &dots[1]) == gradient(&dots[2], &dots[3]) {
+        1
+    } else if gradient(&dots[0], &dots[2]) == gradient(&dots[1], &dots[3]) {
+        1
+    } else if gradient(&dots[0], &dots[3]) == gradient(&dots[1], &dots[2]) {
+        1
+    } else {
+        0
+    }
+}
+
+fn main() {
+    let dots = [(1, 4), (9, 2), (3, 8), (11, 6)];
+    let result = solution(&dots);
+    println!("Result: {}", result);
+}
+```
+
+## 겹치는 선분의 길이
+
+선분 3 개가 평행하게 놓여 있습니다. 세 선분의 시작과 끝 좌표가 `[[start, end], [start, end], [start, end]] ` 형태로 들어있는 2 차원 배열 lines 가 매개변수로 주어질 때, 두 개 이상의 선분이 겹치는 부분의 길이를 return 하도록 solution 함수를 완성해보세요.
+
+lines 가 `[[0, 2], [-3, -1], [-2, 1]]` 일 때 선분이 두 개 이상 겹친 곳은 `[-2, -1], [0, 1]` 로 길이 2 만큼 겹쳐있습니다.
+
+### 파이썬
+
+```python
+from typing import List, Tuple
+
+def solution(lines: List[Tuple[int, int]]) -> int:
+    # 각 좌표에 대해 겹치는 선분의 수를 기록할 리스트 초기화
+    line_counts: List[int] = [0] * 201  # -100 to 100, total 201 positions
+
+    # 각 선분에 대해 시작점부터 끝점까지 겹치는 선분의 수를 증가
+    for start, end in lines:
+        for i in range(start + 100, end + 100):  # Shift by 100 to handle negative indices
+            line_counts[i] += 1
+
+    # 겹치는 선분의 수가 2 이상인 구간의 길이를 계산
+    overlap_length: int = sum(1 for count in line_counts if count > 1)
+
+    return overlap_length
+```
+
+### 러스트
+
+```rust
+fn solution(lines: &[(i32, i32)]) -> i32 {
+    let mut line_counts = [0; 201];  // -100 to 100, total 201 positions
+
+    for &(start, end) in lines {
+        for i in start + 100..end + 100 {
+            line_counts[i as usize] += 1;
+        }
+    }
+
+    line_counts.iter().filter(|&&count| count > 1).count() as i32
+}
+
+fn main() {
+    let lines = vec![(-1, 1), (1, 3), (3, 9)];
+    let result = solution(&lines);
+    println!("Overlapping length: {}", result);
+}
+```
+
+## 유한소수 판별하기
+
+소수점 아래 숫자가 계속되지 않고 유한개인 소수를 유한소수라고 합니다. 분수를 소수로 고칠 때 유한소수로 나타낼 수 있는 분수인지 판별하려고 합니다. 유한소수가 되기 위한 분수의 조건은 다음과 같습니다.
+
+- 기약분수로 나타내었을 때, 분모의 소인수가 2 와 5 만 존재해야 합니다.
+
+두 정수 a 와 b 가 매개변수로 주어질 때, a/b 가 유한소수이면 1 을, 무한소수라면 2 를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def gcd(a: int, b: int) -> int:
+    while b:
+        a, b = b, a % b
+    return a
+
+def solution(a: int, b: int) -> int:
+    # 기약분수로 만들기
+    divisor: int = gcd(a, b)
+    b //= divisor
+    
+    # 분모의 소인수 찾기
+    while b % 2 == 0:
+        b //= 2
+    while b % 5 == 0:
+        b //= 5
+    
+    # 분모가 1이면 유한소수, 아니면 무한소수
+    return 1 if b == 1 else 2
+```
+
+### 러스트
+
+```rust
+fn gcd(mut a: i32, mut b: i32) -> i32 {
+    while b != 0 {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+    a
+}
+
+fn solution(mut a: i32, mut b: i32) -> i32 {
+    // Simplify the fraction
+    let divisor = gcd(a, b);
+    b /= divisor;
+    
+    // Find prime factors of the denominator
+    while b % 2 == 0 {
+        b /= 2;
+    }
+    while b % 5 == 0 {
+        b /= 5;
+    }
+    
+    // If denominator is 1, it's a finite decimal, otherwise infinite
+    if b == 1 { 1 } else { 2 }
+}
+
+fn main() {
+    let a = 7;
+    let b = 20;
+    let result = solution(a, b);
+    println!("Result for {}/{}: {}", a, b, result);
+}
+```
+
+# Day 23 배열, 정렬, 문자열
+
+## 특이한 정렬
+
+정수 n 을 기준으로 n 과 가까운 수부터 정렬하려고 합니다. 이때 n 으로부터의 거리가 같다면 더 큰 수를 앞에 오도록 배치합니다. 정수가 담긴 배열 numlist 와 정수 n 이 주어질 때 numlist 의 원소를 n 으로부터 가까운 순서대로 정렬한 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(numlist: List[int], n: int) -> List[int]:
+    return sorted(numlist, key=lambda x: (abs(x-n), -x))
+```
+
+### 러스트
+
+```rust
+fn solution(mut numlist: Vec<i32>, n: i32) -> Vec<i32> {
+    numlist.sort_by(|a, b| {
+        let diff_a = (a - n).abs();
+        let diff_b = (b - n).abs();
+        diff_a.cmp(&diff_b).then(b.cmp(a))
+    });
+    numlist
+}
+
+fn main() {
+    let numlist = vec![1, 2, 3, 4, 5, 6];
+    let n = 4;
+    let result = solution(numlist, n);
+    println!("Sorted list: {:?}", result);
+}
+```
+
+## 등수 매기기
+
+영어 점수와 수학 점수의 평균 점수를 기준으로 학생들의 등수를 매기려고 합니다. 영어 점수와 수학 점수를 담은 2 차원 정수 배열 score 가 주어질 때, 영어 점수와 수학 점수의 평균을 기준으로 매긴 등수를 담은 배열을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(score: List[List[int]]) -> List[int]:
+    # 평균 점수 계산
+    averages: List[float] = [sum(s) / 2 for s in score]
+    
+    # 평균 점수를 기준으로 내림차순 정렬한 리스트 생성
+    sorted_averages: List[float] = sorted(averages, reverse=True)
+    
+    # 각 점수의 등수 계산
+    ranks: List[int] = [sorted_averages.index(avg) + 1 for avg in averages]
+    
+    return ranks
+```
+
+### 러스트
+
+```rust
+fn solution(score: &Vec<Vec<i32>>) -> Vec<i32> {
+    // 평균 점수 계산
+    let averages: Vec<f64> = score.iter()
+        .map(|s| s.iter().sum::<i32>() as f64 / 2.0)
+        .collect();
+
+    // Create a sorted list of averages in descending order
+    let mut sorted_averages = averages.clone();
+    sorted_averages.sort_by(|a, b| b.partial_cmp(a).unwrap());
+
+    // Calculate ranks for each score
+    averages.iter()
+        .map(|&avg| sorted_averages.iter().position(|&x| x == avg).unwrap() as i32 + 1)
+        .collect()
+}
+
+fn main() {
+    let score = vec![vec![80, 90], vec![70, 80], vec![90, 90]];
+    let result = solution(&score);
+    println!("Ranks: {:?}", result);
+}
+```
+
+## 옹알이 (1)
+
+머쓱이는 태어난 지 6 개월 된 조카를 돌보고 있습니다. 조카는 아직 "aya", "ye", "woo", "ma" 네 가지 발음을 최대 한 번씩 사용해 조합한 (이어 붙인) 발음밖에 하지 못합니다. 문자열 배열 babbling 이 매개변수로 주어질 때, 머쓱이의 조카가 발음할 수 있는 단어의 개수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(babbling: List[str]) -> int:
+    possible: List[str] = ["aya", "ye", "woo", "ma"]
+    count: int = 0
+    
+    for word in babbling:
+        temp: str = word
+        for sound in possible:
+            if sound in temp:
+                temp = temp.replace(sound, ' ', 1)
+        if temp.strip() == '':
+            count += 1
+    
+    return count
+```
+
+### 러스트
+
+```rust
+fn solution(babbling: Vec<String>) -> i32 {
+    let possible = vec!["aya", "ye", "woo", "ma"];
+    let mut count = 0;
+
+    for word in babbling {
+        let mut temp = word.clone();
+        for sound in &possible {
+            if temp.contains(sound) {
+                temp = temp.replacen(sound, " ", 1);
+            }
+        }
+        if temp.trim().is_empty() {
+            count += 1;
+        }
+    }
+
+    count
+}
+
+fn main() {
+    let babbling = vec![
+        "aya".to_string(),
+        "yee".to_string(),
+        "u".to_string(),
+        "maa".to_string(),
+    ];
+    let result = solution(babbling);
+    println!("Count of possible words: {}", result);
+}
+```
+
+## 로그인 성공?
+
+머쓱이는 프로그래머스에 로그인하려고 합니다. 머쓱이가 입력한 아이디와 패스워드가 담긴 배열 id_pw 와 회원들의 정보가 담긴 2 차원 배열 db 가 주어질 때, 다음과 같이 로그인 성공, 실패에 따른 메시지를 return 하도록 solution 함수를 완성해주세요.
+
+- 아이디와 비밀번호가 모두 일치하는 회원정보가 있으면 "login"을 return 합니다.
+- 로그인이 실패했을 때 아이디가 일치하는 회원이 없다면 "fail"를, 아이디는 일치하지만 비밀번호가 일치하는 회원이 없다면 "wrong pw"를 return 합니다.
+
+### 파이썬
+
+```python
+from typing import List, Tuple
+
+def solution(id_pw: Tuple[str, str], db: List[Tuple[str, str]]) -> str:
+    id: str
+    pw: str
+    id, pw = id_pw
+    for db_id, db_pw in db:
+        if id == db_id:
+            if pw == db_pw:
+                return "login"
+            else:
+                return "wrong pw"
+    return "fail"
+```
+
+### 러스트
+
+```rust
+fn solution(id_pw: (String, String), db: Vec<(String, String)>) -> String {
+    let (id, pw) = id_pw;
+    for (db_id, db_pw) in db {
+        if id == db_id {
+            if pw == db_pw {
+                return "login".to_string();
+            } else {
+                return "wrong pw".to_string();
+            }
+        }
+    }
+    "fail".to_string()
+}
+
+fn main() {
+    let id_pw = ("programmer".to_string(), "111".to_string());
+    let db = vec![
+        ("programmer".to_string(), "111".to_string()),
+        ("coder".to_string(), "222".to_string()),
+    ];
+    let result = solution(id_pw, db);
+    println!("Result: {}", result);
+}
+```
+
+# Day24 수학, 시뮬레이션, 문자열, 조건문, 반복문
+
+## 치킨 쿠폰
+
+프로그래머스 치킨은 치킨을 시켜먹으면 한 마리당 쿠폰을 한 장 발급합니다. 쿠폰을 열 장 모으면 치킨을 한 마리 서비스로 받을 수 있고, 서비스 치킨에도 쿠폰이 발급됩니다. 시켜먹은 치킨의 수 chicken 이 매개변수로 주어질 때 받을 수 있는 최대 서비스 치킨의 수를 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(chicken: int) -> int:
+    service_chicken: int = 0
+    coupons: int = chicken
+
+    while coupons >= 10:
+        new_chicken: int = coupons // 10
+        service_chicken += new_chicken
+        coupons = (coupons % 10) + new_chicken
+
+    return service_chicken
+```
+
+### 러스트
+
+```rust
+fn solution(chicken: i32) -> i32 {
+    let mut service_chicken = 0;
+    let mut coupons = chicken;
+
+    while coupons >= 10 {
+        let new_chicken = coupons / 10;
+        service_chicken += new_chicken;
+        coupons = (coupons % 10) + new_chicken;
+    }
+
+    service_chicken
+}
+
+fn main() {
+    let test_input = 1081;
+    let result = solution(test_input);
+    println!("Input: {}, Result: {}", test_input, result);
+}
+```
+
+## 이진수 더하기
+
+이진수를 의미하는 두 개의 문자열 bin1 과 bin2 가 매개변수로 주어질 때, 두 이진수의 합을 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(bin1: str, bin2: str) -> str:
+    # 이진수 문자열을 10진수 정수로 변환
+    num1: int = int(bin1, 2)
+    num2: int = int(bin2, 2)
+    
+    # 두 수를 더함
+    sum_num: int = num1 + num2
+    
+    # 결과를 다시 이진수 문자열로 변환
+    return bin(sum_num)[2:]
+```
+
+### 러스트
+
+```rust
+fn solution(bin1: &str, bin2: &str) -> String {
+    // 이진수 문자열을 10진수 정수로 변환
+    let num1 = u32::from_str_radix(bin1, 2).unwrap();
+    let num2 = u32::from_str_radix(bin2, 2).unwrap();
+    
+    // 두 수를 더함
+    let sum_num = num1 + num2;
+    
+    // 결과를 다시 이진수 문자열로 변환
+    format!("{:b}", sum_num)
+}
+
+fn main() {
+    // Test case
+    let bin1 = "1001";
+    let bin2 = "1111";
+    
+    let result = solution(bin1, bin2);
+    
+    println!("Binary 1: {}", bin1);
+    println!("Binary 2: {}", bin2);
+    println!("Sum (binary): {}", result);
+}
+```
+
+## A 로 B 만들기
+
+문자열 before 와 after 가 매개변수로 주어질 때, before 의 순서를 바꾸어 after 를 만들 수 있으면 1 을, 만들 수 없으면 0 을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(before: str, after: str) -> int:
+    return 1 if sorted(before) == sorted(after) else 0
+```
+
+### 러스트
+
+```rust
+fn solution(bin1: &str, bin2: &str) -> String {
+    // 이진수 문자열을 10진수 정수로 변환
+    let num1 = u32::from_str_radix(bin1, 2).unwrap();
+    let num2 = u32::from_str_radix(bin2, 2).unwrap();
+    
+    // 두 수를 더함
+    let sum_num = num1 + num2;
+    
+    // 결과를 다시 이진수 문자열로 변환
+    format!("{:b}", sum_num)
+}
+
+fn main() {
+    // Test case
+    let bin1 = "1001";
+    let bin2 = "1111";
+    
+    let result = solution(bin1, bin2);
+    
+    println!("Binary 1: {}", bin1);
+    println!("Binary 2: {}", bin2);
+    println!("Sum (binary): {}", result);
+}
+```
+
+## k 의 개수
+
+1 부터 13 까지의 수에서, 1 은 1, 10, 11, 12, 13 이렇게 총 6 번 등장합니다. 정수 i, j, k 가 매개변수로 주어질 때, i 부터 j 까지 k 가 몇 번 등장하는지 return 하도록 solution 함수를 완성해주세요.
+
+### 파이썬
+
+```python
+def solution(i: int, j: int, k: int) -> int:
+    count = 0
+    for num in range(i, j + 1):
+        count += str(num).count(str(k))
+    return count
+```
+
+### 러스트
+
+```rust
+fn solution(i: i32, j: i32, k: i32) -> i32 {
+    let mut count = 0;
+    for num in i..=j {
+        count += num.to_string().chars().filter(|&c| c == k.to_string().chars().next().unwrap()).count() as i32;
+    }
+    count
+}
+
+fn main() {
+    // Simple test
+    let result = solution(1, 13, 1);
+    println!("Result: {}", result);
+}
+```
+
+# Day25 시뮬레이션, 조건문, 수학
+
+## 문자열 밀기
+
+문자열 "hello"에서 각 문자를 오른쪽으로 한 칸씩 밀고 마지막 문자는 맨 앞으로 이동시키면 "ohell"이 됩니다. 이것을 문자열을 민다고 정의한다면 문자열 A 와 B 가 매개변수로 주어질 때, A 를 밀어서 B 가 될 수 있다면 밀어야 하는 최소 횟수를 return 하고 밀어서 B 가 될 수 없으면 -1 을 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+def solution(A: str, B: str) -> int:
+    if A == B:
+        return 0
+    
+    for i in range(1, len(A)):
+        if A[-i:] + A[:-i] == B:
+            return i
+    
+    return -1
+```
+
+### 러스트
+
+```rust
+fn solution(a: &str, b: &str) -> i32 {
+    if a == b {
+        return 0;
+    }
+    
+    for i in 1..a.len() {
+        if format!("{}{}", &a[a.len()-i..], &a[..a.len()-i]) == b {
+            return i as i32;
+        }
+    }
+    
+    -1
+}
+
+fn main() {
+	let result = solution("hello", "ollo");
+	println!("solution = {}", result);
+}
+```
+
+## 종이 자르기
+
+머쓱이는 큰 종이를 1 x 1 크기로 자르려고 합니다. 예를 들어 2 x 2 크기의 종이를 1 x 1 크기로 자르려면 최소 가위질 세 번이 필요합니다.
+
+### 파이썬
+
+```python
+def solution(M: int, N: int) -> int:
+    return M * N - 1 if M * N > 0 else 0
+```
+
+### 러스트
+
+```rust
+fn solution(m: i32, n: i32) -> i32 {
+    if m * n > 0 {
+        m * n - 1
+    } else {
+        0
+    }
+}
+
+fn main() {
+	let result = solution(3, 4);
+	println!("solution = {}", result);
+}
+```
+
+## 연속된 수의 합
+
+연속된 세 개의 정수를 더해 12 가 되는 경우는 3, 4, 5 입니다. 두 정수 num 과 total 이 주어집니다. 연속된 수 num 개를 더한 값이 total 이 될 때, 정수 배열을 오름차순으로 담아 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(num: int, total: int) -> List[int]:
+    # 연속된 수의 시작값 계산
+    start = (total - sum(range(num))) // num
+    
+    # 시작값부터 num개의 연속된 수 리스트 생성
+    return list(range(start, start + num))
+```
+
+### 러스트
+
+```rust
+fn solution(num: i32, total: i32) -> Vec<i32> {
+    let start = (total - (0..num).sum::<i32>()) / num;
+    (start..start + num).collect()
+}
+
+fn main() {
+    let num = 3;
+    let total = 12;
+    let result = solution(num, total);
+    println!("solution({}, {}) = {:?}", num, total, result);
+}
+```
+
+## 다음에 올 숫자
+
+등차수열 혹은 등비수열 common 이 매개변수로 주어질 때, 마지막 원소 다음으로 올 숫자를 return 하도록 solution 함수를 완성해보세요.
+
+### 파이썬
+
+```python
+from typing import List
+
+def solution(common: List[int]) -> int:
+    if common[1] - common[0] == common[2] - common[1]:
+        # 등차수열인 경우
+        diff = common[1] - common[0]
+        return common[-1] + diff
+    else:
+        # 등비수열인 경우
+        ratio = common[1] / common[0]
+        return int(common[-1] * ratio)
+```
+
+### 러스트
+
+```rust
+fn solution(common: Vec<i32>) -> i32 {
+    if common[1] - common[0] == common[2] - common[1] {
+        // Arithmetic sequence
+        let diff = common[1] - common[0];
+        common[common.len() - 1] + diff
+    } else {
+        // Geometric sequence
+        let ratio = common[1] as f64 / common[0] as f64;
+        (common[common.len() - 1] as f64 * ratio).round() as i32
+    }
+}
+
+fn main() {
+    let sequence = vec![1, 2, 3, 4];
+    let result = solution(sequence);
+    println!("Next number in the sequence: {}", result);
+}
+```
+
+# 마치며
+
+이 글에서 파이썬과 러스트 두 언어로 다양한 문제 해결 방법을 살펴보았습니다. 두 언어를 서로 비교하면서 각각의 특성과 장단점을 이해하는 데 도움이 되었을 것입니다. 중요한 것은 포기하지 않고 꾸준히 공부하는 자세입니다. 어려움을 극복하고 문제를 해결해 나가는 과정에서 실력이 향상될 것입니다. 코딩테스트는 개발자로서의 논리적 사고력과 문제 해결 능력을 키우는 좋은 기회라는 점을 잊지 마세요. 여러분의 노력이 반드시 결실을 맺기를 바랍니다!
