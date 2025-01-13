@@ -194,7 +194,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div style="padding-bottom: 30px;">
     <a href="https://substack.com/@tomorrowlab">
     <img alt="Static Badge" src="https://img.shields.io/badge/EHOTTL%40substack_-FF6719?link=https%3A%2F%2Fsubstack.com%2F%40tomorrowlab">
-</a>
+</a><a href="https://pixi.sh"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json" alt="Pixi Badge"></a>
     <script async="" src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script>
 </div>
 </div></div>
@@ -246,7 +246,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 8, 2025</p>
+      <p class="date-modified">January 13, 2025</p>
     </div>
   </div>
     
@@ -312,66 +312,65 @@ GSM7290772_SC10_38T_matrix.mtx.gz    GSM7290785_SC216_7_matrix.mtx.gz</code></pr
 <p>골치가 벌써 아파지네요. 그래도 파일명에 일정한 패턴이 있기에 아래 파이썬 코드를 사용해 갹갹의 <code>adata</code> 객체를 만들어서 합치면 될 것 같습니다.</p>
 <div id="cell-2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> anndata <span class="im">as</span> ad</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> anndata <span class="im">as</span> ad</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.io <span class="im">import</span> mmread</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> csr_matrix</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Any, Optional</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_mtx_file(file_path: <span class="bu">str</span>) <span class="op">-&gt;</span> csr_matrix:</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mmread(file_path).transpose().tocsr()</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_tsv_file(file_path: <span class="bu">str</span>, header: Optional[<span class="bu">int</span>] <span class="op">=</span> <span class="va">None</span>, names: Optional[List[<span class="bu">str</span>]] <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.read_csv(file_path, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span>header, names<span class="op">=</span>names)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_anndata(X: csr_matrix, obs_names: List[<span class="bu">str</span>], var_names: np.ndarray, var_gene_ids: np.ndarray, code_name: <span class="bu">str</span>) <span class="op">-&gt;</span> ad.AnnData:</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    adata <span class="op">=</span> ad.AnnData(X<span class="op">=</span>X)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    adata.obs_names <span class="op">=</span> obs_names</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    adata.var_names <span class="op">=</span> var_names</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    adata.var[<span class="st">"gene_ids"</span>] <span class="op">=</span> var_gene_ids</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    adata.obs[<span class="st">'Code_name'</span>] <span class="op">=</span> code_name</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adata</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_sample(data_dir: <span class="bu">str</span>, sample_name: <span class="bu">str</span>) <span class="op">-&gt;</span> Optional[ad.AnnData]:</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    matrix_file <span class="op">=</span> os.path.join(data_dir, <span class="ss">f"</span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">_matrix.mtx.gz"</span>)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    features_file <span class="op">=</span> os.path.join(data_dir, <span class="ss">f"</span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">_features.tsv.gz"</span>)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    barcodes_file <span class="op">=</span> os.path.join(data_dir, <span class="ss">f"</span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">_barcodes.tsv.gz"</span>)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    code_name <span class="op">=</span> sample_name.split(<span class="st">"_"</span>)[<span class="dv">0</span>]</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(os.path.exists(f) <span class="cf">for</span> f <span class="kw">in</span> [matrix_file, features_file, barcodes_file]):</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Missing files for </span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> load_mtx_file(matrix_file)</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        gene_names <span class="op">=</span> load_tsv_file(features_file, names<span class="op">=</span>[<span class="st">"gene_ids"</span>, <span class="st">"gene_symbols"</span>, <span class="st">"Gene_expression"</span>])</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        barcodes <span class="op">=</span> load_tsv_file(barcodes_file, names<span class="op">=</span>[<span class="st">"barcode"</span>])</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        obs_names <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>code_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> b <span class="kw">in</span> barcodes[<span class="st">"barcode"</span>]]</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        var_names <span class="op">=</span> gene_names[<span class="st">"gene_symbols"</span>].values</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        var_gene_ids <span class="op">=</span> gene_names[<span class="st">"gene_ids"</span>].values</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        adata <span class="op">=</span> create_anndata(X, obs_names, var_names, var_gene_ids, code_name)</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Successfully read </span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> adata</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error reading </span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>data_dir: <span class="bu">str</span> <span class="op">=</span> <span class="st">"../input/GSE231559"</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>adatas: List[ad.AnnData] <span class="op">=</span> []</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> os.listdir(data_dir):</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">file</span>.endswith(<span class="st">"_matrix.mtx.gz"</span>):</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>        sample_name: <span class="bu">str</span> <span class="op">=</span> <span class="bu">file</span>.replace(<span class="st">"_matrix.mtx.gz"</span>, <span class="st">""</span>)</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>        adata: Optional[ad.AnnData] <span class="op">=</span> process_sample(data_dir, sample_name)</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> adata <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>            adatas.append(adata)</span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total number of processed samples: </span><span class="sc">{</span><span class="bu">len</span>(adatas)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_mtx_file(file_path: <span class="bu">str</span>) <span class="op">-&gt;</span> csr_matrix:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mmread(file_path).transpose().tocsr()</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_tsv_file(file_path: <span class="bu">str</span>, header: <span class="bu">int</span> <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>, names: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.read_csv(file_path, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span>header, names<span class="op">=</span>names)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_anndata(X: csr_matrix, obs_names: <span class="bu">list</span>[<span class="bu">str</span>], var_names: np.ndarray, var_gene_ids: np.ndarray, code_name: <span class="bu">str</span>) <span class="op">-&gt;</span> ad.AnnData:</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    adata <span class="op">=</span> ad.AnnData(X<span class="op">=</span>X)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    adata.obs_names <span class="op">=</span> obs_names</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    adata.var_names <span class="op">=</span> var_names</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    adata.var[<span class="st">"gene_ids"</span>] <span class="op">=</span> var_gene_ids</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    adata.obs[<span class="st">'Code_name'</span>] <span class="op">=</span> code_name</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adata</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_sample(data_dir: <span class="bu">str</span>, sample_name: <span class="bu">str</span>) <span class="op">-&gt;</span> ad.AnnData <span class="op">|</span> <span class="va">None</span>:</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    matrix_file <span class="op">=</span> os.path.join(data_dir, <span class="ss">f"</span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">_matrix.mtx.gz"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    features_file <span class="op">=</span> os.path.join(data_dir, <span class="ss">f"</span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">_features.tsv.gz"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    barcodes_file <span class="op">=</span> os.path.join(data_dir, <span class="ss">f"</span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">_barcodes.tsv.gz"</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    code_name <span class="op">=</span> sample_name.split(<span class="st">"_"</span>)[<span class="dv">0</span>]</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(os.path.exists(f) <span class="cf">for</span> f <span class="kw">in</span> [matrix_file, features_file, barcodes_file]):</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Missing files for </span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> load_mtx_file(matrix_file)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        gene_names <span class="op">=</span> load_tsv_file(features_file, names<span class="op">=</span>[<span class="st">"gene_ids"</span>, <span class="st">"gene_symbols"</span>, <span class="st">"Gene_expression"</span>])</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        barcodes <span class="op">=</span> load_tsv_file(barcodes_file, names<span class="op">=</span>[<span class="st">"barcode"</span>])</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        obs_names <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>code_name<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> b <span class="kw">in</span> barcodes[<span class="st">"barcode"</span>]]</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        var_names <span class="op">=</span> gene_names[<span class="st">"gene_symbols"</span>].values</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        var_gene_ids <span class="op">=</span> gene_names[<span class="st">"gene_ids"</span>].values</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        adata <span class="op">=</span> create_anndata(X, obs_names, var_names, var_gene_ids, code_name)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Successfully read </span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> adata</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error reading </span><span class="sc">{</span>sample_name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>data_dir: <span class="bu">str</span> <span class="op">=</span> <span class="st">"../input/GSE231559"</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>adatas: <span class="bu">list</span>[ad.AnnData] <span class="op">=</span> []</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> os.listdir(data_dir):</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">file</span>.endswith(<span class="st">"_matrix.mtx.gz"</span>):</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        sample_name: <span class="bu">str</span> <span class="op">=</span> <span class="bu">file</span>.replace(<span class="st">"_matrix.mtx.gz"</span>, <span class="st">""</span>)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>        adata: ad.AnnData <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> process_sample(data_dir, sample_name)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> adata <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>            adatas.append(adata)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total number of processed samples: </span><span class="sc">{</span><span class="bu">len</span>(adatas)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Successfully read GSM7290779_SC173_2
 Successfully read GSM7290775_SC10_8
@@ -490,12 +489,12 @@ Total number of processed samples: 26</code></pre>
 <p>이제 여러 데이터를 하나의 객체로 합쳐보겠습니다. 추가로 메타 데이터를 찾아서 맵핑을 통해 환자 정보와 질병 정보를 추가합니다.</p>
 <div id="cell-7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_var_names_unique(adatas: List[ad.AnnData]) <span class="op">-&gt;</span> List[ad.AnnData]:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_var_names_unique(adatas: <span class="bu">list</span>[ad.AnnData]) <span class="op">-&gt;</span> <span class="bu">list</span>[ad.AnnData]:</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> adata <span class="kw">in</span> adatas:</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        adata.var_names_make_unique()</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adatas</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge_anndata(adatas: List[ad.AnnData]) <span class="op">-&gt;</span> ad.AnnData:</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge_anndata(adatas: <span class="bu">list</span>[ad.AnnData]) <span class="op">-&gt;</span> ad.AnnData:</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    adata_merged <span class="op">=</span> ad.concat(adatas, join<span class="op">=</span><span class="st">'outer'</span>, axis<span class="op">=</span><span class="dv">0</span>, index_unique<span class="op">=</span><span class="st">"-"</span>)</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    all_var <span class="op">=</span> pd.concat([adata.var <span class="cf">for</span> adata <span class="kw">in</span> adatas], axis<span class="op">=</span><span class="dv">0</span>, join<span class="op">=</span><span class="st">"outer"</span>)</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    all_var <span class="op">=</span> all_var.loc[<span class="op">~</span>all_var.index.duplicated(keep<span class="op">=</span><span class="st">'first'</span>)]</span>
@@ -503,7 +502,7 @@ Total number of processed samples: 26</code></pre>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    adata_merged.obs[<span class="st">'Code_name'</span>] <span class="op">=</span> np.concatenate([np.repeat(adata.obs[<span class="st">'Code_name'</span>].iloc[<span class="dv">0</span>], adata.n_obs) <span class="cf">for</span> adata <span class="kw">in</span> adatas])</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adata_merged</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_sample_dict() <span class="op">-&gt;</span> Dict[<span class="bu">str</span>, <span class="bu">str</span>]:</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_sample_dict() <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]:</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290760"</span>: <span class="st">"L1_N"</span>, <span class="st">"GSM7290761"</span>: <span class="st">"L1_T"</span>, <span class="st">"GSM7290762"</span>: <span class="st">"C1_N"</span>,</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290763"</span>: <span class="st">"C1_T"</span>, <span class="st">"GSM7290764"</span>: <span class="st">"L2_N"</span>, <span class="st">"GSM7290765"</span>: <span class="st">"L3_N"</span>,</span>
@@ -516,7 +515,7 @@ Total number of processed samples: 26</code></pre>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290784"</span>: <span class="st">"L11_N"</span>, <span class="st">"GSM7290785"</span>: <span class="st">"L12_T"</span></span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> map_code_to_sample(code: <span class="bu">str</span>, sample_dict: Dict[<span class="bu">str</span>, <span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> map_code_to_sample(code: <span class="bu">str</span>, sample_dict: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sample_dict.get(code, <span class="va">None</span>)</span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_metadata() <span class="op">-&gt;</span> pd.DataFrame:</span>
