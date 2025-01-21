@@ -76,8 +76,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-522971af95d0e085e01a2f9638043ec8.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-d6580b36af8345b149954aa0ebf8b540.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-5d805fd313b734e3b464cdf2bd00452d.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-f8dfb63af90f10badb3f1f1cfc06bc69.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-380ce5cf48b80dcad6a036939cda27a2.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -251,7 +251,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 18, 2025</p>
+      <p class="date-modified">January 21, 2025</p>
     </div>
   </div>
     
@@ -277,24 +277,22 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <h2 data-number="2.1" class="anchored" data-anchor-id="초기-설정-1"><span class="header-section-number">2.1</span> 초기 설정</h2>
 <p>먼저, 필요한 상수와 한글 폰트를 설정합니다. 서울의 GPS 좌표를 기반으로 데이터를 가져오며, 한글 폰트를 설정해 그래프에서 한글이 깨지지 않도록 합니다.</p>
 <div id="8a8ba9e4-83e7-4a58-81f1-37da6d9128b6" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Tuple</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.font_manager <span class="im">as</span> fm</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> calplot</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteostat <span class="im">import</span> Stations, Daily, Point</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Constants</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>NAME: <span class="bu">str</span> <span class="op">=</span> <span class="st">"서울"</span>  <span class="co"># 지역 이름</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>GPS: Tuple[<span class="bu">float</span>, <span class="bu">float</span>] <span class="op">=</span> (<span class="fl">37.5667</span>, <span class="fl">126.9667</span>)  <span class="co"># GPS 좌표</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>START: datetime <span class="op">=</span> datetime(<span class="dv">2020</span>, <span class="dv">1</span>, <span class="dv">1</span>)  <span class="co"># 조회 시작</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>END: datetime <span class="op">=</span> datetime(<span class="dv">2024</span>, <span class="dv">12</span>, <span class="dv">31</span>)  <span class="co"># 조회 끝</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 한글 폰트 설정</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.family'</span>] <span class="op">=</span> <span class="st">'Pretendard Variable'</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'axes.unicode_minus'</span>] <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> calplot</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteostat <span class="im">import</span> Daily, Point, Stations</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Constants</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>NAME: <span class="bu">str</span> <span class="op">=</span> <span class="st">"서울"</span>  <span class="co"># 지역 이름</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>GPS: <span class="bu">tuple</span>[<span class="bu">float</span>, <span class="bu">float</span>] <span class="op">=</span> (<span class="fl">37.5667</span>, <span class="fl">126.9667</span>)  <span class="co"># GPS 좌표</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>START: datetime <span class="op">=</span> datetime(<span class="dv">2020</span>, <span class="dv">1</span>, <span class="dv">1</span>)  <span class="co"># 조회 시작</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>END: datetime <span class="op">=</span> datetime(<span class="dv">2024</span>, <span class="dv">12</span>, <span class="dv">31</span>)  <span class="co"># 조회 끝</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 한글 폰트 설정</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.family'</span>] <span class="op">=</span> <span class="st">'Pretendard Variable'</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'axes.unicode_minus'</span>] <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -462,8 +460,8 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>calplot을 사용해 연도별 평균 기온을 캘린더 형태로 시각화합니다. 색상 맵은 coolwarm으로 설정해 표현합니다.</p>
 <div id="061c73c4" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(weather_data[<span class="st">'tavg'</span>], </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'coolwarm'</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(weather_data[<span class="st">'tavg'</span>],</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'coolwarm'</span>,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                yearascending<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                yearlabel_kws<span class="op">=</span>{<span class="st">'fontsize'</span>: <span class="dv">16</span>},</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                suptitle<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 평균 기온'</span>,</span>
@@ -484,8 +482,8 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>일반적으로 일교차는 봄과 가을이 심하다고 알고있는데 실제로 그런지 확인해보겠습니다. 일교차 데이터를 캘린더 플롯으로 표현하고 색상 맵은 YlGn으로 설정해 녹색 계열로 변화를 나타냅니다.</p>
 <div id="e17a18d3" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(weather_data[<span class="st">'diurnal_range'</span>], </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'YlGn'</span>, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(weather_data[<span class="st">'diurnal_range'</span>],</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'YlGn'</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                yearascending<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                yearlabel_kws<span class="op">=</span>{<span class="st">'fontsize'</span>: <span class="dv">16</span>},</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                suptitle<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 일교차'</span>,</span>
