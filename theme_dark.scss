@@ -1,192 +1,150 @@
 /*-- scss:defaults --*/
-// write all your Sass variables underneath this.
-
-// Import fonts
+// Fonts
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
-// @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
-// Colors
-$base: #eff1f5;
-$text: #4c4f69;
-$text-hover: var(--text);
-$text-muted: #6c6f85;
-$modal-bg-color: #e6e9ef;
-$modal-header-color: #dce0e8;
-$modal-footer-color: #dce0e8;
-$drop-down-menu-bg: #ccd0da;
-$button-color: #ccd0da;
-$button-color-hover: #bcc0cc;
-$button-text: var(--text);
-$button-text-hover: var(--text-hover);
-$accent-color: #89b4f9;
-/* Mocha Blue */
-$accent-color-hover: #1e66f5;
-$link-color: #1e66f5;
-$link-color-hover: #1e66f5;
-$label-text-color: #fff;
-$overlay0: #9ca0b0;
-$crust: #dce0e8;
-$pink: #ea76cb;
-$mauve: #8839ef;
-$red: #d20f39;
-$green: #40a02b;
-$blue: #1e66f5;
-$lavender: #1e66f5;
-$mantle: #e6e9ef;
-
-// Base document colors
-$body-color: #cdd6f4; // page text
-$navbar-bg: #181825; // navbar
-$navbar-fg: #f38ba8; // navbar foreground elements
-$navbar-hl: #eba0ac; // highlight color when hovering over navbar links
-$body-bg: #1e1e2e; // page background
-//$footer-bg: $cream; // footer
-$link-color: #74c7ec; // hyperlinks
-
-// Inline code
-$code-bg: #45475a; // inline code background color
-$code-color: #cba6f7; // inline code text color
-
-// Code blocks
-$code-block-bg: #45475a; // code block background color
-$code-text: #bcc0cc;
-$code-block-bg-alpha: -0.8;
-// font size
-$nav-font-size: 2rem;
-$h1-font-size: 2rem !default;
-$h2-font-size: 1.9rem !default;
-$h3-font-size: 1.7rem !default;
-$h4-font-size: 1.5em !default;
-$h5-font-size: 1.3em !default;
-$h6-font-size: 1.1em !default;
-$figure-caption-font-size: 0.8em !important;
-$headings-font-weight: 600 !default;
+// Font settings
 $font-family-sans-serif: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif, !default;
-$font-family-monospace: "JetBrains Mono", monospace; // "Fira Code"
-// $body-color: black !default;
+$font-family-monospace: "JetBrains Mono", monospace;
+$font-size-root: 16px;
+$toc-font-size: 0.9em;
+$h1-font-size: 2.25rem !default;
+$h2-font-size: 2rem !default;
+$h3-font-size: 1.75rem !default;
+$h4-font-size: 1.5rem !default;
+$h5-font-size: 1.25rem !default;
+$figure-caption-font-size: 0.9em !default;
+$headings-font-weight: 600 !default;
 
-/*-- scss:rules --*/
+// Nord theme colors
+$nord0: #2e3440;
+$nord1: #3b4252;
+$nord2: #434c5e;
+$nord3: #4c566a;
+$nord4: #d8dee9;
+$nord5: #e5e9f0;
+$nord6: #eceff4;
+$nord7: #8fbcbb;
+$nord8: #88c0d0;
+$nord9: #81a1c1;
+$nord10: #5e81ac;
+$nord11: #bf616a;
+$nord12: #d08770;
+$nord13: #ebcb8b;
+$nord14: #a3be8c;
+$nord15: #b48ead;
+
+$theme-colors: (
+  "primary":    $nord10,
+  "secondary":  $nord3,
+  "success":    $nord14,
+  "info":       $nord8,
+  "warning":    $nord13,
+  "danger":     $nord11,
+  "light":      $nord6,
+  "dark":       $nord0
+);
+
+// Colors
+$body-bg: $nord0;
+$body-color: $nord6;
+$link-color: $nord8;
+$input-bg: $nord1;
+$popover-bg: $nord2;
+
+// Code Blocks
+$code-block-border-left: $nord9;
+$code-block-border-left-style: solid;
+$code-block-border-left-size: 3px;
+$code-block-padding-left: 0.6em;
+$code-block-bg: $nord1;
+$code-block-bg-padding: 0.4em;
+$code-block-bg-alpha: -0.35;
+$code-annotation-higlight-color: $nord8;
+$code-annotation-higlight-bg: rgba($nord8, 0.2);
+$btn-code-copy-color: $nord4;
+$btn-code-copy-color-active: $nord6;
+$code-bg: mix($nord1, $nord2, 80%);
+$code-color: $nord4;
+
+// Table of Contents
+$toc-color: $nord4;
+$toc-font-size: 0.8em;
+$toc-active-border: $nord8;
+$toc-inactive-border: $nord3;
+
+// Layout
+$content-padding-top: 2rem;
+
+// Navigation
+$navbar-bg: $nord1;
+$navbar-fg: $nord6;
+$navbar-hl: $nord8;
+
+$sidebar-bg: $nord1;
+$sidebar-fg: $nord6;
+$sidebar-hl: $nord8;
+
+$footer-bg: $nord1;
+$footer-fg: $nord6;
+
+// Callouts
+$callout-border-width: 4px;
+$callout-border-scale: -10%;
+$callout-icon-scale: 0%;
+$callout-margin-top: 1rem;
+$callout-margin-bottom: 1rem;
+
+$callout-color-note: $nord10;
+$callout-color-tip: $nord14;
+$callout-color-caution: $nord13;
+$callout-color-warning: $nord12;
+$callout-color-important: $nord11;
+
+// Pagination
+$pagination-color: $nord8;
+$pagination-bg: $nord1;
+$pagination-border-color: $nord3;
+
+$pagination-focus-color: $nord8;
+$pagination-focus-bg: $nord2;
+
+$pagination-hover-color: $nord8;
+$pagination-hover-bg: $nord2;
+$pagination-hover-border-color: $nord3;
+
+$pagination-active-color: $nord1;
+$pagination-active-bg: $nord8;
+$pagination-active-border-color: $nord8;
+
+$pagination-disabled-color: $nord4;
+$pagination-disabled-bg: $nord1;
+$pagination-disabled-border-color: $nord3;
+
+// Additional styles
+// 타이틀
 .navbar-title {
-  font-size: $nav-font-size;
-  font-weight: 600;
-  // color: black; //dark mode에서 작동 안함
-  transform : rotate(0.04deg); 
+  font-size: $h1-font-size;
+  font-weight: 700;
 }
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: $font-family-sans-serif;
-  font-weight: 400;
-  //text-shadow: -1px -1px 0 rgba(0, 0, 0, .3);
-}
-
-.listing-description {
-  font-size: 0.8em;
-}
-
-ul,
-li,
-ol {
-  font-family: $font-family-sans-serif;
-  // font-size: 0.9em;
-  font-weight: 400;
-}
-
-p,
-fig-caption {
-  font-family: $font-family-sans-serif;
-  // font-size: 1em;
-  font-weight: 400;
-}
-
-div,
-listing {
-  font-family: $font-family-sans-serif;
-  // font-size: 0.9em;
-  font-weight: 400;
-}
-
-table {
-  font-family: $font-family-sans-serif;
-  font-size: 0.9em;
-  font-weight: 400;
-}
-
+// 카테고리
 .category {
-  font-family: $font-family-sans-serif;
-  font-size: 0.8em;
-  font-weight: 400;
-}
-
-.sourceCode {
-  font-family: $font-family-monospace;
-  font-size: 0.9em;
-  font-variant-numeric: tabular-nums;
-}
-
-code {
-  font-family: $font-family-monospace;
-  font-size: 0.9em;
-  font-variant-numeric: tabular-nums;
-}
-
-pre code {
-  font-size: 0.9em;
-  color: $code-text;
-}
-
-.cell-output-display {
-  font-size: 0.9em;
-}
-
-.math.display {
-  font-family: $font-family-monospace;
-  font-size: 1em;
-  font-variant-numeric: tabular-nums;
-}
-
-.math.inline {
-  font-size: 1em !important;
-}
-
-.math.display .MathJax {
-  font-size: 1em !important;
-  color: $code-text;
-}
-
-.pagination>li>a {
-  background-color: $body-bg;
-  color: $body-color;
   font-size: 0.8em;
 }
-
-// .pagination>li>a:focus,
-// .pagination>li>a:hover,
-// .pagination>li>span:focus,
-// .pagination>li>span:hover {
-//   color: $text;
-//   background-color: $body-bg;
-//   // border-color: $body-bg;
-//   border: solid 1px $text !Important;
-// }
-
-.pagination>.active>a {
-  color: $body-bg;
-  background-color: $text !Important;
-  border: solid 1px $text !Important;
+// 태그
+div.quarto-post .listing-categories .listing-category {
+  background-color: $nord2;
+  color: $nord6 !important;
 }
-
-ul.pagination li {
-  padding-right: .5em;
+// code filename coloring
+pre {
+  font-size: 0.8em;
+  color: $body-color !important;
 }
-
-.input-group > span > i{
-  color: $body-bg;
+.code-with-filename .code-with-filename-file {
+   background-color: $code-block-bg !important;
+   border: none !important;
 }
-
-// #listing-pagination > ul > li.page-item.active
+.input-group-text {
+  color: $body-bg !important;
+}

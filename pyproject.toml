@@ -1,67 +1,51 @@
-# ref: https://beta.ruff.rs/docs/rules/
+[project]
+name = "tomorrow-lab-github-io"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+
 [tool.ruff]
-
-# defaults to 88 like black
-line-length = 100  
-
-# the python version to target, useful when considering code upgrades, defaults to "py310"
-target-version = "py311"  
-
-# Linting file type
+line-length = 100
+target-version = "py311"
 include = ["*.py", "*.ipynb"]
 
-# Extend the `pyproject.toml` file in the parent directory.
-#extend = "../pyproject.toml"
-
-lint.select = [
-  "E",   # pycodestyle
-  "F",   # pyflakes
-  "UP",  # pyupgrade,
-  "I",   # isort
-  # "B",
-  "C4",
-  # "N",
-  "W",
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
   "UP",
+  "I",
+  "C4",
+  "W",
 ]
-
-lint.ignore = [
+ignore = [
   "F403",
   "F405",
-  "E501", # line length violations
-  "E402", 
-  "W605", # Invalid escape sequence
-  "F811", # Redefinition of unused
-  "F821", # Undefined name
-  ]
+  "E501",
+  "E402",
+  "W605",
+  "F811",
+  "F821",
+]
+fixable = ["A", "B", "C", "D", "E", "F", "I", "UP"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
-# Allow autofix for all enabled rules (when `--fix`) is provided.
-lint.fixable = ["A", "B", "C", "D", "E", "F", "I", "UP"]
-lint.unfixable = []
-
-# Allow unused variables when underscore-prefixed.
-lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-
-[per-file-ignores]
-# Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["E402"]
 ".pixi/*" = ["E"]
-per-file-ignores = {}
+".venv/*" = ["E"]
 
 [tool.ruff.lint.mccabe]
-# Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
-
-[project]
-name = "tomorrow-lab blog"
-version = "0.1.0"
 
 [tool.pixi.project]
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64"]
 
 [tool.pixi.tasks]
-# start = "quarto publish gh-pages"
+start = "quarto publish gh-pages"
 preview = "quarto preview"
 fix = "ruff check --fix ."
 
