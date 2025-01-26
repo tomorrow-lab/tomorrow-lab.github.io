@@ -76,8 +76,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-522971af95d0e085e01a2f9638043ec8.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-9677ae12f295ff20ac372f273d4f6fa4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-380ce5cf48b80dcad6a036939cda27a2.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-020ee4570c11eef0a92474a195712a2f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-abda6c126a20cebe0a4db33490456ef2.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -189,12 +192,16 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
-<div style="padding-bottom: 30px;">
+<div style="padding-top: 15px; padding-bottom: 15px;">
     <a href="https://substack.com/@tomorrowlab">
-    <img alt="Static Badge" src="https://img.shields.io/badge/EHOTTL%40substack_-FF6719?link=https%3A%2F%2Fsubstack.com%2F%40tomorrowlab">
-</a><a href="https://pixi.sh"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json" alt="Pixi Badge"></a>
-    <script async="" src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script>
+        <img alt="Static Badge" src="https://img.shields.io/badge/EHOTTL%40substack_-FF6719?link=https%3A%2F%2Fsubstack.com%2F%40tomorrowlab">
+    </a>
+    <!-- <a href="https://pixi.sh">
+        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json" alt="Pixi Badge">
+    </a> -->
+    <!-- <script async src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script> -->
 </div>
+
 </div></div>
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
@@ -263,7 +270,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 21, 2025</p>
+      <p class="date-modified">January 26, 2025</p>
     </div>
   </div>
     
@@ -276,7 +283,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="logo_scanpy.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+<p><a href="logo_scanpy.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="logo_scanpy.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></a></p>
 </figure>
 </div>
 <p>공간 전사체 분석은 종양 연구에서 매우 중요한데 종양 미세환경 내의 세포들(종양 세포, 면역세포, 혈관세포 등)과 그들의 상호작용을 이해하는 데 도움이 되기 때문입니다. 특히 공간에서 일어나는 유전자 발현 패턴이 특정 치료제나 면역 치료에 대한 반응성을 예측할 수 있다고 믿어지기 때문에 더욱 더 중요해지고 있습니다. 이번 글에서는 공간 전사체(이하 Visium)데이터와 scRNA-seq 데이터를 결합하는 방법을 위주로 살펴보겠습니다.</p>
@@ -390,7 +397,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-4-output-1.png" width="896" height="452" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="scanpy_workshop_07_files/figure-html/cell-4-output-1.png" width="896" height="452" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -411,7 +418,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-5-output-2.png" width="390" height="326" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-5-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="scanpy_workshop_07_files/figure-html/cell-5-output-2.png" width="390" height="326" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -421,7 +428,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-5-output-4.png" width="395" height="326" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-5-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="scanpy_workshop_07_files/figure-html/cell-5-output-4.png" width="395" height="326" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -460,7 +467,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-7-output-2.png" width="388" height="320" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-7-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="scanpy_workshop_07_files/figure-html/cell-7-output-2.png" width="388" height="320" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -470,7 +477,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-7-output-4.png" width="394" height="320" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-7-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="scanpy_workshop_07_files/figure-html/cell-7-output-4.png" width="394" height="320" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -485,7 +492,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-8-output-1.png" width="303" height="293" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="scanpy_workshop_07_files/figure-html/cell-8-output-1.png" width="303" height="293" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -548,7 +555,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-11-output-2.png" width="374" height="169" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-11-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="scanpy_workshop_07_files/figure-html/cell-11-output-2.png" width="374" height="169" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -558,7 +565,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-11-output-4.png" width="389" height="168" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-11-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="scanpy_workshop_07_files/figure-html/cell-11-output-4.png" width="389" height="168" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -585,7 +592,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-13-output-1.png" width="453" height="209" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="scanpy_workshop_07_files/figure-html/cell-13-output-1.png" width="453" height="209" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -619,7 +626,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-14-output-1.png" width="466" height="237" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="scanpy_workshop_07_files/figure-html/cell-14-output-1.png" width="466" height="237" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -700,7 +707,7 @@ Processing datasets (0, 1)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-17-output-1.png" width="546" height="256" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-17-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="scanpy_workshop_07_files/figure-html/cell-17-output-1.png" width="546" height="256" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -735,7 +742,7 @@ Processing datasets (0, 1)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-18-output-1.png" width="466" height="237" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-18-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="scanpy_workshop_07_files/figure-html/cell-18-output-1.png" width="466" height="237" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -755,7 +762,7 @@ Processing datasets (0, 1)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-19-output-1.png" width="250" height="339" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-19-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="scanpy_workshop_07_files/figure-html/cell-19-output-1.png" width="250" height="339" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -774,7 +781,7 @@ Processing datasets (0, 1)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-20-output-2.png" width="572" height="168" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-20-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="scanpy_workshop_07_files/figure-html/cell-20-output-2.png" width="572" height="168" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -784,7 +791,7 @@ Processing datasets (0, 1)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-20-output-4.png" width="561" height="165" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-20-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="scanpy_workshop_07_files/figure-html/cell-20-output-4.png" width="561" height="165" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1304,7 +1311,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-25-output-1.png" width="245" height="253" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-25-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="scanpy_workshop_07_files/figure-html/cell-25-output-1.png" width="245" height="253" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1370,7 +1377,7 @@ Name: count, dtype: int64</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-27-output-1.png" width="546" height="256" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-27-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="scanpy_workshop_07_files/figure-html/cell-27-output-1.png" width="546" height="256" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1406,7 +1413,7 @@ Name: count, dtype: int64</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-28-output-1.png" width="276" height="141" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-28-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="scanpy_workshop_07_files/figure-html/cell-28-output-1.png" width="276" height="141" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1441,7 +1448,7 @@ Name: count, dtype: int64</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-29-output-1.png" width="991" height="540" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-29-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="scanpy_workshop_07_files/figure-html/cell-29-output-1.png" width="991" height="540" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1495,7 +1502,7 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-30-output-5.png" width="174" height="190" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-30-output-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="scanpy_workshop_07_files/figure-html/cell-30-output-5.png" width="174" height="190" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1540,7 +1547,7 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-31-output-5.png" width="207" height="185" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-31-output-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="scanpy_workshop_07_files/figure-html/cell-31-output-5.png" width="207" height="185" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1567,7 +1574,7 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-32-output-1.png" width="678" height="614" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-32-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="scanpy_workshop_07_files/figure-html/cell-32-output-1.png" width="678" height="614" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1585,7 +1592,7 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-33-output-1.png" width="1216" height="256" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-33-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="scanpy_workshop_07_files/figure-html/cell-33-output-1.png" width="1216" height="256" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1628,7 +1635,7 @@ Note
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="scanpy_workshop_07_files/figure-html/cell-34-output-1.png" width="218" height="298" class="figure-img"></p>
+<p><a href="scanpy_workshop_07_files/figure-html/cell-34-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="scanpy_workshop_07_files/figure-html/cell-34-output-1.png" width="218" height="298" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1874,57 +1881,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
-  }
-  const viewSource = window.document.getElementById('quarto-view-source') ||
-                     window.document.getElementById('quarto-code-tools-source');
-  if (viewSource) {
-    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-    viewSource.addEventListener("click", function(e) {
-      if (sourceUrl) {
-        // rstudio viewer pane
-        if (/\bcapabilities=\b/.test(window.location)) {
-          window.open(sourceUrl);
-        } else {
-          window.location.href = sourceUrl;
-        }
-      } else {
-        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-        modal.show();
-      }
-      return false;
-    });
-  }
-  function toggleCodeHandler(show) {
-    return function(e) {
-      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-      for (let i=0; i<detailsSrc.length; i++) {
-        const details = detailsSrc[i].parentElement;
-        if (show) {
-          details.open = true;
-        } else {
-          details.removeAttribute("open");
-        }
-      }
-      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-      const fromCls = show ? "hidden" : "unhidden";
-      const toCls = show ? "unhidden" : "hidden";
-      for (let i=0; i<cellCodeDivs.length; i++) {
-        const codeDiv = cellCodeDivs[i];
-        if (codeDiv.classList.contains(fromCls)) {
-          codeDiv.classList.remove(fromCls);
-          codeDiv.classList.add(toCls);
-        } 
-      }
-      return false;
-    }
-  }
-  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-  if (hideAllCode) {
-    hideAllCode.addEventListener("click", toggleCodeHandler(false));
-  }
-  const showAllCode = window.document.getElementById("quarto-show-all-code");
-  if (showAllCode) {
-    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -2269,6 +2225,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
