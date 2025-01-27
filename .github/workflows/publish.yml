@@ -5,7 +5,7 @@ on:
 
 name: Quarto Publish
 
-# you need these permissions to publish to GitHub pages
+# GitHub 페이지에 게시하려면 이러한 권한이 필요
 permissions:
     contents: write
     pages: write
@@ -23,64 +23,37 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # with:
-          # To install LaTeX to build PDF book
+          # PDF 책을 빌드하기 위해 LaTeX를 설치
           # tinytex: true
-          # uncomment below and fill to pin a version
+          # 특정 버전을 지정하려면 아래 주석을 해제
           # version: SPECIFIC-QUARTO-VERSION-HERE
-      # add software dependencies here and any libraries
-      - name: Install Quarto Extensions
-        run: |
-          quarto add quarto-ext/lightbox
-          quarto add quarto-ext/fontawesome
-          quarto add quarto-ext/fancy-text
+      # 소프트웨어 의존성과 라이브러리를 추가
+        # run: |
+        #   quarto add --trusted quarto-ext/fontawesome
+        #   quarto add --trusted quarto-ext/fancy-text
 
-      # From https://github.com/actions/setup-python
+      # https://github.com/actions/setup-python 에서 가져옴
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-          cache: 'pip' # caching pip dependencies
+          python-version: '3.x' # 사용할 Python 버전의 범위 또는 정확한 버전
+          cache: 'pip' # pip 의존성 캐싱으로 속도 높임
       - run: pip install jupyter
 
-      # From https://github.com/r-lib/actions/tree/v2-branch/setup-r
+      # https://github.com/r-lib/actions/tree/v2-branch/setup-r 에서 가져옴
       # - name: Setup R
       #   uses: r-lib/actions/setup-r@v2
 
-      # From https://github.com/julia-actions/setup-julia
+      # https://github.com/julia-actions/setup-julia 에서 가져옴
       # - name: Setup Julia
       #   uses: julia-actions/setup-julia@v1
 
-      # See more at https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md
+      # 더 자세한 내용은 https://github.com/quarto-dev/quarto-actions/blob/main/examples/example-03-dependencies.md 참조
 
-      # To publish to Netlify, RStudio Connect, or GitHub Pages, uncomment
-      # the appropriate block below
-
-      # - name: Publish to Netlify (and render)
-      #   uses: quarto-dev/quarto-actions/publish@v2
-      #   with:
-      #     target: netlify
-      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-
-      # - name: Publish to RStudio Connect (and render)
-      #   uses: quarto-dev/quarto-actions/publish@v2
-      #   with:
-      #     target: connect
-      #     CONNECT_SERVER: enter-the-server-url-here
-      #     CONNECT_API_KEY: ${{ secrets.CONNECT_API_KEY }}
-
-      # NOTE: If Publishing to GitHub Pages, set the permissions correctly (see top of this yaml)
+      # 참고: GitHub Pages에 게시하는 경우
       - name: Publish to GitHub Pages (and render)
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
-
-      # - name: Publish to confluence
-      #   uses: quarto-dev/quarto-actions/publish@v2
-      #   with:
-      #     target: confluence
-      #   env:
-      #     CONFLUENCE_USER_EMAIL: ${{ secrets.CONFLUENCE_USER_EMAIL }}
-      #     CONFLUENCE_AUTH_TOKEN: ${{ secrets.CONFLUENCE_AUTH_TOKEN }}
-      #     CONFLUENCE_DOMAIN: ${{ secrets.CONFLUENCE_DOMAIN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 이 시크릿은 github actions에서 항상 사용 가능

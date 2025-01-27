@@ -7,9 +7,9 @@ date: "2025-01-11"
 date-modified: last-modified
 ---
 
-![](Codingtest.png){width=100% fig-align="center"}
+![](Codingtest_beginer.png){width=100% fig-align="center"}
 
-코딩테스트 입문 테스트의 출처는 https://school.programmers.co.kr 입니다. 
+코딩테스트 입문 테스트의 출처는 https://school.programmers.co.kr 입니다.
 
 # Day1 사칙연산
 
@@ -112,7 +112,7 @@ fn solution(num1: i32, num2: i32) -> i32 {
 fn main() {
     let num1 = 20;
     let num2 = 4;
-    
+
     // Ensure num2 is not zero to avoid division by zero error
     if num2 != 0 {
         let result = solution(num1, num2);
@@ -282,7 +282,7 @@ fn solution(numbers: Vec<i32>) -> Vec<i32> {
 fn main() {
     let numbers = vec![1, 2, 3, 4, 5]; // Example input
     let doubled_numbers = solution(numbers);
-    
+
     println!("Doubled numbers: {:?}", doubled_numbers);
 }
 ```
@@ -347,7 +347,7 @@ fn solution(array: Vec<i32>) -> i32 {
 fn main() {
     let array = vec![3, 1, 4, 1, 5, 9, 2]; // Example input
     let median = solution(array);
-    
+
     println!("The median is {}", median);
 }
 ```
@@ -365,10 +365,10 @@ def solution(array: List[int]) -> int:
     count = {}
     for num in array:
         count[num] = count.get(num, 0) + 1
-    
+
     max_count = max(count.values())
     mode = [num for num, freq in count.items() if freq == max_count]
-    
+
     return mode[0] if len(mode) == 1 else -1
 ```
 
@@ -387,7 +387,7 @@ fn solution(array: Vec<i32>) -> i32 {
 
     // Find the maximum frequency
     let max_count = *count.values().max().unwrap_or(&0);
-    
+
     // Collect numbers that have the maximum frequency
     let mode: Vec<i32> = count.iter()
         .filter(|&(_, &freq)| freq == max_count)
@@ -405,7 +405,7 @@ fn solution(array: Vec<i32>) -> i32 {
 fn main() {
     let array = vec![1, 2, 2, 3, 3, 4]; // Example input
     let result = solution(array);
-    
+
     println!("The mode is {}", result);
 }
 ```
@@ -433,7 +433,7 @@ fn solution(n: i32) -> Vec<i32> {
 fn main() {
     let n = 10; // Example input
     let odd_numbers = solution(n);
-    
+
     println!("Odd numbers from 1 to {}: {:?}", n, odd_numbers);
 }
 ```
@@ -575,7 +575,7 @@ def solution(price: int) -> int:
 		price *= 0.9
 	elif price >= 100000:
 		price *= 0.95
-	return int(price)	
+	return int(price)
 ```
 
 ### 러스트
@@ -728,13 +728,13 @@ use std::io::stdin;
 
 fn main() {
     let mut input = String::new();
-    
+
     // Read input from the user
     stdin().read_line(&mut input).expect("Failed to read line");
-    
+
     // Parse input to an integer
     let n: usize = input.trim().parse().expect("Please enter a valid number");
-    
+
     // Generate and print the star pattern
     for i in 1..=n {
         println!("{}", "*".repeat(i));
@@ -967,7 +967,7 @@ fn main() {
 def solution(age: int) -> str:
     # 숫자를 알파벳으로 매핑하는 딕셔너리 생성
     age_map = {str(i): chr(97 + i) for i in range(10)}
-    
+
     # age를 문자열로 변환하고 각 숫자를 해당하는 알파벳으로 변환
     return ''.join(age_map[digit] for digit in str(age))
 ```
@@ -978,7 +978,7 @@ def solution(age: int) -> str:
 fn solution(age: u32) -> String {
     // 숫자를 알파벳으로 매핑하는 배열 생성
     let age_map: [char; 10] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-    
+
     // age를 문자열로 변환하고 각 숫자를 해당하는 알파벳으로 변환
     age.to_string()
         .chars()
@@ -1004,14 +1004,14 @@ from typing import List
 def solution(emergency: List[int]) -> List[int]:
     # 응급도와 인덱스를 함께 저장한 리스트 생성
     sorted_emergency = sorted([(e, i) for i, e in enumerate(emergency)], reverse=True)
-    
+
     # 결과 리스트 초기화
     result = [0] * len(emergency)
-    
+
     # 정렬된 리스트를 순회하며 순서 할당
     for rank, (_, index) in enumerate(sorted_emergency, 1):
         result[index] = rank
-    
+
     return result
 ```
 
@@ -1025,18 +1025,18 @@ fn solution(emergency: Vec<i32>) -> Vec<i32> {
         .enumerate()
         .map(|(i, &e)| (e, i))
         .collect();
-    
+
     // 응급도를 기준으로 내림차순 정렬
     sorted_emergency.sort_by(|a, b| b.cmp(&a));
-    
+
     // 결과 벡터 초기화
     let mut result = vec![0; emergency.len()];
-    
+
     // 정렬된 벡터를 순회하며 순서 할당
     for (rank, &(_, index)) in sorted_emergency.iter().enumerate() {
         result[index] = (rank + 1) as i32;
     }
-    
+
     result
 }
 
@@ -1103,14 +1103,14 @@ def solution(hp: int) -> int:
     # 장군개미의 수를 계산
     general_ants = hp // 5
     hp %= 5
-    
+
     # 병정개미의 수를 계산
     soldier_ants = hp // 3
     hp %= 3
-    
+
     # 일개미의 수를 계산
     worker_ants = hp // 1
-    
+
     # 총 개미 수 반환
     return general_ants + soldier_ants + worker_ants
 ```
@@ -1122,14 +1122,14 @@ fn solution(mut hp: i32) -> i32 {
     // 장군개미의 수를 계산
     let general_ants = hp / 5;
     hp %= 5;
-    
+
     // 병정개미의 수를 계산
     let soldier_ants = hp / 3;
     hp %= 3;
-    
+
     // 일개미의 수를 계산
     let worker_ants = hp;
-    
+
     // 총 개미 수 반환
     general_ants + soldier_ants + worker_ants
 }
@@ -1151,20 +1151,20 @@ fn main() {
 
 ```python
 def solution(letter: int) -> str:
-    morse = { 
+    morse = {
         '.-':'a','-...':'b','-.-.':'c','-..':'d','.':'e','..-.':'f',
         '--.':'g','....':'h','..':'i','.---':'j','-.-':'k','.-..':'l',
         '--':'m','-.':'n','---':'o','.--.':'p','--.-':'q','.-.':'r',
         '...':'s','-':'t','..-':'u','...-':'v','.--':'w','-..-':'x',
         '-.--':'y','--..':'z'
     }
-    
+
     # 공백을 기준으로 모스 부호를 분리
     morse_codes = letter.split()
-    
+
     # 각 모스 부호를 해당하는 알파벳으로 변환
     decoded = [morse[code] for code in morse_codes]
-    
+
     # 변환된 알파벳들을 하나의 문자열로 결합
     return ''.join(decoded)
 ```
@@ -1214,7 +1214,7 @@ fn main() {
 def solution(rsp: int) -> int:
     # 가위(2)는 바위(0)에게 지고, 바위(0)는 보(5)에게 지고, 보(5)는 가위(2)에게 집니다.
     win_map = {'2': '0', '0': '5', '5': '2'}
-    
+
     # 각 문자에 대해 이기는 경우를 매핑하여 새로운 문자열 생성
     return ''.join(win_map[char] for char in rsp)
 ```
@@ -1263,12 +1263,12 @@ def solution(balls: int, share: int) -> Union[int, float]:
     numerator: int = 1
     for i in range(balls, balls - share, -1):
         numerator *= i
-    
+
     # 분모 계산
     denominator: int = 1
     for i in range(1, share + 1):
         denominator *= i
-    
+
     # 결과 반환
     return numerator // denominator
 ```
@@ -1282,13 +1282,13 @@ fn solution(balls: u64, share: u64) -> u64 {
     for i in (balls - share + 1..=balls).rev() {
         numerator *= i;
     }
-    
+
     // 분모 계산
     let mut denominator: u64 = 1;
     for i in 1..=share {
         denominator *= i;
     }
-    
+
     // 결과 반환
     numerator / denominator
 }
@@ -1296,7 +1296,7 @@ fn solution(balls: u64, share: u64) -> u64 {
 fn main() {
     // 테스트
     let test_cases = [(5, 3), (3, 2), (10, 5)];
-    
+
     for (balls, share) in test_cases.iter() {
         let result = solution(*balls, *share);
         println!("Balls: {}, Share: {} -> Result: {}", balls, share, result);
@@ -1323,7 +1323,7 @@ from typing import List
 
 def solution(dot: List[int]) -> int:
     x, y = dot
-    
+
     if x > 0 and y > 0:
         return 1
     elif x < 0 and y > 0:
@@ -1339,7 +1339,7 @@ def solution(dot: List[int]) -> int:
 ```rust
 fn solution(dot: &[i32]) -> i32 {
     let (x, y) = (dot[0], dot[1]);
-    
+
     if x > 0 && y > 0 {
         1
     } else if x < 0 && y > 0 {
@@ -1409,7 +1409,7 @@ fn main() {
     let k = 3;
     let result = solution(&numbers, k);
     println!("Result: {}", result);
-} 
+}
 ```
 
 ## 배열 회전시키기
@@ -1439,7 +1439,7 @@ enum Direction {
 
 fn solution(numbers: &[i32], direction: Direction) -> Vec<i32> {
     let mut result = Vec::with_capacity(numbers.len());
-    
+
     match direction {
         Direction::Right => {
             if let Some(&last) = numbers.last() {
@@ -1454,7 +1454,7 @@ fn solution(numbers: &[i32], direction: Direction) -> Vec<i32> {
             }
         },
     }
-    
+
     result
 }
 
@@ -1462,7 +1462,7 @@ fn main() {
     let numbers = vec![1, 2, 3];
     let right_result = solution(&numbers, Direction::Right);
     let left_result = solution(&numbers, Direction::Left);
-    
+
     println!("Right rotation: {:?}", right_result);
     println!("Left rotation: {:?}", left_result);
 }
@@ -1653,7 +1653,7 @@ fn solution(my_string: &str) -> Vec<i32> {
         .chars()
         .filter_map(|c| c.to_digit(10).map(|d| d as i32))
         .collect();
-    
+
     digits.sort();
     digits
 }
@@ -1705,17 +1705,17 @@ from typing import List
 def solution(n: int) -> List[int]:
     factors = []
     divisor = 2
-    
+
     while divisor * divisor <= n:
         if n % divisor == 0:
             factors.append(divisor)
             n //= divisor
         else:
             divisor += 1
-    
+
     if n > 1:
         factors.append(n)
-    
+
     return sorted(set(factors))
 ```
 
@@ -1780,7 +1780,7 @@ def solution(s: str) -> int:
 ```rust
 fn solution(s: &str) -> i32 {
     let mut stack: Vec<i32> = Vec::new();
-    
+
     for item in s.split_whitespace() {
         if item == "Z" {
             if !stack.is_empty() {
@@ -1792,7 +1792,7 @@ fn solution(s: &str) -> i32 {
             }
         }
     }
-    
+
     stack.iter().sum()
 }
 
@@ -1825,9 +1825,9 @@ fn solution(strlist: &[String]) -> Vec<usize> {
 
 fn main() {
     let input = vec![
-        String::from("We"), 
-        String::from("are"), 
-        String::from("the"), 
+        String::from("We"),
+        String::from("are"),
+        String::from("the"),
         String::from("world!")
     ];
     let result = solution(&input);
@@ -1912,7 +1912,7 @@ def solution(array: List[int], n: int) -> int:
     array.sort()  # Sort the array in ascending order
     closest: int = array[0]  # Initialize closest number with the first element
     min_diff: int = abs(n - array[0])  # Initialize minimum difference
-    
+
     for num in array:
         diff: int = abs(n - num)
         if diff < min_diff:
@@ -1920,7 +1920,7 @@ def solution(array: List[int], n: int) -> int:
             closest = num
         elif diff == min_diff and num < closest:
             closest = num
-    
+
     return closest
 ```
 
@@ -1931,7 +1931,7 @@ fn solution(mut array: Vec<i32>, n: i32) -> i32 {
     array.sort_unstable();  // Sort the array in ascending order
     let mut closest = array[0];  // Initialize closest number with the first element
     let mut min_diff = (n - array[0]).abs();  // Initialize minimum difference
-    
+
     for &num in &array {
         let diff = (n - num).abs();
         if diff < min_diff {
@@ -1941,7 +1941,7 @@ fn solution(mut array: Vec<i32>, n: i32) -> i32 {
             closest = num;
         }
     }
-    
+
     closest
 }
 
@@ -2063,10 +2063,10 @@ def solution(numbers: str) -> int:
         'zero': '0', 'one': '1', 'two': '2', 'three': '3', 'four': '4',
         'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'
     }
-    
+
     for word, digit in num_dict.items():
         numbers = numbers.replace(word, digit)
-    
+
     return int(numbers)
 ```
 
@@ -2135,10 +2135,10 @@ from typing import List
 def solution(s: str) -> str:
     # Count the occurrences of each character
     char_counts: Counter[str] = Counter(s)
-    
+
     # Filter characters that appear only once and sort them
     unique_chars: List[str] = sorted([char for char, count in char_counts.items() if count == 1])
-    
+
     # Join the characters into a string
     return ''.join(unique_chars)
 ```
@@ -2154,17 +2154,17 @@ fn solution(s: &str) -> String {
     for c in s.chars() {
         *char_counts.entry(c).or_insert(0) += 1;
     }
-    
+
     // Filter characters that appear only once and sort them
     let mut unique_chars: Vec<char> = char_counts
         .into_iter()
         .filter(|&(_, count)| count == 1)
         .map(|(char, _)| char)
         .collect();
-    
+
     // Sort the unique characters
     unique_chars.sort_unstable();
-    
+
     // Join the characters into a string
     unique_chars.into_iter().collect()
 }
@@ -2274,10 +2274,10 @@ fn solution(array: &[i32]) -> (i32, usize) {
 fn main() {
     // Test case
     let array = vec![3, 1, 4, 1, 5, 9, 2, 6, 5];
-    
+
     // Call the solution function
     let (max_value, max_index) = solution(&array);
-    
+
     // Print the results
     println!("Maximum value: {}, Index: {}", max_value, max_index);
 }
@@ -2293,16 +2293,16 @@ my_string 은 $3 + 5$ 처럼 문자열로 된 수식입니다. 문자열 my_stri
 def solution(my_string: str) -> int:
     elements = my_string.split()
     result = int(elements[0])
-    
+
     for i in range(1, len(elements), 2):
         operator = elements[i]
         number = int(elements[i + 1])
-        
+
         if operator == '+':
             result += number
         elif operator == '-':
             result -= number
-    
+
     return result
 ```
 
@@ -2330,10 +2330,10 @@ fn solution(my_string: &str) -> i32 {
 fn main() {
     // Test case
     let input = "3 + 5 - 2 + 8";
-    
+
     // Call the solution function
     let result = solution(input);
-    
+
     // Print the result
     println!("Result: {}", result);
 }
@@ -2361,13 +2361,13 @@ def solution(s1: List[str], s2: List[str]) -> int:
 ```rust
 fn solution(s1: &[&str], s2: &[&str]) -> usize {
     let mut count = 0;
-    
+
     for &item in s1 {
         if s2.contains(&item) {
             count += 1;
         }
     }
-    
+
     count
 }
 
@@ -2375,10 +2375,10 @@ fn main() {
     // Test case
     let s1 = vec!["apple", "banana", "cherry"];
     let s2 = vec!["banana", "kiwi", "apple", "grape"];
-    
+
     // Call the solution function
     let result = solution(&s1, &s2);
-    
+
     // Print the result
     println!("Count of common elements: {}", result);
 }
@@ -2409,7 +2409,7 @@ def solution(num: int, k: int) -> int:
 fn solution(num: i32, k: i32) -> i32 {
     let num_str = num.to_string();
     let k_str = k.to_string();
-    
+
     match num_str.find(&k_str) {
         Some(index) => (index + 1) as i32,
         None => -1,
@@ -2497,12 +2497,12 @@ def solution(quiz: list[str]) -> list[str]:
         left, right = equation.split('=')
         left = left.strip()
         right = right.strip()
-        
+
         if eval(left) == int(right):
             result.append("O")
         else:
             result.append("X")
-    
+
     return result
 ```
 
@@ -2514,10 +2514,10 @@ fn solution(quiz: Vec<String>) -> Vec<String> {
         let parts: Vec<&str> = equation.split('=').collect();
         let left = parts[0].trim();
         let right = parts[1].trim();
-        
+
         let left_result = evaluate_expression(left);
         let right_result: i32 = right.parse().unwrap();
-        
+
         if left_result == right_result {
             "O".to_string()
         } else {
@@ -2529,11 +2529,11 @@ fn solution(quiz: Vec<String>) -> Vec<String> {
 fn evaluate_expression(expr: &str) -> i32 {
     let tokens: Vec<&str> = expr.split_whitespace().collect();
     let mut result = tokens[0].parse::<i32>().unwrap();
-    
+
     for i in (1..tokens.len()).step_by(2) {
         let operator = tokens[i];
         let operand = tokens[i+1].parse::<i32>().unwrap();
-        
+
         match operator {
             "+" => result += operand,
             "-" => result -= operand,
@@ -2542,7 +2542,7 @@ fn evaluate_expression(expr: &str) -> i32 {
             _ => panic!("Unknown operator"),
         }
     }
-    
+
     result
 }
 
@@ -2552,7 +2552,7 @@ fn main() {
         "5 * 6 = 30".to_string(),
         "19 - 6 = 13".to_string(),
     ];
-    
+
     let result = solution(quiz);
     println!("{:?}", result);
 }
@@ -2616,7 +2616,7 @@ fn solution(n: i64) -> i32 {
 
 fn main() {
     let test_cases = 16;
-    println!("{}", solution(test_cases)); 
+    println!("{}", solution(test_cases));
 }
 ```
 
@@ -2642,7 +2642,7 @@ fn main() {
     let n = 3;
     let t = 2;
     let result = solution(n, t);
-    
+
     println!("Result for n = {}, t = {}: {}", n, t, result);
 }
 ```
@@ -2702,7 +2702,7 @@ fn solution(array: &[i32]) -> usize {
 fn main() {
     let example_array = vec![7, 77, 17, 27, 70];
     let result = solution(&example_array);
-    
+
     println!("Input array: {:?}", example_array);
     println!("Number of '7's: {}", result);
 }
@@ -2811,10 +2811,10 @@ from typing import List, Tuple
 def solution(dots: List[Tuple[int, int]]) -> int:
     x_coords = [dot[0] for dot in dots]
     y_coords = [dot[1] for dot in dots]
-    
+
     width = max(x_coords) - min(x_coords)
     height = max(y_coords) - min(y_coords)
-    
+
     return width * height
 ```
 
@@ -2824,10 +2824,10 @@ def solution(dots: List[Tuple[int, int]]) -> int:
 fn solution(dots: &Vec<(i32, i32)>) -> i32 {
     let x_coords: Vec<i32> = dots.iter().map(|&(x, _)| x).collect();
     let y_coords: Vec<i32> = dots.iter().map(|&(_, y)| y).collect();
-    
+
     let width = x_coords.iter().max().unwrap() - x_coords.iter().min().unwrap();
     let height = y_coords.iter().max().unwrap() - y_coords.iter().min().unwrap();
-    
+
     width * height
 }
 
@@ -2940,20 +2940,20 @@ fn main() {
 def solution(polynomial: str) -> str:
     x_terms: int = 0
     constant: int = 0
-    
+
     for term in polynomial.split(' + '):
         if 'x' in term:
             coef: str = term.replace('x', '') or '1'
             x_terms += int(coef)
         else:
             constant += int(term)
-    
+
     result: list[str] = []
     if x_terms:
         result.append(f"{x_terms if x_terms > 1 else ''}x")
     if constant:
         result.append(str(constant))
-    
+
     return ' + '.join(result) if result else '0'
 ```
 
@@ -2963,7 +2963,7 @@ def solution(polynomial: str) -> str:
 fn solution(polynomial: &str) -> String {
     let mut x_terms = 0;
     let mut constant = 0;
-    
+
     for term in polynomial.split(" + ") {
         if term.contains('x') {
             let coef = term.replace('x', "");
@@ -2972,7 +2972,7 @@ fn solution(polynomial: &str) -> String {
             constant += term.parse::<i32>().unwrap();
         }
     }
-    
+
     let mut result = Vec::new();
     if x_terms != 0 {
         result.push(if x_terms > 1 {
@@ -2984,7 +2984,7 @@ fn solution(polynomial: &str) -> String {
     if constant != 0 {
         result.push(constant.to_string());
     }
-    
+
     if result.is_empty() {
         "0".to_string()
     } else {
@@ -3056,7 +3056,7 @@ from typing import List, Set, Tuple
 def solution(board: List[List[int]]) -> int:
     n: int = len(board)
     danger_zones: Set[Tuple[int, int]] = set()
-    
+
     def mark_danger_zone(i: int, j: int) -> None:
         for di in range(-1, 2):
             for dj in range(-1, 2):
@@ -3068,7 +3068,7 @@ def solution(board: List[List[int]]) -> int:
         for j, cell in enumerate(row):
             if cell == 1:
                 mark_danger_zone(i, j)
-    
+
     return n * n - len(danger_zones)
 ```
 
@@ -3110,7 +3110,7 @@ fn main() {
         vec![0, 0, 1, 0, 0],
         vec![0, 0, 0, 0, 0]
     ];
-    
+
     println!("Safe squares: {}", solution(&board));
 }
 ```
@@ -3131,13 +3131,13 @@ from typing import List
 def solution(sides: List[int]) -> int:
     max_side: int = max(sides)
     min_side: int = min(sides)
-    
+
     # Case 1: 주어진 두 변 중 긴 변이 가장 긴 경우
     count1: int = max_side - (max_side - min_side)
-    
+
     # Case 2: 새로운 변이 가장 긴 경우
     count2: int = (max_side + min_side) - max_side - 1
-    
+
     return count1 + count2
 ```
 
@@ -3147,13 +3147,13 @@ def solution(sides: List[int]) -> int:
 fn solution(sides: &[i32]) -> i32 {
     let max_side = *sides.iter().max().unwrap();
     let min_side = *sides.iter().min().unwrap();
-    
+
     // Case 1: 주어진 두 변 중 긴 변이 가장 긴 경우
     let count1 = max_side - (max_side - min_side);
-    
+
     // Case 2: 새로운 변이 가장 긴 경우
     let count2 = (max_side + min_side) - max_side - 1;
-    
+
     count1 + count2
 }
 
@@ -3174,11 +3174,11 @@ from typing import List, Set
 
 def solution(spell: List[str], dic: List[str]) -> int:
     spell_set: Set[str] = set(spell)
-    
+
     for word in dic:
         if set(word) == spell_set and len(word) == len(spell):
             return 1
-    
+
     return 2
 ```
 
@@ -3189,21 +3189,21 @@ use std::collections::HashSet;
 
 fn solution(spell: &[String], dic: &[String]) -> i32 {
     let spell_set: HashSet<char> = spell.iter().flat_map(|s| s.chars()).collect();
-    
+
     for word in dic {
         let word_set: HashSet<char> = word.chars().collect();
         if word_set == spell_set && word.len() == spell.len() {
             return 1;
         }
     }
-    
+
     2
 }
 
 fn main() {
     let spell = vec!["p".to_string(), "o".to_string(), "s".to_string()];
     let dic = vec!["sod".to_string(), "eocd".to_string(), "qixm".to_string(), "adio".to_string(), "soo".to_string()];
-    
+
     println!("Result: {}", solution(&spell, &dic));
 }
 ```
@@ -3283,7 +3283,7 @@ def solution(dots: List[Tuple[int, int]]) -> int:
     # 첫 번째와 네 번째 점, 두 번째와 세 번째 점을 이은 직선의 기울기를 비교
     elif gradient(dots[0], dots[3]) == gradient(dots[1], dots[2]):
         return 1
-    
+
     # 어떤 경우에도 평행하지 않은 경우 0 반환
     return 0
 ```
@@ -3384,13 +3384,13 @@ def solution(a: int, b: int) -> int:
     # 기약분수로 만들기
     divisor: int = gcd(a, b)
     b //= divisor
-    
+
     # 분모의 소인수 찾기
     while b % 2 == 0:
         b //= 2
     while b % 5 == 0:
         b //= 5
-    
+
     # 분모가 1이면 유한소수, 아니면 무한소수
     return 1 if b == 1 else 2
 ```
@@ -3411,7 +3411,7 @@ fn solution(mut a: i32, mut b: i32) -> i32 {
     // Simplify the fraction
     let divisor = gcd(a, b);
     b /= divisor;
-    
+
     // Find prime factors of the denominator
     while b % 2 == 0 {
         b /= 2;
@@ -3419,7 +3419,7 @@ fn solution(mut a: i32, mut b: i32) -> i32 {
     while b % 5 == 0 {
         b /= 5;
     }
-    
+
     // If denominator is 1, it's a finite decimal, otherwise infinite
     if b == 1 { 1 } else { 2 }
 }
@@ -3479,13 +3479,13 @@ from typing import List
 def solution(score: List[List[int]]) -> List[int]:
     # 평균 점수 계산
     averages: List[float] = [sum(s) / 2 for s in score]
-    
+
     # 평균 점수를 기준으로 내림차순 정렬한 리스트 생성
     sorted_averages: List[float] = sorted(averages, reverse=True)
-    
+
     # 각 점수의 등수 계산
     ranks: List[int] = [sorted_averages.index(avg) + 1 for avg in averages]
-    
+
     return ranks
 ```
 
@@ -3527,7 +3527,7 @@ from typing import List
 def solution(babbling: List[str]) -> int:
     possible: List[str] = ["aya", "ye", "woo", "ma"]
     count: int = 0
-    
+
     for word in babbling:
         temp: str = word
         for sound in possible:
@@ -3535,7 +3535,7 @@ def solution(babbling: List[str]) -> int:
                 temp = temp.replace(sound, ' ', 1)
         if temp.strip() == '':
             count += 1
-    
+
     return count
 ```
 
@@ -3681,10 +3681,10 @@ def solution(bin1: str, bin2: str) -> str:
     # 이진수 문자열을 10진수 정수로 변환
     num1: int = int(bin1, 2)
     num2: int = int(bin2, 2)
-    
+
     # 두 수를 더함
     sum_num: int = num1 + num2
-    
+
     # 결과를 다시 이진수 문자열로 변환
     return bin(sum_num)[2:]
 ```
@@ -3696,10 +3696,10 @@ fn solution(bin1: &str, bin2: &str) -> String {
     // 이진수 문자열을 10진수 정수로 변환
     let num1 = u32::from_str_radix(bin1, 2).unwrap();
     let num2 = u32::from_str_radix(bin2, 2).unwrap();
-    
+
     // 두 수를 더함
     let sum_num = num1 + num2;
-    
+
     // 결과를 다시 이진수 문자열로 변환
     format!("{:b}", sum_num)
 }
@@ -3708,9 +3708,9 @@ fn main() {
     // Test case
     let bin1 = "1001";
     let bin2 = "1111";
-    
+
     let result = solution(bin1, bin2);
-    
+
     println!("Binary 1: {}", bin1);
     println!("Binary 2: {}", bin2);
     println!("Sum (binary): {}", result);
@@ -3735,10 +3735,10 @@ fn solution(bin1: &str, bin2: &str) -> String {
     // 이진수 문자열을 10진수 정수로 변환
     let num1 = u32::from_str_radix(bin1, 2).unwrap();
     let num2 = u32::from_str_radix(bin2, 2).unwrap();
-    
+
     // 두 수를 더함
     let sum_num = num1 + num2;
-    
+
     // 결과를 다시 이진수 문자열로 변환
     format!("{:b}", sum_num)
 }
@@ -3747,9 +3747,9 @@ fn main() {
     // Test case
     let bin1 = "1001";
     let bin2 = "1111";
-    
+
     let result = solution(bin1, bin2);
-    
+
     println!("Binary 1: {}", bin1);
     println!("Binary 2: {}", bin2);
     println!("Sum (binary): {}", result);
@@ -3800,11 +3800,11 @@ fn main() {
 def solution(A: str, B: str) -> int:
     if A == B:
         return 0
-    
+
     for i in range(1, len(A)):
         if A[-i:] + A[:-i] == B:
             return i
-    
+
     return -1
 ```
 
@@ -3815,13 +3815,13 @@ fn solution(a: &str, b: &str) -> i32 {
     if a == b {
         return 0;
     }
-    
+
     for i in 1..a.len() {
         if format!("{}{}", &a[a.len()-i..], &a[..a.len()-i]) == b {
             return i as i32;
         }
     }
-    
+
     -1
 }
 
@@ -3871,7 +3871,7 @@ from typing import List
 def solution(num: int, total: int) -> List[int]:
     # 연속된 수의 시작값 계산
     start = (total - sum(range(num))) // num
-    
+
     # 시작값부터 num개의 연속된 수 리스트 생성
     return list(range(start, start + num))
 ```
