@@ -76,8 +76,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-522971af95d0e085e01a2f9638043ec8.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-7dae6d0c5a0bf0b4edf9ab98ee366ca6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-9c9cd65db69b0953e77ff02639ccec31.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-e84ec107ebca5928bc558b19993a884d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-0e5cabb25c1c37f58ab84571e56ba52c.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -307,7 +307,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 27, 2025</p>
+      <p class="date-modified">February 15, 2025</p>
     </div>
   </div>
     
@@ -334,12 +334,24 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </section>
 <section id="inside-of-llm" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="inside-of-llm"><span class="header-section-number">1.2</span> Inside of LLM</h2>
-<p>LLM은 3개의 컴포넌트로 구성: - Tokenizer: 입력 텍스트를 토큰으로 변환 - Transformer: 토큰을 처리하고 문맥을 이해하는 핵심 아키텍처 - LM head: Transformer의 출력을 받아 다음 토큰을 예측하는 층</p>
+<p>LLM은 3개의 컴포넌트로 구성:</p>
+<ul>
+<li>Tokenizer: 입력 텍스트를 토큰으로 변환</li>
+<li>Transformer: 토큰을 처리하고 문맥을 이해하는 핵심 아키텍처</li>
+<li>LM head: Transformer의 출력을 받아 다음 토큰을 예측하는 층</li>
+</ul>
 <section id="최근-트랜스포머-블록의-발전" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="최근-트랜스포머-블록의-발전"><span class="header-section-number">1.2.1</span> 최근 트랜스포머 블록의 발전</h3>
 <section id="rope" class="level4" data-number="1.2.1.1">
 <h4 data-number="1.2.1.1" class="anchored" data-anchor-id="rope"><span class="header-section-number">1.2.1.1</span> RoPE</h4>
-<p>RoPE는 다음과 같은 특징을 가집니다: - 상대적 위치 정보 인코딩: RoPE는 토큰 간의 상대적 위치 관계를 직접적으로 모델링합니다. - 회전 행렬 사용: 위치 정보를 회전 행렬을 통해 인코딩하여 효율적으로 처리합니다. - 길이 외삽(extrapolation) 능력: 학습 시 사용된 시퀀스 길이보다 긴 시퀀스에 대해서도 잘 작동합니다. - 계산 효율성: 기존 위치 임베딩 방식에 비해 계산 효율성이 높습니다. - 성능 향상: 특히 장문 텍스트 처리에서 성능 향상을 보입니다.</p>
+<p>RoPE는 다음과 같은 특징을 가집니다:</p>
+<ul>
+<li>상대적 위치 정보 인코딩: RoPE는 토큰 간의 상대적 위치 관계를 직접적으로 모델링합니다.</li>
+<li>회전 행렬 사용: 위치 정보를 회전 행렬을 통해 인코딩하여 효율적으로 처리합니다.</li>
+<li>길이 외삽(extrapolation) 능력: 학습 시 사용된 시퀀스 길이보다 긴 시퀀스에 대해서도 잘 작동합니다.</li>
+<li>계산 효율성: 기존 위치 임베딩 방식에 비해 계산 효율성이 높습니다.</li>
+<li>성능 향상: 특히 장문 텍스트 처리에서 성능 향상을 보입니다.</li>
+</ul>
 <p>RoPE는 GPT-3, PaLM, LLaMA 등 최신 대규모 언어 모델에서 널리 사용되고 있으며, 특히 긴 문맥을 다루는 데 효과적입니다.</p>
 </section>
 </section>
