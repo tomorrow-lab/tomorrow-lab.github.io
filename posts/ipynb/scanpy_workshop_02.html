@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.41">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -72,8 +72,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-54a3bae54f78c194261bd58cdfbac44f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-522971af95d0e085e01a2f9638043ec8.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-6492487cc737d37bd7efbde75a20bd75.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-9723fca45c711688d9e3628d88e7a7f1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-e84ec107ebca5928bc558b19993a884d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -252,7 +252,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 15, 2025</p>
+      <p class="date-modified">February 23, 2025</p>
     </div>
   </div>
     
@@ -272,7 +272,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <section id="들어가며" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> 들어가며</h1>
 <p>이 글은 <a href="https://nbisweden.github.io/workshop-scRNAseq">NBIS workshop</a> 자료를 기반으로 수정 및 번역 작업을 진행한것입니다. 가장 먼저 필요한 라이브러리와 QC를 진행한 데이터 파일을 불러오도록 하겠습니다.</p>
-<div id="cell-2" class="cell" data-execution_count="1">
+<div id="cell-2" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bbknn</span>
@@ -297,7 +297,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   from .autonotebook import tqdm as notebook_tqdm</code></pre>
 </div>
 </div>
-<div id="cell-3" class="cell" data-execution_count="2">
+<div id="cell-3" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>path_file <span class="op">=</span> <span class="st">"./output/covid/results/scanpy_covid_qc.h5ad"</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_h5ad(path_file)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -307,14 +307,14 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 <p>혹시 <code>adata.X</code>의 값이 정규화되지 않았는지 아래 코드로 확인합니다.</p>
-<div id="cell-5" class="cell" data-execution_count="3">
+<div id="cell-5" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">max</span>(adata.X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>21145.0</code></pre>
 </div>
 </div>
 <p>정규화되지 않은 원시 카운트 값이 확인이 되네요. 이 값을 다른 레이어로 저장하고 결측치(값이 없는 데이터)가 있는지 확인해봅니다.</p>
-<div id="cell-7" class="cell" data-execution_count="4">
+<div id="cell-7" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 원본 Count 값을 새로운 레이어로 저장</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>adata.layers[<span class="st">"counts"</span>] <span class="op">=</span> adata.X.copy()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># X 및 var의 원본을 .raw.X 및 .raw.var로 저장.</span></span>
@@ -329,7 +329,7 @@ False</code></pre>
 </div>
 </div>
 <p>결측치도 없는 것 같습니다. 이제 데이터를 정규화하고 로그 변환합니다.</p>
-<div id="cell-9" class="cell" data-execution_count="5">
+<div id="cell-9" class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># normalize to depth 10,000</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_per_cell(adata, counts_per_cell_after<span class="op">=</span><span class="fl">1e4</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -347,7 +347,7 @@ False</code></pre>
 </div>
 </div>
 <p>정규화가 되었는지 값을 확인해보죠.</p>
-<div id="cell-11" class="cell" data-execution_count="6">
+<div id="cell-11" class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">max</span>(adata.X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>8.398283315839048</code></pre>
@@ -357,10 +357,10 @@ False</code></pre>
 <section id="특성feature-선택" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> 특성(Feature) 선택</h1>
 <p>scRNA-seq 데이터셋에는 특성(유전자 정보)이 아주 많습니다. 다만 대부분이 0의 값을 가지며 또한 일정한 발현 값을 가져 세포 유형을 구분할때 도움이 되지 않습니다. 따라서 세포 간에 발현량이 차이나는(가변적인) 특성만을 골라내 계산량을 줄일 수 있습니다.</p>
-<div id="cell-13" class="cell" data-execution_count="7">
+<div id="cell-13" class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 가변 유전자 계산</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata, min_mean<span class="op">=</span><span class="fl">0.0125</span>, max_mean<span class="op">=</span><span class="dv">3</span>, min_disp<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Highly variable genes: </span><span class="sc">%d</span><span class="st">"</span> <span class="op">%</span> <span class="bu">sum</span>(adata.var.highly_variable))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Highly variable genes: </span><span class="sc">{</span><span class="bu">sum</span>(adata.var.highly_variable)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 가변 유전자 플롯</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>sc.pl.highly_variable_genes(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -379,7 +379,7 @@ False</code></pre>
 <section id="스케일링z-점수" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> 스케일링(Z-점수)</h1>
 <p>유효한 특성(유전자)을 선택한 다음 차원 축소를 위해 PCA를 진행해야 합니다. 그런데 유전자마다 발현 수준이 모두 다르기 때문에 PCA를 진행하기 전에 각 유전자에 가중치를 부여해서 값을 스케일링해줘야 합니다. 일반적으로는 Z-점수 스케일링 방법을 많이 사용합니다. Z-점수 스케일링은 표준 편차가 1이고 평균이 0으로 하는 정규 분포가 되도록 값을 조정합니다.</p>
-<div id="cell-15" class="cell" data-execution_count="8">
+<div id="cell-15" class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터를 스케일링 합니다. 표준 편차 10이 넘는 값은 제거합니다.</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata, max_value<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>np.std(adata.X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -391,7 +391,7 @@ False</code></pre>
 <section id="pca주성분-분석" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> PCA(주성분 분석)</h1>
 <p>데이터의 차원을 축소하기 위해 PCA를 수행합니다. PCA는 사용되는 데이터에 따라 많은 유용한 응용과 해석이 가능합니다. scRNA seq의 경우 데이터의 유전자 발현 패턴에 따라 세포 유형을 구분하고자 합니다. scanpy에서 PCA를 실행하려면 <code>pca()</code> 함수를 사용합니다.</p>
-<div id="cell-17" class="cell" data-execution_count="9">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sc.tl.pca(adata, svd_solver<span class="op">=</span><span class="st">"arpack"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 그런 다음 첫 번째 주성분에 대한 플롯을 그려봅니다.</span></span>
@@ -405,7 +405,7 @@ False</code></pre>
 </div>
 </div>
 <p>각 PC에 가장 많이 기여하는 유전자를 식별하기 위해 다음과 같이 각 PC의 정보를 시각화 할 수 있습니다.</p>
-<div id="cell-19" class="cell" data-execution_count="10">
+<div id="cell-19" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_loadings(adata, components<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -416,7 +416,7 @@ False</code></pre>
 </div>
 </div>
 <p>또한 각 PC가 설명하는 분산량도 시각화 할 수 있습니다.</p>
-<div id="cell-21" class="cell" data-execution_count="11">
+<div id="cell-21" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_variance_ratio(adata, log<span class="op">=</span><span class="va">True</span>, n_pcs<span class="op">=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -444,7 +444,7 @@ Note
 <section id="tsne" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> tSNE</h1>
 <p><a href="https://arxiv.org/abs/1301.3342">tSNE</a>(t-distributed stochastic neighbor embedding)은 높은 차원의 복잡한 데이터를 2차원에 차원 축소하는 방법입니다. 시각화에 주로 사용하며 데이터 구조를 이해하는 데 도움을 줍니다. 샘플별로 색을 다르게 한 tSNE을 그려봅니다. 그렇게 하면 데이터 집합에 존재하는 배치의 효과를 명확하게 확인할 수 있습니다.</p>
-<div id="cell-23" class="cell" data-execution_count="12">
+<div id="cell-23" class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sc.tl.tsne(adata, n_pcs<span class="op">=</span><span class="dv">30</span>)  <span class="co"># PC의 갯수</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sc.pl.tsne(adata, color<span class="op">=</span><span class="st">"sample"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -459,7 +459,7 @@ Note
 <section id="umap" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> UMAP</h1>
 <p>UMAP은 tSNE와 비교해서 속도가 빠르다는 장점과 데이터의 전체 구조를 더 잘 보존한다는 장점을 가지고 있습니다. 그래서 점점 <a href="https://arxiv.org/abs/1802.03426">UMAP</a>이 많이 사용되는 추세입니다. scanpy에서 UMAP을 그리는 코드는 아래와 같습니다. 먼저 이웃(neighbors) 그래프를 계산하고 <code>tl.umap</code> 함수를 사용합니다.</p>
-<div id="cell-25" class="cell" data-execution_count="13">
+<div id="cell-25" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 이웃 그래프 계산</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_pcs<span class="op">=</span><span class="dv">30</span>, n_neighbors<span class="op">=</span><span class="dv">20</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -474,7 +474,7 @@ Note
 </div>
 </div>
 <p>위 그림에서 tSNE만큼 뚜렷하지는 않지만 샘플에 의한 배치 효과가 여전히 뚜렷하게 보입니다. 특히 <code>covid_17</code> 샘플이 말이죠.</p>
-<div id="cell-27" class="cell" data-execution_count="14">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 10개의 컴포넌트로 실행하고 새 객체에 저장하여 2D가 있는 유맵을 덮어쓰지 않도록 합니다.</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>umap10 <span class="op">=</span> sc.tl.umap(adata, n_components<span class="op">=</span><span class="dv">10</span>, copy<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
@@ -507,7 +507,7 @@ Note
 </div>
 </div>
 <p>이웃 에지(neighbor edges)를 사용한 UMAP도 그릴 수도 있습니다.</p>
-<div id="cell-29" class="cell" data-execution_count="15">
+<div id="cell-29" class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span><span class="st">"sample"</span>, title<span class="op">=</span><span class="st">"UMAP"</span>, edges<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -541,7 +541,7 @@ Note
 </ul></li>
 </ol>
 <p>이제 PCA, UMAP, tSNE를 나란히 그려서 비교해보죠.</p>
-<div id="cell-31" class="cell" data-execution_count="16">
+<div id="cell-31" class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sc.pl.pca(adata, color<span class="op">=</span><span class="st">"sample"</span>, components<span class="op">=</span>[<span class="st">"1,2"</span>], ax<span class="op">=</span>axs[<span class="dv">0</span>, <span class="dv">0</span>], show<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sc.pl.tsne(adata, color<span class="op">=</span><span class="st">"sample"</span>, components<span class="op">=</span>[<span class="st">"1,2"</span>], ax<span class="op">=</span>axs[<span class="dv">0</span>, <span class="dv">1</span>], show<span class="op">=</span><span class="va">False</span>)</span>
@@ -598,7 +598,7 @@ Note
 </tbody>
 </table>
 <p>여기에서는 <code>BBKNN과</code> <code>Scanorama</code> 기법을 사용해 배치 효과를 제거해보겠습니다. 먼저, 배치 효과를 제거하기 앞서 데이터(<code>adata.X</code>에 들어있는 값)가 스케일링되어 있기에 아래 코드를 통해 로그 정규화된 값으로 다시 되돌립니다.</p>
-<div id="cell-33" class="cell" data-execution_count="17">
+<div id="cell-33" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>adata.X <span class="op">=</span> adata.layers[<span class="st">"log1p"</span>].copy()</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 행렬이 정규화된 카운트처럼 보이는지 확인.</span></span>
@@ -609,7 +609,7 @@ Note
 </div>
 </div>
 <p>최소 2개의 데이터 세트에서 가변적인 유전자를 모두 선택해서 분석에 사용합니다.</p>
-<div id="cell-35" class="cell" data-execution_count="18">
+<div id="cell-35" class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata, min_mean<span class="op">=</span><span class="fl">0.0125</span>, max_mean<span class="op">=</span><span class="dv">3</span>, min_disp<span class="op">=</span><span class="fl">0.5</span>, batch_key<span class="op">=</span><span class="st">"sample"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>var_select <span class="op">=</span> adata.var.highly_variable_nbatches <span class="op">&gt;</span> <span class="dv">2</span></span>
@@ -623,7 +623,7 @@ Note
 <section id="bbknn" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="bbknn"><span class="header-section-number">7.1</span> BBKNN</h2>
 <p>먼저 BBKNN(Batch Balanced KNN)을 실행해 보겠습니다. BBKNN은 빠르고 직관적인 배치 효과 제거 도구로 scanpy 워크플로우에서 바로 사용할 수 있습니다. 또한 <code>scanpy.pp.neighbors()</code> 함수 대신에 사용할 수 있습니다. 더 자세한 내용은 <a href="https://scanpy.readthedocs.io/en/latest/generated/scanpy.external.pp.bbknn.html#scanpy-external-pp-bbknn">BBKNN</a> 문서를 참조하세요.</p>
-<div id="cell-37" class="cell" data-execution_count="19">
+<div id="cell-37" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>adata_bbknn <span class="op">=</span> adata.copy()</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>neighbors_within_batch <span class="op">=</span> <span class="dv">25</span> <span class="cf">if</span> adata.n_obs <span class="op">&gt;</span> <span class="dv">100000</span> <span class="cf">else</span> <span class="dv">3</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -633,7 +633,7 @@ Note
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>sc.tl.tsne(adata_bbknn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이제 통합되지 않은 공간과 통합된 공간의 축소된 치수를 그릴 수 있습니다.</p>
-<div id="cell-39" class="cell" data-execution_count="20">
+<div id="cell-39" class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sc.pl.tsne(adata_bbknn, color<span class="op">=</span><span class="st">"sample"</span>, title<span class="op">=</span><span class="st">"BBKNN Corrected tsne"</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>, <span class="dv">1</span>], show<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>sc.pl.tsne(adata, color<span class="op">=</span><span class="st">"sample"</span>, title<span class="op">=</span><span class="st">"Uncorrected tsne"</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>, <span class="dv">0</span>], show<span class="op">=</span><span class="va">False</span>)</span>
@@ -652,7 +652,7 @@ Note
 <section id="scanorama" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="scanorama"><span class="header-section-number">7.2</span> Scanorama</h2>
 <p><a href="https://github.com/brianhie/scanorama">Scanorama</a>는 scRNA-seq 데이터 세트의 일괄 보정 및 통합을 사용할 수 있도록 설계되었습니다. Scanorama를 통한 보정의 결과는 다른 도구의 입력으로 사용하여 scRNA-seq 클러스터링, 시각화 및 분석에 사용할 수 있습니다. 이제 <a href="https://github.com/brianhie/scanorama">Scanorama</a>도 사용해 보겠습니다. 먼저, 각 데이터 세트에서 개별 AnnData 객체를 만들어야 합니다.</p>
-<div id="cell-41" class="cell" data-execution_count="21">
+<div id="cell-41" class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 배치별로 개체를 분할합니다.</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>batches <span class="op">=</span> adata.obs[<span class="st">"sample"</span>].cat.categories.tolist()</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>alldata <span class="op">=</span> {}</span>
@@ -688,7 +688,7 @@ Found 4268 genes among all datasets</code></pre>
 <pre><code>(874, 50)</code></pre>
 </div>
 </div>
-<div id="cell-42" class="cell" data-execution_count="22">
+<div id="cell-42" class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 통합 행렬을 가져옵니다.</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>scanorama_int <span class="op">=</span> [ad.obsm[<span class="st">"X_scanorama"</span>] <span class="cf">for</span> ad <span class="kw">in</span> adatas]</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -703,14 +703,14 @@ Found 4268 genes among all datasets</code></pre>
 <pre><code>(7227, 50)</code></pre>
 </div>
 </div>
-<div id="cell-43" class="cell" data-execution_count="23">
+<div id="cell-43" class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tsne 과 umap을 그립니다.</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata_sc, n_pcs<span class="op">=</span><span class="dv">30</span>, use_rep<span class="op">=</span><span class="st">"Scanorama"</span>)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata_sc)</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>sc.tl.tsne(adata_sc, n_pcs<span class="op">=</span><span class="dv">30</span>, use_rep<span class="op">=</span><span class="st">"Scanorama"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이제 통합되지 않은 공간과 통합된 공간을 축소한 차원을 그릴 수 있습니다.</p>
-<div id="cell-45" class="cell" data-execution_count="24">
+<div id="cell-45" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>sc.pl.tsne(adata, color<span class="op">=</span><span class="st">"sample"</span>, title<span class="op">=</span><span class="st">"Uncorrected tsne"</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>, <span class="dv">0</span>], show<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>sc.pl.tsne(adata_sc, color<span class="op">=</span><span class="st">"sample"</span>, title<span class="op">=</span><span class="st">"Scanorama tsne"</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>, <span class="dv">1</span>], show<span class="op">=</span><span class="va">False</span>)</span>
@@ -729,7 +729,7 @@ Found 4268 genes among all datasets</code></pre>
 <section id="결과-살펴보기" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="결과-살펴보기"><span class="header-section-number">7.3</span> 결과 살펴보기</h2>
 <p>이제 세 가지 통합 방법을 나란히 사용하여 UMAP을 그려보겠습니다.</p>
-<div id="cell-47" class="cell" data-execution_count="25">
+<div id="cell-47" class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span><span class="st">"sample"</span>, title<span class="op">=</span><span class="st">"Uncorrected"</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>, <span class="dv">0</span>], show<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata_bbknn, color<span class="op">=</span><span class="st">"sample"</span>, title<span class="op">=</span><span class="st">"BBKNN"</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>, <span class="dv">1</span>], show<span class="op">=</span><span class="va">False</span>)</span>
@@ -768,7 +768,7 @@ Note
 <section id="데이터-저장하기" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> 데이터 저장하기</h1>
 <p>지금까지 작업한 내용이 들어있는 <code>adata_sc</code> 객체를 <code>h5ad</code>파일로 저장합니다.</p>
-<div id="cell-50" class="cell" data-execution_count="26">
+<div id="cell-50" class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>save_file <span class="op">=</span> <span class="st">"./output/covid/results/scanpy_covid_qc_dr_sc.h5ad"</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>adata_sc.write_h5ad(save_file, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

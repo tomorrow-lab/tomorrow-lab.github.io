@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
-<meta name="dcterms.date" content="2025-01-18">
+<meta name="dcterms.date" content="2025-02-23">
 
-<title>Calplot: 파이썬으로 만드는 멋진 캘린더 히트맵 – tomorrow-lab</title>
+<title>파이썬으로 Epitope binning 하기 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -123,12 +123,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<meta property="og:title" content="Calplot: 파이썬으로 만드는 멋진 캘린더 히트맵 – tomorrow-lab">
+<meta property="og:title" content="파이썬으로 Epitope binning 하기 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/Python_calplot_files/figure-html/cell-4-output-1.png">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/python_Epitope_binning_files/figure-html/cell-4-output-1.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="895">
-<meta property="og:image:width" content="1149">
+<meta property="og:image:height" content="873">
+<meta property="og:image:width" content="873">
 </head>
 
 <body class="nav-fixed">
@@ -204,18 +204,13 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#사용한-기술-및-라이브러리" id="toc-사용한-기술-및-라이브러리" class="nav-link active" data-scroll-target="#사용한-기술-및-라이브러리"><span class="header-section-number">1</span> 사용한 기술 및 라이브러리</a></li>
-  <li><a href="#초기-설정" id="toc-초기-설정" class="nav-link" data-scroll-target="#초기-설정"><span class="header-section-number">2</span> 초기 설정</a>
+  <li><a href="#데이터-준비" id="toc-데이터-준비" class="nav-link active" data-scroll-target="#데이터-준비"><span class="header-section-number">1</span> 데이터 준비</a></li>
+  <li><a href="#시각화" id="toc-시각화" class="nav-link" data-scroll-target="#시각화"><span class="header-section-number">2</span> 시각화</a>
   <ul class="collapse">
-  <li><a href="#초기-설정-1" id="toc-초기-설정-1" class="nav-link" data-scroll-target="#초기-설정-1"><span class="header-section-number">2.1</span> 초기 설정</a></li>
+  <li><a href="#히트맵" id="toc-히트맵" class="nav-link" data-scroll-target="#히트맵"><span class="header-section-number">2.1</span> 히트맵</a></li>
+  <li><a href="#knn-클러스터링-및-네트워크-시각화" id="toc-knn-클러스터링-및-네트워크-시각화" class="nav-link" data-scroll-target="#knn-클러스터링-및-네트워크-시각화"><span class="header-section-number">2.2</span> KNN 클러스터링 및 네트워크 시각화</a></li>
   </ul></li>
-  <li><a href="#기상-관측소-데이터와서-편집하기" id="toc-기상-관측소-데이터와서-편집하기" class="nav-link" data-scroll-target="#기상-관측소-데이터와서-편집하기"><span class="header-section-number">3</span> 기상 관측소 데이터와서 편집하기</a></li>
-  <li><a href="#시각화-하기" id="toc-시각화-하기" class="nav-link" data-scroll-target="#시각화-하기"><span class="header-section-number">4</span> 시각화 하기</a>
-  <ul class="collapse">
-  <li><a href="#평균-기온-캘린더-플롯" id="toc-평균-기온-캘린더-플롯" class="nav-link" data-scroll-target="#평균-기온-캘린더-플롯"><span class="header-section-number">4.1</span> 평균 기온 캘린더 플롯</a></li>
-  <li><a href="#일교차-캘린더-플롯" id="toc-일교차-캘린더-플롯" class="nav-link" data-scroll-target="#일교차-캘린더-플롯"><span class="header-section-number">4.2</span> 일교차 캘린더 플롯</a></li>
-  </ul></li>
-  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">5</span> 마치며</a></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">3</span> 마치며</a></li>
   </ul>
 </nav>
     </div>
@@ -224,11 +219,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Calplot: 파이썬으로 만드는 멋진 캘린더 히트맵</h1>
+<h1 class="title">파이썬으로 Epitope binning 하기</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Python</div>
     <div class="quarto-category">Visualization</div>
-    <div class="quarto-category">Calplot</div>
+    <div class="quarto-category">Epitope binning</div>
   </div>
   </div>
 
@@ -246,7 +241,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 18, 2025</p>
+      <p class="date">February 23, 2025</p>
     </div>
   </div>
   
@@ -264,100 +259,77 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </header>
 
 
-<p><a href="https://github.com/tomkwok/calplot">calplot</a>은 파이썬에서 시계열 데이터를 시각적으로 표현할 수 있는 라이브러리입니다. 이 라이브러리를 사용하면 GitHub의 기여도 그래프와 유사한 캘린더 형태의 히트맵을 쉽게 만들 수 있습니다. 이번 포스팅에서는 <a href="https://meteostat.net">Meteostat</a> 라이브러리를 사용하여 날씨 데이터를 가져오고 캘린더 형태로 시각화하는 방법을 소개합니다. 라이브러리를 통해 연도별 데이터를 직관적으로 표현합니다. 특히, 평균 기온과 일교차를 시각화하는 과정을 다룹니다.</p>
-<section id="사용한-기술-및-라이브러리" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 사용한 기술 및 라이브러리</h1>
-<ul>
-<li>Meteostat: 기상 데이터를 편리하게 가져오는 라이브러리로, 특정 지역의 기상 관측소 데이터를 활용합니다.</li>
-<li>Calplot: 캘린더 형식으로 데이터를 시각화할 수 있는 강력한 도구입니다.</li>
-</ul>
-</section>
-<section id="초기-설정" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> 초기 설정</h1>
-<p>필요한 상수와 폰트를 설정해야 합니다. 서울 날씨를 가져오기 위해서는 GPS 좌표를 상수로 제공해야 하고 한글 폰트를 설정해 그래프에서 한글이 깨지지 않도록 합니다. 날씨 데이터는 2020년부터 2024년까지 4년치를 불러오도록 하겠습니다.</p>
-<section id="초기-설정-1" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="초기-설정-1"><span class="header-section-number">2.1</span> 초기 설정</h2>
-<p>먼저, 필요한 상수와 한글 폰트를 설정합니다. 서울의 GPS 좌표를 기반으로 데이터를 가져오며, 한글 폰트를 설정해 그래프에서 한글이 깨지지 않도록 합니다.</p>
-<div id="8a8ba9e4-83e7-4a58-81f1-37da6d9128b6" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<p>치료용 단클론 항체(mAbs)는 바이오의약품 시장의 70% 이상을 차지하며 지속적으로 성장하고 있습니다. 항체 개발 초기 단계에서 치료제 및 진단 도구로 사용하기 위해 적절한 특성을 가진 후보를 선별하는 것이 중요합니다. 에피토프 빈닝은 mAbs가 표적 단백질(항원)에 결합하는 특성을 파악하는 방법입니다. 이 과정에서 동일한 표적 단백질에 특이적인 mAbs를 쌍으로 테스트하여 항원의 특정 부위에 대한 결합을 서로 차단하는지 여부를 평가합니다. 같은 에피토프에 대한 결합을 차단하는 mAbs는 함께 “빈”으로 분류됩니다. 같은 빈에 속한 mAbs는 종종 유사한 기능을 하므로 에피토프 빈을 통해 후보 항체의 다양성을 확인 할 수 있습니다. 에피토프 다양성은 지적 재산권 보호를 확대하는 데도 중요합니다. 예를 들면 항체들이 같은 항원에 결합하더라도 작용 메커니즘이 다를 수 있는데 이는 일부 암과 감염성 질환 치료에 중요하기 때문입니다.</p>
+<blockquote class="blockquote">
+<p>에피토프 빈닝은 에피토프 매핑과 혼동해서는 안 됩니다. 에피토프 매핑에서는 항원의 개별 단편에 대한 항체 결합을 테스트하여 항체가 결합하는 항원의 특정 에피토프를 정의합니다.</p>
+</blockquote>
+<p>SPR을 이용한 에피토프 빈닝의 주요 장점은 항원과 소량의 정제된 항체만 있으면 테스트할 수 있다는 것입니다. SPR을 통한 에피토프 비닝의 원리를 간략하게 설명하면 다음과 같습니다. 첫번째 항체를 고정시켜 놓고 항원과 두번째 항체를 넣어서 RU값을 측정하는데, 에피토프가 겹치지 않는 경우에 RU 값이 높게 측정됩니다. 즉, 에피토프가 비슷한 경우는 RU 값이 낮게 측정되는 것입니다. 이제 SPR을 통해 얻은 epitope binning 데이터를 파이썬으로 분석해서 어떤 항체 커뮤니티가 있는지 식별해보도록 하겠습니다.</p>
+<section id="데이터-준비" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 데이터 준비</h1>
+<p><a href="https://doi.org/10.1093/abt/tbaa016">Tom Z Yuan et al</a>에서 공개한 데이터를 가지고 시작해보겠습니다.</p>
+<div id="cell-2" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> calplot</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteostat <span class="im">import</span> Daily, Point, Stations</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Constants</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>NAME: <span class="bu">str</span> <span class="op">=</span> <span class="st">"서울"</span>  <span class="co"># 지역 이름</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>GPS: <span class="bu">tuple</span>[<span class="bu">float</span>, <span class="bu">float</span>] <span class="op">=</span> (<span class="fl">37.5667</span>, <span class="fl">126.9667</span>)  <span class="co"># GPS 좌표</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>START: datetime <span class="op">=</span> datetime(<span class="dv">2020</span>, <span class="dv">1</span>, <span class="dv">1</span>)  <span class="co"># 조회 시작</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>END: datetime <span class="op">=</span> datetime(<span class="dv">2024</span>, <span class="dv">12</span>, <span class="dv">31</span>)  <span class="co"># 조회 끝</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 불러오기(원본 데이터는 wide 형태의 데이터 입니다.)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../data/input/EpitopeBinning.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># wide데이터를 tidy 형태로 변환</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>tidy_df <span class="op">=</span> df.reset_index().melt(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span><span class="st">"mAb ID"</span>, var_name<span class="op">=</span><span class="st">"Antigen"</span>, value_name<span class="op">=</span><span class="st">"Binding Value"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>tidy_df.columns <span class="op">=</span> [<span class="st">"First_ab"</span>, <span class="st">"Second_ab"</span>, <span class="st">"Binding"</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>tidy_df <span class="op">=</span> tidy_df.set_index(<span class="st">"First_ab"</span>).sort_values(by<span class="op">=</span><span class="st">"Binding"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 변환한 데이터 저장하기</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 한글 폰트 설정</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.family'</span>] <span class="op">=</span> <span class="st">'Pretendard Variable'</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'axes.unicode_minus'</span>] <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
-<section id="기상-관측소-데이터와서-편집하기" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 기상 관측소 데이터와서 편집하기</h1>
-<p><a href="https://github.com/meteostat/meteostat-python">Meteostat</a> 라이브러리를 사용하여 서울 근처 기상 관측소 데이터를 선택합니다. 날씨 데이터를 가져온 뒤에는 일교차(최고 기온(tmax)과 최저 기온(tmin)의 차이), 눈/비 여부(강수량(prcp) 또는 적설량(snow)이 있는 경우 1, 없는 경우 NaN)에 대한 데이터를 열을 추가해줍니다.</p>
-<div id="3e6bab5c-d759-471f-a462-b15367967d76" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stations: Stations <span class="op">=</span> Stations()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get nearby weather stations based on latitude and longitude</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>nearby_stations: Stations <span class="op">=</span> stations.nearby(GPS[<span class="dv">0</span>], GPS[<span class="dv">1</span>])  <span class="co"># GPS 튜플 언패킹</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch the first station's data</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>station_data: pd.DataFrame <span class="op">=</span> nearby_stations.fetch(<span class="dv">1</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print station information</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"선택된 관측소: </span><span class="sc">{</span>station_data[<span class="st">'name'</span>]<span class="sc">.</span>values[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the coordinates of the selected station</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>location: Point <span class="op">=</span> Point(</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    station_data[<span class="st">'latitude'</span>].values[<span class="dv">0</span>],</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    station_data[<span class="st">'longitude'</span>].values[<span class="dv">0</span>]</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch weather data</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>weather_data: pd.DataFrame <span class="op">=</span> Daily(location, start<span class="op">=</span>START, end<span class="op">=</span>END).fetch()</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 일교차 계산</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>weather_data[<span class="st">'diurnal_range'</span>] <span class="op">=</span> weather_data[<span class="st">'tmax'</span>] <span class="op">-</span> weather_data[<span class="st">'tmin'</span>]</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 눈이나 비가 온 날은 1로, 오지 않은 날은 NaN으로 표기하는 새로운 열 추가</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>weather_data[<span class="st">'rain_or_snow'</span>] <span class="op">=</span> weather_data.<span class="bu">apply</span>(</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: <span class="dv">1</span> <span class="cf">if</span> (row[<span class="st">'prcp'</span>] <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">or</span> row[<span class="st">'snow'</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="cf">else</span> <span class="bu">float</span>(<span class="st">'nan'</span>), axis<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the last few rows of the data</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>weather_data.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>선택된 관측소: Seoul</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="32">
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 히트맵을 그리기 위해 다시 wide로 만들기</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>wide_data <span class="op">=</span> tidy_df.pivot_table(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="st">"First_ab"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span><span class="st">"Second_ab"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">"Binding"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    aggfunc<span class="op">=</span><span class="st">"mean"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>wide_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
 
 <table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">tavg</th>
-<th data-quarto-table-cell-role="th">tmin</th>
-<th data-quarto-table-cell-role="th">tmax</th>
-<th data-quarto-table-cell-role="th">prcp</th>
-<th data-quarto-table-cell-role="th">snow</th>
-<th data-quarto-table-cell-role="th">wdir</th>
-<th data-quarto-table-cell-role="th">wspd</th>
-<th data-quarto-table-cell-role="th">wpgt</th>
-<th data-quarto-table-cell-role="th">pres</th>
-<th data-quarto-table-cell-role="th">tsun</th>
-<th data-quarto-table-cell-role="th">diurnal_range</th>
-<th data-quarto-table-cell-role="th">rain_or_snow</th>
+<th data-quarto-table-cell-role="th">Second_ab</th>
+<th data-quarto-table-cell-role="th">ADI-15734</th>
+<th data-quarto-table-cell-role="th">ADI-15741</th>
+<th data-quarto-table-cell-role="th">ADI-15742</th>
+<th data-quarto-table-cell-role="th">ADI-15743</th>
+<th data-quarto-table-cell-role="th">ADI-15751</th>
+<th data-quarto-table-cell-role="th">ADI-15757</th>
+<th data-quarto-table-cell-role="th">ADI-15767</th>
+<th data-quarto-table-cell-role="th">ADI-15776</th>
+<th data-quarto-table-cell-role="th">ADI-15779</th>
+<th data-quarto-table-cell-role="th">ADI-15782</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">ADI-16003</th>
+<th data-quarto-table-cell-role="th">ADI-16017</th>
+<th data-quarto-table-cell-role="th">ADI-16025</th>
+<th data-quarto-table-cell-role="th">ADI-16031</th>
+<th data-quarto-table-cell-role="th">ADI-16032</th>
+<th data-quarto-table-cell-role="th">ADI-16047</th>
+<th data-quarto-table-cell-role="th">ADI-16050</th>
+<th data-quarto-table-cell-role="th">FVM09</th>
+<th data-quarto-table-cell-role="th">KZ52</th>
+<th data-quarto-table-cell-role="th">mab100</th>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th">First_ab</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th"></th>
@@ -374,79 +346,177 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-12-27</td>
-<td>-2.6</td>
-<td>-5.5</td>
-<td>-0.7</td>
+<td data-quarto-table-cell-role="th">ADI-15734</td>
 <td>0.0</td>
-<td>NaN</td>
-<td>283.0</td>
-<td>8.7</td>
-<td>NaN</td>
-<td>1026.6</td>
-<td>NaN</td>
-<td>4.8</td>
-<td>NaN</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>3.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2024-12-28</td>
-<td>-2.1</td>
-<td>-6.7</td>
-<td>-1.4</td>
+<td data-quarto-table-cell-role="th">ADI-15741</td>
 <td>0.0</td>
-<td>NaN</td>
-<td>284.0</td>
-<td>8.2</td>
-<td>NaN</td>
-<td>1024.3</td>
-<td>NaN</td>
-<td>5.3</td>
-<td>NaN</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-12-29</td>
-<td>2.6</td>
-<td>-4.2</td>
-<td>4.1</td>
+<td data-quarto-table-cell-role="th">ADI-15742</td>
+<td>1.0</td>
 <td>0.0</td>
-<td>NaN</td>
-<td>70.0</td>
-<td>5.1</td>
-<td>NaN</td>
-<td>1024.9</td>
-<td>NaN</td>
-<td>8.3</td>
-<td>NaN</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>3.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>3.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>0.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2024-12-30</td>
-<td>4.8</td>
-<td>1.9</td>
-<td>9.3</td>
-<td>0.2</td>
-<td>NaN</td>
-<td>351.0</td>
-<td>8.6</td>
-<td>NaN</td>
-<td>1018.7</td>
-<td>NaN</td>
-<td>7.4</td>
+<td data-quarto-table-cell-role="th">ADI-15743</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">ADI-15751</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>...</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>1.0</td>
 <td>1.0</td>
 </tr>
+</tbody>
+</table>
+
+<p>5 rows × 54 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-3" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tidy_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Binding</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2024-12-31</td>
-<td>0.1</td>
-<td>-1.4</td>
-<td>4.4</td>
-<td>0.0</td>
-<td>NaN</td>
-<td>281.0</td>
-<td>9.9</td>
-<td>NaN</td>
-<td>1020.6</td>
-<td>NaN</td>
-<td>5.8</td>
-<td>NaN</td>
+<td data-quarto-table-cell-role="th">count</td>
+<td>2563.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>1.304331</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>0.870324</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>1.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>2.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>6.000000</td>
 </tr>
 </tbody>
 </table>
@@ -454,57 +524,180 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+<p>위의 결과를 통해 데이터의 형태를 파악할 수 있습니다. 총 2563개가 있고 최대값과 최소값을 보아하니 실제 실험 값이 아닌 일종의 후처리가된 값으로 구성되어 있음을 알 수 있습니다.</p>
 </section>
-<section id="시각화-하기" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> 시각화 하기</h1>
-<section id="평균-기온-캘린더-플롯" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="평균-기온-캘린더-플롯"><span class="header-section-number">4.1</span> 평균 기온 캘린더 플롯</h2>
-<p>calplot을 사용해 연도별 평균 기온을 캘린더 형태로 시각화합니다. 색상 맵은 coolwarm으로 설정해 표현합니다.</p>
-<div id="061c73c4" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(weather_data[<span class="st">'tavg'</span>],</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'coolwarm'</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                yearascending<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                yearlabel_kws<span class="op">=</span>{<span class="st">'fontsize'</span>: <span class="dv">16</span>},</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                suptitle<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 평균 기온'</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                suptitle_kws<span class="op">=</span>{<span class="st">'fontsize'</span>: <span class="dv">20</span>, <span class="st">'y'</span>: <span class="fl">1.05</span>})</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="시각화" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 시각화</h1>
+<section id="히트맵" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="히트맵"><span class="header-section-number">2.1</span> 히트맵</h2>
+<p>히트맵은 차단, 비차단 및 불확실한 항체 쌍에 대한 빠른 개요를 제공합니다. 이를 통해 히트맵 내 데이터를 간편하게 검사할 수 있으며 다음과 같은 이점을 제공합니다:</p>
+<ol type="1">
+<li>직관적 이해: 복잡한 데이터를 색상 코드로 표현하여 한눈에 파악할 수 있습니다.</li>
+<li>패턴 식별: 대량의 데이터에서 패턴이나 트렌드를 쉽게 발견할 수 있습니다.</li>
+<li>유연한 분석: 컷오프 값을 조정함으로써 다양한 조건에서 데이터를 분석할 수 있습니다.</li>
+<li>효율적인 데이터 해석: 많은 양의 정보를 압축된 형태로 표현하여 빠른 의사결정을 돕습니다.</li>
+</ol>
+<div id="cell-5" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> mcolors</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Nord Aurora 색상</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># A3BE8C: Nord8 (녹색)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># EBCB8B: Nord9 (노란색)</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># BF616A: Nord11 (빨간색)</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>aurora_colors <span class="op">=</span> [<span class="st">"#BF616A"</span>, <span class="st">"#EBCB8B"</span>, <span class="st">"#A3BE8C"</span>]</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 사용자 정의 색상 맵 생성</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> sns.color_palette(aurora_colors)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 마스크 생성: NaN은 True, 나머지는 False</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> np.isnan(wide_data)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>sns.heatmap(</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    df,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span>cmap,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    annot<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    linewidths<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    mask<span class="op">=</span>mask,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    vmin<span class="op">=</span><span class="dv">0</span>,  <span class="co"># 최소값을 0으로 설정</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    vmax<span class="op">=</span><span class="dv">1</span>,  <span class="co"># 최대값을 1로 설정 (필요에 따라 조정)</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    center<span class="op">=</span><span class="fl">0.5</span>,  <span class="co"># 중간값을 0.5로 설정</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    cbar_kws<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Value"</span>},</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    cbar<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    square<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">""</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">""</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Python_calplot_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Python_calplot_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="python_Epitope_binning_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="python_Epitope_binning_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<p>위 시각화 결과를 보면 2021년 1월달의 평균 기온이 유난히 낮았다는 것과 2024년 12월의 평균기온이 상당히 높다는 것을 알 수 있습니다. 그리고 여름이 계속 더워지고 있다는 추세가 보이는 것 같습니다.</p>
+<p>위 히트맵 결과를 통해 크게 4개의 클러스터가 존재하고 있다는 것을 쉽게 유추할 수 있습니다.</p>
 </section>
-<section id="일교차-캘린더-플롯" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="일교차-캘린더-플롯"><span class="header-section-number">4.2</span> 일교차 캘린더 플롯</h2>
-<p>일반적으로 일교차는 봄과 가을이 심하다고 알고있는데 실제로 그런지 확인해보겠습니다. 일교차 데이터를 캘린더 플롯으로 표현하고 색상 맵은 YlGn으로 설정해 녹색 계열로 변화를 나타냅니다.</p>
-<div id="e17a18d3" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(weather_data[<span class="st">'diurnal_range'</span>],</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'YlGn'</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                yearascending<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                yearlabel_kws<span class="op">=</span>{<span class="st">'fontsize'</span>: <span class="dv">16</span>},</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                suptitle<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 일교차'</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                suptitle_kws<span class="op">=</span>{<span class="st">'fontsize'</span>: <span class="dv">20</span>, <span class="st">'y'</span>: <span class="fl">1.05</span>})</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="knn-클러스터링-및-네트워크-시각화" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="knn-클러스터링-및-네트워크-시각화"><span class="header-section-number">2.2</span> KNN 클러스터링 및 네트워크 시각화</h2>
+<p>K-Nearest Neighbors (KNN) 클러스터링은 에피토프 빈닝 데이터를 분석하고 시각화하는 데 유용한 방법으로 히트맵보다 더 명료한 결과를 보여줍니다.</p>
+<div id="cell-7" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> mcolors</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> adjustText <span class="im">import</span> adjust_text</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 로드</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> tidy_df.reset_index()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># NaN 값을 포함한 행 제거 및 First_ab와 Second_ab가 동일한 행 제거</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>data_clean <span class="op">=</span> data.dropna().query(<span class="st">"First_ab != Second_ab"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 방향성 그래프 생성</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.DiGraph()</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> data_clean.iterrows():</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    G.add_edge(row[<span class="st">"First_ab"</span>], row[<span class="st">"Second_ab"</span>], weight<span class="op">=</span>row[<span class="st">"Binding"</span>])</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 인접 행렬 생성</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>adj_matrix <span class="op">=</span> nx.to_numpy_array(G)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 특성 스케일링</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>adj_matrix_scaled <span class="op">=</span> scaler.fit_transform(adj_matrix)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># KMeans 클러스터링</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>n_clusters <span class="op">=</span> <span class="dv">4</span>  <span class="co"># 클러스터 수 고정</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>n_clusters, random_state<span class="op">=</span><span class="dv">420</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>cluster_labels <span class="op">=</span> kmeans.fit_predict(adj_matrix_scaled)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 클러스터 정보 저장</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>partition <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(G.nodes(), cluster_labels))</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 클러스터 중심 계산</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>cluster_centers <span class="op">=</span> kmeans.cluster_centers_</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 노드 위치 조정 함수</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adjust_positions(pos, partition, cluster_centers):</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    new_pos <span class="op">=</span> {}</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> node, position <span class="kw">in</span> pos.items():</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        cluster <span class="op">=</span> partition[node]</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        center <span class="op">=</span> cluster_centers[cluster][:<span class="dv">2</span>]  <span class="co"># 2D 좌표만 사용</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 노드를 클러스터 중심 방향으로 이동</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        new_pos[node] <span class="op">=</span> position <span class="op">*</span> <span class="fl">0.3</span> <span class="op">+</span> center <span class="op">*</span> <span class="fl">0.7</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> new_pos</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 그래프 시각화</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))  <span class="co"># 그림 크기를 더 크게 조정</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.spring_layout(G, k<span class="op">=</span><span class="fl">0.5</span>, iterations<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> adjust_positions(pos, partition, cluster_centers)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co"># 노드 색상 설정</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [partition[node] <span class="cf">for</span> node <span class="kw">in</span> G.nodes()]</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Nord Aurora 색상 정의</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>aurora_colors <span class="op">=</span> [<span class="st">"#A3BE8C"</span>, <span class="st">"#EBCB8B"</span>, <span class="st">"#D08770"</span>, <span class="st">"#BF616A"</span>, <span class="st">"#B48EAD"</span>]</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Aurora 색상으로 ColorMap 생성</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>aurora_cmap <span class="op">=</span> mcolors.ListedColormap(aurora_colors)</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co"># 노드 그리기</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>nx.draw_networkx_nodes(G, pos, node_color<span class="op">=</span>colors, node_size<span class="op">=</span><span class="dv">100</span>, cmap<span class="op">=</span>aurora_cmap)</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co"># 엣지 그리기 (방향성과 가중치 반영)</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>edge_weights <span class="op">=</span> [G[u][v][<span class="st">"weight"</span>] <span class="cf">for</span> u, v <span class="kw">in</span> G.edges()]</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>max_weight <span class="op">=</span> <span class="bu">max</span>(edge_weights)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>edge_widths <span class="op">=</span> [<span class="dv">1</span> <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> (w <span class="op">/</span> max_weight) <span class="cf">for</span> w <span class="kw">in</span> edge_weights]</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>nx.draw_networkx_edges(</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    G,</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>    pos,</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.3</span>,</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    edge_color<span class="op">=</span><span class="st">"lightgray"</span>,</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    <span class="co"># width=edge_widths,</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    arrows<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    arrowsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="co"># 라벨 위치 조정을 위한 준비</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>texts <span class="op">=</span> []</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> node, (x, y) <span class="kw">in</span> pos.items():</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>    texts.append(plt.text(x, y, node, fontsize<span class="op">=</span><span class="dv">8</span>, ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"center"</span>))</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="co"># 라벨 위치 자동 조정</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>adjust_text(texts, arrowprops<span class="op">=</span>{</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>    <span class="st">"arrowstyle"</span>:<span class="st">"-"</span>,</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>    <span class="st">"color"</span>:<span class="st">"gray"</span>,</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lw"</span>:<span class="fl">0.5</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Directed Graph with Weighted Edges"</span>)</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="Python_calplot_files/figure-html/cell-5-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Python_calplot_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="python_Epitope_binning_files/figure-html/cell-5-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="python_Epitope_binning_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<p>일교차는 더운 기간(7-9월) 제외하고는 패턴을 찾기 힘들어 보입니다. 그리고 가을 보다 봄(3-4월)이 확실히 일교차가 심한 것을 알 수 있네요.</p>
+<p>위의 결과를 통해 총 4개의 항체의 클러스터를 확인 할 수 있었고 히트맵 결과와 유사함이 확인되었습니다.</p>
 </section>
 </section>
-<section id="마치며" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> 마치며</h1>
-<p>이 글에서는 calplot을 활용해 서울의 날씨 데이터를 효과적으로 시각화하는 방법을 보여줬습니다. calplot은 날씨 데이터 이외에도 건강 및 피트니스 데이터, 생산성 및 업무 관리 데이터, 환경 모니터링 데이터등의 시계열 데이터를 효과적으로 시각해서 데이터의 패턴과 추세를 직관적으로 파악하는 데 큰 도움을 줍니다. 그러면 데이터 분석과 의사 결정에 큰 도움이 될 것입니다. 여러분의 분야에서도 calplot을 활용해 새로운 통찰을 발견해보세요.</p>
+<section id="마치며" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 마치며</h1>
+<p>에피토프 빈닝은 항체의 결합 특성을 파악하고 다양한 에피토프를 표적으로 하는 항체를 선별할 수 있습니다. 히트맵과 KNN 클러스터링 등의 시각화 방법으로 항체 패널의 다양성을 확인하고 가장 유망한 후보를 선별하는 데 도움을 줍니다.</p>
 
 
 </section>
