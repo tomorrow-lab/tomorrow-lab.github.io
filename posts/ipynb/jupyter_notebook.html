@@ -125,10 +125,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <meta property="og:title" content="Jupyter notebook 소개 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/jupyter_notebook_files/figure-html/cell-6-output-1.png">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/jupyter_notebook_files/figure-html/cell-2-output-1.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="252">
-<meta property="og:image:width" content="374">
+<meta property="og:image:height" content="314">
+<meta property="og:image:width" content="458">
 </head>
 
 <body class="nav-fixed">
@@ -204,15 +204,41 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#ipython" id="toc-ipython" class="nav-link active" data-scroll-target="#ipython"><span class="header-section-number">1</span> Ipython</a>
+  <li><a href="#jupyter-notebook의-주요-기능" id="toc-jupyter-notebook의-주요-기능" class="nav-link active" data-scroll-target="#jupyter-notebook의-주요-기능"><span class="header-section-number">1</span> Jupyter Notebook의 주요 기능</a>
   <ul class="collapse">
-  <li><a href="#매직-명령어magic-commands" id="toc-매직-명령어magic-commands" class="nav-link" data-scroll-target="#매직-명령어magic-commands"><span class="header-section-number">1.1</span> 매직 명령어(Magic commands)</a></li>
-  <li><a href="#자동완성-tab-completion" id="toc-자동완성-tab-completion" class="nav-link" data-scroll-target="#자동완성-tab-completion"><span class="header-section-number">1.2</span> 자동완성 (Tab completion)</a></li>
+  <li><a href="#코드-실행-및-문서화" id="toc-코드-실행-및-문서화" class="nav-link" data-scroll-target="#코드-실행-및-문서화"><span class="header-section-number">1.1</span> 코드 실행 및 문서화</a></li>
+  <li><a href="#데이터-시각화-도구-통합" id="toc-데이터-시각화-도구-통합" class="nav-link" data-scroll-target="#데이터-시각화-도구-통합"><span class="header-section-number">1.2</span> 데이터 시각화 도구 통합</a></li>
   </ul></li>
-  <li><a href="#matplotlib-과-seaborn" id="toc-matplotlib-과-seaborn" class="nav-link" data-scroll-target="#matplotlib-과-seaborn"><span class="header-section-number">2</span> Matplotlib 과 Seaborn</a>
+  <li><a href="#jupyter-notebook-설치" id="toc-jupyter-notebook-설치" class="nav-link" data-scroll-target="#jupyter-notebook-설치"><span class="header-section-number">2</span> Jupyter Notebook 설치</a></li>
+  <li><a href="#jupyter-notebook-실행" id="toc-jupyter-notebook-실행" class="nav-link" data-scroll-target="#jupyter-notebook-실행"><span class="header-section-number">3</span> Jupyter Notebook 실행</a>
   <ul class="collapse">
-  <li><a href="#seaborn-시각화" id="toc-seaborn-시각화" class="nav-link" data-scroll-target="#seaborn-시각화"><span class="header-section-number">2.1</span> Seaborn 시각화</a></li>
+  <li><a href="#jupyter-notebook-단축키-가이드" id="toc-jupyter-notebook-단축키-가이드" class="nav-link" data-scroll-target="#jupyter-notebook-단축키-가이드"><span class="header-section-number">3.1</span> Jupyter Notebook 단축키 가이드</a>
+  <ul class="collapse">
+  <li><a href="#셀-선택-모드-command-mode" id="toc-셀-선택-모드-command-mode" class="nav-link" data-scroll-target="#셀-선택-모드-command-mode"><span class="header-section-number">3.1.1</span> 1. 셀 선택 모드 (Command Mode)</a></li>
+  <li><a href="#코드-입력-모드-edit-mode" id="toc-코드-입력-모드-edit-mode" class="nav-link" data-scroll-target="#코드-입력-모드-edit-mode"><span class="header-section-number">3.1.2</span> 2. 코드 입력 모드 (Edit Mode)</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#활용-사례-데이터-분석-머신러닝-및-교육-분야" id="toc-활용-사례-데이터-분석-머신러닝-및-교육-분야" class="nav-link" data-scroll-target="#활용-사례-데이터-분석-머신러닝-및-교육-분야"><span class="header-section-number">4</span> 활용 사례: 데이터 분석, 머신러닝 및 교육 분야</a>
+  <ul class="collapse">
+  <li><a href="#코드셀-실행-예제" id="toc-코드셀-실행-예제" class="nav-link" data-scroll-target="#코드셀-실행-예제"><span class="header-section-number">4.1</span> 코드셀 실행 예제</a>
+  <ul class="collapse">
+  <li><a href="#bouncing-ball-시뮬레이션" id="toc-bouncing-ball-시뮬레이션" class="nav-link" data-scroll-target="#bouncing-ball-시뮬레이션"><span class="header-section-number">4.1.1</span> Bouncing Ball 시뮬레이션</a></li>
+  <li><a href="#붓꽃-데이터-시각화" id="toc-붓꽃-데이터-시각화" class="nav-link" data-scroll-target="#붓꽃-데이터-시각화"><span class="header-section-number">4.1.2</span> 붓꽃 데이터 시각화</a></li>
+  </ul></li>
+  <li><a href="#매직-명령어magic-commands" id="toc-매직-명령어magic-commands" class="nav-link" data-scroll-target="#매직-명령어magic-commands"><span class="header-section-number">4.2</span> 매직 명령어(Magic commands)</a>
+  <ul class="collapse">
+  <li><a href="#주요-매직-명령어" id="toc-주요-매직-명령어" class="nav-link" data-scroll-target="#주요-매직-명령어"><span class="header-section-number">4.2.1</span> 주요 매직 명령어</a></li>
+  <li><a href="#사용-예시" id="toc-사용-예시" class="nav-link" data-scroll-target="#사용-예시"><span class="header-section-number">4.2.2</span> 사용 예시</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#교육-및-연구-재현성-확보" id="toc-교육-및-연구-재현성-확보" class="nav-link" data-scroll-target="#교육-및-연구-재현성-확보"><span class="header-section-number">5</span> 교육 및 연구 재현성 확보</a>
+  <ul class="collapse">
+  <li><a href="#교육용-템플릿" id="toc-교육용-템플릿" class="nav-link" data-scroll-target="#교육용-템플릿"><span class="header-section-number">5.1</span> 교육용 템플릿:</a></li>
+  <li><a href="#연구-재현성" id="toc-연구-재현성" class="nav-link" data-scroll-target="#연구-재현성"><span class="header-section-number">5.2</span> 연구 재현성:</a></li>
+  <li><a href="#다중-커널-연동" id="toc-다중-커널-연동" class="nav-link" data-scroll-target="#다중-커널-연동"><span class="header-section-number">5.3</span> 다중 커널 연동:</a></li>
+  </ul></li>
+  <li><a href="#문제-해결-가이드" id="toc-문제-해결-가이드" class="nav-link" data-scroll-target="#문제-해결-가이드"><span class="header-section-number">6</span> 문제 해결 가이드</a></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">7</span> 마치며</a></li>
   </ul>
 </nav>
     </div>
@@ -223,9 +249,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div class="quarto-title">
 <h1 class="title">Jupyter notebook 소개</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">News</div>
+    <div class="quarto-category">Jupyterlab</div>
     <div class="quarto-category">Jupyter</div>
     <div class="quarto-category">Python</div>
+    <div class="quarto-category">Data science</div>
   </div>
   </div>
 
@@ -250,7 +277,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">March 4, 2025</p>
+      <p class="date-modified">March 9, 2025</p>
     </div>
   </div>
     
@@ -261,100 +288,160 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </header>
 
 
-<section id="ipython" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Ipython</h1>
-<p><strong>ipython</strong>는 파이썬을 위한 향상된 대화형 커맨드라인 콘솔입니다. <strong>Jupyter notebook</strong>은 그것에서 보다 발전된 형태로 <em>코딩</em>과 <em>문서화</em>를 동시에 해서 생산성을 극대화 하는 도구입니다. 이 블로그도 jupyter notebook을 기반으로 해서 만들어 졌습니다.</p>
-<div id="cell-2" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Hello!</code></pre>
-</div>
-</div>
-<section id="매직-명령어magic-commands" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="매직-명령어magic-commands"><span class="header-section-number">1.1</span> 매직 명령어(Magic commands)</h2>
-<p>파일 시스템과 상호작용을 할 수 있는 명령어로 <strong>%</strong> 기호로 시작합니다. 현재 디렉토리 위치를 출력해 보겠습니다.</p>
-<div id="cell-4" class="cell" data-scrolled="true">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pwd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>'/home/partrita/Documents/blog/partrita.github.io/posts'</code></pre>
-</div>
-</div>
-<p>더 많은 매직 명령어는 <em>%lsmagic</em>으로 확인 할 수 있고, 각 명령어에 <em>?</em>를 추가하면 추가 정보를 보여줍니다.</p>
-<div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>lsmagic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>Available line magics:
-%alias  %alias_magic  %autocall  %automagic  %autosave  %bookmark  %cat  %cd  %clear  %colors  %config  %connect_info  %cp  %debug  %dhist  %dirs  %doctest_mode  %ed  %edit  %env  %gui  %hist  %history  %killbgscripts  %ldir  %less  %lf  %lk  %ll  %load  %load_ext  %loadpy  %logoff  %logon  %logstart  %logstate  %logstop  %ls  %lsmagic  %lx  %macro  %magic  %man  %matplotlib  %mkdir  %more  %mv  %notebook  %page  %pastebin  %pdb  %pdef  %pdoc  %pfile  %pinfo  %pinfo2  %popd  %pprint  %precision  %profile  %prun  %psearch  %psource  %pushd  %pwd  %pycat  %pylab  %qtconsole  %quickref  %recall  %rehashx  %reload_ext  %rep  %rerun  %reset  %reset_selective  %rm  %rmdir  %run  %save  %sc  %set_env  %store  %sx  %system  %tb  %time  %timeit  %unalias  %unload_ext  %who  %who_ls  %whos  %xdel  %xmode
-
-Available cell magics:
-%%!  %%HTML  %%SVG  %%bash  %%capture  %%debug  %%file  %%html  %%javascript  %%js  %%latex  %%markdown  %%perl  %%prun  %%pypy  %%python  %%python2  %%python3  %%ruby  %%script  %%sh  %%svg  %%sx  %%system  %%time  %%timeit  %%writefile
-
-Automagic is ON, % prefix IS NOT needed for line magics.</code></pre>
-</div>
-</div>
+<p><code>Jupyter Notebook</code>은 웹 브라우저를 통해 실행되는 오픈 소스 인터랙티브 컴퓨팅 환경입니다. 코드, 텍스트, 수식, 이미지 등 다양한 형태의 콘텐츠를 하나의 문서에 통합하여 작성, 실행 및 저장할 수 있어 코딩과 문서화를 동시에 할 수 있다는 장점이 있습니다. 그리고 Python뿐 아니라 R, Julia, Scala 등 40개 이상의 프로그래밍 언어를 지원합니다. 작성한 노트북을 동료와 공유하거나 GitHub, Binder, JupyterHub 등의 플랫폼을 통해 배포할 수 있어 데이터 과학, 머신러닝 연구, 교육 및 문서화에 매우 유용합니다.</p>
+<ul>
+<li>커널(Kernel): Jupyter Notebook에서 사용자가 입력한 코드를 실제로 실행하는 백엔드 프로세스이며 각 언어에 맞는 커널이 존재합니다. 예를 들어 Python의 경우 ipykernel이 커널로 사용됩니다</li>
+<li>확장자: Jupyter Notebook은 <code>.ipynb</code> 확장자를 갖는 JSON 기반의 문서 형식을 사용합니다. 이 파일은 코드 셀, 마크다운 셀, 출력 결과, 메타데이터 등을 모두 포함합니다.</li>
+</ul>
+<section id="jupyter-notebook의-주요-기능" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Jupyter Notebook의 주요 기능</h1>
+<p>Jupyter Notebook은 초보자도 쉽게 시작할 수 있는 직관적 기능과 동시에 전문가가 심화 분석을 수행할 수 있는 다양한 확장 및 커스터마이징 옵션을 제공합니다.</p>
+<section id="코드-실행-및-문서화" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="코드-실행-및-문서화"><span class="header-section-number">1.1</span> 코드 실행 및 문서화</h2>
+<ul>
+<li>인터랙티브 코드 실행: 셀 단위로 코드를 작성하고 실행하여 그 결과를 즉시 확인할 수 있습니다. 이는 데이터 분석, 시뮬레이션 및 머신러닝 모델 개발 시 신속한 피드백을 가능하게 합니다.</li>
+<li>Markdown 및 LaTeX 지원: Markdown 셀을 이용해 설명 텍스트, 수식, 표 등을 삽입할 수 있으며 LaTeX 수식은 MathJax를 통해 렌더링됩니다.</li>
+<li>단축키 및 모드: Jupyter Notebook은 셀 선택(커맨드 모드)와 코드 편집(에디트 모드) 등 두 가지 모드를 제공하며 다양한 단축키를 통해 작업 효율을 극대화할 수 있습니다.</li>
+</ul>
 </section>
-<section id="자동완성-tab-completion" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="자동완성-tab-completion"><span class="header-section-number">1.2</span> 자동완성 (Tab completion)</h2>
-<p>자동완성은 믿을 수 없을 정도로 아주 유용한 기능입니다. 코딩을 하면서 모든 것을 타이핑하는것보다 <em>tab</em>키를 누르면 알아서 완성해주는 기능입니다.</p>
+<section id="데이터-시각화-도구-통합" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="데이터-시각화-도구-통합"><span class="header-section-number">1.2</span> 데이터 시각화 도구 통합</h2>
+<p>Jupyter Notebook은 Matplotlib, Seaborn, Plotly, Bokeh 등 다양한 시각화 라이브러리와 원활하게 통합됩니다. 또한 코드를 실행하면 결과가 셀 바로 아래에 출력되며, 이를 통해 데이터 분석 및 모델 개발 과정에서 식별된 패턴 및 이상치를 즉시 확인할 수 있습니다.</p>
 </section>
 </section>
-<section id="matplotlib-과-seaborn" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Matplotlib 과 Seaborn</h1>
-<p><strong>matplotlib</strong>은 파이썬의 중심 라이브러리입니다. 사용하기 복잡할 수 있지만 풍부하고 강력한 기능을 제공하죠. 다만 기본 스타일이 촌스럽게 느껴질수 있습니다. 그래서 <strong>seaborn</strong>이 만들어 졌죠. seaborn은 matplotlib 기반으로 사용하기 쉽고 통계적인 시각화를 제공합니다.</p>
-<div id="cell-9" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필요한 모듈을 임포트합니다.</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># matplotlib 으로 임의의 신호를 생성하고 그려보자</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.random.randn(<span class="dv">1000</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.plot(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="jupyter-notebook-설치" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Jupyter Notebook 설치</h1>
+<p>Jupyter Notebook은 다양한 방식으로 설치할 수 있으며 사용 목적 및 사용자 환경에 따라 선택할 수 있습니다. 2025년도 기준으로 저는 <a href="https://github.com/prefix-dev/pixi">pixi</a>혹은 <a href="https://github.com/astral-sh/uv">uv</a>를 사용하는 것을 권장드립니다. pixi를 사용한다면 <code>pixi add jupyterlab</code>, uv를 사용한다면 <code>uv add jupyterlab</code>으로 설치할 수 있습니다.</p>
+</section>
+<section id="jupyter-notebook-실행" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Jupyter Notebook 실행</h1>
+<p>Jupyter Notebook을 실행하는 방법은 다음과 같습니다:</p>
+<ol type="1">
+<li>명령 프롬프트 또는 터미널 실행:
+<ul>
+<li>Windows에서는 검색창에 “cmd”를 입력하고 엔터를 눌러 명령 프롬프트를 실행합니다.</li>
+<li>macOS나 Linux에서는 터미널을 엽니다.</li>
+</ul></li>
+<li>Jupyter Notebook 실행 명령어 입력:
+<ul>
+<li><p>명령 프롬프트나 터미널에서 다음 명령어를 입력합니다:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter-lab</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>그러면 Jupyter Notebook 서버가 시작됩니다.</p></li>
+</ul></li>
+<li>웹 브라우저 자동 실행:
+<ul>
+<li>Jupyter Notebook 서버가 시작되면 기본 웹 브라우저가 자동으로 열리며 Jupyter Notebook 인터페이스가 표시됩니다.</li>
+</ul></li>
+<li>새 노트북 생성 또는 기존 노트북 열기:
+<ul>
+<li>새 노트북을 만들려면 웹 인터페이스의 오른쪽 상단에 있는 “New” 버튼을 클릭하고 “Python 3”을 선택합니다.</li>
+<li>기존 노트북을 열려면 파일 목록에서 원하는 <code>.ipynb</code> 파일을 클릭합니다.</li>
+</ul></li>
+</ol>
+<p>Jupyter Notebook이 실행되면 코드 작성, 실행, 데이터 분석 등의 작업을 수행할 수 있습니다.</p>
+<section id="jupyter-notebook-단축키-가이드" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="jupyter-notebook-단축키-가이드"><span class="header-section-number">3.1</span> Jupyter Notebook 단축키 가이드</h2>
+<p>자세한 것은 <a href="https://jupyter-notebook.readthedocs.io/en/stable">공식 문서</a>를 참고하세요.</p>
+<section id="셀-선택-모드-command-mode" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="셀-선택-모드-command-mode"><span class="header-section-number">3.1.1</span> 1. 셀 선택 모드 (Command Mode)</h3>
+<p><code>esc</code> 또는 <code>ctrl</code> + <code>m</code>를 눌러 셀이 파란색이 된 상태에서 사용</p>
+<ul>
+<li>위로 셀 추가: <code>a</code></li>
+<li>아래로 셀 추가: <code>b</code></li>
+<li>선택 셀 삭제: <code>d</code> <code>d</code> (d를 두번 누름)</li>
+<li>선택 셀 잘라내기 (삭제로 써도 무방): <code>x</code></li>
+<li>선택 셀 복사하기: <code>c</code></li>
+<li>선택 셀 아래에 붙여넣기: <code>v</code></li>
+<li>선택 셀과 아래 셀과 합치기: <code>shift</code> + <code>m</code></li>
+<li>실행결과 열기/닫기: <code>o</code></li>
+<li>Markdown으로 변경: <code>m</code></li>
+<li>Code로 변경: <code>y</code></li>
+<li>파일 저장: <code>ctrl</code> + <code>s</code> 또는 <code>s</code></li>
+<li>선택 셀의 코드 입력 모드로 돌아가기: <code>enter</code></li>
+</ul>
+</section>
+<section id="코드-입력-모드-edit-mode" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="코드-입력-모드-edit-mode"><span class="header-section-number">3.1.2</span> 2. 코드 입력 모드 (Edit Mode)</h3>
+<p><code>enter</code>를 눌러 셀이 초록색이 된 상태에서 사용</p>
+<ul>
+<li>선택 셀의 코드 전체 선택: <code>ctrl</code> + <code>a</code></li>
+<li>선택 셀 내 실행 취소: <code>ctrl</code> + <code>z</code></li>
+<li>선택 셀 내 다시 실행: <code>ctrl</code> + <code>y</code></li>
+<li>커서 위치 라인 주석처리: <code>ctrl</code> + <code>/</code></li>
+<li>선택 셀 코드 실행: <code>ctrl</code> + <code>enter</code></li>
+<li>선택 셀 코드 실행 후 다음 Cell로 이동 (없으면 새로 추가): <code>shift</code> + <code>enter</code></li>
+<li>커서 위치에서 셀 둘로 나누기: <code>shift</code> + <code>ctrl</code> + <code>-</code></li>
+<li>파일 저장: <code>ctrl</code> + <code>s</code></li>
+<li>셀 선택 모드로 돌아가기: <code>esc</code> 또는 <code>ctrl</code> + <code>m</code></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="활용-사례-데이터-분석-머신러닝-및-교육-분야" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 활용 사례: 데이터 분석, 머신러닝 및 교육 분야</h1>
+<p>Jupyter Notebook은 연구 및 교육에서 매우 다양한 방식으로 활용되고 있습니다.</p>
+<section id="코드셀-실행-예제" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="코드셀-실행-예제"><span class="header-section-number">4.1</span> 코드셀 실행 예제</h2>
+<section id="bouncing-ball-시뮬레이션" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="bouncing-ball-시뮬레이션"><span class="header-section-number">4.1.1</span> Bouncing Ball 시뮬레이션</h3>
+<div id="cell-5" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bouncing_ball(g, h0, v0, cor, t_max, dt):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> np.arange(<span class="dv">0</span>, t_max, dt)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.zeros_like(t)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> np.zeros_like(t)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    h[<span class="dv">0</span>] <span class="op">=</span> h0</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    v[<span class="dv">0</span>] <span class="op">=</span> v0</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(t)):</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        v[i] <span class="op">=</span> v[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">-</span> g <span class="op">*</span> dt</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        h[i] <span class="op">=</span> h[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">+</span> v[i] <span class="op">*</span> dt</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> h[i] <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            h[i] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            v[i] <span class="op">=</span> <span class="op">-</span>cor <span class="op">*</span> v[i <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> t, h</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 시뮬레이션 매개변수</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.8</span>  <span class="co"># 중력 가속도 (m/s^2)</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>h0 <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># 초기 높이 (m)</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>v0 <span class="op">=</span> <span class="dv">0</span>  <span class="co"># 초기 속도 (m/s)</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>cor <span class="op">=</span> <span class="fl">0.8</span>  <span class="co"># 반발 계수</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>t_max <span class="op">=</span> <span class="fl">3.0</span>  <span class="co"># 시뮬레이션 시간 (s)</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.001</span>  <span class="co"># 시간 간격 (s)</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 시뮬레이션 실행</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>t, h <span class="op">=</span> bouncing_ball(g, h0, v0, cor, t_max, dt)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 그래프 그리기</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>plt.plot(t, h)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Bouncing Ball"</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"time (ms)"</span>)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"height"</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">1.1</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co"># CSV 파일로 저장</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">"time(ms)"</span>: t, <span class="st">"height"</span>: h})</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>df.head()</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co"># df.to_csv('bouncing_ball_data.csv', index=False)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="jupyter_notebook_files/figure-html/cell-6-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="jupyter_notebook_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="jupyter_notebook_files/figure-html/cell-2-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="jupyter_notebook_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
-</div>
-<div id="cell-11" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 수학함수를 그래프로 그려보자</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">10.0</span>, <span class="fl">10.0</span>, <span class="dv">1000</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(<span class="dv">3</span> <span class="op">*</span> x) <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.1</span>, x<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="jupyter_notebook_files/figure-html/cell-7-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="jupyter_notebook_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 산점도를 그려보자</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.random.randn(<span class="dv">100</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x <span class="op">+</span> np.random.randn(<span class="dv">100</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="jupyter_notebook_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="jupyter_notebook_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<section id="seaborn-시각화" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="seaborn-시각화"><span class="header-section-number">2.1</span> Seaborn 시각화</h2>
-<p>seaborn은 사용하기 쉬운 발전된 기능을 제공 합니다.</p>
-<div id="cell-14" class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 예제에 사용될 데이터를 읽어오자</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> sns.load_dataset(<span class="st">"iris"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df.head()  <span class="co"># 데이터의 모양을 확인</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -362,53 +449,35 @@ Automagic is ON, % prefix IS NOT needed for line magics.</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">sepal_length</th>
-<th data-quarto-table-cell-role="th">sepal_width</th>
-<th data-quarto-table-cell-role="th">petal_length</th>
-<th data-quarto-table-cell-role="th">petal_width</th>
-<th data-quarto-table-cell-role="th">species</th>
+<th data-quarto-table-cell-role="th">time(ms)</th>
+<th data-quarto-table-cell-role="th">height</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>5.1</td>
-<td>3.5</td>
-<td>1.4</td>
-<td>0.2</td>
-<td>setosa</td>
+<td>0.000</td>
+<td>1.000000</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>4.9</td>
-<td>3.0</td>
-<td>1.4</td>
-<td>0.2</td>
-<td>setosa</td>
+<td>0.001</td>
+<td>0.999990</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>4.7</td>
-<td>3.2</td>
-<td>1.3</td>
-<td>0.2</td>
-<td>setosa</td>
+<td>0.002</td>
+<td>0.999971</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>4.6</td>
-<td>3.1</td>
-<td>1.5</td>
-<td>0.2</td>
-<td>setosa</td>
+<td>0.003</td>
+<td>0.999941</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>5.0</td>
-<td>3.6</td>
-<td>1.4</td>
-<td>0.2</td>
-<td>setosa</td>
+<td>0.004</td>
+<td>0.999902</td>
 </tr>
 </tbody>
 </table>
@@ -416,24 +485,131 @@ Automagic is ON, % prefix IS NOT needed for line magics.</code></pre>
 </div>
 </div>
 </div>
-<p>사용한 데이터셋은 <strong>붓꽃(iris)</strong> 의 3가지 종(setosa, versicolor, virginica)에 대해 꽃받침(sepal)과 꽃잎(petal)의 넓이와 길이를 정리한 데이터입니다.</p>
-<p><a href="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Mature_flower_diagram.svg/310px-Mature_flower_diagram.svg.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Mature_flower_diagram.svg/310px-Mature_flower_diagram.svg.png" class="img-fluid"></a></p>
-<p>위 그림을 참고하시면 이해가 되실 겁니다.</p>
-<div id="cell-16" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pair plot을 그려본다</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sns.pairplot(df, hue<span class="op">=</span><span class="st">"species"</span>, size<span class="op">=</span><span class="fl">2.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="붓꽃-데이터-시각화" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="붓꽃-데이터-시각화"><span class="header-section-number">4.1.2</span> 붓꽃 데이터 시각화</h3>
+<p>Iris 데이터셋을 분석하며, 기초적인 데이터 시각화 및 탐색에 대한 예제를 제공합니다. 예를 들어, 아래와 같은 코드를 작성하여 Iris 데이터셋의 꽃잎 길이와 너비를 시각화할 수 있습니다:</p>
+<div id="cell-7" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 아이리스 데이터셋 로드</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> load_iris()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(iris.data, columns<span class="op">=</span>iris.feature_names)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"species"</span>] <span class="op">=</span> pd.Categorical.from_codes(iris.target, iris.target_names)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 산점도 그리기</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> {<span class="st">"setosa"</span>: <span class="st">"red"</span>, <span class="st">"versicolor"</span>: <span class="st">"green"</span>, <span class="st">"virginica"</span>: <span class="st">"blue"</span>}</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> species, group <span class="kw">in</span> df.groupby(<span class="st">"species"</span>, observed<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    plt.scatter(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        group[<span class="st">"sepal length (cm)"</span>], group[<span class="st">"sepal width (cm)"</span>], label<span class="op">=</span>species, color<span class="op">=</span>colors[species]</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Iris Sepal Length vs Width"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Sepal Length (cm)"</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Sepal Width (cm)"</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="jupyter_notebook_files/figure-html/cell-10-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="jupyter_notebook_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="jupyter_notebook_files/figure-html/cell-3-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="jupyter_notebook_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<p>각각의 붓꽃종에 따라 꽃받침(sepal)과 꽃잎(petal)에 어떠한 연관성이 있는 지 확인 할 수 있습니다. 예를 들면 꽃잎의 길이가 길면 넓이도 넓어지는것은 모든종에서 연관관계가 있는 것을 볼수 있습니다.</p>
-
-
 </section>
+</section>
+<section id="매직-명령어magic-commands" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="매직-명령어magic-commands"><span class="header-section-number">4.2</span> 매직 명령어(Magic commands)</h2>
+<p>주피터 노트북에서 매직 명령어는 코드 실행을 단순화하고 노트북의 기능을 확장하는 데 유용한 특별한 명령어입니다. 매직 명령어는 두 가지 유형으로 나뉩니다:</p>
+<ol type="1">
+<li>라인 매직 명령어: ’%’로 시작하며 한 줄에 적용됩니다.</li>
+<li>셀 매직 명령어: ’%%’로 시작하며 전체 셀에 적용됩니다.</li>
+</ol>
+<section id="주요-매직-명령어" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="주요-매직-명령어"><span class="header-section-number">4.2.1</span> 주요 매직 명령어</h3>
+<section id="라인-매직-명령어" class="level4" data-number="4.2.1.1">
+<h4 data-number="4.2.1.1" class="anchored" data-anchor-id="라인-매직-명령어"><span class="header-section-number">4.2.1.1</span> 라인 매직 명령어</h4>
+<ul>
+<li><strong>%time</strong>: 특정 코드의 실행 시간을 측정합니다.</li>
+<li><strong>%timeit</strong>: 코드를 여러 번 실행하여 평균 실행 시간을 측정합니다.</li>
+<li><strong>%lsmagic</strong>: 사용 가능한 모든 매직 명령어를 나열합니다.</li>
+<li><strong>%matplotlib inline</strong>: matplotlib 그래프를 인라인으로 표시합니다.</li>
+<li><strong>%load</strong>: 외부 스크립트 파일을 현재 셀에 불러옵니다.</li>
+<li><strong>%pwd</strong>: 현재 노트북의 디렉토리 정보를 출력합니다.</li>
+<li><strong>%ls</strong>: 현재 디렉토리의 목록을 출력합니다.</li>
+</ul>
+</section>
+<section id="셀-매직-명령어" class="level4" data-number="4.2.1.2">
+<h4 data-number="4.2.1.2" class="anchored" data-anchor-id="셀-매직-명령어"><span class="header-section-number">4.2.1.2</span> 셀 매직 명령어</h4>
+<ul>
+<li><strong>%%time</strong>: 셀 전체의 실행 시간을 측정합니다.</li>
+<li><strong>%%timeit</strong>: 셀 전체를 여러 번 실행하여 평균 실행 시간을 측정합니다.</li>
+<li><strong>%%writefile</strong>: 셀의 내용을 파일로 저장합니다.</li>
+<li><strong>%%capture</strong>: 셀의 출력을 캡처하여 변수에 저장합니다.</li>
+<li><strong>%%bash</strong>: 셀에서 bash 명령어를 실행합니다.</li>
+<li><strong>%%html</strong>: HTML 코드를 실행하고 렌더링합니다.</li>
+<li><strong>%%latex</strong>: LaTeX 코드를 실행하고 렌더링합니다.</li>
+</ul>
+</section>
+</section>
+<section id="사용-예시" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="사용-예시"><span class="header-section-number">4.2.2</span> 사용 예시</h3>
+<ol type="1">
+<li>파일 저장: <code>%%writefile sample.py</code>로 시작하는 셀의 내용을 ‘sample.py’ 파일로 저장할 수 있습니다.</li>
+<li>코드 실행 시간 측정: <code>%time sum(range(1000000))</code>로 특정 연산의 실행 시간을 측정할 수 있습니다.</li>
+<li>외부 파일 로드: <code>%load sample.py</code>로 ‘sample.py’ 파일의 내용을 현재 셀에 불러올 수 있습니다.</li>
+</ol>
+<p>매직 명령어의 예시로 현재 디렉토리 위치를 출력해 보겠습니다.</p>
+<div id="cell-9" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pwd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>'/Users/fkt/Downloads/repo/tomorrow-lab.github.io/posts/ipynb'</code></pre>
+</div>
+</div>
+<div id="cell-10" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit <span class="bu">sum</span>(<span class="bu">range</span>(<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>322 ns ± 2.13 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="교육-및-연구-재현성-확보" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 교육 및 연구 재현성 확보</h1>
+<section id="교육용-템플릿" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="교육용-템플릿"><span class="header-section-number">5.1</span> 교육용 템플릿:</h2>
+<p>Jupyter Notebook은 Markdown과 코드 셀을 결합하여 학습 자료 및 실습 자료를 제작하기 좋습니다. 코로나19 데이터 분석 예제와 같이 단계별 주석과 설명을 포함한 템플릿을 활용하면 학생들이 실습을 통해 데이터 분석 기법을 배울 수 있습니다.</p>
+</section>
+<section id="연구-재현성" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="연구-재현성"><span class="header-section-number">5.2</span> 연구 재현성:</h2>
+<p>Binder, JupyterHub, Docker 컨테이너를 통해 동일한 실행 환경을 재현 가능하게 만들어 연구 결과의 재현성을 높일 수 있습니다. 또한 노트북 파일과 함께 환경 구성 파일을 공유하는 방식이 흔히 사용됩니다.</p>
+</section>
+<section id="다중-커널-연동" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="다중-커널-연동"><span class="header-section-number">5.3</span> 다중 커널 연동:</h2>
+<p>Python과 R 커널을 함께 사용하여 상호 간 데이터를 교환하고 분석할 수 있습니다. 예를 들어 매직 명령어 <code>%R</code>을 사용하여 Python 데이터 프레임을 R로 전달한 다음 R의 통계 함수를 활용하는 방법도 있습니다.</p>
+</section>
+</section>
+<section id="문제-해결-가이드" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 문제 해결 가이드</h1>
+<ul>
+<li>커널 연결 오류: Jupyter Notebook에서 커널 연결 오류가 발생했을 경우 다음 사항을 확인해야 합니다:
+<ul>
+<li>Python 버전이 Jupyter Notebook과 호환되는지 확인합니다.</li>
+<li>필요한 패키지의 종속성이 올바르게 설치되었는지 점검합니다.</li>
+<li>방화벽 설정을 확인하여 커널이 제대로 연결될 수 있도록 허용합니다.</li>
+</ul></li>
+</ul>
+</section>
+<section id="마치며" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> 마치며</h1>
+<p>Jupyter Notebook은 초보자부터 전문가까지 모두 사용할 수 있는 강력한 인터랙티브 컴퓨팅 도구입니다. Jupyter Notebook은 앞으로도 인공지능, 빅데이터, 연구 재현성 확보 등 다양한 분야에서 핵심 도구로 자리잡고 있습니다. 그러니 데이터 기반의 의사결정, 교육 자료 개발, 연구 성과 공유 등 여러 방면에서 효율적으로 적용하도록 하세요.</p>
+
+
 </section>
 
 </main> <!-- /main -->
