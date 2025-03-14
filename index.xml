@@ -40,71 +40,6 @@
 </div>
 </div>
 </div>
-<p>::: {#cell-2 .cell 0=‘e’ 1=‘c’ 2=‘h’ 3=‘o’ 4=‘:’ 5=‘f’ 6=‘a’ 7=‘l’ 8=‘s’ 9=‘e’}</p>
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Ignore insignificant warnings (ex: deprecations)</span></span>
-<span id="cb1-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> warnings</span>
-<span id="cb1-3"></span>
-<span id="cb1-4"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Set a seed for reproducibility</span></span>
-<span id="cb1-5"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> torch</span>
-<span id="cb1-6"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> os</span>
-<span id="cb1-7"></span>
-<span id="cb1-8">os.environ[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"TOKENIZERS_PARALLELISM"</span>] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"false"</span></span>
-<span id="cb1-9"></span>
-<span id="cb1-10">warnings.filterwarnings(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"ignore"</span>)</span>
-<span id="cb1-11"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> typing <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> List, Tuple, Dict, Any</span>
-<span id="cb1-12"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> pathlib <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> Path</span>
-<span id="cb1-13"></span>
-<span id="cb1-14"></span>
-<span id="cb1-15"><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">def</span> fix_torch_seed(seed<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">42</span>):</span>
-<span id="cb1-16">    torch.manual_seed(seed)</span>
-<span id="cb1-17">    torch.cuda.manual_seed(seed)</span>
-<span id="cb1-18">    torch.backends.cudnn.deterministic <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">True</span></span>
-<span id="cb1-19">    torch.backends.cudnn.benchmark <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">False</span></span>
-<span id="cb1-20"></span>
-<span id="cb1-21"></span>
-<span id="cb1-22">fix_torch_seed()</span></code></pre></div>
-<p>:::</p>
 <section id="일반-사전학습-모델-불러오기" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="일반-사전학습-모델-불러오기"><span class="header-section-number">1.1</span> 일반 사전학습 모델 불러오기</h2>
 <p>여기서 예시로 다루는 <code>TinySolar-248m-4k</code> 모델은 248M 매개변수(GPT2와 비슷한 규모)와 4096 토큰 컨텍스트 윈도우를 가진 작은 디코더 전용 소형 모델입니다. 이 모델은 Hugging Face 모델 라이브러리에서 <a href="https://huggingface.co/upstage/TinySolar-248m-4k">링크</a> 확인 할 수 있습니다.</p>
@@ -115,19 +50,23 @@ font-style: inherit;">False</span></span>
 <h1 data-number="2"><span class="header-section-number">2</span> 데이터 준비</h1>
 <p>언어 모델을 학습할 때 사용하는 데이터의 품질은 매우 중요하며 사전 학습(Pre-training)에서 필요한 데이터와 미세 조정(Fine-tuning)에서의 데이터는 서로 다른 성질을 가지고 있습니다.</p>
 <p>사전 학습에 사용되는 데이터는 일반적으로 더 대규모 데이터로 구조화가 덜 되어 있습니다. 반면에 미세 조정에서 사용되는 데이터는 특정 작업에 맞게 구조화된 데이터로 구성되어 있습니다. 비유하자면 사전 학습은 많은 책을 읽는 것과 같고, 미세 조정은 예비 고사를 치르는 것과 같습니다.</p>
-<p>여기에서는 학습 데이터를 확보하는 두 가지 방법을 살펴보겠습니다: 1. Hugging Face에서 기존 데이터셋 다운로드 2. 직접 수집한 텍스트 파일로 데이터셋 생성</p>
+<p>여기에서는 학습 데이터를 확보하는 두 가지 방법을 살펴보겠습니다:</p>
+<ol type="1">
+<li>Hugging Face에서 기존 데이터셋 다운로드</li>
+<li>직접 수집한 텍스트 파일로 데이터셋 생성</li>
+</ol>
 <p>두 경우 모두 결과는 <code>Datasets</code> 라이브러리의 일부인 Hugging Face <code>Dataset</code> 객체가 됩니다. Dataset의 속성과 사용 방법에 대한 자세한 내용은 <a href="https://huggingface.co/docs/datasets/en/index">Hugging Face 웹사이트</a>에서 확인할 수 있습니다.</p>
 <section id="hugging-face에서-데이터-다운로드" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="hugging-face에서-데이터-다운로드"><span class="header-section-number">2.1</span> Hugging Face에서 데이터 다운로드</h2>
 <p>여기서 다운로드하는 <code>upstage/Pretraining_Dataset</code> 데이터셋은 <strong>Red Pajama</strong>라는 훨씬 더 큰(1조 토큰 규모) 데이터셋의 서브셋입니다. 전체 데이터셋은 Hugging Face의 <a href="https://huggingface.co/datasets/togethercomputer/RedPajama-Data-1T">이 링크</a>에서 확인할 수 있습니다.</p>
 <div id="cell-5" class="cell">
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> datasets <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> load_dataset</span>
-<span id="cb2-2"></span>
-<span id="cb2-3">pretraining_dataset <span class="op" style="color: #5E5E5E;
+<span id="cb1-2"></span>
+<span id="cb1-3">pretraining_dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> load_dataset(<span class="st" style="color: #20794D;
 background-color: null;
@@ -136,12 +75,12 @@ background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"train"</span>)</span>
-<span id="cb2-4">pretraining_dataset <span class="op" style="color: #5E5E5E;
+<span id="cb1-4">pretraining_dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pretraining_dataset.select_columns([<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"text"</span>])</span>
-<span id="cb2-5"><span class="bu" style="color: null;
+<span id="cb1-5"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(pretraining_dataset)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -152,7 +91,7 @@ font-style: inherit;">print</span>(pretraining_dataset)</span></code></pre></div
 </div>
 </div>
 <div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="bu" style="color: null;
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(pretraining_dataset[<span class="st" style="color: #20794D;
 background-color: null;
@@ -170,13 +109,13 @@ These continued civil wars and the division of royal authority were disastrous f
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="사전-학습-및-미세-조정-데이터-세트-비교"><span class="header-section-number">2.1.1</span> 사전 학습 및 미세 조정 데이터 세트 비교</h3>
 <p>다음 셀에서는 위에서 로드한 사전 학습 데이터 세트와 대조할 미세 조정 데이터 세트를 다운로드합니다. Alpaca 모델 및 명령어 튜닝 데이터 세트에 대한 자세한 내용은 <a href="https://crfm.stanford.edu/2023/03/13/alpaca.html">여기</a>에서 확인할 수 있습니다.</p>
 <div id="cell-8" class="cell">
-<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> datasets <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> load_dataset</span>
-<span id="cb6-2"></span>
-<span id="cb6-3">instruction_dataset <span class="op" style="color: #5E5E5E;
+<span id="cb5-2"></span>
+<span id="cb5-3">instruction_dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> load_dataset(<span class="st" style="color: #20794D;
 background-color: null;
@@ -185,14 +124,14 @@ background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"train"</span>)</span>
-<span id="cb6-4"></span>
-<span id="cb6-5">i <span class="op" style="color: #5E5E5E;
+<span id="cb5-4"></span>
+<span id="cb5-5">i <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span></span>
-<span id="cb6-6"></span>
-<span id="cb6-7"><span class="bu" style="color: null;
+<span id="cb5-6"></span>
+<span id="cb5-7"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -203,7 +142,7 @@ background-color: null;
 font-style: inherit;">"instruction"</span>]<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">}</span></span>
-<span id="cb6-8"><span class="ss" style="color: #20794D;
+<span id="cb5-8"><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">Input: </span><span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -212,7 +151,7 @@ background-color: null;
 font-style: inherit;">"input"</span>]<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">}</span></span>
-<span id="cb6-9"><span class="ss" style="color: #20794D;
+<span id="cb5-9"><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">Output: </span><span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -239,41 +178,41 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 <section id="직접-데이터-스크랩해오기" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="직접-데이터-스크랩해오기"><span class="header-section-number">2.2</span> 직접 데이터 스크랩해오기</h2>
 <div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> datasets <span class="im" style="color: #00769E;
 background-color: null;
-font-style: inherit;">import</span> concatenate_datasets, Dataset</span>
-<span id="cb8-2"></span>
-<span id="cb8-3"><span class="co" style="color: #5E5E5E;
+font-style: inherit;">import</span> Dataset, concatenate_datasets</span>
+<span id="cb7-2"></span>
+<span id="cb7-3"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 스크랩된 텍스트 데이터를 저장할 리스트 초기화</span></span>
-<span id="cb8-4">scrap_text <span class="op" style="color: #5E5E5E;
+<span id="cb7-4">scrap_text <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> []</span>
-<span id="cb8-5">source_dir <span class="op" style="color: #5E5E5E;
+<span id="cb7-5">source_dir <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> Path(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"../data/input/scraped_text"</span>)</span>
-<span id="cb8-6"></span>
-<span id="cb8-7"><span class="co" style="color: #5E5E5E;
+<span id="cb7-6"></span>
+<span id="cb7-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 디렉토리 내 모든 파일 읽기</span></span>
-<span id="cb8-8"><span class="cf" style="color: #003B4F;
+<span id="cb7-8"><span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">for</span> file_path <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">in</span> source_dir.iterdir():</span>
-<span id="cb8-9">    <span class="cf" style="color: #003B4F;
+<span id="cb7-9">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> file_path.is_file():  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 파일인지 확인</span></span>
-<span id="cb8-10">        <span class="cf" style="color: #003B4F;
+<span id="cb7-10">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">with</span> file_path.<span class="bu" style="color: null;
@@ -289,30 +228,30 @@ background-color: null;
 font-style: inherit;">as</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">file</span>:</span>
-<span id="cb8-11">            scrap_text.append({<span class="st" style="color: #20794D;
+<span id="cb7-11">            scrap_text.append({<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"text"</span>: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">file</span>.read()})</span>
-<span id="cb8-12"></span>
-<span id="cb8-13"><span class="co" style="color: #5E5E5E;
+<span id="cb7-12"></span>
+<span id="cb7-13"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 리스트를 Dataset 객체로 변환</span></span>
-<span id="cb8-14">scrap_text_dataset <span class="op" style="color: #5E5E5E;
+<span id="cb7-14">scrap_text_dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> Dataset.from_list(scrap_text)</span>
-<span id="cb8-15"></span>
-<span id="cb8-16"><span class="co" style="color: #5E5E5E;
+<span id="cb7-15"></span>
+<span id="cb7-16"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 기존 데이터셋과 새로 만든 데이터셋 결합</span></span>
-<span id="cb8-17">dataset <span class="op" style="color: #5E5E5E;
+<span id="cb7-17">dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> concatenate_datasets([pretraining_dataset, scrap_text_dataset])</span>
-<span id="cb8-18"></span>
-<span id="cb8-19"><span class="co" style="color: #5E5E5E;
+<span id="cb7-18"></span>
+<span id="cb7-19"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 결과 출력</span></span>
-<span id="cb8-20"><span class="bu" style="color: null;
+<span id="cb7-20"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(dataset)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -339,22 +278,22 @@ font-style: inherit;">print</span>(dataset)</span></code></pre></div>
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="너무-짧은-데이터-제거"><span class="header-section-number">2.3.1</span> 너무 짧은 데이터 제거</h3>
 <p>짧은 데이터는 모델이 학습하는 데 도움이 되지 않을 수 있습니다. 따라서 이번 단계에서는 너무 짧은 데이터를 제거합니다. 여기서는 3개 이하의 토큰을 가진 데이터를 제거합니다.</p>
 <div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> heapq</span>
-<span id="cb10-2"><span class="im" style="color: #00769E;
+<span id="cb9-2"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> re</span>
-<span id="cb10-3"></span>
-<span id="cb10-4"></span>
-<span id="cb10-5"><span class="kw" style="color: #003B4F;
+<span id="cb9-3"></span>
+<span id="cb9-4"></span>
+<span id="cb9-5"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> paragraph_length_filter(example):</span>
-<span id="cb10-6">    <span class="co" style="color: #5E5E5E;
+<span id="cb9-6">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""페이지의 줄 수가 너무 적거나 줄 길이가 너무 짧으면 False를 반환합니다."""</span></span>
-<span id="cb10-7">    lines <span class="op" style="color: #5E5E5E;
+<span id="cb9-7">    lines <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> example[<span class="st" style="color: #20794D;
 background-color: null;
@@ -365,10 +304,10 @@ background-color: null;
 font-style: inherit;">\n</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>)</span>
-<span id="cb10-8">    <span class="co" style="color: #5E5E5E;
+<span id="cb9-8">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 가장 긴 3개의 줄의 길이를 계산하고, 그 중 최소 길이가 3보다 작은 경우 False 반환</span></span>
-<span id="cb10-9">    <span class="cf" style="color: #003B4F;
+<span id="cb9-9">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> <span class="bu" style="color: null;
@@ -397,21 +336,21 @@ background-color: null;
 font-style: inherit;">&lt;</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">3</span>:</span>
-<span id="cb10-10">        <span class="cf" style="color: #003B4F;
+<span id="cb9-10">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span></span>
-<span id="cb10-11">    <span class="cf" style="color: #003B4F;
+<span id="cb9-11">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span></span>
-<span id="cb10-12"></span>
-<span id="cb10-13"></span>
-<span id="cb10-14"><span class="bu" style="color: null;
+<span id="cb9-12"></span>
+<span id="cb9-13"></span>
+<span id="cb9-14"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -424,11 +363,11 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>)</span>
-<span id="cb10-15"></span>
-<span id="cb10-16"><span class="co" style="color: #5E5E5E;
+<span id="cb9-15"></span>
+<span id="cb9-16"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 필터링 작업 수행</span></span>
-<span id="cb10-17">dataset <span class="op" style="color: #5E5E5E;
+<span id="cb9-17">dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
 background-color: null;
@@ -437,8 +376,8 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>)</span>
-<span id="cb10-18"></span>
-<span id="cb10-19"><span class="bu" style="color: null;
+<span id="cb9-18"></span>
+<span id="cb9-19"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -468,77 +407,83 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="훈련-샘플-내-반복된-텍스트-제거"><span class="header-section-number">2.3.2</span> 훈련 샘플 내 반복된 텍스트 제거</h3>
 <p>여기서는 각 샘플 내에서 반복된 텍스트를 제거합니다. 이를 통해 모델이 반복된 텍스트를 학습하는 것을 방지할 수 있습니다.</p>
 <div id="cell-14" class="cell">
-<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><span class="kw" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">def</span> find_duplicates(paragraphs: List[<span class="bu" style="color: null;
+font-style: inherit;">def</span> find_duplicates(paragraphs: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>[<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>]) <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">-&gt;</span> Tuple[<span class="bu" style="color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">tuple</span>[<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span>, <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span>]:</span>
-<span id="cb13-2">    <span class="co" style="color: #5E5E5E;
+<span id="cb12-2">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""중복된 단락의 수와 문자 수를 계산합니다."""</span></span>
-<span id="cb13-3">    unique_paragraphs <span class="op" style="color: #5E5E5E;
+<span id="cb12-3">    unique_paragraphs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">set</span>()</span>
-<span id="cb13-4">    duplicate_chars <span class="op" style="color: #5E5E5E;
+<span id="cb12-4">    duplicate_chars <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span></span>
-<span id="cb13-5">    duplicate_count <span class="op" style="color: #5E5E5E;
+<span id="cb12-5">    duplicate_count <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span></span>
-<span id="cb13-6"></span>
-<span id="cb13-7">    <span class="cf" style="color: #003B4F;
+<span id="cb12-6"></span>
+<span id="cb12-7">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">for</span> paragraph <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">in</span> paragraphs:</span>
-<span id="cb13-8">        <span class="cf" style="color: #003B4F;
+<span id="cb12-8">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> paragraph <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">in</span> unique_paragraphs:</span>
-<span id="cb13-9">            duplicate_chars <span class="op" style="color: #5E5E5E;
+<span id="cb12-9">            duplicate_chars <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(paragraph)</span>
-<span id="cb13-10">            duplicate_count <span class="op" style="color: #5E5E5E;
+<span id="cb12-10">            duplicate_count <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span></span>
-<span id="cb13-11">        <span class="cf" style="color: #003B4F;
+<span id="cb12-11">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">else</span>:</span>
-<span id="cb13-12">            unique_paragraphs.add(paragraph)</span>
-<span id="cb13-13"></span>
-<span id="cb13-14">    <span class="cf" style="color: #003B4F;
+<span id="cb12-12">            unique_paragraphs.add(paragraph)</span>
+<span id="cb12-13"></span>
+<span id="cb12-14">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> duplicate_count, duplicate_chars</span>
-<span id="cb13-15"></span>
-<span id="cb13-16"></span>
-<span id="cb13-17"><span class="kw" style="color: #003B4F;
+<span id="cb12-15"></span>
+<span id="cb12-16"></span>
+<span id="cb12-17"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">def</span> paragraph_repetition_filter(example: Dict[<span class="bu" style="color: null;
+font-style: inherit;">def</span> paragraph_repetition_filter(example: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>[<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>, <span class="bu" style="color: null;
 background-color: null;
@@ -547,27 +492,27 @@ background-color: null;
 font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">bool</span>:</span>
-<span id="cb13-18">    <span class="co" style="color: #5E5E5E;
+<span id="cb12-18">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""페이지에 중복이 너무 많으면 False를 반환합니다."""</span></span>
-<span id="cb13-19">    text <span class="op" style="color: #5E5E5E;
+<span id="cb12-19">    text <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> example[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"text"</span>]</span>
-<span id="cb13-20">    paragraphs <span class="op" style="color: #5E5E5E;
+<span id="cb12-20">    paragraphs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> re.<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">compile</span>(<span class="vs" style="color: #20794D;
 background-color: null;
 font-style: inherit;">r"\n{2,}"</span>).split(text.strip())</span>
-<span id="cb13-21"></span>
-<span id="cb13-22">    duplicate_count, duplicate_chars <span class="op" style="color: #5E5E5E;
+<span id="cb12-21"></span>
+<span id="cb12-22">    duplicate_count, duplicate_chars <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> find_duplicates(paragraphs)</span>
-<span id="cb13-23"></span>
-<span id="cb13-24">    <span class="cf" style="color: #003B4F;
+<span id="cb12-23"></span>
+<span id="cb12-24">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> duplicate_count <span class="op" style="color: #5E5E5E;
@@ -579,13 +524,13 @@ background-color: null;
 font-style: inherit;">&gt;</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0.3</span>:</span>
-<span id="cb13-25">        <span class="cf" style="color: #003B4F;
+<span id="cb12-25">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span></span>
-<span id="cb13-26">    <span class="cf" style="color: #003B4F;
+<span id="cb12-26">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> duplicate_chars <span class="op" style="color: #5E5E5E;
@@ -597,36 +542,34 @@ background-color: null;
 font-style: inherit;">&gt;</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0.2</span>:</span>
-<span id="cb13-27">        <span class="cf" style="color: #003B4F;
+<span id="cb12-27">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span></span>
-<span id="cb13-28"></span>
-<span id="cb13-29">    <span class="cf" style="color: #003B4F;
+<span id="cb12-28"></span>
+<span id="cb12-29">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span></span>
-<span id="cb13-30"></span>
-<span id="cb13-31"></span>
-<span id="cb13-32"><span class="co" style="color: #5E5E5E;
+<span id="cb12-30"></span>
+<span id="cb12-31"></span>
+<span id="cb12-32"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터셋에 필터 적용</span></span>
-<span id="cb13-33">filtered_dataset <span class="op" style="color: #5E5E5E;
+<span id="cb12-33">filtered_dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
 background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb13-34">    paragraph_repetition_filter, load_from_cache_file<span class="op" style="color: #5E5E5E;
+font-style: inherit;">filter</span>(paragraph_repetition_filter, load_from_cache_file<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">False</span></span>
-<span id="cb13-35">)</span>
-<span id="cb13-36"><span class="bu" style="color: null;
+font-style: inherit;">False</span>)</span>
+<span id="cb12-34"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -653,32 +596,34 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="중복-제거"><span class="header-section-number">2.3.3</span> 중복 제거</h3>
 <p>이 섹션에서는 전체 데이터 세트에서 중복된 샘플을 제거합니다. (이전 단계에서는 각 샘플 내에서 반복된 텍스트만 제거했습니다.)</p>
 <div id="cell-16" class="cell">
-<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><span class="kw" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> deduplication(dataset: Dataset) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-&gt;</span> Dataset:</span>
-<span id="cb15-2">    unique_texts <span class="op" style="color: #5E5E5E;
+<span id="cb14-2">    unique_texts <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">set</span>()</span>
-<span id="cb15-3"></span>
-<span id="cb15-4">    <span class="kw" style="color: #003B4F;
+<span id="cb14-3"></span>
+<span id="cb14-4">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">def</span> dedup_func(example: Dict[<span class="bu" style="color: null;
+font-style: inherit;">def</span> dedup_func(example: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>[<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>, Any]) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">bool</span>:</span>
-<span id="cb15-5">        <span class="co" style="color: #5E5E5E;
+<span id="cb14-5">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""중복된 텍스트 항목을 제거합니다."""</span></span>
-<span id="cb15-6">        <span class="cf" style="color: #003B4F;
+<span id="cb14-6">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> example[<span class="st" style="color: #20794D;
@@ -687,28 +632,27 @@ font-style: inherit;">"text"</span>] <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">in</span> unique_texts:</span>
-<span id="cb15-7">            <span class="cf" style="color: #003B4F;
+<span id="cb14-7">            <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span></span>
-<span id="cb15-8">        unique_texts.add(example[<span class="st" style="color: #20794D;
+<span id="cb14-8">        unique_texts.add(example[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"text"</span>])</span>
-<span id="cb15-9">        <span class="cf" style="color: #003B4F;
+<span id="cb14-9">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span></span>
-<span id="cb15-10"></span>
-<span id="cb15-11">    deduplicated_dataset <span class="op" style="color: #5E5E5E;
+<span id="cb14-10"></span>
+<span id="cb14-11">    deduplicated_dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
 background-color: null;
-font-style: inherit;">filter</span>(</span>
-<span id="cb15-12">        dedup_func, load_from_cache_file<span class="op" style="color: #5E5E5E;
+font-style: inherit;">filter</span>(dedup_func, load_from_cache_file<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
@@ -716,10 +660,9 @@ font-style: inherit;">False</span>, num_proc<span class="op" style="color: #5E5E
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span></span>
-<span id="cb15-13">    )</span>
-<span id="cb15-14"></span>
-<span id="cb15-15">    <span class="bu" style="color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb14-12"></span>
+<span id="cb14-13">    <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -732,7 +675,7 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>)</span>
-<span id="cb15-16">    <span class="bu" style="color: null;
+<span id="cb14-14">    <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -745,14 +688,14 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>)</span>
-<span id="cb15-17"></span>
-<span id="cb15-18">    <span class="cf" style="color: #003B4F;
+<span id="cb14-15"></span>
+<span id="cb14-16">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> deduplicated_dataset</span>
-<span id="cb15-19"></span>
-<span id="cb15-20"></span>
-<span id="cb15-21">dataset <span class="op" style="color: #5E5E5E;
+<span id="cb14-17"></span>
+<span id="cb14-18"></span>
+<span id="cb14-19">dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> deduplication(dataset)</span></code></pre></div>
 <div class="cell-output cell-output-display">
@@ -766,34 +709,32 @@ font-style: inherit;">=</span> deduplication(dataset)</span></code></pre></div>
 </div>
 </div>
 </section>
-<section id="품질-필터---언어" class="level3" data-number="2.3.4">
-<h3 data-number="2.3.4" class="anchored" data-anchor-id="품질-필터---언어"><span class="header-section-number">2.3.4</span> 품질 필터 - 언어</h3>
-<p>여기서는 영어가 아닌 텍스트 샘플을 제거합니다. 이를 위해 lingua-py라는 언어 감지 라이브러리를 사용합니다. lingua-py에 대한 자세한 내용은 <a href="https://github.com/pemistahl/lingua-py">여기</a>에서 확인할 수 있습니다.</p>
+<section id="언어-필터링" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="언어-필터링"><span class="header-section-number">2.3.4</span> 언어 필터링</h3>
+<p>여기서는 영어가 아닌 텍스트 샘플을 제거합니다. 이를 위해 <code>lingua-py</code>라는 언어 감지 라이브러리를 사용합니다. 자세한 내용은 <a href="https://github.com/pemistahl/lingua-py">여기</a>에서 확인할 수 있습니다.</p>
 <div id="cell-18" class="cell">
-<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> lingua <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> Language, LanguageDetectorBuilder</span>
-<span id="cb17-2"></span>
-<span id="cb17-3"><span class="co" style="color: #5E5E5E;
+<span id="cb16-2"></span>
+<span id="cb16-3"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 영어와 한국어 감지를 위한 언어 감지기 생성</span></span>
-<span id="cb17-4">detector <span class="op" style="color: #5E5E5E;
+<span id="cb16-4">detector <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> LanguageDetectorBuilder.from_languages(</span>
-<span id="cb17-5">    Language.ENGLISH, Language.KOREAN</span>
-<span id="cb17-6">).build()</span>
-<span id="cb17-7"></span>
-<span id="cb17-8"><span class="co" style="color: #5E5E5E;
+font-style: inherit;">=</span> LanguageDetectorBuilder.from_languages(Language.ENGLISH, Language.KOREAN).build()</span>
+<span id="cb16-5"></span>
+<span id="cb16-6"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터셋에서 영어 텍스트만 필터링</span></span>
-<span id="cb17-9">dataset <span class="op" style="color: #5E5E5E;
+<span id="cb16-7">dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">filter</span>(</span>
-<span id="cb17-10">    <span class="kw" style="color: #003B4F;
+<span id="cb16-8">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">lambda</span> x: detector.detect_language_of(x[<span class="st" style="color: #20794D;
@@ -806,26 +747,25 @@ font-style: inherit;">\n</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">""</span>))</span>
-<span id="cb17-11">    <span class="op" style="color: #5E5E5E;
+font-style: inherit;">""</span>)) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> Language.ENGLISH,</span>
-<span id="cb17-12">    load_from_cache_file<span class="op" style="color: #5E5E5E;
+<span id="cb16-9">    load_from_cache_file<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>,</span>
-<span id="cb17-13">    num_proc<span class="op" style="color: #5E5E5E;
+<span id="cb16-10">    num_proc<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>,</span>
-<span id="cb17-14">)</span>
-<span id="cb17-15"></span>
-<span id="cb17-16"><span class="co" style="color: #5E5E5E;
+<span id="cb16-11">)</span>
+<span id="cb16-12"></span>
+<span id="cb16-13"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 필터링 후 데이터셋 크기 출력</span></span>
-<span id="cb17-17"><span class="bu" style="color: null;
+<span id="cb16-14"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -856,26 +796,26 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 <h2 data-number="2.4" class="anchored" data-anchor-id="데이터-세트를-디스크에-저장"><span class="header-section-number">2.4</span> 데이터 세트를 디스크에 저장</h2>
 <p>Parquet 데이터 형식에 대한 자세한 내용은 <a href="https://parquet.apache.org/">여기</a>에서 확인할 수 있습니다.</p>
 <div id="cell-20" class="cell">
-<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1">output_dir <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1">output_dir <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> Path(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"../data/output"</span>)</span>
-<span id="cb20-2">file_name <span class="op" style="color: #5E5E5E;
+<span id="cb19-2">file_name <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"preprocessed_dataset.parquet"</span></span>
-<span id="cb20-3">file_path <span class="op" style="color: #5E5E5E;
+<span id="cb19-3">file_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> output_dir <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span> file_name</span>
-<span id="cb20-4"></span>
-<span id="cb20-5"><span class="co" style="color: #5E5E5E;
+<span id="cb19-4"></span>
+<span id="cb19-5"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 디렉토리가 존재하지 않으면 생성</span></span>
-<span id="cb20-6">output_dir.mkdir(parents<span class="op" style="color: #5E5E5E;
+<span id="cb19-6">output_dir.mkdir(parents<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
@@ -884,13 +824,13 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span>
-<span id="cb20-7"></span>
-<span id="cb20-8"><span class="co" style="color: #5E5E5E;
+<span id="cb19-7"></span>
+<span id="cb19-8"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 파케이 파일로 저장</span></span>
-<span id="cb20-9">dataset.to_parquet(file_path)</span>
-<span id="cb20-10"></span>
-<span id="cb20-11"><span class="bu" style="color: null;
+<span id="cb19-9">dataset.to_parquet(file_path)</span>
+<span id="cb19-10"></span>
+<span id="cb19-11"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -910,7 +850,7 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 <pre><code>데이터셋이 성공적으로 저장되었습니다: ../data/output/preprocessed_dataset.parquet</code></pre>
 </div>
 </div>
-<p>이제 데이터 세트를 정리했으므로, 훈련을 위해 준비해야 합니다. 이 섹션에서는 훈련 데이터를 Hugging Face에서 사용할 수 있도록 패키징하는 방법을 배웁니다.</p>
+<p>이제 데이터 세트를 모델 학습에 사용할 수 있도록 패키징하는 방법을 배웁니다.</p>
 </section>
 </section>
 <section id="데이터-패키징" class="level1" data-number="3">
@@ -925,14 +865,13 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 <h2 data-number="3.1" class="anchored" data-anchor-id="토큰화-및-input_ids-만들기"><span class="header-section-number">3.1</span> 토큰화 및 input_ids 만들기</h2>
 <p>이전 단계에서 저장한 데이터 세트를 불러오는 것부터 시작합니다.</p>
 <div id="cell-22" class="cell">
-<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> datasets</span>
-<span id="cb22-2"></span>
-<span id="cb22-3">dataset <span class="op" style="color: #5E5E5E;
+<span id="cb21-2"></span>
+<span id="cb21-3">dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> datasets.load_dataset(</span>
-<span id="cb22-4">    <span class="st" style="color: #20794D;
+font-style: inherit;">=</span> datasets.load_dataset(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"parquet"</span>, data_files<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -940,9 +879,8 @@ font-style: inherit;">=</span>file_path.as_posix(), split<span class="op" style=
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"train"</span></span>
-<span id="cb22-5">)</span>
-<span id="cb22-6"><span class="bu" style="color: null;
+font-style: inherit;">"train"</span>)</span>
+<span id="cb21-4"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(dataset)</span></code></pre></div>
 <div class="cell-output cell-output-display">
@@ -959,7 +897,7 @@ font-style: inherit;">print</span>(dataset)</span></code></pre></div>
 </div>
 <p>Hugging Face <code>Dataset</code> 객체의 <code>shard</code> 메서드를 사용하여 데이터 세트를 10개의 더 작은 조각(<em>shards</em>)으로 분할합니다. (<em>shard</em>는 깨진 유리 조각처럼 데이터를 나누는 개념입니다.) Sharding에 대한 자세한 내용은 <a href="https://huggingface.co/docs/datasets/en/process#shard">여기</a>에서 확인할 수 있습니다.</p>
 <div id="cell-24" class="cell">
-<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1">dataset <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1">dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> dataset.shard(num_shards<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -970,7 +908,7 @@ background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>)</span>
-<span id="cb24-2"><span class="bu" style="color: null;
+<span id="cb23-2"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(dataset)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -982,98 +920,101 @@ font-style: inherit;">print</span>(dataset)</span></code></pre></div>
 </div>
 <p>토크나이저를 불러오고, <code>input_ids</code>를 생성하는 데 사용할 수 있습니다. 이 과정은 데이터를 토큰화하고 토큰을 <code>input_ids</code>로 변환하는 과정입니다.</p>
 <div id="cell-26" class="cell">
-<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> AutoTokenizer</span>
-<span id="cb26-2"></span>
-<span id="cb26-3">model_path_or_name <span class="op" style="color: #5E5E5E;
+<span id="cb25-2"></span>
+<span id="cb25-3">model_path_or_name <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"upstage/SOLAR-10.7B-v1.0"</span></span>
-<span id="cb26-4">tokenizer <span class="op" style="color: #5E5E5E;
+<span id="cb25-4">tokenizer <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> AutoTokenizer.from_pretrained(</span>
-<span id="cb26-5">    model_path_or_name,</span>
-<span id="cb26-6">    use_fast<span class="op" style="color: #5E5E5E;
+<span id="cb25-5">    model_path_or_name,</span>
+<span id="cb25-6">    use_fast<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>,  <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># 참고: 이 경우 긴 텍스트 샘플이 때때로 멈추는 경향이 있어 빠른 토큰화를 비활성화합니다. 대신 병렬 처리를 위해 map 함수와 datasets 라이브러리를 사용하세요.</span></span>
-<span id="cb26-7">)</span>
-<span id="cb26-8">tokenizer.tokenize(<span class="st" style="color: #20794D;
+font-style: inherit;"># 참고: 긴 텍스트 샘플이 때때로 멈추는 경향이 있어 빠른 토큰화를 비활성화합니다. 대신 병렬 처리를 위해 map 함수와 datasets 라이브러리를 사용하겠습니다.</span></span>
+<span id="cb25-7">)</span>
+<span id="cb25-8">tokenizer.tokenize(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"I'm a short sentence"</span>)</span>
-<span id="cb26-9"></span>
-<span id="cb26-10"></span>
-<span id="cb26-11"><span class="co" style="color: #5E5E5E;
+<span id="cb25-9"></span>
+<span id="cb25-10"></span>
+<span id="cb25-11"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 헬퍼 함수 생성:</span></span>
-<span id="cb26-12"><span class="kw" style="color: #003B4F;
+<span id="cb25-12"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> tokenization(example):</span>
-<span id="cb26-13">    <span class="co" style="color: #5E5E5E;
+<span id="cb25-13">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 토큰화</span></span>
-<span id="cb26-14">    tokens <span class="op" style="color: #5E5E5E;
+<span id="cb25-14">    tokens <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tokenizer.tokenize(example[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"text"</span>])</span>
-<span id="cb26-15">    <span class="co" style="color: #5E5E5E;
+<span id="cb25-15">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 토큰을 ID로 변환</span></span>
-<span id="cb26-16">    token_ids <span class="op" style="color: #5E5E5E;
+<span id="cb25-16">    token_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tokenizer.convert_tokens_to_ids(tokens)</span>
-<span id="cb26-17">    <span class="co" style="color: #5E5E5E;
+<span id="cb25-17">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># &lt;bos&gt;, &lt;eos&gt; 토큰을 token_ids의 앞과 뒤에 추가</span></span>
-<span id="cb26-18">    <span class="co" style="color: #5E5E5E;
+<span id="cb25-18">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># bos: 시퀀스 시작, eos: 시퀀스 끝</span></span>
-<span id="cb26-19">    token_ids <span class="op" style="color: #5E5E5E;
+<span id="cb25-19">    token_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> [tokenizer.bos_token_id] <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> token_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> [tokenizer.eos_token_id]</span>
-<span id="cb26-20">    example[<span class="st" style="color: #20794D;
+<span id="cb25-20">    example[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"input_ids"</span>] <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> token_ids</span>
-<span id="cb26-21"></span>
-<span id="cb26-22">    <span class="co" style="color: #5E5E5E;
+<span id="cb25-21"></span>
+<span id="cb25-22">    <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># 최종 데이터셋의 총 토큰 수를 계산하는 데 이 열을 사용할 것입니다</span></span>
-<span id="cb26-23">    example[<span class="st" style="color: #20794D;
+font-style: inherit;"># 최종 데이터셋의 총 토큰 수를 계산하는 데 이 열을 사용할 것입니다.</span></span>
+<span id="cb25-23">    example[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"num_tokens"</span>] <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(token_ids)</span>
-<span id="cb26-24">    <span class="cf" style="color: #003B4F;
+<span id="cb25-24">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> example</span></code></pre></div>
 </div>
-<p>사전 학습 데이터 세트의 모든 예제를 토큰화하세요. 이 과정은 시간이 오래 걸릴 수 있습니다.</p>
+<p>사전 학습 데이터 세트의 모든 예제를 토큰화 합니다.</p>
+<blockquote class="blockquote">
+<p>이 과정은 시간이 오래 걸릴 수 있습니다.</p>
+</blockquote>
 <div id="cell-28" class="cell">
-<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터셋의 각 예제에 tokenization 함수를 적용합니다.</span></span>
-<span id="cb27-2"><span class="co" style="color: #5E5E5E;
+<span id="cb26-2"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># load_from_cache_file=False 옵션은 캐시된 결과를 사용하지 않고 항상 새로 계산하도록 합니다.</span></span>
-<span id="cb27-3">dataset <span class="op" style="color: #5E5E5E;
+<span id="cb26-3">dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
 background-color: null;
@@ -1082,11 +1023,11 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>)</span>
-<span id="cb27-4"></span>
-<span id="cb27-5"><span class="co" style="color: #5E5E5E;
+<span id="cb26-4"></span>
+<span id="cb26-5"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 변환된 데이터셋의 정보를 출력합니다.</span></span>
-<span id="cb27-6"><span class="bu" style="color: null;
+<span id="cb26-6"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(dataset)</span></code></pre></div>
 <div class="cell-output cell-output-display">
@@ -1102,15 +1043,15 @@ font-style: inherit;">print</span>(dataset)</span></code></pre></div>
 </div>
 </div>
 <div id="cell-29" class="cell">
-<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1">sample <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1">sample <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> dataset[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">3</span>]  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터셋에서 네 번째 샘플을 선택합니다.</span></span>
-<span id="cb29-2"></span>
-<span id="cb29-3"><span class="bu" style="color: null;
+<span id="cb28-2"></span>
+<span id="cb28-3"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1121,10 +1062,9 @@ background-color: null;
 font-style: inherit;">30</span>])  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 샘플 텍스트의 처음 30자를 출력합니다.</span></span>
-<span id="cb29-4"><span class="bu" style="color: null;
+<span id="cb28-4"><span class="bu" style="color: null;
 background-color: null;
-font-style: inherit;">print</span>(</span>
-<span id="cb29-5">    <span class="st" style="color: #20794D;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span><span class="ch" style="color: #20794D;
 background-color: null;
@@ -1134,11 +1074,10 @@ font-style: inherit;">input_ids"</span>, sample[<span class="st" style="color: #
 background-color: null;
 font-style: inherit;">"input_ids"</span>][:<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">30</span>]</span>
-<span id="cb29-6">)  <span class="co" style="color: #5E5E5E;
+font-style: inherit;">30</span>])  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 토큰화된 입력 ID의 처음 30개를 출력합니다.</span></span>
-<span id="cb29-7"><span class="bu" style="color: null;
+<span id="cb28-5"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -1162,20 +1101,20 @@ num_tokens 3731</code></pre>
 </div>
 <p>데이터셋의 총 토큰 수를 확인합니다.</p>
 <div id="cell-31" class="cell">
-<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">as</span> np</span>
-<span id="cb31-2"></span>
-<span id="cb31-3">total_tokens <span class="op" style="color: #5E5E5E;
+<span id="cb30-2"></span>
+<span id="cb30-3">total_tokens <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> np.<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">sum</span>(dataset[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"num_tokens"</span>])</span>
-<span id="cb31-4"><span class="bu" style="color: null;
+<span id="cb30-4"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1193,39 +1132,46 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 </section>
 <section id="데이터-패킹" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="데이터-패킹"><span class="header-section-number">3.2</span> 데이터 패킹</h2>
+<p>데이터 패킹은 여러 데이터를 효율적으로 하나의 데이터 블록으로 결합하는 과정입니다. 이 기술은 특히 자연어 처리(NLP) 작업에서 배치 처리 효율성을 높이는 데 중요합니다. 아래 다이어그램은 일반적인 워크플로우를 보여줍니다.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">graph LR;
+<pre class="mermaid mermaid-js">graph TD;
     B[Load Dataset];
     B --&gt; C[Tokenize Each Example];
     C --&gt; D[Create input_ids];
     D --&gt; E[Pad Sequences to Max Length];
     E --&gt; F[Pack Tokens into Batches];
-    F --&gt; G[Ready for Training];
 </pre>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
-<p>모든 예제에 대한 <code>input_ids</code>를 하나의 리스트로 연결합니다.</p>
+<ol type="1">
+<li>데이터셋 로드: 원시 텍스트 데이터를 메모리에 불러옵니다.</li>
+<li>토큰화: 각 예제 텍스트를 개별 토큰으로 분할합니다. 이는 단어, 하위 단어 또는 문자 수준에서 수행될 수 있습니다.</li>
+<li>input_ids 생성: 토큰을 해당하는 정수 ID로 변환합니다. 이는 모델이 이해할 수 있는 형식입니다.</li>
+<li>시퀀스 패딩: 배치 내의 모든 시퀀스가 동일한 길이를 갖도록 짧은 시퀀스에 패딩을 추가합니다.</li>
+<li>배치로 토큰 패킹: 여러 예제의 토큰을 하나의 배치로 결합합니다.</li>
+</ol>
+<p>마지막 단계에서 모든 예제의 input_ids를 하나의 리스트로 연결하는 것은 메모리 효율성과 처리 속도를 향상시키는 중요한 최적화 기법입니다. 이렇게 하면 모델이 한 번에 여러 예제를 처리할 수 있습니다. 이러한 패킹 기법은 GPU 메모리 사용을 최적화하고 병렬 처리 능력을 최대한 활용할 수 있어 전체적인 훈련 시간을 단축시킬 수 있습니다.</p>
 <div id="cell-33" class="cell">
-<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># dataset의 "input_ids" 배열을 연결하여 하나의 배열로 만듭니다.</span></span>
-<span id="cb33-2">input_ids <span class="op" style="color: #5E5E5E;
+<span id="cb32-2">input_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> np.concatenate(dataset[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"input_ids"</span>])</span>
-<span id="cb33-3"></span>
-<span id="cb33-4"><span class="co" style="color: #5E5E5E;
+<span id="cb32-3"></span>
+<span id="cb32-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 연결된 배열의 길이를 출력합니다.</span></span>
-<span id="cb33-5"><span class="bu" style="color: null;
+<span id="cb32-5"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1238,20 +1184,20 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>)</span>
-<span id="cb33-6"></span>
-<span id="cb33-7"><span class="co" style="color: #5E5E5E;
+<span id="cb32-6"></span>
+<span id="cb32-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 최대 시퀀스 길이를 설정합니다.</span></span>
-<span id="cb33-8">max_seq_length <span class="op" style="color: #5E5E5E;
+<span id="cb32-8">max_seq_length <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">32</span></span>
-<span id="cb33-9"></span>
-<span id="cb33-10"><span class="co" style="color: #5E5E5E;
+<span id="cb32-9"></span>
+<span id="cb32-10"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 총 길이를 계산합니다. input_ids의 길이에서 max_seq_length로 나누어 나머지를 뺀 값입니다.</span></span>
-<span id="cb33-11">total_length <span class="op" style="color: #5E5E5E;
+<span id="cb32-11">total_length <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
@@ -1262,11 +1208,11 @@ background-color: null;
 font-style: inherit;">len</span>(input_ids) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">%</span> max_seq_length</span>
-<span id="cb33-12"></span>
-<span id="cb33-13"><span class="co" style="color: #5E5E5E;
+<span id="cb32-12"></span>
+<span id="cb32-13"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 계산된 총 길이를 출력합니다.</span></span>
-<span id="cb33-14"><span class="bu" style="color: null;
+<span id="cb32-14"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1284,17 +1230,17 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 </div>
 <p>리스트 끝에서 추가 토큰을 버려서 토큰의 수가 <code>max_seq_length</code>로 정확하게 나누어지도록 합니다.</p>
 <div id="cell-35" class="cell">
-<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># input_ids 배열을 total_length 길이만큼 자릅니다.</span></span>
-<span id="cb35-2">input_ids <span class="op" style="color: #5E5E5E;
+<span id="cb34-2">input_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> input_ids[:total_length]</span>
-<span id="cb35-3"></span>
-<span id="cb35-4"><span class="co" style="color: #5E5E5E;
+<span id="cb34-3"></span>
+<span id="cb34-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 잘린 배열의 shape(형상)을 출력합니다.</span></span>
-<span id="cb35-5"><span class="bu" style="color: null;
+<span id="cb34-5"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1307,22 +1253,22 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>)</span>
-<span id="cb35-6"></span>
-<span id="cb35-7"><span class="co" style="color: #5E5E5E;
+<span id="cb34-6"></span>
+<span id="cb34-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># input_ids 배열을 (행: -1, 열: max_seq_length) 형태로 재구조화하고, 데이터 타입을 int32로 변환합니다.</span></span>
-<span id="cb35-8">input_ids_reshaped <span class="op" style="color: #5E5E5E;
+<span id="cb34-8">input_ids_reshaped <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> input_ids.reshape(<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>, max_seq_length).astype(np.int32)</span>
-<span id="cb35-9"></span>
-<span id="cb35-10"><span class="co" style="color: #5E5E5E;
+<span id="cb34-9"></span>
+<span id="cb34-10"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 재구조화된 배열의 shape(형상)을 출력합니다.</span></span>
-<span id="cb35-11"><span class="bu" style="color: null;
+<span id="cb34-11"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1335,11 +1281,11 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>)</span>
-<span id="cb35-12"></span>
-<span id="cb35-13"><span class="co" style="color: #5E5E5E;
+<span id="cb34-12"></span>
+<span id="cb34-13"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 재구조화된 배열의 데이터 타입을 출력합니다.</span></span>
-<span id="cb35-14"><span class="bu" style="color: null;
+<span id="cb34-14"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1360,26 +1306,26 @@ input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pr
 </div>
 <p>Hugging Face 데이터 세트로 변환하려면 다음과 같이 합니다.</p>
 <div id="cell-37" class="cell">
-<div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># input_ids_reshaped를 리스트로 변환합니다.</span></span>
-<span id="cb37-2">input_ids_list <span class="op" style="color: #5E5E5E;
+<span id="cb36-2">input_ids_list <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> input_ids_reshaped.tolist()</span>
-<span id="cb37-3"></span>
-<span id="cb37-4"><span class="co" style="color: #5E5E5E;
+<span id="cb36-3"></span>
+<span id="cb36-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 변환된 리스트를 사용하여 새로운 Dataset 객체를 생성합니다.</span></span>
-<span id="cb37-5">packaged_pretrain_dataset <span class="op" style="color: #5E5E5E;
+<span id="cb36-5">packaged_pretrain_dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> datasets.Dataset.from_dict({<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"input_ids"</span>: input_ids_list})</span>
-<span id="cb37-6"></span>
-<span id="cb37-7"><span class="co" style="color: #5E5E5E;
+<span id="cb36-6"></span>
+<span id="cb36-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 생성된 Dataset 객체의 정보를 출력합니다.</span></span>
-<span id="cb37-8"><span class="bu" style="color: null;
+<span id="cb36-8"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1405,21 +1351,21 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 <p><code>to_parquet()</code> 메서드는 데이터를 Parquet 파일 형식으로 저장합니다. Parquet는 효율적인 컬럼 기반 저장 형식으로, 대규모 데이터를 저장하고 처리하는 데 최적화되어 있습니다. Parquet 형식은 다른 데이터 분석 툴(예: pandas, Apache Spark 등)과 쉽게 호환됩니다. 데이터 세트를 다른 시스템 또는 다른 툴과 공유할 때 유용하며 압축과 성능 최적화 측면에서 효율적입니다.</p>
 </blockquote>
 <div id="cell-39" class="cell">
-<div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1">file_name <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1">file_name <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"packaged_pretrain_dataset.parquet"</span></span>
-<span id="cb39-2">file_path <span class="op" style="color: #5E5E5E;
+<span id="cb38-2">file_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> output_dir <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span> file_name</span>
-<span id="cb39-3"></span>
-<span id="cb39-4"><span class="co" style="color: #5E5E5E;
+<span id="cb38-3"></span>
+<span id="cb38-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 디렉토리가 존재하지 않으면 생성</span></span>
-<span id="cb39-5">output_dir.mkdir(parents<span class="op" style="color: #5E5E5E;
+<span id="cb38-5">output_dir.mkdir(parents<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
@@ -1428,13 +1374,13 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span>
-<span id="cb39-6"></span>
-<span id="cb39-7"><span class="co" style="color: #5E5E5E;
+<span id="cb38-6"></span>
+<span id="cb38-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 파케이 파일로 저장</span></span>
-<span id="cb39-8">packaged_pretrain_dataset.to_parquet(file_path)</span>
-<span id="cb39-9"></span>
-<span id="cb39-10"><span class="bu" style="color: null;
+<span id="cb38-8">packaged_pretrain_dataset.to_parquet(file_path)</span>
+<span id="cb38-9"></span>
+<span id="cb38-10"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1455,7 +1401,7 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="cell-40" class="cell">
-<div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1">packaged_pretrain_dataset</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1">packaged_pretrain_dataset</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>Dataset({
     features: ['input_ids'],
@@ -1464,7 +1410,7 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="cell-41" class="cell">
-<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><span class="bu" style="color: null;
+<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(packaged_pretrain_dataset[<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -1488,26 +1434,21 @@ font-style: inherit;">10</span>])</span></code></pre></div>
 <p>Meta의 Llama 모델 계열을 기반으로 모델을 구성할 것입니다. transformers 라이브러리에는 이 모델들과 함께 작업할 수 있는 여러 도구가 있으며, 이에 대해 <a href="https://huggingface.co/docs/transformers/main/en/model_doc/llama">여기</a>에서 읽을 수 있습니다.</p>
 <p>시작은 <code>LlamaConfig</code> 객체를 생성하여 모델의 아키텍처를 구성하는 것입니다.</p>
 <div id="cell-43" class="cell">
-<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
 background-color: null;
-font-style: inherit;">import</span> LlamaConfig</span>
-<span id="cb45-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> LlamaForCausalLM</span>
-<span id="cb45-3"></span>
-<span id="cb45-4"></span>
-<span id="cb45-5"><span class="kw" style="color: #003B4F;
+font-style: inherit;">import</span> LlamaConfig, LlamaForCausalLM</span>
+<span id="cb44-2"></span>
+<span id="cb44-3"></span>
+<span id="cb44-4"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> print_nparams(model):</span>
-<span id="cb45-6">    <span class="co" style="color: #5E5E5E;
+<span id="cb44-5">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""모델의 총 파라미터 개수를 계산하여 출력합니다."""</span></span>
-<span id="cb45-7">    nparams <span class="op" style="color: #5E5E5E;
+<span id="cb44-6">    nparams <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
@@ -1518,7 +1459,7 @@ font-style: inherit;">for</span> p <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">in</span> model.parameters())</span>
-<span id="cb45-8">    <span class="bu" style="color: null;
+<span id="cb44-7">    <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1529,15 +1470,15 @@ background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"</span>)</span>
-<span id="cb45-9"></span>
-<span id="cb45-10"></span>
-<span id="cb45-11"><span class="co" style="color: #5E5E5E;
+<span id="cb44-8"></span>
+<span id="cb44-9"></span>
+<span id="cb44-10"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># LlamaConfig 객체를 생성합니다.</span></span>
-<span id="cb45-12">config <span class="op" style="color: #5E5E5E;
+<span id="cb44-11">config <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> LlamaConfig()</span>
-<span id="cb45-13"><span class="bu" style="color: null;
+<span id="cb44-12"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1576,54 +1517,52 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="cell-44" class="cell">
-<div class="sourceCode cell-code" id="cb47" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 모델 아키텍처를 변경하기 위해 설정 값을 업데이트합니다:</span></span>
-<span id="cb47-2">config.num_hidden_layers <span class="op" style="color: #5E5E5E;
+<span id="cb46-2">config.num_hidden_layers <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">12</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 기본값 32에서 12로 감소</span></span>
-<span id="cb47-3">config.hidden_size <span class="op" style="color: #5E5E5E;
+<span id="cb46-3">config.hidden_size <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1024</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 기본값 4096에서 1024로 감소 (1/4 축소)</span></span>
-<span id="cb47-4">config.intermediate_size <span class="op" style="color: #5E5E5E;
+<span id="cb46-4">config.intermediate_size <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> (</span>
-<span id="cb47-5">    <span class="dv" style="color: #AD0000;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4096</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 기본값 11008에서 4096으로 감소 (MLP 표현 차원, 약 1/3 축소)</span></span>
-<span id="cb47-6">)</span>
-<span id="cb47-7">config.num_key_value_heads <span class="op" style="color: #5E5E5E;
+<span id="cb46-5">config.num_key_value_heads <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">8</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 기본값 num_attention_heads=32에서 8로 감소 (1/4 축소)</span></span>
-<span id="cb47-8">config.torch_dtype <span class="op" style="color: #5E5E5E;
+<span id="cb46-6">config.torch_dtype <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"bfloat16"</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 정밀도를 감소</span></span>
-<span id="cb47-9">config.use_cache <span class="op" style="color: #5E5E5E;
+<span id="cb46-7">config.use_cache <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># `True`는 gradient checkpointing과 호환되지 않음</span></span>
-<span id="cb47-10"><span class="bu" style="color: null;
+<span id="cb46-8"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
 background-color: null;
@@ -1723,118 +1662,114 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 </ul></li>
 </ol>
 <div id="cell-46" class="cell">
-<div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> AutoModelForCausalLM, TextStreamer, AutoTokenizer</span>
-<span id="cb49-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> LlamaConfig</span>
-<span id="cb49-3"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> copy <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> deepcopy</span>
-<span id="cb49-4"></span>
-<span id="cb49-5"><span class="co" style="color: #5E5E5E;
+<span id="cb48-2"></span>
+<span id="cb48-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> AutoModelForCausalLM, AutoTokenizer, LlamaConfig, TextStreamer</span>
+<span id="cb48-4"></span>
+<span id="cb48-5"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># LLaMA 모델 구성 설정</span></span>
-<span id="cb49-6">config <span class="op" style="color: #5E5E5E;
+<span id="cb48-6">config <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> LlamaConfig(</span>
-<span id="cb49-7">    num_hidden_layers<span class="op" style="color: #5E5E5E;
+<span id="cb48-7">    num_hidden_layers<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">16</span>,  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 최종적으로 16개의 레이어를 가진 모델을 원함</span></span>
-<span id="cb49-8">    hidden_size<span class="op" style="color: #5E5E5E;
+<span id="cb48-8">    hidden_size<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1024</span>,</span>
-<span id="cb49-9">    intermediate_size<span class="op" style="color: #5E5E5E;
+<span id="cb48-9">    intermediate_size<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4096</span>,</span>
-<span id="cb49-10">    num_attention_heads<span class="op" style="color: #5E5E5E;
+<span id="cb48-10">    num_attention_heads<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">32</span>,</span>
-<span id="cb49-11">    num_key_value_heads<span class="op" style="color: #5E5E5E;
+<span id="cb48-11">    num_key_value_heads<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">8</span>,</span>
-<span id="cb49-12">    torch_dtype<span class="op" style="color: #5E5E5E;
+<span id="cb48-12">    torch_dtype<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"bfloat16"</span>,</span>
-<span id="cb49-13">    use_cache<span class="op" style="color: #5E5E5E;
+<span id="cb48-13">    use_cache<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>,</span>
-<span id="cb49-14">)</span>
-<span id="cb49-15"><span class="bu" style="color: null;
+<span id="cb48-14">)</span>
+<span id="cb48-15"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(config)</span>
-<span id="cb49-16"></span>
-<span id="cb49-17"><span class="co" style="color: #5E5E5E;
+<span id="cb48-16"></span>
+<span id="cb48-17"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 새로운 모델 생성 및 bfloat16으로 변환</span></span>
-<span id="cb49-18">model <span class="op" style="color: #5E5E5E;
+<span id="cb48-18">model <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> LlamaForCausalLM(config)</span>
-<span id="cb49-19">model <span class="op" style="color: #5E5E5E;
+<span id="cb48-19">model <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> model.to(dtype<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>torch.bfloat16)</span>
-<span id="cb49-20">print_nparams(model)  <span class="co" style="color: #5E5E5E;
+<span id="cb48-20">print_nparams(model)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 308839424 =&gt; 308M</span></span>
-<span id="cb49-21"></span>
-<span id="cb49-22"><span class="co" style="color: #5E5E5E;
+<span id="cb48-21"></span>
+<span id="cb48-22"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 사전 학습된 모델 로드</span></span>
-<span id="cb49-23">model_name_or_path <span class="op" style="color: #5E5E5E;
+<span id="cb48-23">model_name_or_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"upstage/TinySolar-248m-4k"</span></span>
-<span id="cb49-24">pretrained_model <span class="op" style="color: #5E5E5E;
+<span id="cb48-24">pretrained_model <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> AutoModelForCausalLM.from_pretrained(</span>
-<span id="cb49-25">    model_name_or_path,</span>
-<span id="cb49-26">    device_map<span class="op" style="color: #5E5E5E;
+<span id="cb48-25">    model_name_or_path,</span>
+<span id="cb48-26">    device_map<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"cpu"</span>,</span>
-<span id="cb49-27">    torch_dtype<span class="op" style="color: #5E5E5E;
+<span id="cb48-27">    torch_dtype<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>torch.bfloat16,</span>
-<span id="cb49-28">)</span>
-<span id="cb49-29">tokenizer <span class="op" style="color: #5E5E5E;
+<span id="cb48-28">)</span>
+<span id="cb48-29">tokenizer <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> AutoTokenizer.from_pretrained(model_name_or_path)</span>
-<span id="cb49-30"></span>
-<span id="cb49-31">print_nparams(pretrained_model)  <span class="co" style="color: #5E5E5E;
+<span id="cb48-30"></span>
+<span id="cb48-31">print_nparams(pretrained_model)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 248013824 =&gt; 248M</span></span>
-<span id="cb49-32"></span>
-<span id="cb49-33"><span class="co" style="color: #5E5E5E;
+<span id="cb48-32"></span>
+<span id="cb48-33"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 사전 학습된 모델의 레이어를 새 모델로 복사</span></span>
-<span id="cb49-34">model.model.layers <span class="op" style="color: #5E5E5E;
+<span id="cb48-34">model.model.layers <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> deepcopy(pretrained_model.model.layers[:<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1843,47 +1778,47 @@ background-color: null;
 font-style: inherit;">4</span>]) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> deepcopy(</span>
-<span id="cb49-35">    pretrained_model.model.layers[<span class="dv" style="color: #AD0000;
+<span id="cb48-35">    pretrained_model.model.layers[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4</span>:]</span>
-<span id="cb49-36">)</span>
-<span id="cb49-37"></span>
-<span id="cb49-38"><span class="co" style="color: #5E5E5E;
+<span id="cb48-36">)</span>
+<span id="cb48-37"></span>
+<span id="cb48-38"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 임베딩 레이어 복사</span></span>
-<span id="cb49-39">model.model.embed_tokens <span class="op" style="color: #5E5E5E;
+<span id="cb48-39">model.model.embed_tokens <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> deepcopy(pretrained_model.model.embed_tokens)</span>
-<span id="cb49-40"></span>
-<span id="cb49-41"><span class="co" style="color: #5E5E5E;
+<span id="cb48-40"></span>
+<span id="cb48-41"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 언어 모델 헤드 복사</span></span>
-<span id="cb49-42">model.lm_head <span class="op" style="color: #5E5E5E;
+<span id="cb48-42">model.lm_head <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> deepcopy(pretrained_model.lm_head)</span>
-<span id="cb49-43"></span>
-<span id="cb49-44"><span class="bu" style="color: null;
+<span id="cb48-43"></span>
+<span id="cb48-44"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(model.config)</span>
-<span id="cb49-45"></span>
-<span id="cb49-46"><span class="co" style="color: #5E5E5E;
+<span id="cb48-45"></span>
+<span id="cb48-46"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 간단한 추론 실행으로 학습되지 않은 모델 테스트</span></span>
-<span id="cb49-47">prompt <span class="op" style="color: #5E5E5E;
+<span id="cb48-47">prompt <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"I am an engineer. I love"</span></span>
-<span id="cb49-48"></span>
-<span id="cb49-49">inputs <span class="op" style="color: #5E5E5E;
+<span id="cb48-48"></span>
+<span id="cb48-49">inputs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tokenizer(prompt, return_tensors<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"pt"</span>).to(model.device)</span>
-<span id="cb49-50"></span>
-<span id="cb49-51">streamer <span class="op" style="color: #5E5E5E;
+<span id="cb48-50"></span>
+<span id="cb48-51">streamer <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> TextStreamer(tokenizer, skip_prompt<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1894,11 +1829,11 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span>
-<span id="cb49-52"></span>
-<span id="cb49-53">outputs <span class="op" style="color: #5E5E5E;
+<span id="cb48-52"></span>
+<span id="cb48-53">outputs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> model.generate(</span>
-<span id="cb49-54">    <span class="op" style="color: #5E5E5E;
+<span id="cb48-54">    <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">**</span>inputs, streamer<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1915,7 +1850,7 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span></span>
-<span id="cb49-55">)</span></code></pre></div>
+<span id="cb48-55">)</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>LlamaConfig {
   "attention_bias": false,
@@ -1984,21 +1919,21 @@ I am very fortunate to have a great team</code></pre>
 </div>
 <p>위의 결과를 통해 학습되지 않은 모델은 성능이 좋지 않다는 것을 알 수 있습니다.(같은 말을 반복) 일단은 해당 모델을 디스크에 저장하겠습니다. 새 모델 이름은 확장된 3억 8백만 개 매개변수(308M)를 반영해 <code>TinySolar-308m-4k-init</code>로 지정하겠습니다.</p>
 <div id="cell-48" class="cell">
-<div class="sourceCode cell-code" id="cb53" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1">file_name <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb52" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1">file_name <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"TinySolar-308m-4k-init"</span></span>
-<span id="cb53-2">file_path <span class="op" style="color: #5E5E5E;
+<span id="cb52-2">file_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> output_dir <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span> file_name</span>
-<span id="cb53-3"></span>
-<span id="cb53-4"><span class="co" style="color: #5E5E5E;
+<span id="cb52-3"></span>
+<span id="cb52-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 디렉토리가 존재하지 않으면 생성</span></span>
-<span id="cb53-5">output_dir.mkdir(parents<span class="op" style="color: #5E5E5E;
+<span id="cb52-5">output_dir.mkdir(parents<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
@@ -2007,26 +1942,26 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span>
-<span id="cb53-6"></span>
-<span id="cb53-7"><span class="co" style="color: #5E5E5E;
+<span id="cb52-6"></span>
+<span id="cb52-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 308M 파라미터 모델 저장</span></span>
-<span id="cb53-8">model.save_pretrained(file_path)</span>
-<span id="cb53-9"></span>
-<span id="cb53-10"><span class="co" style="color: #5E5E5E;
+<span id="cb52-8">model.save_pretrained(file_path)</span>
+<span id="cb52-9"></span>
+<span id="cb52-10"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 참고: 메모리 제한 환경에서 대규모 모델 실행 시 사용 (메모리 문제 발생 시 실행)</span></span>
-<span id="cb53-11"><span class="im" style="color: #00769E;
+<span id="cb52-11"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> gc</span>
-<span id="cb53-12"></span>
-<span id="cb53-13"><span class="kw" style="color: #003B4F;
+<span id="cb52-12"></span>
+<span id="cb52-13"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">del</span> model  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 모델 객체 삭제</span></span>
-<span id="cb53-14">gc.collect()  <span class="co" style="color: #5E5E5E;
+<span id="cb52-14">gc.collect()  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 가비지 컬렉션 수행</span></span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
@@ -2044,34 +1979,34 @@ font-style: inherit;"># 가비지 컬렉션 수행</span></span></code></pre></d
 <h2 data-number="5.1" class="anchored" data-anchor-id="학습할-모델-로드하기"><span class="header-section-number">5.1</span> 학습할 모델 로드하기</h2>
 <p>이전에 만들었던 확장(upscale)한 모델을 다시 불러옵니다.</p>
 <div id="cell-50" class="cell">
-<div class="sourceCode cell-code" id="cb55" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb54" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> torch</span>
-<span id="cb55-2"><span class="im" style="color: #00769E;
+<span id="cb54-2"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> AutoModelForCausalLM</span>
-<span id="cb55-3"></span>
-<span id="cb55-4">pretrained_model <span class="op" style="color: #5E5E5E;
+<span id="cb54-3"></span>
+<span id="cb54-4">pretrained_model <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> AutoModelForCausalLM.from_pretrained(</span>
-<span id="cb55-5">    file_path.as_posix(),</span>
-<span id="cb55-6">    device_map<span class="op" style="color: #5E5E5E;
+<span id="cb54-5">    file_path.as_posix(),</span>
+<span id="cb54-6">    device_map<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"auto"</span>,</span>
-<span id="cb55-7">    torch_dtype<span class="op" style="color: #5E5E5E;
+<span id="cb54-7">    torch_dtype<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>torch.bfloat16,</span>
-<span id="cb55-8">    use_cache<span class="op" style="color: #5E5E5E;
+<span id="cb54-8">    use_cache<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>,</span>
-<span id="cb55-9">)</span>
-<span id="cb55-10">pretrained_model</span></code></pre></div>
+<span id="cb54-9">)</span>
+<span id="cb54-10">pretrained_model</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>LlamaForCausalLM(
   (model): LlamaModel(
@@ -2107,24 +2042,24 @@ font-style: inherit;">False</span>,</span>
 <h2 data-number="5.2" class="anchored" data-anchor-id="데이터셋-로드"><span class="header-section-number">5.2</span> 데이터셋 로드</h2>
 <p><code>Dataset</code> 객체의 두 가지 메서드를 업데이트하여 트레이너와 인터페이스할 수 있도록 합니다. 이 메서드들은 생성한 데이터셋을 학습 데이터로 지정할 때 필요 합니다.</p>
 <div id="cell-52" class="cell">
-<div class="sourceCode cell-code" id="cb57" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb56" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> datasets</span>
-<span id="cb57-2"><span class="im" style="color: #00769E;
+<span id="cb56-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch</span>
+<span id="cb56-3"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> torch.utils.data <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> Dataset</span>
-<span id="cb57-3"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> torch</span>
-<span id="cb57-4"></span>
-<span id="cb57-5"></span>
-<span id="cb57-6"><span class="kw" style="color: #003B4F;
+<span id="cb56-4"></span>
+<span id="cb56-5"></span>
+<span id="cb56-6"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">class</span> CustomDataset(Dataset):</span>
-<span id="cb57-7">    <span class="kw" style="color: #003B4F;
+<span id="cb56-7">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
@@ -2136,29 +2071,27 @@ background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"train"</span>):</span>
-<span id="cb57-8">        <span class="co" style="color: #5E5E5E;
+<span id="cb56-8">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""커스텀 데이터셋 객체를 초기화합니다."""</span></span>
-<span id="cb57-9">        <span class="va" style="color: #111111;
+<span id="cb56-9">        <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.args <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> args</span>
-<span id="cb57-10">        <span class="va" style="color: #111111;
+<span id="cb56-10">        <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> datasets.load_dataset(</span>
-<span id="cb57-11">            <span class="st" style="color: #20794D;
+font-style: inherit;">=</span> datasets.load_dataset(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"parquet"</span>, data_files<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>args.dataset_name, split<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>split</span>
-<span id="cb57-12">        )</span>
-<span id="cb57-13"></span>
-<span id="cb57-14">    <span class="kw" style="color: #003B4F;
+font-style: inherit;">=</span>split)</span>
+<span id="cb56-11"></span>
+<span id="cb56-12">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
@@ -2166,10 +2099,10 @@ background-color: null;
 font-style: inherit;">__len__</span>(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>):</span>
-<span id="cb57-15">        <span class="co" style="color: #5E5E5E;
+<span id="cb56-13">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""데이터셋의 샘플 수를 반환합니다."""</span></span>
-<span id="cb57-16">        <span class="cf" style="color: #003B4F;
+<span id="cb56-14">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> <span class="bu" style="color: null;
@@ -2177,8 +2110,8 @@ background-color: null;
 font-style: inherit;">len</span>(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.dataset)</span>
-<span id="cb57-17"></span>
-<span id="cb57-18">    <span class="kw" style="color: #003B4F;
+<span id="cb56-15"></span>
+<span id="cb56-16">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
@@ -2186,37 +2119,37 @@ background-color: null;
 font-style: inherit;">__getitem__</span>(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, idx):</span>
-<span id="cb57-19">        <span class="co" style="color: #5E5E5E;
+<span id="cb56-17">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""</span></span>
-<span id="cb57-20"><span class="co" style="color: #5E5E5E;
+<span id="cb56-18"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">        지정된 인덱스에서 데이터셋의 단일 데이터 샘플을 검색합니다.</span></span>
-<span id="cb57-21"><span class="co" style="color: #5E5E5E;
+<span id="cb56-19"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">        """</span></span>
-<span id="cb57-22">        <span class="co" style="color: #5E5E5E;
+<span id="cb56-20">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 리스트를 PyTorch용 LongTensor로 변환</span></span>
-<span id="cb57-23">        input_ids <span class="op" style="color: #5E5E5E;
+<span id="cb56-21">        input_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> torch.LongTensor(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.dataset[idx][<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"input_ids"</span>])</span>
-<span id="cb57-24">        labels <span class="op" style="color: #5E5E5E;
+<span id="cb56-22">        labels <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> torch.LongTensor(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.dataset[idx][<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"input_ids"</span>])</span>
-<span id="cb57-25"></span>
-<span id="cb57-26">        <span class="co" style="color: #5E5E5E;
+<span id="cb56-23"></span>
+<span id="cb56-24">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 샘플을 딕셔너리 형태로 반환</span></span>
-<span id="cb57-27">        <span class="cf" style="color: #003B4F;
+<span id="cb56-25">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> {<span class="st" style="color: #20794D;
@@ -2230,54 +2163,55 @@ font-style: inherit;">"labels"</span>: labels}</span></code></pre></div>
 <h2 data-number="5.3" class="anchored" data-anchor-id="학습-파라미터-구성"><span class="header-section-number">5.3</span> 학습 파라미터 구성</h2>
 <p>여기서는 모델 학습에 필요한 다양한 매개변수를 정의합니다. 그리고 이전에 준비한 데이터셋을 학습 과정에 연결합니다.</p>
 <div id="cell-54" class="cell">
-<div class="sourceCode cell-code" id="cb58" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb57" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> dataclasses <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> dataclass, field</span>
-<span id="cb58-2"><span class="im" style="color: #00769E;
+<span id="cb57-2"></span>
+<span id="cb57-3"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> transformers</span>
-<span id="cb58-3"></span>
-<span id="cb58-4">output_dir <span class="op" style="color: #5E5E5E;
+<span id="cb57-4"></span>
+<span id="cb57-5">output_dir <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> Path(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"../data/output"</span>)</span>
-<span id="cb58-5">dataset_name <span class="op" style="color: #5E5E5E;
+<span id="cb57-6">dataset_name <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"packaged_pretrain_dataset.parquet"</span></span>
-<span id="cb58-6">dataset_path <span class="op" style="color: #5E5E5E;
+<span id="cb57-7">dataset_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> output_dir <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span> dataset_name</span>
-<span id="cb58-7"></span>
-<span id="cb58-8"></span>
-<span id="cb58-9"><span class="at" style="color: #657422;
+<span id="cb57-8"></span>
+<span id="cb57-9"></span>
+<span id="cb57-10"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">@dataclass</span></span>
-<span id="cb58-10"><span class="kw" style="color: #003B4F;
+<span id="cb57-11"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">class</span> CustomArguments(transformers.TrainingArguments):</span>
-<span id="cb58-11">    <span class="co" style="color: #5E5E5E;
+<span id="cb57-12">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터셋 구성</span></span>
-<span id="cb58-12">    dataset_name: <span class="bu" style="color: null;
+<span id="cb57-13">    dataset_name: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> field(  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터셋 파일 경로 설정</span></span>
-<span id="cb58-13">        default<span class="op" style="color: #5E5E5E;
+<span id="cb57-14">        default<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>dataset_path.as_posix()</span>
-<span id="cb58-14">    )</span>
-<span id="cb58-15">    num_proc: <span class="bu" style="color: null;
+<span id="cb57-15">    )</span>
+<span id="cb57-16">    num_proc: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2288,7 +2222,7 @@ background-color: null;
 font-style: inherit;">1</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터 전처리를 위한 서브 프로세스 수</span></span>
-<span id="cb58-16">    max_seq_length: <span class="bu" style="color: null;
+<span id="cb57-17">    max_seq_length: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2299,11 +2233,11 @@ background-color: null;
 font-style: inherit;">32</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 최대 시퀀스 길이</span></span>
-<span id="cb58-17"></span>
-<span id="cb58-18">    <span class="co" style="color: #5E5E5E;
+<span id="cb57-18"></span>
+<span id="cb57-19">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 핵심 학습 설정</span></span>
-<span id="cb58-19">    seed: <span class="bu" style="color: null;
+<span id="cb57-20">    seed: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2314,20 +2248,18 @@ background-color: null;
 font-style: inherit;">0</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 초기화를 위한 랜덤 시드, 재현성을 보장</span></span>
-<span id="cb58-20">    optim: <span class="bu" style="color: null;
+<span id="cb57-21">    optim: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> field(</span>
-<span id="cb58-21">        default<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> field(default<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"adamw_torch"</span></span>
-<span id="cb58-22">    )  <span class="co" style="color: #5E5E5E;
+font-style: inherit;">"adamw_torch"</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 옵티마이저 설정, 여기서는 PyTorch의 AdamW 사용</span></span>
-<span id="cb58-23">    max_steps: <span class="bu" style="color: null;
+<span id="cb57-22">    max_steps: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2338,24 +2270,22 @@ background-color: null;
 font-style: inherit;">10000</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 최대 학습 스텝 수</span></span>
-<span id="cb58-24">    per_device_train_batch_size: <span class="bu" style="color: null;
+<span id="cb57-23">    per_device_train_batch_size: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> field(</span>
-<span id="cb58-25">        default<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> field(default<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb58-26">    )  <span class="co" style="color: #5E5E5E;
+font-style: inherit;">2</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 각 디바이스에서 학습에 사용되는 배치 크기</span></span>
-<span id="cb58-27"></span>
-<span id="cb58-28">    <span class="co" style="color: #5E5E5E;
+<span id="cb57-24"></span>
+<span id="cb57-25">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 기타 학습 설정</span></span>
-<span id="cb58-29">    learning_rate: <span class="bu" style="color: null;
+<span id="cb57-26">    learning_rate: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">float</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2366,7 +2296,7 @@ background-color: null;
 font-style: inherit;">5e-5</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 옵티마이저의 초기 학습률 설정</span></span>
-<span id="cb58-30">    weight_decay: <span class="bu" style="color: null;
+<span id="cb57-27">    weight_decay: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">float</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2377,7 +2307,7 @@ background-color: null;
 font-style: inherit;">0</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 가중치 감소율 설정</span></span>
-<span id="cb58-31">    warmup_steps: <span class="bu" style="color: null;
+<span id="cb57-28">    warmup_steps: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2388,7 +2318,7 @@ background-color: null;
 font-style: inherit;">10</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 학습률 워밍업 단계 수 설정</span></span>
-<span id="cb58-32">    lr_scheduler_type: <span class="bu" style="color: null;
+<span id="cb57-29">    lr_scheduler_type: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2399,63 +2329,59 @@ background-color: null;
 font-style: inherit;">"linear"</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 학습률 스케줄러 유형 설정</span></span>
-<span id="cb58-33">    gradient_checkpointing: <span class="bu" style="color: null;
+<span id="cb57-30">    gradient_checkpointing: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">bool</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> field(</span>
-<span id="cb58-34">        default<span class="op" style="color: #5E5E5E;
+<span id="cb57-31">        default<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span></span>
-<span id="cb58-35">    )  <span class="co" style="color: #5E5E5E;
+<span id="cb57-32">    )  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 메모리 절약을 위한 그래디언트 체크포인트 활성화</span></span>
-<span id="cb58-36">    dataloader_num_workers: <span class="bu" style="color: null;
+<span id="cb57-33">    dataloader_num_workers: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> field(</span>
-<span id="cb58-37">        default<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> field(default<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span></span>
-<span id="cb58-38">    )  <span class="co" style="color: #5E5E5E;
+font-style: inherit;">2</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터 로딩을 위한 서브 프로세스 수 설정</span></span>
-<span id="cb58-39">    bf16: <span class="bu" style="color: null;
+<span id="cb57-34">    bf16: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">bool</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> field(</span>
-<span id="cb58-40">        default<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> field(default<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">True</span></span>
-<span id="cb58-41">    )  <span class="co" style="color: #5E5E5E;
+font-style: inherit;">True</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 지원되는 하드웨어에서 bfloat16 정밀도를 사용하여 학습 수행</span></span>
-<span id="cb58-42">    gradient_accumulation_steps: <span class="bu" style="color: null;
+<span id="cb57-35">    gradient_accumulation_steps: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> field(</span>
-<span id="cb58-43">        default<span class="op" style="color: #5E5E5E;
+<span id="cb57-36">        default<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span></span>
-<span id="cb58-44">    )  <span class="co" style="color: #5E5E5E;
+<span id="cb57-37">    )  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 모델 가중치를 업데이트하기 전에 그래디언트를 누적하는 단계 수</span></span>
-<span id="cb58-45"></span>
-<span id="cb58-46">    <span class="co" style="color: #5E5E5E;
+<span id="cb57-38"></span>
+<span id="cb57-39">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 로깅 구성</span></span>
-<span id="cb58-47">    logging_steps: <span class="bu" style="color: null;
+<span id="cb57-40">    logging_steps: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2466,7 +2392,7 @@ background-color: null;
 font-style: inherit;">1000</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 학습 정보를 로깅하는 빈도(스텝 단위)</span></span>
-<span id="cb58-48">    report_to: <span class="bu" style="color: null;
+<span id="cb57-41">    report_to: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2477,11 +2403,11 @@ background-color: null;
 font-style: inherit;">"none"</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 로깅 대상(e.g., WandB, TensorBoard)</span></span>
-<span id="cb58-49"></span>
-<span id="cb58-50">    <span class="co" style="color: #5E5E5E;
+<span id="cb57-42"></span>
+<span id="cb57-43">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 저장 구성</span></span>
-<span id="cb58-51">    save_strategy: <span class="bu" style="color: null;
+<span id="cb57-44">    save_strategy: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2492,7 +2418,7 @@ background-color: null;
 font-style: inherit;">"steps"</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># "epoch"으로 변경 가능 (저장 전략)</span></span>
-<span id="cb58-52">    save_steps: <span class="bu" style="color: null;
+<span id="cb57-45">    save_steps: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2503,7 +2429,7 @@ background-color: null;
 font-style: inherit;">1000</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 학습 체크포인트를 저장하는 빈도(스텝 단위)</span></span>
-<span id="cb58-53">    save_total_limit: <span class="bu" style="color: null;
+<span id="cb57-46">    save_total_limit: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2514,18 +2440,17 @@ background-color: null;
 font-style: inherit;">2</span>)  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 저장할 체크포인트의 최대 개수 제한</span></span>
-<span id="cb58-54"></span>
-<span id="cb58-55"></span>
-<span id="cb58-56"><span class="co" style="color: #5E5E5E;
+<span id="cb57-47"></span>
+<span id="cb57-48"></span>
+<span id="cb57-49"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 사용자 정의 인자를 파싱하고 모델 저장 경로를 설정합니다:</span></span>
-<span id="cb58-57">parser <span class="op" style="color: #5E5E5E;
+<span id="cb57-50">parser <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> transformers.HfArgumentParser(CustomArguments)</span>
-<span id="cb58-58">(args,) <span class="op" style="color: #5E5E5E;
+<span id="cb57-51">(args,) <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> parser.parse_args_into_dataclasses(</span>
-<span id="cb58-59">    args<span class="op" style="color: #5E5E5E;
+font-style: inherit;">=</span> parser.parse_args_into_dataclasses(args<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>[<span class="ss" style="color: #20794D;
 background-color: null;
@@ -2537,22 +2462,21 @@ font-style: inherit;">.</span>as_posix()<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">}</span><span class="ss" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"</span>]</span>
-<span id="cb58-60">)</span>
-<span id="cb58-61"></span>
-<span id="cb58-62"><span class="co" style="color: #5E5E5E;
+font-style: inherit;">"</span>])</span>
+<span id="cb57-52"></span>
+<span id="cb57-53"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 학습 데이터셋을 설정합니다:</span></span>
-<span id="cb58-63">train_dataset <span class="op" style="color: #5E5E5E;
+<span id="cb57-54">train_dataset <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> CustomDataset(args<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>args)</span>
-<span id="cb58-64"></span>
-<span id="cb58-65"><span class="co" style="color: #5E5E5E;
+<span id="cb57-55"></span>
+<span id="cb57-56"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 데이터셋의 형태를 확인합니다:</span></span>
-<span id="cb58-66"><span class="bu" style="color: null;
+<span id="cb57-57"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -2578,21 +2502,21 @@ font-style: inherit;">"input_ids"</span>].shape)</span></code></pre></div>
 <p>손실 값의 추이를 그래프로 시각화하면 학습 과정을 더 쉽게 이해할 수 있습니다. 급격한 손실 변화나 이상치가 있는지 주의 깊게 관찰하세요. 이는 학습 과정에서의 문제를 나타낼 수 있습니다.</p>
 </blockquote>
 <div id="cell-56" class="cell">
-<div class="sourceCode cell-code" id="cb60" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><span class="im" style="color: #00769E;
+<div class="sourceCode cell-code" id="cb59" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> Trainer, TrainerCallback</span>
-<span id="cb60-2"></span>
-<span id="cb60-3"></span>
-<span id="cb60-4"><span class="co" style="color: #5E5E5E;
+<span id="cb59-2"></span>
+<span id="cb59-3"></span>
+<span id="cb59-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 손실 값 기록을 위한 커스텀 콜백 정의</span></span>
-<span id="cb60-5"><span class="kw" style="color: #003B4F;
+<span id="cb59-5"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">class</span> LossLoggingCallback(TrainerCallback):</span>
-<span id="cb60-6">    <span class="kw" style="color: #003B4F;
+<span id="cb59-6">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> on_log(<span class="va" style="color: #111111;
@@ -2604,10 +2528,10 @@ background-color: null;
 font-style: inherit;">None</span>, <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">**</span>kwargs):</span>
-<span id="cb60-7">        <span class="co" style="color: #5E5E5E;
+<span id="cb59-7">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""학습 중 로그 데이터를 수집합니다"""</span></span>
-<span id="cb60-8">        <span class="cf" style="color: #003B4F;
+<span id="cb59-8">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> logs <span class="kw" style="color: #003B4F;
@@ -2619,11 +2543,11 @@ font-weight: bold;
 font-style: inherit;">not</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span>:</span>
-<span id="cb60-9">            <span class="va" style="color: #111111;
+<span id="cb59-9">            <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.logs.append(logs)</span>
-<span id="cb60-10"></span>
-<span id="cb60-11">    <span class="kw" style="color: #003B4F;
+<span id="cb59-10"></span>
+<span id="cb59-11">    <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
@@ -2631,48 +2555,48 @@ background-color: null;
 font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>):</span>
-<span id="cb60-12">        <span class="co" style="color: #5E5E5E;
+<span id="cb59-12">        <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""콜백 초기화 및 로그 저장소 생성"""</span></span>
-<span id="cb60-13">        <span class="va" style="color: #111111;
+<span id="cb59-13">        <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>.logs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> []</span>
-<span id="cb60-14"></span>
-<span id="cb60-15"></span>
-<span id="cb60-16"><span class="co" style="color: #5E5E5E;
+<span id="cb59-14"></span>
+<span id="cb59-15"></span>
+<span id="cb59-16"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 콜백 객체 생성</span></span>
-<span id="cb60-17">loss_logging_callback <span class="op" style="color: #5E5E5E;
+<span id="cb59-17">loss_logging_callback <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> LossLoggingCallback()</span></code></pre></div>
 </div>
 <p>그런 다음 <code>transformers</code> 라이브러리에서 Hugging Face <code>Trainer</code> 객체의 인스턴스를 생성합니다. 트레이너의 <code>train()</code> 메서드를 호출하여 학습을 시작합니다:</p>
 <div id="cell-58" class="cell">
-<div class="sourceCode cell-code" id="cb61" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1">trainer <span class="op" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb60" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1">trainer <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> Trainer(</span>
-<span id="cb61-2">    model<span class="op" style="color: #5E5E5E;
+<span id="cb60-2">    model<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>pretrained_model,</span>
-<span id="cb61-3">    args<span class="op" style="color: #5E5E5E;
+<span id="cb60-3">    args<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>args,</span>
-<span id="cb61-4">    train_dataset<span class="op" style="color: #5E5E5E;
+<span id="cb60-4">    train_dataset<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>train_dataset,</span>
-<span id="cb61-5">    eval_dataset<span class="op" style="color: #5E5E5E;
+<span id="cb60-5">    eval_dataset<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span>,</span>
-<span id="cb61-6">    callbacks<span class="op" style="color: #5E5E5E;
+<span id="cb60-6">    callbacks<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>[loss_logging_callback],</span>
-<span id="cb61-7">)</span>
-<span id="cb61-8"></span>
-<span id="cb61-9">trainer.train()</span></code></pre></div>
+<span id="cb60-7">)</span>
+<span id="cb60-8"></span>
+<span id="cb60-9">trainer.train()</span></code></pre></div>
 <div class="cell-output cell-output-display">
 
     <div>
@@ -2737,27 +2661,28 @@ font-style: inherit;">=</span>[loss_logging_callback],</span>
 <pre><code>TrainOutput(global_step=10000, training_loss=4.073491650390625, metrics={'train_runtime': 386.2049, 'train_samples_per_second': 51.786, 'train_steps_per_second': 25.893, 'total_flos': 1060114268160000.0, 'train_loss': 4.073491650390625, 'epoch': 0.11})</code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell">
-<div class="sourceCode cell-code" id="cb63" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><span class="im" style="color: #00769E;
+<p>시각화를 통해 Training loss가 어떻게 줄었는지 확인해보겠습니다.</p>
+<div id="cell-60" class="cell">
+<div class="sourceCode cell-code" id="cb62" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">as</span> plt</span>
-<span id="cb63-2"></span>
-<span id="cb63-3"><span class="co" style="color: #5E5E5E;
+<span id="cb62-2"></span>
+<span id="cb62-3"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># ggplot 스타일 적용</span></span>
-<span id="cb63-4">plt.style.use(<span class="st" style="color: #20794D;
+<span id="cb62-4">plt.style.use(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"ggplot"</span>)</span>
-<span id="cb63-5"></span>
-<span id="cb63-6">logs <span class="op" style="color: #5E5E5E;
+<span id="cb62-5"></span>
+<span id="cb62-6">logs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> loss_logging_callback.logs</span>
-<span id="cb63-7"><span class="co" style="color: #5E5E5E;
+<span id="cb62-7"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># loss_logging_callback에서 기록한 손실 값 가져오기</span></span>
-<span id="cb63-8">losses <span class="op" style="color: #5E5E5E;
+<span id="cb62-8">losses <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> [log[<span class="st" style="color: #20794D;
 background-color: null;
@@ -2778,8 +2703,8 @@ font-weight: bold;
 font-style: inherit;">in</span> log]  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 'loss' 키가 있는 로그만 추출</span></span>
-<span id="cb63-9"></span>
-<span id="cb63-10">plt.figure(figsize<span class="op" style="color: #5E5E5E;
+<span id="cb62-9"></span>
+<span id="cb62-10">plt.figure(figsize<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -2788,17 +2713,17 @@ background-color: null;
 font-style: inherit;">4</span>))  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 배경색 설정</span></span>
-<span id="cb63-11">plt.plot(losses)</span>
-<span id="cb63-12">plt.xlabel(<span class="st" style="color: #20794D;
+<span id="cb62-11">plt.plot(losses)</span>
+<span id="cb62-12">plt.xlabel(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Epochs"</span>)</span>
-<span id="cb63-13">plt.ylabel(<span class="st" style="color: #20794D;
+<span id="cb62-13">plt.ylabel(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Loss"</span>)</span>
-<span id="cb63-14">plt.title(<span class="st" style="color: #20794D;
+<span id="cb62-14">plt.title(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Training Loss"</span>)</span>
-<span id="cb63-15">plt.show()</span></code></pre></div>
+<span id="cb62-15">plt.show()</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2807,36 +2732,37 @@ font-style: inherit;">"Training Loss"</span>)</span>
 </div>
 </div>
 </div>
-<div id="cell-60" class="cell">
-<div class="sourceCode cell-code" id="cb64" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><span class="co" style="color: #5E5E5E;
+<p>학습을 계속할 수록 손실 값이 줄어드는 것을 확인할 수 있습니다. 이는 모델이 데이터를 더 잘 이해하고 있음을 의미합니다. 그러나 손실 값이 감소하는 속도가 느려지면 학습이 수렴(convergence)하고 있음을 나타낼 수 있습니다. 이 경우 학습률을 조정하거나 다른 하이퍼파라미터를 조정하여 성능을 향상시킬 수 있습니다. 이제 학습된 모델을 저장해보죠.</p>
+<div id="cell-62" class="cell">
+<div class="sourceCode cell-code" id="cb63" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 모델 이름 및 저장 경로 설정</span></span>
-<span id="cb64-2">model_name <span class="op" style="color: #5E5E5E;
+<span id="cb63-2">model_name <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"TinySolar-308m-4k-finetune"</span>  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 파인튜닝된 모델 이름</span></span>
-<span id="cb64-3">save_path <span class="op" style="color: #5E5E5E;
+<span id="cb63-3">save_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> output_dir <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span> model_name  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 모델 저장 경로 생성</span></span>
-<span id="cb64-4"></span>
-<span id="cb64-5"><span class="co" style="color: #5E5E5E;
+<span id="cb63-4"></span>
+<span id="cb63-5"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 사전 학습된 모델 저장</span></span>
-<span id="cb64-6">pretrained_model.save_pretrained(save_path.as_posix())  <span class="co" style="color: #5E5E5E;
+<span id="cb63-6">pretrained_model.save_pretrained(save_path.as_posix())  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 모델 가중치와 구성 파일 저장</span></span>
-<span id="cb64-7"></span>
-<span id="cb64-8"><span class="co" style="color: #5E5E5E;
+<span id="cb63-7"></span>
+<span id="cb63-8"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 토크나이저 저장</span></span>
-<span id="cb64-9">tokenizer.save_pretrained(save_path.as_posix())  <span class="co" style="color: #5E5E5E;
+<span id="cb63-9">tokenizer.save_pretrained(save_path.as_posix())  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 토크나이저 관련 파일(vocab 등) 저장</span></span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
@@ -2850,75 +2776,75 @@ font-style: inherit;"># 토크나이저 관련 파일(vocab 등) 저장</span></
 </section>
 <section id="모델의-성능-확인" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="모델의-성능-확인"><span class="header-section-number">5.5</span> 모델의 성능 확인</h2>
-<p>이제 모델의 체크포인트를 사용하여 텍스트를 생성해볼 수 있습니다. 이 체크포인트는 10,000 학습 스텝 후에 저장된 것입니다. 만약 중간의 체크포인트를 사용해보고 싶다면 <code>../data/output/checkpoint-9000</code>로 변경하면 됩니다. 모델의 토크나이저는 이전과 마찬가지로 Solar 토크나이저를 사용하고 <code>TextStreamer</code> 객체를 설정하여 생성되는 텍스트를 출력합니다.</p>
-<div id="cell-62" class="cell">
-<div class="sourceCode cell-code" id="cb66" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><span class="im" style="color: #00769E;
+<p>모델 학습을 진행하면서 모델의 체크포인트(임시 저장)를 만들었습니다. 이 체크포인트를 불러와서 사용해보는 코드는 아래와 같습니다. 모델의 토크나이저는 이전과 마찬가지로 Solar 토크나이저를 사용하고 <code>TextStreamer</code> 객체를 설정하여 생성되는 텍스트를 출력합니다.</p>
+<div id="cell-64" class="cell">
+<div class="sourceCode cell-code" id="cb65" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch</span>
+<span id="cb65-2"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
 background-color: null;
-font-style: inherit;">import</span> AutoTokenizer, TextStreamer, AutoModelForCausalLM</span>
-<span id="cb66-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> torch</span>
-<span id="cb66-3"></span>
-<span id="cb66-4"><span class="co" style="color: #5E5E5E;
+font-style: inherit;">import</span> AutoModelForCausalLM, AutoTokenizer, TextStreamer</span>
+<span id="cb65-3"></span>
+<span id="cb65-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 1. 토크나이저 설정</span></span>
-<span id="cb66-5">model_name_or_path <span class="op" style="color: #5E5E5E;
+<span id="cb65-5">model_name_or_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"upstage/TinySolar-248m-4k"</span></span>
-<span id="cb66-6">tokenizer <span class="op" style="color: #5E5E5E;
+<span id="cb65-6">tokenizer <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> AutoTokenizer.from_pretrained(model_name_or_path)</span>
-<span id="cb66-7"></span>
-<span id="cb66-8"><span class="co" style="color: #5E5E5E;
+<span id="cb65-7"></span>
+<span id="cb65-8"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 2. 중간 체크포인트 모델 로드</span></span>
-<span id="cb66-9">checkpoint_path <span class="op" style="color: #5E5E5E;
+<span id="cb65-9">checkpoint_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"../data/output/checkpoint-10000"</span></span>
-<span id="cb66-10">model2 <span class="op" style="color: #5E5E5E;
+<span id="cb65-10">model2 <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> AutoModelForCausalLM.from_pretrained(</span>
-<span id="cb66-11">    checkpoint_path,</span>
-<span id="cb66-12">    device_map<span class="op" style="color: #5E5E5E;
+<span id="cb65-11">    checkpoint_path,</span>
+<span id="cb65-12">    device_map<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"auto"</span>,</span>
-<span id="cb66-13">    torch_dtype<span class="op" style="color: #5E5E5E;
+<span id="cb65-13">    torch_dtype<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>torch.bfloat16,</span>
-<span id="cb66-14">)</span>
-<span id="cb66-15"></span>
-<span id="cb66-16"><span class="co" style="color: #5E5E5E;
+<span id="cb65-14">)</span>
+<span id="cb65-15"></span>
+<span id="cb65-16"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 3. 프롬프트 설정</span></span>
-<span id="cb66-17">prompt <span class="op" style="color: #5E5E5E;
+<span id="cb65-17">prompt <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"I am an engineer. I love"</span></span>
-<span id="cb66-18"></span>
-<span id="cb66-19"><span class="co" style="color: #5E5E5E;
+<span id="cb65-18"></span>
+<span id="cb65-19"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 4. 입력 토큰화</span></span>
-<span id="cb66-20">inputs <span class="op" style="color: #5E5E5E;
+<span id="cb65-20">inputs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tokenizer(prompt, return_tensors<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"pt"</span>).to(model2.device)</span>
-<span id="cb66-21"></span>
-<span id="cb66-22"><span class="co" style="color: #5E5E5E;
+<span id="cb65-21"></span>
+<span id="cb65-22"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 5. 텍스트 스트리머 설정</span></span>
-<span id="cb66-23">streamer <span class="op" style="color: #5E5E5E;
+<span id="cb65-23">streamer <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> TextStreamer(tokenizer, skip_prompt<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2929,40 +2855,40 @@ background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span>
-<span id="cb66-24"></span>
-<span id="cb66-25"><span class="co" style="color: #5E5E5E;
+<span id="cb65-24"></span>
+<span id="cb65-25"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 6. 텍스트 생성</span></span>
-<span id="cb66-26">outputs <span class="op" style="color: #5E5E5E;
+<span id="cb65-26">outputs <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> model2.generate(</span>
-<span id="cb66-27">    <span class="op" style="color: #5E5E5E;
+<span id="cb65-27">    <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">**</span>inputs,</span>
-<span id="cb66-28">    streamer<span class="op" style="color: #5E5E5E;
+<span id="cb65-28">    streamer<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>streamer,</span>
-<span id="cb66-29">    use_cache<span class="op" style="color: #5E5E5E;
+<span id="cb65-29">    use_cache<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>,</span>
-<span id="cb66-30">    max_new_tokens<span class="op" style="color: #5E5E5E;
+<span id="cb65-30">    max_new_tokens<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">64</span>,</span>
-<span id="cb66-31">    do_sample<span class="op" style="color: #5E5E5E;
+<span id="cb65-31">    do_sample<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>,</span>
-<span id="cb66-32">    temperature<span class="op" style="color: #5E5E5E;
+<span id="cb65-32">    temperature<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1.0</span>,</span>
-<span id="cb66-33">)</span></code></pre></div>
+<span id="cb65-33">)</span></code></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</code></pre>
 </div>

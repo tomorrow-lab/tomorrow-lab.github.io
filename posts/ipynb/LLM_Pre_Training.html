@@ -224,7 +224,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   <li><a href="#너무-짧은-데이터-제거" id="toc-너무-짧은-데이터-제거" class="nav-link" data-scroll-target="#너무-짧은-데이터-제거"><span class="header-section-number">2.3.1</span> 너무 짧은 데이터 제거</a></li>
   <li><a href="#훈련-샘플-내-반복된-텍스트-제거" id="toc-훈련-샘플-내-반복된-텍스트-제거" class="nav-link" data-scroll-target="#훈련-샘플-내-반복된-텍스트-제거"><span class="header-section-number">2.3.2</span> 훈련 샘플 내 반복된 텍스트 제거</a></li>
   <li><a href="#중복-제거" id="toc-중복-제거" class="nav-link" data-scroll-target="#중복-제거"><span class="header-section-number">2.3.3</span> 중복 제거</a></li>
-  <li><a href="#품질-필터---언어" id="toc-품질-필터---언어" class="nav-link" data-scroll-target="#품질-필터---언어"><span class="header-section-number">2.3.4</span> 품질 필터 - 언어</a></li>
+  <li><a href="#언어-필터링" id="toc-언어-필터링" class="nav-link" data-scroll-target="#언어-필터링"><span class="header-section-number">2.3.4</span> 언어 필터링</a></li>
   </ul></li>
   <li><a href="#데이터-세트를-디스크에-저장" id="toc-데이터-세트를-디스크에-저장" class="nav-link" data-scroll-target="#데이터-세트를-디스크에-저장"><span class="header-section-number">2.4</span> 데이터 세트를 디스크에 저장</a></li>
   </ul></li>
@@ -330,30 +330,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
-<p>::: {#cell-2 .cell 0=‘e’ 1=‘c’ 2=‘h’ 3=‘o’ 4=‘:’ 5=‘f’ 6=‘a’ 7=‘l’ 8=‘s’ 9=‘e’}</p>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ignore insignificant warnings (ex: deprecations)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set a seed for reproducibility</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"TOKENIZERS_PARALLELISM"</span>] <span class="op">=</span> <span class="st">"false"</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple, Dict, Any</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fix_torch_seed(seed<span class="op">=</span><span class="dv">42</span>):</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    torch.manual_seed(seed)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    torch.cuda.manual_seed(seed)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    torch.backends.cudnn.deterministic <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    torch.backends.cudnn.benchmark <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>fix_torch_seed()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
 <section id="일반-사전학습-모델-불러오기" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="일반-사전학습-모델-불러오기"><span class="header-section-number">1.1</span> 일반 사전학습 모델 불러오기</h2>
 <p>여기서 예시로 다루는 <code>TinySolar-248m-4k</code> 모델은 248M 매개변수(GPT2와 비슷한 규모)와 4096 토큰 컨텍스트 윈도우를 가진 작은 디코더 전용 소형 모델입니다. 이 모델은 Hugging Face 모델 라이브러리에서 <a href="https://huggingface.co/upstage/TinySolar-248m-4k">링크</a> 확인 할 수 있습니다.</p>
@@ -364,17 +340,21 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <h1 data-number="2"><span class="header-section-number">2</span> 데이터 준비</h1>
 <p>언어 모델을 학습할 때 사용하는 데이터의 품질은 매우 중요하며 사전 학습(Pre-training)에서 필요한 데이터와 미세 조정(Fine-tuning)에서의 데이터는 서로 다른 성질을 가지고 있습니다.</p>
 <p>사전 학습에 사용되는 데이터는 일반적으로 더 대규모 데이터로 구조화가 덜 되어 있습니다. 반면에 미세 조정에서 사용되는 데이터는 특정 작업에 맞게 구조화된 데이터로 구성되어 있습니다. 비유하자면 사전 학습은 많은 책을 읽는 것과 같고, 미세 조정은 예비 고사를 치르는 것과 같습니다.</p>
-<p>여기에서는 학습 데이터를 확보하는 두 가지 방법을 살펴보겠습니다: 1. Hugging Face에서 기존 데이터셋 다운로드 2. 직접 수집한 텍스트 파일로 데이터셋 생성</p>
+<p>여기에서는 학습 데이터를 확보하는 두 가지 방법을 살펴보겠습니다:</p>
+<ol type="1">
+<li>Hugging Face에서 기존 데이터셋 다운로드</li>
+<li>직접 수집한 텍스트 파일로 데이터셋 생성</li>
+</ol>
 <p>두 경우 모두 결과는 <code>Datasets</code> 라이브러리의 일부인 Hugging Face <code>Dataset</code> 객체가 됩니다. Dataset의 속성과 사용 방법에 대한 자세한 내용은 <a href="https://huggingface.co/docs/datasets/en/index">Hugging Face 웹사이트</a>에서 확인할 수 있습니다.</p>
 <section id="hugging-face에서-데이터-다운로드" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="hugging-face에서-데이터-다운로드"><span class="header-section-number">2.1</span> Hugging Face에서 데이터 다운로드</h2>
 <p>여기서 다운로드하는 <code>upstage/Pretraining_Dataset</code> 데이터셋은 <strong>Red Pajama</strong>라는 훨씬 더 큰(1조 토큰 규모) 데이터셋의 서브셋입니다. 전체 데이터셋은 Hugging Face의 <a href="https://huggingface.co/datasets/togethercomputer/RedPajama-Data-1T">이 링크</a>에서 확인할 수 있습니다.</p>
 <div id="cell-5" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pretraining_dataset <span class="op">=</span> load_dataset(<span class="st">"upstage/Pretraining_Dataset"</span>, split<span class="op">=</span><span class="st">"train"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>pretraining_dataset <span class="op">=</span> pretraining_dataset.select_columns([<span class="st">"text"</span>])</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pretraining_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pretraining_dataset <span class="op">=</span> load_dataset(<span class="st">"upstage/Pretraining_Dataset"</span>, split<span class="op">=</span><span class="st">"train"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pretraining_dataset <span class="op">=</span> pretraining_dataset.select_columns([<span class="st">"text"</span>])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pretraining_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Dataset({
     features: ['text'],
@@ -383,7 +363,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 <div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pretraining_dataset[<span class="st">"text"</span>][<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pretraining_dataset[<span class="st">"text"</span>][<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>In 1793 Zaman Shah, a grandson of Ahmad Shah Durrani, won a brief war of succession to become ruler of Afghanistan. The support of Painda Khan, chief of the Baraksai branch of the Durrani tribe, was decisive in his victory. In the next fifty year., the brothers of Zaman shah and the sons of Painda Khan were to dominate the affairs of Afghanistan. The Durrani tribe was very large with several branches and numerous clans. 1 Abmad Shah and his successors belonged to the Sadozai clan, but other clans, such as the Mohammedzai of Painda Khan, were larger and more powerful and this situation caused many problems.
 Mahmud had revolted unsuccessfully several times with Persian backing, but now with Fateh Khan's help he was able to defeat Zaman who was captured and blinded. Mahmud's position was insecure however. Persian invasions threatened, the tribes were discontented, and another brother of Zaman, Shuja-ul-Mulk, was in arms against him. In 1803 Shuja succeeded in toppling Mahmud after three years in power. But Shuja's rule was effective only in Kabul and Peshawar since Mahmud's brother Firuz held Herat, and Fateh Khan controUed the country around Kandahar. Mahmud escaped from the prison where he had been confined and in 1809 he and Fateh Khan defeated Shuja, who eventually fled to India where he was given a pension by the British, and Mabmud returned to power.
@@ -395,15 +375,15 @@ These continued civil wars and the division of royal authority were disastrous f
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="사전-학습-및-미세-조정-데이터-세트-비교"><span class="header-section-number">2.1.1</span> 사전 학습 및 미세 조정 데이터 세트 비교</h3>
 <p>다음 셀에서는 위에서 로드한 사전 학습 데이터 세트와 대조할 미세 조정 데이터 세트를 다운로드합니다. Alpaca 모델 및 명령어 튜닝 데이터 세트에 대한 자세한 내용은 <a href="https://crfm.stanford.edu/2023/03/13/alpaca.html">여기</a>에서 확인할 수 있습니다.</p>
 <div id="cell-8" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>instruction_dataset <span class="op">=</span> load_dataset(<span class="st">"c-s-ale/alpaca-gpt4-data"</span>, split<span class="op">=</span><span class="st">"train"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"""Instruction: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"instruction"</span>]<span class="sc">}</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ss">Input: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"input"</span>]<span class="sc">}</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ss">Output: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"output"</span>]<span class="sc">}</span><span class="ss">"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>instruction_dataset <span class="op">=</span> load_dataset(<span class="st">"c-s-ale/alpaca-gpt4-data"</span>, split<span class="op">=</span><span class="st">"train"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"""Instruction: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"instruction"</span>]<span class="sc">}</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ss">Input: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"input"</span>]<span class="sc">}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ss">Output: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"output"</span>]<span class="sc">}</span><span class="ss">"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Instruction: Give three tips for staying healthy.
 Input: 
@@ -420,26 +400,26 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 <section id="직접-데이터-스크랩해오기" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="직접-데이터-스크랩해오기"><span class="header-section-number">2.2</span> 직접 데이터 스크랩해오기</h2>
 <div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> concatenate_datasets, Dataset</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 스크랩된 텍스트 데이터를 저장할 리스트 초기화</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>scrap_text <span class="op">=</span> []</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>source_dir <span class="op">=</span> Path(<span class="st">"../data/input/scraped_text"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리 내 모든 파일 읽기</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> source_dir.iterdir():</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> file_path.is_file():  <span class="co"># 파일인지 확인</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> file_path.<span class="bu">open</span>(<span class="st">"r"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            scrap_text.append({<span class="st">"text"</span>: <span class="bu">file</span>.read()})</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 리스트를 Dataset 객체로 변환</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>scrap_text_dataset <span class="op">=</span> Dataset.from_list(scrap_text)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 기존 데이터셋과 새로 만든 데이터셋 결합</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> concatenate_datasets([pretraining_dataset, scrap_text_dataset])</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 출력</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> Dataset, concatenate_datasets</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 스크랩된 텍스트 데이터를 저장할 리스트 초기화</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>scrap_text <span class="op">=</span> []</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>source_dir <span class="op">=</span> Path(<span class="st">"../data/input/scraped_text"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리 내 모든 파일 읽기</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> source_dir.iterdir():</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> file_path.is_file():  <span class="co"># 파일인지 확인</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> file_path.<span class="bu">open</span>(<span class="st">"r"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            scrap_text.append({<span class="st">"text"</span>: <span class="bu">file</span>.read()})</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 리스트를 Dataset 객체로 변환</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>scrap_text_dataset <span class="op">=</span> Dataset.from_list(scrap_text)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 기존 데이터셋과 새로 만든 데이터셋 결합</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> concatenate_datasets([pretraining_dataset, scrap_text_dataset])</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 출력</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Dataset({
     features: ['text'],
@@ -464,25 +444,25 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="너무-짧은-데이터-제거"><span class="header-section-number">2.3.1</span> 너무 짧은 데이터 제거</h3>
 <p>짧은 데이터는 모델이 학습하는 데 도움이 되지 않을 수 있습니다. 따라서 이번 단계에서는 너무 짧은 데이터를 제거합니다. 여기서는 3개 이하의 토큰을 가진 데이터를 제거합니다.</p>
 <div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> heapq</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> paragraph_length_filter(example):</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""페이지의 줄 수가 너무 적거나 줄 길이가 너무 짧으면 False를 반환합니다."""</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> example[<span class="st">"text"</span>].split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 가장 긴 3개의 줄의 길이를 계산하고, 그 중 최소 길이가 3보다 작은 경우 False 반환</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(lines) <span class="op">&lt;</span> <span class="dv">3</span> <span class="kw">or</span> <span class="bu">min</span>(heapq.nlargest(<span class="dv">3</span>, [<span class="bu">len</span>(line) <span class="cf">for</span> line <span class="kw">in</span> lines])) <span class="op">&lt;</span> <span class="dv">3</span>:</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터 정리 전 데이터의 수: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링 작업 수행</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(paragraph_length_filter, load_from_cache_file<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터 정리 후 데이터의 수: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> heapq</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> paragraph_length_filter(example):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""페이지의 줄 수가 너무 적거나 줄 길이가 너무 짧으면 False를 반환합니다."""</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> example[<span class="st">"text"</span>].split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 가장 긴 3개의 줄의 길이를 계산하고, 그 중 최소 길이가 3보다 작은 경우 False 반환</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(lines) <span class="op">&lt;</span> <span class="dv">3</span> <span class="kw">or</span> <span class="bu">min</span>(heapq.nlargest(<span class="dv">3</span>, [<span class="bu">len</span>(line) <span class="cf">for</span> line <span class="kw">in</span> lines])) <span class="op">&lt;</span> <span class="dv">3</span>:</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터 정리 전 데이터의 수: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링 작업 수행</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(paragraph_length_filter, load_from_cache_file<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터 정리 후 데이터의 수: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>데이터 정리 전 데이터의 수: 60004</code></pre>
 </div>
@@ -500,42 +480,40 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="훈련-샘플-내-반복된-텍스트-제거"><span class="header-section-number">2.3.2</span> 훈련 샘플 내 반복된 텍스트 제거</h3>
 <p>여기서는 각 샘플 내에서 반복된 텍스트를 제거합니다. 이를 통해 모델이 반복된 텍스트를 학습하는 것을 방지할 수 있습니다.</p>
 <div id="cell-14" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_duplicates(paragraphs: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, <span class="bu">int</span>]:</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""중복된 단락의 수와 문자 수를 계산합니다."""</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    unique_paragraphs <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    duplicate_chars <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    duplicate_count <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> paragraph <span class="kw">in</span> paragraphs:</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> paragraph <span class="kw">in</span> unique_paragraphs:</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            duplicate_chars <span class="op">+=</span> <span class="bu">len</span>(paragraph)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            duplicate_count <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>            unique_paragraphs.add(paragraph)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> duplicate_count, duplicate_chars</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> paragraph_repetition_filter(example: Dict[<span class="bu">str</span>, <span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""페이지에 중복이 너무 많으면 False를 반환합니다."""</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> example[<span class="st">"text"</span>]</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    paragraphs <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r"\n{2,}"</span>).split(text.strip())</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    duplicate_count, duplicate_chars <span class="op">=</span> find_duplicates(paragraphs)</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> duplicate_count <span class="op">/</span> <span class="bu">len</span>(paragraphs) <span class="op">&gt;</span> <span class="fl">0.3</span>:</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> duplicate_chars <span class="op">/</span> <span class="bu">len</span>(text) <span class="op">&gt;</span> <span class="fl">0.2</span>:</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋에 필터 적용</span></span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>filtered_dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    paragraph_repetition_filter, load_from_cache_file<span class="op">=</span><span class="va">False</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"필터링 후 데이터셋 크기: </span><span class="sc">{</span>filtered_dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_duplicates(paragraphs: <span class="bu">list</span>[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">int</span>, <span class="bu">int</span>]:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""중복된 단락의 수와 문자 수를 계산합니다."""</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    unique_paragraphs <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    duplicate_chars <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    duplicate_count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> paragraph <span class="kw">in</span> paragraphs:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> paragraph <span class="kw">in</span> unique_paragraphs:</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            duplicate_chars <span class="op">+=</span> <span class="bu">len</span>(paragraph)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            duplicate_count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            unique_paragraphs.add(paragraph)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> duplicate_count, duplicate_chars</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> paragraph_repetition_filter(example: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""페이지에 중복이 너무 많으면 False를 반환합니다."""</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> example[<span class="st">"text"</span>]</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    paragraphs <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r"\n{2,}"</span>).split(text.strip())</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    duplicate_count, duplicate_chars <span class="op">=</span> find_duplicates(paragraphs)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> duplicate_count <span class="op">/</span> <span class="bu">len</span>(paragraphs) <span class="op">&gt;</span> <span class="fl">0.3</span>:</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> duplicate_chars <span class="op">/</span> <span class="bu">len</span>(text) <span class="op">&gt;</span> <span class="fl">0.2</span>:</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋에 필터 적용</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>filtered_dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(paragraph_repetition_filter, load_from_cache_file<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"필터링 후 데이터셋 크기: </span><span class="sc">{</span>filtered_dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"1237457ab7ba4bd8b90196c582517cdb","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -550,27 +528,25 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="중복-제거"><span class="header-section-number">2.3.3</span> 중복 제거</h3>
 <p>이 섹션에서는 전체 데이터 세트에서 중복된 샘플을 제거합니다. (이전 단계에서는 각 샘플 내에서 반복된 텍스트만 제거했습니다.)</p>
 <div id="cell-16" class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> deduplication(dataset: Dataset) <span class="op">-&gt;</span> Dataset:</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    unique_texts <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dedup_func(example: Dict[<span class="bu">str</span>, Any]) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""중복된 텍스트 항목을 제거합니다."""</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> example[<span class="st">"text"</span>] <span class="kw">in</span> unique_texts:</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        unique_texts.add(example[<span class="st">"text"</span>])</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    deduplicated_dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        dedup_func, load_from_cache_file<span class="op">=</span><span class="va">False</span>, num_proc<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"원래 데이터셋 크기: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"중복 제거 후 데이터셋 크기: </span><span class="sc">{</span>deduplicated_dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> deduplicated_dataset</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> deduplication(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> deduplication(dataset: Dataset) <span class="op">-&gt;</span> Dataset:</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    unique_texts <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dedup_func(example: <span class="bu">dict</span>[<span class="bu">str</span>, Any]) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""중복된 텍스트 항목을 제거합니다."""</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> example[<span class="st">"text"</span>] <span class="kw">in</span> unique_texts:</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        unique_texts.add(example[<span class="st">"text"</span>])</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    deduplicated_dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(dedup_func, load_from_cache_file<span class="op">=</span><span class="va">False</span>, num_proc<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"원래 데이터셋 크기: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"중복 제거 후 데이터셋 크기: </span><span class="sc">{</span>deduplicated_dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> deduplicated_dataset</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> deduplication(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"70f638b5bf814e079bde83d7c0d94a8b","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -582,27 +558,24 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 </div>
 </div>
 </section>
-<section id="품질-필터---언어" class="level3" data-number="2.3.4">
-<h3 data-number="2.3.4" class="anchored" data-anchor-id="품질-필터---언어"><span class="header-section-number">2.3.4</span> 품질 필터 - 언어</h3>
-<p>여기서는 영어가 아닌 텍스트 샘플을 제거합니다. 이를 위해 lingua-py라는 언어 감지 라이브러리를 사용합니다. lingua-py에 대한 자세한 내용은 <a href="https://github.com/pemistahl/lingua-py">여기</a>에서 확인할 수 있습니다.</p>
+<section id="언어-필터링" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="언어-필터링"><span class="header-section-number">2.3.4</span> 언어 필터링</h3>
+<p>여기서는 영어가 아닌 텍스트 샘플을 제거합니다. 이를 위해 <code>lingua-py</code>라는 언어 감지 라이브러리를 사용합니다. 자세한 내용은 <a href="https://github.com/pemistahl/lingua-py">여기</a>에서 확인할 수 있습니다.</p>
 <div id="cell-18" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lingua <span class="im">import</span> Language, LanguageDetectorBuilder</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 영어와 한국어 감지를 위한 언어 감지기 생성</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>detector <span class="op">=</span> LanguageDetectorBuilder.from_languages(</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    Language.ENGLISH, Language.KOREAN</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>).build()</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋에서 영어 텍스트만 필터링</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: detector.detect_language_of(x[<span class="st">"text"</span>].replace(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>))</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">==</span> Language.ENGLISH,</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    load_from_cache_file<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    num_proc<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링 후 데이터셋 크기 출력</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"제거 후 데이터셋 크기: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lingua <span class="im">import</span> Language, LanguageDetectorBuilder</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 영어와 한국어 감지를 위한 언어 감지기 생성</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>detector <span class="op">=</span> LanguageDetectorBuilder.from_languages(Language.ENGLISH, Language.KOREAN).build()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋에서 영어 텍스트만 필터링</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: detector.detect_language_of(x[<span class="st">"text"</span>].replace(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>)) <span class="op">==</span> Language.ENGLISH,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    load_from_cache_file<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    num_proc<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링 후 데이터셋 크기 출력</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"제거 후 데이터셋 크기: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Parameter 'function'=&lt;function &lt;lambda&gt; at 0x7388a02aa7a0&gt; of the transform datasets.arrow_dataset.Dataset.filter@2.0.1 couldn't be hashed properly, a random hash was used instead. Make sure your transforms and parameters are serializable with pickle or dill for the dataset fingerprinting and caching to work. If you reuse this transform, the caching mechanism will consider it to be different from the previous calls and recompute everything. This warning is only showed once. Subsequent hashing failures won't be showed.</code></pre>
 </div>
@@ -621,17 +594,17 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 <h2 data-number="2.4" class="anchored" data-anchor-id="데이터-세트를-디스크에-저장"><span class="header-section-number">2.4</span> 데이터 세트를 디스크에 저장</h2>
 <p>Parquet 데이터 형식에 대한 자세한 내용은 <a href="https://parquet.apache.org/">여기</a>에서 확인할 수 있습니다.</p>
 <div id="cell-20" class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> Path(<span class="st">"../data/output"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"preprocessed_dataset.parquet"</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 파케이 파일로 저장</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>dataset.to_parquet(file_path)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터셋이 성공적으로 저장되었습니다: </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> Path(<span class="st">"../data/output"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"preprocessed_dataset.parquet"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 파케이 파일로 저장</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>dataset.to_parquet(file_path)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터셋이 성공적으로 저장되었습니다: </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"3febd67ed36046529f6d90decfcb1db3","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -641,7 +614,7 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 <pre><code>데이터셋이 성공적으로 저장되었습니다: ../data/output/preprocessed_dataset.parquet</code></pre>
 </div>
 </div>
-<p>이제 데이터 세트를 정리했으므로, 훈련을 위해 준비해야 합니다. 이 섹션에서는 훈련 데이터를 Hugging Face에서 사용할 수 있도록 패키징하는 방법을 배웁니다.</p>
+<p>이제 데이터 세트를 모델 학습에 사용할 수 있도록 패키징하는 방법을 배웁니다.</p>
 </section>
 </section>
 <section id="데이터-패키징" class="level1" data-number="3">
@@ -656,12 +629,10 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 <h2 data-number="3.1" class="anchored" data-anchor-id="토큰화-및-input_ids-만들기"><span class="header-section-number">3.1</span> 토큰화 및 input_ids 만들기</h2>
 <p>이전 단계에서 저장한 데이터 세트를 불러오는 것부터 시작합니다.</p>
 <div id="cell-22" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datasets</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> datasets.load_dataset(</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"parquet"</span>, data_files<span class="op">=</span>file_path.as_posix(), split<span class="op">=</span><span class="st">"train"</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datasets</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> datasets.load_dataset(<span class="st">"parquet"</span>, data_files<span class="op">=</span>file_path.as_posix(), split<span class="op">=</span><span class="st">"train"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"ee98a8ff2acb4aea81d8ddd1cf355fe3","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -676,8 +647,8 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 </div>
 <p>Hugging Face <code>Dataset</code> 객체의 <code>shard</code> 메서드를 사용하여 데이터 세트를 10개의 더 작은 조각(<em>shards</em>)으로 분할합니다. (<em>shard</em>는 깨진 유리 조각처럼 데이터를 나누는 개념입니다.) Sharding에 대한 자세한 내용은 <a href="https://huggingface.co/docs/datasets/en/process#shard">여기</a>에서 확인할 수 있습니다.</p>
 <div id="cell-24" class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.shard(num_shards<span class="op">=</span><span class="dv">10</span>, index<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.shard(num_shards<span class="op">=</span><span class="dv">10</span>, index<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Dataset({
     features: ['text'],
@@ -687,39 +658,42 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 </div>
 <p>토크나이저를 불러오고, <code>input_ids</code>를 생성하는 데 사용할 수 있습니다. 이 과정은 데이터를 토큰화하고 토큰을 <code>input_ids</code>로 변환하는 과정입니다.</p>
 <div id="cell-26" class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>model_path_or_name <span class="op">=</span> <span class="st">"upstage/SOLAR-10.7B-v1.0"</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    model_path_or_name,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    use_fast<span class="op">=</span><span class="va">False</span>,  <span class="co"># 참고: 이 경우 긴 텍스트 샘플이 때때로 멈추는 경향이 있어 빠른 토큰화를 비활성화합니다. 대신 병렬 처리를 위해 map 함수와 datasets 라이브러리를 사용하세요.</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>tokenizer.tokenize(<span class="st">"I'm a short sentence"</span>)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 헬퍼 함수 생성:</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tokenization(example):</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 토큰화</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> tokenizer.tokenize(example[<span class="st">"text"</span>])</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 토큰을 ID로 변환</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    token_ids <span class="op">=</span> tokenizer.convert_tokens_to_ids(tokens)</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># &lt;bos&gt;, &lt;eos&gt; 토큰을 token_ids의 앞과 뒤에 추가</span></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bos: 시퀀스 시작, eos: 시퀀스 끝</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    token_ids <span class="op">=</span> [tokenizer.bos_token_id] <span class="op">+</span> token_ids <span class="op">+</span> [tokenizer.eos_token_id]</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    example[<span class="st">"input_ids"</span>] <span class="op">=</span> token_ids</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 최종 데이터셋의 총 토큰 수를 계산하는 데 이 열을 사용할 것입니다</span></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    example[<span class="st">"num_tokens"</span>] <span class="op">=</span> <span class="bu">len</span>(token_ids)</span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> example</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>model_path_or_name <span class="op">=</span> <span class="st">"upstage/SOLAR-10.7B-v1.0"</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    model_path_or_name,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    use_fast<span class="op">=</span><span class="va">False</span>,  <span class="co"># 참고: 긴 텍스트 샘플이 때때로 멈추는 경향이 있어 빠른 토큰화를 비활성화합니다. 대신 병렬 처리를 위해 map 함수와 datasets 라이브러리를 사용하겠습니다.</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>tokenizer.tokenize(<span class="st">"I'm a short sentence"</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 헬퍼 함수 생성:</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tokenization(example):</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 토큰화</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> tokenizer.tokenize(example[<span class="st">"text"</span>])</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 토큰을 ID로 변환</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    token_ids <span class="op">=</span> tokenizer.convert_tokens_to_ids(tokens)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># &lt;bos&gt;, &lt;eos&gt; 토큰을 token_ids의 앞과 뒤에 추가</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bos: 시퀀스 시작, eos: 시퀀스 끝</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    token_ids <span class="op">=</span> [tokenizer.bos_token_id] <span class="op">+</span> token_ids <span class="op">+</span> [tokenizer.eos_token_id]</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    example[<span class="st">"input_ids"</span>] <span class="op">=</span> token_ids</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 최종 데이터셋의 총 토큰 수를 계산하는 데 이 열을 사용할 것입니다.</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    example[<span class="st">"num_tokens"</span>] <span class="op">=</span> <span class="bu">len</span>(token_ids)</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> example</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>사전 학습 데이터 세트의 모든 예제를 토큰화하세요. 이 과정은 시간이 오래 걸릴 수 있습니다.</p>
+<p>사전 학습 데이터 세트의 모든 예제를 토큰화 합니다.</p>
+<blockquote class="blockquote">
+<p>이 과정은 시간이 오래 걸릴 수 있습니다.</p>
+</blockquote>
 <div id="cell-28" class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋의 각 예제에 tokenization 함수를 적용합니다.</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># load_from_cache_file=False 옵션은 캐시된 결과를 사용하지 않고 항상 새로 계산하도록 합니다.</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">map</span>(tokenization, load_from_cache_file<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 변환된 데이터셋의 정보를 출력합니다.</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋의 각 예제에 tokenization 함수를 적용합니다.</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># load_from_cache_file=False 옵션은 캐시된 결과를 사용하지 않고 항상 새로 계산하도록 합니다.</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">map</span>(tokenization, load_from_cache_file<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 변환된 데이터셋의 정보를 출력합니다.</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"0243925ef2864690a83015407733b113","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -733,13 +707,11 @@ Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusiv
 </div>
 </div>
 <div id="cell-29" class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> dataset[<span class="dv">3</span>]  <span class="co"># 데이터셋에서 네 번째 샘플을 선택합니다.</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"text"</span>, sample[<span class="st">"text"</span>][:<span class="dv">30</span>])  <span class="co"># 샘플 텍스트의 처음 30자를 출력합니다.</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n</span><span class="st">input_ids"</span>, sample[<span class="st">"input_ids"</span>][:<span class="dv">30</span>]</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># 토큰화된 입력 ID의 처음 30개를 출력합니다.</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">num_tokens"</span>, sample[<span class="st">"num_tokens"</span>])  <span class="co"># 샘플의 총 토큰 수를 출력합니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> dataset[<span class="dv">3</span>]  <span class="co"># 데이터셋에서 네 번째 샘플을 선택합니다.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"text"</span>, sample[<span class="st">"text"</span>][:<span class="dv">30</span>])  <span class="co"># 샘플 텍스트의 처음 30자를 출력합니다.</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">input_ids"</span>, sample[<span class="st">"input_ids"</span>][:<span class="dv">30</span>])  <span class="co"># 토큰화된 입력 ID의 처음 30개를 출력합니다.</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">num_tokens"</span>, sample[<span class="st">"num_tokens"</span>])  <span class="co"># 샘플의 총 토큰 수를 출력합니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>text A cool look at climate
 Ian Sin
@@ -751,10 +723,10 @@ num_tokens 3731</code></pre>
 </div>
 <p>데이터셋의 총 토큰 수를 확인합니다.</p>
 <div id="cell-31" class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>total_tokens <span class="op">=</span> np.<span class="bu">sum</span>(dataset[<span class="st">"num_tokens"</span>])</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 토큰 수: </span><span class="sc">{</span>total_tokens<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>total_tokens <span class="op">=</span> np.<span class="bu">sum</span>(dataset[<span class="st">"num_tokens"</span>])</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 토큰 수: </span><span class="sc">{</span>total_tokens<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>총 토큰 수: 5689564</code></pre>
 </div>
@@ -762,40 +734,47 @@ num_tokens 3731</code></pre>
 </section>
 <section id="데이터-패킹" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="데이터-패킹"><span class="header-section-number">3.2</span> 데이터 패킹</h2>
+<p>데이터 패킹은 여러 데이터를 효율적으로 하나의 데이터 블록으로 결합하는 과정입니다. 이 기술은 특히 자연어 처리(NLP) 작업에서 배치 처리 효율성을 높이는 데 중요합니다. 아래 다이어그램은 일반적인 워크플로우를 보여줍니다.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">graph LR;
+<pre class="mermaid mermaid-js">graph TD;
     B[Load Dataset];
     B --&gt; C[Tokenize Each Example];
     C --&gt; D[Create input_ids];
     D --&gt; E[Pad Sequences to Max Length];
     E --&gt; F[Pack Tokens into Batches];
-    F --&gt; G[Ready for Training];
 </pre>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
-<p>모든 예제에 대한 <code>input_ids</code>를 하나의 리스트로 연결합니다.</p>
+<ol type="1">
+<li>데이터셋 로드: 원시 텍스트 데이터를 메모리에 불러옵니다.</li>
+<li>토큰화: 각 예제 텍스트를 개별 토큰으로 분할합니다. 이는 단어, 하위 단어 또는 문자 수준에서 수행될 수 있습니다.</li>
+<li>input_ids 생성: 토큰을 해당하는 정수 ID로 변환합니다. 이는 모델이 이해할 수 있는 형식입니다.</li>
+<li>시퀀스 패딩: 배치 내의 모든 시퀀스가 동일한 길이를 갖도록 짧은 시퀀스에 패딩을 추가합니다.</li>
+<li>배치로 토큰 패킹: 여러 예제의 토큰을 하나의 배치로 결합합니다.</li>
+</ol>
+<p>마지막 단계에서 모든 예제의 input_ids를 하나의 리스트로 연결하는 것은 메모리 효율성과 처리 속도를 향상시키는 중요한 최적화 기법입니다. 이렇게 하면 모델이 한 번에 여러 예제를 처리할 수 있습니다. 이러한 패킹 기법은 GPU 메모리 사용을 최적화하고 병렬 처리 능력을 최대한 활용할 수 있어 전체적인 훈련 시간을 단축시킬 수 있습니다.</p>
 <div id="cell-33" class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset의 "input_ids" 배열을 연결하여 하나의 배열로 만듭니다.</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> np.concatenate(dataset[<span class="st">"input_ids"</span>])</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 연결된 배열의 길이를 출력합니다.</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"연결된 배열의 길이 </span><span class="sc">{</span><span class="bu">len</span>(input_ids)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 최대 시퀀스 길이를 설정합니다.</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>max_seq_length <span class="op">=</span> <span class="dv">32</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 총 길이를 계산합니다. input_ids의 길이에서 max_seq_length로 나누어 나머지를 뺀 값입니다.</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>total_length <span class="op">=</span> <span class="bu">len</span>(input_ids) <span class="op">-</span> <span class="bu">len</span>(input_ids) <span class="op">%</span> max_seq_length</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 계산된 총 길이를 출력합니다.</span></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"계산된 총 길이: </span><span class="sc">{</span>total_length<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset의 "input_ids" 배열을 연결하여 하나의 배열로 만듭니다.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> np.concatenate(dataset[<span class="st">"input_ids"</span>])</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 연결된 배열의 길이를 출력합니다.</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"연결된 배열의 길이 </span><span class="sc">{</span><span class="bu">len</span>(input_ids)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 최대 시퀀스 길이를 설정합니다.</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>max_seq_length <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 총 길이를 계산합니다. input_ids의 길이에서 max_seq_length로 나누어 나머지를 뺀 값입니다.</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>total_length <span class="op">=</span> <span class="bu">len</span>(input_ids) <span class="op">-</span> <span class="bu">len</span>(input_ids) <span class="op">%</span> max_seq_length</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 계산된 총 길이를 출력합니다.</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"계산된 총 길이: </span><span class="sc">{</span>total_length<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>연결된 배열의 길이 5689564
 계산된 총 길이: 5689536</code></pre>
@@ -803,20 +782,20 @@ num_tokens 3731</code></pre>
 </div>
 <p>리스트 끝에서 추가 토큰을 버려서 토큰의 수가 <code>max_seq_length</code>로 정확하게 나누어지도록 합니다.</p>
 <div id="cell-35" class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids 배열을 total_length 길이만큼 자릅니다.</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> input_ids[:total_length]</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 잘린 배열의 shape(형상)을 출력합니다.</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids의 shape: </span><span class="sc">{</span>input_ids<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids 배열을 (행: -1, 열: max_seq_length) 형태로 재구조화하고, 데이터 타입을 int32로 변환합니다.</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>input_ids_reshaped <span class="op">=</span> input_ids.reshape(<span class="op">-</span><span class="dv">1</span>, max_seq_length).astype(np.int32)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 재구조화된 배열의 shape(형상)을 출력합니다.</span></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids_reshaped의 shape: </span><span class="sc">{</span>input_ids_reshaped<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 재구조화된 배열의 데이터 타입을 출력합니다.</span></span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids_reshaped의 데이터 타입: </span><span class="sc">{</span><span class="bu">type</span>(input_ids_reshaped)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids 배열을 total_length 길이만큼 자릅니다.</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> input_ids[:total_length]</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 잘린 배열의 shape(형상)을 출력합니다.</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids의 shape: </span><span class="sc">{</span>input_ids<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids 배열을 (행: -1, 열: max_seq_length) 형태로 재구조화하고, 데이터 타입을 int32로 변환합니다.</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>input_ids_reshaped <span class="op">=</span> input_ids.reshape(<span class="op">-</span><span class="dv">1</span>, max_seq_length).astype(np.int32)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 재구조화된 배열의 shape(형상)을 출력합니다.</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids_reshaped의 shape: </span><span class="sc">{</span>input_ids_reshaped<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 재구조화된 배열의 데이터 타입을 출력합니다.</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids_reshaped의 데이터 타입: </span><span class="sc">{</span><span class="bu">type</span>(input_ids_reshaped)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>input_ids의 shape: (5689536,)
 input_ids_reshaped의 shape: (177798, 32)
@@ -825,14 +804,14 @@ input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pr
 </div>
 <p>Hugging Face 데이터 세트로 변환하려면 다음과 같이 합니다.</p>
 <div id="cell-37" class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids_reshaped를 리스트로 변환합니다.</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>input_ids_list <span class="op">=</span> input_ids_reshaped.tolist()</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 변환된 리스트를 사용하여 새로운 Dataset 객체를 생성합니다.</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset <span class="op">=</span> datasets.Dataset.from_dict({<span class="st">"input_ids"</span>: input_ids_list})</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 생성된 Dataset 객체의 정보를 출력합니다.</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"생성된 Dataset 객체: </span><span class="sc">{</span>packaged_pretrain_dataset<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids_reshaped를 리스트로 변환합니다.</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>input_ids_list <span class="op">=</span> input_ids_reshaped.tolist()</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 변환된 리스트를 사용하여 새로운 Dataset 객체를 생성합니다.</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset <span class="op">=</span> datasets.Dataset.from_dict({<span class="st">"input_ids"</span>: input_ids_list})</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 생성된 Dataset 객체의 정보를 출력합니다.</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"생성된 Dataset 객체: </span><span class="sc">{</span>packaged_pretrain_dataset<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>생성된 Dataset 객체: Dataset({
     features: ['input_ids'],
@@ -848,16 +827,16 @@ input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pr
 <p><code>to_parquet()</code> 메서드는 데이터를 Parquet 파일 형식으로 저장합니다. Parquet는 효율적인 컬럼 기반 저장 형식으로, 대규모 데이터를 저장하고 처리하는 데 최적화되어 있습니다. Parquet 형식은 다른 데이터 분석 툴(예: pandas, Apache Spark 등)과 쉽게 호환됩니다. 데이터 세트를 다른 시스템 또는 다른 툴과 공유할 때 유용하며 압축과 성능 최적화 측면에서 효율적입니다.</p>
 </blockquote>
 <div id="cell-39" class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"packaged_pretrain_dataset.parquet"</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 파케이 파일로 저장</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset.to_parquet(file_path)</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터셋이 성공적으로 저장되었습니다: </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"packaged_pretrain_dataset.parquet"</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 파케이 파일로 저장</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset.to_parquet(file_path)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터셋이 성공적으로 저장되었습니다: </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"13e397341dc645a3bea854847aae09b9","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -868,7 +847,7 @@ input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pr
 </div>
 </div>
 <div id="cell-40" class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>Dataset({
     features: ['input_ids'],
@@ -877,7 +856,7 @@ input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pr
 </div>
 </div>
 <div id="cell-41" class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(packaged_pretrain_dataset[<span class="dv">0</span>][<span class="st">"input_ids"</span>][<span class="dv">0</span>:<span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(packaged_pretrain_dataset[<span class="dv">0</span>][<span class="st">"input_ids"</span>][<span class="dv">0</span>:<span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1, 560, 28705, 28740, 28787, 28774, 28770, 1054, 14886, 23452]</code></pre>
 </div>
@@ -891,19 +870,18 @@ input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pr
 <p>Meta의 Llama 모델 계열을 기반으로 모델을 구성할 것입니다. transformers 라이브러리에는 이 모델들과 함께 작업할 수 있는 여러 도구가 있으며, 이에 대해 <a href="https://huggingface.co/docs/transformers/main/en/model_doc/llama">여기</a>에서 읽을 수 있습니다.</p>
 <p>시작은 <code>LlamaConfig</code> 객체를 생성하여 모델의 아키텍처를 구성하는 것입니다.</p>
 <div id="cell-43" class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> LlamaConfig</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> LlamaForCausalLM</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_nparams(model):</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""모델의 총 파라미터 개수를 계산하여 출력합니다."""</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    nparams <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> model.parameters())</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"모델의 총 파라미터 개수: </span><span class="sc">{</span>nparams<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="co"># LlamaConfig 객체를 생성합니다.</span></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> LlamaConfig()</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"기본 설정: </span><span class="sc">{</span>config<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> LlamaConfig, LlamaForCausalLM</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_nparams(model):</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""모델의 총 파라미터 개수를 계산하여 출력합니다."""</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    nparams <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> model.parameters())</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"모델의 총 파라미터 개수: </span><span class="sc">{</span>nparams<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="co"># LlamaConfig 객체를 생성합니다.</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> LlamaConfig()</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"기본 설정: </span><span class="sc">{</span>config<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>기본 설정: LlamaConfig {
   "attention_bias": false,
@@ -932,16 +910,14 @@ input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pr
 </div>
 </div>
 <div id="cell-44" class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 아키텍처를 변경하기 위해 설정 값을 업데이트합니다:</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>config.num_hidden_layers <span class="op">=</span> <span class="dv">12</span>  <span class="co"># 기본값 32에서 12로 감소</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>config.hidden_size <span class="op">=</span> <span class="dv">1024</span>  <span class="co"># 기본값 4096에서 1024로 감소 (1/4 축소)</span></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>config.intermediate_size <span class="op">=</span> (</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4096</span>  <span class="co"># 기본값 11008에서 4096으로 감소 (MLP 표현 차원, 약 1/3 축소)</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>config.num_key_value_heads <span class="op">=</span> <span class="dv">8</span>  <span class="co"># 기본값 num_attention_heads=32에서 8로 감소 (1/4 축소)</span></span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>config.torch_dtype <span class="op">=</span> <span class="st">"bfloat16"</span>  <span class="co"># 정밀도를 감소</span></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>config.use_cache <span class="op">=</span> <span class="va">False</span>  <span class="co"># `True`는 gradient checkpointing과 호환되지 않음</span></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"업데이트된 설정: </span><span class="sc">{</span>config<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 아키텍처를 변경하기 위해 설정 값을 업데이트합니다:</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>config.num_hidden_layers <span class="op">=</span> <span class="dv">12</span>  <span class="co"># 기본값 32에서 12로 감소</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>config.hidden_size <span class="op">=</span> <span class="dv">1024</span>  <span class="co"># 기본값 4096에서 1024로 감소 (1/4 축소)</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>config.intermediate_size <span class="op">=</span> <span class="dv">4096</span>  <span class="co"># 기본값 11008에서 4096으로 감소 (MLP 표현 차원, 약 1/3 축소)</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>config.num_key_value_heads <span class="op">=</span> <span class="dv">8</span>  <span class="co"># 기본값 num_attention_heads=32에서 8로 감소 (1/4 축소)</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>config.torch_dtype <span class="op">=</span> <span class="st">"bfloat16"</span>  <span class="co"># 정밀도를 감소</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>config.use_cache <span class="op">=</span> <span class="va">False</span>  <span class="co"># `True`는 gradient checkpointing과 호환되지 않음</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"업데이트된 설정: </span><span class="sc">{</span>config<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>업데이트된 설정: LlamaConfig {
   "attention_bias": false,
@@ -1031,61 +1007,61 @@ input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pr
 </ul></li>
 </ol>
 <div id="cell-46" class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM, TextStreamer, AutoTokenizer</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> LlamaConfig</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="co"># LLaMA 모델 구성 설정</span></span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> LlamaConfig(</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    num_hidden_layers<span class="op">=</span><span class="dv">16</span>,  <span class="co"># 최종적으로 16개의 레이어를 가진 모델을 원함</span></span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    hidden_size<span class="op">=</span><span class="dv">1024</span>,</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    intermediate_size<span class="op">=</span><span class="dv">4096</span>,</span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    num_attention_heads<span class="op">=</span><span class="dv">32</span>,</span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    num_key_value_heads<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span><span class="st">"bfloat16"</span>,</span>
-<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(config)</span>
-<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 새로운 모델 생성 및 bfloat16으로 변환</span></span>
-<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LlamaForCausalLM(config)</span>
-<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> model.to(dtype<span class="op">=</span>torch.bfloat16)</span>
-<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>print_nparams(model)  <span class="co"># 308839424 =&gt; 308M</span></span>
-<span id="cb49-21"><a href="#cb49-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-22"><a href="#cb49-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델 로드</span></span>
-<span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a>model_name_or_path <span class="op">=</span> <span class="st">"upstage/TinySolar-248m-4k"</span></span>
-<span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a>pretrained_model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
-<span id="cb49-25"><a href="#cb49-25" aria-hidden="true" tabindex="-1"></a>    model_name_or_path,</span>
-<span id="cb49-26"><a href="#cb49-26" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"cpu"</span>,</span>
-<span id="cb49-27"><a href="#cb49-27" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
-<span id="cb49-28"><a href="#cb49-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb49-29"><a href="#cb49-29" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name_or_path)</span>
-<span id="cb49-30"><a href="#cb49-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-31"><a href="#cb49-31" aria-hidden="true" tabindex="-1"></a>print_nparams(pretrained_model)  <span class="co"># 248013824 =&gt; 248M</span></span>
-<span id="cb49-32"><a href="#cb49-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-33"><a href="#cb49-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델의 레이어를 새 모델로 복사</span></span>
-<span id="cb49-34"><a href="#cb49-34" aria-hidden="true" tabindex="-1"></a>model.model.layers <span class="op">=</span> deepcopy(pretrained_model.model.layers[:<span class="op">-</span><span class="dv">4</span>]) <span class="op">+</span> deepcopy(</span>
-<span id="cb49-35"><a href="#cb49-35" aria-hidden="true" tabindex="-1"></a>    pretrained_model.model.layers[<span class="dv">4</span>:]</span>
-<span id="cb49-36"><a href="#cb49-36" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb49-37"><a href="#cb49-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-38"><a href="#cb49-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 임베딩 레이어 복사</span></span>
-<span id="cb49-39"><a href="#cb49-39" aria-hidden="true" tabindex="-1"></a>model.model.embed_tokens <span class="op">=</span> deepcopy(pretrained_model.model.embed_tokens)</span>
-<span id="cb49-40"><a href="#cb49-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-41"><a href="#cb49-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 언어 모델 헤드 복사</span></span>
-<span id="cb49-42"><a href="#cb49-42" aria-hidden="true" tabindex="-1"></a>model.lm_head <span class="op">=</span> deepcopy(pretrained_model.lm_head)</span>
-<span id="cb49-43"><a href="#cb49-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-44"><a href="#cb49-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.config)</span>
-<span id="cb49-45"><a href="#cb49-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-46"><a href="#cb49-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 간단한 추론 실행으로 학습되지 않은 모델 테스트</span></span>
-<span id="cb49-47"><a href="#cb49-47" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"I am an engineer. I love"</span></span>
-<span id="cb49-48"><a href="#cb49-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-49"><a href="#cb49-49" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(prompt, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(model.device)</span>
-<span id="cb49-50"><a href="#cb49-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-51"><a href="#cb49-51" aria-hidden="true" tabindex="-1"></a>streamer <span class="op">=</span> TextStreamer(tokenizer, skip_prompt<span class="op">=</span><span class="va">True</span>, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb49-52"><a href="#cb49-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-53"><a href="#cb49-53" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(</span>
-<span id="cb49-54"><a href="#cb49-54" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>inputs, streamer<span class="op">=</span>streamer, use_cache<span class="op">=</span><span class="va">True</span>, max_new_tokens<span class="op">=</span><span class="dv">128</span>, do_sample<span class="op">=</span><span class="va">False</span></span>
-<span id="cb49-55"><a href="#cb49-55" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM, AutoTokenizer, LlamaConfig, TextStreamer</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co"># LLaMA 모델 구성 설정</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> LlamaConfig(</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    num_hidden_layers<span class="op">=</span><span class="dv">16</span>,  <span class="co"># 최종적으로 16개의 레이어를 가진 모델을 원함</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    hidden_size<span class="op">=</span><span class="dv">1024</span>,</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    intermediate_size<span class="op">=</span><span class="dv">4096</span>,</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    num_attention_heads<span class="op">=</span><span class="dv">32</span>,</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>    num_key_value_heads<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span><span class="st">"bfloat16"</span>,</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(config)</span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 새로운 모델 생성 및 bfloat16으로 변환</span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LlamaForCausalLM(config)</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> model.to(dtype<span class="op">=</span>torch.bfloat16)</span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>print_nparams(model)  <span class="co"># 308839424 =&gt; 308M</span></span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델 로드</span></span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>model_name_or_path <span class="op">=</span> <span class="st">"upstage/TinySolar-248m-4k"</span></span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>pretrained_model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>    model_name_or_path,</span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"cpu"</span>,</span>
+<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
+<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name_or_path)</span>
+<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a>print_nparams(pretrained_model)  <span class="co"># 248013824 =&gt; 248M</span></span>
+<span id="cb48-32"><a href="#cb48-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-33"><a href="#cb48-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델의 레이어를 새 모델로 복사</span></span>
+<span id="cb48-34"><a href="#cb48-34" aria-hidden="true" tabindex="-1"></a>model.model.layers <span class="op">=</span> deepcopy(pretrained_model.model.layers[:<span class="op">-</span><span class="dv">4</span>]) <span class="op">+</span> deepcopy(</span>
+<span id="cb48-35"><a href="#cb48-35" aria-hidden="true" tabindex="-1"></a>    pretrained_model.model.layers[<span class="dv">4</span>:]</span>
+<span id="cb48-36"><a href="#cb48-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-37"><a href="#cb48-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-38"><a href="#cb48-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 임베딩 레이어 복사</span></span>
+<span id="cb48-39"><a href="#cb48-39" aria-hidden="true" tabindex="-1"></a>model.model.embed_tokens <span class="op">=</span> deepcopy(pretrained_model.model.embed_tokens)</span>
+<span id="cb48-40"><a href="#cb48-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-41"><a href="#cb48-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 언어 모델 헤드 복사</span></span>
+<span id="cb48-42"><a href="#cb48-42" aria-hidden="true" tabindex="-1"></a>model.lm_head <span class="op">=</span> deepcopy(pretrained_model.lm_head)</span>
+<span id="cb48-43"><a href="#cb48-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-44"><a href="#cb48-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.config)</span>
+<span id="cb48-45"><a href="#cb48-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-46"><a href="#cb48-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 간단한 추론 실행으로 학습되지 않은 모델 테스트</span></span>
+<span id="cb48-47"><a href="#cb48-47" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"I am an engineer. I love"</span></span>
+<span id="cb48-48"><a href="#cb48-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-49"><a href="#cb48-49" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(prompt, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(model.device)</span>
+<span id="cb48-50"><a href="#cb48-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-51"><a href="#cb48-51" aria-hidden="true" tabindex="-1"></a>streamer <span class="op">=</span> TextStreamer(tokenizer, skip_prompt<span class="op">=</span><span class="va">True</span>, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb48-52"><a href="#cb48-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-53"><a href="#cb48-53" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(</span>
+<span id="cb48-54"><a href="#cb48-54" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>inputs, streamer<span class="op">=</span>streamer, use_cache<span class="op">=</span><span class="va">True</span>, max_new_tokens<span class="op">=</span><span class="dv">128</span>, do_sample<span class="op">=</span><span class="va">False</span></span>
+<span id="cb48-55"><a href="#cb48-55" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>LlamaConfig {
   "attention_bias": false,
@@ -1154,20 +1130,20 @@ I am very fortunate to have a great team</code></pre>
 </div>
 <p>위의 결과를 통해 학습되지 않은 모델은 성능이 좋지 않다는 것을 알 수 있습니다.(같은 말을 반복) 일단은 해당 모델을 디스크에 저장하겠습니다. 새 모델 이름은 확장된 3억 8백만 개 매개변수(308M)를 반영해 <code>TinySolar-308m-4k-init</code>로 지정하겠습니다.</p>
 <div id="cell-48" class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"TinySolar-308m-4k-init"</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 308M 파라미터 모델 저장</span></span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>model.save_pretrained(file_path)</span>
-<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 참고: 메모리 제한 환경에서 대규모 모델 실행 시 사용 (메모리 문제 발생 시 실행)</span></span>
-<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gc</span>
-<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> model  <span class="co"># 모델 객체 삭제</span></span>
-<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>gc.collect()  <span class="co"># 가비지 컬렉션 수행</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"TinySolar-308m-4k-init"</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 308M 파라미터 모델 저장</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>model.save_pretrained(file_path)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 참고: 메모리 제한 환경에서 대규모 모델 실행 시 사용 (메모리 문제 발생 시 실행)</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gc</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> model  <span class="co"># 모델 객체 삭제</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>gc.collect()  <span class="co"># 가비지 컬렉션 수행</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>222</code></pre>
 </div>
@@ -1183,16 +1159,16 @@ I am very fortunate to have a great team</code></pre>
 <h2 data-number="5.1" class="anchored" data-anchor-id="학습할-모델-로드하기"><span class="header-section-number">5.1</span> 학습할 모델 로드하기</h2>
 <p>이전에 만들었던 확장(upscale)한 모델을 다시 불러옵니다.</p>
 <div id="cell-50" class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>pretrained_model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    file_path.as_posix(),</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>,</span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>pretrained_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>pretrained_model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    file_path.as_posix(),</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>pretrained_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>LlamaForCausalLM(
   (model): LlamaModel(
@@ -1228,105 +1204,94 @@ I am very fortunate to have a great team</code></pre>
 <h2 data-number="5.2" class="anchored" data-anchor-id="데이터셋-로드"><span class="header-section-number">5.2</span> 데이터셋 로드</h2>
 <p><code>Dataset</code> 객체의 두 가지 메서드를 업데이트하여 트레이너와 인터페이스할 수 있도록 합니다. 이 메서드들은 생성한 데이터셋을 학습 데이터로 지정할 때 필요 합니다.</p>
 <div id="cell-52" class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datasets</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomDataset(Dataset):</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, args, split<span class="op">=</span><span class="st">"train"</span>):</span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""커스텀 데이터셋 객체를 초기화합니다."""</span></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.args <span class="op">=</span> args</span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dataset <span class="op">=</span> datasets.load_dataset(</span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"parquet"</span>, data_files<span class="op">=</span>args.dataset_name, split<span class="op">=</span>split</span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
-<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""데이터셋의 샘플 수를 반환합니다."""</span></span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.dataset)</span>
-<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
-<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a><span class="co">        지정된 인덱스에서 데이터셋의 단일 데이터 샘플을 검색합니다.</span></span>
-<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 리스트를 PyTorch용 LongTensor로 변환</span></span>
-<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>        input_ids <span class="op">=</span> torch.LongTensor(<span class="va">self</span>.dataset[idx][<span class="st">"input_ids"</span>])</span>
-<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> torch.LongTensor(<span class="va">self</span>.dataset[idx][<span class="st">"input_ids"</span>])</span>
-<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 샘플을 딕셔너리 형태로 반환</span></span>
-<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"input_ids"</span>: input_ids, <span class="st">"labels"</span>: labels}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datasets</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomDataset(Dataset):</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, args, split<span class="op">=</span><span class="st">"train"</span>):</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""커스텀 데이터셋 객체를 초기화합니다."""</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.args <span class="op">=</span> args</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dataset <span class="op">=</span> datasets.load_dataset(<span class="st">"parquet"</span>, data_files<span class="op">=</span>args.dataset_name, split<span class="op">=</span>split)</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""데이터셋의 샘플 수를 반환합니다."""</span></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.dataset)</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a><span class="co">        지정된 인덱스에서 데이터셋의 단일 데이터 샘플을 검색합니다.</span></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 리스트를 PyTorch용 LongTensor로 변환</span></span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a>        input_ids <span class="op">=</span> torch.LongTensor(<span class="va">self</span>.dataset[idx][<span class="st">"input_ids"</span>])</span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> torch.LongTensor(<span class="va">self</span>.dataset[idx][<span class="st">"input_ids"</span>])</span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 샘플을 딕셔너리 형태로 반환</span></span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"input_ids"</span>: input_ids, <span class="st">"labels"</span>: labels}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="학습-파라미터-구성" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="학습-파라미터-구성"><span class="header-section-number">5.3</span> 학습 파라미터 구성</h2>
 <p>여기서는 모델 학습에 필요한 다양한 매개변수를 정의합니다. 그리고 이전에 준비한 데이터셋을 학습 과정에 연결합니다.</p>
 <div id="cell-54" class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass, field</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> transformers</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> Path(<span class="st">"../data/output"</span>)</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>dataset_name <span class="op">=</span> <span class="st">"packaged_pretrain_dataset.parquet"</span></span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>dataset_path <span class="op">=</span> output_dir <span class="op">/</span> dataset_name</span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomArguments(transformers.TrainingArguments):</span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 데이터셋 구성</span></span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>    dataset_name: <span class="bu">str</span> <span class="op">=</span> field(  <span class="co"># 데이터셋 파일 경로 설정</span></span>
-<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span>dataset_path.as_posix()</span>
-<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>    num_proc: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1</span>)  <span class="co"># 데이터 전처리를 위한 서브 프로세스 수</span></span>
-<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>    max_seq_length: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">32</span>)  <span class="co"># 최대 시퀀스 길이</span></span>
-<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 핵심 학습 설정</span></span>
-<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>    seed: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">0</span>)  <span class="co"># 초기화를 위한 랜덤 시드, 재현성을 보장</span></span>
-<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>    optim: <span class="bu">str</span> <span class="op">=</span> field(</span>
-<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="st">"adamw_torch"</span></span>
-<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 옵티마이저 설정, 여기서는 PyTorch의 AdamW 사용</span></span>
-<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>    max_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">10000</span>)  <span class="co"># 최대 학습 스텝 수</span></span>
-<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size: <span class="bu">int</span> <span class="op">=</span> field(</span>
-<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 각 디바이스에서 학습에 사용되는 배치 크기</span></span>
-<span id="cb58-27"><a href="#cb58-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-28"><a href="#cb58-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 기타 학습 설정</span></span>
-<span id="cb58-29"><a href="#cb58-29" aria-hidden="true" tabindex="-1"></a>    learning_rate: <span class="bu">float</span> <span class="op">=</span> field(default<span class="op">=</span><span class="fl">5e-5</span>)  <span class="co"># 옵티마이저의 초기 학습률 설정</span></span>
-<span id="cb58-30"><a href="#cb58-30" aria-hidden="true" tabindex="-1"></a>    weight_decay: <span class="bu">float</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">0</span>)  <span class="co"># 가중치 감소율 설정</span></span>
-<span id="cb58-31"><a href="#cb58-31" aria-hidden="true" tabindex="-1"></a>    warmup_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">10</span>)  <span class="co"># 학습률 워밍업 단계 수 설정</span></span>
-<span id="cb58-32"><a href="#cb58-32" aria-hidden="true" tabindex="-1"></a>    lr_scheduler_type: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"linear"</span>)  <span class="co"># 학습률 스케줄러 유형 설정</span></span>
-<span id="cb58-33"><a href="#cb58-33" aria-hidden="true" tabindex="-1"></a>    gradient_checkpointing: <span class="bu">bool</span> <span class="op">=</span> field(</span>
-<span id="cb58-34"><a href="#cb58-34" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="va">True</span></span>
-<span id="cb58-35"><a href="#cb58-35" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 메모리 절약을 위한 그래디언트 체크포인트 활성화</span></span>
-<span id="cb58-36"><a href="#cb58-36" aria-hidden="true" tabindex="-1"></a>    dataloader_num_workers: <span class="bu">int</span> <span class="op">=</span> field(</span>
-<span id="cb58-37"><a href="#cb58-37" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb58-38"><a href="#cb58-38" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 데이터 로딩을 위한 서브 프로세스 수 설정</span></span>
-<span id="cb58-39"><a href="#cb58-39" aria-hidden="true" tabindex="-1"></a>    bf16: <span class="bu">bool</span> <span class="op">=</span> field(</span>
-<span id="cb58-40"><a href="#cb58-40" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="va">True</span></span>
-<span id="cb58-41"><a href="#cb58-41" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 지원되는 하드웨어에서 bfloat16 정밀도를 사용하여 학습 수행</span></span>
-<span id="cb58-42"><a href="#cb58-42" aria-hidden="true" tabindex="-1"></a>    gradient_accumulation_steps: <span class="bu">int</span> <span class="op">=</span> field(</span>
-<span id="cb58-43"><a href="#cb58-43" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb58-44"><a href="#cb58-44" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 모델 가중치를 업데이트하기 전에 그래디언트를 누적하는 단계 수</span></span>
-<span id="cb58-45"><a href="#cb58-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-46"><a href="#cb58-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 로깅 구성</span></span>
-<span id="cb58-47"><a href="#cb58-47" aria-hidden="true" tabindex="-1"></a>    logging_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># 학습 정보를 로깅하는 빈도(스텝 단위)</span></span>
-<span id="cb58-48"><a href="#cb58-48" aria-hidden="true" tabindex="-1"></a>    report_to: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"none"</span>)  <span class="co"># 로깅 대상(e.g., WandB, TensorBoard)</span></span>
-<span id="cb58-49"><a href="#cb58-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-50"><a href="#cb58-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 저장 구성</span></span>
-<span id="cb58-51"><a href="#cb58-51" aria-hidden="true" tabindex="-1"></a>    save_strategy: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"steps"</span>)  <span class="co"># "epoch"으로 변경 가능 (저장 전략)</span></span>
-<span id="cb58-52"><a href="#cb58-52" aria-hidden="true" tabindex="-1"></a>    save_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># 학습 체크포인트를 저장하는 빈도(스텝 단위)</span></span>
-<span id="cb58-53"><a href="#cb58-53" aria-hidden="true" tabindex="-1"></a>    save_total_limit: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">2</span>)  <span class="co"># 저장할 체크포인트의 최대 개수 제한</span></span>
-<span id="cb58-54"><a href="#cb58-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-55"><a href="#cb58-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-56"><a href="#cb58-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 사용자 정의 인자를 파싱하고 모델 저장 경로를 설정합니다:</span></span>
-<span id="cb58-57"><a href="#cb58-57" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> transformers.HfArgumentParser(CustomArguments)</span>
-<span id="cb58-58"><a href="#cb58-58" aria-hidden="true" tabindex="-1"></a>(args,) <span class="op">=</span> parser.parse_args_into_dataclasses(</span>
-<span id="cb58-59"><a href="#cb58-59" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>[<span class="ss">f"--output_dir=</span><span class="sc">{</span>output_dir<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">"</span>]</span>
-<span id="cb58-60"><a href="#cb58-60" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb58-61"><a href="#cb58-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-62"><a href="#cb58-62" aria-hidden="true" tabindex="-1"></a><span class="co"># 학습 데이터셋을 설정합니다:</span></span>
-<span id="cb58-63"><a href="#cb58-63" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> CustomDataset(args<span class="op">=</span>args)</span>
-<span id="cb58-64"><a href="#cb58-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-65"><a href="#cb58-65" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋의 형태를 확인합니다:</span></span>
-<span id="cb58-66"><a href="#cb58-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Input shape: "</span>, train_dataset[<span class="dv">0</span>][<span class="st">"input_ids"</span>].shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass, field</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> transformers</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> Path(<span class="st">"../data/output"</span>)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>dataset_name <span class="op">=</span> <span class="st">"packaged_pretrain_dataset.parquet"</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>dataset_path <span class="op">=</span> output_dir <span class="op">/</span> dataset_name</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomArguments(transformers.TrainingArguments):</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 데이터셋 구성</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>    dataset_name: <span class="bu">str</span> <span class="op">=</span> field(  <span class="co"># 데이터셋 파일 경로 설정</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span>dataset_path.as_posix()</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>    num_proc: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1</span>)  <span class="co"># 데이터 전처리를 위한 서브 프로세스 수</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>    max_seq_length: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">32</span>)  <span class="co"># 최대 시퀀스 길이</span></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 핵심 학습 설정</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>    seed: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">0</span>)  <span class="co"># 초기화를 위한 랜덤 시드, 재현성을 보장</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    optim: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"adamw_torch"</span>)  <span class="co"># 옵티마이저 설정, 여기서는 PyTorch의 AdamW 사용</span></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    max_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">10000</span>)  <span class="co"># 최대 학습 스텝 수</span></span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">2</span>)  <span class="co"># 각 디바이스에서 학습에 사용되는 배치 크기</span></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 기타 학습 설정</span></span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>    learning_rate: <span class="bu">float</span> <span class="op">=</span> field(default<span class="op">=</span><span class="fl">5e-5</span>)  <span class="co"># 옵티마이저의 초기 학습률 설정</span></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>    weight_decay: <span class="bu">float</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">0</span>)  <span class="co"># 가중치 감소율 설정</span></span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>    warmup_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">10</span>)  <span class="co"># 학습률 워밍업 단계 수 설정</span></span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>    lr_scheduler_type: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"linear"</span>)  <span class="co"># 학습률 스케줄러 유형 설정</span></span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>    gradient_checkpointing: <span class="bu">bool</span> <span class="op">=</span> field(</span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="va">True</span></span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 메모리 절약을 위한 그래디언트 체크포인트 활성화</span></span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a>    dataloader_num_workers: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">2</span>)  <span class="co"># 데이터 로딩을 위한 서브 프로세스 수 설정</span></span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a>    bf16: <span class="bu">bool</span> <span class="op">=</span> field(default<span class="op">=</span><span class="va">True</span>)  <span class="co"># 지원되는 하드웨어에서 bfloat16 정밀도를 사용하여 학습 수행</span></span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>    gradient_accumulation_steps: <span class="bu">int</span> <span class="op">=</span> field(</span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 모델 가중치를 업데이트하기 전에 그래디언트를 누적하는 단계 수</span></span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 로깅 구성</span></span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>    logging_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># 학습 정보를 로깅하는 빈도(스텝 단위)</span></span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>    report_to: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"none"</span>)  <span class="co"># 로깅 대상(e.g., WandB, TensorBoard)</span></span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 저장 구성</span></span>
+<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a>    save_strategy: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"steps"</span>)  <span class="co"># "epoch"으로 변경 가능 (저장 전략)</span></span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a>    save_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># 학습 체크포인트를 저장하는 빈도(스텝 단위)</span></span>
+<span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a>    save_total_limit: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">2</span>)  <span class="co"># 저장할 체크포인트의 최대 개수 제한</span></span>
+<span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-48"><a href="#cb57-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-49"><a href="#cb57-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 사용자 정의 인자를 파싱하고 모델 저장 경로를 설정합니다:</span></span>
+<span id="cb57-50"><a href="#cb57-50" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> transformers.HfArgumentParser(CustomArguments)</span>
+<span id="cb57-51"><a href="#cb57-51" aria-hidden="true" tabindex="-1"></a>(args,) <span class="op">=</span> parser.parse_args_into_dataclasses(args<span class="op">=</span>[<span class="ss">f"--output_dir=</span><span class="sc">{</span>output_dir<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">"</span>])</span>
+<span id="cb57-52"><a href="#cb57-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-53"><a href="#cb57-53" aria-hidden="true" tabindex="-1"></a><span class="co"># 학습 데이터셋을 설정합니다:</span></span>
+<span id="cb57-54"><a href="#cb57-54" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> CustomDataset(args<span class="op">=</span>args)</span>
+<span id="cb57-55"><a href="#cb57-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-56"><a href="#cb57-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋의 형태를 확인합니다:</span></span>
+<span id="cb57-57"><a href="#cb57-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Input shape: "</span>, train_dataset[<span class="dv">0</span>][<span class="st">"input_ids"</span>].shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"a6104f722c364a50becb34e592d0b7b9","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -1344,35 +1309,35 @@ I am very fortunate to have a great team</code></pre>
 <p>손실 값의 추이를 그래프로 시각화하면 학습 과정을 더 쉽게 이해할 수 있습니다. 급격한 손실 변화나 이상치가 있는지 주의 깊게 관찰하세요. 이는 학습 과정에서의 문제를 나타낼 수 있습니다.</p>
 </blockquote>
 <div id="cell-56" class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> Trainer, TrainerCallback</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 손실 값 기록을 위한 커스텀 콜백 정의</span></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LossLoggingCallback(TrainerCallback):</span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> on_log(<span class="va">self</span>, args, state, control, logs<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>kwargs):</span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""학습 중 로그 데이터를 수집합니다"""</span></span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> logs <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.logs.append(logs)</span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""콜백 초기화 및 로그 저장소 생성"""</span></span>
-<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.logs <span class="op">=</span> []</span>
-<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 콜백 객체 생성</span></span>
-<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>loss_logging_callback <span class="op">=</span> LossLoggingCallback()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> Trainer, TrainerCallback</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 손실 값 기록을 위한 커스텀 콜백 정의</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LossLoggingCallback(TrainerCallback):</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> on_log(<span class="va">self</span>, args, state, control, logs<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""학습 중 로그 데이터를 수집합니다"""</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> logs <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.logs.append(logs)</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""콜백 초기화 및 로그 저장소 생성"""</span></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.logs <span class="op">=</span> []</span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 콜백 객체 생성</span></span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a>loss_logging_callback <span class="op">=</span> LossLoggingCallback()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>그런 다음 <code>transformers</code> 라이브러리에서 Hugging Face <code>Trainer</code> 객체의 인스턴스를 생성합니다. 트레이너의 <code>train()</code> 메서드를 호출하여 학습을 시작합니다:</p>
 <div id="cell-58" class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> Trainer(</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>pretrained_model,</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>args,</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    train_dataset<span class="op">=</span>train_dataset,</span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    eval_dataset<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    callbacks<span class="op">=</span>[loss_logging_callback],</span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> Trainer(</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>pretrained_model,</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>args,</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    train_dataset<span class="op">=</span>train_dataset,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>    eval_dataset<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    callbacks<span class="op">=</span>[loss_logging_callback],</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
     <div>
@@ -1437,22 +1402,23 @@ I am very fortunate to have a great team</code></pre>
 <pre><code>TrainOutput(global_step=10000, training_loss=4.073491650390625, metrics={'train_runtime': 386.2049, 'train_samples_per_second': 51.786, 'train_steps_per_second': 25.893, 'total_flos': 1060114268160000.0, 'train_loss': 4.073491650390625, 'epoch': 0.11})</code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot 스타일 적용</span></span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"ggplot"</span>)</span>
-<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> loss_logging_callback.logs</span>
-<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="co"># loss_logging_callback에서 기록한 손실 값 가져오기</span></span>
-<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>losses <span class="op">=</span> [log[<span class="st">"loss"</span>] <span class="cf">for</span> log <span class="kw">in</span> logs <span class="cf">if</span> <span class="st">"loss"</span> <span class="kw">in</span> log]  <span class="co"># 'loss' 키가 있는 로그만 추출</span></span>
-<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))  <span class="co"># 배경색 설정</span></span>
-<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>plt.plot(losses)</span>
-<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Epochs"</span>)</span>
-<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Loss"</span>)</span>
-<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Training Loss"</span>)</span>
-<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>시각화를 통해 Training loss가 어떻게 줄었는지 확인해보겠습니다.</p>
+<div id="cell-60" class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot 스타일 적용</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"ggplot"</span>)</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> loss_logging_callback.logs</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="co"># loss_logging_callback에서 기록한 손실 값 가져오기</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>losses <span class="op">=</span> [log[<span class="st">"loss"</span>] <span class="cf">for</span> log <span class="kw">in</span> logs <span class="cf">if</span> <span class="st">"loss"</span> <span class="kw">in</span> log]  <span class="co"># 'loss' 키가 있는 로그만 추출</span></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))  <span class="co"># 배경색 설정</span></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>plt.plot(losses)</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Epochs"</span>)</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Loss"</span>)</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Training Loss"</span>)</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1461,16 +1427,17 @@ I am very fortunate to have a great team</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-60" class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 이름 및 저장 경로 설정</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">"TinySolar-308m-4k-finetune"</span>  <span class="co"># 파인튜닝된 모델 이름</span></span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>save_path <span class="op">=</span> output_dir <span class="op">/</span> model_name  <span class="co"># 모델 저장 경로 생성</span></span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델 저장</span></span>
-<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>pretrained_model.save_pretrained(save_path.as_posix())  <span class="co"># 모델 가중치와 구성 파일 저장</span></span>
-<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 토크나이저 저장</span></span>
-<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>tokenizer.save_pretrained(save_path.as_posix())  <span class="co"># 토크나이저 관련 파일(vocab 등) 저장</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>학습을 계속할 수록 손실 값이 줄어드는 것을 확인할 수 있습니다. 이는 모델이 데이터를 더 잘 이해하고 있음을 의미합니다. 그러나 손실 값이 감소하는 속도가 느려지면 학습이 수렴(convergence)하고 있음을 나타낼 수 있습니다. 이 경우 학습률을 조정하거나 다른 하이퍼파라미터를 조정하여 성능을 향상시킬 수 있습니다. 이제 학습된 모델을 저장해보죠.</p>
+<div id="cell-62" class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 이름 및 저장 경로 설정</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">"TinySolar-308m-4k-finetune"</span>  <span class="co"># 파인튜닝된 모델 이름</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>save_path <span class="op">=</span> output_dir <span class="op">/</span> model_name  <span class="co"># 모델 저장 경로 생성</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델 저장</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>pretrained_model.save_pretrained(save_path.as_posix())  <span class="co"># 모델 가중치와 구성 파일 저장</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 토크나이저 저장</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>tokenizer.save_pretrained(save_path.as_posix())  <span class="co"># 토크나이저 관련 파일(vocab 등) 저장</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
 <pre><code>('../data/output/TinySolar-308m-4k-finetune/tokenizer_config.json',
  '../data/output/TinySolar-308m-4k-finetune/special_tokens_map.json',
@@ -1482,41 +1449,41 @@ I am very fortunate to have a great team</code></pre>
 </section>
 <section id="모델의-성능-확인" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="모델의-성능-확인"><span class="header-section-number">5.5</span> 모델의 성능 확인</h2>
-<p>이제 모델의 체크포인트를 사용하여 텍스트를 생성해볼 수 있습니다. 이 체크포인트는 10,000 학습 스텝 후에 저장된 것입니다. 만약 중간의 체크포인트를 사용해보고 싶다면 <code>../data/output/checkpoint-9000</code>로 변경하면 됩니다. 모델의 토크나이저는 이전과 마찬가지로 Solar 토크나이저를 사용하고 <code>TextStreamer</code> 객체를 설정하여 생성되는 텍스트를 출력합니다.</p>
-<div id="cell-62" class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer, TextStreamer, AutoModelForCausalLM</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 토크나이저 설정</span></span>
-<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>model_name_or_path <span class="op">=</span> <span class="st">"upstage/TinySolar-248m-4k"</span></span>
-<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name_or_path)</span>
-<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 중간 체크포인트 모델 로드</span></span>
-<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>checkpoint_path <span class="op">=</span> <span class="st">"../data/output/checkpoint-10000"</span></span>
-<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
-<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>    checkpoint_path,</span>
-<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>,</span>
-<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
-<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 프롬프트 설정</span></span>
-<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"I am an engineer. I love"</span></span>
-<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 입력 토큰화</span></span>
-<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(prompt, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(model2.device)</span>
-<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. 텍스트 스트리머 설정</span></span>
-<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a>streamer <span class="op">=</span> TextStreamer(tokenizer, skip_prompt<span class="op">=</span><span class="va">True</span>, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-25"><a href="#cb66-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. 텍스트 생성</span></span>
-<span id="cb66-26"><a href="#cb66-26" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model2.generate(</span>
-<span id="cb66-27"><a href="#cb66-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>inputs,</span>
-<span id="cb66-28"><a href="#cb66-28" aria-hidden="true" tabindex="-1"></a>    streamer<span class="op">=</span>streamer,</span>
-<span id="cb66-29"><a href="#cb66-29" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb66-30"><a href="#cb66-30" aria-hidden="true" tabindex="-1"></a>    max_new_tokens<span class="op">=</span><span class="dv">64</span>,</span>
-<span id="cb66-31"><a href="#cb66-31" aria-hidden="true" tabindex="-1"></a>    do_sample<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb66-32"><a href="#cb66-32" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">=</span><span class="fl">1.0</span>,</span>
-<span id="cb66-33"><a href="#cb66-33" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>모델 학습을 진행하면서 모델의 체크포인트(임시 저장)를 만들었습니다. 이 체크포인트를 불러와서 사용해보는 코드는 아래와 같습니다. 모델의 토크나이저는 이전과 마찬가지로 Solar 토크나이저를 사용하고 <code>TextStreamer</code> 객체를 설정하여 생성되는 텍스트를 출력합니다.</p>
+<div id="cell-64" class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM, AutoTokenizer, TextStreamer</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 토크나이저 설정</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>model_name_or_path <span class="op">=</span> <span class="st">"upstage/TinySolar-248m-4k"</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name_or_path)</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 중간 체크포인트 모델 로드</span></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>checkpoint_path <span class="op">=</span> <span class="st">"../data/output/checkpoint-10000"</span></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>    checkpoint_path,</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 프롬프트 설정</span></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"I am an engineer. I love"</span></span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 입력 토큰화</span></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(prompt, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(model2.device)</span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. 텍스트 스트리머 설정</span></span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>streamer <span class="op">=</span> TextStreamer(tokenizer, skip_prompt<span class="op">=</span><span class="va">True</span>, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. 텍스트 생성</span></span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model2.generate(</span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>inputs,</span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a>    streamer<span class="op">=</span>streamer,</span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>    max_new_tokens<span class="op">=</span><span class="dv">64</span>,</span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a>    do_sample<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb65-33"><a href="#cb65-33" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</code></pre>
 </div>
