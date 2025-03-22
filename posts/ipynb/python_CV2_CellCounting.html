@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
-<meta name="dcterms.date" content="2024-09-09">
+<meta name="dcterms.date" content="2025-03-22">
 
-<title>DockQ로 도킹 모델 품질 측정하기 – tomorrow-lab</title>
+<title>OpenCV를 사용해 이미지에서 세포 수 측정 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -120,12 +120,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
 
 
-<meta property="og:title" content="DockQ로 도킹 모델 품질 측정하기 – tomorrow-lab">
+<meta property="og:title" content="OpenCV를 사용해 이미지에서 세포 수 측정 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/md/Intsall_DockQ.png">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/python_CV2_CellCounting_files/figure-html/cell-2-output-2.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="320">
-<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="610">
+<meta property="og:image:width" content="1187">
 </head>
 
 <body class="nav-fixed">
@@ -201,33 +201,8 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#설치" id="toc-설치" class="nav-link active" data-scroll-target="#설치"><span class="header-section-number">1</span> 설치</a>
-  <ul class="collapse">
-  <li><a href="#pixi-를-사용하는-방법" id="toc-pixi-를-사용하는-방법" class="nav-link" data-scroll-target="#pixi-를-사용하는-방법"><span class="header-section-number">1.1</span> pixi 를 사용하는 방법</a></li>
-  <li><a href="#uv-를-사용하는-방법" id="toc-uv-를-사용하는-방법" class="nav-link" data-scroll-target="#uv-를-사용하는-방법"><span class="header-section-number">1.2</span> uv 를 사용하는 방법</a></li>
-  </ul></li>
-  <li><a href="#dockq-사용법" id="toc-dockq-사용법" class="nav-link" data-scroll-target="#dockq-사용법"><span class="header-section-number">2</span> DockQ 사용법</a>
-  <ul class="collapse">
-  <li><a href="#명령어-예시" id="toc-명령어-예시" class="nav-link" data-scroll-target="#명령어-예시"><span class="header-section-number">2.1</span> 명령어 예시</a></li>
-  <li><a href="#단백질---단백질-결합-스코어링" id="toc-단백질---단백질-결합-스코어링" class="nav-link" data-scroll-target="#단백질---단백질-결합-스코어링"><span class="header-section-number">2.2</span> 단백질 - 단백질 결합 스코어링</a>
-  <ul class="collapse">
-  <li><a href="#완전-매핑" id="toc-완전-매핑" class="nav-link" data-scroll-target="#완전-매핑"><span class="header-section-number">2.2.1</span> 완전 매핑</a></li>
-  <li><a href="#부분-매핑" id="toc-부분-매핑" class="nav-link" data-scroll-target="#부분-매핑"><span class="header-section-number">2.2.2</span> 부분 매핑</a></li>
-  <li><a href="#원본-인터페이스의-하위-집합으로-검색-제한하기" id="toc-원본-인터페이스의-하위-집합으로-검색-제한하기" class="nav-link" data-scroll-target="#원본-인터페이스의-하위-집합으로-검색-제한하기"><span class="header-section-number">2.2.3</span> 원본 인터페이스의 하위 집합으로 검색 제한하기</a></li>
-  </ul></li>
-  <li><a href="#단백질---저분자-화합물-결합-스코어링" id="toc-단백질---저분자-화합물-결합-스코어링" class="nav-link" data-scroll-target="#단백질---저분자-화합물-결합-스코어링"><span class="header-section-number">2.3</span> 단백질 - 저분자 화합물 결합 스코어링</a></li>
-  <li><a href="#단백질---dnarna-결합-스코어링" id="toc-단백질---dnarna-결합-스코어링" class="nav-link" data-scroll-target="#단백질---dnarna-결합-스코어링"><span class="header-section-number">2.4</span> 단백질 - DNA/RNA 결합 스코어링</a></li>
-  </ul></li>
-  <li><a href="#다른-기능들" id="toc-다른-기능들" class="nav-link" data-scroll-target="#다른-기능들"><span class="header-section-number">3</span> 다른 기능들</a>
-  <ul class="collapse">
-  <li><a href="#파이썬-모듈로-dockq-사용하기" id="toc-파이썬-모듈로-dockq-사용하기" class="nav-link" data-scroll-target="#파이썬-모듈로-dockq-사용하기"><span class="header-section-number">3.1</span> 파이썬 모듈로 DockQ 사용하기</a></li>
-  <li><a href="#단일-수용체-또는-리간드에-여러-사슬-병합하기" id="toc-단일-수용체-또는-리간드에-여러-사슬-병합하기" class="nav-link" data-scroll-target="#단일-수용체-또는-리간드에-여러-사슬-병합하기"><span class="header-section-number">3.2</span> 단일 수용체 또는 리간드에 여러 사슬 병합하기</a></li>
-  </ul></li>
-  <li><a href="#참고-사항" id="toc-참고-사항" class="nav-link" data-scroll-target="#참고-사항"><span class="header-section-number">4</span> 참고 사항</a>
-  <ul class="collapse">
-  <li><a href="#인용하기" id="toc-인용하기" class="nav-link" data-scroll-target="#인용하기"><span class="header-section-number">4.1</span> 인용하기</a></li>
-  <li><a href="#pixi-의존성-파일" id="toc-pixi-의존성-파일" class="nav-link" data-scroll-target="#pixi-의존성-파일"><span class="header-section-number">4.2</span> pixi 의존성 파일</a></li>
-  </ul></li>
+  <li><a href="#사용된-코드" id="toc-사용된-코드" class="nav-link active" data-scroll-target="#사용된-코드"><span class="header-section-number">1</span> 사용된 코드</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">2</span> Reference</a></li>
   </ul>
 </nav>
     </div>
@@ -236,11 +211,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">DockQ로 도킹 모델 품질 측정하기</h1>
+<h1 class="title">OpenCV를 사용해 이미지에서 세포 수 측정</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Bioinformatics</div>
-    <div class="quarto-category">Tip</div>
-    <div class="quarto-category">Docking</div>
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">OpenCV</div>
   </div>
   </div>
 
@@ -258,7 +232,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 9, 2024</p>
+      <p class="date">March 22, 2025</p>
     </div>
   </div>
   
@@ -276,159 +250,106 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </header>
 
 
-<div class="quarto-figure quarto-figure-center">
+<p>생물학 실험에서 이미지에서 세포 수를 측정 작업은 매우 흔한 일입니다. 일반적으로는 이미지를 촬영하는 장비에 자동으로 세포 수를 측적하는 소프트웨어가 같이 제공되고 있습니다. 그러나 가끔은 수동으로 세포의 수를 측정해야하는 경우가 생기곤 합니다. 그런 작업은 시간과 노력이 많이 들고 결과를 신뢰하기 어렵습니다.</p>
+<p>이런 문제를 해결하기 위해 이번 글에서는 오픈소스 컴퓨터 비전 라이브러리인 <code>OpenCV</code>를 사용해 이미지를 분석하고 세포 수를 자동으로 측정하는 방법을 소개합니다. <code>OpenCV</code>는 강력하고 유연한 이미지 처리 라이브러리이며 세포 수 계수 외에도 다양한 생물학적 이미지 분석에 활용될 수 있습니다.</p>
+<section id="사용된-코드" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 사용된 코드</h1>
+<div id="ec1011af-8e2b-424d-a8d8-d4c37b7db8b2" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_image(image_path):</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 이미지 읽기 및 전처리</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    original_im <span class="op">=</span> cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 중간값 필터 적용 (노이즈 제거) 및 배경 추정</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    im <span class="op">=</span> cv2.medianBlur(original_im, ksize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    bg <span class="op">=</span> cv2.medianBlur(im, ksize<span class="op">=</span><span class="dv">101</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 배경 제거 및 신호 정규화</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    signal <span class="op">=</span> cv2.subtract(im, bg)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    signal <span class="op">=</span> cv2.normalize(signal, <span class="va">None</span>, <span class="dv">0</span>, <span class="dv">255</span>, cv2.NORM_MINMAX, dtype<span class="op">=</span>cv2.CV_8U)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 가우시안 블러 적용 및 마스크 생성</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    smooth <span class="op">=</span> cv2.GaussianBlur(signal, (<span class="dv">0</span>, <span class="dv">0</span>), sigmaX<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    valmask <span class="op">=</span> smooth <span class="op">&gt;</span> <span class="dv">24</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    peakmask <span class="op">=</span> smooth <span class="op">==</span> cv2.dilate(smooth, <span class="va">None</span>, iterations<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 블롭 처리</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    blobs <span class="op">=</span> (valmask <span class="op">&amp;</span> peakmask).astype(np.uint8) <span class="op">*</span> <span class="dv">255</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (<span class="dv">11</span>, <span class="dv">11</span>))</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    blobs <span class="op">=</span> cv2.morphologyEx(blobs, cv2.MORPH_DILATE, kernel)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 연결된 컴포넌트 분석</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    nlabels, _, _, centroids <span class="op">=</span> cv2.connectedComponentsWithStats(blobs)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> original_im, signal, centroids, nlabels <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_results(original, processed, centroids):</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    ax1.imshow(original, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    ax1.set_title(<span class="st">"Original Image"</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    ax1.axis(<span class="st">"off"</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    ax2.imshow(processed, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    ax2.set_title(<span class="st">"Processed Image"</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    ax2.axis(<span class="st">"off"</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pt <span class="kw">in</span> centroids[<span class="dv">1</span>:]:</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        ax2.add_artist(plt.Circle(pt, <span class="dv">20</span>, fill<span class="op">=</span><span class="va">False</span>, color<span class="op">=</span><span class="st">"lime"</span>, linewidth<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># 메인 실행 부분</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">"../data/input/cell_0.png"</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>original, processed, centroids, cell_count <span class="op">=</span> process_image(image_path)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 </span><span class="sc">{</span>cell_count<span class="sc">}</span><span class="ss">개 세포 확인."</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>visualize_results(original, processed, centroids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>총 174개 세포 확인.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
 <figure class="figure">
-<p><a href="Intsall_DockQ.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Intsall_DockQ.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
+<p><a href="python_CV2_CellCounting_files/figure-html/cell-2-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="python_CV2_CellCounting_files/figure-html/cell-2-output-2.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<p><a href="https://github.com/bjornwallner/DockQ">DockQ</a> 는 단백질, DNA 및 저분자 화합물 도킹 모델에 대한 품질을 측정하는 도구입니다. <code>DockQ</code> 점수는 0 에서 1 까지의 범위로 측정되며 품질은 아래와 같이 정의됩니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">0.00</span> <span class="op">&lt;</span>= DockQ <span class="op">&lt;</span> 0.23 <span class="at">-</span> 부정확한 모델</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">0.23</span> <span class="op">&lt;</span>= DockQ <span class="op">&lt;</span> 0.49 <span class="at">-</span> 허용 가능한 품질의 모델</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">0.49</span> <span class="op">&lt;</span>= DockQ <span class="op">&lt;</span> 0.80 <span class="at">-</span> 중간 품질의 모델</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">0.80</span> <span class="op">&lt;</span>= DockQ <span class="op">&lt;</span> 1.00 <span class="at">-</span> 고품질의 모델</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="설치" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 설치</h1>
-<p>공식 리포에서는 가상환경을 사용하지 않고 <code>pip</code> 명령어를 바로 사용하는데 그건 최악의 방법입니다. 나중에 생기는 의존성 문제를 피하기 위해서는 먼저 가상환경을 생성하고 설치해야 합니다. 아래 두가지 방법을 추천합니다.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p><code>numpy &gt;= 2.0</code> 버전을 설치하면 오류가 발생하기 때문에 <code>1.23.4</code> 버전을 사용하세요.</p>
+<p>다른 이미지에 위의 코드를 다시 사용해보겠습니다.</p>
+<div id="ce869b8d-3628-45aa-b92a-98cecb6be352" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 다른 이미지</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">"../data/input/cell_2.png"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>original, processed, centroids, cell_count <span class="op">=</span> process_image(image_path)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 </span><span class="sc">{</span>cell_count<span class="sc">}</span><span class="ss">개 세포 확인."</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>visualize_results(original, processed, centroids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>총 293개 세포 확인.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="python_CV2_CellCounting_files/figure-html/cell-3-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="python_CV2_CellCounting_files/figure-html/cell-3-output-2.png" class="img-fluid figure-img"></a></p>
+</figure>
 </div>
 </div>
-<section id="pixi-를-사용하는-방법" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="pixi-를-사용하는-방법"><span class="header-section-number">1.1</span> pixi 를 사용하는 방법</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bjornwallner/DockQ/</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> DockQ</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> init .</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> add <span class="st">"python=3.9.1"</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> add <span class="st">"numpy=1.23.4"</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> shell</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>이번 글에서는 <code>OpenCV</code>를 사용하여 이미지를 분석하고 세포 수를 측정 하는 방법에 대해 설명했습니다. 다만 위에 제시된 방법은 다양한 종류의 세포 이미지에 적용 가능하지 않습니다. 위의 코드는 특정 세포 이미지에 맞춰 최적화된 결과입니다. 따라서 다른 종류의 세포 이미지나 촬영 조건이 다른 이미지에 동일한 코드를 적용할 경우 코드의 파라미터를 조정하거나 전처리 과정을 필요할 수 있습니다.</p>
+<p>그러니 더 효율적이고 정확한 세포 수 측정을 위해서는 <a href="https://neurips22-cellseg.grand-challenge.org/">NeurIPS 2022 세포 분할 챌린지</a> 최종 우승 소프트웨어인 <a href="https://github.com/FZJ-INM1-BDA/celldetection">celldetection</a>를 사용해보시길 권장합니다.</p>
 </section>
-<section id="uv-를-사용하는-방법" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="uv-를-사용하는-방법"><span class="header-section-number">1.2</span> uv 를 사용하는 방법</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bjornwallner/DockQ/</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> DockQ</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv venv</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">venv</span><span class="kw">)</span> <span class="ex">uv</span> pip install numpy==1.23.4</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">venv</span><span class="kw">)</span> <span class="ex">uv</span> pip install .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="dockq-사용법" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> DockQ 사용법</h1>
-<p>설치를 완료하면 아래의 명령어로 <code>DockQ</code> 를 실행할 수 있습니다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run DockQ <span class="op">&lt;</span>model<span class="op">&gt;</span> <span class="op">&lt;</span>native<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="명령어-예시" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="명령어-예시"><span class="header-section-number">2.1</span> 명령어 예시</h2>
-<p>하나 이상의 인터페이스가 있는 모델/원형 단백질 복합체에서 <code>DockQ</code> 를 실행하면 각 인터페이스에 대한 결과를 얻을 수 있습니다. 결과는 모든 인터페이스에서 평균을 최대화하도록 계산됩니다:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run DockQ examples/1A2K_r_l_b.model.pdb examples/1A2K_r_l_b.pdb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>플래그 <code>--short</code> 를 사용하면 더 간결한 출력을 볼 수 있습니다.</p>
-</section>
-<section id="단백질---단백질-결합-스코어링" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="단백질---단백질-결합-스코어링"><span class="header-section-number">2.2</span> 단백질 - 단백질 결합 스코어링</h2>
-<p>기본적으로 <code>DockQ</code> 는 원본 인터페이스와 모델에 있는 인터페이스 간에 최적의 매핑을 찾으려고 시도합니다.</p>
-<p>가장 간단한 경우는 호모다이머가 모델링된 경우입니다. 그런 다음 원본의 인터페이스 <code>AB</code>(원래 체인 <code>A</code> 와 <code>B</code> 사이) 를 모델 <code>AB</code> 인터페이스와 비교할 수 있지만 체인의 순서를 변경하면 일반적으로 결과가 변경 되므로 <code>BA</code> 와도 비교할 수 있습니다. <code>DockQ homodimer_model.pdb homodimer_native.pdb</code> 명령어를 입력하면 소프트웨어가 가장 높은 <code>DockQ</code> 점수를 가진 매핑 (<code>AB -&gt; AB</code> 또는 <code>AB -&gt; BA</code>) 값을 출력합니다.</p>
-<p>사용자가 특정 매핑을 적용하려면 <code>--mapping</code> 플래그를 사용할 수 있습니다. 이는 예를 들어 모델/원형에 많은 수의 상동 (homologous) 사슬이 포함되어 있는 경우 계산 속도를 높일 수 있어 유용합니다.</p>
-<section id="완전-매핑" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="완전-매핑"><span class="header-section-number">2.2.1</span> 완전 매핑</h3>
-<p>사용자는 원본 체인과 모델 체인 간의 전체 매핑을 정의합니다: <code>--mapping MODELCHAINS:NATIVECHAINS</code>. 예를 들어, 앞의 경우 두 가지 가능한 매핑이 있을 수 있습니다:</p>
+<section id="reference" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Reference</h1>
 <ul>
-<li><code>--mapping AB:AB</code>(원본 체인 A 는 모델 체인 A 에, 원본 체인 B 는 모델 B 에 해당)</li>
-<li><code>--mapping AB:BA</code>(원본 체인 A 는 모델 체인 B 에, 원본 체인 B 는 모델 A 에 해당)</li>
+<li><a href="https://stackoverflow.com/questions/72755474/counting-cells-with-opencv">이미지 출처</a></li>
 </ul>
-<p>콜론 <code>:</code> 앞의 쌍은 모델에서 체인 순서를 정의하고, 뒤의 쌍은 원본에서 순서를 정의합니다.</p>
-</section>
-<section id="부분-매핑" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="부분-매핑"><span class="header-section-number">2.2.2</span> 부분 매핑</h3>
-<p>사용자가 매핑의 일부를 수정하고 나머지는 <code>DockQ</code> 가 최적화하도록 하려는 경우 와일드카드를 사용할 수 있습니다. 예를 들어, 테트라머에 모델에 <code>ABCD</code> 체인이 있고 원본에는 <code>WXYZ</code> 체인이 있는 경우 아래 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mapping</span> A<span class="pp">*</span>:W<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>여기서 와일드카드 <code>*</code> 는 <code>DockQ</code> 가 <code>A</code> -&gt; <code>W</code> 를 고정된 상태로 유지하면서 <code>BCD</code> 와 <code>XYZ</code> 사이의 매핑을 최적화해야 함을 나타냅니다. 두개의 체인을 고정하는 경우는 아래 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mapping</span> AD<span class="pp">*</span>:WY<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="원본-인터페이스의-하위-집합으로-검색-제한하기" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="원본-인터페이스의-하위-집합으로-검색-제한하기"><span class="header-section-number">2.2.3</span> 원본 인터페이스의 하위 집합으로 검색 제한하기</h3>
-<p>사용자가 원본 인터페이스 중 하나 이상의 특정 인터페이스에 관심이 있고 나머지는 무시해야 하는 경우 다음 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mapping</span> <span class="pp">*</span>:WX</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>그러면 DockQ 가 모델에서 네이티브의 WX 인터페이스와 가장 잘 일치하는 인터페이스를 찾습니다. 여러 원본 인터페이스를 사용하는 경우 명령어는 아래와 같습니다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mapping</span> <span class="pp">*</span>:WXY</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="단백질---저분자-화합물-결합-스코어링" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="단백질---저분자-화합물-결합-스코어링"><span class="header-section-number">2.3</span> 단백질 - 저분자 화합물 결합 스코어링</h2>
-<p>단백질과 동일한 방식으로 <code>PDB</code> 또는 <code>mmCIF</code> 파일의 저분자를 스코어링하고 매핑을 최적화할 수 있습니다. <code>--small_molecules</code> 플래그를 추가하기만 하면 됩니다:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 헤모글로빈 사슬(네이티브의 사슬 A와 B)과 HEM 및 PO4 그룹(사슬 E, F, G)의 도킹을 비교합니다.</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> DockQ examples/1HHO_hem.cif examples/2HHB_hem.cif <span class="at">--small_molecule</span> <span class="at">--mapping</span> :ABEFG <span class="at">--short</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>저분자에 대해서는 LRMSD 값만 출력됩니다.</p>
-</div>
-</div>
-<p>참고로 저분자 화합물은 <code>PDB</code>/<code>mmCIF</code> 파일에 포함되어야 합니다. 또한 별도의 체인 식별자가 있어야 합니다 (<code>mmCIF</code> 파일에서는 <code>label_asym_id</code> 필드가 사용됩니다).</p>
-</section>
-<section id="단백질---dnarna-결합-스코어링" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="단백질---dnarna-결합-스코어링"><span class="header-section-number">2.4</span> 단백질 - DNA/RNA 결합 스코어링</h2>
-<p>DNA 와 관련된 인터페이스는 단백질 인터페이스와 마찬가지로 똑같이 점수가 매겨집니다. <code>단백질-DNA</code> 또는 <code>DNA-DNA</code> 인터페이스에 대해서는 <code>단백질-단백질</code> 인터페이스와 동일한 방식으로 <code>DockQ</code> 점수가 계산됩니다. 이중 나선 사슬의 경우 두 개의 <code>DockQ</code> 점수가 출력됩니다.</p>
-</section>
-</section>
-<section id="다른-기능들" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 다른 기능들</h1>
-<p>사용 가능한 명령어에 대한 목록을 보려면 <code>-h/--help</code> 와 함께 <code>DockQ</code> 를 실행하세요.</p>
-<section id="파이썬-모듈로-dockq-사용하기" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="파이썬-모듈로-dockq-사용하기"><span class="header-section-number">3.1</span> 파이썬 모듈로 DockQ 사용하기</h2>
-<p><code>DockQ</code> 를 설치한 후에는 파이썬 코드에서 모듈로 사용할 수도 있습니다.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> DockQ.DockQ <span class="im">import</span> load_PDB, run_on_all_native_interfaces</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> load_PDB(<span class="st">"examples/1A2K_r_l_b.model.pdb"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>native <span class="op">=</span> load_PDB(<span class="st">"examples/1A2K_r_l_b.pdb"</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># model:native 체인에 대한 인터페이스를 딕셔너리 형태로 매핑</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>chain_map <span class="op">=</span> {<span class="st">"A"</span>:<span class="st">"A"</span>, <span class="st">"B"</span>:<span class="st">"B"</span>}</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과는 딕셔너리 형태로 반환.</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>run_on_all_native_interfaces(model, native, chain_map<span class="op">=</span>chain_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="단일-수용체-또는-리간드에-여러-사슬-병합하기" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="단일-수용체-또는-리간드에-여러-사슬-병합하기"><span class="header-section-number">3.2</span> 단일 수용체 또는 리간드에 여러 사슬 병합하기</h2>
-<p>여러 개의 사슬 (예를 들면 항체의 중쇄와 경쇄 사슬) 을 단일 수용체 또는 리간드로 병합하려면 이슈 <a href="https://github.com/bjornwallner/DockQ/issues/33">#33</a> 을 참고하세요.</p>
-</section>
-</section>
-<section id="참고-사항" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> 참고 사항</h1>
-<section id="인용하기" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="인용하기"><span class="header-section-number">4.1</span> 인용하기</h2>
-<p><code>DockQ</code> 를 사용하는 경우 아래 프리프린트를 인용하세요.<a href="https://doi.org/10.1101/2024.05.28.596225">https://doi.org/10.1101/2024.05.28.596225</a></p>
-</section>
-<section id="pixi-의존성-파일" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="pixi-의존성-파일"><span class="header-section-number">4.2</span> pixi 의존성 파일</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode pixi.toml code-with-copy"><code class="sourceCode toml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.pixi.project]</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">channels</span> <span class="op">=</span> <span class="op">[</span><span class="st">"conda-forge"</span><span class="op">]</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dt">platforms</span> <span class="op">=</span> <span class="op">[</span><span class="st">"linux-64"</span><span class="op">]</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.pixi.pypi-dependencies]</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="dt">dockq</span> <span class="op">=</span> <span class="op">{ </span><span class="dt">path</span><span class="op"> =</span> <span class="st">"."</span><span class="op">, </span><span class="dt">editable</span><span class="op"> =</span> <span class="cn">true</span><span class="op"> }</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.pixi.dependencies]</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="dt">numpy</span> <span class="op">=</span> <span class="st">"1.23.4.*"</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="dt">python</span> <span class="op">=</span> <span class="st">"3.9.1.*"</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="dt">biopython</span> <span class="op">=</span> <span class="st">"&gt;=1.84,&lt;2"</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="dt">jupyterlab</span> <span class="op">=</span> <span class="st">"&gt;=4.2.4,&lt;5"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
