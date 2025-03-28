@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
-<meta name="dcterms.date" content="2024-09-01">
+<meta name="dcterms.date" content="2025-03-29">
 
-<title>오픈 소스 PyMOL 설치하기 – tomorrow-lab</title>
+<title>데이터 기반 의사 결정을 위한 시각화 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -118,14 +118,17 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<meta property="og:title" content="오픈 소스 PyMOL 설치하기 – tomorrow-lab">
+<meta property="og:title" content="데이터 기반 의사 결정을 위한 시각화 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/md/Install_pymol.png">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/python_DatadrivenDecision_files/figure-html/cell-3-output-1.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="320">
-<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="390">
+<meta property="og:image:width" content="490">
 </head>
 
 <body class="nav-fixed">
@@ -201,19 +204,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#windows-에-설치" id="toc-windows-에-설치" class="nav-link active" data-scroll-target="#windows-에-설치"><span class="header-section-number">1</span> Windows 에 설치</a>
+  <li><a href="#분석-예시" id="toc-분석-예시" class="nav-link active" data-scroll-target="#분석-예시"><span class="header-section-number">1</span> 분석 예시</a>
   <ul class="collapse">
-  <li><a href="#미니콘다-설치" id="toc-미니콘다-설치" class="nav-link" data-scroll-target="#미니콘다-설치"><span class="header-section-number">1.1</span> 미니콘다 설치</a></li>
-  <li><a href="#pymol-환경-생성" id="toc-pymol-환경-생성" class="nav-link" data-scroll-target="#pymol-환경-생성"><span class="header-section-number">1.2</span> PyMOL 환경 생성</a></li>
-  <li><a href="#파일-다운로드-및-pymol-설치" id="toc-파일-다운로드-및-pymol-설치" class="nav-link" data-scroll-target="#파일-다운로드-및-pymol-설치"><span class="header-section-number">1.3</span> 파일 다운로드 및 PyMOL 설치</a></li>
+  <li><a href="#예시-데이터-생성" id="toc-예시-데이터-생성" class="nav-link" data-scroll-target="#예시-데이터-생성"><span class="header-section-number">1.1</span> 예시 데이터 생성</a></li>
+  <li><a href="#데이터-분석-및-시각화" id="toc-데이터-분석-및-시각화" class="nav-link" data-scroll-target="#데이터-분석-및-시각화"><span class="header-section-number">1.2</span> 데이터 분석 및 시각화</a></li>
   </ul></li>
-  <li><a href="#linux-에-설치" id="toc-linux-에-설치" class="nav-link" data-scroll-target="#linux-에-설치"><span class="header-section-number">2</span> Linux 에 설치</a>
-  <ul class="collapse">
-  <li><a href="#기본-패키지-매니저-사용" id="toc-기본-패키지-매니저-사용" class="nav-link" data-scroll-target="#기본-패키지-매니저-사용"><span class="header-section-number">2.1</span> 기본 패키지 매니저 사용</a></li>
-  <li><a href="#homebrew-사용" id="toc-homebrew-사용" class="nav-link" data-scroll-target="#homebrew-사용"><span class="header-section-number">2.2</span> Homebrew 사용</a></li>
-  </ul></li>
-  <li><a href="#macos-에-설치" id="toc-macos-에-설치" class="nav-link" data-scroll-target="#macos-에-설치"><span class="header-section-number">3</span> MacOS 에 설치</a></li>
-  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">4</span> Reference</a></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">2</span> 마치며</a></li>
   </ul>
 </nav>
     </div>
@@ -222,12 +218,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">오픈 소스 PyMOL 설치하기</h1>
+<h1 class="title">데이터 기반 의사 결정을 위한 시각화</h1>
   <div class="quarto-categories">
+    <div class="quarto-category">Data science</div>
     <div class="quarto-category">Python</div>
-    <div class="quarto-category">Protein engineering</div>
-    <div class="quarto-category">Visualization</div>
-    <div class="quarto-category">Tip</div>
   </div>
   </div>
 
@@ -245,7 +239,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 1, 2024</p>
+      <p class="date">March 29, 2025</p>
     </div>
   </div>
   
@@ -263,95 +257,263 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </header>
 
 
-<div class="quarto-figure quarto-figure-center">
+<p>이번 글에서는 데이터 기반 의사 결정(Data-Driven Decision Making)에 대해 이야기해 보려고 합니다. 데이터 기반 의사 결정은 객관적인 데이터를 분석하고 해석하여 결정을 내리는 방식으로 직관이나 경험에 의존하는 것보다 더욱 합리적인 판단을 가능하게 하여 연구 및 비즈니스 분야에서 그 중요성이 점점 커지고 있습니다.</p>
+<p>하지만 실제 데이터를 수집하다 보면 변수(차원)가 지나치게 많아져 어떤 변수가 실제로 중요한 영향을 미치는지 파악하기 어려울 때가 많습니다. 이럴 때는 고차원 데이터의 차원을 축소하여 시각화하면 숨겨진 패턴을 발견하고 의사 결정에 도움을 얻을 수 있습니다. 따라서 이번 글에서는 항체 후보 물질 분석 사례를 통해 데이터 기반 의사 결정 시 시각화가 어떻게 기여하는지 구체적으로 살펴보겠습니다.</p>
+<section id="분석-예시" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 분석 예시</h1>
+<p>신약 개발은 막대한 비용이 소요되므로, 각 단계에서 효과적으로 후보 물질의 수를 줄여나가는 것이 매우 중요합니다. 여기서 핵심적인 질문은 <strong>“어떻게 효율적으로 후보군을 압축할 수 있는가?”</strong>입니다. 예시로, 항체 후보 물질들의 다양한 특성 데이터를 확보했다는 가정 하에, 각 후보 물질이 어떤 군집에 속하는지 확인하고 우리가 원하는 신약의 특성을 가진 군집을 찾아내는 방법을 설명하고자 합니다.</p>
+<section id="예시-데이터-생성" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="예시-데이터-생성"><span class="header-section-number">1.1</span> 예시 데이터 생성</h2>
+<p>우선 예시 데이터를 임의로 생성하겠습니다. 실제로는 실험을 통해 데이터를 얻어야 합니다. 그런 다음 데이터 분석 시 분석 결과의 편향을 방지하기 위해 각 데이터를 정규화하는 과정이 필요합니다. 이는 수집된 데이터의 종류에 따라 값의 범위가 다르기 때문에 발생하는 문제를 해결하기 위함입니다.</p>
+<div id="cell-2" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.cluster.hierarchy <span class="im">import</span> fcluster, linkage, to_tree</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial.distance <span class="im">import</span> pdist</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>nord_colors <span class="op">=</span> [<span class="st">"#BF616A"</span>, <span class="st">"#D08770"</span>, <span class="st">"#EBCB8B"</span>, <span class="st">"#A3BE8C"</span>, <span class="st">"#B48EAD"</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_candidate_dataframe(num_candidates):</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""주어진 개수의 후보 물질에 대한 가짜 데이터를 생성하고 DataFrame을 반환합니다."""</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    candidates <span class="op">=</span> [<span class="ss">f"mAb</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, num_candidates <span class="op">+</span> <span class="dv">1</span>)]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SEC_main"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">10</span>, scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"SEC_RT"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">5</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pI"</span>: np.random.uniform(low<span class="op">=</span><span class="dv">4</span>, high<span class="op">=</span><span class="dv">9</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"HIC_RT"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">7</span>, scale<span class="op">=</span><span class="fl">1.5</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"AC_SIN_Ace"</span>: np.random.normal(loc<span class="op">=</span><span class="fl">0.5</span>, scale<span class="op">=</span><span class="fl">0.1</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"AC_SINS_PBS"</span>: np.random.normal(loc<span class="op">=</span><span class="fl">0.7</span>, scale<span class="op">=</span><span class="fl">0.1</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"PSR"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">100</span>, scale<span class="op">=</span><span class="dv">15</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ELISA"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">200</span>, scale<span class="op">=</span><span class="dv">30</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"BVP"</span>: np.random.normal(loc<span class="op">=</span><span class="fl">0.8</span>, scale<span class="op">=</span><span class="fl">0.2</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Tm"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">70</span>, scale<span class="op">=</span><span class="dv">5</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Tagg"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">75</span>, scale<span class="op">=</span><span class="dv">6</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"DSR"</span>: np.random.normal(loc<span class="op">=</span><span class="fl">0.3</span>, scale<span class="op">=</span><span class="fl">0.05</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"KD"</span>: np.random.normal(loc<span class="op">=</span><span class="fl">1e-9</span>, scale<span class="op">=</span><span class="fl">1e-10</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"CE_SDS"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">1</span>, scale<span class="op">=</span><span class="fl">0.2</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Titer"</span>: np.random.normal(loc<span class="op">=</span><span class="dv">5</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span>num_candidates),</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(data, index<span class="op">=</span>candidates)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터프레임 생성</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> generate_candidate_dataframe(<span class="dv">24</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">SEC_main</th>
+<th data-quarto-table-cell-role="th">SEC_RT</th>
+<th data-quarto-table-cell-role="th">pI</th>
+<th data-quarto-table-cell-role="th">HIC_RT</th>
+<th data-quarto-table-cell-role="th">AC_SIN_Ace</th>
+<th data-quarto-table-cell-role="th">AC_SINS_PBS</th>
+<th data-quarto-table-cell-role="th">PSR</th>
+<th data-quarto-table-cell-role="th">ELISA</th>
+<th data-quarto-table-cell-role="th">BVP</th>
+<th data-quarto-table-cell-role="th">Tm</th>
+<th data-quarto-table-cell-role="th">Tagg</th>
+<th data-quarto-table-cell-role="th">DSR</th>
+<th data-quarto-table-cell-role="th">KD</th>
+<th data-quarto-table-cell-role="th">CE_SDS</th>
+<th data-quarto-table-cell-role="th">Titer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mAb1</td>
+<td>7.716622</td>
+<td>4.533963</td>
+<td>6.248699</td>
+<td>7.440337</td>
+<td>0.561915</td>
+<td>0.711327</td>
+<td>84.064097</td>
+<td>225.218601</td>
+<td>0.974259</td>
+<td>71.659902</td>
+<td>74.373305</td>
+<td>0.287697</td>
+<td>1.031917e-09</td>
+<td>1.322444</td>
+<td>3.856274</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mAb2</td>
+<td>9.612681</td>
+<td>3.405297</td>
+<td>7.883553</td>
+<td>4.965127</td>
+<td>0.705750</td>
+<td>0.556172</td>
+<td>106.424606</td>
+<td>216.402007</td>
+<td>0.530804</td>
+<td>70.952498</td>
+<td>73.987070</td>
+<td>0.257838</td>
+<td>1.134045e-09</td>
+<td>1.179368</td>
+<td>5.108560</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mAb3</td>
+<td>8.566355</td>
+<td>5.513600</td>
+<td>4.326831</td>
+<td>7.699645</td>
+<td>0.502079</td>
+<td>0.791923</td>
+<td>97.192836</td>
+<td>192.832037</td>
+<td>0.825276</td>
+<td>73.547259</td>
+<td>75.420313</td>
+<td>0.408547</td>
+<td>8.124828e-10</td>
+<td>0.946294</td>
+<td>4.966770</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mAb4</td>
+<td>6.266927</td>
+<td>4.467299</td>
+<td>6.437856</td>
+<td>6.946538</td>
+<td>0.427200</td>
+<td>0.633186</td>
+<td>114.785950</td>
+<td>188.995268</td>
+<td>1.187786</td>
+<td>67.822568</td>
+<td>81.971270</td>
+<td>0.291206</td>
+<td>1.011503e-09</td>
+<td>0.821762</td>
+<td>4.791883</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mAb5</td>
+<td>9.834639</td>
+<td>3.830083</td>
+<td>4.168068</td>
+<td>4.577302</td>
+<td>0.481710</td>
+<td>0.887330</td>
+<td>117.810791</td>
+<td>188.247256</td>
+<td>0.599934</td>
+<td>72.565529</td>
+<td>69.435881</td>
+<td>0.306160</td>
+<td>9.839867e-10</td>
+<td>0.569637</td>
+<td>4.871462</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>앞서 제시된 테이블을 보면 각 후보 항체에 대해 다양한 실험을 통해 얻은 데이터 값들이 나열되어 있는 것을 확인할 수 있습니다. 이때 어떤 항체가 우리가 원하는 특성을 갖추고 있는지 명확히 판단하기 어렵다는 점을 쉽게 이해하실 수 있을 겁니다. 그 이유는 첫째, 모든 면에서 완벽한 값을 나타내는 후보 물질은 존재하지 않기 때문이고 둘째, 어떤 특성 값이 가장 중요한지를 우리가 아직 정확히 알지 못하기 때문입니다.</p>
+</section>
+<section id="데이터-분석-및-시각화" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="데이터-분석-및-시각화"><span class="header-section-number">1.2</span> 데이터 분석 및 시각화</h2>
+<p>분석 결과를 덴드로그램이나 네트워크 그래프와 같은 시각적인 형태로 표현하여 후보 물질들 간의 유사성을 직관적으로 파악할 수 있도록 돕습니다. 아래 코드를 통해 예시 데이터를 분석하고 시각화를 해보겠습니다.</p>
+<div id="cell-4" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 정규화</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df_normalized <span class="op">=</span> (df <span class="op">-</span> df.<span class="bu">min</span>()) <span class="op">/</span> (df.<span class="bu">max</span>() <span class="op">-</span> df.<span class="bu">min</span>())</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 거리 행렬 계산</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>distance_matrix <span class="op">=</span> pdist(df_normalized, metric<span class="op">=</span><span class="st">"euclidean"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 계층적 군집화를 통해 트리 생성</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>linkage_matrix <span class="op">=</span> linkage(distance_matrix, method<span class="op">=</span><span class="st">"average"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 클러스터 할당 (5개의 주요 그룹으로 분할)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>clusters <span class="op">=</span> fcluster(linkage_matrix, t<span class="op">=</span><span class="dv">5</span>, criterion<span class="op">=</span><span class="st">"maxclust"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>candidates <span class="op">=</span> df.index.tolist()</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>label_colors <span class="op">=</span> {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    candidates[i]: nord_colors[clusters[i] <span class="op">%</span> <span class="bu">len</span>(nord_colors)] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(candidates))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 트리를 NetworkX 그래프로 변환</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>root, nodes <span class="op">=</span> to_tree(linkage_matrix, rd<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_edges(node, parent<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> node <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        G.add_node(node.<span class="bu">id</span>, label<span class="op">=</span>candidates[node.<span class="bu">id</span>] <span class="cf">if</span> node.<span class="bu">id</span> <span class="op">&lt;</span> <span class="bu">len</span>(candidates) <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> parent <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            G.add_edge(parent.<span class="bu">id</span>, node.<span class="bu">id</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        add_edges(node.left, node)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        add_edges(node.right, node)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>add_edges(root)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 그래프 시각화</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.kamada_kawai_layout(G)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>nx.draw_networkx_edges(G, pos, ax<span class="op">=</span>ax)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 노드 라벨 추가 (색상 적용)</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> {n: G.nodes[n][<span class="st">"label"</span>] <span class="cf">for</span> n <span class="kw">in</span> G.nodes <span class="cf">if</span> G.nodes[n][<span class="st">"label"</span>]}</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> labels:</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    plt.text(</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        pos[n][<span class="dv">0</span>],</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        pos[n][<span class="dv">1</span>],</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>        labels[n],</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>label_colors.get(labels[n], <span class="st">"black"</span>),</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        bbox<span class="op">=</span>{<span class="st">"facecolor"</span>: <span class="st">"white"</span>, <span class="st">"edgecolor"</span>: <span class="st">"none"</span>, <span class="st">"boxstyle"</span>: <span class="st">"round,pad=0.2"</span>},</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
 <figure class="figure">
-<p><a href="Install_pymol.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Install_pymol.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
+<p><a href="python_DatadrivenDecision_files/figure-html/cell-3-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="python_DatadrivenDecision_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<p>PyMOL 은 생화학과 분자 생물학에서 자주 사용되는 분자 시각화 소프트웨어입니다. 단백질, 핵산, 소형 화합물 등의 3D 구조를 시각화하고 분석하고 그래픽 렌더링 기능을 통해 고품질의 이미지를 생성할 수 있습니다. PyMOL 에는 오픈 소스 버전과 <strong>PyMOL by Schrödinger</strong>(상업 라이센스) 가 존재하기 때문에 영리기관 (회사) 에서 일을 하시거나 라이센스 문제를 겪고 싶지 않다면 오픈 소스 버전을 컴파일해서 설치하는 것을 추천합니다.</p>
-<section id="windows-에-설치" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Windows 에 설치</h1>
-<p>2024 년 4 월 9 일부터 오픈소스 PyMOL 3.0.x 소프트웨어 배포 방식이 변경되었습니다. 이전 설치 방법은 이제 작동하지 않기 때문에 아래 새로운 방법으로 설치하셔야 합니다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<section id="미니콘다-설치" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="미니콘다-설치"><span class="header-section-number">1.1</span> 미니콘다 설치</h2>
-<p>먼저 Windows 용 <a href="https://docs.anaconda.com/miniconda/">Miniconda</a> 를 설치합니다. 자세한 설치 방법은 공식 홈페이지를 참고하세요. <code>Anaconda</code> 를 사용하시거나 다른 유사한 <code>conda</code> 배포판을 사용하셔도 상관은 없습니다.</p>
-</section>
-<section id="pymol-환경-생성" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="pymol-환경-생성"><span class="header-section-number">1.2</span> PyMOL 환경 생성</h2>
-<p>PyMOL 3.0.x 용 가상 환경을 생성합니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">$conda</span> create <span class="at">-n</span> pymol python=3.12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>그런 다음 가상 환경을 활성화하고 필요한 패키지를 설치합니다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">$conda</span> activate pymol</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 필요한 패키지 설치</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">pymol-3.0</span><span class="kw">)</span><span class="va">$conda</span> install numpy pmw pyqt pip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="파일-다운로드-및-pymol-설치" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="파일-다운로드-및-pymol-설치"><span class="header-section-number">1.3</span> 파일 다운로드 및 PyMOL 설치</h2>
-<p>파이썬의 <code>wheel</code> 파일은 파이썬 패키지를 배포하기 위한 표준 형식 중 하나입니다. <code>.whl</code> 확장자를 가지며, 설치 속도 빠르고 빌드가 불필요하다는 장점이 있습니다. 윈도우용 PyMOL <code>wheel</code> 파일은 <a href="https://github.com/cgohlke/pymol-open-source-wheels/">GitHub 리포지토리</a> 의 <a href="https://github.com/cgohlke/pymol-open-source-wheels/releases">릴리즈 페이지</a> 에서 다운로드할 수 있습니다.</p>
-<p><code>Windows 11 x64</code> 의 경우, <a href="https://github.com/cgohlke/pymol-open-source-wheels/releases/download/v2024.4.9/pymol-3.0.0-cp312-cp312-win_amd64.whl">pymol-3.0.0-cp312-cp312-win_amd64.whl</a> 을 다운로드합니다. 그런 다음 아래 명령어로 설치합니다. 아래 사용한 파일명은 예시로 다운로드한 파일의 이름으로 변경하셔야 합니다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">pymol</span><span class="kw">)</span><span class="va">$python</span> <span class="at">-m</span> pip install pymol-3.0.0-cp312-cp312-win_amd64.whl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>예전 버전과는 달리 더 이상 <code>pymol_launcher</code> 가 필요하지 않습니다.</p>
-</div>
-</div>
-<p>만약 오류가 발생했다면 <code>wheel</code> 파일의 경로가 올바른지 확인하세요. 오류 메시지가 발생하지 않았다면 다음의 명령어로 PyMOL 을 실행할 수 있습니다:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">pymol</span><span class="kw">)</span><span class="va">$pymol</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>다양한 실험 결과를 테이블 형태로 보는 것은 정보를 얻는 데 도움이 되지만, 많은 정보를 한눈에 파악하기는 쉽지 않습니다. 하지만 앞선 예시에서처럼 데이터를 시각화하면 후보 항체들이 어떤 무리(클러스터)를 형성하고 있는지 직관적으로 확인할 수 있습니다. 시각화는 데이터를 효과적으로 요약하여 다음과 같은 유용한 정보를 제공합니다.</p>
+<ul>
+<li>유사성 파악: 어떤 후보 항체들이 서로 비슷한 특성을 나타내는지 시각적으로 보여주어 그룹별 특징을 분석하는 데 용이합니다.</li>
+<li>이상치 식별: 다른 후보 항체들과 뚜렷하게 구별되는 특성을 가진 이상치를 발견하고, 이에 대한 추가적인 분석이나 실험을 진행할 수 있습니다.</li>
+<li>선택 근거 제시: 시각화된 결과를 통해 최종 후보 선택의 타당한 근거를 명확하게 제시할 수 있습니다. 예를 들어, 특정 그룹에 속한 후보 항체들이 높은 결합력과 뛰어난 안정성을 보인다는 점을 시각적으로 보여줄 수 있습니다.</li>
+</ul>
 </section>
 </section>
-<section id="linux-에-설치" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Linux 에 설치</h1>
-<section id="기본-패키지-매니저-사용" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="기본-패키지-매니저-사용"><span class="header-section-number">2.1</span> 기본 패키지 매니저 사용</h2>
-<p><code>Linux</code> 에서는 최신 버전을 제공하지 않는 경우가 많지만 오픈 소스 PyMOL을 위한 바이너리 패키지를 기본 제공하기 때문에 아주 편리하게 설치 할 수 있습니다. 아래는 일부 인기 있는 배포판에 대한 설치 명령어입니다. 참고로 모든 명령은 <code>superuser</code> 로 실행해야 합니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Debian/Ubuntu/Mint</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">apt-get</span> install pymol</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fedora</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dnf</span> install pymol</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Arch/Manjaro</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pacman</span> <span class="at">-S</span> pymol</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># CentOS with EPEL</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ex">rpm</span> <span class="at">-i</span> http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-5.noarch.rpm</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ex">yum</span> <span class="at">--enablerepo</span><span class="op">=</span>epel install pymol</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>우분투를 NVIDIA 그래픽 카드 및 일반 드라이버와 함께 사용하는 경우 렌더링 불량, 검은색 픽셀화 및 기타 그래픽 이상이 발생할 수 있습니다. NVIDIA 전용 드라이버 설치 가이드는 <a href="https://help.ubuntu.com/community/BinaryDriverHowto/Nvidia">Ubuntu 커뮤니티 Nvidia 드라이버 설치 방법</a> 에서 확인할 수 있습니다.</p>
-</section>
-<section id="homebrew-사용" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="homebrew-사용"><span class="header-section-number">2.2</span> Homebrew 사용</h2>
-<p>Homebrew는 macOS 와 Linux 시스템을 위한 패키지 관리자입니다. Homebrew는 전용 디렉토리에 패키지를 설치하기 때문에 시스템의 다른 부분에 영향을 주지 않는 장점이 있습니다. 저는 가능하다면 이 방법을 가장 추천합니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/bin/bash</span> <span class="at">-c</span> <span class="st">"</span><span class="va">$(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="va">)</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>Homebrew</code> 를 설치가 완료되면 다음 명령어로 간단하게 설치가 가능합니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install pymol</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="macos-에-설치" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> MacOS 에 설치</h1>
-<p>앞서 Homebrew를 사용하는 방법과 동일하게 설치할 수 있습니다.</p>
-</section>
-<section id="reference" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Reference</h1>
-
-
-</section>
-
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>https://omicx.cc/posts/2024-04-13-install-open-source-pymol-3.0.x-in-windows-11/<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<section id="마치며" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 마치며</h1>
+<p>위와 같은 시각화 결과를 얻은 후에는 어떤 추가적인 분석이 필요할까요? 일반적으로 다음과 같은 단계를 거치게 됩니다.</p>
+<ol type="1">
+<li>그룹별 특성 심층 분석: 시각화된 결과를 바탕으로 각 그룹의 구체적인 특성을 자세히 분석하고, 우리가 목표로 하는 특성을 가진 그룹을 식별합니다.</li>
+<li>그룹 내 개별 후보 비교: 선택된 그룹 내의 개별 후보 항체들의 특성을 세밀하게 비교하여 최종적으로 최적의 후보를 선택합니다.</li>
 </ol>
-</section></div></main> <!-- /main -->
+<p>이처럼 데이터 기반 의사 결정은 과학 연구 분야뿐만 아니라 다양한 영역에서 활용될 수 있습니다. 복잡한 문제에 직면했을 때 데이터를 시각화하여 분석한다면, 더욱 효과적이고 합리적인 결정을 내리는 데 큰 도움을 얻을 수 있습니다.</p>
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

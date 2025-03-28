@@ -10,7 +10,726 @@
 <atom:link href="https://tomorrow-lab.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.</description>
 <generator>quarto-1.6.42</generator>
-<lastBuildDate>Sat, 22 Mar 2025 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 29 Mar 2025 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>데이터 기반 의사 결정을 위한 시각화</title>
+  <dc:creator>Taeyoon Kim</dc:creator>
+  <link>https://tomorrow-lab.github.io/posts/ipynb/python_DatadrivenDecision.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>이번 글에서는 데이터 기반 의사 결정(Data-Driven Decision Making)에 대해 이야기해 보려고 합니다. 데이터 기반 의사 결정은 객관적인 데이터를 분석하고 해석하여 결정을 내리는 방식으로 직관이나 경험에 의존하는 것보다 더욱 합리적인 판단을 가능하게 하여 연구 및 비즈니스 분야에서 그 중요성이 점점 커지고 있습니다.</p>
+<p>하지만 실제 데이터를 수집하다 보면 변수(차원)가 지나치게 많아져 어떤 변수가 실제로 중요한 영향을 미치는지 파악하기 어려울 때가 많습니다. 이럴 때는 고차원 데이터의 차원을 축소하여 시각화하면 숨겨진 패턴을 발견하고 의사 결정에 도움을 얻을 수 있습니다. 따라서 이번 글에서는 항체 후보 물질 분석 사례를 통해 데이터 기반 의사 결정 시 시각화가 어떻게 기여하는지 구체적으로 살펴보겠습니다.</p>
+<section id="분석-예시" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 분석 예시</h1>
+<p>신약 개발은 막대한 비용이 소요되므로, 각 단계에서 효과적으로 후보 물질의 수를 줄여나가는 것이 매우 중요합니다. 여기서 핵심적인 질문은 <strong>“어떻게 효율적으로 후보군을 압축할 수 있는가?”</strong>입니다. 예시로, 항체 후보 물질들의 다양한 특성 데이터를 확보했다는 가정 하에, 각 후보 물질이 어떤 군집에 속하는지 확인하고 우리가 원하는 신약의 특성을 가진 군집을 찾아내는 방법을 설명하고자 합니다.</p>
+<section id="예시-데이터-생성" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="예시-데이터-생성"><span class="header-section-number">1.1</span> 예시 데이터 생성</h2>
+<p>우선 예시 데이터를 임의로 생성하겠습니다. 실제로는 실험을 통해 데이터를 얻어야 합니다. 그런 다음 데이터 분석 시 분석 결과의 편향을 방지하기 위해 각 데이터를 정규화하는 과정이 필요합니다. 이는 수집된 데이터의 종류에 따라 값의 범위가 다르기 때문에 발생하는 문제를 해결하기 위함입니다.</p>
+<div id="cell-2" class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> networkx <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> nx</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb1-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="cb1-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> scipy.cluster.hierarchy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> fcluster, linkage, to_tree</span>
+<span id="cb1-6"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> scipy.spatial.distance <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pdist</span>
+<span id="cb1-7"></span>
+<span id="cb1-8">nord_colors <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#BF616A"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#D08770"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#EBCB8B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#A3BE8C"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#B48EAD"</span>]</span>
+<span id="cb1-9"></span>
+<span id="cb1-10"></span>
+<span id="cb1-11"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> generate_candidate_dataframe(num_candidates):</span>
+<span id="cb1-12">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""주어진 개수의 후보 물질에 대한 가짜 데이터를 생성하고 DataFrame을 반환합니다."""</span></span>
+<span id="cb1-13"></span>
+<span id="cb1-14">    candidates <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"mAb</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>i<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, num_candidates <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)]</span>
+<span id="cb1-15"></span>
+<span id="cb1-16">    data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb1-17">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"SEC_main"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-18">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"SEC_RT"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-19">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pI"</span>: np.random.uniform(low<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, high<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-20">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HIC_RT"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-21">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AC_SIN_Ace"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.1</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-22">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AC_SINS_PBS"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.7</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.1</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-23">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"PSR"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-24">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ELISA"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-25">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BVP"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.8</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.2</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-26">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tm"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">70</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-27">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tagg"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">75</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-28">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"DSR"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.3</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-29">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"KD"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1e-9</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1e-10</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-30">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"CE_SDS"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.2</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-31">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Titer"</span>: np.random.normal(loc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>num_candidates),</span>
+<span id="cb1-32">    }</span>
+<span id="cb1-33"></span>
+<span id="cb1-34">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> pd.DataFrame(data, index<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>candidates)</span>
+<span id="cb1-35"></span>
+<span id="cb1-36"></span>
+<span id="cb1-37"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터프레임 생성</span></span>
+<span id="cb1-38">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> generate_candidate_dataframe(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">24</span>)</span>
+<span id="cb1-39">df.head()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">SEC_main</th>
+<th data-quarto-table-cell-role="th">SEC_RT</th>
+<th data-quarto-table-cell-role="th">pI</th>
+<th data-quarto-table-cell-role="th">HIC_RT</th>
+<th data-quarto-table-cell-role="th">AC_SIN_Ace</th>
+<th data-quarto-table-cell-role="th">AC_SINS_PBS</th>
+<th data-quarto-table-cell-role="th">PSR</th>
+<th data-quarto-table-cell-role="th">ELISA</th>
+<th data-quarto-table-cell-role="th">BVP</th>
+<th data-quarto-table-cell-role="th">Tm</th>
+<th data-quarto-table-cell-role="th">Tagg</th>
+<th data-quarto-table-cell-role="th">DSR</th>
+<th data-quarto-table-cell-role="th">KD</th>
+<th data-quarto-table-cell-role="th">CE_SDS</th>
+<th data-quarto-table-cell-role="th">Titer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mAb1</td>
+<td>7.716622</td>
+<td>4.533963</td>
+<td>6.248699</td>
+<td>7.440337</td>
+<td>0.561915</td>
+<td>0.711327</td>
+<td>84.064097</td>
+<td>225.218601</td>
+<td>0.974259</td>
+<td>71.659902</td>
+<td>74.373305</td>
+<td>0.287697</td>
+<td>1.031917e-09</td>
+<td>1.322444</td>
+<td>3.856274</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mAb2</td>
+<td>9.612681</td>
+<td>3.405297</td>
+<td>7.883553</td>
+<td>4.965127</td>
+<td>0.705750</td>
+<td>0.556172</td>
+<td>106.424606</td>
+<td>216.402007</td>
+<td>0.530804</td>
+<td>70.952498</td>
+<td>73.987070</td>
+<td>0.257838</td>
+<td>1.134045e-09</td>
+<td>1.179368</td>
+<td>5.108560</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mAb3</td>
+<td>8.566355</td>
+<td>5.513600</td>
+<td>4.326831</td>
+<td>7.699645</td>
+<td>0.502079</td>
+<td>0.791923</td>
+<td>97.192836</td>
+<td>192.832037</td>
+<td>0.825276</td>
+<td>73.547259</td>
+<td>75.420313</td>
+<td>0.408547</td>
+<td>8.124828e-10</td>
+<td>0.946294</td>
+<td>4.966770</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mAb4</td>
+<td>6.266927</td>
+<td>4.467299</td>
+<td>6.437856</td>
+<td>6.946538</td>
+<td>0.427200</td>
+<td>0.633186</td>
+<td>114.785950</td>
+<td>188.995268</td>
+<td>1.187786</td>
+<td>67.822568</td>
+<td>81.971270</td>
+<td>0.291206</td>
+<td>1.011503e-09</td>
+<td>0.821762</td>
+<td>4.791883</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mAb5</td>
+<td>9.834639</td>
+<td>3.830083</td>
+<td>4.168068</td>
+<td>4.577302</td>
+<td>0.481710</td>
+<td>0.887330</td>
+<td>117.810791</td>
+<td>188.247256</td>
+<td>0.599934</td>
+<td>72.565529</td>
+<td>69.435881</td>
+<td>0.306160</td>
+<td>9.839867e-10</td>
+<td>0.569637</td>
+<td>4.871462</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>앞서 제시된 테이블을 보면 각 후보 항체에 대해 다양한 실험을 통해 얻은 데이터 값들이 나열되어 있는 것을 확인할 수 있습니다. 이때 어떤 항체가 우리가 원하는 특성을 갖추고 있는지 명확히 판단하기 어렵다는 점을 쉽게 이해하실 수 있을 겁니다. 그 이유는 첫째, 모든 면에서 완벽한 값을 나타내는 후보 물질은 존재하지 않기 때문이고 둘째, 어떤 특성 값이 가장 중요한지를 우리가 아직 정확히 알지 못하기 때문입니다.</p>
+</section>
+<section id="데이터-분석-및-시각화" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="데이터-분석-및-시각화"><span class="header-section-number">1.2</span> 데이터 분석 및 시각화</h2>
+<p>분석 결과를 덴드로그램이나 네트워크 그래프와 같은 시각적인 형태로 표현하여 후보 물질들 간의 유사성을 직관적으로 파악할 수 있도록 돕습니다. 아래 코드를 통해 예시 데이터를 분석하고 시각화를 해보겠습니다.</p>
+<div id="cell-4" class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 데이터 정규화</span></span>
+<span id="cb2-2">df_normalized <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> df.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">min</span>()) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> (df.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">max</span>() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> df.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">min</span>())</span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 거리 행렬 계산</span></span>
+<span id="cb2-5">distance_matrix <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pdist(df_normalized, metric<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"euclidean"</span>)</span>
+<span id="cb2-6"></span>
+<span id="cb2-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 계층적 군집화를 통해 트리 생성</span></span>
+<span id="cb2-8">linkage_matrix <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> linkage(distance_matrix, method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"average"</span>)</span>
+<span id="cb2-9"></span>
+<span id="cb2-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 클러스터 할당 (5개의 주요 그룹으로 분할)</span></span>
+<span id="cb2-11">clusters <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> fcluster(linkage_matrix, t<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, criterion<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"maxclust"</span>)</span>
+<span id="cb2-12">candidates <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.index.tolist()</span>
+<span id="cb2-13">label_colors <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb2-14">    candidates[i]: nord_colors[clusters[i] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(nord_colors)] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(candidates))</span>
+<span id="cb2-15">}</span>
+<span id="cb2-16"></span>
+<span id="cb2-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 트리를 NetworkX 그래프로 변환</span></span>
+<span id="cb2-18">root, nodes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> to_tree(linkage_matrix, rd<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb2-19">G <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nx.Graph()</span>
+<span id="cb2-20"></span>
+<span id="cb2-21"></span>
+<span id="cb2-22"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> add_edges(node, parent<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>):</span>
+<span id="cb2-23">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> node <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb2-24">        G.add_node(node.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>candidates[node.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> node.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(candidates) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>)</span>
+<span id="cb2-25">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> parent <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb2-26">            G.add_edge(parent.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>, node.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>)</span>
+<span id="cb2-27">        add_edges(node.left, node)</span>
+<span id="cb2-28">        add_edges(node.right, node)</span>
+<span id="cb2-29"></span>
+<span id="cb2-30"></span>
+<span id="cb2-31">add_edges(root)</span>
+<span id="cb2-32"></span>
+<span id="cb2-33"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 그래프 시각화</span></span>
+<span id="cb2-34">fig, ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>))</span>
+<span id="cb2-35">ax.axis(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"off"</span>)</span>
+<span id="cb2-36">pos <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nx.kamada_kawai_layout(G)</span>
+<span id="cb2-37">nx.draw_networkx_edges(G, pos, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax)</span>
+<span id="cb2-38"></span>
+<span id="cb2-39"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 노드 라벨 추가 (색상 적용)</span></span>
+<span id="cb2-40">labels <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {n: G.nodes[n][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"label"</span>] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> n <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> G.nodes <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> G.nodes[n][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"label"</span>]}</span>
+<span id="cb2-41"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> n <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> labels:</span>
+<span id="cb2-42">    plt.text(</span>
+<span id="cb2-43">        pos[n][<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>],</span>
+<span id="cb2-44">        pos[n][<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>],</span>
+<span id="cb2-45">        labels[n],</span>
+<span id="cb2-46">        fontsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>,</span>
+<span id="cb2-47">        color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>label_colors.get(labels[n], <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"black"</span>),</span>
+<span id="cb2-48">        bbox<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"facecolor"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"white"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"edgecolor"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"boxstyle"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"round,pad=0.2"</span>},</span>
+<span id="cb2-49">    )</span>
+<span id="cb2-50"></span>
+<span id="cb2-51">fig.tight_layout()</span>
+<span id="cb2-52">plt.show()</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="python_DatadrivenDecision_files/figure-html/cell-3-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://tomorrow-lab.github.io/posts/ipynb/python_DatadrivenDecision_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>다양한 실험 결과를 테이블 형태로 보는 것은 정보를 얻는 데 도움이 되지만, 많은 정보를 한눈에 파악하기는 쉽지 않습니다. 하지만 앞선 예시에서처럼 데이터를 시각화하면 후보 항체들이 어떤 무리(클러스터)를 형성하고 있는지 직관적으로 확인할 수 있습니다. 시각화는 데이터를 효과적으로 요약하여 다음과 같은 유용한 정보를 제공합니다.</p>
+<ul>
+<li>유사성 파악: 어떤 후보 항체들이 서로 비슷한 특성을 나타내는지 시각적으로 보여주어 그룹별 특징을 분석하는 데 용이합니다.</li>
+<li>이상치 식별: 다른 후보 항체들과 뚜렷하게 구별되는 특성을 가진 이상치를 발견하고, 이에 대한 추가적인 분석이나 실험을 진행할 수 있습니다.</li>
+<li>선택 근거 제시: 시각화된 결과를 통해 최종 후보 선택의 타당한 근거를 명확하게 제시할 수 있습니다. 예를 들어, 특정 그룹에 속한 후보 항체들이 높은 결합력과 뛰어난 안정성을 보인다는 점을 시각적으로 보여줄 수 있습니다.</li>
+</ul>
+</section>
+</section>
+<section id="마치며" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 마치며</h1>
+<p>위와 같은 시각화 결과를 얻은 후에는 어떤 추가적인 분석이 필요할까요? 일반적으로 다음과 같은 단계를 거치게 됩니다.</p>
+<ol type="1">
+<li>그룹별 특성 심층 분석: 시각화된 결과를 바탕으로 각 그룹의 구체적인 특성을 자세히 분석하고, 우리가 목표로 하는 특성을 가진 그룹을 식별합니다.</li>
+<li>그룹 내 개별 후보 비교: 선택된 그룹 내의 개별 후보 항체들의 특성을 세밀하게 비교하여 최종적으로 최적의 후보를 선택합니다.</li>
+</ol>
+<p>이처럼 데이터 기반 의사 결정은 과학 연구 분야뿐만 아니라 다양한 영역에서 활용될 수 있습니다. 복잡한 문제에 직면했을 때 데이터를 시각화하여 분석한다면, 더욱 효과적이고 합리적인 결정을 내리는 데 큰 도움을 얻을 수 있습니다.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Data science</category>
+  <category>Python</category>
+  <guid>https://tomorrow-lab.github.io/posts/ipynb/python_DatadrivenDecision.html</guid>
+  <pubDate>Sat, 29 Mar 2025 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>OpenCV를 사용해 이미지에서 세포 수 측정</title>
   <dc:creator>Taeyoon Kim</dc:creator>
@@ -5411,7 +6130,7 @@ font-style: inherit;">"off"</span>)</span>
   <pubDate>Sun, 23 Feb 2025 00:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>AKTA chromatogram visualization</title>
+  <title>AKTA 크로마토그램(chromatogram) 시각화</title>
   <dc:creator>Taeyoon Kim</dc:creator>
   <link>https://tomorrow-lab.github.io/posts/ipynb/python_AKTA_plot.html</link>
   <description><![CDATA[ 
@@ -6013,7 +6732,7 @@ font-style: inherit;">=</span> os.path.join(folder_path, filename)</span>
 <li>데이터 행: 시간에 따른 다양한 측정값</li>
 </ul>
 <p>데이터 테이블을 출력해 확인해 봅니다.</p>
-<div id="cell-4" class="cell" data-execution_count="25">
+<div id="cell-4" class="cell">
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">df <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> pd.read_excel(<span class="st" style="color: #20794D;
@@ -6206,7 +6925,7 @@ font-style: inherit;">1</span>])</span>
 </section>
 <section id="시각화-하기" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> 시각화 하기</h1>
-<div id="cell-6" class="cell" data-execution_count="26">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 여기에 폴더 경로를 입력하세요.</span></span>
@@ -70320,98 +71039,6 @@ font-style: inherit;"># Adjust layout and display</span></span>
   <category>Causal inference</category>
   <guid>https://tomorrow-lab.github.io/posts/ipynb/causal_inference_rules.html</guid>
   <pubDate>Sat, 19 Oct 2024 00:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>scRNA-seq 소개</title>
-  <dc:creator>Taeyoon Kim</dc:creator>
-  <link>https://tomorrow-lab.github.io/posts/md/Primer_of_scRNAseq.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="Primer_of_scRNAseq.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://tomorrow-lab.github.io/posts/md/Primer_of_scRNAseq.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
-</figure>
-</div>
-<p>얼마전 뉴욕 타임즈에 <a href="https://www.nytimes.com/2024/03/10/science/ai-learning-biology.html">A.I. Is Learning What It Means to Be Alive</a> 라는 제목의 기사가 공개되었습니다. 해당 기사에서 에 <code>scRNA-seq</code> 기초 모델이 단일 세포 RNA 시퀀싱 (scRNA) 데이터를 해석, 사용, 적용하는 방식을 어떻게 변화시킬 수 있는지에 대한 이야기가 있었는데 이 포스팅에서 더 깊이 파고들어 살펴보고자 합니다.</p>
-<div class="callout-warnning">
-<p>이 글은 <a href="https://www.owlposting.com/p/the-lore-behind-scrna-seq-foundation-models?utm_source=substack&amp;utm_medium=email#footnote-anchor-2-143614943">A primer on scRNA-seq foundation models (owlposting.com)</a>를 번역 및 요약한 글입니다. 단일 세포 생물학은 최신의 기술로 많은 부분에서 뜨거운 논쟁이 벌어지고 있습니다. 따라서 이 글의 일부는 다른 사람의 의견과 다를 수 있다는 점을 기억하세요.</p>
-</div>
-<section id="scrna-seq-이란-무엇인가" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> scRNA-seq 이란 무엇인가?</h1>
-<p>먼저 모든 세포의 세포 정체성 (cellular identity) 을 알고 싶다는 생각을 해봅시다. 그러면 가장 먼저 드는 질문은 ” 세포의 정체성이란 정확히 무엇일까요?” 입니다. 세포 유형(cell types) 일까요?</p>
-<p>뇌와 같은 장기를 생각해 보면 뇌에는 뉴런, 신경교세포, 희돌기아교세포 등 다양한 유형의 세포들이 있을 것입니다. 그렇다면 이런 세포들 간의 기능적 차이는 무엇이며, 과학자들은 어떤 기준에 따라 세포의 유형(cell type)을 명명했을까요?</p>
-<p>가장 흔한 방법은 세포 내에 존재하는 단백질, 세포 표면에 존재하는 단백질, 세포가 분비하는 단백질 등을 통해 명명하는 것입니다. 동일한 단백질을 많이 공유하는 세포를 묶어서 세포의 정체성을 나타내었습니다. 실제로 단백질은 세포가 주변 세포와 소통하는 방법이며 자원을 섭취하고 자극에 반응하는등 수많은 과정에 관여합니다. 다만 단백질이 실제로 진정한 세포의 분화 요소는 아니며 대사산물이나 후성유전학적 변형이 더 중요하다는 주장도 있습니다. 하지만 <strong>세포 상태는 세포가 가지고 있는 단백질로 가장 잘 이해할 수 있다</strong> 는 가정을 하고 다음으로 넘어가죠.</p>
-<p>그렇다면 세포 안의 단백질량을 정확히 측정할 수 있을까요? 물론 지금도 계속 사용되지만 과거에는 아래와 같은 방법들이 많이 사용되었습니다.</p>
-<ol type="1">
-<li>면역세포화학법 (Immunocytochemistry): 기본 원리는 단백질에 달라붙도록 특정 파장의 빛을 비추면 켜지는 작은 형광체가 부착된 항체를 사용하는 것입니다. 세포를 채취해 그 위에 이 항체를 뿌리면 형광 현미경으로 세포를 관찰할 수 있습니다. 예를 들어 목적 단백질이 주로 세포 표면에 있는 경우 각 세포 주변에 밝은 윤곽선을 볼 수 있습니다.</li>
-<li>유세포 분석법 (Flow Cytometry): 이 기술은 특정 단백질을 검출하기 위해 항체를 사용한다는 점에서 면역세포화학법과 유사합니다. 그러나 유세포 분석은 현미경으로 세포를 보는 대신 유세포 분석기라는 특수 기기를 사용하여 세포를 하나씩 분석합니다. 분석기 내부에서 세포는 한 번에 하나씩 채널을 통과하며 세포가 통과할 때마다 레이저를 쏩니다. 세포가 형광 항체로 표지된 경우 유세포 분석기는 방출된 형광을 감지해 세포에 존재하는 단백질의 양을 정량화합니다.</li>
-<li>질량 분석법 (Mass spectrometry): 기본적으로 세포를 가져다가 분해한 다음 그 안에 있는 모든 단백질을 분석하여 어떤 단백질이 있었는지를 파악하는 방법입니다. 먼저 효소를 사용하여 세포 단백질을 작은 조각으로 자릅니다. 이렇게 만들어진 펩타이드 조각은 일반적으로 약 10~20 개의 아미노산 길이입니다. 이 펩타이드 조각이 질량 분석기 내부로 들어가 질량 대 전하비 (m/z) 에 따라 분리되어 데이터를 얻을 수 있습니다. 그런 다음 이 데이터를 처리해 어떤 펩타이드가 존재했는지, 더 나아가 그 펩타이드가 어떤 단백질에서 유래했는지 식별합니다. 확인된 펩타이드를 단백질 데이터베이스와 비교해 어떤 단백질이 존재했는지 확인하고 정량화할 수 있습니다.</li>
-</ol>
-<p>이런 방법들은 물론 좋은 분석법이지만 인체의 모든 세포의 단백질 지형을 파악하려는 원대한 목표에는 적절하지 않았습니다. 면역세포화학법은 시간이 많이 걸리고, 알려진 단백질에 결합하는 알려진 항체가 필요하며 (모든 단백질에 있는 것은 아닙니다!) 처리량이 매우 낮습니다 (세포 천개를 측정하는 것도 어렵습니다.). 유세포 분석은 처리량은 높지만 마찬가지로 알려진 항체에 의존하며, 뇌 조직이나 지방 조직과 같이 쉽게 현탁할 수 없는 조직에는 적용하기 어렵습니다. 마지막질량 분석법은 알려진 항체에 의존하지는 않지만 단백질 함량을 정확하게 판독하려면 엄청난 수의 세포가 필요하고, 희귀한 단백질을 놓칠 수 있으며 가장 시간이 많이 소요되는 방법입니다.</p>
-<p>그러면 이제 어떻게 해야 할까요? 안타깝게도 세포의 단백질 지형을 학습하는 것은 지금까지 해결되지 않은 문제입니다. 그 문제를 해결하기 위한 접근법 중 하나가 RNA-seq 입니다. RNA-seq 은 간단히 말하면 세포내의 모든 mRNA 를 분리해 분석하는 방법입니다. mRNA 는 세포의 DNA 에서 전사 (Translation) 되어 리보솜으로 운반되며, mRNA 의 코돈 조각 (3 개의 염기서열이 1 개의 코돈) 을 해석해 단일 아미노산이 합성되어 사슬로 연결합니다. 예를 들면 mRNA 가 <code>UUU-GUA-CCA</code> 로 구성된 경우, 이는 아미노산 <code>Phe-Val-Pro</code> 의 단백질로 매핑됩니다.</p>
-<p>그렇다면 특정 시점의 모든 mRNA 를 측정하면 간접적인 단백질의 발현량도 알 수 있지 않을까요? 글쎄요, 그렇게 간단하지는 않습니다.</p>
-<p>먼저, 모든 mRNA 가 동일한 속도나 효율로 단백질로 번역되는 것은 아닙니다. 일부 안정적인 mRNA 가 존재하기는 하지만 대체로 mRNA 는 세포안에서 빠르게 분해됩니다. 즉, 리보솜에 의해 해당 단백질이 많이 만들어지기도 하고 한 번만 만들어지거나 만들어지지 않을 수도 있습니다. 다시 말해 세포 내 mRNA 의 양이 항상 단백질의 양과 완전 일치하지 않습니다.</p>
-<p>또한 단백질 반감기가 다양하기 때문에 현재 세포에 풍부한 단백질은 mRNA 가 분해되었더라도 아직 존재할 수 있습니다. 반대로 mRNA 의 양이 늘어났지만 아직 단백질이 번역되지 않아 검출이 불가능한 경우도 있습니다.</p>
-<p>마지막으로 mRNA 는 단백질에 완벽하게 일대일 매핑되지 않는데 많은 단백질이 PTM(post transcriptional modification) 을 거치므로 특정 환경에서는 같은 서열이어도 다른 구조를 가질 수 있기 때문입니다.</p>
-<p>이런 mRNA 와 단백질 발현의 관계의 문제에 대해 2016 년 Cell에 실린 <a href="https://www.cell.com/cell/pdf/S0092-8674(16)30270-7.pdf">On the Dependency of Cellular Protein Levels on mRNA Abundance</a> 논문에서는 다음과 같이 말했습니다.</p>
-<blockquote class="blockquote">
-<p>정상 상태에서는 mRNA 수준이 단백질 수준을 설명합니다. 세포의 ’ 정상 상태 ’ 라는 것을 정의하는 것이 어렵지만 일반적으로 실험에 사용되는 세포의 평균 단백질 및/또는 mRNA 수준이 몇 시간정도 안정적으로 유지되면 정상 상태로 간주합니다. 지난 15 년 동안 발표된 수많은 연구에 따르면 이러한 상황에서 단백질 수준의 유전자 간 변화는 주로 각각의 mRNA 수준에 의해 결정됩니다.</p>
-</blockquote>
-<p>또 <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2413246/">다른 연구</a> 에 따르면 mRNA 와 단백질 발현 수준간의 관계에 대한 분산이 조직에 따라 46-68% 로 알려져 있습니다. 그러니 전반적으로 mRNA 전사체 데이터가 세포 정체성의 근사치라고 할 수 있습니다.</p>
-</section>
-<section id="세포-지도-cell-atlas-란-무엇인가" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> 세포 지도 (Cell Atlas) 란 무엇인가?</h1>
-<p>세포 지도는 수백 개의 기관과 수천 명의 과학자가 참여하는 테라바이트 크기의 데이터베이스입니다. 여기에는 다양한 조직의 수십만 개의 개별 세포의 전사체 데이터가 포함되어 있습니다. 즉, 여러 당사자가 ’ 전사체 지도 ’ 를 서로 공유하고 데이터를 결합 하려는 노력입니다. 이 글을 쓰는 현재 <a href="https://tabula-sapiens-portal.ds.czbiohub.org/">사람</a>,&nbsp;<a href="https://tabula-muris.ds.czbiohub.org/">생쥐</a>,&nbsp;<a href="https://www.science.org/doi/10.1126/science.aam8940">선충</a>,&nbsp;<a href="https://www.nature.com/articles/s41586-022-04587-3">영장류</a>,&nbsp;<a href="https://www.frontiersin.org/articles/10.3389/fcell.2021.743421/full">제브라피쉬</a>,&nbsp;<a href="https://www.science.org/doi/10.1126/science.abk2432">초파리</a> 등에 대한 세포 지도가 만들어져 있으며 그 중 상당수는 특정 질병에 대한 정보도 포함하고 있습니다.</p>
-<p>사람의 세포 지도는 서두에서 언급한 목표인 “모든 세포에 대한 세포 정체성을 알아내는 것” 을 해결하려는 시도 중 하나입니다. 과학자들은 관심 있는 조직에서 병든 세포 상태와 건강한 세포 상태가 어떻게 다른지 이해하고, 약물 반응을 예측하고, 새로운 단백질/유전자/세포 유형을 완전히 밝혀내는 데 사용할 수 있기를 바라고 있죠.</p>
-</section>
-<section id="scrna-seq-데이터의-잠재적인-문제" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> scRNA-seq 데이터의 잠재적인 문제</h1>
-<p>방대한 양의 scRNA-seq 데이터를 생성하는 것은 점점 쉬워지고 있지만 이를 검증하는 것은 더 어려워 지고 있습니다. 그것은 scRNA-seq 데이터가 가지고 있는 잠재적인 두 가지 문제가 있기 때문입니다.</p>
-<ol type="1">
-<li>배치 통합 (Batch integration) 문제: scRNA-seq 데이터에는 실험자의 작업 방식에 약간의 차이로 인해 고유한 이상 현상이 발생합니다. 이것을 배치 효과라 합니다. 그래서 서로 다른 데이터 세트간의 결합이 어렵습니다. 배치 효과를 제거하는 방법은 많이 알려져 있지만 아직까지는 모델 수준입니다.</li>
-<li>세포 유형 주석 (Cell annotation) 문제: 일반적으로 세포 유형은 특정 마커 유전자 (예: Treg 세포의 경우 FOXP3) 의 발현 여부에 따라 주석을 달고, 마커가 없거나 여러 개의 마커를 가진 세포의 경우 보다 명확하게 정의된 유형을 가진 세포와의 전사체 근접성을 비교해 주석을 답니다. 그런데 세포를 비교하는 기준은 세포 유형에 따라 달라지는 경우가 많고 희귀하거나 잘 알려지지 않은 세포 유형에 대해서는 신뢰할 수 있는 결과를 얻기 어렵습니다.</li>
-</ol>
-<p>이 두 가지 문제가 해결되면 scRNA-seq 데이터는 훨씬 더 유용해 질 것 입니다. 특히 만약 전사체를 동일한 수치 공간으로 변환할 수 있도록 일반화된 모델을 만들어낸다면 단순히 세포 유형을 예측하는 것 뿐만 아니라 세포에 대해 훨씬 더 많이 이해할 수 있을 것입니다. 예를 들면 제 2 형 당뇨병 환자 샘플을 통해 과도한 당분이 세포에 어떤 변화를 일으키는지 알 수 있을 것이고 세포가 어떻게 변화되는지 이해할 수 있을 것입니다. 또한 기반 모델은 학습된 데이터를 뛰어넘어 특정 약물이 세포 상태를 어떻게 변화시킬지 예측하고 종양 발생 궤적을 이해하거나 생검이 불가능한 희귀 질환 환자의 전사체를 예측할 수도 있을 겁니다.</p>
-</section>
-<section id="scrna-기반-모델" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> scRNA 기반 모델</h1>
-<section id="역사" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="역사"><span class="header-section-number">4.1</span> 역사</h2>
-<p>기반 모델 (Foundation Models) 은 일반적으로 광범위한 데이터에 대해 학습된 모델로 다양한 다운스트림 분석을 적용 (예: 미세 조정) 할 수 있는 모델입니다. 이런 기술은 자연어 처리 분야에서 가장 널리 사용되지만 최근에는 이미지 (DALL-E), 오디오 (MusicGen), 심지어 아미노산 서열 (ESM2) 등 다양한 분야로 확장되었습니다.</p>
-<p>거의 모든 다른 개념과 마찬가지로 임베딩 개념은 2010 년대 초까지 거슬러 올라가는 등 이전에도 광범위하게 시도되어 왔으며 기반 모델이 임베딩 개념을 처음 고안한 것은 아닙니다. 하지만 단순한 선형 임베딩 방식에 의존하거나 훈련된 정확한 섭동에 국한되거나 비교적 작은 데이터 세트에 대해 훈련되는 등 그 범위는 제한적이었습니다. <a href="https://markovbio.github.io/scaling-laws-of-agency/">마크오브바이오의 블로그 게시물</a> 에서 이런 단점에 대해 자세히 설명합니다. <a href="https://www.nature.com/articles/s41592-018-0229-2">scVI</a> 와 같이 다양한 데이터 세트에서 훈련된 비선형 데이터 변환을 다룬 논문이 몇 편 있었지만, 그 결과는 논문으로서 흥미롭기는 하지만 실제로 유용하기에는 여전히 모호한 영역에 머물러 있었습니다.</p>
-<p>하지만 혁신적인 <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a> 논문에 의해 거대 모델과 방대한 양의 데이터가 특별한 모델을 만들 수 있다는 믿음이 점점 커지면서 생물학자들은 자체적인 scRNA-seq 기반 모델을 구축하기 시작했습니다. 2024 년 3 월 현재, <a href="https://www.biorxiv.org/content/10.1101/2022.11.20.517285v1">scFormer</a>,&nbsp;<a href="https://www.biorxiv.org/content/10.1101/2023.05.29.542705v1">scFoundation</a>,&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10949956/">GeneFormer</a>,&nbsp;<a href="https://www.nature.com/articles/s42256-022-00534-z">scBERT</a>,&nbsp;<a href="https://www.nature.com/articles/s41592-024-02201-0">scGPT</a>,&nbsp;<a href="https://www.biorxiv.org/content/10.1101/2023.11.28.568918v1">Universal Cell Embeddings</a> 등 여러 가지의 기반 모델이 공개되었습니다. 이런 모델들이 만들어질 수 있었던 원동력은 앞서 이야기한 바 있는 세포 지도입니다. 각각의 모델은 지난 10 년 동안 모아왔던 여러 개의 세포 지도 데이터를 학습 데이터로 사용해 그 어떤 모델보다 세포 상태를 더 잘 이해할 수 있게 되었습니다.</p>
-</section>
-<section id="universal-cell-embeddings" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="universal-cell-embeddings"><span class="header-section-number">4.2</span> Universal Cell Embeddings</h2>
-<p>UCE 는 2023 년 11 월에 공개되었으며 scRNA-seq 데이터를 분석하는 사람들에게 정말 중요한 도구가 될 것으로 보입니다. 아래와 같은 특징이 있기 때문이죠.</p>
-<ol type="1">
-<li>다른 기반 모델들은 인간 세포에 한정된 반면에 UCE 모델은 인간, 생쥐, 여우원숭이, 제브라피쉬, 돼지, 붉은털원숭이, 필리핀원숭이 (cynomolgus monkey), 발톱개구리등의 총 8 가지 종의 데이터셋을 학습에 사용하였습니다.</li>
-<li>UCE 모델은 미세 조정이 필요 없는 유일한 모델입니다. 즉, 추가적인 학습없이도 103 개의 조직 및 다양한 종의 세포를 분류 할 수 있습니다.</li>
-<li><a href="https://www.czbiohub.org/">Chan Zuckerberg Biohub Network</a> 의 지원을 받고 있습니다. Chan Zuckerberg Biohub Network 은 <a href="https://tabula-sapiens-portal.ds.czbiohub.org/">타불라 사피엔스</a>, <a href="https://tabula-muris.ds.czbiohub.org/">타불라 무리스</a>, <a href="https://github.com/czbiohub-sf/tabula-muris-senis">타불라 무리스 세니스</a>, <a href="https://tabula-microcebus.ds.czbiohub.org/">타불라 마이크로세버스</a>, <a href="https://cellxgene.cziscience.com/">CellXGene</a> 등 <code>scRNA-seq</code> 데이터를 가장 많이 생성하고 공개하는 곳입니다.</li>
-<li>다른 기반 모델보다 성능이 뛰어납니다.</li>
-<li>완전히 새로운 종에서 수집한 세포의 임베딩을 UMAP 으로 그려볼 수 있습니다. UCE 는 종간의 정보도 학습했기 때문에 (물론 임베딩 플롯은 항상 약간의 논란이 있을 수 있지만) 영장류와 닭 세포 유형을 분리할 수도 있습니다. <a href="https://www.nature.com/articles/s41592-024-02191-z">자세한 알아보기</a>.</li>
-<li>새로운 세포 유형을 찾을 수 있습니다. 희귀한 세포 유형이 포함된 scRNA 데이터셋을 통해 제로 샷 임베딩을 수행하면 새로운 세포 유형을 구분하는 간단한 이진 분류기를 만들 수 있습니다. 이 분류기를 사용하면 그동안 데이터 세트에 흩어져 있는 세포들을 찾아 낼 수 있는 것입니다.</li>
-<li>마지막으로 암조직(COPD 및 IPF)과 정상 조직의 유전자 발현 차이를 조사할 수 도 있습니다. 여기서 흥미로운 점은 이 유전자 발현의 차이가 새롭게 발견한 희귀 세포 유형에서 발생했다는 것입니다.</li>
-</ol>
-<p>3 년이 지난 후에도 여전히 강세를 보이는 알파폴드 같은 모델처럼 UCE 가 기반 모델의 승자가 될까요? 아직 확신하긴 어렵습니다. 다만 UCE이 현재 가장 좋은 성능을 보이는 모델이라는 것은 확실해 보입니다.</p>
-</section>
-</section>
-<section id="앞으로는-어떻게-될까" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> 앞으로는 어떻게 될까?</h1>
-<p>scRNA-seq 기술이 발전하면서 앞으로 더 크고 많은 데이터를 모으게 될 것입니다. 그러면 이런 기반 모델이 더 이상 RNA-seq에만 적용되는 것이 아니라 대사체학, 단백질체학, 후성유전체학, 그리고 공간 전사체학 등 세포와 관련된 모든 데이터에 적용되는 세상이 올 것입니다. 그리고 이미 <a href="https://www.biorxiv.org/content/10.1101/2023.09.24.559168v1">ATAC-seq에서 수집한 전사 영역을 학습하기 위해 염색질 접근성 데이터를 사용하는 기초 모델에 대한 논문</a>과 <a href="https://www.science.org/doi/10.1126/science.ade2574">UCE 사전 학습의 일부를 사용해 단백질 구조를 예측한 논문</a>등이 나오고 있습니다. 모든 생물학 데이터들을 기계학습에 활용하는 것은 시간 문제입니다. 가까운 미래에 더욱 흥미로운 모델과 활용법이 우리를 놀랍게 할 것입니다.</p>
-
-
-</section>
-
- ]]></description>
-  <category>scRNA-seq</category>
-  <category>Bioinformatics</category>
-  <category>Tip</category>
-  <guid>https://tomorrow-lab.github.io/posts/md/Primer_of_scRNAseq.html</guid>
-  <pubDate>Wed, 16 Oct 2024 00:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
