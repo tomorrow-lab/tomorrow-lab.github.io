@@ -1013,15 +1013,9 @@ font-style: inherit;">"""코돈 카운터를 초기화합니다."""</span></span
 <span id="cb10-24">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
-font-style: inherit;">return</span> {codon: <span class="dv" style="color: #AD0000;
+font-style: inherit;">return</span> <span class="bu" style="color: null;
 background-color: null;
-font-style: inherit;">0</span> <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> codon <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> itertools.product(<span class="op" style="color: #5E5E5E;
+font-style: inherit;">dict</span>.fromkeys(itertools.product(<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">*</span>([<span class="bu" style="color: null;
 background-color: null;
@@ -1031,7 +1025,9 @@ font-style: inherit;">len</span>(genome.sequence.alphabet))] <span class="op" st
 background-color: null;
 font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">3</span>))}</span>
+font-style: inherit;">3</span>)), <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
 <span id="cb10-25"></span>
 <span id="cb10-26"></span>
 <span id="cb10-27"><span class="kw" style="color: #003B4F;
@@ -4414,15 +4410,11 @@ background-color: null;
 font-style: inherit;"># 그래프에서 노드 위치 계산</span></span>
 <span id="cb18-51">node_labels <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> {i: name <span class="cf" style="color: #003B4F;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> i, name <span class="kw" style="color: #003B4F;
+font-style: inherit;">dict</span>(<span class="bu" style="color: null;
 background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">enumerate</span>(ids)}  <span class="co" style="color: #5E5E5E;
+font-style: inherit;">enumerate</span>(ids)) <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 노드에 ID를 이름으로 할당</span></span>
 <span id="cb18-52">nx.draw_networkx_edges(graph, pos, ax<span class="op" style="color: #5E5E5E;
@@ -4444,23 +4436,21 @@ background-color: null;
 font-style: inherit;">8</span>,</span>
 <span id="cb18-59">    bbox<span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span>{</span>
-<span id="cb18-60">        <span class="st" style="color: #20794D;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"pad"</span>:<span class="dv" style="color: #AD0000;
+font-style: inherit;">"pad"</span>: <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0</span>,</span>
-<span id="cb18-61">        <span class="st" style="color: #20794D;
+font-style: inherit;">0</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"color"</span>:<span class="st" style="color: #20794D;
+font-style: inherit;">"color"</span>: <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"white"</span>},  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 가독성을 위해 라벨 뒤에 흰색 배경 추가</span></span>
-<span id="cb18-62">)</span>
-<span id="cb18-63">fig.tight_layout()</span>
-<span id="cb18-64"></span>
-<span id="cb18-65">plt.show()</span></code></pre></div>
+<span id="cb18-60">)</span>
+<span id="cb18-61">fig.tight_layout()</span>
+<span id="cb18-62"></span>
+<span id="cb18-63">plt.show()</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -6310,7 +6300,9 @@ font-style: inherit;">2</span></span>
 <span id="cb23-36">                <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 특징 표시 선 및 텍스트</span></span>
-<span id="cb23-37">                ax.plot([x_start, x_end], [base_y <span class="op" style="color: #5E5E5E;
+<span id="cb23-37">                ax.plot(</span>
+<span id="cb23-38">                    [x_start, x_end],</span>
+<span id="cb23-39">                    [base_y <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
 background-color: null;
@@ -6318,42 +6310,57 @@ font-style: inherit;">0.3</span>] <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span>, color<span class="op" style="color: #5E5E5E;
+font-style: inherit;">2</span>,</span>
+<span id="cb23-40">                    color<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"black"</span>, linewidth<span class="op" style="color: #5E5E5E;
+font-style: inherit;">"black"</span>,</span>
+<span id="cb23-41">                    linewidth<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span>)</span>
-<span id="cb23-38">                ax.text(x_center, base_y <span class="op" style="color: #5E5E5E;
+font-style: inherit;">2</span>,</span>
+<span id="cb23-42">                    clip_on<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb23-43">                )</span>
+<span id="cb23-44">                ax.text(</span>
+<span id="cb23-45">                    x_center,</span>
+<span id="cb23-46">                    base_y <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0.6</span>, feat_name, fontsize<span class="op" style="color: #5E5E5E;
+font-style: inherit;">0.6</span>,</span>
+<span id="cb23-47">                    feat_name,</span>
+<span id="cb23-48">                    fontsize<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">8</span>, va<span class="op" style="color: #5E5E5E;
+font-style: inherit;">8</span>,</span>
+<span id="cb23-49">                    va<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"top"</span>, ha<span class="op" style="color: #5E5E5E;
+font-style: inherit;">"top"</span>,</span>
+<span id="cb23-50">                    ha<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"center"</span>)</span>
-<span id="cb23-39"></span>
-<span id="cb23-40"></span>
-<span id="cb23-41"><span class="kw" style="color: #003B4F;
+font-style: inherit;">"center"</span>,</span>
+<span id="cb23-51">                )</span>
+<span id="cb23-52"></span>
+<span id="cb23-53"></span>
+<span id="cb23-54"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> perform_alignment(sequences, use_input_order):</span>
-<span id="cb23-42">    <span class="co" style="color: #5E5E5E;
+<span id="cb23-55">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""서열 정렬 수행 함수"""</span></span>
-<span id="cb23-43">    <span class="cf" style="color: #003B4F;
+<span id="cb23-56">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> <span class="bu" style="color: null;
@@ -6363,33 +6370,33 @@ background-color: null;
 font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2</span>:</span>
-<span id="cb23-44">        matrix <span class="op" style="color: #5E5E5E;
+<span id="cb23-57">        matrix <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> align.SubstitutionMatrix.std_protein_matrix()</span>
-<span id="cb23-45">        alignments, _ <span class="op" style="color: #5E5E5E;
+<span id="cb23-58">        alignments, _ <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> align.align_optimal(</span>
-<span id="cb23-46">            sequences[<span class="dv" style="color: #AD0000;
+<span id="cb23-59">            sequences[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>],</span>
-<span id="cb23-47">            sequences[<span class="dv" style="color: #AD0000;
+<span id="cb23-60">            sequences[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>],</span>
-<span id="cb23-48">            matrix<span class="op" style="color: #5E5E5E;
+<span id="cb23-61">            matrix<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>matrix,</span>
-<span id="cb23-49">            gap_penalty<span class="op" style="color: #5E5E5E;
+<span id="cb23-62">            gap_penalty<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">10</span>,</span>
-<span id="cb23-50">            terminal_penalty<span class="op" style="color: #5E5E5E;
+<span id="cb23-63">            terminal_penalty<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">False</span>,</span>
-<span id="cb23-51">        )</span>
-<span id="cb23-52">        <span class="cf" style="color: #003B4F;
+<span id="cb23-64">        )</span>
+<span id="cb23-65">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> alignments, [<span class="dv" style="color: #AD0000;
@@ -6397,29 +6404,29 @@ background-color: null;
 font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>]</span>
-<span id="cb23-53">    <span class="cf" style="color: #003B4F;
+<span id="cb23-66">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">else</span>:</span>
-<span id="cb23-54">        app <span class="op" style="color: #5E5E5E;
+<span id="cb23-67">        app <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> ClustalOmegaApp(sequences)</span>
-<span id="cb23-55">        app.start()</span>
-<span id="cb23-56">        app.join()</span>
-<span id="cb23-57">        <span class="cf" style="color: #003B4F;
+<span id="cb23-68">        app.start()</span>
+<span id="cb23-69">        app.join()</span>
+<span id="cb23-70">        <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> app.get_alignment(), app.get_alignment_order()</span>
-<span id="cb23-58"></span>
-<span id="cb23-59"></span>
-<span id="cb23-60"><span class="kw" style="color: #003B4F;
+<span id="cb23-71"></span>
+<span id="cb23-72"></span>
+<span id="cb23-73"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">def</span> visualize_alignment_with_features(</span>
-<span id="cb23-61">    fasta_string: <span class="bu" style="color: null;
+<span id="cb23-74">    fasta_string: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">str</span>,</span>
-<span id="cb23-62">    sequence_features: <span class="bu" style="color: null;
+<span id="cb23-75">    sequence_features: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">dict</span>[<span class="bu" style="color: null;
 background-color: null;
@@ -6438,14 +6445,14 @@ background-color: null;
 font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span>,</span>
-<span id="cb23-63">    use_input_sequence_order: <span class="bu" style="color: null;
+<span id="cb23-76">    use_input_sequence_order: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">bool</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>,</span>
-<span id="cb23-64">    figure_size: <span class="bu" style="color: null;
+<span id="cb23-77">    figure_size: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">tuple</span>[<span class="bu" style="color: null;
 background-color: null;
@@ -6458,84 +6465,84 @@ background-color: null;
 font-style: inherit;">8</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4</span>),</span>
-<span id="cb23-65">    sequence_line_length: <span class="bu" style="color: null;
+<span id="cb23-78">    sequence_line_length: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">40</span>,</span>
-<span id="cb23-66">    feature_spacing: <span class="bu" style="color: null;
+<span id="cb23-79">    feature_spacing: <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">int</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">3</span>,</span>
-<span id="cb23-67">) <span class="op" style="color: #5E5E5E;
+<span id="cb23-80">) <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">-&gt;</span> <span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">None</span>:</span>
-<span id="cb23-68">    <span class="co" style="color: #5E5E5E;
+<span id="cb23-81">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">"""</span></span>
-<span id="cb23-69"><span class="co" style="color: #5E5E5E;
+<span id="cb23-82"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    FASTA 서열 정렬 및 특징 시각화 함수</span></span>
-<span id="cb23-70"></span>
-<span id="cb23-71"><span class="co" style="color: #5E5E5E;
+<span id="cb23-83"></span>
+<span id="cb23-84"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    Parameters:</span></span>
-<span id="cb23-72"><span class="co" style="color: #5E5E5E;
+<span id="cb23-85"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    fasta_string: FASTA 형식의 서열 문자열</span></span>
-<span id="cb23-73"><span class="co" style="color: #5E5E5E;
+<span id="cb23-86"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    sequence_features: 첫 번째 서열의 특징 위치 정보 (시작, 끝)</span></span>
-<span id="cb23-74"><span class="co" style="color: #5E5E5E;
+<span id="cb23-87"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    use_input_sequence_order: 입력 순서 유지 여부</span></span>
-<span id="cb23-75"><span class="co" style="color: #5E5E5E;
+<span id="cb23-88"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    figure_size: 출력 이미지 크기 (가로, 세로)</span></span>
-<span id="cb23-76"><span class="co" style="color: #5E5E5E;
+<span id="cb23-89"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    sequence_line_length: 줄당 표시할 서열 길이</span></span>
-<span id="cb23-77"><span class="co" style="color: #5E5E5E;
+<span id="cb23-90"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    feature_spacing: 특징 표시 간격</span></span>
-<span id="cb23-78"><span class="co" style="color: #5E5E5E;
+<span id="cb23-91"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">    """</span></span>
-<span id="cb23-79"></span>
-<span id="cb23-80">    <span class="co" style="color: #5E5E5E;
+<span id="cb23-92"></span>
+<span id="cb23-93">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># FASTA 데이터 파싱</span></span>
-<span id="cb23-81">    fasta_file <span class="op" style="color: #5E5E5E;
+<span id="cb23-94">    fasta_file <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> io.StringIO(fasta_string)</span>
-<span id="cb23-82">    seq_dict <span class="op" style="color: #5E5E5E;
+<span id="cb23-95">    seq_dict <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> fasta.get_sequences(fasta.FastaFile.read(fasta_file))</span>
-<span id="cb23-83">    sequences <span class="op" style="color: #5E5E5E;
+<span id="cb23-96">    sequences <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">list</span>(seq_dict.values())</span>
-<span id="cb23-84">    seq_ids <span class="op" style="color: #5E5E5E;
+<span id="cb23-97">    seq_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">list</span>(seq_dict.keys())</span>
-<span id="cb23-85"></span>
-<span id="cb23-86">    <span class="co" style="color: #5E5E5E;
+<span id="cb23-98"></span>
+<span id="cb23-99">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 서열 정렬 수행</span></span>
-<span id="cb23-87">    alignments, order <span class="op" style="color: #5E5E5E;
+<span id="cb23-100">    alignments, order <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> perform_alignment(sequences, use_input_sequence_order)</span>
-<span id="cb23-88">    ordered_ids <span class="op" style="color: #5E5E5E;
+<span id="cb23-101">    ordered_ids <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> [seq_ids[i] <span class="cf" style="color: #003B4F;
 background-color: null;
@@ -6544,181 +6551,181 @@ font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">in</span> order]</span>
-<span id="cb23-89"></span>
-<span id="cb23-90">    <span class="co" style="color: #5E5E5E;
+<span id="cb23-102"></span>
+<span id="cb23-103">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 시각화 설정</span></span>
-<span id="cb23-91">    fig, ax <span class="op" style="color: #5E5E5E;
+<span id="cb23-104">    fig, ax <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> plt.subplots(figsize<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>figure_size)</span>
-<span id="cb23-92">    colormap <span class="op" style="color: #5E5E5E;
+<span id="cb23-105">    colormap <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> create_similarity_colormap()</span>
-<span id="cb23-93"></span>
-<span id="cb23-94">    <span class="co" style="color: #5E5E5E;
+<span id="cb23-106"></span>
+<span id="cb23-107">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 정렬 결과 플롯</span></span>
-<span id="cb23-95">    graphics.plot_alignment_similarity_based(</span>
-<span id="cb23-96">        ax,</span>
-<span id="cb23-97">        alignments,</span>
-<span id="cb23-98">        matrix<span class="op" style="color: #5E5E5E;
+<span id="cb23-108">    graphics.plot_alignment_similarity_based(</span>
+<span id="cb23-109">        ax,</span>
+<span id="cb23-110">        alignments,</span>
+<span id="cb23-111">        matrix<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>align.SubstitutionMatrix.std_protein_matrix(),</span>
-<span id="cb23-99">        symbols_per_line<span class="op" style="color: #5E5E5E;
+<span id="cb23-112">        symbols_per_line<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>sequence_line_length,</span>
-<span id="cb23-100">        labels<span class="op" style="color: #5E5E5E;
+<span id="cb23-113">        labels<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>ordered_ids,</span>
-<span id="cb23-101">        show_numbers<span class="op" style="color: #5E5E5E;
+<span id="cb23-114">        show_numbers<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>,</span>
-<span id="cb23-102">        cmap<span class="op" style="color: #5E5E5E;
+<span id="cb23-115">        cmap<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>colormap,</span>
-<span id="cb23-103">        label_size<span class="op" style="color: #5E5E5E;
+<span id="cb23-116">        label_size<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">9</span>,</span>
-<span id="cb23-104">        number_size<span class="op" style="color: #5E5E5E;
+<span id="cb23-117">        number_size<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">9</span>,</span>
-<span id="cb23-105">        symbol_size<span class="op" style="color: #5E5E5E;
+<span id="cb23-118">        symbol_size<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">7</span>,</span>
-<span id="cb23-106">        spacing<span class="op" style="color: #5E5E5E;
+<span id="cb23-119">        spacing<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>feature_spacing,</span>
-<span id="cb23-107">    )</span>
-<span id="cb23-108"></span>
-<span id="cb23-109">    <span class="co" style="color: #5E5E5E;
+<span id="cb23-120">    )</span>
+<span id="cb23-121"></span>
+<span id="cb23-122">    <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 특징 정보 표시</span></span>
-<span id="cb23-110">    <span class="cf" style="color: #003B4F;
+<span id="cb23-123">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
 font-style: inherit;">if</span> sequence_features:</span>
-<span id="cb23-111">        plot_sequence_features(</span>
-<span id="cb23-112">            ax,</span>
-<span id="cb23-113">            alignments,</span>
-<span id="cb23-114">            sequence_features,</span>
-<span id="cb23-115">            <span class="bu" style="color: null;
+<span id="cb23-124">        plot_sequence_features(</span>
+<span id="cb23-125">            ax,</span>
+<span id="cb23-126">            alignments,</span>
+<span id="cb23-127">            sequence_features,</span>
+<span id="cb23-128">            <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">len</span>(sequences),</span>
-<span id="cb23-116">            sequence_line_length,</span>
-<span id="cb23-117">            feature_spacing,</span>
-<span id="cb23-118">        )</span>
-<span id="cb23-119"></span>
-<span id="cb23-120">    plt.tight_layout()</span>
-<span id="cb23-121">    plt.show()</span>
-<span id="cb23-122"></span>
-<span id="cb23-123"></span>
-<span id="cb23-124"><span class="co" style="color: #5E5E5E;
+<span id="cb23-129">            sequence_line_length,</span>
+<span id="cb23-130">            feature_spacing,</span>
+<span id="cb23-131">        )</span>
+<span id="cb23-132"></span>
+<span id="cb23-133">    plt.tight_layout()</span>
+<span id="cb23-134">    plt.show()</span>
+<span id="cb23-135"></span>
+<span id="cb23-136"></span>
+<span id="cb23-137"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># 사용 예시</span></span>
-<span id="cb23-125">fasta_sequence_data <span class="op" style="color: #5E5E5E;
+<span id="cb23-138">fasta_sequence_data <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"""</span></span>
-<span id="cb23-126"><span class="st" style="color: #20794D;
+<span id="cb23-139"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">&gt;CBK51939</span></span>
-<span id="cb23-127"><span class="st" style="color: #20794D;
+<span id="cb23-140"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPEKAPKSLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYYSYPRTFGQGTKVEIK</span></span>
-<span id="cb23-128"><span class="st" style="color: #20794D;
+<span id="cb23-141"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">&gt;7WSL_L</span></span>
-<span id="cb23-129"><span class="st" style="color: #20794D;
+<span id="cb23-142"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">DIQLTQSPSFLSAYVGDRVTITCKASQDVGTAVAWYQQKPGKAPKLLIYWASTLHTGVPSRFSGSGSGTEFTLTISSLQPEDFATYYCQHYSSYPWTFGQGTKLEIK</span></span>
-<span id="cb23-130"><span class="st" style="color: #20794D;
+<span id="cb23-143"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">&gt;8AS0_C</span></span>
-<span id="cb23-131"><span class="st" style="color: #20794D;
+<span id="cb23-144"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">DIQMTQSPSSLSASVGDRVTITCRASQSISSYLNWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQDYGLPFTFGQGTKVEIK</span></span>
-<span id="cb23-132"><span class="st" style="color: #20794D;
+<span id="cb23-145"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">&gt;7CGW_B</span></span>
-<span id="cb23-133"><span class="st" style="color: #20794D;
+<span id="cb23-146"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">DIVMTQSPDSLAVSLGERATINCKSSESVSNDVAWYQQKPGQPPKLLINYAFHRFTGVPDRFSGSGYGTDFTLTISSLQAEDVAVYYCHQAYSSPYTFGQGTKLEIK</span></span>
-<span id="cb23-134"><span class="st" style="color: #20794D;
+<span id="cb23-147"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">&gt;5JXE_C</span></span>
-<span id="cb23-135"><span class="st" style="color: #20794D;
+<span id="cb23-148"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">EIVLTQSPATLSLSPGERATLSCRASKGVSTSGYSYLHWYQQKPGQAPRLLIYLASYLESGVPARFSGSGSGTDFTLTISSLEPEDFAVYYCQHSRDLPLTFGGGTKVEIK</span></span>
-<span id="cb23-136"><span class="st" style="color: #20794D;
+<span id="cb23-149"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">&gt;5B8C_A</span></span>
-<span id="cb23-137"><span class="st" style="color: #20794D;
+<span id="cb23-150"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">EIVLTQSPATLSLSPGERATLSCRASKGVSTSGYSYLHWYQQKPGQAPRLLIYLASYLESGVPARFSGSGSGTDFTLTISSLEPEDFAVYYCQHSRDLPLTFGGGTKVEIK</span></span>
-<span id="cb23-138"><span class="st" style="color: #20794D;
+<span id="cb23-151"><span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"""</span></span>
-<span id="cb23-139"></span>
-<span id="cb23-140">first_sequence_features <span class="op" style="color: #5E5E5E;
+<span id="cb23-152"></span>
+<span id="cb23-153">first_sequence_features <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> {</span>
-<span id="cb23-141">    <span class="st" style="color: #20794D;
+<span id="cb23-154">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"CDR1"</span>: (<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">27</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">35</span>),</span>
-<span id="cb23-142">    <span class="st" style="color: #20794D;
+<span id="cb23-155">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"CDR2"</span>: (<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">50</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">52</span>),</span>
-<span id="cb23-143">    <span class="st" style="color: #20794D;
+<span id="cb23-156">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"CDR3"</span>: (<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">89</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">98</span>),</span>
-<span id="cb23-144">}</span>
-<span id="cb23-145"></span>
-<span id="cb23-146">visualize_alignment_with_features(</span>
-<span id="cb23-147">    fasta_sequence_data,</span>
-<span id="cb23-148">    sequence_features<span class="op" style="color: #5E5E5E;
+<span id="cb23-157">}</span>
+<span id="cb23-158"></span>
+<span id="cb23-159">visualize_alignment_with_features(</span>
+<span id="cb23-160">    fasta_sequence_data,</span>
+<span id="cb23-161">    sequence_features<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>first_sequence_features,</span>
-<span id="cb23-149">    figure_size<span class="op" style="color: #5E5E5E;
+<span id="cb23-162">    figure_size<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">6</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">4</span>),</span>
-<span id="cb23-150">    sequence_line_length<span class="op" style="color: #5E5E5E;
+<span id="cb23-163">    sequence_line_length<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">51</span>,</span>
-<span id="cb23-151">    feature_spacing<span class="op" style="color: #5E5E5E;
+<span id="cb23-164">    feature_spacing<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2</span>,</span>
-<span id="cb23-152">)</span></code></pre></div>
+<span id="cb23-165">)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -7539,7 +7546,7 @@ font-style: inherit;">=</span> seq_trace</span>
 <span id="cb25-101">        df <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> dataframe</span>
-<span id="cb25-102">        step <span class="op" style="color: #5E5E5E;
+<span id="cb25-102">        _step <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> overlap_step</span>
 <span id="cb25-103">        gapped <span class="op" style="color: #5E5E5E;
