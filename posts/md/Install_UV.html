@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.43">
+<meta name="generator" content="quarto-1.7.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,8 +23,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -35,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -67,17 +68,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../favicon.ico" rel="icon">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b733afdc38633977198908a7b6fb2f72.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fe5bb0b3db4b98561baf9cd06283044a.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c5039a44fd940bd66bc385713b3baa2f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f7414bd0c49eb4d3677c3c1e06baefb4.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c5039a44fd940bd66bc385713b3baa2f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-465480b5e10f2de2c01251f55c0ce8db.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-3dbe2fc42f578100a4b9b0dc90dc91cf.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c443f15df6e6143ee5a3efaf35143f17.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-454a77f9b90ee7a596b649539730e692.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c443f15df6e6143ee5a3efaf35143f17.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -128,7 +132,168 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <meta property="og:image:width" content="2023">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -202,12 +367,25 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#pip이-가지는-문제" id="toc-pip이-가지는-문제" class="nav-link active" data-scroll-target="#pip이-가지는-문제"><span class="header-section-number">1</span> pip이 가지는 문제</a></li>
-  <li><a href="#uv-소개" id="toc-uv-소개" class="nav-link" data-scroll-target="#uv-소개"><span class="header-section-number">2</span> uv 소개</a></li>
-  <li><a href="#설치-방법" id="toc-설치-방법" class="nav-link" data-scroll-target="#설치-방법"><span class="header-section-number">3</span> 설치 방법</a>
+  <li><a href="#uv-소개" id="toc-uv-소개" class="nav-link" data-scroll-target="#uv-소개"><span class="header-section-number">2</span> uv 소개</a>
   <ul class="collapse">
-  <li><a href="#가상-환경-만들기" id="toc-가상-환경-만들기" class="nav-link" data-scroll-target="#가상-환경-만들기"><span class="header-section-number">3.1</span> 가상 환경 만들기</a></li>
-  <li><a href="#가상-환경-활성화" id="toc-가상-환경-활성화" class="nav-link" data-scroll-target="#가상-환경-활성화"><span class="header-section-number">3.2</span> 가상 환경 활성화</a></li>
-  <li><a href="#가상-환경에-패키지-설치" id="toc-가상-환경에-패키지-설치" class="nav-link" data-scroll-target="#가상-환경에-패키지-설치"><span class="header-section-number">3.3</span> 가상 환경에 패키지 설치</a></li>
+  <li><a href="#특징" id="toc-특징" class="nav-link" data-scroll-target="#특징"><span class="header-section-number">2.1</span> 특징</a></li>
+  </ul></li>
+  <li><a href="#설치-및-사용-방법" id="toc-설치-및-사용-방법" class="nav-link" data-scroll-target="#설치-및-사용-방법"><span class="header-section-number">3</span> 설치 및 사용 방법</a>
+  <ul class="collapse">
+  <li><a href="#설치" id="toc-설치" class="nav-link" data-scroll-target="#설치"><span class="header-section-number">3.1</span> 설치</a></li>
+  <li><a href="#가상-환경-관리" id="toc-가상-환경-관리" class="nav-link" data-scroll-target="#가상-환경-관리"><span class="header-section-number">3.2</span> 가상 환경 관리</a></li>
+  <li><a href="#패키지-설치" id="toc-패키지-설치" class="nav-link" data-scroll-target="#패키지-설치"><span class="header-section-number">3.3</span> 패키지 설치</a></li>
+  <li><a href="#의존성-관리-파일-생성-및-동기화" id="toc-의존성-관리-파일-생성-및-동기화" class="nav-link" data-scroll-target="#의존성-관리-파일-생성-및-동기화"><span class="header-section-number">3.4</span> 의존성 관리 파일 생성 및 동기화</a></li>
+  <li><a href="#uv-핵심-기능-활용" id="toc-uv-핵심-기능-활용" class="nav-link" data-scroll-target="#uv-핵심-기능-활용"><span class="header-section-number">3.5</span> uv 핵심 기능 활용</a>
+  <ul class="collapse">
+  <li><a href="#python-버전-관리" id="toc-python-버전-관리" class="nav-link" data-scroll-target="#python-버전-관리"><span class="header-section-number">3.5.1</span> Python 버전 관리</a></li>
+  <li><a href="#프로젝트-초기화-및-구성" id="toc-프로젝트-초기화-및-구성" class="nav-link" data-scroll-target="#프로젝트-초기화-및-구성"><span class="header-section-number">3.5.2</span> 프로젝트 초기화 및 구성</a></li>
+  <li><a href="#의존성-관리" id="toc-의존성-관리" class="nav-link" data-scroll-target="#의존성-관리"><span class="header-section-number">3.5.3</span> 의존성 관리</a></li>
+  <li><a href="#다른-도구에서-마이그레이션" id="toc-다른-도구에서-마이그레이션" class="nav-link" data-scroll-target="#다른-도구에서-마이그레이션"><span class="header-section-number">3.5.4</span> 5.4. 다른 도구에서 마이그레이션</a></li>
+  <li><a href="#빌드-및-배포" id="toc-빌드-및-배포" class="nav-link" data-scroll-target="#빌드-및-배포"><span class="header-section-number">3.5.5</span> 빌드 및 배포</a></li>
+  <li><a href="#실사용-예시" id="toc-실사용-예시" class="nav-link" data-scroll-target="#실사용-예시"><span class="header-section-number">3.5.6</span> 실사용 예시</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">4</span> 마치며</a></li>
   </ul>
@@ -215,6 +393,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -249,7 +428,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">April 19, 2025</p>
+      <p class="date-modified">May 2, 2025</p>
     </div>
   </div>
     
@@ -269,30 +448,31 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <section id="pip이-가지는-문제" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> pip이 가지는 문제</h1>
 <ol type="1">
-<li><strong>의존성 충돌 (Dependency Conflicts)</strong></li>
+<li>의존성 충돌 (Dependency Conflicts)</li>
 </ol>
 <p>여러 패키지를 설치할 때 각 패키지가 서로 다른 버전의 동일한 종속성을 요구할 경우 의존성 충돌이 발생하며 프로젝트에서 예기치 않은 동작이나 오류를 발생시킬 수 있습니다.</p>
 <ol start="2" type="1">
-<li><strong>글로벌 설치 문제</strong></li>
+<li>글로벌 설치 문제</li>
 </ol>
 <p>기본적으로 <code>pip</code> 는 전역 파이썬 환경에 패키지를 설치합니다. 이로 인해, 여러 프로젝트에서 동일한 패키지 버전을 공유하게 되어 프로젝트 간에 종속성 충돌이 발생할 수 있습니다. 특히, 프로젝트마다 요구되는 패키지 버전이 다른 경우에 문제가 됩니다.</p>
 <ol start="3" type="1">
-<li><strong>환경 관리의 어려움</strong></li>
+<li>환경 관리의 어려움</li>
 </ol>
 <p><code>pip</code> 는 파이썬 환경을 별도로 관리하지 않으므로 전역 환경에 설치된 패키지들이 서로 영향을 미칠 수 있습니다. 이로 인해, 동일한 시스템에서 여러 프로젝트를 작업할 때 각 프로젝트의 요구 사항을 일관되게 유지하기 어려워집니다. 이를 해결하기 위해 <code>virtualenv</code> 와 같은 도구를 사용해 가상 환경을 생성해야 합니다.</p>
 <ol start="4" type="1">
-<li><strong>보안 문제</strong></li>
+<li>보안 문제</li>
 </ol>
 <p><code>pip</code> 는 기본적으로 모든 패키지를 신뢰합니다. 악의적인 사용자가 배포한 패키지가 PyPI 에 업로드되면, 이를 설치하는 과정에서 보안 문제가 발생할 수 있습니다.</p>
 <ol start="5" type="1">
-<li><strong>복잡한 패키지 관리</strong></li>
+<li>복잡한 패키지 관리</li>
 </ol>
 <p>복잡한 프로젝트에서는 수많은 패키지와 버전들을 관리해야 하는데, <code>pip</code> 는 기본적으로 이러한 복잡한 종속성 트리를 관리하는 데 최적화되어 있지 않습니다. 이는 특정 패키지 설치 시 종속성 문제가 발생할 때 수동으로 해결해야 하는 번거로움으로 이어질 수 있습니다. 이러한 문제들로 인해, 많은 개발자들이 <code>pipenv</code> 또는 <code>poetry</code> 같은 도구들을 사용하여 환경과 패키지 관리를 하고 있습니다.</p>
 </section>
 <section id="uv-소개" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> uv 소개</h1>
 <p><code>uv</code>(Unified Python packaging) 는 <code>Rust</code> 로 작성된 <code>pip</code> 워크플로우를 대체하는 매우 <strong>빠른</strong> 파이썬 패키지 설치 프로그램입니다. 캐싱 없이&nbsp;<code>pip</code>&nbsp;보다&nbsp;8-10 배 빠르며, 캐시가 있을 때는 80-115 배 빠릅니다. 또한 전역 모듈 캐시를 사용하여 의존성을 다시 다운로드하거나 빌드하지 않고 디스크 공간 사용을 최소화합니다.</p>
-<p><strong>특징</strong></p>
+<section id="특징" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="특징"><span class="header-section-number">2.1</span> 특징</h2>
 <p><a href="https://github.com/astral-sh/uv?tab=readme-ov-file#highlights"></a></p>
 <ul>
 <li>⚖️ 일반적인 <code>pip</code>, <code>pip-tools</code>, <code>virtualenv</code> 명령을 드롭인 방식으로 대체합니다.</li>
@@ -305,58 +485,236 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <li>⁉️&nbsp;현존하는 패키지 관리 중 가장 자세한 오류 메시지와 충돌 추적 해결사 제공.</li>
 <li>🤝 편집 가능한 설치, Git 종속성, 직접 URL 종속성, 로컬 종속성, 제약 조건, 소스 배포, HTML 및 JSON 인덱스 등을 포함한 광범위한 기능 지원.</li>
 </ul>
-<p>uv 는 <a href="https://github.com/astral-sh/ruff">Ruff</a> 의 제작자인 <a href="https://astral.sh/">Astral</a> 의 지원을 받습니다.</p>
 </section>
-<section id="설치-방법" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 설치 방법</h1>
-<p>독립형 인스톨러로 <code>uv</code> 설치하기</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On macOS and Linux.</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LsSf</span> https://astral.sh/uv/install.sh <span class="kw">|</span> <span class="fu">sh</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># On Windows.</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">powershell</span> <span class="at">-c</span> <span class="st">"irm https://astral.sh/uv/install.ps1 | iex"</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># For a specific version.</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LsSf</span> https://astral.sh/uv/0.2.29/install.sh <span class="kw">|</span> <span class="fu">sh</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">powershell</span> <span class="at">-c</span> <span class="st">"irm https://astral.sh/uv/0.2.29/install.ps1 | iex"</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># With pip.</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install uv</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># With pipx.</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ex">pipx</span> install uv</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># With Homebrew.</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install uv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="가상-환경-만들기" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="가상-환경-만들기"><span class="header-section-number">3.1</span> 가상 환경 만들기</h2>
-<pre class="shell"><code>uv venv  # `.venv`에 가상 환경을 만듭니다.</code></pre>
 </section>
-<section id="가상-환경-활성화" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="가상-환경-활성화"><span class="header-section-number">3.2</span> 가상 환경 활성화</h2>
-<pre class="shell"><code># On macOS and Linux.
-source .venv/bin/activate
-
-# On Windows.
-.venv\Scripts\activate</code></pre>
+<section id="설치-및-사용-방법" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 설치 및 사용 방법</h1>
+<section id="설치" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="설치"><span class="header-section-number">3.1</span> 설치</h2>
+<p><code>uv</code>를 설치하는 여러 가지 방법을 안내합니다. 자신의 환경에 맞는 방법을 선택하세요.</p>
+<p><strong>독립 실행형 설치 프로그램 사용</strong></p>
+<p>운영체제에 맞는 명령어를 터미널(명령 프롬프트)에 입력하여 설치합니다.</p>
+<ul>
+<li><strong>macOS 및 Linux:</strong> <code>bash     curl -LsSf https://astral.sh/uv/install.sh | sh</code></li>
+<li><strong>Windows:</strong> <code>powershell     powershell -c "irm https://astral.sh/uv/install.ps1 | iex"</code></li>
+<li><strong>특정 버전 설치 (예: 0.2.29):</strong>
+<ul>
+<li><strong>macOS 및 Linux:</strong> <code>bash       curl -LsSf https://astral.sh/uv/0.2.29/install.sh | sh</code></li>
+<li><strong>Windows:</strong> <code>powershell       powershell -c "irm https://astral.sh/uv/0.2.29/install.ps1 | iex"</code></li>
+</ul></li>
+</ul>
+<p>** 기존 파이썬 패키지 관리자 사용**</p>
+<p>이미 <code>pip</code> 또는 <code>pipx</code>, <code>Homebrew</code>를 사용하고 있다면 다음 명령어로 <code>uv</code>를 설치할 수 있습니다.</p>
+<ul>
+<li><strong>pip 사용:</strong> <code>bash     pip install uv</code></li>
+<li><strong>pipx 사용:</strong> <code>bash     pipx install uv</code></li>
+<li><strong>Homebrew 사용 (macOS):</strong> <code>bash     brew install uv</code></li>
+</ul>
 </section>
-<section id="가상-환경에-패키지-설치" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="가상-환경에-패키지-설치"><span class="header-section-number">3.3</span> 가상 환경에 패키지 설치</h2>
-<pre class="shell"><code>uv pip install flask                # Flask 설치.
-uv pip install flask==2.0.0 #&nbsp;특정 버전의 Flask 설치.
-uv pip install -r requirements.txt  # requirements.txt 파일을 통한 패키지 설치.
-uv pip install -e .                 # 현재 프로젝트를 편집 가능한 모드로 설치.
-uv pip install "package @ ."        # 디스크에 저장된 패키지를 현재 프로젝트를 설치.
-uv pip install "flask[dotenv]"      # dotenv 의존성이 추가된 Flask를 설치.</code></pre>
-<p>의존성을 고정한 <code>requirements.txt</code> 파일을 생성합니다:</p>
-<pre class="shell"><code>uv pip compile requirements.in -o requirements.txt    # requirements.in 파일을 읽고 생성.
-uv pip compile pyproject.toml -o requirements.txt     # pyproject.toml 파일을 읽고 생성.
-uv pip compile setup.py -o requirements.txt           # setup.py 파일을 읽고 생성.
-echo flask | uv pip compile - -o requirements.txt     # stdin을 읽고 생성.
-uv pip freeze | uv pip compile - -o requirements.txt  # 현재 환경의 의존성을 고정.</code></pre>
-<p>고정한 의존성 파일을 가상 환경과 동기화합니다:</p>
-<pre class="shell"><code>uv pip sync requirements.txt  # requirements.txt 파일에서 설치합니다.</code></pre>
-<p><code>uv</code> 의 <code>pip-install</code> 및 <code>pip-compile</code> 명령은 <code>-r requirements.txt</code>, <code>-c constraints.txt</code>, <code>-e .</code>(편집 가능한 설치용), <code>--index-url</code> 등 기존 도구와 동일한 커맨드를 지원합니다.</p>
+<section id="가상-환경-관리" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="가상-환경-관리"><span class="header-section-number">3.2</span> 가상 환경 관리</h2>
+<p>프로젝트별로 독립된 환경을 만들어 패키지를 관리할 수 있습니다.</p>
+<p><strong>가상 환경 생성:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv <span class="co"># 현재 폴더에 .venv라는 이름으로 가상 환경 생성</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>가상 환경 활성화:</strong></p>
+<p>운영체제에 따라 다른 명령어를 사용합니다. 활성화되면 터미널 프롬프트 앞에 <code>(.venv)</code>와 같은 표시가 나타납니다.</p>
+<ul>
+<li><strong>macOS 및 Linux:</strong> <code>bash     source .venv/bin/activate</code></li>
+<li><strong>Windows:</strong> <code>bash     .venv\Scripts\activate</code></li>
+</ul>
+</section>
+<section id="패키지-설치" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="패키지-설치"><span class="header-section-number">3.3</span> 패키지 설치</h2>
+<p>활성화된 가상 환경에 필요한 파이썬 패키지를 설치합니다.</p>
+<ul>
+<li><strong>최신 버전 설치:</strong> <code>bash     uv pip install flask # Flask 패키지의 최신 버전 설치</code></li>
+<li><strong>특정 버전 설치:</strong> <code>bash     uv pip install flask==2.0.0 # Flask 패키지 2.0.0 버전 설치</code></li>
+<li><strong>requirements.txt 파일에서 설치:</strong> <code>bash     uv pip install -r requirements.txt # requirements.txt 파일에 명시된 패키지들을 설치</code></li>
+<li><strong>현재 프로젝트를 편집 가능한 모드로 설치:</strong> <code>bash     uv pip install -e . # 개발 중인 프로젝트를 설치하여 코드 변경 사항이 즉시 반영되도록 함</code></li>
+<li><strong>로컬 패키지 파일에서 설치:</strong> <code>bash     uv pip install "package @ ." # 현재 폴더에 있는 패키지 파일을 설치</code></li>
+<li><strong>추가 의존성을 포함하여 설치:</strong> <code>bash     uv pip install "flask[dotenv]" # Flask와 함께 dotenv 의존성을 함께 설치</code></li>
+</ul>
+</section>
+<section id="의존성-관리-파일-생성-및-동기화" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="의존성-관리-파일-생성-및-동기화"><span class="header-section-number">3.4</span> 의존성 관리 파일 생성 및 동기화</h2>
+<p>프로젝트에 필요한 패키지 목록을 파일로 저장하고 관리합니다.</p>
+<p><strong><code>requirements.txt</code> 파일 생성:</strong></p>
+<p>다양한 방법으로 현재 환경의 패키지 목록 또는 특정 설정 파일에서 <code>requirements.txt</code> 파일을 생성할 수 있습니다.</p>
+<ul>
+<li><strong>requirements.in 파일에서 생성:</strong> <code>bash     uv pip compile requirements.in -o requirements.txt</code></li>
+<li><strong>pyproject.toml 파일에서 생성:</strong> <code>bash     uv pip compile pyproject.toml -o requirements.txt</code></li>
+<li><strong>setup.py 파일에서 생성:</strong> <code>bash     uv pip compile setup.py -o requirements.txt</code></li>
+<li><strong>터미널 입력에서 생성:</strong> <code>bash     echo flask | uv pip compile - -o requirements.txt</code></li>
+<li><strong>현재 활성화된 환경의 패키지 목록 저장:</strong> <code>bash     uv pip freeze | uv pip compile - -o requirements.txt</code></li>
+</ul>
+<p>** <code>requirements.txt</code> 파일로 패키지 설치:**</p>
+<p>생성한 <code>requirements.txt</code> 파일에 명시된 패키지들을 가상 환경에 설치합니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip sync requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>uv</code>의 <code>pip install</code> 및 <code>pip compile</code> 명령어는 <code>-r</code>, <code>-c</code>, <code>-e</code>, <code>--index-url</code>과 같은 기존 <code>pip</code> 옵션들을 그대로 지원합니다.</p>
+</section>
+<section id="uv-핵심-기능-활용" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="uv-핵심-기능-활용"><span class="header-section-number">3.5</span> uv 핵심 기능 활용</h2>
+<p><code>uv</code>는 파이썬 버전 관리 프로젝트 초기화 의존성 관리 등 다양한 편리한 기능을 제공합니다.</p>
+<section id="python-버전-관리" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="python-버전-관리"><span class="header-section-number">3.5.1</span> Python 버전 관리</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 56%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">명령어</th>
+<th style="text-align: left;">설명</th>
+<th style="text-align: left;">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>uv python install &lt;버전&gt;</code></td>
+<td style="text-align: left;">지정한 Python 버전 설치</td>
+<td style="text-align: left;"><code>uv python install 3.12</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>uv python list</code></td>
+<td style="text-align: left;">설치 가능한 Python 버전 목록 표시</td>
+<td style="text-align: left;"><code>uv python list</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>uv use &lt;버전&gt;</code></td>
+<td style="text-align: left;">현재 디렉토리에 <code>.python-version</code> 파일 생성하여 기본 Python 버전 지정</td>
+<td style="text-align: left;"><code>uv use 3.11</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="프로젝트-초기화-및-구성" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="프로젝트-초기화-및-구성"><span class="header-section-number">3.5.2</span> 프로젝트 초기화 및 구성</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 42%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">명령어</th>
+<th style="text-align: left;">설명</th>
+<th style="text-align: left;">생성되는 파일/디렉토리</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>uv init</code></td>
+<td style="text-align: left;">기본 프로젝트 초기화</td>
+<td style="text-align: left;"><code>pyproject.toml</code> <code>.python-version</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>uv init --package</code></td>
+<td style="text-align: left;">패키지 형태 프로젝트 생성</td>
+<td style="text-align: left;"><code>pyproject.toml</code> <code>.python-version</code> <code>src/</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>uv init --lib</code></td>
+<td style="text-align: left;">배포용 라이브러리 프로젝트 생성</td>
+<td style="text-align: left;">라이브러리 구조의 <code>pyproject.toml</code> 테스트 디렉토리 등</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="의존성-관리" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="의존성-관리"><span class="header-section-number">3.5.3</span> 의존성 관리</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 46%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">명령어</th>
+<th style="text-align: left;">설명</th>
+<th style="text-align: left;">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>uv add &lt;패키지&gt;</code></td>
+<td style="text-align: left;">의존성 추가</td>
+<td style="text-align: left;"><code>uv add requests</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>uv add --dev &lt;패키지&gt;</code></td>
+<td style="text-align: left;">개발용 의존성 추가</td>
+<td style="text-align: left;"><code>uv add --dev pytest black</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>uv remove &lt;패키지&gt;</code></td>
+<td style="text-align: left;">의존성 제거</td>
+<td style="text-align: left;"><code>uv remove requests</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>uv lock</code></td>
+<td style="text-align: left;">락파일 생성/갱신</td>
+<td style="text-align: left;"><code>uv lock</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><code>uv</code>는 하드 링크를 통해 디스크 공간을 효율적으로 사용합니다. 여러 가상 환경에서 동일한 패키지를 사용하더라도 실제 파일은 한 번만 저장됩니다.</p>
+</blockquote>
+</section>
+<section id="다른-도구에서-마이그레이션" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="다른-도구에서-마이그레이션"><span class="header-section-number">3.5.4</span> 5.4. 다른 도구에서 마이그레이션</h3>
+<p>기존 프로젝트의 설정을 <code>uv</code>로 가져올 수 있습니다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 프로젝트 폴더로 이동</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> existing-project</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. uv 프로젝트 초기화</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. requirements.txt 파일이 있는 경우 패키지 추가</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> requirements.txt <span class="kw">|</span> <span class="fu">xargs</span> uv add</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 의존성 잠금 및 동기화</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> lock</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="빌드-및-배포" class="level3" data-number="3.5.5">
+<h3 data-number="3.5.5" class="anchored" data-anchor-id="빌드-및-배포"><span class="header-section-number">3.5.5</span> 빌드 및 배포</h3>
+<p><code>uv</code>를 사용하여 패키지를 빌드하고 PyPI에 배포할 수 있습니다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 패키지 빌드</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># PyPI에 배포</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="실사용-예시" class="level3" data-number="3.5.6">
+<h3 data-number="3.5.6" class="anchored" data-anchor-id="실사용-예시"><span class="header-section-number">3.5.6</span> 실사용 예시</h3>
+<p>아래는 데이터 과학 프로젝트를 시작하는 과정을 보여줍니다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 프로젝트 폴더 생성</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ds-project</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ds-project</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 프로젝트 초기화 및 Python 버전 설정</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--package</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> python install 3.11</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> use 3.11</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 데이터 과학 관련 패키지 설치</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add numpy pandas matplotlib scikit-learn</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 개발 도구 설치</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add <span class="at">--dev</span> ipython jupyterlab black ruff</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. 의존성 잠금 및 동기화</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> lock</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Jupyter Lab 실행</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run jupyter lab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 </section>
 <section id="마치며" class="level1" data-number="4">
@@ -368,385 +726,260 @@ uv pip freeze | uv pip compile - -o requirements.txt  # 현재 환경의 의존�
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
     }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
       });
     }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
         }
       }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
         } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-          // target, if specified
-          link.setAttribute("target", "_blank");
-          if (link.getAttribute("rel") === null) {
-            link.setAttribute("rel", "noopener");
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
           }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
+          return note.innerHTML;
+        }
       } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
         }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -754,186 +987,182 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <script src="https://giscus.app/client.js" data-repo="partrita/giscus" data-repo-id="R_kgDONvsa2g" data-category="General" data-category-id="DIC_kwDONvsa2s4CmWd7" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<script type="application/javascript">
+  const giscusIframeObserver = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (addedNode) {
+        if (addedNode.matches && addedNode.matches('div.giscus')) {
+          const giscusIframe = addedNode.querySelector('iframe.giscus-frame');
+          if(giscusIframe) {
+            giscusIframe.addEventListener("load", function() {
+              window.setTimeout(() => {
+                toggleGiscusIfUsed(hasAlternateSentinel(), authorPrefersDark);
+              }, 100);
+            });
+            giscusIframeObserver.disconnect();
+          }
+        }
+      });
+    });
+  });
+  giscusIframeObserver.observe(document.body, { childList: true, subtree: true });
 </script>
 <input type="hidden" id="giscus-base-theme" value="light">
 <input type="hidden" id="giscus-alt-theme" value="dark">
