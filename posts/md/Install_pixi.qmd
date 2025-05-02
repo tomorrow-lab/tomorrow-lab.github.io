@@ -7,52 +7,45 @@ date: "2024-02-28"
 date-modified: last-modified
 ---
 
-![](Install_pixi.svg){width=50% fig-align="center"}
+![](Install_pixi.svg){width=40% fig-align="center"}
 
+파이썬 의존성 문제는 프로젝트가 의존하는 패키지 간 충돌, 버전 관리의 어려움, 시스템 환경에 따른 호환성 문제 등으로 나타납니다. 다음과 같은 상황에서 의존성 지옥이 발생할 수 있습니다.
 
-# 들어가며
+  * **의존성 충돌**: 프로젝트에서 여러 패키지를 사용할 때, 각 패키지가 요구하는 의존성 버전이 서로 달라 충돌이 발생하여 프로젝트 실행이나 빌드가 실패할 수 있습니다.
+  * **의존성 업데이트**: 새로운 기능 추가나 버그 수정을 위해 의존성을 업데이트할 때, 다른 패키지와의 호환성 문제가 생길 수 있습니다. 특히 다른 패키지들이 특정 버전에 의존하는 경우 업데이트가 어려울 수 있습니다.
+  * **환경별 차이**: 개발, 테스트, 프로덕션 환경마다 필요한 의존성이 다를 수 있어 각 환경별 의존성 관리가 복잡해질 수 있습니다.
 
-파이썬 의존성 문제는 프로젝트가 의존하는 패키지들 간의 충돌, 버전 관리의 어려움, 시스템 환경에 따른 호환성 문제 등으로 나타납니다. 다음과 같은 상황에서 의존성 지옥이 발생할 수 있습니다.
+의존성 지옥을 피하려면 파이썬 의존성 관리 도구를 활용하여 각 프로젝트의 의존성을 격리해서 관리해야 합니다.
 
-- 의존성 충돌: 프로젝트가 여러 개의 패키지를 사용하며, 각 패키지들이 서로 다른 버전의 의존성을 가질 때 발생합니다. 이로 인해 충돌이 발생하고, 프로젝트의 실행이나 빌드가 실패할 수 있습니다.
+# 기존의 의존성 관리 도구
 
-- 의존성 업데이트: 새로운 기능을 추가하거나 버그를 수정하기 위해 의존성을 업데이트할 때, 다른 패키지들과의 호환성 문제가 발생할 수 있습니다. 특히, 다른 패키지들이 특정 버전에 의존하는 경우에는 업데이트가 어려울 수 있습니다.
+  * `pip`: 파이썬 기본 패키지 관리자로 패키지 설치 및 관리에 사용됩니다.
+  * `venv`: Python 3.3부터 기본 제공되는 가상 환경 생성 도구로, 프로젝트별 독립적인 가상 환경을 만들어 각 프로젝트의 의존성을 분리하여 관리할 수 있습니다.
+  * `pipenv`: `Pipfile`과 `Pipfile.lock` 파일을 사용하여 의존성을 관리하며 가상 환경과 패키지 설치를 함께 처리합니다.
+  * `poetry`: 프로젝트의 의존성 및 버전 관리, 패키지 빌드 및 배포 등을 지원하여 편리한 프로젝트 관리를 제공합니다.
+  * `conda`: 데이터 과학 및 기계 학습을 위한 패키지 및 환경 관리 도구로 파이썬 패키지 외에도 다양한 라이브러리 및 도구를 관리할 수 있습니다.
 
-- 환경 별 차이: 개발 환경, 테스트 환경, 프로덕션 환경 등 각각의 환경에서는 다른 의존성이 필요할 수 있습니다. 이로 인해 각 환경마다 의존성을 관리하는 것이 복잡해질 수 있습니다.
+# 새로운 의존성 관리 도구 pixi
 
-의존성 지옥을 겪지 않고 싶다면 파이썬 의존성 관리 도구를 활용해 각 프로젝트의 의존성을 격리해서 관리 해야 합니다.
-
-## 기존의 의존성 관리 도구 
-
-- `pip`: 파이썬의 기본 패키지 관리자로, 패키지 설치 및 관리에 사용됩니다.
-- `venv`: Python 3.3 이후부터 기본적으로 제공되는 가상 환경 생성 도구로 프로젝트별로 독립된 가상 환경을 만들어주는 도구로, 각 프로젝트의 의존성을 분리하여 관리할 수 있습니다.
-- `pipenv`: `Pipfile`과 `Pipfile.lock` 파일을 사용하여 의존성을 관리하는 도구로, 가상 환경과 패키지 설치를 함께 처리합니다.
-- `poetry`: 프로젝트의 의존성 및 버전 관리, 패키지 빌드 및 배포 등을 지원하는 도구로, 편리한 프로젝트 관리를 제공합니다.
-- `conda`: 데이터 과학 및 기계 학습을 위한 패키지 관리 및 환경 관리 도구로, 파이썬 패키지 외에도 다양한 라이브러리 및 도구를 관리할 수 있습니다.
-
-## 새로운 의존성 관리 도구
-
-[Pixi](https://prefix.dev/)는 기존의 `conda` 생태계 위에 구축된 빠른 소프트웨어 패키지 매니저로 `Windows`, `macOS` 및 `Linux`에서 신속하게 개발 환경을 구축하는데 적합합니다. 심지어 `Docker` 없이도 운영 체제 간 재현 가능한 환경을 생성하며 `Python`, `R`, `C/C++`, `Rust`, `Ruby` 및 기타 많은 언어를 지원합니다.
-
-> 무엇보다도 **빠르다**는 것이 큰 장점입니다.
+[Pixi](https://prefix.dev/)는 기존 `conda` 생태계를 기반으로 구축된 빠른 소프트웨어 패키지 매니저로 `Windows`, `macOS`, `Linux`에서 신속하게 개발 환경을 구축하는 데 적합합니다. `Docker` 없이도 운영 체제 간 재현 가능한 환경을 생성하며 `Python`, `R`, `C/C++`, `Rust`, `Ruby` 등 다양한 언어를 지원합니다.
 
 :::{.callout-warning}
-`Pixi`는 활발하게 개발되고 있기 때문에 아래의 명령어가 변경될 가능성이 있습니다.
+`Pixi`는 활발히 개발 중이므로 아래 내용은 변경될 수 있습니다.
 :::
 
 # 설치하기
 
-공식 홈페이지에서는 아래 명령어를 통해 설치하는 것을 추천합니다. 하지만 저는 [Homebrew](https://brew.sh/)를 통해서 설치하는 것을 선호합니다. `brew install pixi`를 터미널에 입력하면 간단하게 할 수 있습니다. 물론 사전에 `Homebrew`를 해둔 상태에서 말이죠.
+공식 홈페이지에서는 아래 명령어를 통한 설치를 권장하지만, 저는 [Homebrew](https://brew.sh/)를 선호합니다. 터미널에 `brew install pixi`를 입력하면 간단하게 설치할 수 있습니다. 물론 `Homebrew`가 미리 설치되어 있어야 합니다.
 
 ::: {.panel-tabset}
 
-## 리눅스 혹은 맥 
+## 리눅스 혹은 맥
 
 ```bash
-❯ curl -fsSL https://pixi.sh/install.sh | bash
+curl -fsSL https://pixi.sh/install.sh | bash
 ```
 
-위의 명령은 자동으로 최신 버전의 `pixi`를 다운로드해 `~/.pixi/bin`에 설치합니다. 또한 `~/.bash_profile`을 업데이트해 어디에서나 `pixi` 명령을 실행할 수 있도록 합니다.
+위 명령은 자동으로 최신 버전의 `pixi`를 다운로드하여 `~/.pixi/bin`에 설치하고, `~/.bash_profile`을 업데이트하여 어디서든 `pixi` 명령을 실행할 수 있도록 합니다.
 
 ## 윈도우즈
 
@@ -60,108 +53,114 @@ date-modified: last-modified
 iwr -useb https://pixi.sh/install.ps1 | iex
 ```
 
-위의 명령은 자동으로 최신 버전의 `pixi`를 다운로드해 `LocalAppData/pixi/bin`에 설치합니다. 또한 `LocalAppData/pixi/bin`을 자동으로 경로에 추가하여 어디에서나 `pixi`를 호출할 수 있게 합니다.
+위 명령은 자동으로 최신 버전의 `pixi`를 다운로드하여 `LocalAppData/pixi/bin`에 설치하고, 해당 경로를 시스템 환경 변수에 추가하여 어디서든 `pixi`를 호출할 수 있게 합니다.
 
 :::
 
 :::{.callout-tip}
-설치가 끝나고 바로 사용하려면 터미널을 다시 시작해야 합니다.
+설치 후 바로 사용하려면 터미널을 다시 시작해야 합니다.
 :::
-
 
 # 삭제하기
 
 ::: {.panel-tabset}
+
 ## 리눅스 혹은 맥
 
 ```bash
-❯ rm ~/.pixi/bin/pixi
+rm ~/.pixi/bin/pixi
 ```
 
-이 명령 이후에도 여전히 `pixi`로 설치한 패키지를 사용할 수 있습니다. 이를 제거하려면 `~/.pixi` 전체 디렉토리를 삭제하면 됩니다.
+이 명령을 실행해도 `pixi`로 설치한 패키지는 계속 사용할 수 있습니다. 이를 완전히 제거하려면 `~/.pixi` 디렉토리 전체를 삭제해야 합니다.
 
 ## 윈도우즈
 
 ```bash
 $PIXI_BIN = "$Env:LocalAppData\pixi\bin\pixi"; Remove-Item -Path $PIXI_BIN
 ```
+
 :::
 
+# 사용법
 
-# 기본 사용법
+## 프로젝트 시작하기
 
-## 가상환경 만들기
-
-새로운 프로젝트를 시작할 때는 다음 명령어를 사용합니다.
+새 프로젝트를 시작할 때는 다음 명령어를 사용합니다. `--format pyproject` 옵션을 생략하면 `pyproject.toml` 대신 `pixi.toml` 파일이 생성됩니다.
 
 ```bash
-❯ pixi init hello-world
-❯ cd hello-word
+pixi init --format pyproject hello-world
+cd hello-world
 ```
 
-그러면 아래와 같은 3개의 파일이 생성됩니다. 
+명령어를 실행하면 다음과 같은 파일 구조가 생성됩니다.
 
 ```bash
 .
-├── .gitattributes
-├── .gitignore
-└── pixi.toml
+├── pyproject.toml
+└── src
+    └── hello_world
+        └── __init__.py
 
-0 directories, 3 **files******
+3 directories, 2 files
 ```
 
-- `pixi.toml`에 의존성 패키지 정보가 저장되게 됩니다.
+`pyproject.toml` 파일에 의존성 정보가 저장되며, 내용은 다음과 같습니다.
+
+```toml
+[project]
+authors = [{name = "NAME", email = "EMAIL"}]
+dependencies = []
+name = "hello-world"
+requires-python = ">= 3.11"
+version = "0.1.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+hello_world = { path = ".", editable = true }
+```
 
 ## 의존성 추가
 
-의존성을 추가할 때 가장 먼저 해야 할 작업은 파이썬 버전을 지정하는 것입니다. pixi는 자체적으로 Python 버전을 설치하는 것을 지원합니다. 아래와 같이 `pixi add` 명령어를 사용하세요.
+의존성을 추가할 때 가장 먼저 해야 할 작업은 파이썬 버전을 지정하는 것입니다. `pixi`는 자체적으로 Python 버전 설치를 지원합니다. 다음 `pixi add` 명령어를 사용하세요.
 
 ```bash
-❯ pixi add python==3.10
-✔ Added python 3.10
+pixi add python==3.10
 ```
 
-위 명령어를 실행하면 1개의 폴더(`.pixi`)와 `pixi.lock`이 생성되는 것을 알수 있습니다. `.pixi`폴더는 설치한 패키지들이 저장되는 곳이고 `pixi.lock`은 현재 프로젝트의 종속성 및 버전을 정확하게 기록한 파일입니다. 
-
-```bash
-.
-├── .gitattributes
-├── .gitignore
-├── .pixi
-├── pixi.lock
-└── pixi.toml
-
-1 directory, 4 files
-```
+위 명령어를 실행하면 숨겨진 폴더(`.pixi`)와 `pixi.lock` 파일이 생성됩니다. `.pixi` 폴더는 설치된 패키지들이 저장되는 곳이고, `pixi.lock` 파일은 현재 프로젝트의 종속성 및 버전을 정확하게 기록한 파일입니다.
 
 :::{.callout-note}
-`pixi.lock`파일은 `pixi add`를 실행하거나 수동으로 `pixi.toml` 파일을 변경한 뒤 `pixi install`을 실행할 때 생성됩니다.
+`pixi.lock` 파일은 `pixi add`를 실행하거나 `toml` 파일을 수동으로 변경한 뒤 `pixi install`을 실행할 때 자동으로 생성됩니다.
 :::
 
-다른 원하는 패키지는 설치할 때도 `pixi add` 명령어로 추가 할 수 있습니다. 항상 [Prefix.dev](https://prefix.dev/)에서 접속해서 지원되는 패키지를 검색하고 명령어를 확인해 보도록 하세요.
-
+다른 원하는 패키지를 설치할 때도 `pixi add` 명령어를 사용할 수 있습니다. 항상 [Prefix.dev](https://prefix.dev/)에서 지원되는 패키지를 검색하고 명령어를 확인하세요.
 
 ### 채널 추가하기
 
-`pixi`는 기본적으로 `conda-forge`를 기본 패키지 채널로 씁니다. 가끔 `conda-forge`에 해당 패키지가 없다면 아래와 같이 다른 채널을 추가하면 됩니다.
+`pixi`는 기본적으로 `conda-forge`를 기본 패키지 채널로 사용합니다. `conda-forge`에 원하는 패키지가 없는 경우 다음과 같이 다른 채널을 추가할 수 있습니다.
 
 ```shell
-➜ pixi project channel add bioconda
-✔ Added bioconda (https://conda.anaconda.org/bioconda/)
+pixi project channel add bioconda
+Added bioconda (https://conda.anaconda.org/bioconda/)
 
-❯ pixi add anndata2ri
-✔ Added anndata2ri
+pixi add anndata2ri
+Added anndata2ri
 ```
 
-
 :::{.callout-tip}
-아직 패키지 별로 채널을 선택해서 패키지를 설치하는 명령어는 없는 것으로 보입니다. 그러니 당분간은 위의 명령어를 사용할 수 밖에 없습니다.
+아직 패키지별로 채널을 선택하여 설치하는 명령어는 없는 것으로 보입니다. 따라서 당분간은 위의 명령어를 사용해야 합니다.
 :::
-
 
 ### PyPI 의존성 추가
 
-[Prefix.dev](https://prefix.dev/)에서 찾을 수 없는 파이썬 패키지의 경우 `pixi add --pypi [패키지이름]`으로 설치 할 수 있습니다.
+[Prefix.dev](https://prefix.dev/)에서 찾을 수 없는 파이썬 패키지의 경우 `pixi add --pypi [패키지이름]` 명령으로 설치할 수 있습니다.
 
 :::{.callout-warning}
 현재 이 기능은 베타 버전입니다.
@@ -169,78 +168,74 @@ $PIXI_BIN = "$Env:LocalAppData\pixi\bin\pixi"; Remove-Item -Path $PIXI_BIN
 
 ## 패키지 설치하기
 
-`pixi add` 명령어는 기본적으로 `pixi.toml` 파일에 패키지 이름을 추가하는 역할을 합니다. 보통은 동시에 `pixi.lock`파일도 업데이트가 됩니다. 그렇지 않은 경우에는 `pixi install` 명령어를 사용하면 업데이트와 설치가 동시에 됩니다. 그냥 항상 습관적으로 입력하세요.
+`pixi add` 명령어는 기본적으로 `pixi.toml` 파일에 패키지 이름을 추가하는 역할을 하며, 동시에 `pixi.lock` 파일도 업데이트합니다. 만약 업데이트되지 않았다면 `pixi install` 명령어를 사용하여 업데이트와 설치를 동시에 진행할 수 있습니다. 습관적으로 사용하는 것을 권장합니다.
 
 ```bash
-❯ pixi install
+pixi install
 ```
 
 ## 패키지 삭제하기
 
-설치한 패키지를 삭제하는 것은 2가지 방법이 있습니다. 두 번째 방법이 안되면 첫 번째방법으로 해보세요.
+설치한 패키지를 삭제하는 방법은 두 가지입니다. 두 번째 방법이 작동하지 않으면 첫 번째 방법을 시도해 보세요.
 
-1. `pixi.toml`파일을 수정하고 `pixi install`명령어 입력하기
-2. `pixi remove [패키지]` 명령어 사용하기
+1.  `pixi.toml` 파일을 수정하고 `pixi install` 명령어를 입력합니다.
+2.  `pixi remove [패키지]` 명령어를 사용합니다.
 
 :::{.callout-note}
-PyPI로 설치한 패키지는 `pixi remove --pypi [패키지]`로 삭제할 수 있습니다.
+PyPI로 설치한 패키지는 `pixi remove --pypi [패키지]` 명령으로 삭제할 수 있습니다.
 :::
 
 ## 실행하기
 
-### shell 실행
+### Shell 실행
 
 ```bash
-❯ pixi shell
+pixi shell
 ```
 
 ### 명령어 실행
 
-`pixi run [명령어]` 형식으로 실행하면 됩니다.
+`pixi run [명령어]` 형식으로 실행합니다.
 
 ```bash
-❯ pixi run python --version
+pixi run python --version
 Python 3.10.0
 ```
 
-## 파일로 의존성 저장하기
+# 의존성 파일 공유
 
-아직 명령어로 지원하고 있지 않습니다. 하지만 아래와 같이 `conda` 명령어로 우회할 수 있습니다.
+## toml 파일 저장하기
+
+`pixi`는 기본적으로 모든 의존성 정보를 `toml` 파일에 저장하므로, `pixi install` 명령어를 실행하면 자동으로 파일이 생성됩니다.
+
+## yml 파일로 의존성 저장하기
+
+아직 명령어로 직접 지원하지 않지만, 다음과 같이 `conda` 명령어를 통해 우회할 수 있습니다.
 
 ```bash
-❯ pixi run conda env export -f env.yml
+pixi run conda env export -f env.yml
 ```
 
-## `.yml` 파일에서 의존성 불러오기
+## 가상 환경 삭제
+
+아직 명령어로 직접 지원하지 않습니다. 프로젝트 폴더 전체를 삭제하거나 `pixi` 관련 파일을 삭제하는 방법으로 우회합니다.
 
 ```bash
-❯ pixi init --import environment.yml
-```
-
-환경을 가져올 때, 환경 파일에서 종속성이 있는 `pixi.toml`이 생성됩니다. 다만 `pip` 패키지의 종속성으로 `git+URL`을 지원하지 않습니다.
-
-## 가상환경 삭제
-
-`
-
-아직 명령어로 지원하고 있지 않습니다. 프로젝트 폴더 전체를 삭제하거나 `pixi`와 연관된 파일을 삭제하는 방법으로 우회합니다.
-
-```bash
-❯ rm -rf .pixi
-❯ rm pixi.toml 
-❯ rm pixi.lock
+rm -rf .pixi
+rm pixi.toml
+rm pixi.lock
 ```
 
 # Pixi 삭제하기
 
-저처럼 `brew` 명령어로 설치를 했다면 `brew uninstall pixi`로 간단하게 할 수 있습니다. 그렇지 않더라도 시스템에서 `pixi`를 제거하려면, 단순히 바이너리를 삭제하는 아래 명령어를 사용하면 됩니다. 다만 아래 명령어를 실행한 후에도, `pixi`로 설치한 도구들은 계속 사용할 수 있습니다. 이것들도 함께 제거하고 싶다면, `~/.pixi` 디렉토리 전체를 삭제하고, 사용하는 쉘의 설정 파일에서 해당 경로를 삭제하면 됩니다.
+`brew` 명령어로 설치했다면 `brew uninstall pixi`로 간단하게 삭제할 수 있습니다. 다른 방법으로 설치했다면 시스템에서 `pixi` 바이너리를 직접 삭제해야 합니다. 다만, 바이너리 삭제 후에도 `pixi`로 설치한 도구들은 계속 사용할 수 있습니다. 이들을 함께 제거하려면 `~/.pixi` 디렉토리 전체를 삭제하고, 사용하는 쉘 설정 파일에서 해당 경로를 제거해야 합니다.
 
 ::: {.panel-tabset}
 
 ## 리눅스와 맥
 
 ```bash
-❯ rm ~/.pixi/bin/pixi
+rm ~/.pixi/bin/pixi
 ```
 
 ## 윈도우즈
@@ -251,6 +246,85 @@ $PIXI_BIN = "$Env:LocalAppData\pixi\bin\pixi"; Remove-Item -Path $PIXI_BIN
 
 :::
 
+# 다른 도구에서 마이그레이션
+
+## `requirements.txt` 파일에서 의존성 가져오기
+
+```bash
+pixi add --pypi $(cat requirements.txt)
+```
+
+## `.yml` 파일에서 의존성 불러오기
+
+```bash
+pixi init --import environment.yml
+```
+
+위 명령어를 사용하면 종속성이 포함된 `toml` 파일이 생성됩니다. 다만 `pip` 패키지의 종속성 중 `git+URL` 형식은 지원하지 않으므로 직접 추가해야 합니다.
+
+# 다중 가상 환경 다루기
+
+`pixi`를 사용하면 하나의 프로젝트 내에서 여러 개의 가상 환경을 구현할 수 있습니다. `feature`라는 용어를 사용하여 다소 혼란스러울 수 있지만, 저는 주로 cuda11과 cuda12 환경을 분리할 때 사용합니다. 자세한 내용은 [공식 문서](https://www.google.com/search?q=https://pixi.sh/v0.46.0/workspace/multi_environment/)를 참고하세요.
+
+## Cuda11과 Cuda12 환경 구현하기
+
+CLI 명령어보다는 직접 `toml` 파일을 수정하는 것이 더 쉽습니다. 아래 예시처럼 수정하세요.
+
+```toml
+[project]
+authors = [{name = "NAME", email = "EMAIL"}]
+dependencies = []
+name = "hello-world"
+requires-python = ">= 3.11"
+version = "0.1.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+hello_world = { path = ".", editable = true }
+
+[tool.pixi.environments]
+cuda11 = ["cuda11"]
+cuda12 = ["cuda12"]
+default = ["cuda11"]
+
+[tool.pixi.feature.cuda11.system-requirements]
+cuda = "11.0"
+
+[tool.pixi.feature.cuda11.dependencies]
+cuda-version = "~=11.8"
+
+[tool.pixi.feature.cuda12.system-requirements]
+cuda = "12.0"
+
+[tool.pixi.feature.cuda12.dependencies]
+cuda-version = "~=12.0"
+```
+
+`default = ["cuda11"]`로 지정했기 때문에 `-e` 옵션 없이 실행하면 `cuda11` feature가 사용됩니다.
+
+## 다중 환경에 의존성 추가하기
+
+특정 환경에만 의존성을 추가하려면 `pixi add` 명령어에 `-f [feature 이름]` 옵션을 추가해야 합니다. 그렇지 않으면 모든 환경에 의존성이 추가됩니다.
+
+```bash
+pixi add -f cuda12 pandas
+```
+
+## 다중 환경에서 실행하기
+
+특정 환경을 실행하려면 `pixi run` 명령어에 `-e [feature 이름]` 옵션을 추가 사용해야 합니다.
+
+```bash
+pixi run -e cuda12 python
+```
+
 # 마치며
 
-이것 말고도 `Pixi`에는 아주 많은 기능이 있습니다. 그러니 이 참에 [공식문서](https://pixi.sh/latest/basic_usage/)를 한번 읽어보고 사용해보세요. 
+이 외에도 `Pixi`는 다양한 기능을 제공합니다. [공식 문서](https://pixi.sh/latest/basic_usage/)를 참고하여 더 많은 기능을 활용해 보세요.
