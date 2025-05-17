@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
-<meta name="dcterms.date" content="2025-03-22">
+<meta name="dcterms.date" content="2025-05-17">
 
-<title>OpenCV를 사용해 이미지에서 세포 수 측정 – tomorrow-lab</title>
+<title>일상에 통계학 개념을 적용하기 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -123,13 +88,42 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta property="og:title" content="OpenCV를 사용해 이미지에서 세포 수 측정 – tomorrow-lab">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="일상에 통계학 개념을 적용하기 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/python_CV2_CellCounting_files/figure-html/cell-2-output-2.png">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/md/Tip_life_stat.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="610">
-<meta property="og:image:width" content="1187">
+<meta property="og:image:height" content="1536">
+<meta property="og:image:width" content="1024">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -367,8 +361,14 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#사용된-코드" id="toc-사용된-코드" class="nav-link active" data-scroll-target="#사용된-코드"><span class="header-section-number">1</span> 사용된 코드</a></li>
-  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">2</span> Reference</a></li>
+  <li><a href="#추정estimation-근사치-구하기" id="toc-추정estimation-근사치-구하기" class="nav-link active" data-scroll-target="#추정estimation-근사치-구하기"><span class="header-section-number">1</span> 추정(Estimation): 근사치 구하기</a>
+  <ul class="collapse">
+  <li><a href="#편향되지-않은-추정" id="toc-편향되지-않은-추정" class="nav-link" data-scroll-target="#편향되지-않은-추정"><span class="header-section-number">1.1</span> 편향되지 않은 추정</a></li>
+  <li><a href="#낮은-분산을-가진-추정" id="toc-낮은-분산을-가진-추정" class="nav-link" data-scroll-target="#낮은-분산을-가진-추정"><span class="header-section-number">1.2</span> 낮은 분산을 가진 추정</a></li>
+  <li><a href="#추론inferences-예측하기" id="toc-추론inferences-예측하기" class="nav-link" data-scroll-target="#추론inferences-예측하기"><span class="header-section-number">1.3</span> 추론(Inferences): 예측하기</a></li>
+  </ul></li>
+  <li><a href="#베이지안주의-불확실성에-대한-이해" id="toc-베이지안주의-불확실성에-대한-이해" class="nav-link" data-scroll-target="#베이지안주의-불확실성에-대한-이해"><span class="header-section-number">2</span> 베이지안주의: 불확실성에 대한 이해</a></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">3</span> 마치며</a></li>
   </ul>
 </nav>
     </div>
@@ -378,10 +378,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">OpenCV를 사용해 이미지에서 세포 수 측정</h1>
+<h1 class="title">일상에 통계학 개념을 적용하기</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Python</div>
-    <div class="quarto-category">OpenCV</div>
+    <div class="quarto-category">Statistic</div>
+    <div class="quarto-category">Tip</div>
+    <div class="quarto-category">Productivity</div>
   </div>
   </div>
 
@@ -399,7 +400,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 22, 2025</p>
+      <p class="date">May 17, 2025</p>
     </div>
   </div>
   
@@ -417,104 +418,65 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </header>
 
 
-<p>생물학 실험에서 이미지에서 세포 수를 측정 작업은 매우 흔한 일입니다. 일반적으로는 이미지를 촬영하는 장비에 자동으로 세포 수를 측적하는 소프트웨어가 같이 제공되고 있습니다. 그러나 가끔은 수동으로 세포의 수를 측정해야하는 경우가 생기곤 합니다. 그런 작업은 시간과 노력이 많이 들고 결과를 신뢰하기 어렵습니다.</p>
-<p>이런 문제를 해결하기 위해 이번 글에서는 오픈소스 컴퓨터 비전 라이브러리인 <code>OpenCV</code>를 사용해 이미지를 분석하고 세포 수를 자동으로 측정하는 방법을 소개합니다. <code>OpenCV</code>는 강력하고 유연한 이미지 처리 라이브러리이며 세포 수 계수 외에도 다양한 생물학적 이미지 분석에 활용될 수 있습니다.</p>
-<section id="사용된-코드" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 사용된 코드</h1>
-<div id="ec1011af-8e2b-424d-a8d8-d4c37b7db8b2" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_image(image_path):</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 이미지 읽기 및 전처리</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    original_im <span class="op">=</span> cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 중간값 필터 적용 (노이즈 제거) 및 배경 추정</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    im <span class="op">=</span> cv2.medianBlur(original_im, ksize<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    bg <span class="op">=</span> cv2.medianBlur(im, ksize<span class="op">=</span><span class="dv">101</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 배경 제거 및 신호 정규화</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    signal <span class="op">=</span> cv2.subtract(im, bg)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    signal <span class="op">=</span> cv2.normalize(signal, <span class="va">None</span>, <span class="dv">0</span>, <span class="dv">255</span>, cv2.NORM_MINMAX, dtype<span class="op">=</span>cv2.CV_8U)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 가우시안 블러 적용 및 마스크 생성</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    smooth <span class="op">=</span> cv2.GaussianBlur(signal, (<span class="dv">0</span>, <span class="dv">0</span>), sigmaX<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    valmask <span class="op">=</span> smooth <span class="op">&gt;</span> <span class="dv">24</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    peakmask <span class="op">=</span> smooth <span class="op">==</span> cv2.dilate(smooth, <span class="va">None</span>, iterations<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 블롭 처리</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    blobs <span class="op">=</span> (valmask <span class="op">&amp;</span> peakmask).astype(np.uint8) <span class="op">*</span> <span class="dv">255</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (<span class="dv">11</span>, <span class="dv">11</span>))</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    blobs <span class="op">=</span> cv2.morphologyEx(blobs, cv2.MORPH_DILATE, kernel)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 연결된 컴포넌트 분석</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    nlabels, _, _, centroids <span class="op">=</span> cv2.connectedComponentsWithStats(blobs)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> original_im, signal, centroids, nlabels <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_results(original, processed, centroids):</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    ax1.imshow(original, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    ax1.set_title(<span class="st">"Original Image"</span>)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    ax1.axis(<span class="st">"off"</span>)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    ax2.imshow(processed, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    ax2.set_title(<span class="st">"Processed Image"</span>)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    ax2.axis(<span class="st">"off"</span>)</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pt <span class="kw">in</span> centroids[<span class="dv">1</span>:]:</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        ax2.add_artist(plt.Circle(pt, <span class="dv">20</span>, fill<span class="op">=</span><span class="va">False</span>, color<span class="op">=</span><span class="st">"lime"</span>, linewidth<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># 메인 실행 부분</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">"../data/input/cell_0.png"</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>original, processed, centroids, cell_count <span class="op">=</span> process_image(image_path)</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 </span><span class="sc">{</span>cell_count<span class="sc">}</span><span class="ss">개 세포 확인."</span>)</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>visualize_results(original, processed, centroids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>총 174개 세포 확인.</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="python_CV2_CellCounting_files/figure-html/cell-2-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="python_CV2_CellCounting_files/figure-html/cell-2-output-2.png" class="img-fluid figure-img"></a></p>
+<p><a href="Tip_life_stat.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Tip_life_stat.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
 </figure>
 </div>
+<p>이 글의 목적은 통계의 “철학”을 우리 삶에서 실제로 적용하는 방법을 소개하고 통계가 작동하는 방식을 더 명확하게 설명 하는 것입니다. 글을 읽고 나면 생각보다 실생활에 통계가 많이 사용된 다는 것을 알게 될 것입니다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
 </div>
 </div>
-<p>다른 이미지에 위의 코드를 다시 사용해보겠습니다.</p>
-<div id="ce869b8d-3628-45aa-b92a-98cecb6be352" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 다른 이미지</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">"../data/input/cell_2.png"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>original, processed, centroids, cell_count <span class="op">=</span> process_image(image_path)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 </span><span class="sc">{</span>cell_count<span class="sc">}</span><span class="ss">개 세포 확인."</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>visualize_results(original, processed, centroids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>총 293개 세포 확인.</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="python_CV2_CellCounting_files/figure-html/cell-3-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="python_CV2_CellCounting_files/figure-html/cell-3-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
+<div class="callout-body-container callout-body">
+<p>이글은 <a href="https://barbierjoseph.com/blog/statistics-in-our-daily-life">원문</a>을 번역하고 요약한 글입니다. 자세한 것은 원문을 확인하세요.</p>
 </div>
 </div>
-</div>
-<p>이번 글에서는 <code>OpenCV</code>를 사용하여 이미지를 분석하고 세포 수를 측정 하는 방법에 대해 설명했습니다. 다만 위에 제시된 방법은 다양한 종류의 세포 이미지에 적용 가능하지 않습니다. 위의 코드는 특정 세포 이미지에 맞춰 최적화된 결과입니다. 따라서 다른 종류의 세포 이미지나 촬영 조건이 다른 이미지에 동일한 코드를 적용할 경우 코드의 파라미터를 조정하거나 전처리 과정을 필요할 수 있습니다.</p>
-<p>그러니 더 효율적이고 정확한 세포 수 측정을 위해서는 <a href="https://neurips22-cellseg.grand-challenge.org/">NeurIPS 2022 세포 분할 챌린지</a> 최종 우승 소프트웨어인 <a href="https://github.com/FZJ-INM1-BDA/celldetection">celldetection</a>를 사용해보시길 권장합니다.</p>
+<section id="추정estimation-근사치-구하기" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 추정(Estimation): 근사치 구하기</h1>
+<p>통계에서 무언가를 “추정”하는 것은 일반적입니다. 학생들의 평균 체질량 지수를 추정할 수도 있고 더 복잡한 예로 여러 변수 간의 회귀를 가장 잘 나타내는 계수 벡터등을 추정합니다.</p>
+<p>추정에서의 중요한 사실은 우리가 진정한 추정량을 결코 알 수 없다는 사실입니다. 예를 들어 시험 전에 학생들이 공부하는 평균 시간을 알고 싶다고 가정해 봅시다. 이를 추정하는 방법은 수업 중에 여러 학생에게 물어보고 평균을 계산하는 것입니다. 그러나 전 세계 모든 학생을 동시에 조사하는 것은 불가능합니다.</p>
+<p>그렇다면 우리가 얻은 추정량이 충분히 좋은지 여부는 어떻게 우리의 목표와 관련이 있는지 어떻게 알 수 있을까요? 우리는 아래와 같이 편향과 분산을 통해 추정 값에 대하여 판단합니다.</p>
+<section id="편향되지-않은-추정" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="편향되지-않은-추정"><span class="header-section-number">1.1</span> 편향되지 않은 추정</h2>
+<p>편향의 정의는 단순히 원래 목표로부터의 벗어남을 의미 합니다. 연구된 매개변수의 기대값(즉, 무한한 수의 학생을 인터뷰할 수 있다면 얻어야 할 값)과 <strong>실제</strong>(또는 진정한) 매개변수 간의 차이가 0이면 추정량은 편향되지 않은 것으로 간주될 수 있습니다. 하지만 우리의 추정량이 편향되었는지 아닌지를 아는 것은 쉽지 않습니다.</p>
+<p>예를 들어 수업에 출석한 학생에게만 평균 공부 시간을 질문하는 것은 수업에 출석하지 않은 학생은 우리의 질문에 답하지 않을 것이라는 것을 의미합니다. 그리고 수업에 가지 않는 학생들은 시험 공부를 덜 할 가능성이 있습니다.</p>
 </section>
-<section id="reference" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Reference</h1>
+<section id="낮은-분산을-가진-추정" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="낮은-분산을-가진-추정"><span class="header-section-number">1.2</span> 낮은 분산을 가진 추정</h2>
+<p>분산은 측정 값의 퍼짐의 정도를 나타냅니다. 다시 말해 표본의 사람들이 평균에서 얼마나 벗어나는 경향이 있는지 알려줍니다. 반대로 분산이 0이라는 것은 모든 사람이 동일한 값을 갖는 것입니다.</p>
+<p>이것은 중요합니다. 왜냐하면 편향되지 않은 추정량이 낮은 분산을 갖는다면 일반화할 수 있다고 확신할 수 있다는 것을 의미하기 때문입니다. 예를 들어 학생이 시험 전에 평균 4시간 동안 공부한다고 추정하고 이 추정이 편향되지 않고 낮은 분산을 갖는다는 것을 증명한다면 <strong>진정한 추정량</strong>은 4시간 근처일 가능성이 높습니다.</p>
+</section>
+<section id="추론inferences-예측하기" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="추론inferences-예측하기"><span class="header-section-number">1.3</span> 추론(Inferences): 예측하기</h2>
+<p>모든 추정의 목적은 추론을 하는 것입니다. 앞서 말했듯이 당신은 세상의 모든 정보를 가지고 있지 않고 적은 수의 데이터를 기반으로 일반화할 수 있는지 여부를 알고 싶습니다. 이때 통계학은 일반적으로 <code>p-value</code>을 계산하는 방법을 적용합니다.</p>
+<p>예를 들어 약물이 LDL 콜레스테롤을 낮추는 데 효과적인지 알고 싶다고 가정합니다. 그렇다면 높은 LDL을 가진 사람들에게 그 약물을 투여하고 일주일 후에 높은 LDL을 가지고 있지만 약물을 복용하지 않은 사람들과의 차이를 비교합니다. 약물이 효과가 없다고 가정하면 우리가 얻은 결과(예: 약물을 복용한 사람들은 LDL이 10포인트 감소했고 위약을 복용한 사람들은 4포인트만 감소했습니다)를 얻을 확률을 계산할 수 있습니다.</p>
+<p>만약 이 확률이 매우 낮다면 우리의 초기 가설이 사실이 아닐 수 있다고 추론할 수 있습니다. 즉, 약물이 LDL 콜레스테롤을 낮추는 데 효과적일 수 있다는 것입니다.</p>
+<p>여기서 확률이 낮다는 것은 일반적으로 5%로 사용합니다. <span class="math inline">\(10 - 4 = 6\)</span>의 차이가 발생할 확률이 5% 미만이라면 우리는 결과가 약물이 효과가 없다는 가설(귀무가설)을 받아들일 수 없고 반대로 약물이 효과적이라고 말합니다.</p>
+<p><code>p-value</code>이 5% 미만이라는 것은 실제로는 효과가 없더라도 효과가 있다고 결론(False positive) 내릴 5%의 위험을 가져간다는 것과 같습니다. 거짓 양성과 거짓 음성은 서로 반대로 움직이기 때문에 중간 절충점으로 5%를 사용하는 것입니다. 임상 분야에서는 아픈 사람에게 아무 이상이 없다고 말할 확률(False negative)을 최소화하는 것을 선호하기에 <code>p-value</code> 5%이 적절한지에 대한 큰 이견은 없습니다.</p>
+</section>
+</section>
+<section id="베이지안주의-불확실성에-대한-이해" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 베이지안주의: 불확실성에 대한 이해</h1>
+<p>베이지안주의는 <strong>확률을 주관적인 믿음의 분포</strong>로 간주하며 새로운 정보가 들어올 때 그 믿음을 업데이트하는 사고방식입니다. 예를 들어, <em>보르도는 일요일마다 비가 온다</em>고 믿었지만 최근 날씨가 화창했다면 자신의 기존 믿음을 현실에 맞게 조정해야 합니다. 이전에 일요일 95% 확률로 비가 온다고 생각했다면 새로운 정보에 따라 이 확률은 70%로 낮아질 수 있습니다.</p>
+<p>베이지안 통계도 이와 비슷하게 작동합니다. 특정 약물이 혈당을 평균 3단위 낮춘다고 알려져 있었지만 최근 임상시험에서 평균 2단위의 효과만 보였다면 우리는 이 약물의 진짜 효과가 그 중간인 2.6일 가능성이 있다고 추정할 수 있습니다. 이러한 방식의 사고는 아래와 같은 일상 곳곳에서 유용하게 쓰입니다.</p>
 <ul>
-<li><a href="https://stackoverflow.com/questions/72755474/counting-cells-with-opencv">이미지 출처</a></li>
+<li>학생들의 결석률 추정</li>
+<li>통증의 원인 분석</li>
+<li>건강에 대한 믿음을 과학적 연구로 조정</li>
 </ul>
+<p>여기서 핵심은 <strong>새로운 정보가 생기면 믿음을 수정하라</strong>는 것입니다. 모든 정보를 같은 무게로 받아들이는 것이 아니라, 믿을 만한 출처(예: 논문 vs SNS 댓글)에 따라 가중치를 다르게 주면 됩니다. 이 방법론은 더 개방적이고 유연한 사고를 가능하게 해줍니다.</p>
+</section>
+<section id="마치며" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 마치며</h1>
+<p>우리는 일상에서 어디서 주차 자리를 찾을 수 있을지, 어떤 대학이 당신에게 가장 적합한지등 언제나 추정을 합니다. 알고 있는 것을 바탕으로 근사치를 만드는 것은 자주 있는 일인 것입니다. 따라서 더 나은 추정을 하는 가장 좋은 방법은 당신의 추정에 있을 수 있는 편향과 분산 수준을 생각하는 것입니다. 자연스럽게 항상 추정 하고 있다는 것을 명심하는 것이 중요합니다.</p>
+<p>이 글의 목표는 정확성이 아닌 통계적 방법에 대한 직관을 제공하는 것입니다. 이제 통계학에 대한 더 나은 이해를 갖게 되었길 바라며 당신에게 유용한 몇 가지 통계 개념을 배웠기를 바랍니다.</p>
+<p>실생활의 문제에 통계적인 개념을 적용하는 것은 훌륭한 인식론적 습관입니다. 저는 우리의 대부분의 믿음이 우리의 인식론적 습관, 즉 매일매일의 습관에 기반하여 정보를 접근하는 방식에서 비롯된다고 믿습니다. 따라서 통계학은 당신에게 더 열린 사고와 명확한 표현 그리고 타인에게서 배우는 능력을 길러줄 것입니다.</p>
 
 
 </section>
