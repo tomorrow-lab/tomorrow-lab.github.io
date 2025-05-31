@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
-<meta name="dcterms.date" content="2025-01-18">
+<meta name="dcterms.date" content="2025-05-31">
 
-<title>Calplot: 파이썬으로 만드는 멋진 캘린더 히트맵 – tomorrow-lab</title>
+<title>프로그래밍을 위한 고정폭 폰트 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,45 +22,10 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -122,18 +87,15 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Calplot: 파이썬으로 만드는 멋진 캘린더 히트맵 – tomorrow-lab">
+<meta property="og:title" content="프로그래밍을 위한 고정폭 폰트 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/Python_calplot_files/figure-html/cell-4-output-1.png">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/md/Font_monospace.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="895">
-<meta property="og:image:width" content="1149">
+<meta property="og:image:height" content="1722">
+<meta property="og:image:width" content="1498">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -374,18 +336,13 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#사용한-기술-및-라이브러리" id="toc-사용한-기술-및-라이브러리" class="nav-link active" data-scroll-target="#사용한-기술-및-라이브러리"><span class="header-section-number">1</span> 사용한 기술 및 라이브러리</a></li>
-  <li><a href="#초기-설정" id="toc-초기-설정" class="nav-link" data-scroll-target="#초기-설정"><span class="header-section-number">2</span> 초기 설정</a>
+  <li><a href="#고정폭-폰트가-필요한-이유" id="toc-고정폭-폰트가-필요한-이유" class="nav-link active" data-scroll-target="#고정폭-폰트가-필요한-이유"><span class="header-section-number">1</span> 고정폭 폰트가 필요한 이유</a></li>
+  <li><a href="#대표적-프로그래밍용-폰트" id="toc-대표적-프로그래밍용-폰트" class="nav-link" data-scroll-target="#대표적-프로그래밍용-폰트"><span class="header-section-number">2</span> 대표적 프로그래밍용 폰트</a></li>
+  <li><a href="#한글이-지원되는-고정폭-폰트" id="toc-한글이-지원되는-고정폭-폰트" class="nav-link" data-scroll-target="#한글이-지원되는-고정폭-폰트"><span class="header-section-number">3</span> 한글이 지원되는 고정폭 폰트</a>
   <ul class="collapse">
-  <li><a href="#초기-설정-1" id="toc-초기-설정-1" class="nav-link" data-scroll-target="#초기-설정-1"><span class="header-section-number">2.1</span> 초기 설정</a></li>
+  <li><a href="#끝없는-폰트-욕심" id="toc-끝없는-폰트-욕심" class="nav-link" data-scroll-target="#끝없는-폰트-욕심"><span class="header-section-number">3.1</span> 끝없는 폰트 욕심</a></li>
   </ul></li>
-  <li><a href="#기상-관측소-데이터와서-편집하기" id="toc-기상-관측소-데이터와서-편집하기" class="nav-link" data-scroll-target="#기상-관측소-데이터와서-편집하기"><span class="header-section-number">3</span> 기상 관측소 데이터와서 편집하기</a></li>
-  <li><a href="#시각화-하기" id="toc-시각화-하기" class="nav-link" data-scroll-target="#시각화-하기"><span class="header-section-number">4</span> 시각화 하기</a>
-  <ul class="collapse">
-  <li><a href="#평균-기온-캘린더-플롯" id="toc-평균-기온-캘린더-플롯" class="nav-link" data-scroll-target="#평균-기온-캘린더-플롯"><span class="header-section-number">4.1</span> 평균 기온 캘린더 플롯</a></li>
-  <li><a href="#일교차-캘린더-플롯" id="toc-일교차-캘린더-플롯" class="nav-link" data-scroll-target="#일교차-캘린더-플롯"><span class="header-section-number">4.2</span> 일교차 캘린더 플롯</a></li>
-  </ul></li>
-  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">5</span> 마치며</a></li>
+  <li><a href="#결론" id="toc-결론" class="nav-link" data-scroll-target="#결론"><span class="header-section-number">4</span> 결론</a></li>
   </ul>
 </nav>
     </div>
@@ -395,11 +352,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Calplot: 파이썬으로 만드는 멋진 캘린더 히트맵</h1>
+<h1 class="title">프로그래밍을 위한 고정폭 폰트</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Python</div>
-    <div class="quarto-category">Visualization</div>
-    <div class="quarto-category">Calplot</div>
+    <div class="quarto-category">Productivity</div>
+    <div class="quarto-category">Tip</div>
+    <div class="quarto-category">Font</div>
   </div>
   </div>
 
@@ -417,7 +374,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 18, 2025</p>
+      <p class="date">May 31, 2025</p>
     </div>
   </div>
   
@@ -435,253 +392,83 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </header>
 
 
-<p><a href="https://github.com/tomkwok/calplot">calplot</a>은 파이썬에서 시계열 데이터를 시각적으로 표현할 수 있는 라이브러리입니다. 이 라이브러리를 사용하면 GitHub의 기여도 그래프와 유사한 캘린더 형태의 히트맵을 쉽게 만들 수 있습니다. 이번 포스팅에서는 <a href="https://meteostat.net">Meteostat</a> 라이브러리를 사용하여 날씨 데이터를 가져오고 캘린더 형태로 시각화하는 방법을 소개합니다. 라이브러리를 통해 연도별 데이터를 직관적으로 표현합니다. 특히, 평균 기온과 일교차를 시각화하는 과정을 다룹니다.</p>
-<section id="사용한-기술-및-라이브러리" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 사용한 기술 및 라이브러리</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Font_monospace.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Font_monospace.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
+</figure>
+</div>
+<p>프로그래머라면 코드 에디터를 열 때마다 어떤 폰트를 사용할지 고민해 본 적이 있을 것입니다. 일반적으로 문서 작성에는 가변폭(proportional) 폰트가 많이 쓰이지만, 프로그래밍에서는 대부분 고정폭(monospaced) 폰트를 사용합니다. 그 이유는 무엇일까요?</p>
+<blockquote class="blockquote">
+<p>고정폭 폰트는 모든 글자의 가로 길이가 동일한 글꼴을 의미합니다. 예를 들어, 영어 알파벳 ’i’와 ’m’의 폭이 같습니다. 반대로 가변폭 폰트는 글자마다 가로 길이가 다릅니다. ’i’는 좁고, ’m’은 넓죠.</p>
+</blockquote>
+<section id="고정폭-폰트가-필요한-이유" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 고정폭 폰트가 필요한 이유</h1>
 <ul>
-<li>Meteostat: 기상 데이터를 편리하게 가져오는 라이브러리로, 특정 지역의 기상 관측소 데이터를 활용합니다.</li>
-<li>Calplot: 캘린더 형식으로 데이터를 시각화할 수 있는 강력한 도구입니다.</li>
+<li>코드 정렬의 일관성<br>
+프로그래밍에서는 들여쓰기(indentation)와 코드 블록, 주석 등이 중요한 역할을 합니다. 고정폭 폰트를 사용하면 모든 문자가 동일한 폭을 차지하므로 코드가 정확하게 정렬되어 가독성이 크게 향상됩니다. 들여쓰기, 줄 맞춤, 표 형식의 데이터 등에서 혼선이 없습니다<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</li>
+<li>특수문자와 숫자 구분<br>
+코드에는 ‘0’과 ‘O’, ‘1’과 ‘l’, ’I’와 ’|’처럼 헷갈릴 수 있는 문자들이 자주 등장합니다. 고정폭 폰트는 이런 문자들을 명확하게 구분할 수 있도록 설계되어 있어 실수할 확률을 줄여줍니다[1]<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</li>
+<li>가독성과 피로감 감소<br>
+장시간 코드를 읽어야 하는 개발자들에게 가독성이 좋은 폰트는 매우 중요합니다. 고정폭 폰트는 작은 크기에서도 글자가 잘 구분되고, 눈의 피로도를 줄여줍니다<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</li>
 </ul>
 </section>
-<section id="초기-설정" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> 초기 설정</h1>
-<p>필요한 상수와 폰트를 설정해야 합니다. 서울 날씨를 가져오기 위해서는 GPS 좌표를 상수로 제공해야 하고 한글 폰트를 설정해 그래프에서 한글이 깨지지 않도록 합니다. 날씨 데이터는 2020년부터 2024년까지 4년치를 불러오도록 하겠습니다.</p>
-<section id="초기-설정-1" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="초기-설정-1"><span class="header-section-number">2.1</span> 초기 설정</h2>
-<p>먼저, 필요한 상수와 한글 폰트를 설정합니다. 서울의 GPS 좌표를 기반으로 데이터를 가져오며, 한글 폰트를 설정해 그래프에서 한글이 깨지지 않도록 합니다.</p>
-<div id="8a8ba9e4-83e7-4a58-81f1-37da6d9128b6" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> calplot</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> meteostat <span class="im">import</span> Daily, Point, Stations</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Constants</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>NAME: <span class="bu">str</span> <span class="op">=</span> <span class="st">"서울"</span>  <span class="co"># 지역 이름</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>GPS: <span class="bu">tuple</span>[<span class="bu">float</span>, <span class="bu">float</span>] <span class="op">=</span> (<span class="fl">37.5667</span>, <span class="fl">126.9667</span>)  <span class="co"># GPS 좌표</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>START: datetime <span class="op">=</span> datetime(<span class="dv">2020</span>, <span class="dv">1</span>, <span class="dv">1</span>)  <span class="co"># 조회 시작</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>END: datetime <span class="op">=</span> datetime(<span class="dv">2024</span>, <span class="dv">12</span>, <span class="dv">31</span>)  <span class="co"># 조회 끝</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 한글 폰트 설정</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"font.family"</span>] <span class="op">=</span> <span class="st">"Pretendard Variable"</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"axes.unicode_minus"</span>] <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="대표적-프로그래밍용-폰트" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 대표적 프로그래밍용 폰트</h1>
+<p>검색해보면 프로그래밍용 고정폭 폰트는 아주 많습니다. 아래 목록은 아주 일부분일 뿐입니다.</p>
+<ul>
+<li><a href="https://font.download/font/menlo">Menlo</a>, <a href="https://font.download/font/sf-mono">SF Mono</a>:
+<ul>
+<li>맥 환경에서 많이 쓰입니다.</li>
+</ul></li>
+<li><a href="https://font.download/font/source-code-pro">Source Code Pro</a>, <a href="https://font.download/font/fira-code-2">Fira Code</a>, <a href="https://font.download/font/jetbrains-mono">JetBrain mono</a>:
+<ul>
+<li>오픈소스 및 다양한 환경에서 인기 있는 폰트입니다.</li>
+</ul></li>
+</ul>
+</section>
+<section id="한글이-지원되는-고정폭-폰트" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 한글이 지원되는 고정폭 폰트</h1>
+<blockquote class="blockquote">
+<p>대부분의 프로그래밍용 폰트들은 한글 글리프가 포함되어 있지 않습니다. 그래서 한글은 다른 글씨체로 표현되는 경우가 많습니다.</p>
+</blockquote>
+<p>한글은 기본적으로 전각(정사각형) 또는 장체(직사각형) 형태로 한 글자가 일정한 폭을 차지하도록 설계된 경우가 많지만, 실제로는 글자별로 폭이 다를 수 있는 가변폭 설계가 더 자연스럽고 가독성이 높아집니다. 코딩용 고정폭 폰트에 한글까지 적용하려면 매우 까다로운 설계와 대량의 한글 글리프(글자 모양)가 필요합니다. 그 결과 제작 비용은 높고 수요는 적어, 한글을 지원하는 고정폭 폰트는 많지 않습니다. 대표적인 예로 아래와 같은 폰트가 있습니다.</p>
+<ul>
+<li><a href="https://github.com/naver/d2codingfont">D2Coding</a>:
+<ul>
+<li>나눔바른고딕 기반의 한글 코딩용 고정폭 폰트.</li>
+</ul></li>
+<li><a href="https://github.com/be5invis/Sarasa-Gothic">Sarasa Gothic</a>:
+<ul>
+<li><a href="https://github.com/rsms/inter">Inter</a>,<a href="https://github.com/be5invis/Iosevka">Iosevka</a>과 <a href="https://github.com/adobe-fonts/source-han-sans">Source Han Sans</a>를 조합한 고정폭 코딩용 폰트.</li>
+</ul></li>
+<li><a href="https://github.com/y-kim/monoplex">Monoplex KR</a>:
+<ul>
+<li><a href="https://github.com/IBM/plex">IBM Plex Mono</a>에 <a href="https://github.com/IBM/plex">IBM Plex Sans KR</a>의 글자를 조합한 코딩용 폰트.</li>
+</ul></li>
+</ul>
+<section id="끝없는-폰트-욕심" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="끝없는-폰트-욕심"><span class="header-section-number">3.1</span> 끝없는 폰트 욕심</h2>
+<p>폰트는 취향을 많이 타다보니 저도 그동안 위의 여러 폰트를 시도해보았습니다. 그럼에도 만족하지 못하고 틈나면 폰트를 변경하던 중 최근 JetBrains Mono와 D2Coding을 결합한 폰트인 <a href="https://github.com/Jhyub/JetBrainsMonoHangul">JetBrainsMonoHangul</a>을 찾았고 fork해 약간의 수정을 거쳐 사용하고 있습니다<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 이 블로그에서도 웹폰트로 사용하고 있는데 상당히 만족스럽습니다.</p>
+<p>물론 서로 다른 글리프를 임의 결합한 것이다보니 스타일이 조금 다르다는 단점이 있습니다. 이 문제를 해결하려면 폰트 디자인을 공부해 한글 글리프를 (대략 2,500개) 수정해야 합니다. 쉽지 않은 일이지요.</p>
 </section>
 </section>
-<section id="기상-관측소-데이터와서-편집하기" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 기상 관측소 데이터와서 편집하기</h1>
-<p><a href="https://github.com/meteostat/meteostat-python">Meteostat</a> 라이브러리를 사용하여 서울 근처 기상 관측소 데이터를 선택합니다. 날씨 데이터를 가져온 뒤에는 일교차(최고 기온(tmax)과 최저 기온(tmin)의 차이), 눈/비 여부(강수량(prcp) 또는 적설량(snow)이 있는 경우 1, 없는 경우 NaN)에 대한 데이터를 열을 추가해줍니다.</p>
-<div id="3e6bab5c-d759-471f-a462-b15367967d76" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stations: Stations <span class="op">=</span> Stations()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get nearby weather stations based on latitude and longitude</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>nearby_stations: Stations <span class="op">=</span> stations.nearby(GPS[<span class="dv">0</span>], GPS[<span class="dv">1</span>])  <span class="co"># GPS 튜플 언패킹</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch the first station's data</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>station_data: pd.DataFrame <span class="op">=</span> nearby_stations.fetch(<span class="dv">1</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print station information</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"선택된 관측소: </span><span class="sc">{</span>station_data[<span class="st">'name'</span>]<span class="sc">.</span>values[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the coordinates of the selected station</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>location: Point <span class="op">=</span> Point(station_data[<span class="st">"latitude"</span>].values[<span class="dv">0</span>], station_data[<span class="st">"longitude"</span>].values[<span class="dv">0</span>])</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch weather data</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>weather_data: pd.DataFrame <span class="op">=</span> Daily(location, start<span class="op">=</span>START, end<span class="op">=</span>END).fetch()</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 일교차 계산</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>weather_data[<span class="st">"diurnal_range"</span>] <span class="op">=</span> weather_data[<span class="st">"tmax"</span>] <span class="op">-</span> weather_data[<span class="st">"tmin"</span>]</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 눈이나 비가 온 날은 1로, 오지 않은 날은 NaN으로 표기하는 새로운 열 추가</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>weather_data[<span class="st">"rain_or_snow"</span>] <span class="op">=</span> weather_data.<span class="bu">apply</span>(</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> row: <span class="dv">1</span> <span class="cf">if</span> (row[<span class="st">"prcp"</span>] <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">or</span> row[<span class="st">"snow"</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="cf">else</span> <span class="bu">float</span>(<span class="st">"nan"</span>), axis<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the last few rows of the data</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>weather_data.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>선택된 관측소: Seoul</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="32">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">tavg</th>
-<th data-quarto-table-cell-role="th">tmin</th>
-<th data-quarto-table-cell-role="th">tmax</th>
-<th data-quarto-table-cell-role="th">prcp</th>
-<th data-quarto-table-cell-role="th">snow</th>
-<th data-quarto-table-cell-role="th">wdir</th>
-<th data-quarto-table-cell-role="th">wspd</th>
-<th data-quarto-table-cell-role="th">wpgt</th>
-<th data-quarto-table-cell-role="th">pres</th>
-<th data-quarto-table-cell-role="th">tsun</th>
-<th data-quarto-table-cell-role="th">diurnal_range</th>
-<th data-quarto-table-cell-role="th">rain_or_snow</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">time</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-12-27</td>
-<td>-2.6</td>
-<td>-5.5</td>
-<td>-0.7</td>
-<td>0.0</td>
-<td>NaN</td>
-<td>283.0</td>
-<td>8.7</td>
-<td>NaN</td>
-<td>1026.6</td>
-<td>NaN</td>
-<td>4.8</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-12-28</td>
-<td>-2.1</td>
-<td>-6.7</td>
-<td>-1.4</td>
-<td>0.0</td>
-<td>NaN</td>
-<td>284.0</td>
-<td>8.2</td>
-<td>NaN</td>
-<td>1024.3</td>
-<td>NaN</td>
-<td>5.3</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-12-29</td>
-<td>2.6</td>
-<td>-4.2</td>
-<td>4.1</td>
-<td>0.0</td>
-<td>NaN</td>
-<td>70.0</td>
-<td>5.1</td>
-<td>NaN</td>
-<td>1024.9</td>
-<td>NaN</td>
-<td>8.3</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2024-12-30</td>
-<td>4.8</td>
-<td>1.9</td>
-<td>9.3</td>
-<td>0.2</td>
-<td>NaN</td>
-<td>351.0</td>
-<td>8.6</td>
-<td>NaN</td>
-<td>1018.7</td>
-<td>NaN</td>
-<td>7.4</td>
-<td>1.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-12-31</td>
-<td>0.1</td>
-<td>-1.4</td>
-<td>4.4</td>
-<td>0.0</td>
-<td>NaN</td>
-<td>281.0</td>
-<td>9.9</td>
-<td>NaN</td>
-<td>1020.6</td>
-<td>NaN</td>
-<td>5.8</td>
-<td>NaN</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-</section>
-<section id="시각화-하기" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> 시각화 하기</h1>
-<section id="평균-기온-캘린더-플롯" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="평균-기온-캘린더-플롯"><span class="header-section-number">4.1</span> 평균 기온 캘린더 플롯</h2>
-<p>calplot을 사용해 연도별 평균 기온을 캘린더 형태로 시각화합니다. 색상 맵은 coolwarm으로 설정해 표현합니다.</p>
-<div id="061c73c4" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    weather_data[<span class="st">"tavg"</span>],</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"coolwarm"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    yearascending<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    yearlabel_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">16</span>},</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    suptitle<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 평균 기온"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    suptitle_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">20</span>, <span class="st">"y"</span>: <span class="fl">1.05</span>},</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Python_calplot_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Python_calplot_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<p>위 시각화 결과를 보면 2021년 1월달의 평균 기온이 유난히 낮았다는 것과 2024년 12월의 평균기온이 상당히 높다는 것을 알 수 있습니다. 그리고 여름이 계속 더워지고 있다는 추세가 보이는 것 같습니다.</p>
-</section>
-<section id="일교차-캘린더-플롯" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="일교차-캘린더-플롯"><span class="header-section-number">4.2</span> 일교차 캘린더 플롯</h2>
-<p>일반적으로 일교차는 봄과 가을이 심하다고 알고있는데 실제로 그런지 확인해보겠습니다. 일교차 데이터를 캘린더 플롯으로 표현하고 색상 맵은 YlGn으로 설정해 녹색 계열로 변화를 나타냅니다.</p>
-<div id="e17a18d3" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    weather_data[<span class="st">"diurnal_range"</span>],</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"YlGn"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    yearascending<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    yearlabel_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">16</span>},</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    suptitle<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 일교차"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    suptitle_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">20</span>, <span class="st">"y"</span>: <span class="fl">1.05</span>},</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="Python_calplot_files/figure-html/cell-5-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Python_calplot_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<p>일교차는 더운 기간(7-9월) 제외하고는 패턴을 찾기 힘들어 보입니다. 그리고 가을 보다 봄(3-4월)이 확실히 일교차가 심한 것을 알 수 있네요.</p>
-</section>
-</section>
-<section id="마치며" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> 마치며</h1>
-<p>이 글에서는 calplot을 활용해 서울의 날씨 데이터를 효과적으로 시각화하는 방법을 보여줬습니다. calplot은 날씨 데이터 이외에도 건강 및 피트니스 데이터, 생산성 및 업무 관리 데이터, 환경 모니터링 데이터등의 시계열 데이터를 효과적으로 시각해서 데이터의 패턴과 추세를 직관적으로 파악하는 데 큰 도움을 줍니다. 그러면 데이터 분석과 의사 결정에 큰 도움이 될 것입니다. 여러분의 분야에서도 calplot을 활용해 새로운 통찰을 발견해보세요.</p>
+<section id="결론" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 결론</h1>
+<p>프로그래밍을 할 때 고정폭 폰트를 사용하는 것은 코드의 가독성과 정확한 정렬, 문자 구분등 실질적인 이유에서 필수적입니다. 여러분도 자신만의 취향에 맞는 고정폭 폰트를 찾아보는 것을 추천드리며 <a href="https://github.com/partrita/JBD2/">JBD2</a>도 한번 써보세요!</p>
 
 
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>https://steemit.com/kr/<span class="citation" data-cites="jwsohn/8-fixed-width-font">@jwsohn/8-fixed-width-font</span><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>https://html4silver.tistory.com/152<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>https://slowalk.com/2195<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>https://github.com/partrita/JBD2/<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
