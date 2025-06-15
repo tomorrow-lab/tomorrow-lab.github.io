@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
-<meta name="dcterms.date" content="2024-09-09">
+<meta name="dcterms.date" content="2025-06-15">
 
-<title>DockQ로 도킹 모델 품질 측정하기 – tomorrow-lab</title>
+<title>Nature Methods 데이터 시각화 컬럼 모음 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -125,12 +90,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="DockQ로 도킹 모델 품질 측정하기 – tomorrow-lab">
+<meta property="og:title" content="Nature Methods 데이터 시각화 컬럼 모음 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/md/Intsall_DockQ.png">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/md/Tip_dataVisualization.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="320">
-<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="1200">
+<meta property="og:image:width" content="1200">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -371,32 +336,30 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#설치" id="toc-설치" class="nav-link active" data-scroll-target="#설치"><span class="header-section-number">1</span> 설치</a>
+  <li><a href="#생물학-데이터-시각화는-필수-도구" id="toc-생물학-데이터-시각화는-필수-도구" class="nav-link active" data-scroll-target="#생물학-데이터-시각화는-필수-도구"><span class="header-section-number">1</span> 생물학 데이터 시각화는 필수 도구</a></li>
+  <li><a href="#구성-및-레이아웃" id="toc-구성-및-레이아웃" class="nav-link" data-scroll-target="#구성-및-레이아웃"><span class="header-section-number">2</span> 구성 및 레이아웃</a>
   <ul class="collapse">
-  <li><a href="#pixi-를-사용하는-방법" id="toc-pixi-를-사용하는-방법" class="nav-link" data-scroll-target="#pixi-를-사용하는-방법"><span class="header-section-number">1.1</span> pixi 를 사용하는 방법</a></li>
-  <li><a href="#uv-를-사용하는-방법" id="toc-uv-를-사용하는-방법" class="nav-link" data-scroll-target="#uv-를-사용하는-방법"><span class="header-section-number">1.2</span> uv 를 사용하는 방법</a></li>
+  <li><a href="#쉽고-명확한-정보-전달을-위한-디자인" id="toc-쉽고-명확한-정보-전달을-위한-디자인" class="nav-link" data-scroll-target="#쉽고-명확한-정보-전달을-위한-디자인"><span class="header-section-number">2.1</span> 쉽고 명확한 정보 전달을 위한 디자인</a></li>
+  <li><a href="#레이아웃-정보-전달을-위한-시각적-정리의-기술" id="toc-레이아웃-정보-전달을-위한-시각적-정리의-기술" class="nav-link" data-scroll-target="#레이아웃-정보-전달을-위한-시각적-정리의-기술"><span class="header-section-number">2.2</span> 레이아웃: 정보 전달을 위한 시각적 정리의 기술</a></li>
+  <li><a href="#게슈탈트-이론" id="toc-게슈탈트-이론" class="nav-link" data-scroll-target="#게슈탈트-이론"><span class="header-section-number">2.3</span> 게슈탈트 이론</a>
+  <ul class="collapse">
+  <li><a href="#유사성-원리" id="toc-유사성-원리" class="nav-link" data-scroll-target="#유사성-원리"><span class="header-section-number">2.3.1</span> 유사성 원리</a></li>
+  <li><a href="#근접성-원리" id="toc-근접성-원리" class="nav-link" data-scroll-target="#근접성-원리"><span class="header-section-number">2.3.2</span> 근접성 원리</a></li>
+  <li><a href="#연결성-및-폐쇄성-원리" id="toc-연결성-및-폐쇄성-원리" class="nav-link" data-scroll-target="#연결성-및-폐쇄성-원리"><span class="header-section-number">2.3.3</span> 연결성 및 폐쇄성 원리</a></li>
+  <li><a href="#시각적-완성-원리" id="toc-시각적-완성-원리" class="nav-link" data-scroll-target="#시각적-완성-원리"><span class="header-section-number">2.3.4</span> 시각적 완성 원리</a></li>
+  <li><a href="#연속성-원리" id="toc-연속성-원리" class="nav-link" data-scroll-target="#연속성-원리"><span class="header-section-number">2.3.5</span> 연속성 원리</a></li>
   </ul></li>
-  <li><a href="#dockq-사용법" id="toc-dockq-사용법" class="nav-link" data-scroll-target="#dockq-사용법"><span class="header-section-number">2</span> DockQ 사용법</a>
+  <li><a href="#여백negative-space-디자인의-숨겨진-힘" id="toc-여백negative-space-디자인의-숨겨진-힘" class="nav-link" data-scroll-target="#여백negative-space-디자인의-숨겨진-힘"><span class="header-section-number">2.4</span> 여백(Negative Space): 디자인의 숨겨진 힘</a>
   <ul class="collapse">
-  <li><a href="#명령어-예시" id="toc-명령어-예시" class="nav-link" data-scroll-target="#명령어-예시"><span class="header-section-number">2.1</span> 명령어 예시</a></li>
-  <li><a href="#단백질---단백질-결합-스코어링" id="toc-단백질---단백질-결합-스코어링" class="nav-link" data-scroll-target="#단백질---단백질-결합-스코어링"><span class="header-section-number">2.2</span> 단백질 - 단백질 결합 스코어링</a>
-  <ul class="collapse">
-  <li><a href="#완전-매핑" id="toc-완전-매핑" class="nav-link" data-scroll-target="#완전-매핑"><span class="header-section-number">2.2.1</span> 완전 매핑</a></li>
-  <li><a href="#부분-매핑" id="toc-부분-매핑" class="nav-link" data-scroll-target="#부분-매핑"><span class="header-section-number">2.2.2</span> 부분 매핑</a></li>
-  <li><a href="#원본-인터페이스의-하위-집합으로-검색-제한하기" id="toc-원본-인터페이스의-하위-집합으로-검색-제한하기" class="nav-link" data-scroll-target="#원본-인터페이스의-하위-집합으로-검색-제한하기"><span class="header-section-number">2.2.3</span> 원본 인터페이스의 하위 집합으로 검색 제한하기</a></li>
+  <li><a href="#여백의-중요성" id="toc-여백의-중요성" class="nav-link" data-scroll-target="#여백의-중요성"><span class="header-section-number">2.4.1</span> 여백의 중요성</a></li>
+  <li><a href="#효과적인-여백-넣기" id="toc-효과적인-여백-넣기" class="nav-link" data-scroll-target="#효과적인-여백-넣기"><span class="header-section-number">2.4.2</span> 효과적인 여백 넣기</a></li>
+  <li><a href="#여백으로-시선-집중시키기" id="toc-여백으로-시선-집중시키기" class="nav-link" data-scroll-target="#여백으로-시선-집중시키기"><span class="header-section-number">2.4.3</span> 여백으로 시선 집중시키기</a></li>
   </ul></li>
-  <li><a href="#단백질---저분자-화합물-결합-스코어링" id="toc-단백질---저분자-화합물-결합-스코어링" class="nav-link" data-scroll-target="#단백질---저분자-화합물-결합-스코어링"><span class="header-section-number">2.3</span> 단백질 - 저분자 화합물 결합 스코어링</a></li>
-  <li><a href="#단백질---dnarna-결합-스코어링" id="toc-단백질---dnarna-결합-스코어링" class="nav-link" data-scroll-target="#단백질---dnarna-결합-스코어링"><span class="header-section-number">2.4</span> 단백질 - DNA/RNA 결합 스코어링</a></li>
-  </ul></li>
-  <li><a href="#다른-기능들" id="toc-다른-기능들" class="nav-link" data-scroll-target="#다른-기능들"><span class="header-section-number">3</span> 다른 기능들</a>
+  <li><a href="#중요한-부분-강조하기" id="toc-중요한-부분-강조하기" class="nav-link" data-scroll-target="#중요한-부분-강조하기"><span class="header-section-number">2.5</span> 중요한 부분 강조하기</a>
   <ul class="collapse">
-  <li><a href="#파이썬-모듈로-dockq-사용하기" id="toc-파이썬-모듈로-dockq-사용하기" class="nav-link" data-scroll-target="#파이썬-모듈로-dockq-사용하기"><span class="header-section-number">3.1</span> 파이썬 모듈로 DockQ 사용하기</a></li>
-  <li><a href="#단일-수용체-또는-리간드에-여러-사슬-병합하기" id="toc-단일-수용체-또는-리간드에-여러-사슬-병합하기" class="nav-link" data-scroll-target="#단일-수용체-또는-리간드에-여러-사슬-병합하기"><span class="header-section-number">3.2</span> 단일 수용체 또는 리간드에 여러 사슬 병합하기</a></li>
+  <li><a href="#의도치-않은-두드러짐의-위험성" id="toc-의도치-않은-두드러짐의-위험성" class="nav-link" data-scroll-target="#의도치-않은-두드러짐의-위험성"><span class="header-section-number">2.5.1</span> 의도치 않은 두드러짐의 위험성</a></li>
+  <li><a href="#효과적인-글쓰기-원칙을-그림-디자인에-적용하기" id="toc-효과적인-글쓰기-원칙을-그림-디자인에-적용하기" class="nav-link" data-scroll-target="#효과적인-글쓰기-원칙을-그림-디자인에-적용하기"><span class="header-section-number">2.5.2</span> 효과적인 글쓰기 원칙을 그림 디자인에 적용하기</a></li>
   </ul></li>
-  <li><a href="#참고-사항" id="toc-참고-사항" class="nav-link" data-scroll-target="#참고-사항"><span class="header-section-number">4</span> 참고 사항</a>
-  <ul class="collapse">
-  <li><a href="#인용하기" id="toc-인용하기" class="nav-link" data-scroll-target="#인용하기"><span class="header-section-number">4.1</span> 인용하기</a></li>
-  <li><a href="#pixi-의존성-파일" id="toc-pixi-의존성-파일" class="nav-link" data-scroll-target="#pixi-의존성-파일"><span class="header-section-number">4.2</span> pixi 의존성 파일</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -407,11 +370,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">DockQ로 도킹 모델 품질 측정하기</h1>
+<h1 class="title">Nature Methods 데이터 시각화 컬럼 모음</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Bioinformatics</div>
     <div class="quarto-category">Tip</div>
-    <div class="quarto-category">Docking</div>
+    <div class="quarto-category">Productivity</div>
+    <div class="quarto-category">Visualization</div>
   </div>
   </div>
 
@@ -429,7 +392,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 9, 2024</p>
+      <p class="date">June 15, 2025</p>
     </div>
   </div>
   
@@ -449,160 +412,110 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="Intsall_DockQ.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Intsall_DockQ.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
+<p><a href="Tip_dataVisualization.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Tip_dataVisualization.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
-<p><a href="https://github.com/bjornwallner/DockQ">DockQ</a> 는 단백질, DNA 및 저분자 화합물 도킹 모델에 대한 품질을 측정하는 도구입니다. <code>DockQ</code> 점수는 0 에서 1 까지의 범위로 측정되며 품질은 아래와 같이 정의됩니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">0.00</span> <span class="op">&lt;</span>= DockQ <span class="op">&lt;</span> 0.23 <span class="at">-</span> 부정확한 모델</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">0.23</span> <span class="op">&lt;</span>= DockQ <span class="op">&lt;</span> 0.49 <span class="at">-</span> 허용 가능한 품질의 모델</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">0.49</span> <span class="op">&lt;</span>= DockQ <span class="op">&lt;</span> 0.80 <span class="at">-</span> 중간 품질의 모델</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">0.80</span> <span class="op">&lt;</span>= DockQ <span class="op">&lt;</span> 1.00 <span class="at">-</span> 고품질의 모델</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="설치" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 설치</h1>
-<p>공식 리포에서는 가상환경을 사용하지 않고 <code>pip</code> 명령어를 바로 사용하는데 그건 최악의 방법입니다. 나중에 생기는 의존성 문제를 피하기 위해서는 먼저 가상환경을 생성하고 설치해야 합니다. 아래 두가지 방법을 추천합니다.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><code>numpy &gt;= 2.0</code> 버전을 설치하면 오류가 발생하기 때문에 <code>1.23.4</code> 버전을 사용하세요.</p>
-</div>
-</div>
-<section id="pixi-를-사용하는-방법" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="pixi-를-사용하는-방법"><span class="header-section-number">1.1</span> pixi 를 사용하는 방법</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bjornwallner/DockQ/</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> DockQ</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> init .</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> add <span class="st">"python=3.9.1"</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> add <span class="st">"numpy=1.23.4"</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> shell</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="uv-를-사용하는-방법" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="uv-를-사용하는-방법"><span class="header-section-number">1.2</span> uv 를 사용하는 방법</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bjornwallner/DockQ/</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> DockQ</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv venv</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">venv</span><span class="kw">)</span> <span class="ex">uv</span> pip install numpy==1.23.4</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">venv</span><span class="kw">)</span> <span class="ex">uv</span> pip install .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="dockq-사용법" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> DockQ 사용법</h1>
-<p>설치를 완료하면 아래의 명령어로 <code>DockQ</code> 를 실행할 수 있습니다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run DockQ <span class="op">&lt;</span>model<span class="op">&gt;</span> <span class="op">&lt;</span>native<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="명령어-예시" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="명령어-예시"><span class="header-section-number">2.1</span> 명령어 예시</h2>
-<p>하나 이상의 인터페이스가 있는 모델/원형 단백질 복합체에서 <code>DockQ</code> 를 실행하면 각 인터페이스에 대한 결과를 얻을 수 있습니다. 결과는 모든 인터페이스에서 평균을 최대화하도록 계산됩니다:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run DockQ examples/1A2K_r_l_b.model.pdb examples/1A2K_r_l_b.pdb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>플래그 <code>--short</code> 를 사용하면 더 간결한 출력을 볼 수 있습니다.</p>
-</section>
-<section id="단백질---단백질-결합-스코어링" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="단백질---단백질-결합-스코어링"><span class="header-section-number">2.2</span> 단백질 - 단백질 결합 스코어링</h2>
-<p>기본적으로 <code>DockQ</code> 는 원본 인터페이스와 모델에 있는 인터페이스 간에 최적의 매핑을 찾으려고 시도합니다.</p>
-<p>가장 간단한 경우는 호모다이머가 모델링된 경우입니다. 그런 다음 원본의 인터페이스 <code>AB</code>(원래 체인 <code>A</code> 와 <code>B</code> 사이) 를 모델 <code>AB</code> 인터페이스와 비교할 수 있지만 체인의 순서를 변경하면 일반적으로 결과가 변경 되므로 <code>BA</code> 와도 비교할 수 있습니다. <code>DockQ homodimer_model.pdb homodimer_native.pdb</code> 명령어를 입력하면 소프트웨어가 가장 높은 <code>DockQ</code> 점수를 가진 매핑 (<code>AB -&gt; AB</code> 또는 <code>AB -&gt; BA</code>) 값을 출력합니다.</p>
-<p>사용자가 특정 매핑을 적용하려면 <code>--mapping</code> 플래그를 사용할 수 있습니다. 이는 예를 들어 모델/원형에 많은 수의 상동 (homologous) 사슬이 포함되어 있는 경우 계산 속도를 높일 수 있어 유용합니다.</p>
-<section id="완전-매핑" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="완전-매핑"><span class="header-section-number">2.2.1</span> 완전 매핑</h3>
-<p>사용자는 원본 체인과 모델 체인 간의 전체 매핑을 정의합니다: <code>--mapping MODELCHAINS:NATIVECHAINS</code>. 예를 들어, 앞의 경우 두 가지 가능한 매핑이 있을 수 있습니다:</p>
+<p>Bang Wong, Martin Krzywinski, Nils Gehlenborg, Cydney Nielsen, Noam Shoresh, Rikke Schmidt Kjaergaard, Erica Savig, Alberto Cairo이 Nature Methods에 데이터 시각화에 대한 컬럼을 35편 썼습니다. 이글은 이런 자료들을 더 쉽게 찾아볼 수 있도록 한곳에 모아 정리한 것으로 많은 분들이 데이터 시각화를 하는데 도움이 되길 바랍니다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<section id="생물학-데이터-시각화는-필수-도구" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 생물학 데이터 시각화는 필수 도구</h1>
+<p>오늘날 생물학 연구에서는 방대한 양의 데이터가 쏟아져 나오고 있으며 데이터를 효과적으로 탐색하고 소통하기 위해 데이터 시각화가 필수적입니다. 데이터 시각화의 궁극적인 목표는 복잡한 데이터를 사람들이 쉽고 명확하게 이해하고 설명할 수 있도록 돕는 것입니다. 모든 생물학적 데이터에 시각화가 필요한 것은 아닙니다. 하지만 다음과 같은 경우 데이터 시각화는 강력한 이점을 갖습니다.</p>
 <ul>
-<li><code>--mapping AB:AB</code>(원본 체인 A 는 모델 체인 A 에, 원본 체인 B 는 모델 B 에 해당)</li>
-<li><code>--mapping AB:BA</code>(원본 체인 A 는 모델 체인 B 에, 원본 체인 B 는 모델 A 에 해당)</li>
+<li>패턴 탐색: 데이터의 규칙성을 아직 모를 때 시각화는 패턴을 찾아내는 데 효과적입니다.</li>
+<li>알고리즘 보완: 자동화된 계산으로는 파악하기 어려운 데이터의 세부 사항(예: 유전체학의 구조적 변이)을 시각적으로 명확하게 이해할 수 있도록 돕습니다.</li>
 </ul>
-<p>콜론 <code>:</code> 앞의 쌍은 모델에서 체인 순서를 정의하고, 뒤의 쌍은 원본에서 순서를 정의합니다.</p>
+<p>결론적으로 잘 디자인된 데이터 시각화는 복잡한 인지적 평가를 직관적인 지각적 이해로 바꿔주기 때문에 데이터를 이해하는 데 강력한 도움이 됩니다. 특히 방대한 데이터가 생산되는 현대 생물학 연구에서 시각화는 매우 중요한 역할을 합니다.</p>
 </section>
-<section id="부분-매핑" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="부분-매핑"><span class="header-section-number">2.2.2</span> 부분 매핑</h3>
-<p>사용자가 매핑의 일부를 수정하고 나머지는 <code>DockQ</code> 가 최적화하도록 하려는 경우 와일드카드를 사용할 수 있습니다. 예를 들어, 테트라머에 모델에 <code>ABCD</code> 체인이 있고 원본에는 <code>WXYZ</code> 체인이 있는 경우 아래 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mapping</span> A<span class="pp">*</span>:W<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>여기서 와일드카드 <code>*</code> 는 <code>DockQ</code> 가 <code>A</code> -&gt; <code>W</code> 를 고정된 상태로 유지하면서 <code>BCD</code> 와 <code>XYZ</code> 사이의 매핑을 최적화해야 함을 나타냅니다. 두개의 체인을 고정하는 경우는 아래 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mapping</span> AD<span class="pp">*</span>:WY<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="구성-및-레이아웃" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 구성 및 레이아웃</h1>
+<section id="쉽고-명확한-정보-전달을-위한-디자인" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="쉽고-명확한-정보-전달을-위한-디자인"><span class="header-section-number">2.1</span> 쉽고 명확한 정보 전달을 위한 디자인</h2>
+<p>디자인의 가장 중요한 원칙은 유용성과 기능입니다. 잘 만들어진 물건이 쓰기 쉬운 것처럼 여러분의 그래프와 포스터도 보고 이해하기 쉬워야 합니다. 훌륭한 디자인은 그 물건이 어떤 기능을 하는지 명확한 단서를 주는 것입니다. 예를 들어, 지하철 노선도는 도시의 한 곳에서 다른 곳으로 이동하는 방법을 찾는 데 매우 효율적인 도구입니다. 만약 기차 정보를 단순히 정류장과 연결 표로만 제공한다면, 두 지점 사이의 가장 빠른 길을 찾는 것은 훨씬 더 어려울 겁니다.</p>
+<p>따라서 그래프를 디자인할 때는 정보를 표현하는 체계적인 방법을 사용 하는 것이 중요합니다. 다른 종류의 정보를 명확하게 구분해 독자들이 발표 내용을 쉽게 이해할 수 있게 해야합니다.</p>
+<p>또한 탄탄한 디자인 아이디어 개념과 뛰어난 기술 실행 능력이 좋은 결과물을 만드는 데 필요합니다. 디자인은 탐색적인 과정이므로 머릿속의 아이디어를 현실로 만들고 필요에 따라 그래픽 요소를 다듬을 수 있는 능력이 필요합니다. 그러니 그래픽 소프트웨어를 능숙하게 다룰 수 있도록 시간을 투자하세요.</p>
 </section>
-<section id="원본-인터페이스의-하위-집합으로-검색-제한하기" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="원본-인터페이스의-하위-집합으로-검색-제한하기"><span class="header-section-number">2.2.3</span> 원본 인터페이스의 하위 집합으로 검색 제한하기</h3>
-<p>사용자가 원본 인터페이스 중 하나 이상의 특정 인터페이스에 관심이 있고 나머지는 무시해야 하는 경우 다음 명령어를 사용합니다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mapping</span> <span class="pp">*</span>:WX</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>그러면 DockQ 가 모델에서 네이티브의 WX 인터페이스와 가장 잘 일치하는 인터페이스를 찾습니다. 여러 원본 인터페이스를 사용하는 경우 명령어는 아래와 같습니다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mapping</span> <span class="pp">*</span>:WXY</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="레이아웃-정보-전달을-위한-시각적-정리의-기술" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="레이아웃-정보-전달을-위한-시각적-정리의-기술"><span class="header-section-number">2.2</span> 레이아웃: 정보 전달을 위한 시각적 정리의 기술</h2>
+<p>레이아웃은 발표 자료를 명확하게 만들기 위해 글과 그림을 페이지에 보기 좋게 배치하는 작업입니다. 그래픽 디자인에서는 모든 시각적인 정보를 전달하는 데 레이아웃이 가장 기본이 됩니다. 내용을 잘 정리하면 복잡한 정보도 독자들이 쉽게 따라갈 수 있지만 자료가 뒤죽박죽이면 독자들을 헷갈리게 합니다.</p>
+<p>많은 예술가들은 ’황금 비율’이라는 특별한 수학적 관계를 사용합니다. 황금 비율은 어떤 선을 두 부분으로 나눴을 때, 전체 길이와 긴 부분의 비율이 긴 부분과 짧은 부분의 비율과 같아지는 것을 말합니다(대략 13:8 비율). 또한 황금 비율과 관련이 있는 ’피보나치 수열’은 그래픽 디자인에 많은 영향을 줍니다.(예 1, 2, 3, 5, 8, 13 등). 피보나치 숫자는 사용해 글꼴 크기나 책 페이지 레이아웃을 결정에 자주 사용되기 때문이죠.</p>
+<p>황금 비율을 실제로 활용하는 방법은 우리가 만드는 슬라이드와 포스터에 조화로운 비율을 적용하는 것입니다. 이는 단순히 예술적인 이유뿐만이 아닙니다. 페이지에 요소를 어디에 배치하느냐에 따라 의미를 전달할 수 있기 때문입니다. 황금 비율을 간단하게 적용한 것이 바로 ‘삼등분할 법칙’입니다. 이 법칙은 페이지를 가로세로로 3등분 하여 총 9개의 구획을 만들고, 이 선을 따라 또는 선이 교차하는 지점(이른바 ’파워 포인트’)에 중요한 요소를 배치하면 시각적으로 더 눈에 띄게 됩니다. 시선 추적 연구에 따르면 사람들은 이미지를 볼 때 이러한 선으로 표시된 영역에 시선이 더 오래 머무는 경향이 있다고 합니다.</p>
+<p>’그리드’를 사용하여 레이아웃을 잡으면 내용의 크기나 배치를 대충 짐작하지 않아도 되므로 디자인 과정을 훨씬 쉽게 만들 수 있습니다. 작업을 시작하기 전에 파워포인트나 어도비 일러스트레이터 같은 프로그램에서 미리 안내선(가이드)을 전략적으로 배치해보세요. 그리드는 내용을 고정시켜 디자인 전체에 안정감을 주고, 슬라이드 간의 일관성을 만들어 독자들이 다음에 나올 내용이 어디쯤에 나타날지 예상할 수 있도록 돕습니다.</p>
+<p>레이아웃은 단순히 그리드 선을 그리는 것이 아니라 독자의 시선이 어떤 경로로 움직이기를 원하는지 계획하는 과정입니다. 이는 내용의 중요도를 파악하여 무엇을 먼저 읽고 무엇을 나중에 읽을지 명확하게 보여주는 것입니다.</p>
+<p>우리는 모든 자료에 똑같은 시각적 내용으로 가득 찬 슬라이드와 포스터를 종종 보게 됩니다. 이런 경우 어디서부터 읽어야 할지 알기 어렵습니다. 전설적인 그래픽 디자이너 폴 랜드는 “대비가 없으면 죽은 것이나 마찬가지다”라고 말했습니다. 이처럼 레이아웃은 그래픽 디자인의 기본이자 정보 이해에 큰 영향을 줍니다.</p>
 </section>
+<section id="게슈탈트-이론" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="게슈탈트-이론"><span class="header-section-number">2.3</span> 게슈탈트 이론</h2>
+<p>게슈탈트 이론은 사람들이 시각 정보를 어떻게 인식하고 정리하는지를 설명하기 위해 1920년대에 제안된 심리학 이론입니다. 독일어로 ‘형태’ 또는 ’형식’을 뜻하는 ’게슈탈트’는 우리가 개별적인 시각적 요소들을 모아 하나의 ’통합된 전체’로 인식하는 방식을 설명합니다.</p>
+<p>게슈탈트는 부분과 전체의 상호작용을 강조합니다. 게슈탈트 심리학의 창시자 중 한 명인 쿠르트 코프카는 “전체는 부분의 합과는 다르다”고 말했습니다. 단순히 각 부분의 합을 넘어서는 새로운 의미가 창출된다는 점입니다. 이 이론의 핵심 개념은 그룹화입니다. 우리는 비슷하게 보이거나, 가까이 배치되거나, 선으로 연결되거나, 공통된 공간 안에 둘러싸인 객체들을 함께 속한 것으로 인식하는 경향이 있습니다. 이는 정보에 대한 맥락을 구축하는 강력한 방법입니다.</p>
+<section id="유사성-원리" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="유사성-원리"><span class="header-section-number">2.3.1</span> 유사성 원리</h3>
+<p>유사성 원리는 우리가 시각적으로 비슷한 요소들을 한 그룹으로 묶어 인식하는 경향을 설명합니다. 즉, 색상, 크기, 모양 등이 비슷한 것들은 서로 관련이 있다고 생각하는 것이죠. 이 원리는 데이터 시각화에서 범주를 구분할 때 흔히 사용됩니다. 또한, 글꼴, 글꼴 크기, 방향, 여백과 같은 그래픽 처리 방식을 반복적으로 사용하여 문서 내의 요소들이 서로 더 관련 있어 보이도록 디자인할 수 있습니다.</p>
 </section>
-<section id="단백질---저분자-화합물-결합-스코어링" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="단백질---저분자-화합물-결합-스코어링"><span class="header-section-number">2.3</span> 단백질 - 저분자 화합물 결합 스코어링</h2>
-<p>단백질과 동일한 방식으로 <code>PDB</code> 또는 <code>mmCIF</code> 파일의 저분자를 스코어링하고 매핑을 최적화할 수 있습니다. <code>--small_molecules</code> 플래그를 추가하기만 하면 됩니다:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 헤모글로빈 사슬(네이티브의 사슬 A와 B)과 HEM 및 PO4 그룹(사슬 E, F, G)의 도킹을 비교합니다.</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> DockQ examples/1HHO_hem.cif examples/2HHB_hem.cif <span class="at">--small_molecule</span> <span class="at">--mapping</span> :ABEFG <span class="at">--short</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>저분자에 대해서는 LRMSD 값만 출력됩니다.</p>
-</div>
-</div>
-<p>참고로 저분자 화합물은 <code>PDB</code>/<code>mmCIF</code> 파일에 포함되어야 합니다. 또한 별도의 체인 식별자가 있어야 합니다 (<code>mmCIF</code> 파일에서는 <code>label_asym_id</code> 필드가 사용됩니다).</p>
+<section id="근접성-원리" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="근접성-원리"><span class="header-section-number">2.3.2</span> 근접성 원리</h3>
+<p>근접성 원리는 서로 가까이 배치된 객체들을 한 그룹으로 인식하는 경향을 말합니다. 이 원리는 그림 패널을 배열할 때 유용하게 적용됩니다. 예를 들어, 여러 개의 패널이 균일하게 떨어져 있을 때는 무엇을 기준으로 분석해야 할지 모호할 수 있습니다. 하지만 비교해야 할 패널들을 가깝게 배치하여 그룹화하면, 독자는 자연스럽게 그 관계를 파악하게 됩니다. 반대로, 패널을 순서대로 읽도록 유도하고 싶다면 한 줄로 배열하는 것이 효과적입니다.</p>
 </section>
-<section id="단백질---dnarna-결합-스코어링" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="단백질---dnarna-결합-스코어링"><span class="header-section-number">2.4</span> 단백질 - DNA/RNA 결합 스코어링</h2>
-<p>DNA 와 관련된 인터페이스는 단백질 인터페이스와 마찬가지로 똑같이 점수가 매겨집니다. <code>단백질-DNA</code> 또는 <code>DNA-DNA</code> 인터페이스에 대해서는 <code>단백질-단백질</code> 인터페이스와 동일한 방식으로 <code>DockQ</code> 점수가 계산됩니다. 이중 나선 사슬의 경우 두 개의 <code>DockQ</code> 점수가 출력됩니다.</p>
+<section id="연결성-및-폐쇄성-원리" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="연결성-및-폐쇄성-원리"><span class="header-section-number">2.3.3</span> 연결성 및 폐쇄성 원리</h3>
+<p>연결성 원리는 선이나 다른 시각적 연결 고리로 이어진 객체들을 통합된 그룹으로 인식하는 경향입니다. 유사성이나 근접성으로 묶인 객체들이 느슨한 연합으로 보이는 반면, 선으로 연결하면 연결성 원리에 의해 객체들을 훨씬 더 강하게 연관되게 보입니다.</p>
+<p>폐쇄성 원리는 공통된 영역 안에 요소들이 둘러싸여 있을 때 하나의 그룹으로 인식하는 경향을 말합니다. 이 원리는 유사성, 근접성, 심지어 연결성보다도 강력하게 객체들을 통합된 전체로 묶어줍니다.</p>
 </section>
+<section id="시각적-완성-원리" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="시각적-완성-원리"><span class="header-section-number">2.3.4</span> 시각적 완성 원리</h3>
+<p>시각적 완성(Visual Completion), 또는 시각적 보간(interpolation)은 실제로 존재하지 않는 윤곽선을 보게 되는 흥미로운 착시 현상을 만듭니다. 우리는 가능한 보이는 것에서 패턴을 찾으려는 경향이 있습니다. 따라서 우리는 프레젠테이션을 어지럽히는 불필요한 선, 상자, 글머리 기호 및 기타 그래픽 요소를 생략하여 깔끔하고 효과적인 디자인을 해야합니다.</p>
 </section>
-<section id="다른-기능들" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 다른 기능들</h1>
-<p>사용 가능한 명령어에 대한 목록을 보려면 <code>-h/--help</code> 와 함께 <code>DockQ</code> 를 실행하세요.</p>
-<section id="파이썬-모듈로-dockq-사용하기" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="파이썬-모듈로-dockq-사용하기"><span class="header-section-number">3.1</span> 파이썬 모듈로 DockQ 사용하기</h2>
-<p><code>DockQ</code> 를 설치한 후에는 파이썬 코드에서 모듈로 사용할 수도 있습니다.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> DockQ.DockQ <span class="im">import</span> load_PDB, run_on_all_native_interfaces</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> load_PDB(<span class="st">"examples/1A2K_r_l_b.model.pdb"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>native <span class="op">=</span> load_PDB(<span class="st">"examples/1A2K_r_l_b.pdb"</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># model:native 체인에 대한 인터페이스를 딕셔너리 형태로 매핑</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>chain_map <span class="op">=</span> {<span class="st">"A"</span>:<span class="st">"A"</span>, <span class="st">"B"</span>:<span class="st">"B"</span>}</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과는 딕셔너리 형태로 반환.</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>run_on_all_native_interfaces(model, native, chain_map<span class="op">=</span>chain_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="단일-수용체-또는-리간드에-여러-사슬-병합하기" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="단일-수용체-또는-리간드에-여러-사슬-병합하기"><span class="header-section-number">3.2</span> 단일 수용체 또는 리간드에 여러 사슬 병합하기</h2>
-<p>여러 개의 사슬 (예를 들면 항체의 중쇄와 경쇄 사슬) 을 단일 수용체 또는 리간드로 병합하려면 이슈 <a href="https://github.com/bjornwallner/DockQ/issues/33">#33</a> 을 참고하세요.</p>
+<section id="연속성-원리" class="level3" data-number="2.3.5">
+<h3 data-number="2.3.5" class="anchored" data-anchor-id="연속성-원리"><span class="header-section-number">2.3.5</span> 연속성 원리</h3>
+<p>우리 눈은 작은 정렬 불일치에도 매우 민감합니다. 이것을 연속성(Continuity) 원리라고 합니다. 따라서 시각적 요소를 가이드에 맞춰 정렬하는 것이 보는 사람이 패턴을 식별하는 데 도움이 됩니다. 그래서 정렬 가이드를 사용하여 구성된 그림은 깔끔하고 전문적으로 보이게 됩니다.</p>
 </section>
 </section>
-<section id="참고-사항" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> 참고 사항</h1>
-<section id="인용하기" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="인용하기"><span class="header-section-number">4.1</span> 인용하기</h2>
-<p><code>DockQ</code> 를 사용하는 경우 아래 프리프린트를 인용하세요.<a href="https://doi.org/10.1101/2024.05.28.596225">https://doi.org/10.1101/2024.05.28.596225</a></p>
+<section id="여백negative-space-디자인의-숨겨진-힘" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="여백negative-space-디자인의-숨겨진-힘"><span class="header-section-number">2.4</span> 여백(Negative Space): 디자인의 숨겨진 힘</h2>
+<p>여백(Negative Space)은 페이지의 여백뿐만 아니라 텍스트 블록, 이미지 사이의 간격등을 의미 합니다. 여백은 제목, 글, 그림만큼이나 디자인에 중요한 부분으로 디자인 요소들에게 숨 쉴 공간을 줄 뿐만 아니라 시각적 매력과 효과를 극적으로 향상시킬 수 있습니다.</p>
+<section id="여백의-중요성" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="여백의-중요성"><span class="header-section-number">2.4.1</span> 여백의 중요성</h3>
+<p>과학자의 발표 자료는 대개 내용으로 빽빽하게 채워져 있습니다. 일부 사람은 여백이 불필요하다고 여기거나 심지어 페이지가 가득 채워지지 않는다고 불평하기도 합니다. 그러나 내용이 빽빽한 없는 슬라이드와 포스터는 여백이 불규칙하기 때문에 이해하기 어렵습니다.</p>
 </section>
-<section id="pixi-의존성-파일" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="pixi-의존성-파일"><span class="header-section-number">4.2</span> pixi 의존성 파일</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode pixi.toml code-with-copy"><code class="sourceCode toml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.pixi.project]</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">channels</span> <span class="op">=</span> <span class="op">[</span><span class="st">"conda-forge"</span><span class="op">]</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dt">platforms</span> <span class="op">=</span> <span class="op">[</span><span class="st">"linux-64"</span><span class="op">]</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.pixi.pypi-dependencies]</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="dt">dockq</span> <span class="op">=</span> <span class="op">{ </span><span class="dt">path</span><span class="op"> =</span> <span class="st">"."</span><span class="op">, </span><span class="dt">editable</span><span class="op"> =</span> <span class="cn">true</span><span class="op"> }</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.pixi.dependencies]</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="dt">numpy</span> <span class="op">=</span> <span class="st">"1.23.4.*"</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="dt">python</span> <span class="op">=</span> <span class="st">"3.9.1.*"</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="dt">biopython</span> <span class="op">=</span> <span class="st">"&gt;=1.84,&lt;2"</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="dt">jupyterlab</span> <span class="op">=</span> <span class="st">"&gt;=4.2.4,&lt;5"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="효과적인-여백-넣기" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="효과적인-여백-넣기"><span class="header-section-number">2.4.2</span> 효과적인 여백 넣기</h3>
+<p>이미지와 텍스트를 글자 그대로 또는 시각적으로 추상화된 ‘상자’ 안에 넣어서 레이아웃을 만드세요. 그러면 양의 공간과 음의 공간의 분포가 명확해집니다. 일반적인 팁을 주자면 섹션을 구분할 때 더 넓은 간격을 사용하고 섹션 내의 항목을 분리 할때는 더 얇은 간격을 사용하는 것입니다. 그리고 텍스트의 경우 글자 사이의 간격, 줄의 길이, 줄 사이의 간격을 조절해 추상화된 상자에 맞춥니다. 이런 방식의 여백은 독자에게 콘텐츠의 계층과 구성을 전달할 수 있습니다.</p>
+</section>
+<section id="여백으로-시선-집중시키기" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="여백으로-시선-집중시키기"><span class="header-section-number">2.4.3</span> 여백으로 시선 집중시키기</h3>
+<p>여백은 독자의 주의를 끄는 가장 효과적인 방법 중 하나입니다. 강조하고 싶은 콘텐츠를 상대적으로 더 많은 여백으로 둘러싸 보세요. 페이지의 해당 부분으로 시선을 이끌 것입니다.</p>
+</section>
+</section>
+<section id="중요한-부분-강조하기" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="중요한-부분-강조하기"><span class="header-section-number">2.5</span> 중요한 부분 강조하기</h2>
+<p>두드러짐(Salience)은 객체를 주변 환경과 차별화시키는 속성입니다. 특히 슬라이드 프레젠테이션과 같은 시각 자료에서는 두드러짐과 정보의 관련성(relevance)이 일치하는지 확인하는 것이 필수적입니다. 청중이 내용을 동시에 듣고 읽는 상황이므로 정보 전달의 효율성이 무엇보다 중요하기 때문이죠.</p>
+<p>예를 들어, 표의 특정 행이나 열에 색깔을 입히면 선택된 자료에 시선이 집중될 것입니다. 표 형식의 정보는 일반적으로 균일하게 보이기 때문에, 가장 중요한 것이 무엇인지 명확히 하는 것이 도움이 됩니다. 그래프에도 데이터의 특정 부분을 강조 구분을 하면 청중이 발표 내용과 시각 자료를 더 잘 이해하도록 돕는 방법이 될 수 있습니다.</p>
+<section id="의도치-않은-두드러짐의-위험성" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="의도치-않은-두드러짐의-위험성"><span class="header-section-number">2.5.1</span> 의도치 않은 두드러짐의 위험성</h3>
+<p>반대로 부주의하게 두드러짐을 남용하면 오히려 독자에게 잘못된 메세지를 줄 수 있습니다. 예를 들어 움직이는 이미지(예: 회전하는 3차원 단백질 구조)을 넣을 때는 주의해야 합니다. 왜냐하면 움직이는 이미지가 독자의 주의를 전부 집중시켜 다른 콘텐츠를 보지 못하게 합니다. 따라서 파워포인트 애니메이션은 신중하게 사용해야 하며, 움직이는 요소는 반드시 슬라이드의 주요 메시지를 뒷받침하는 콘텐츠여야 합니다.</p>
+<p>동일한 콘텐츠도 어떻게 제시되느냐에 따라 이해도에 극적인 영향을 줍니다. 항상 화면에서 잠시 물러서서 무엇이 가장 두드러지는지 파악하려고 하세요. 그리고 가장 시각적으로 두드러지는 정보는 당신의 핵심 메시지여야 합니다.</p>
+</section>
+<section id="효과적인-글쓰기-원칙을-그림-디자인에-적용하기" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="효과적인-글쓰기-원칙을-그림-디자인에-적용하기"><span class="header-section-number">2.5.2</span> 효과적인 글쓰기 원칙을 그림 디자인에 적용하기</h3>
+<p>효과적인 글쓰기 원칙을 그림 디자인에 적용하면 어려움을 극복하고 체계적인 방식으로 시각 자료를 만들 수 있습니다. 마치 글의 단어 하나하나를 다듬듯이, 그림의 각 부분도 평가하고 최적화되야 합니다.</p>
+<p>핵심 원칙:</p>
+<ul>
+<li><p>명확성과 간결성: 복잡하고 이해하기 어려운 문장처럼 혼란스럽고 과도하게 꾸며진 그림(‘차트 잡동사니’)은 피해야 합니다. 번쩍이는 질감, 그라데이션, 불필요한 형태의 증식은 데이터를 해석하기 어렵게 만들고, 특정 부분을 강조하는 것을 방해하며 빈약한 데이터를 결코 구제할 수 없습니다.</p></li>
+<li><p>평행 구조와 시각적 강조: 관련 아이디어를 시각적으로 강화하려면 ’평행 구조’를 사용하세요. 즉, 유사한 아이디어를 비슷한 시각적 형태로 표현하여 정보 간의 관계를 명확히 보여주세요. 중첩, 범주 계층, 중요성을 직관적으로 나타내는 모양과 색상을 선택하는 것이 중요합니다.</p></li>
+</ul>
+<hr>
+<p><em>내용을 계속 추가하는 중입니다.</em></p>
 
 
 </section>
 </section>
+</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>https://blogs.nature.com/methagora/2013/07/data-visualization-points-of-view.html<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
