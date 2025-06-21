@@ -47,13 +47,13 @@ from collections import Counter
 def count_dna_symbols(dna):
     # Define the symbols we're interested in
     symbols = ["A", "C", "G", "T"]
-    
+
     # Use Counter to count occurrences of each symbol in the DNA
     dna_counter = Counter(dna)
-    
+
     # Create a dictionary with counts for each symbol of interest
     symbols_count = {symbol: dna_counter.get(symbol, 0) for symbol in symbols}
-    
+
     return symbols_count
 
 sample_input = """
@@ -109,19 +109,19 @@ from Bio import Entrez
 def get_nucleotide_genbank_entries(genus_name, start_date, end_date):
     """
     Retrieve the count of Nucleotide GenBank entries for a given genus and date range.
-    
+
     Args:
     genus_name (str): The name of the genus to search for.
     start_date (str): The start date of the publication range (format: YYYY/MM/DD).
     end_date (str): The end date of the publication range (format: YYYY/MM/DD).
-    
+
     Returns:
     int: The count of entries found.
     """
     Entrez.email = "byterube@gmail.com"  # Replace with your email
-    
+
     query = f'"{genus_name}"[Organism] AND ("{start_date}"[Publication Date] : "{end_date}"[Publication Date])'
-    
+
     try:
         with Entrez.esearch(db="nucleotide", term=query) as handle:
             record = Entrez.read(handle)
@@ -302,10 +302,10 @@ from typing import List, Optional
 def fetch_sequences(genbank_ids: List[str]) -> List[Seq]:
     """
     Fetch sequences from GenBank given a list of IDs.
-    
+
     Args:
     genbank_ids (List[str]): List of GenBank IDs.
-    
+
     Returns:
     List[Seq]: List of Seq objects representing the fetched sequences.
     """
@@ -320,11 +320,11 @@ def fetch_sequences(genbank_ids: List[str]) -> List[Seq]:
 def align_sequences(seq1: Seq, seq2: Seq) -> Optional[float]:
     """
     Perform global alignment of two sequences using Bio.Align.PairwiseAligner.
-    
+
     Args:
     seq1 (Seq): First sequence.
     seq2 (Seq): Second sequence.
-    
+
     Returns:
     Optional[float]: Alignment score, or None if alignment fails.
     """
@@ -335,7 +335,7 @@ def align_sequences(seq1: Seq, seq2: Seq) -> Optional[float]:
         aligner.mismatch_score = -4
         aligner.open_gap_score = -10
         aligner.extend_gap_score = -1
-        
+
         alignments = aligner.align(seq1, seq2)
         return alignments.score
     except Exception as e:
@@ -545,19 +545,19 @@ from Bio.Seq import translate
 def find_genetic_code(dna, protein):
     # List of genetic code table IDs to check
     table_ids = [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15,]
-    
+
     for table in table_ids:
         try:
             # Translate DNA using the current table
             translated = translate(dna, table=table, to_stop=True)
-            
+
             # Check if the translated protein matches the given protein
             if translated == protein:
                 return table
         except:
             # If there's an error with a particular table, skip it
             continue
-    
+
     # If no matching table is found
     return None
 
@@ -622,16 +622,16 @@ from Bio.Seq import Seq
 def quality_filtration(data):
     # Read the threshold and percentage from the first line
     t, p = map(int, data[0].strip().split())
-    
+
     count = 0
     # Process the FASTQ data
     for i in range(1, len(data), 4):
         sequence = data[i+1].strip()
         quality_string = data[i+3].strip()
-        
+
         # Convert quality string to Phred scores
         phred_quality = [ord(char) - 33 for char in quality_string]
-        
+
         # Perform quality check
         passes = sum(ph >= t for ph in phred_quality)
         if (passes / len(phred_quality)) * 100 >= p:
@@ -782,7 +782,7 @@ def parse_threshold_and_fastq(data):
 def extract_quality_scores(fastq_data):
     """Extract quality scores from FASTQ data."""
     fastq_io = StringIO(fastq_data)
-    return [record.letter_annotations["phred_quality"] 
+    return [record.letter_annotations["phred_quality"]
             for record in SeqIO.parse(fastq_io, "fastq")]
 
 def count_below_threshold(qualities, threshold):
@@ -790,12 +790,12 @@ def count_below_threshold(qualities, threshold):
     num_sequences = len(qualities)
     num_positions = len(qualities[0])
     count = 0
-    
+
     for i in range(num_positions):
         average_quality = sum(q[i] for q in qualities) / num_sequences
         if average_quality < threshold:
             count += 1
-    
+
     return count
 
 def bphr(data):
@@ -951,11 +951,11 @@ def find_quality_bounds(phred_quality, threshold):
     start = 0
     while start < len(phred_quality) and phred_quality[start] < threshold:
         start += 1
-    
+
     end = len(phred_quality)
     while end > start and phred_quality[end-1] < threshold:
         end -= 1
-    
+
     return start, end
 
 def format_fastq_record(identifier, sequence, quality_string, start, end):
@@ -971,14 +971,14 @@ def Base_Filtration_Quality(data):
         identifier = data[i].strip()
         sequence = data[i+1].strip()
         quality_string = data[i+3].strip()
-        
+
         phred_quality = convert_to_phred(quality_string)
         start, end = find_quality_bounds(phred_quality, threshold)
-        
+
         if start < end:
             filtered_record = format_fastq_record(identifier, sequence, quality_string, start, end)
             filtered_records.append(filtered_record)
-    
+
     return filtered_records
 
 # Sample input
@@ -1038,11 +1038,11 @@ def count_inexact_repeats(pattern, seq, max_mismatches=3):
     count = 0
     pattern_length = len(pattern)
     seq_length = len(seq)
-    
+
     for i in range(seq_length - pattern_length + 1):
         if hamming_distance(seq[i:i+pattern_length], pattern) <= max_mismatches:
             count += 1
-    
+
     return count
 
 # Your sample input
@@ -1072,7 +1072,7 @@ for length in range(32, 41):
         count_s = count_inexact_repeats(potential_repeat, s)
         count_t = count_inexact_repeats(potential_repeat, t)
         total_count = count_s + count_t
-        
+
         if total_count > best_count:
             best_count = total_count
             best_repeat = potential_repeat
@@ -1128,10 +1128,10 @@ from io import StringIO
 def simple_msa(sequences):
     # Find the length of the longest sequence
     max_length = max(len(seq) for seq in sequences)
-    
+
     # Pad shorter sequences with gaps
     aligned_sequences = [seq.ljust(max_length, '-') for seq in sequences]
-    
+
     return aligned_sequences
 
 def calculate_differences(seq1, seq2):
@@ -1141,15 +1141,15 @@ def find_most_different_sequence(fasta_string):
     # Parse the FASTA string
     fasta_io = StringIO(fasta_string)
     sequences = list(SeqIO.parse(fasta_io, "fasta"))
-    
+
     # Perform a simple multiple sequence alignment
     aligned_seqs = simple_msa([str(seq.seq) for seq in sequences])
-    
+
     n_seqs = len(aligned_seqs)
     avg_distances = []
 
     for i in range(n_seqs):
-        total_distance = sum(calculate_differences(aligned_seqs[i], aligned_seqs[j]) 
+        total_distance = sum(calculate_differences(aligned_seqs[i], aligned_seqs[j])
                              for j in range(n_seqs) if i != j)
         avg_distances.append(total_distance / (n_seqs - 1))
 

@@ -585,7 +585,7 @@ rownames(dm@eigenvectors) <- colnames(SeuratObject)
 
 # SeuratObject에 DM 임베딩 추가
 SeuratObject@reductions[["dm"]] <- CreateDimReducObject(
-    embeddings = dm@eigenvectors,                                
+    embeddings = dm@eigenvectors,
     key = "DC_",
 	assay = "RNA"
 )
@@ -1005,7 +1005,7 @@ DoHeatmap(
 
 ```r
 # coord_flip() 함수를 위해 필요
-library(ggplot2) 
+library(ggplot2)
 
 DotPlot(
     object = SeuratObject,
@@ -1053,7 +1053,7 @@ enrichR::listEnrichrDbs()
 
 enrich_results <- enrichr(
     genes = top5$gene[top5$cluster == "1"], # 관심있는 클러스터 이름
-    databases = "KEGG_2019_Human" )[[1]] # 사용할 데이터베이스 
+    databases = "KEGG_2019_Human" )[[1]] # 사용할 데이터베이스
 ```
 
 `enrichR` 에 포함된 유용한 데이터베이스 목록은 다음과 같습니다:
@@ -1115,7 +1115,7 @@ dimred <- SeuratObject@reductions[['pca']]@cell.embeddings  # 사용될 embeddin
 ```r
 clustering <- factor(
 	SeuratObject@meta.data[, "seurat_clusters"]
-) 
+)
 ```
 
 이제부터 이 클러스터링 결과를 경로 분석에 적용할 것입니다. 전체 프로세스는 단일 함수인 `slingshot` 을 사용하여 수행할 수 있으며, 이는 경로 분석을 위한 두 가지 주요 단계를 간단히 묶어 놓은 래퍼 (wrapper) 입니다. 프로세스의 첫 번째 단계는 세포 계통 (cell lineages) 을 정의하고, 그 다음 데이터를 통해 경로를 정의하는 곡선을 맞추는 것입니다. 이러한 단계들은 아래에서 설명합니다.

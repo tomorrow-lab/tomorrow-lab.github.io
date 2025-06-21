@@ -299,10 +299,10 @@ def find_minima(seq: str) -> Generator[int, None, None]:
     """Find positions with the minimum skew in a DNA sequence."""
     skew = [0]
     delta = {"G": 1, "C": -1, "A": 0, "T": 0}
-    
+
     for i, nucleotide in enumerate(seq):
         skew.append(skew[i] + delta[nucleotide])
-    
+
     min_skew = min(skew)
     return (i for i, value in enumerate(skew) if value == min_skew)
 
@@ -462,8 +462,8 @@ def generate_all_kmers(kmer_length: int) -> Iterator[str]:
 
 def count_approximate_kmers(observed_kmers: Dict[str, int], max_mismatches: int, kmer_length: int) -> Iterator[Tuple[str, int]]:
     for potential_kmer in generate_all_kmers(kmer_length):
-        count = sum(observed_kmers[observed_kmer] 
-                    for observed_kmer in observed_kmers 
+        count = sum(observed_kmers[observed_kmer]
+                    for observed_kmer in observed_kmers
                     if calculate_hamming_distance(potential_kmer, observed_kmer) <= max_mismatches)
         if count > 0:
             yield (potential_kmer, count)
@@ -537,9 +537,9 @@ def generate_all_kmers(kmer_length: int) -> Iterator[str]:
 
 def count_approximate_kmers(kmer_counts: Dict[str, int], max_mismatches: int, kmer_length: int) -> Iterator[Tuple[str, int]]:
     for potential_kmer in generate_all_kmers(kmer_length):
-        count = sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts 
+        count = sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts
                     if hamming_distance(potential_kmer, observed_kmer) <= max_mismatches)
-        count += sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts 
+        count += sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts
                      if hamming_distance(reverse_complement(potential_kmer), observed_kmer) <= max_mismatches)
         if count > 0:
             yield (potential_kmer, count)
@@ -600,7 +600,7 @@ def generate_kmers(k: int) -> Iterator[str]:
 
 def count_approximate_kmers(kmer_counts: Dict[str, int], max_mismatches: int, kmer_length: int) -> Iterator[Tuple[str, int]]:
     for potential_kmer in generate_kmers(kmer_length):
-        count = sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts 
+        count = sum(kmer_counts[observed_kmer] for observed_kmer in kmer_counts
                     if calculate_hamming_distance(potential_kmer, observed_kmer) <= max_mismatches)
         if count > 0:
             yield (potential_kmer, count)
@@ -770,7 +770,7 @@ def generate_neighbors(sequence: str, max_distance: int) -> Set[str]:
         return {sequence}
     if len(sequence) == 1:
         return set(nucleotides)
-    
+
     neighbors = set()
     suffix_neighbors = generate_neighbors(sequence[1:], max_distance)
     for suffix in suffix_neighbors:
@@ -832,7 +832,7 @@ def generate_neighbors(sequence: str, max_distance: int) -> Set[str]:
         return {sequence}
     if len(sequence) == 1:
         return set(nucleotides)
-    
+
     neighbor_set = set()
     for neighbor in generate_neighbors(sequence[1:], max_distance):
         if calculate_hamming_distance(sequence[1:], neighbor) < max_distance:
@@ -850,7 +850,7 @@ def get_all_kmers(dna_sequences: List[str], kmer_length: int) -> Set[str]:
     return set(kmer for sequence in dna_sequences for kmer in generate_substrings(sequence, kmer_length))
 
 def contains_approximate_match(pattern: str, text: str, max_distance: int) -> bool:
-    return any(calculate_hamming_distance(substring, pattern) <= max_distance 
+    return any(calculate_hamming_distance(substring, pattern) <= max_distance
                for substring in generate_substrings(text, len(pattern)))
 
 def enumerate_motifs(dna_sequences: List[str], kmer_length: int, max_distance: int) -> Set[str]:
@@ -926,13 +926,13 @@ def calculate_total_distance(pattern: str, dna_sequences: List[str]) -> int:
 def find_median_string(dna_sequences: List[str], kmer_length: int) -> str:
     min_distance = math.inf
     median_kmer = ""
-    
+
     for kmer in generate_kmers(kmer_length):
         current_distance = calculate_total_distance(kmer, dna_sequences)
         if current_distance < min_distance:
             min_distance = current_distance
             median_kmer = kmer
-    
+
     return median_kmer
 
 # Sample input
@@ -1156,7 +1156,7 @@ def find_most_probable_kmer(sequence: str, kmer_length: int, profile: List[List[
     nucleotide_to_index: Dict[str, int] = {"A": 0, "C": 1, "G": 2, "T": 3}
     return max(
         generate_kmers(sequence, kmer_length),
-        key=lambda kmer: math.prod(profile[nucleotide_to_index[nucleotide]][position] 
+        key=lambda kmer: math.prod(profile[nucleotide_to_index[nucleotide]][position]
                                    for position, nucleotide in enumerate(kmer))
     )
 
@@ -1164,9 +1164,9 @@ def create_profile(motifs: List[str], pseudocount: int = 0) -> List[List[float]]
     nucleotides: List[str] = ["A", "C", "G", "T"]
     motif_count: int = len(motifs)
     motif_length: int = len(motifs[0])
-    
+
     return [
-        [(sum(motif[position] == nucleotide for motif in motifs) + pseudocount) / motif_count 
+        [(sum(motif[position] == nucleotide for motif in motifs) + pseudocount) / motif_count
          for position in range(motif_length)]
         for nucleotide in nucleotides
     ]
@@ -1179,16 +1179,16 @@ def calculate_score(motifs: List[str]) -> int:
 
 def greedy_motif_search(dna_sequences: List[str], kmer_length: int, pseudocount: int = 0) -> List[str]:
     best_motifs: List[str] = [sequence[:kmer_length] for sequence in dna_sequences]
-    
+
     for kmer in generate_kmers(dna_sequences[0], kmer_length):
         current_motifs: List[str] = [kmer]
         for sequence in dna_sequences[1:]:
             profile: List[List[float]] = create_profile(current_motifs, pseudocount)
             current_motifs.append(find_most_probable_kmer(sequence, kmer_length, profile))
-        
+
         if calculate_score(current_motifs) < calculate_score(best_motifs):
             best_motifs = current_motifs
-    
+
     return best_motifs
 
 # Sample input
@@ -1281,25 +1281,25 @@ def find_motifs(profile: List[List[float]], dna_sequences: List[str]) -> List[st
 def randomized_motif_search(dna_sequences: List[str], kmer_length: int) -> Tuple[int, List[str]]:
     motifs = [generate_random_kmer(seq, kmer_length) for seq in dna_sequences]
     best_score = math.inf
-    
+
     while True:
         profile = create_profile(motifs, pseudocount=1)
         motifs = find_motifs(profile, dna_sequences)
         current_score = calculate_score(motifs)
-        
+
         if current_score >= best_score:
             return best_score, motifs
-        
+
         best_score = current_score
 
 def find_best_motifs(search_function: Callable, iterations: int, *args) -> List[str]:
     best_score, best_motifs = search_function(*args)
-    
+
     for _ in range(iterations - 1):
         score, motifs = search_function(*args)
         if score < best_score:
             best_score, best_motifs = score, motifs
-    
+
     return best_motifs
 
 # Sample input
@@ -1364,7 +1364,7 @@ def create_profile(motifs: List[str], pseudocount: int = 0) -> List[List[float]]
     nucleotides: List[str] = ["A", "C", "G", "T"]
     motif_count: int = len(motifs)
     motif_length: int = len(motifs[0])
-    
+
     return [
         [(sum(motif[position] == nucleotide for motif in motifs) + pseudocount) / (motif_count + 4*pseudocount)
          for position in range(motif_length)]
@@ -1667,7 +1667,7 @@ from typing import List, Set, OrderedDict as OrderedDictType
 
 def construct_de_bruijn_graph(sequence: str, kmer_length: int) -> OrderedDictType[str, Set[str]]:
     adjacency_list: OrderedDictType[str, Set[str]] = OrderedDict()
-    
+
     for i in range(len(sequence) - kmer_length + 2):
         adjacency_list[sequence[i:i + kmer_length - 1]] = set()
 
@@ -1948,7 +1948,7 @@ def find_eulerian_path(graph: Dict[str, List[str]]) -> List[str]:
 
     start_node = [node for node, diff in degree_differences.items() if diff == -1][0]
     end_node = [node for node, diff in degree_differences.items() if diff == 1][0]
-    
+
     if start_node in graph:
         graph[start_node].append(end_node)
     else:
@@ -2069,7 +2069,7 @@ def find_eulerian_path(graph: Dict[str, List[str]]) -> List[str]:
 
     start_node = [node for node, diff in degree_differences.items() if diff == -1][0]
     end_node = [node for node, diff in degree_differences.items() if diff == 1][0]
-    
+
     if start_node in graph:
         graph[start_node].append(end_node)
     else:
@@ -2291,7 +2291,7 @@ def find_eulerian_path(graph: Dict[str, List[str]]) -> List[str]:
 
     start_node = [node for node, diff in degree_differences.items() if diff == -1][0]
     end_node = [node for node, diff in degree_differences.items() if diff == 1][0]
-    
+
     if start_node in graph:
         graph[start_node].append(end_node)
     else:
@@ -2313,7 +2313,7 @@ def construct_de_bruijn_graph_paired_reads(paired_reads: List[Tuple[str, str]]) 
 def string_spelled_by_gapped_patterns(gapped_patterns: List[Tuple[str, str]], k: int, d: int) -> str:
     prefix_string = ''.join(pattern[0][0] for pattern in gapped_patterns[:-1]) + gapped_patterns[-1][0]
     suffix_string = ''.join(pattern[1][0] for pattern in gapped_patterns[:-1]) + gapped_patterns[-1][1]
-    
+
     for i in range(k + d + 1, len(prefix_string)):
         if prefix_string[i] != suffix_string[i - k - d - 1]:
             return "-1"
@@ -2505,11 +2505,11 @@ def reconstruct_string_from_gapped_patterns(gapped_patterns: List[Tuple[str, str
         else:
             prefix_string += prefix
             suffix_string += suffix
-    
+
     for i in range(k + d + 1, len(prefix_string)):
         if prefix_string[i] != suffix_string[i - k - d - 1]:
             return "-1"
-    
+
     return prefix_string + suffix_string[len(suffix_string) - k - d - 1:]
 
 sample_input: str = """
@@ -2682,26 +2682,26 @@ def translate_rna_to_protein(rna_sequence: str) -> str:
         'GAU': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
         'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
     }
-    
+
     protein_sequence: str = ""
-    
+
     # RNA 서열을 3개의 뉴클레오티드(코돈)씩 나누어 처리
     for i in range(0, len(rna_sequence), 3):
         codon: str = rna_sequence[i:i+3]
-        
+
         # 코돈이 3개의 뉴클레오티드로 완전하지 않으면 중단
         if len(codon) != 3:
             break
-        
+
         # 코돈을 아미노산으로 변환
         amino_acid: str = codon_table.get(codon, '')
-        
+
         # 종결 코돈('*')을 만나면 번역 중단
         if amino_acid == '*':
             break
-        
+
         protein_sequence += amino_acid
-    
+
     return protein_sequence
 
 # 입력 RNA 서열
@@ -2764,22 +2764,22 @@ def translate_rna_to_protein(rna_sequence: str) -> str:
         'GAU': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
         'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
     }
-    
+
     protein_sequence: List[str] = []
-    
+
     for i in range(0, len(rna_sequence), 3):
         codon: str = rna_sequence[i:i+3]
-        
+
         if len(codon) != 3:
             break
-        
+
         amino_acid: str = codon_to_amino_acid.get(codon, '')
-        
+
         if amino_acid == '*':
             break
-        
+
         protein_sequence.append(amino_acid)
-    
+
     return ''.join(protein_sequence)
 
 def reverse_complement(dna_sequence: str) -> str:
@@ -2799,7 +2799,7 @@ def find_peptide_encoding_substrings(dna_sequence: str, peptide: str) -> List[st
         rna_substring: str = dna_to_rna(dna_substring)
         reverse_complement_rna: str = dna_to_rna(reverse_complement_substring)
 
-        if (translate_rna_to_protein(rna_substring) == peptide or 
+        if (translate_rna_to_protein(rna_substring) == peptide or
             translate_rna_to_protein(reverse_complement_rna) == peptide):
             encoding_substrings.append(dna_substring)
 
@@ -2849,13 +2849,13 @@ def calculate_cyclospectrum(peptide: str) -> List[int]:
     total_mass: int = sum(AMINO_ACID_MASSES[amino_acid] for amino_acid in peptide)
     spectrum: List[int] = [0, total_mass]
     circular_peptide: str = peptide + peptide
-    
+
     for subpeptide_length in range(1, len(peptide)):
         for start_index in range(len(peptide)):
             subpeptide: str = circular_peptide[start_index:start_index + subpeptide_length]
             subpeptide_mass: int = sum(AMINO_ACID_MASSES[amino_acid] for amino_acid in subpeptide)
             spectrum.append(subpeptide_mass)
-    
+
     return sorted(spectrum)
 
 sample_input: str = """
@@ -2899,10 +2899,10 @@ LIGHTEST_AMINO_ACID: int = min(AMINO_ACID_MASSES)
 
 def count_possible_peptides(target_mass: int) -> int:
     peptide_count: Dict[int, int] = defaultdict(int)
-    
+
     for current_mass in range(LIGHTEST_AMINO_ACID, target_mass + 1):
         peptide_count[current_mass] = sum(1 for amino_acid_mass in AMINO_ACID_MASSES if amino_acid_mass == current_mass)
-        
+
         for amino_acid_mass in AMINO_ACID_MASSES:
             if current_mass >= amino_acid_mass:
                 peptide_count[current_mass] += peptide_count[current_mass - amino_acid_mass]
@@ -2981,7 +2981,7 @@ def is_consistent(peptide: List[int], spectrum: List[int]) -> bool:
 def cyclopeptide_sequencing(spectrum: List[int]) -> Set[str]:
     candidate_peptides: List[List[int]] = [[]]
     result: Set[str] = set()
-    
+
     while candidate_peptides:
         candidate_peptides = expand_peptides(candidate_peptides)
         for peptide in candidate_peptides[:]:
@@ -2991,7 +2991,7 @@ def cyclopeptide_sequencing(spectrum: List[int]) -> Set[str]:
                 candidate_peptides.remove(peptide)
             elif not is_consistent(peptide, spectrum):
                 candidate_peptides.remove(peptide)
-    
+
     return result
 
 sample_input: str = """
@@ -3039,13 +3039,13 @@ def calculate_cyclospectrum(peptide: str) -> List[int]:
     total_mass: int = sum(AMINO_ACID_MASSES[aa] for aa in peptide)
     spectrum: List[int] = [0, total_mass]
     extended_peptide: str = peptide + peptide
-    
+
     for length in range(1, len(peptide)):
         for start in range(len(peptide)):
             subpeptide: str = extended_peptide[start:start + length]
             subpeptide_mass: int = sum(AMINO_ACID_MASSES[aa] for aa in subpeptide)
             spectrum.append(subpeptide_mass)
-    
+
     spectrum.sort()
     return spectrum
 
@@ -3053,10 +3053,10 @@ def calculate_score(peptide: str, experimental_spectrum: List[int]) -> int:
     theoretical_spectrum: List[int] = calculate_cyclospectrum(peptide)
     score: int = 0
     unique_masses: set = set(theoretical_spectrum + experimental_spectrum)
-    
+
     for mass in unique_masses:
         score += min(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))
-    
+
     return score
 
 sample_input: str = """
@@ -3111,13 +3111,13 @@ def calculate_cyclospectrum(peptide: List[int]) -> List[int]:
     total_mass: int = sum(peptide)
     spectrum: List[int] = [0, total_mass]
     extended_peptide: List[int] = peptide + peptide
-    
+
     for length in range(1, len(peptide)):
         for start in range(len(peptide)):
             subpeptide: List[int] = extended_peptide[start:start + length]
             subpeptide_mass: int = sum(subpeptide)
             spectrum.append(subpeptide_mass)
-    
+
     spectrum.sort()
     return spectrum
 
@@ -3216,7 +3216,7 @@ from typing import List, Dict
 def calculate_spectrum_convolution(spectrum: List[int]) -> List[int]:
     spectrum.sort()
     convolution_list: List[int] = []
-    
+
     for i in range(len(spectrum) - 1):
         for j in range(i + 1, len(spectrum)):
             mass_difference: int = spectrum[j] - spectrum[i]
@@ -3228,11 +3228,11 @@ def calculate_spectrum_convolution(spectrum: List[int]) -> List[int]:
         frequency_dict[mass] = convolution_list.count(mass)
 
     sorted_masses: List[int] = sorted(frequency_dict, key=frequency_dict.get, reverse=True)
-    
+
     result: List[int] = []
     for mass in sorted_masses:
         result.extend([mass] * frequency_dict[mass])
-    
+
     return result
 
 sample_input: str = """
@@ -3404,18 +3404,18 @@ AMINO_ACID_MASSES: Dict[str, int] = {
 
 def calculate_linear_spectrum(peptide: str) -> List[int]:
     prefix_masses: List[int] = [0]
-    
+
     for amino_acid in peptide:
         current_mass = prefix_masses[-1] + AMINO_ACID_MASSES[amino_acid]
         prefix_masses.append(current_mass)
-    
+
     linear_spectrum: List[int] = [0]
-    
+
     for i in range(len(peptide)):
         for j in range(i + 1, len(peptide) + 1):
             subpeptide_mass = prefix_masses[j] - prefix_masses[i]
             linear_spectrum.append(subpeptide_mass)
-    
+
     return sorted(linear_spectrum)
 
 # Sample input
@@ -3460,28 +3460,28 @@ AMINO_ACID_MASSES: Dict[str, int] = {
 
 def calculate_linear_spectrum(peptide: str) -> List[int]:
     prefix_masses: List[int] = [0]
-    
+
     for amino_acid in peptide:
         current_mass = prefix_masses[-1] + AMINO_ACID_MASSES[amino_acid]
         prefix_masses.append(current_mass)
-    
+
     linear_spectrum: List[int] = [0]
-    
+
     for i in range(len(peptide)):
         for j in range(i + 1, len(peptide) + 1):
             subpeptide_mass = prefix_masses[j] - prefix_masses[i]
             linear_spectrum.append(subpeptide_mass)
-    
+
     return sorted(linear_spectrum)
 
 def calculate_linear_score(peptide: str, experimental_spectrum: List[int]) -> int:
     theoretical_spectrum: List[int] = calculate_linear_spectrum(peptide)
     score: int = 0
     unique_masses: set = set(theoretical_spectrum + experimental_spectrum)
-    
+
     for mass in unique_masses:
         score += min(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))
-    
+
     return score
 
 # Sample input
@@ -3534,28 +3534,28 @@ AMINO_ACID_MASSES: Dict[str, int] = {
 
 def calculate_linear_spectrum(peptide: str) -> List[int]:
     prefix_masses: List[int] = [0]
-    
+
     for amino_acid in peptide:
         current_mass = prefix_masses[-1] + AMINO_ACID_MASSES[amino_acid]
         prefix_masses.append(current_mass)
-    
+
     linear_spectrum: List[int] = [0]
-    
+
     for i in range(len(peptide)):
         for j in range(i + 1, len(peptide) + 1):
             subpeptide_mass = prefix_masses[j] - prefix_masses[i]
             linear_spectrum.append(subpeptide_mass)
-    
+
     return sorted(linear_spectrum)
 
 def calculate_linear_score(peptide: str, experimental_spectrum: List[int]) -> int:
     theoretical_spectrum: List[int] = calculate_linear_spectrum(peptide)
     score: int = 0
     unique_masses: set = set(theoretical_spectrum + experimental_spectrum)
-    
+
     for mass in unique_masses:
         score += min(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))
-    
+
     return score
 
 def trim_leaderboard(leaderboard: List[str], spectrum: List[int], n: int) -> List[str]:
@@ -3632,7 +3632,7 @@ def place_elements(distances: List[int]) -> Optional[Set[int]]:
         return placed_elements
 
     current_distance: int = distances[-1]
-    
+
     # Try placing on the left
     left_differences: List[int] = calculate_absolute_differences({current_distance}, placed_elements)
     if is_multiset_subset(left_differences, distances):
@@ -3757,7 +3757,7 @@ from typing import List, Tuple
 def parse_manhattan_tourist_input(input_text: str) -> Tuple[int, int, List[List[int]], List[List[int]]]:
     lines = input_text.strip().split('\n')
     rows, cols = map(int, lines[0].split())
-    
+
     down_weights = [[0] * (cols + 1) for _ in range(rows)]
     for i in range(rows):
         line = list(map(int, lines[i + 1].split()))
@@ -3775,7 +3775,7 @@ def parse_manhattan_tourist_input(input_text: str) -> Tuple[int, int, List[List[
 
 def calculate_longest_manhattan_path(rows: int, cols: int, down_weights: List[List[int]], right_weights: List[List[int]]) -> int:
     path_scores = [[0] * (cols + 1) for _ in range(rows + 1)]
-    
+
     for i in range(1, rows + 1):
         path_scores[i][0] = path_scores[i - 1][0] + down_weights[i - 1][0]
 
@@ -3786,7 +3786,7 @@ def calculate_longest_manhattan_path(rows: int, cols: int, down_weights: List[Li
         for j in range(1, cols + 1):
             path_scores[i][j] = max(path_scores[i - 1][j] + down_weights[i - 1][j],
                                     path_scores[i][j - 1] + right_weights[i][j - 1])
-    
+
     return path_scores[rows][cols]
 
 sample_input = """
@@ -4126,7 +4126,7 @@ def global_alignment(sequence1: str, sequence2: str, indel_penalty: int = 5) -> 
             up_score: int = score_matrix[i - 1][j] - indel_penalty
             left_score: int = score_matrix[i][j - 1] - indel_penalty
             score_matrix[i][j] = max(diagonal_score, up_score, left_score)
-            
+
             if score_matrix[i][j] == diagonal_score:
                 backtrack_matrix[i][j] = "diagonal"
             elif score_matrix[i][j] == up_score:
@@ -4138,7 +4138,7 @@ def global_alignment(sequence1: str, sequence2: str, indel_penalty: int = 5) -> 
     j: int = len(padded_seq2) - 1
     aligned_seq1: str = ""
     aligned_seq2: str = ""
-    
+
     while i != 0 or j != 0:
         direction: str = backtrack_matrix[i][j]
         if direction == "diagonal":
@@ -4345,10 +4345,10 @@ MEANLY
 ```python
 def calculate_edit_distance(source: str, target: str) -> int:
     distance_matrix = {}
-    
+
     for target_index in range(len(target) + 1):
         distance_matrix[target_index, 0] = target_index
-    
+
     for source_index in range(len(source) + 1):
         distance_matrix[0, source_index] = source_index
 
@@ -4405,7 +4405,7 @@ from typing import Tuple, Dict
 def calculate_fitting_alignment(sequence1: str, sequence2: str) -> Tuple[int, str, str]:
     score_matrix: Dict[Tuple[int, int], int] = {}
     path_matrix: Dict[Tuple[int, int], str] = {}
-    
+
     for seq2_index in range(len(sequence2) + 1):
         score_matrix[seq2_index, 0] = -seq2_index
         path_matrix[seq2_index, 0] = "↑"
@@ -4488,7 +4488,7 @@ from typing import Tuple, Dict
 def calculate_overlap_alignment(sequence1: str, sequence2: str, mismatch_penalty: int = -2) -> Tuple[int, str, str]:
     score_matrix: Dict[Tuple[int, int], int] = {}
     path_matrix: Dict[Tuple[int, int], str] = {}
-    
+
     for seq2_index in range(len(sequence2) + 1):
         score_matrix[seq2_index, 0] = seq2_index * mismatch_penalty
         path_matrix[seq2_index, 0] = "↑"
@@ -4647,13 +4647,13 @@ def insert_gap(sequence: str, position: int) -> str:
 def global_alignment_affine(seq1: str, seq2: str, gap_open_penalty: int = -11, gap_extend_penalty: int = -1) -> Tuple[int, str, str]:
     """
     Perform global sequence alignment with affine gap penalty.
-    
+
     Args:
     seq1 (str): First sequence to align
     seq2 (str): Second sequence to align
     gap_open_penalty (int): Penalty for opening a gap
     gap_extend_penalty (int): Penalty for extending a gap
-    
+
     Returns:
     Tuple[int, str, str]: Alignment score and aligned sequences
     """
@@ -4859,7 +4859,7 @@ def calculate_alignment_scores(
 ) -> Tuple[List[int], List[int]]:
     current_scores = list(range(0, (len(sequence1) + 1) * gap_penalty, gap_penalty))
     backtrack = [0] * (len(sequence1) + 1)
-    
+
     for j in range(1, len(sequence2) + 1):
         previous_scores = current_scores[:]
         current_scores[0] = previous_scores[0] + gap_penalty
@@ -4874,7 +4874,7 @@ def calculate_alignment_scores(
             ]
             current_scores[i] = max(options)
             backtrack[i] = options.index(current_scores[i])
-    
+
     return current_scores, backtrack
 
 def find_middle_edge(
@@ -4884,17 +4884,17 @@ def find_middle_edge(
     gap_penalty: int
 ) -> Tuple[Tuple[int, int], Tuple[int, int]]:
     midpoint = floor(len(sequence2) / 2)
-    
+
     forward_scores, _ = calculate_alignment_scores(
         sequence1, sequence2[:midpoint], scoring_matrix, gap_penalty
     )
     reverse_scores, reverse_backtrack = calculate_alignment_scores(
         sequence1[::-1], sequence2[midpoint:][::-1], scoring_matrix, gap_penalty
     )
-    
+
     total_scores = [f + r for f, r in zip(forward_scores, reverse_scores[::-1])]
     best_score_index = total_scores.index(max(total_scores))
-    
+
     start_node = (best_score_index, midpoint)
     possible_moves = [
         (start_node[0], start_node[1] + 1),
@@ -4902,7 +4902,7 @@ def find_middle_edge(
         (start_node[0] + 1, start_node[1] + 1)
     ]
     end_node = possible_moves[reverse_backtrack[::-1][best_score_index]]
-    
+
     return (start_node, end_node)
 
 # Sample usage
@@ -5025,7 +5025,7 @@ def calculate_alignment_scores(
 ) -> Tuple[List[int], List[int]]:
     current_scores = list(range(0, (len(sequence1) + 1) * gap_penalty, gap_penalty))
     backtrack = [0] * (len(sequence1) + 1)
-    
+
     for j in range(1, len(sequence2) + 1):
         previous_scores = current_scores[:]
         current_scores[0] = previous_scores[0] + gap_penalty
@@ -5040,7 +5040,7 @@ def calculate_alignment_scores(
             ]
             current_scores[i] = max(options)
             backtrack[i] = options.index(current_scores[i])
-    
+
     return current_scores, backtrack
 
 def find_middle_edge(
@@ -5050,17 +5050,17 @@ def find_middle_edge(
     gap_penalty: int
 ) -> Tuple[Tuple[int, int], Tuple[int, int]]:
     midpoint = floor(len(sequence2) / 2)
-    
+
     forward_scores, _ = calculate_alignment_scores(
         sequence1, sequence2[:midpoint], scoring_matrix, gap_penalty
     )
     reverse_scores, reverse_backtrack = calculate_alignment_scores(
         sequence1[::-1], sequence2[midpoint:][::-1], scoring_matrix, gap_penalty
     )
-    
+
     total_scores = [f + r for f, r in zip(forward_scores, reverse_scores[::-1])]
     best_score_index = total_scores.index(max(total_scores))
-    
+
     start_node = (best_score_index, midpoint)
     possible_moves = [
         (start_node[0], start_node[1] + 1),
@@ -5068,7 +5068,7 @@ def find_middle_edge(
         (start_node[0] + 1, start_node[1] + 1)
     ]
     end_node = possible_moves[reverse_backtrack[::-1][best_score_index]]
-    
+
     return (start_node, end_node)
 
 def calculate_alignment_score(
@@ -5200,14 +5200,14 @@ def multiple_sequence_alignment(sequences: List[str]) -> Tuple[int, str, str, st
     scores: Dict[Tuple[int, ...], int] = {}
     pointers: Dict[Tuple[int, ...], Tuple[int, ...]] = {}
     scores[(0, 0, 0)] = 0
-    
+
     ranges = [range(0, len(seq) + 1) for seq in sequences]
-    
+
     for position in product(*ranges):
         valid_pointers = list(filter(lambda x: is_valid_coordinate(x, position), generate_moves(3)))
         if not valid_pointers:
             continue
-        
+
         possible_scores = [scores[get_previous_position(position, ptr)] + calculate_score(sequences, position, ptr) for ptr in valid_pointers]
         scores[position] = max(possible_scores)
         pointers[position] = valid_pointers[possible_scores.index(max(possible_scores))]
@@ -5215,16 +5215,16 @@ def multiple_sequence_alignment(sequences: List[str]) -> Tuple[int, str, str, st
     # Traceback to recover alignment
     total_score = scores[position]
     aligned_sequences = ["", "", ""]
-    
+
     while any([x > 0 for x in position]):
         pointer = pointers[position]
         for i, seq in enumerate(sequences):
             aligned_sequences[i] += seq[position[i] - 1] if pointer[i] == -1 else "-"
         position = get_previous_position(position, pointer)
 
-    return (total_score, 
-            aligned_sequences[0][::-1], 
-            aligned_sequences[1][::-1], 
+    return (total_score,
+            aligned_sequences[0][::-1],
+            aligned_sequences[1][::-1],
             aligned_sequences[2][::-1])
 
 sample_input = """
@@ -5411,11 +5411,11 @@ from typing import List
 def count_breakpoints(permutation: List[int]) -> int:
     augmented_permutation = [0] + permutation + [max(permutation) + 1]
     breakpoint_count = 0
-    
+
     for i in range(1, len(augmented_permutation) - 1):
         if augmented_permutation[i] != augmented_permutation[i - 1] + 1:
             breakpoint_count += 1
-    
+
     return breakpoint_count
 
 sample_input = """
@@ -6042,7 +6042,7 @@ def chromosome_to_cycle(chromosome: List[int]) -> List[int]:
         else:
             nodes.extend([-2 * gene, -2 * gene - 1])
     return nodes
-    
+
 def colored_edges(genome: List[List[int]]) -> Dict[int, int]:
     graph: Dict[int, int] = {}
     for chromosome in genome:
@@ -6058,7 +6058,7 @@ def remove_edge(graph: Dict[int, int], edge: Tuple[int, int]) -> None:
         graph.pop(edge[0])
     else:
         graph.pop(edge[1])
-        
+
 def two_break_on_genome_graph(graph: Dict[int, int], i: int, ip: int, j: int, jp: int) -> Dict[int, int]:
     new_graph = copy(graph)
     for edge in [(i, ip), (j, jp)]:
@@ -6069,7 +6069,7 @@ def two_break_on_genome_graph(graph: Dict[int, int], i: int, ip: int, j: int, jp
 
 def get_first_key(dictionary: Dict) -> int:
     return next(iter(dictionary.keys()))
-    
+
 def find_node_cycle(graph: Dict[int, int]) -> List[int]:
     start = get_first_key(graph)
     current = start
@@ -6082,7 +6082,7 @@ def find_node_cycle(graph: Dict[int, int]) -> List[int]:
             return [next_node] + component + [current]
         component.extend([current, next_node])
         current = neighbor
-        
+
 def find_node_cycles(graph: Dict[int, int]) -> Iterator[List[int]]:
     graph = copy(graph)
     for k, v in list(graph.items()):
@@ -6549,7 +6549,7 @@ def upgma(distance_matrix: np.ndarray, num_clusters: int) -> Dict[int, List[Dict
     size: Dict[int, int] = defaultdict(lambda: 1)  # the number of descendants of a node
     tree: Dict[int, List[Dict[str, float]]] = {}  # the graph / tree we're building
     node_label = num_clusters  # a label for internal nodes as we add them
-    
+
     while len(clusters) > 1:
         i, j = closest(distance_matrix)
         a, b = clusters[i], clusters[j]
@@ -7616,14 +7616,14 @@ class Trie:
     def __init__(self) -> None:
         self.id_generator = count(start=0)
         self.root: Tuple[int, Dict[str, Any]] = (next(self.id_generator), {})
-    
+
     def insert(self, sequence: str) -> None:
         current_node = self.root
         for character in sequence:
             if character not in current_node[1]:
                 current_node[1][character] = (next(self.id_generator), {})
             current_node = current_node[1][character]
-            
+
 def build_trie(sequences: List[str]) -> Tuple[int, Dict[str, Any]]:
     trie = Trie()
     for sequence in sequences:
@@ -7921,7 +7921,7 @@ def get_edges(graph: Dict[str, Dict]) -> Generator[str, None, None]:
 def suffix_tree(sequence: str, start_positions: Tuple[int, ...]) -> Dict[str, Dict]:
     tree: Dict[str, Dict] = {}
     unique_bases = sorted(set([sequence[start] for start in start_positions]))
-    
+
     for base in unique_bases:
         matching_positions = [start for start in start_positions if sequence[start] == base]
         subsequences = [sequence[s:] for s in matching_positions]
@@ -7929,7 +7929,7 @@ def suffix_tree(sequence: str, start_positions: Tuple[int, ...]) -> Dict[str, Di
         prefix_length = len(common_prefix)
         new_start_positions = [start + prefix_length for start in matching_positions if start + prefix_length < len(sequence)]
         tree[common_prefix] = suffix_tree(sequence, tuple(new_start_positions))
-    
+
     return tree
 
 def create_suffix_tree(sequence: str) -> Dict[str, Dict]:
@@ -8304,26 +8304,26 @@ def find_pattern_occurrences(text: str, pattern: str, suffix_array: List[int]) -
     """
     lower_bound: int = 0
     upper_bound: int = len(text)
-    
+
     while lower_bound < upper_bound:
         mid_point: int = (lower_bound + upper_bound) // 2
         if pattern > text[suffix_array[mid_point]:][: len(pattern)]:
             lower_bound = mid_point + 1
         else:
             upper_bound = mid_point
-    
+
     first_occurrence: int = lower_bound
     upper_bound = len(text)
-    
+
     while lower_bound < upper_bound:
         mid_point: int = (lower_bound + upper_bound) // 2
         if pattern < text[suffix_array[mid_point]:][: len(pattern)]:
             upper_bound = mid_point
         else:
             lower_bound = mid_point + 1
-    
+
     last_occurrence: int = upper_bound
-    
+
     if first_occurrence > last_occurrence:
         return []
     else:
@@ -8455,14 +8455,14 @@ def burrows_wheeler_transform_inverse(bwt_sequence: str) -> str:
     """
     first_column = list(index_characters(sorted(bwt_sequence)))
     last_column = list(index_characters(bwt_sequence))
-    
+
     current_char: Tuple[str, int] = ("$", 0)
     original_sequence: List[str] = []
-    
+
     for _ in range(len(bwt_sequence)):
         current_char = first_column[last_column.index(current_char)]
         original_sequence.append(current_char[0])
-    
+
     return ''.join(original_sequence)
 
 sample_input = "TTCCTAACG$A"
@@ -8569,16 +8569,16 @@ def BWMatching(bwt: str, patterns: List[str]) -> List[int]:
         count: Dict[str, List[int]] = {char: [0] * (len(bwt) + 1) for char in set(bwt)}
         first_occurrence: Dict[str, int] = {}
         sorted_bwt: List[str] = sorted(bwt)
-        
+
         for i, char in enumerate(bwt):
             for c in count:
                 count[c][i + 1] = count[c][i]
             count[char][i + 1] += 1
-        
+
         for i, char in enumerate(sorted_bwt):
             if char not in first_occurrence:
                 first_occurrence[char] = i
-        
+
         return count, first_occurrence
 
     def count_matches(pattern: str) -> int:
@@ -8643,18 +8643,18 @@ def BetterBWMatching(bwt: str, patterns: List[str]) -> List[int]:
         first_column: List[str] = sorted(bwt)
         count: Dict[str, List[int]] = {char: [0] * (len(bwt) + 1) for char in set(bwt)}
         start_index: Dict[str, int] = {char: first_column.index(char) for char in set(bwt)}
-        
+
         for i, char in enumerate(bwt):
             for c in count:
                 count[c][i + 1] = count[c][i]
             count[char][i + 1] += 1
-        
+
         return first_column, count, start_index
 
     def count_occurrences(pattern: str) -> int:
         top: int = 0
         bottom: int = len(bwt) - 1
-        
+
         while top <= bottom:
             if pattern:
                 symbol: str = pattern[-1]
@@ -8975,14 +8975,14 @@ def parse_input(input_data: Union[str, TextIO]) -> Tuple[Dict[int, List[Dict[str
 
     tree: Dict[int, List[Dict[str, int]]] = defaultdict(list)
     node_colors: Dict[int, Union[str, None]] = defaultdict(lambda: None)
-    
+
     parsing_tree = True
     for line in file_obj:
         line = line.strip()
         if line == "-":
             parsing_tree = False
             continue
-        
+
         if parsing_tree:
             if " -> " in line:
                 parent, children = line.split(" -> ")
@@ -8995,7 +8995,7 @@ def parse_input(input_data: Union[str, TextIO]) -> Tuple[Dict[int, List[Dict[str
 
     if isinstance(input_data, str) and '\n' not in input_data:
         file_obj.close()
-    
+
     return tree, node_colors
 
 sample_input = """
@@ -9192,7 +9192,7 @@ def parse_hidden_path_data(input_lines):
     states = next(input_lines).split()
     next(input_lines)  # Skip separator
     next(input_lines)  # Skip column headers
-    
+
     transition_probabilities = {}
     for line in input_lines:
         if line.strip():
@@ -9200,13 +9200,13 @@ def parse_hidden_path_data(input_lines):
             current_state = row_data[0]
             for next_state, probability in zip(states, row_data[1:]):
                 transition_probabilities[(current_state, next_state)] = float(probability)
-    
+
     return hidden_path, transition_probabilities
 
 def calculate_hidden_path_probability(hidden_path, transition_probabilities):
     initial_probability = 0.5
     path_probability = initial_probability * prod(
-        transition_probabilities[state_pair] 
+        transition_probabilities[state_pair]
         for state_pair in zip(hidden_path, hidden_path[1:])
     )
     return path_probability
@@ -9245,7 +9245,7 @@ BBBAAABABABBBBBBAAAAAABAAAABABABBBBBABAABABABABBBB
 A   B
 --------
     x   y   z
-A   0.612   0.314   0.074 
+A   0.612   0.314   0.074
 B   0.346   0.317   0.336
 ```
 
@@ -9271,7 +9271,7 @@ def parse_emission_data(input_lines):
     states = next(input_lines).split()
     next(input_lines)  # Skip separator
     next(input_lines)  # Skip column headers
-    
+
     emission_probabilities = {}
     for line in input_lines:
         if line.strip():
@@ -9279,7 +9279,7 @@ def parse_emission_data(input_lines):
             state = row_data[0]
             for symbol, probability in zip(symbols, row_data[1:]):
                 emission_probabilities[(state, symbol)] = float(probability)
-    
+
     return emission_sequence, hidden_path, emission_probabilities
 
 def calculate_emission_probability(emission_sequence, hidden_path, emission_probabilities):
@@ -9295,7 +9295,7 @@ BBBAAABABABBBBBBAAAAAABAAAABABABBBBBABAABABABABBBB
 A B
 --------
     x   y   z
-A   0.612   0.314   0.074 
+A   0.612   0.314   0.074
 B   0.346   0.317   0.336
 """
 
@@ -9325,7 +9325,7 @@ A   0.641   0.359
 B   0.729   0.271
 --------
     x   y   z
-A   0.117   0.691   0.192   
+A   0.117   0.691   0.192
 B   0.097   0.42    0.483
 ```
 
@@ -9350,14 +9350,14 @@ def parse_input(input_iterator: Iterator[str]) -> Tuple[str, List[str], Dict[Tup
     next(input_iterator)
     states = next(input_iterator).split()
     next(input_iterator)
-    
+
     transition_lines = [next(input_iterator) for _ in range(len(states) + 1)]
     transition_matrix = {
         (states[i], states[j]): float(value)
         for i, row in enumerate(transition_lines[1:])
         for j, value in enumerate(row.split()[1:])
     }
-    
+
     next(input_iterator)
     emission_lines = [next(input_iterator) for _ in range(len(states) + 1)]
     emission_matrix = {
@@ -9365,7 +9365,7 @@ def parse_input(input_iterator: Iterator[str]) -> Tuple[str, List[str], Dict[Tup
         for i, row in enumerate(emission_lines[1:])
         for j, value in enumerate(row.split()[1:])
     }
-    
+
     return sequence, states, transition_matrix, emission_matrix
 
 def viterbi(sequence: str, states: List[str], transition_matrix: Dict[Tuple[str, str], float], emission_matrix: Dict[Tuple[str, str], float]) -> str:
@@ -9382,8 +9382,8 @@ def viterbi(sequence: str, states: List[str], transition_matrix: Dict[Tuple[str,
     for t in range(1, sequence_length):
         for j, current_state in enumerate(states):
             probabilities = [
-                log(transition_matrix[previous_state, current_state]) + 
-                log(emission_matrix[current_state, sequence[t]]) + 
+                log(transition_matrix[previous_state, current_state]) +
+                log(emission_matrix[current_state, sequence[t]]) +
                 viterbi_matrix[t-1, k]
                 for k, previous_state in enumerate(states)
             ]
@@ -9412,7 +9412,7 @@ A   0.641   0.359
 B   0.729   0.271
 --------
     x   y   z
-A   0.117   0.691   0.192   
+A   0.117   0.691   0.192
 B   0.097   0.42    0.483
 """
 
@@ -9438,11 +9438,11 @@ x   y   z
 A   B
 --------
     A   B
-A   0.303   0.697 
-B   0.831   0.169 
+A   0.303   0.697
+B   0.831   0.169
 --------
     x   y   z
-A   0.533   0.065   0.402 
+A   0.533   0.065   0.402
 B   0.342   0.334   0.324
 ```
 
@@ -9465,14 +9465,14 @@ def parse_hmm_input(input_iterator):
     next(input_iterator)
     states = next(input_iterator).split()
     next(input_iterator)
-    
+
     transition_lines = [next(input_iterator) for _ in range(len(states) + 1)]
     transition_matrix = {
         (states[i], states[j]): float(value)
         for i, row in enumerate(transition_lines[1:])
         for j, value in enumerate(row.split()[1:])
     }
-    
+
     next(input_iterator)
     emission_lines = [next(input_iterator) for _ in range(len(states) + 1)]
     emission_matrix = {
@@ -9480,7 +9480,7 @@ def parse_hmm_input(input_iterator):
         for i, row in enumerate(emission_lines[1:])
         for j, value in enumerate(row.split()[1:])
     }
-    
+
     return sequence, states, transition_matrix, emission_matrix
 
 def calculate_hmm_likelihood(sequence, states, transition_matrix, emission_matrix):
@@ -9492,8 +9492,8 @@ def calculate_hmm_likelihood(sequence, states, transition_matrix, emission_matri
     for i, emission in enumerate(sequence[1:], start=1):
         for j, current_state in enumerate(states):
             probability_matrix[i, j] = sum(
-                transition_matrix[previous_state, current_state] * 
-                emission_matrix[current_state, emission] * 
+                transition_matrix[previous_state, current_state] *
+                emission_matrix[current_state, emission] *
                 probability_matrix[i - 1, k]
                 for k, previous_state in enumerate(states)
             )
@@ -9508,11 +9508,11 @@ x   y   z
 A   B
 --------
     A   B
-A   0.303   0.697 
-B   0.831   0.169 
+A   0.303   0.697
+B   0.831   0.169
 --------
     x   y   z
-A   0.533   0.065   0.402 
+A   0.533   0.065   0.402
 B   0.342   0.334   0.324
 """
 
@@ -10442,23 +10442,23 @@ A   0.911   0.089
 B   0.228   0.772
 --------
     x   y   z
-A   0.356   0.191   0.453 
+A   0.356   0.191   0.453
 B   0.04    0.467   0.493
 ```
 
 ## Sample Output
 
 ```
-A   B 
-0.5438  0.4562 
-0.6492  0.3508 
-0.9647  0.0353 
-0.9936  0.0064 
-0.9957  0.0043 
-0.9891  0.0109 
-0.9154  0.0846 
-0.964   0.036 
-0.8737  0.1263 
+A   B
+0.5438  0.4562
+0.6492  0.3508
+0.9647  0.0353
+0.9936  0.0064
+0.9957  0.0043
+0.9891  0.0109
+0.9154  0.0846
+0.964   0.036
+0.8737  0.1263
 0.8167  0.1833
 ```
 
@@ -10542,7 +10542,7 @@ A   0.911   0.089
 B   0.228   0.772
 --------
     x   y   z
-A   0.356   0.191   0.453 
+A   0.356   0.191   0.453
 B   0.04    0.467   0.493
 """
 
@@ -10567,11 +10567,11 @@ x   y   z
 A   B
 --------
     A   B
-A   0.019   0.981 
-B   0.668   0.332 
+A   0.019   0.981
+B   0.668   0.332
 --------
 x   y   z
-A   0.175   0.003   0.821 
+A   0.175   0.003   0.821
 B   0.196   0.512   0.293
 ```
 
@@ -10579,11 +10579,11 @@ B   0.196   0.512   0.293
 
 ```
 A   B
-A   0.000   1.000   
-B   0.786   0.214   
+A   0.000   1.000
+B   0.786   0.214
 --------
     x   y   z
-A   0.242   0.000   0.758   
+A   0.242   0.000   0.758
 B   0.172   0.828   0.000
 ```
 
@@ -10716,11 +10716,11 @@ x   y   z
 A   B
 --------
     A   B
-A   0.019   0.981 
-B   0.668   0.332 
+A   0.019   0.981
+B   0.668   0.332
 --------
 x   y   z
-A   0.175   0.003   0.821 
+A   0.175   0.003   0.821
 B   0.196   0.512   0.293
 """
 
@@ -10777,16 +10777,16 @@ amino_acid_weights: Dict[str, int] = {
 def spectrum_graph(masses: List[int]) -> DefaultDict[int, List[Dict[str, int]]]:
     # Reverse mapping of weights to amino acids
     weight_to_amino_acid: Dict[int, str] = {weight: aa for aa, weight in amino_acid_weights.items()}
-    
+
     graph: DefaultDict[int, List[Dict[str, int]]] = defaultdict(list)
-    
+
     # Create graph based on mass differences
     for i in range(len(masses)):
         for j in range(i + 1, len(masses)):
             difference: int = masses[j] - masses[i]
             if difference in weight_to_amino_acid:
                 graph[masses[i]].append({"n": masses[j], "l": weight_to_amino_acid[difference]})
-    
+
     return graph
 
 # Sample input
@@ -11146,10 +11146,10 @@ def identify_peptide(spectral_vector: List[int], proteome: str) -> str:
         for j in range(i + 1, len(proteome) + 1):
             peptide: str = proteome[i:j]
             peptide_vector: List[int] = create_peptide_vector(peptide)
-            
+
             if len(peptide_vector) > len(spectral_vector):
                 break
-            
+
             if len(peptide_vector) == len(spectral_vector):
                 score: float = sum(s * v for s, v in zip(spectral_vector, peptide_vector))
                 if score > max_score:
@@ -11228,10 +11228,10 @@ def identify_peptide(spectral_vector: List[int], proteome: str) -> Tuple[str, fl
         for j in range(i + 1, len(proteome) + 1):
             peptide: str = proteome[i:j]
             peptide_vector: List[int] = create_peptide_vector(peptide)
-            
+
             if len(peptide_vector) > len(spectral_vector):
                 break
-            
+
             if len(peptide_vector) == len(spectral_vector):
                 score: float = sum(s * v for s, v in zip(spectral_vector, peptide_vector))
                 if score > max_score:
@@ -11501,7 +11501,7 @@ def spectral_alignment(peptide: str, spectral_vector: List[int], max_k: int) -> 
                 if (t == 0) and (mass - mass_differences[mass] >= 0) and (j - mass_differences[mass] >= 0):
                     score_matrix[mass][j][t] = spectral_vector[j] + score_matrix[mass - mass_differences[mass]][j - mass_differences[mass]][t]
                 elif (t > 0) and (mass - mass_differences[mass] >= 0) and (j - mass_differences[mass] >= 0):
-                    score_matrix[mass][j][t] = spectral_vector[j] + max(score_matrix[mass - mass_differences[mass]][j - mass_differences[mass]][t], 
+                    score_matrix[mass][j][t] = spectral_vector[j] + max(score_matrix[mass - mass_differences[mass]][j - mass_differences[mass]][t],
                                                                          max(score_matrix[mass - mass_differences[mass]][j_star][t - 1] for j_star in range(j)))
                 elif (t > 0) and (mass - mass_differences[mass] >= 0) and (j > 0):
                     score_matrix[mass][j][t] = spectral_vector[j] + max(score_matrix[mass - mass_differences[mass]][j_star][t - 1] for j_star in range(j))
