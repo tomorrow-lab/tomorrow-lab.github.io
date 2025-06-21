@@ -82,9 +82,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-47a0f6fb4ac30c434f725a265b04c940.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-d92fb7b19d0bb3decc9536684275f0ea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-47a0f6fb4ac30c434f725a265b04c940.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -130,10 +127,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="인과 관계 추론을 위한 기본 규칙 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/causal_inference_rules_files/figure-html/cell-2-output-1.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="449">
-<meta property="og:image:width" content="462">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -431,7 +425,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -551,7 +545,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 <p>A 와 B 가 인과적으로 독립적이라면 데이터에서 서로 연관되지 않습니다.</p>
-<div id="cell-3" class="cell" data-execution_count="15">
+<div id="cell-3" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
@@ -585,13 +579,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="causal_inference_rules_files/figure-html/cell-2-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="causal_inference_rules_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
@@ -626,7 +613,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 <p>A 가 B 의 원인인 경우 또는 B 가 A 의 원인인 경우 데이터에서 A 와 B 는 상관관계가 있습니다.</p>
-<div id="cell-6" class="cell" data-execution_count="16">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rule 2</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10000</span>  <span class="co"># Number of data points</span></span>
@@ -655,13 +642,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="causal_inference_rules_files/figure-html/cell-3-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="causal_inference_rules_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 <p>이런 인과관계는 A가 M을 유발하고 M이 다시 B를 유발하는 (중계하는)경우에도 적용됩니다.</p>
 <div class="cell" data-layout-align="default">
@@ -679,7 +659,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
-<div id="cell-8" class="cell" data-execution_count="17">
+<div id="cell-8" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rule 2 (mediation)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10000</span>  <span class="co"># Number of data points</span></span>
@@ -709,13 +689,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="causal_inference_rules_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="causal_inference_rules_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
 <section id="규칙-3-교락은-상관-관계를-만듭니다." class="level2" data-number="2.4">
@@ -737,7 +710,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="18">
+<div id="cell-10" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rule 3</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10000</span>  <span class="co"># Number of data points</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, n)  <span class="co">#  C is a random variable</span></span>
@@ -766,13 +739,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="causal_inference_rules_files/figure-html/cell-5-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="causal_inference_rules_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 <p>이 규칙은 C가 A 또는 B에 미치는 영향이 다른 변수를 통해 매개되는 경우에도 적용됩니다.</p>
 <div class="cell" data-layout-align="default">
@@ -833,7 +799,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
-<div id="cell-13" class="cell" data-execution_count="19">
+<div id="cell-13" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rule 5</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10000</span>  <span class="co"># Number of data points</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, n)  <span class="co"># C is a random variable</span></span>
@@ -867,13 +833,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="causal_inference_rules_files/figure-html/cell-6-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="causal_inference_rules_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
 <section id="규칙-6-매개자를-통제하면-매개된-인과-효과로-인해-발생하는-상관관계가-차단됩니다." class="level2" data-number="2.7">
@@ -893,7 +852,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 <p>A가 M의 원인이고 M이 B의 원인인 경우, M을 통제하면 매개 인과 효과(규칙 2)에 의해 생성된 A와 B 간의 상관관계가 제거됩니다.</p>
-<div id="cell-15" class="cell" data-execution_count="20">
+<div id="cell-15" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rule 6</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10000</span>  <span class="co"># Number of data points</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, n)  <span class="co"># A is a random variable</span></span>
@@ -928,13 +887,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
 <span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="causal_inference_rules_files/figure-html/cell-7-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="causal_inference_rules_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
 <section id="규칙-7-콜라이더를-제어하면-상관-관계로-이어짐" class="level2" data-number="2.8">
@@ -955,7 +907,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 <p>A와 B가 인과 관계의 하위 항목(콜라이더) D를 공유하고 D를 제어하면 데이터에서 A와 B가 상관 관계를 갖게 됩니다. 이를 흔히 “콜라이더에 대한 조건부” 또는 콜라이더 편향이라고 합니다.</p>
-<div id="cell-17" class="cell" data-execution_count="21">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rule 7</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10000</span>  <span class="co"># Number of data points</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, n)  <span class="co"># A is a random variable</span></span>
@@ -990,13 +942,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="causal_inference_rules_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="causal_inference_rules_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
 <section id="규칙-8-인과-관계에-있는-자손에-대한-제어는-조상에-대한-부분적-제어입니다." class="level2" data-number="2.9">
@@ -1034,7 +979,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 <p>CM이 C의 약간 신뢰할 수 있는 측정값인 경우 CM을 통제하면 A와 B 간의 상관관계가 일부 제거되지만 C를 통제할 때만큼은 아닙니다:</p>
-<div id="cell-19" class="cell" data-execution_count="22">
+<div id="cell-19" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rule ?</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10000</span>  <span class="co"># Number of data points</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, n)  <span class="co"># C is a random variable</span></span>
@@ -1095,13 +1040,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust layout and display</span></span>
 <span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="causal_inference_rules_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="causal_inference_rules_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 <div class="{callout-note}">
 <p>상관관계가 반드시 선형적 상관관계를 의미하는 것은 아닙니다.</p>
@@ -1585,38 +1523,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

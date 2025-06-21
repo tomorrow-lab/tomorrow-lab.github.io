@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -82,9 +82,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-47a0f6fb4ac30c434f725a265b04c940.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-d92fb7b19d0bb3decc9536684275f0ea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-47a0f6fb4ac30c434f725a265b04c940.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -122,18 +119,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="파이썬 통계분석하기 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/python_Statistics_files/figure-html/cell-5-output-2.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="292">
-<meta property="og:image:width" content="409">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -433,7 +424,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -469,79 +460,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    na_values<span class="op">=</span><span class="st">"."</span>,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df.head()  <span class="co"># 상단의 5개의 데이터 확인하기</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Gender</th>
-<th data-quarto-table-cell-role="th">FSIQ</th>
-<th data-quarto-table-cell-role="th">VIQ</th>
-<th data-quarto-table-cell-role="th">PIQ</th>
-<th data-quarto-table-cell-role="th">Weight</th>
-<th data-quarto-table-cell-role="th">Height</th>
-<th data-quarto-table-cell-role="th">MRI_Count</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">1</td>
-<td>Female</td>
-<td>133</td>
-<td>132</td>
-<td>124</td>
-<td>118.0</td>
-<td>64.5</td>
-<td>816932</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2</td>
-<td>Male</td>
-<td>140</td>
-<td>150</td>
-<td>124</td>
-<td>NaN</td>
-<td>72.5</td>
-<td>1001121</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">3</td>
-<td>Male</td>
-<td>139</td>
-<td>123</td>
-<td>150</td>
-<td>143.0</td>
-<td>73.3</td>
-<td>1038437</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">4</td>
-<td>Male</td>
-<td>133</td>
-<td>129</td>
-<td>128</td>
-<td>172.0</td>
-<td>68.8</td>
-<td>965353</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">5</td>
-<td>Female</td>
-<td>137</td>
-<td>132</td>
-<td>134</td>
-<td>147.0</td>
-<td>65.0</td>
-<td>951545</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>간단히 살펴보면, 총 40명의 사람들의 성별, IQ, 몸무게, 키 그리고 MRI_count(total pixel Count from the 18 MRI scans) 값이 측정되어 있습니다. IQ의 경우 3종류로 세분화 되어있는데 각각을 알아 보면 아래와 같습니다.</p>
 <ul>
@@ -557,100 +475,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># padas 에서 제공하는 설명 통계</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">FSIQ</th>
-<th data-quarto-table-cell-role="th">VIQ</th>
-<th data-quarto-table-cell-role="th">PIQ</th>
-<th data-quarto-table-cell-role="th">Weight</th>
-<th data-quarto-table-cell-role="th">Height</th>
-<th data-quarto-table-cell-role="th">MRI_Count</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">count</td>
-<td>40.000000</td>
-<td>40.000000</td>
-<td>40.00000</td>
-<td>38.000000</td>
-<td>39.000000</td>
-<td>4.000000e+01</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">mean</td>
-<td>113.450000</td>
-<td>112.350000</td>
-<td>111.02500</td>
-<td>151.052632</td>
-<td>68.525641</td>
-<td>9.087550e+05</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">std</td>
-<td>24.082071</td>
-<td>23.616107</td>
-<td>22.47105</td>
-<td>23.478509</td>
-<td>3.994649</td>
-<td>7.228205e+04</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">min</td>
-<td>77.000000</td>
-<td>71.000000</td>
-<td>72.00000</td>
-<td>106.000000</td>
-<td>62.000000</td>
-<td>7.906190e+05</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">25%</td>
-<td>89.750000</td>
-<td>90.000000</td>
-<td>88.25000</td>
-<td>135.250000</td>
-<td>66.000000</td>
-<td>8.559185e+05</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">50%</td>
-<td>116.500000</td>
-<td>113.000000</td>
-<td>115.00000</td>
-<td>146.500000</td>
-<td>68.000000</td>
-<td>9.053990e+05</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">75%</td>
-<td>135.500000</td>
-<td>129.750000</td>
-<td>128.00000</td>
-<td>172.000000</td>
-<td>70.500000</td>
-<td>9.500780e+05</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">max</td>
-<td>144.000000</td>
-<td>150.000000</td>
-<td>150.00000</td>
-<td>192.000000</td>
-<td>77.000000</td>
-<td>1.079549e+06</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>IQ의 평균값은 113이군요. 몸무게는 kg으로 변환하면 약 70kg쯤 됩니다.</p>
 </section>
@@ -658,53 +482,17 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <h2 data-number="1.4" class="anchored" data-anchor-id="산포-행렬을-그려보겠습니다."><span class="header-section-number">1.4</span> 산포 행렬을 그려보겠습니다.</h2>
 <p>전체적인 데이터의 양상을 보기에는 시각화가 중요합니다. 파이썬에서는 간단하게 산포 행렬(sactter matrix)를 그려 볼 수 있습니다.</p>
 <p>먼저 키와 몸무게, MRI_count 간의 상관관계를 보겠습니다.</p>
-<div id="cell-8" class="cell" data-scrolled="false">
+<div id="cell-8" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.plotting <span class="im">import</span> scatter_matrix</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 키와 몸무게, MRI_count</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>scatter_matrix(df[[<span class="st">"Weight"</span>, <span class="st">"Height"</span>, <span class="st">"MRI_Count"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A1D2B70&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A443668&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A47E588&gt;],
-       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A4B9588&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A56D4A8&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A56D4E0&gt;],
-       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A5DC978&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A614EB8&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A643B70&gt;]], dtype=object)</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="python_Statistics_files/figure-html/cell-5-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="python_Statistics_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 <p>키와 몸무계는 서로 연관이 있는듯 하고 나머지는 그다지 서로 연관이 없어 보입니다.</p>
 <p>그 다음으로는 여러 IQ 수치간에 상관관계를 알아 보죠.</p>
 <div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>scatter_matrix(df[[<span class="st">"PIQ"</span>, <span class="st">"VIQ"</span>, <span class="st">"FSIQ"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A9AD6A0&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000A9F34A8&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000AA2E3C8&gt;],
-       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000AA64358&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000AAA0358&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000AAA0390&gt;],
-       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000AB01EB8&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000AB3DEB8&gt;,
-        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000AB72EB8&gt;]], dtype=object)</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="python_Statistics_files/figure-html/cell-6-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="python_Statistics_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>scatter_matrix(df[[<span class="st">"PIQ"</span>, <span class="st">"VIQ"</span>, <span class="st">"FSIQ"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>당연하지만, FSIQ는 VIQ, PIQ 각각과 연관성이 있어 보입니다. VIQ와 PIQ간에는 애매하게 연관성이 없어 보이네요. FSIQ의 히스토그램에서는 100 - 125 사이에는 데이터가 없는 것을 확인 할 수 있습니다.</p>
 </section>
@@ -725,15 +513,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <h2 data-number="2.1" class="anchored" data-anchor-id="sample-t-test"><span class="header-section-number">2.1</span> 1-sample T-test</h2>
 <p>하나의 집단의 평균이 특정 기준보다 유의미하게 다른지 를 알아보는 분석 방법입니다. Student T-test이라고도 하는 1-sample T-test 를 사용하려면 <code>scipy.stats.ttest_1samp()</code> 함수를 사용하면 됩니다.</p>
 <div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-13" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Student’s t-test: the simplest statistical test</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>stats.ttest_1samp(df[<span class="st">"VIQ"</span>], <span class="dv">0</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># VIQ의 평균값이 0과 통계적으로 유의미하게 다른지 알아 보겠습니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>Ttest_1sampResult(statistic=30.088099970849328, pvalue=1.3289196468728067e-28)</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Student’s t-test: the simplest statistical test</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>stats.ttest_1samp(df[<span class="st">"VIQ"</span>], <span class="dv">0</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># VIQ의 평균값이 0과 통계적으로 유의미하게 다른지 알아 보겠습니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>간단하게 결론만 말하자면, p-value가 아주 낮음(10의 -28제곱) 으로 VIQ의 평균은 0이 아니라고 말할 수 있습니다.</p>
 </section>
@@ -742,15 +527,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>서로 다른 두개의 그룹 간 평균의 차이가 유의미 한지 여부를 판단하기 위해 시행합니다. 2-sample t-test 는 <code>scipy.stats.ttest_ind():</code> 함수를 사용합니다.</p>
 <p>예를 들어 여자의 VIQ와 남자의 VIQ의 평균은 통계적으로 차이가 있는지 알아 보겠습니다.</p>
 <div id="cell-15" class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 여자의 VIQ</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>female_viq <span class="op">=</span> df[df[<span class="st">"Gender"</span>] <span class="op">==</span> <span class="st">"Female"</span>][<span class="st">"VIQ"</span>]</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 남자의 VIQ</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>male_viq <span class="op">=</span> df[df[<span class="st">"Gender"</span>] <span class="op">==</span> <span class="st">"Male"</span>][<span class="st">"VIQ"</span>]</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 두개의 리스트를 가지고 t-test실행</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>stats.ttest_ind(female_viq, male_viq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>Ttest_indResult(statistic=-0.77261617232750113, pvalue=0.44452876778583217)</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 여자의 VIQ</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>female_viq <span class="op">=</span> df[df[<span class="st">"Gender"</span>] <span class="op">==</span> <span class="st">"Female"</span>][<span class="st">"VIQ"</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 남자의 VIQ</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>male_viq <span class="op">=</span> df[df[<span class="st">"Gender"</span>] <span class="op">==</span> <span class="st">"Male"</span>][<span class="st">"VIQ"</span>]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 두개의 리스트를 가지고 t-test실행</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>stats.ttest_ind(female_viq, male_viq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>p-value가 0.44로 아주 높게 나왔습니다. 따라서 기무가설이었던 <em>남자와 여자의 VIQ 평균에는 차이가 있다.</em> 는 기각되고 <em>차이가 없다</em> 라고 결론을 낼 수 있습니다.</p>
 </section>
@@ -764,38 +546,20 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>주어진 <code>brain_size</code> 데이터에서 3가지 IQ수치 PIQ, VIQ, FSIQ가 제공 되고 있는데, FSIQ 평균 값과 PIQ 평균이 통계적으로 차이가 있는지 알아 보도록 하겠습니다. 이를 위해서 2-sample T-test를 수행하겠습니다.</p>
 <p>먼저, 전체적인 데이터의 모습을 알기 위한 <strong>boxplot</strong>을 그려보겠습니다.</p>
 <div id="cell-17" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plots of different columns for each gender</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>groupby_gender <span class="op">=</span> df.groupby(<span class="st">"Gender"</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>groupby_gender.boxplot(column<span class="op">=</span>[<span class="st">"FSIQ"</span>, <span class="st">"VIQ"</span>, <span class="st">"PIQ"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>Female         AxesSubplot(0.1,0.15;0.363636x0.75)
-Male      AxesSubplot(0.536364,0.15;0.363636x0.75)
-dtype: object</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="python_Statistics_files/figure-html/cell-10-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="python_Statistics_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plots of different columns for each gender</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>groupby_gender <span class="op">=</span> df.groupby(<span class="st">"Gender"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>groupby_gender.boxplot(column<span class="op">=</span>[<span class="st">"FSIQ"</span>, <span class="st">"VIQ"</span>, <span class="st">"PIQ"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-18" class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2-sample t-test</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>stats.ttest_ind(df[<span class="st">"FSIQ"</span>], df[<span class="st">"PIQ"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>Ttest_indResult(statistic=0.46563759638096403, pvalue=0.64277250094148408)</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2-sample t-test</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>stats.ttest_ind(df[<span class="st">"FSIQ"</span>], df[<span class="st">"PIQ"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>T-test 결과 p-value가 0.64로 매우 높기 때문에 기무가설을 기각하지 못합니다. 따라서, FSIQ와 PIQ값에 통계적으로 유의적인 차이는 없다고 볼 수 있습니다.</p>
 <p>여기서 한가지 문제 점이 있는데, 각각의 FSIQ와 PIQ값은 같은 개인에서 측정되었기 때문에, <strong>paried T-test</strong> 으로 추가적인 확인이 필요합니다.</p>
 <div id="cell-20" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>stats.ttest_rel(df[<span class="st">"FSIQ"</span>], df[<span class="st">"PIQ"</span>])</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This is equivalent to a 1-sample test on the difference:</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># stats.ttest_1samp(df['FSIQ'] - df['PIQ'], 0)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>Ttest_relResult(statistic=1.7842019405859857, pvalue=0.082172638183642358)</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>stats.ttest_rel(df[<span class="st">"FSIQ"</span>], df[<span class="st">"PIQ"</span>])</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This is equivalent to a 1-sample test on the difference:</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># stats.ttest_1samp(df['FSIQ'] - df['PIQ'], 0)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Paired T-test결과에서도 p-value 값이 0.05 이상임으로 통계적으로 유의미한 차이가 없다고 볼 수 있습니다.</p>
 </section>
@@ -806,43 +570,11 @@ dtype: object</code></pre>
 <h2 data-number="4.1" class="anchored" data-anchor-id="f-test"><span class="header-section-number">4.1</span> F-test</h2>
 <p>F-test는 두 표본의 분산에 대한 차이가 통계적으로 유의한가를 판별하는 검정기법입니다. 다른 이름으로 var-test로도 불립니다.</p>
 <div id="cell-22" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.formula.api <span class="im">import</span> ols</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols(<span class="st">"VIQ ~ Gender + MRI_Count + Height"</span>, df).fit()</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary())</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.f_test([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                            OLS Regression Results                            
-==============================================================================
-Dep. Variable:                    VIQ   R-squared:                       0.246
-Model:                            OLS   Adj. R-squared:                  0.181
-Method:                 Least Squares   F-statistic:                     3.809
-Date:                Thu, 21 Dec 2017   Prob (F-statistic):             0.0184
-Time:                        15:34:54   Log-Likelihood:                -172.34
-No. Observations:                  39   AIC:                             352.7
-Df Residuals:                      35   BIC:                             359.3
-Df Model:                           3                                         
-Covariance Type:            nonrobust                                         
-==================================================================================
-                     coef    std err          t      P&gt;|t|      [0.025      0.975]
-----------------------------------------------------------------------------------
-Intercept        166.6258     88.824      1.876      0.069     -13.696     346.948
-Gender[T.Male]     8.8524     10.710      0.827      0.414     -12.890      30.595
-MRI_Count          0.0002   6.46e-05      2.615      0.013    3.78e-05       0.000
-Height            -3.0837      1.276     -2.417      0.021      -5.674      -0.494
-==============================================================================
-Omnibus:                        7.373   Durbin-Watson:                   2.109
-Prob(Omnibus):                  0.025   Jarque-Bera (JB):                2.252
-Skew:                           0.005   Prob(JB):                        0.324
-Kurtosis:                       1.823   Cond. No.                     2.40e+07
-==============================================================================
-
-Warnings:
-[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-[2] The condition number is large, 2.4e+07. This might indicate that there are
-strong multicollinearity or other numerical problems.
-&lt;F test: F=array([[ 0.68319608]]), p=0.4140878441244722, df_denom=35, df_num=1&gt;</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.formula.api <span class="im">import</span> ols</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols(<span class="st">"VIQ ~ Gender + MRI_Count + Height"</span>, df).fit()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary())</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.f_test([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>F test 결과, p-value 가 0.41로 아주 높게 나왔습니다. 따라서 기무가설을 기각하지 못합니다. 다시 말해 성별에 의한 VIQ 차이는 <strong>없다</strong> 라고 할 수 있습니다.</p>
 </section>
@@ -850,34 +582,27 @@ strong multicollinearity or other numerical problems.
 <h2 data-number="4.2" class="anchored" data-anchor-id="시각화"><span class="header-section-number">4.2</span> 시각화</h2>
 <p>시각화를 하면 통계분석에 사용된 변수간의 상관관계를 손쉽게 확인할 수 있습니다. 아래 코드는 <code>scatter_matrix</code>를 그리는 방법입니다.</p>
 <div id="cell-24" class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This plotting is useful to get an intuitions on the relationships between</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># our different variables</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill in the missing values for Height for plotting</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Height"</span>].fillna(method<span class="op">=</span><span class="st">"pad"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The parameter 'c' is passed to plt.scatter and will control the color</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The same holds for parameters 'marker', 'alpha' and 'cmap', that</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># control respectively the type of marker used, their transparency and</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># the colormap</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>scatter_matrix(</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    df[[<span class="st">"VIQ"</span>, <span class="st">"MRI_Count"</span>, <span class="st">"Height"</span>]],</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    c<span class="op">=</span>(df[<span class="st">"Gender"</span>] <span class="op">==</span> <span class="st">"Female"</span>),</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">"o"</span>,</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.7</span>,</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.gcf()</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"purple: male, yellow: female"</span>, size<span class="op">=</span><span class="dv">13</span>)</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="python_Statistics_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="python_Statistics_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This plotting is useful to get an intuitions on the relationships between</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># our different variables</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill in the missing values for Height for plotting</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Height"</span>].fillna(method<span class="op">=</span><span class="st">"pad"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The parameter 'c' is passed to plt.scatter and will control the color</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The same holds for parameters 'marker', 'alpha' and 'cmap', that</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># control respectively the type of marker used, their transparency and</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># the colormap</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>scatter_matrix(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    df[[<span class="st">"VIQ"</span>, <span class="st">"MRI_Count"</span>, <span class="st">"Height"</span>]],</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    c<span class="op">=</span>(df[<span class="st">"Gender"</span>] <span class="op">==</span> <span class="st">"Female"</span>),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">"o"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.7</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.gcf()</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"purple: male, yellow: female"</span>, size<span class="op">=</span><span class="dv">13</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1352,38 +1077,6 @@ strong multicollinearity or other numerical problems.
 </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

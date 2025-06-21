@@ -82,9 +82,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-47a0f6fb4ac30c434f725a265b04c940.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-d92fb7b19d0bb3decc9536684275f0ea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-47a0f6fb4ac30c434f725a265b04c940.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -127,10 +124,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="OpenCV를 사용해 이미지에서 세포 수 측정 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/python_CV2_CellCounting_files/figure-html/cell-2-output-2.png">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="610">
-<meta property="og:image:width" content="1187">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -410,7 +404,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -482,34 +476,14 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>original, processed, centroids, cell_count <span class="op">=</span> process_image(image_path)</span>
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 </span><span class="sc">{</span>cell_count<span class="sc">}</span><span class="ss">개 세포 확인."</span>)</span>
 <span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>visualize_results(original, processed, centroids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>총 174개 세포 확인.</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="python_CV2_CellCounting_files/figure-html/cell-2-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="python_CV2_CellCounting_files/figure-html/cell-2-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
 </div>
 <p>다른 이미지에 위의 코드를 다시 사용해보겠습니다.</p>
 <div id="ce869b8d-3628-45aa-b92a-98cecb6be352" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 다른 이미지</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">"../data/input/cell_2.png"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>original, processed, centroids, cell_count <span class="op">=</span> process_image(image_path)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 </span><span class="sc">{</span>cell_count<span class="sc">}</span><span class="ss">개 세포 확인."</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>visualize_results(original, processed, centroids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>총 293개 세포 확인.</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="python_CV2_CellCounting_files/figure-html/cell-3-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="python_CV2_CellCounting_files/figure-html/cell-3-output-2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 다른 이미지</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">"../data/input/cell_2.png"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>original, processed, centroids, cell_count <span class="op">=</span> process_image(image_path)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 </span><span class="sc">{</span>cell_count<span class="sc">}</span><span class="ss">개 세포 확인."</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>visualize_results(original, processed, centroids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이번 글에서는 <code>OpenCV</code>를 사용하여 이미지를 분석하고 세포 수를 측정 하는 방법에 대해 설명했습니다. 다만 위에 제시된 방법은 다양한 종류의 세포 이미지에 적용 가능하지 않습니다. 위의 코드는 특정 세포 이미지에 맞춰 최적화된 결과입니다. 따라서 다른 종류의 세포 이미지나 촬영 조건이 다른 이미지에 동일한 코드를 적용할 경우 코드의 파라미터를 조정하거나 전처리 과정을 필요할 수 있습니다.</p>
 <p>그러니 더 효율적이고 정확한 세포 수 측정을 위해서는 <a href="https://neurips22-cellseg.grand-challenge.org/">NeurIPS 2022 세포 분할 챌린지</a> 최종 우승 소프트웨어인 <a href="https://github.com/FZJ-INM1-BDA/celldetection">celldetection</a>를 사용해보시길 권장합니다.</p>
@@ -987,38 +961,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

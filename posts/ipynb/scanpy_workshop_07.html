@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -122,9 +122,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -436,7 +433,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -470,7 +467,7 @@ Note
 <p>예시 데이터셋은 이미 조직과 겹치지 않는 부분은 필터링이 완료된 상태입니다. 실제 데이터에서 진행한다면 추가 필터링 작업이 필요합니다.</p>
 </div>
 </div>
-<div id="cell-2" class="cell" data-execution_count="2">
+<div id="cell-2" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
@@ -494,473 +491,300 @@ Note
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    dpi<span class="op">=</span><span class="dv">60</span>, frameon<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">3</span>), facecolor<span class="op">=</span><span class="st">"white"</span>, color_map<span class="op">=</span><span class="st">"viridis_r"</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"사용한 SCANPY 버전: </span><span class="sc">{</span>sc<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>사용한 SCANPY 버전: 1.10.1</code></pre>
-</div>
 </div>
 </section>
 <section id="데이터-불러오기" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> 데이터 불러오기</h1>
 <p>데이터를 불러오기 위해 <code>datasets.visium_sge()</code> 함수로 <code>10xgenomics</code> 데이터셋을 가져오겠습니다. 만약에 직접 수집한 <code>Visium</code> 데이터를 사용하는 경우 <code>Scanpy</code>의 <code>read_visium()</code> 함수를 사용해야 합니다. 그리고 <code>pp.calculate_qc_metrics()</code>함수를 사용해 표준 QC 평가 지표를 계산하겠습니다.</p>
-<div id="cell-4" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 누락되거나 계산 시간이 오래 걸리는 경우 미리 계산된 데이터 다운로드</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fetch_data <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># url for source data</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>path_data <span class="op">=</span> <span class="st">"https://export.uppmax.uu.se/naiss2023-23-3/workshops/workshop-scrnaseq"</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="st">"./input/spatial/visium"</span>):</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    os.makedirs(<span class="st">"./input/spatial/visium"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>adata_anterior <span class="op">=</span> sc.datasets.visium_sge(sample_id<span class="op">=</span><span class="st">"V1_Mouse_Brain_Sagittal_Anterior"</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>adata_posterior <span class="op">=</span> sc.datasets.visium_sge(sample_id<span class="op">=</span><span class="st">"V1_Mouse_Brain_Sagittal_Posterior"</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>adata_anterior.var_names_make_unique()</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>adata_posterior.var_names_make_unique()</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 하나의 데이터 집합으로 병합</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>library_names <span class="op">=</span> [</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"V1_Mouse_Brain_Sagittal_Anterior"</span>,</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"V1_Mouse_Brain_Sagittal_Posterior"</span>,</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata_anterior.concatenate(</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    adata_posterior,</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    batch_key<span class="op">=</span><span class="st">"library_id"</span>,</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    uns_merge<span class="op">=</span><span class="st">"unique"</span>,</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    batch_categories<span class="op">=</span>library_names,</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>AnnData object with n_obs × n_vars = 6050 × 32285
-    obs: 'in_tissue', 'array_row', 'array_col', 'library_id'
-    var: 'gene_ids', 'feature_types', 'genome'
-    uns: 'spatial'
-    obsm: 'spatial'</code></pre>
-</div>
+<div id="cell-4" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 누락되거나 계산 시간이 오래 걸리는 경우 미리 계산된 데이터 다운로드</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fetch_data <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># url for source data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>path_data <span class="op">=</span> <span class="st">"https://export.uppmax.uu.se/naiss2023-23-3/workshops/workshop-scrnaseq"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(<span class="st">"./input/spatial/visium"</span>):</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    os.makedirs(<span class="st">"./input/spatial/visium"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>adata_anterior <span class="op">=</span> sc.datasets.visium_sge(sample_id<span class="op">=</span><span class="st">"V1_Mouse_Brain_Sagittal_Anterior"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>adata_posterior <span class="op">=</span> sc.datasets.visium_sge(sample_id<span class="op">=</span><span class="st">"V1_Mouse_Brain_Sagittal_Posterior"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>adata_anterior.var_names_make_unique()</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>adata_posterior.var_names_make_unique()</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 하나의 데이터 집합으로 병합</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>library_names <span class="op">=</span> [</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"V1_Mouse_Brain_Sagittal_Anterior"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"V1_Mouse_Brain_Sagittal_Posterior"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata_anterior.concatenate(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    adata_posterior,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    batch_key<span class="op">=</span><span class="st">"library_id"</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    uns_merge<span class="op">=</span><span class="st">"unique"</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    batch_categories<span class="op">=</span>library_names,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>병합된 객체에 두 이미지가 모두 포함되도록 <code>uns_merge="unique"</code> 옵션을 사용합니다. 그러면 공간 정보는 <code>obsm</code>에 저장됩니다.</p>
 </section>
 <section id="데이터-품질-관리" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> 데이터 품질 관리</h1>
 <p>scRNA-seq와 마찬가지로 품질 관리를 위해 개수, 특징 수 및 미토콘드리아 비율에 대한 통계를 사용합니다.</p>
-<div id="cell-7" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 미토콘드리아 및 헤모글로빈 유전자에 대한 정보를 개체에 추가합니다.</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"mt"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"mt-"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"hb"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.contains(<span class="st">"^Hb.*-"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sc.pp.calculate_qc_metrics(adata, qc_vars<span class="op">=</span>[<span class="st">"mt"</span>, <span class="st">"hb"</span>], percent_top<span class="op">=</span><span class="va">None</span>, log1p<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">4</span>, <span class="dv">5</span>)}):</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    sc.pl.violin(</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        adata,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"n_genes_by_counts"</span>, <span class="st">"total_counts"</span>, <span class="st">"pct_counts_mt"</span>, <span class="st">"pct_counts_hb"</span>],</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        jitter<span class="op">=</span><span class="fl">0.4</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        groupby<span class="op">=</span><span class="st">"library_id"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        rotation<span class="op">=</span><span class="dv">90</span>,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="scanpy_workshop_07_files/figure-html/cell-4-output-1.png" width="896" height="452" class="figure-img"></a></p>
-</figure>
+<div id="cell-7" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 미토콘드리아 및 헤모글로빈 유전자에 대한 정보를 개체에 추가합니다.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"mt"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"mt-"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"hb"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.contains(<span class="st">"^Hb.*-"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sc.pp.calculate_qc_metrics(adata, qc_vars<span class="op">=</span>[<span class="st">"mt"</span>, <span class="st">"hb"</span>], percent_top<span class="op">=</span><span class="va">None</span>, log1p<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">4</span>, <span class="dv">5</span>)}):</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    sc.pl.violin(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        adata,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"n_genes_by_counts"</span>, <span class="st">"total_counts"</span>, <span class="st">"pct_counts_mt"</span>, <span class="st">"pct_counts_hb"</span>],</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        jitter<span class="op">=</span><span class="fl">0.4</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        groupby<span class="op">=</span><span class="st">"library_id"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        rotation<span class="op">=</span><span class="dv">90</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<div id="cell-8" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 두 섹션을 별도로 시각화 하려면 library_id를 지정합니다.</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> library <span class="kw">in</span> library_names:</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(library)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        adata[adata.obs.library_id <span class="op">==</span> library, :],</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"total_counts"</span>, <span class="st">"n_genes_by_counts"</span>, <span class="st">"pct_counts_mt"</span>, <span class="st">"pct_counts_hb"</span>],</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1_Mouse_Brain_Sagittal_Anterior</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-5-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="scanpy_workshop_07_files/figure-html/cell-5-output-2.png" width="390" height="326" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1_Mouse_Brain_Sagittal_Posterior</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-5-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="scanpy_workshop_07_files/figure-html/cell-5-output-4.png" width="395" height="326" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-8" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 두 섹션을 별도로 시각화 하려면 library_id를 지정합니다.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> library <span class="kw">in</span> library_names:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(library)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        adata[adata.obs.library_id <span class="op">==</span> library, :],</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"total_counts"</span>, <span class="st">"n_genes_by_counts"</span>, <span class="st">"pct_counts_mt"</span>, <span class="st">"pct_counts_hb"</span>],</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>보시다시피, 개수/특징이 적고 미토콘드리아 함량이 높은 부분은 주로 조직의 가장자리 쪽에 있습니다. 이러한 영역은 손상된 조직일 가능성이 높습니다. 섹션에 찢어지거나 접힌 부분이 있는 경우 품질이 낮은 조직 내 영역이 보일 수도 있습니다.</p>
 <p>그러나 일부 조직 유형에서는 발현된 유전자의 양과 미토콘드리아의 비율도 생물학적 의미를 가지고 있을 수 있기 때문에 작업 중인 조직과 이러한 특징이 어떤의미인지 생각해 두어야 합니다.</p>
 <section id="스팟-필터링" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="스팟-필터링"><span class="header-section-number">3.1</span> 스팟 필터링</h2>
 <p>미토콘드리아 판독률이 25% 미만이고 헤모글로빈(<code>hb</code>) 판독률이 20% 미만 그리고 검출된 유전자가 1,000개 이상인 모든 스팟을 선택합니다. 데이터에 적합한 필터링 기준은 사전 지식을 바탕으로 직접 판단해야 합니다.</p>
-<div id="cell-10" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>keep <span class="op">=</span> (</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    (adata.obs[<span class="st">"pct_counts_hb"</span>] <span class="op">&lt;</span> <span class="dv">20</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (adata.obs[<span class="st">"pct_counts_mt"</span>] <span class="op">&lt;</span> <span class="dv">25</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (adata.obs[<span class="st">"n_genes_by_counts"</span>] <span class="op">&gt;</span> <span class="dv">1000</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">sum</span>(keep))</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[keep, :]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>5749</code></pre>
-</div>
+<div id="cell-10" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>keep <span class="op">=</span> (</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    (adata.obs[<span class="st">"pct_counts_hb"</span>] <span class="op">&lt;</span> <span class="dv">20</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (adata.obs[<span class="st">"pct_counts_mt"</span>] <span class="op">&lt;</span> <span class="dv">25</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (adata.obs[<span class="st">"n_genes_by_counts"</span>] <span class="op">&gt;</span> <span class="dv">1000</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">sum</span>(keep))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[keep, :]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>필터링한 결과에 대한 조직 절편을 다시 시각화 합니다.</p>
-<div id="cell-12" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> library <span class="kw">in</span> library_names:</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(library)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        adata[adata.obs.library_id <span class="op">==</span> library, :],</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"total_counts"</span>, <span class="st">"n_genes_by_counts"</span>, <span class="st">"pct_counts_mt"</span>, <span class="st">"pct_counts_hb"</span>],</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1_Mouse_Brain_Sagittal_Anterior</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-7-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="scanpy_workshop_07_files/figure-html/cell-7-output-2.png" width="388" height="320" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1_Mouse_Brain_Sagittal_Posterior</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-7-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="scanpy_workshop_07_files/figure-html/cell-7-output-4.png" width="394" height="320" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-12" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> library <span class="kw">in</span> library_names:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(library)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        adata[adata.obs.library_id <span class="op">==</span> library, :],</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"total_counts"</span>, <span class="st">"n_genes_by_counts"</span>, <span class="st">"pct_counts_mt"</span>, <span class="st">"pct_counts_hb"</span>],</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="많이-발현되는-유전자-확인" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="많이-발현되는-유전자-확인"><span class="header-section-number">3.2</span> 많이 발현되는 유전자 확인</h2>
 <p>데이터에서 가장 많이 발현되는 유전자가 무엇인지 살펴보겠습니다.</p>
-<div id="cell-14" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">4</span>)}):</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.highest_expr_genes(adata, n_top<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="scanpy_workshop_07_files/figure-html/cell-8-output-1.png" width="303" height="293" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-14" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">4</span>)}):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.highest_expr_genes(adata, n_top<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>위 시각화 결과에서 알 수 있듯이 미토콘드리아 유전자는 가장 많이 발현되는 유전자 중 하나입니다. 또한 <code>lncRNA</code>,<code>Bc1</code>(Brain cytoplasmic RNA1)도 많이 발현됩니다.</p>
 </section>
 <section id="유전자-필터링하기" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="유전자-필터링하기"><span class="header-section-number">3.3</span> 유전자 필터링하기</h2>
 <p>데이터에서 <code>Bc1</code> 유전자, 헤모글로빈 유전자(혈액 오염), 미토콘드리아 유전자를 제거합니다.</p>
-<div id="cell-16" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mito_genes <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"mt-"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hb_genes <span class="op">=</span> adata.var_names.<span class="bu">str</span>.contains(<span class="st">"^Hb.*-"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>remove <span class="op">=</span> np.add(mito_genes, hb_genes)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>remove[adata.var_names <span class="op">==</span> <span class="st">"Bc1"</span>] <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>keep <span class="op">=</span> np.invert(remove)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"제거되는 데이터의 갯수: </span><span class="sc">{</span><span class="bu">sum</span>(remove)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, keep]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>제거되는 데이터의 갯수: 22</code></pre>
-</div>
+<div id="cell-16" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mito_genes <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"mt-"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>hb_genes <span class="op">=</span> adata.var_names.<span class="bu">str</span>.contains(<span class="st">"^Hb.*-"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>remove <span class="op">=</span> np.add(mito_genes, hb_genes)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>remove[adata.var_names <span class="op">==</span> <span class="st">"Bc1"</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>keep <span class="op">=</span> np.invert(remove)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"제거되는 데이터의 갯수: </span><span class="sc">{</span><span class="bu">sum</span>(remove)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, keep]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="분석하기" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> 분석하기</h1>
 <p>섹션이 두 개이므로 <code>batch_key="library_id"</code>로 가변 유전자를 선택한 다음 추가 분석을 위해 가변 유전자의 조합을 가져옵니다. 이 방법은 분석에 특정 배치의 유전자가 편향적으로 포함되지 않게 하기 위함입니다.</p>
-<div id="cell-18" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 나중을 위해 원시 데이터 카운트를 별도의 객체에 저장</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>counts_adata <span class="op">=</span> adata.copy()</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 배치당 1500개의 가변 유전자를 가져온 다음 이들의 조합을 사용합니다.</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    adata, flavor<span class="op">=</span><span class="st">"seurat"</span>, n_top_genes<span class="op">=</span><span class="dv">1500</span>, inplace<span class="op">=</span><span class="va">True</span>, batch_key<span class="op">=</span><span class="st">"library_id"</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>adata.raw <span class="op">=</span> adata</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 가변 유전자에 대한 하위 집합</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var.highly_variable_nbatches <span class="op">&gt;</span> <span class="dv">0</span>]</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 스케일링</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-18" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 나중을 위해 원시 데이터 카운트를 별도의 객체에 저장</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>counts_adata <span class="op">=</span> adata.copy()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 배치당 1500개의 가변 유전자를 가져온 다음 이들의 조합을 사용합니다.</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    adata, flavor<span class="op">=</span><span class="st">"seurat"</span>, n_top_genes<span class="op">=</span><span class="dv">1500</span>, inplace<span class="op">=</span><span class="va">True</span>, batch_key<span class="op">=</span><span class="st">"library_id"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>adata.raw <span class="op">=</span> adata</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 가변 유전자에 대한 하위 집합</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var.highly_variable_nbatches <span class="op">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 스케일링</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이제 개별 유전자의 유전자 발현을 플로팅할 수 있는데, <code>Hpca</code> 유전자는 해마 조직을 나타내는 마커 유전자이고 <code>Ttr</code> 유전자는 맥락막 신경총(Choroid plexus)의 마커 유전자입니다.</p>
-<div id="cell-20" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> library <span class="kw">in</span> library_names:</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(library)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        adata[adata.obs.library_id <span class="op">==</span> library, :],</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"Ttr"</span>, <span class="st">"Hpca"</span>],</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1_Mouse_Brain_Sagittal_Anterior</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-11-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="scanpy_workshop_07_files/figure-html/cell-11-output-2.png" width="374" height="169" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1_Mouse_Brain_Sagittal_Posterior</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-11-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="scanpy_workshop_07_files/figure-html/cell-11-output-4.png" width="389" height="168" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-20" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> library <span class="kw">in</span> library_names:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(library)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        adata[adata.obs.library_id <span class="op">==</span> library, :],</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"Ttr"</span>, <span class="st">"Hpca"</span>],</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="비통합-클러스터링-non-integrated-clustering" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> 비통합 클러스터링 (Non-integrated Clustering)</h1>
 <p>각 데이터셋을 독립적으로 분석한 후 클러스터링을 수행합니다. scRNA-seq 분석법과 동일한 방법으로 차원 축소 및 클러스터링을 진행합니다.</p>
-<div id="cell-22" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata, key_added<span class="op">=</span><span class="st">"clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-22" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata, key_added<span class="op">=</span><span class="st">"clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이제 UMAP으로 클러스터와 <code>library_id</code>를 시각화해봅니다.</p>
-<div id="cell-24" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">4</span>, <span class="dv">4</span>)}):</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.umap(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        adata,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"clusters"</span>, <span class="st">"library_id"</span>],</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        legend_fontsize<span class="op">=</span><span class="st">"9"</span>,</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="scanpy_workshop_07_files/figure-html/cell-13-output-1.png" width="453" height="209" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-24" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">4</span>, <span class="dv">4</span>)}):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.umap(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        adata,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"clusters"</span>, <span class="st">"library_id"</span>],</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        legend_fontsize<span class="op">=</span><span class="st">"9"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>조직 섹션에 클러스터를 시각화하기 위해 데이터에서 클러스터 색상을 가져와 동일한 색상으로 지정해야 합니다.</p>
-<div id="cell-26" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>clusters_colors <span class="op">=</span> <span class="bu">dict</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">zip</span>(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        [<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(adata.obs.clusters.cat.categories))],</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        adata.uns[<span class="st">"clusters_colors"</span>],</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, library <span class="kw">in</span> <span class="bu">enumerate</span>(library_names):</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    ad <span class="op">=</span> adata[adata.obs.library_id <span class="op">==</span> library, :].copy()</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        ad,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"clusters"</span>,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="fl">1.5</span>,</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span>[v <span class="cf">for</span> k, v <span class="kw">in</span> clusters_colors.items() <span class="cf">if</span> k <span class="kw">in</span> ad.obs.clusters.unique().tolist()],</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>axs[i],</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    axs[i].set_title(<span class="ss">f"</span><span class="sc">{</span>library<span class="sc">}</span><span class="ss"> cluster"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="scanpy_workshop_07_files/figure-html/cell-14-output-1.png" width="466" height="237" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-26" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>clusters_colors <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">zip</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        [<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(adata.obs.clusters.cat.categories))],</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        adata.uns[<span class="st">"clusters_colors"</span>],</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, library <span class="kw">in</span> <span class="bu">enumerate</span>(library_names):</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    ad <span class="op">=</span> adata[adata.obs.library_id <span class="op">==</span> library, :].copy()</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        ad,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"clusters"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span>[v <span class="cf">for</span> k, v <span class="kw">in</span> clusters_colors.items() <span class="cf">if</span> k <span class="kw">in</span> ad.obs.clusters.unique().tolist()],</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>axs[i],</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    axs[i].set_title(<span class="ss">f"</span><span class="sc">{</span>library<span class="sc">}</span><span class="ss"> cluster"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="통합-클러스터링-integrated-clustering" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> 통합 클러스터링 (Integrated Clustering)</h1>
 <p>데이터셋을 하나로 통합한 후 클러스터링을 수행하는 방법입니다. 서로 다른 실험 조건이나 샘플에서 얻은 데이터를 함께 분석하여 전체적인 구조를 파악합니다. 서로 다른 조직 섹션 간에 강력한 배치 효과가 있는 경우가 많으므로 일반적으로 통합 클러스터링이 권장됩니다. 여기서는 통합을 위해 <code>Scanorama</code>를 사용해 진행하겠습니다.</p>
-<div id="cell-28" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>adatas <span class="op">=</span> {}</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> batch <span class="kw">in</span> library_names:</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    adatas[batch] <span class="op">=</span> adata[adata.obs[<span class="st">"library_id"</span>] <span class="op">==</span> batch,]</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>adatas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>{'V1_Mouse_Brain_Sagittal_Anterior': View of AnnData object with n_obs × n_vars = 2597 × 2405
-     obs: 'in_tissue', 'array_row', 'array_col', 'library_id', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'total_counts_hb', 'pct_counts_hb', 'clusters'
-     var: 'gene_ids', 'feature_types', 'genome', 'mt', 'hb', 'n_cells_by_counts', 'mean_counts', 'pct_dropout_by_counts', 'total_counts', 'highly_variable', 'means', 'dispersions', 'dispersions_norm', 'highly_variable_nbatches', 'highly_variable_intersection', 'mean', 'std'
-     uns: 'spatial', 'library_id_colors', 'log1p', 'hvg', 'neighbors', 'umap', 'clusters', 'clusters_colors'
-     obsm: 'spatial', 'X_pca', 'X_umap'
-     obsp: 'distances', 'connectivities',
- 'V1_Mouse_Brain_Sagittal_Posterior': View of AnnData object with n_obs × n_vars = 3152 × 2405
-     obs: 'in_tissue', 'array_row', 'array_col', 'library_id', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'total_counts_hb', 'pct_counts_hb', 'clusters'
-     var: 'gene_ids', 'feature_types', 'genome', 'mt', 'hb', 'n_cells_by_counts', 'mean_counts', 'pct_dropout_by_counts', 'total_counts', 'highly_variable', 'means', 'dispersions', 'dispersions_norm', 'highly_variable_nbatches', 'highly_variable_intersection', 'mean', 'std'
-     uns: 'spatial', 'library_id_colors', 'log1p', 'hvg', 'neighbors', 'umap', 'clusters', 'clusters_colors'
-     obsm: 'spatial', 'X_pca', 'X_umap'
-     obsp: 'distances', 'connectivities'}</code></pre>
+<div id="cell-28" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adatas <span class="op">=</span> {}</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> batch <span class="kw">in</span> library_names:</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    adatas[batch] <span class="op">=</span> adata[adata.obs[<span class="st">"library_id"</span>] <span class="op">==</span> batch,]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>adatas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="cell-29" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체 목록으로 변환</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>adatas <span class="op">=</span> <span class="bu">list</span>(adatas.values())</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># scanorama.integrate 실행</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>scanorama.integrate_scanpy(adatas, dimred<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 통합 행렬을 가져옵니다.</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>scanorama_int <span class="op">=</span> [ad.obsm[<span class="st">"X_scanorama"</span>] <span class="cf">for</span> ad <span class="kw">in</span> adatas]</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 하나의 행렬로 만듭니다.</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>all_s <span class="op">=</span> np.concatenate(scanorama_int)</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># print(all_s.shape)</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체에 추가합니다.</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"Scanorama"</span>] <span class="op">=</span> all_s</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Found 2405 genes among all datasets
-[[0.         0.47824413]
- [0.         0.        ]]
-Processing datasets (0, 1)</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="16">
-<pre><code>AnnData object with n_obs × n_vars = 5749 × 2405
-    obs: 'in_tissue', 'array_row', 'array_col', 'library_id', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'total_counts_hb', 'pct_counts_hb', 'clusters'
-    var: 'gene_ids', 'feature_types', 'genome', 'mt', 'hb', 'n_cells_by_counts', 'mean_counts', 'pct_dropout_by_counts', 'total_counts', 'highly_variable', 'means', 'dispersions', 'dispersions_norm', 'highly_variable_nbatches', 'highly_variable_intersection', 'mean', 'std'
-    uns: 'spatial', 'library_id_colors', 'log1p', 'hvg', 'neighbors', 'umap', 'clusters', 'clusters_colors'
-    obsm: 'spatial', 'X_pca', 'X_umap', 'Scanorama'
-    obsp: 'distances', 'connectivities'</code></pre>
-</div>
+<div id="cell-29" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체 목록으로 변환</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>adatas <span class="op">=</span> <span class="bu">list</span>(adatas.values())</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># scanorama.integrate 실행</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>scanorama.integrate_scanpy(adatas, dimred<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 통합 행렬을 가져옵니다.</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>scanorama_int <span class="op">=</span> [ad.obsm[<span class="st">"X_scanorama"</span>] <span class="cf">for</span> ad <span class="kw">in</span> adatas]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 하나의 행렬로 만듭니다.</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>all_s <span class="op">=</span> np.concatenate(scanorama_int)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># print(all_s.shape)</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체에 추가합니다.</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"Scanorama"</span>] <span class="op">=</span> all_s</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>그런 다음 다시 차원 축소 및 클러스터링을 실행합니다.</p>
-<div id="cell-31" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, use_rep<span class="op">=</span><span class="st">"Scanorama"</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata, key_added<span class="op">=</span><span class="st">"clusters"</span>)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    sc.pl.umap(</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        adata,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"clusters"</span>, <span class="st">"library_id"</span>],</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        legend_fontsize<span class="op">=</span><span class="st">"9"</span>,</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># palette=sc.pl.palettes.default_20,</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-17-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="scanpy_workshop_07_files/figure-html/cell-17-output-1.png" width="546" height="256" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-31" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, use_rep<span class="op">=</span><span class="st">"Scanorama"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata, key_added<span class="op">=</span><span class="st">"clusters"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    sc.pl.umap(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        adata,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"clusters"</span>, <span class="st">"library_id"</span>],</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        legend_fontsize<span class="op">=</span><span class="st">"9"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># palette=sc.pl.palettes.default_20,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>새로운 클러스터가 추가되었음으로 클러스터 색상에 대한 딕셔너리를 다시 만들어야 합니다.</p>
-<div id="cell-33" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>clusters_colors <span class="op">=</span> <span class="bu">dict</span>(</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">zip</span>(</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        [<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(adata.obs.clusters.cat.categories))],</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        adata.uns[<span class="st">"clusters_colors"</span>],</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, library <span class="kw">in</span> <span class="bu">enumerate</span>(library_names):</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    ad <span class="op">=</span> adata[adata.obs.library_id <span class="op">==</span> library, :].copy()</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        ad,</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"clusters"</span>,</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="fl">1.5</span>,</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span>[v <span class="cf">for</span> k, v <span class="kw">in</span> clusters_colors.items() <span class="cf">if</span> k <span class="kw">in</span> ad.obs.clusters.unique().tolist()],</span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>axs[i],</span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>    axs[i].set_title(<span class="ss">f"</span><span class="sc">{</span>library<span class="sc">}</span><span class="ss"> cluster"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-18-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="scanpy_workshop_07_files/figure-html/cell-18-output-1.png" width="466" height="237" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-33" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>clusters_colors <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">zip</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        [<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(adata.obs.clusters.cat.categories))],</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        adata.uns[<span class="st">"clusters_colors"</span>],</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, library <span class="kw">in</span> <span class="bu">enumerate</span>(library_names):</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ad <span class="op">=</span> adata[adata.obs.library_id <span class="op">==</span> library, :].copy()</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        ad,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>library,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"clusters"</span>,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span>[v <span class="cf">for</span> k, v <span class="kw">in</span> clusters_colors.items() <span class="cf">if</span> k <span class="kw">in</span> ad.obs.clusters.unique().tolist()],</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>axs[i],</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    axs[i].set_title(<span class="ss">f"</span><span class="sc">{</span>library<span class="sc">}</span><span class="ss"> cluster"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="공간적-유전자-변화" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> 공간적 유전자 변화</h1>
 <p>조직 내 공간적 위치와 상관관계가 있는 유전자 발현을 식별하는 방법에는 크게 두 가지가 있습니다. 첫 번째는 공간적으로 구분되는 클러스터를 기반으로 DEG를 찾는 것이고, 두번째는 클러스터나 위치를 고려하지 않고 공간적 패턴을 찾는 것입니다.</p>
 <p>먼저 scRNA-seq 데이터에서 했던 것처럼 클러스터 간 DEG를 찾아 보죠.</p>
-<div id="cell-35" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t-테스트 실행</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"clusters"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster5 유전자에 대한 히트맵으로 플롯</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">8</span>)}):</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    sc.pl.rank_genes_groups_heatmap(adata, groups<span class="op">=</span><span class="st">"5"</span>, n_genes<span class="op">=</span><span class="dv">10</span>, groupby<span class="op">=</span><span class="st">"clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-19-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="scanpy_workshop_07_files/figure-html/cell-19-output-1.png" width="250" height="339" class="figure-img"></a></p>
-</figure>
+<div id="cell-35" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t-테스트 실행</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"clusters"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster5 유전자에 대한 히트맵으로 플롯</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">8</span>)}):</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    sc.pl.rank_genes_groups_heatmap(adata, groups<span class="op">=</span><span class="st">"5"</span>, n_genes<span class="op">=</span><span class="dv">10</span>, groupby<span class="op">=</span><span class="st">"clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<div id="cell-36" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 공간적 위치에 시각화</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>top_genes <span class="op">=</span> sc.get.rank_genes_groups_df(adata, group<span class="op">=</span><span class="st">"5"</span>, log2fc_min<span class="op">=</span><span class="dv">0</span>)[<span class="st">"names"</span>][:<span class="dv">3</span>]</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> library <span class="kw">in</span> library_names:</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(library)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(adata[adata.obs.library_id <span class="op">==</span> library, :], library_id<span class="op">=</span>library, color<span class="op">=</span>top_genes)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    ncols <span class="op">=</span> (<span class="dv">2</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1_Mouse_Brain_Sagittal_Anterior</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-20-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="scanpy_workshop_07_files/figure-html/cell-20-output-2.png" width="572" height="168" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>V1_Mouse_Brain_Sagittal_Posterior</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-20-output-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="scanpy_workshop_07_files/figure-html/cell-20-output-4.png" width="561" height="165" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-36" class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 공간적 위치에 시각화</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>top_genes <span class="op">=</span> sc.get.rank_genes_groups_df(adata, group<span class="op">=</span><span class="st">"5"</span>, log2fc_min<span class="op">=</span><span class="dv">0</span>)[<span class="st">"names"</span>][:<span class="dv">3</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> library <span class="kw">in</span> library_names:</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(library)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(adata[adata.obs.library_id <span class="op">==</span> library, :], library_id<span class="op">=</span>library, color<span class="op">=</span>top_genes)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    ncols <span class="op">=</span> (<span class="dv">2</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>연구자들은 유전자 발현 추세가 공간에 따라 어떻게 달라지는지 조사하여 유전자 발현의 공간적 패턴을 파악할 수 있습니다. 공간에 대한 유전자 발현 패턴을 분석하는 도구로는 <code>SpatailDE</code>, <code>SPARK</code>, <code>Trendsceek</code>, <code>HMRF</code>, <code>Splotch</code>가 있습니다. 여기서는 가우스 프로세스 기반 통계 프레임워크인 <code>SpatialDE</code>을 사용해 공간적으로 가변적인 유전자를 식별해봅니다.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -989,600 +813,124 @@ Note
 </div>
 </div>
 <p>다만 위 코드는 계산량이 많아서 시간이 오래걸립니다. 그래서 미리 계산된 파일을 다음과 같이 제공하니 미리 계산된 파일을 다운로드받아 진행하세요.</p>
-<div id="cell-38" class="cell" data-results="hide" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>path_file <span class="op">=</span> <span class="st">"./input/spatial/visium/scanpy_spatialde.pkl"</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> fetch_data <span class="kw">and</span> <span class="kw">not</span> os.path.exists(path_file):</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> urllib.request</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    file_url <span class="op">=</span> os.path.join(path_data, <span class="st">"spatial/visium/results/scanpy_spatialde.pkl"</span>)</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    urllib.request.urlretrieve(file_url, path_file)</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"./input/spatial/visium/scanpy_spatialde.pkl"</span>, <span class="st">"rb"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> pickle.load(<span class="bu">file</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-38" class="cell" data-results="hide">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>path_file <span class="op">=</span> <span class="st">"./input/spatial/visium/scanpy_spatialde.pkl"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> fetch_data <span class="kw">and</span> <span class="kw">not</span> os.path.exists(path_file):</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> urllib.request</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    file_url <span class="op">=</span> os.path.join(path_data, <span class="st">"spatial/visium/results/scanpy_spatialde.pkl"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    urllib.request.urlretrieve(file_url, path_file)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"./input/spatial/visium/scanpy_spatialde.pkl"</span>, <span class="st">"rb"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> pickle.load(<span class="bu">file</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-39" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과를 변수 주석의 DataFrame인 `adata.var`와 연결합니다.</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>results.index <span class="op">=</span> results[<span class="st">"g"</span>]</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>adata.var <span class="op">=</span> pd.concat([adata.var, results.loc[adata.var.index.values, :]], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"./data/spatial/visium/adata_processed_sc.h5ad"</span>)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 그런 다음 공간에 따라 달라지는 중요한 유전자를 검사하고 `sc.pl.spatial` 함수를 사용하여 시각화할 수 있습니다.</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>results.sort_values(<span class="st">"qval"</span>).head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">FSV</th>
-<th data-quarto-table-cell-role="th">M</th>
-<th data-quarto-table-cell-role="th">g</th>
-<th data-quarto-table-cell-role="th">l</th>
-<th data-quarto-table-cell-role="th">max_delta</th>
-<th data-quarto-table-cell-role="th">max_ll</th>
-<th data-quarto-table-cell-role="th">max_mu_hat</th>
-<th data-quarto-table-cell-role="th">max_s2_t_hat</th>
-<th data-quarto-table-cell-role="th">model</th>
-<th data-quarto-table-cell-role="th">n</th>
-<th data-quarto-table-cell-role="th">s2_FSV</th>
-<th data-quarto-table-cell-role="th">s2_logdelta</th>
-<th data-quarto-table-cell-role="th">time</th>
-<th data-quarto-table-cell-role="th">BIC</th>
-<th data-quarto-table-cell-role="th">max_ll_null</th>
-<th data-quarto-table-cell-role="th">LLR</th>
-<th data-quarto-table-cell-role="th">pval</th>
-<th data-quarto-table-cell-role="th">qval</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">g</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Pcp2</td>
-<td>0.311857</td>
-<td>4</td>
-<td>Pcp2</td>
-<td>1143.629056</td>
-<td>1.942926</td>
-<td>-5951.142118</td>
-<td>2.926354</td>
-<td>0.250801</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000151</td>
-<td>0.003614</td>
-<td>0.004486</td>
-<td>11936.911361</td>
-<td>-6660.401054</td>
-<td>709.258937</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Arpp21</td>
-<td>0.111727</td>
-<td>4</td>
-<td>Arpp21</td>
-<td>544.733658</td>
-<td>7.705871</td>
-<td>-4564.518758</td>
-<td>-5.508770</td>
-<td>0.234582</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000009</td>
-<td>0.000811</td>
-<td>0.004505</td>
-<td>9163.664641</td>
-<td>-4883.168776</td>
-<td>318.650018</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Fam107b</td>
-<td>0.142934</td>
-<td>4</td>
-<td>Fam107b</td>
-<td>544.733658</td>
-<td>5.811807</td>
-<td>-3153.361188</td>
-<td>-0.138821</td>
-<td>0.029021</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000011</td>
-<td>0.000676</td>
-<td>0.004312</td>
-<td>6341.349500</td>
-<td>-3593.498319</td>
-<td>440.137132</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Ccdc3</td>
-<td>0.089396</td>
-<td>4</td>
-<td>Ccdc3</td>
-<td>544.733658</td>
-<td>9.872922</td>
-<td>-1973.573273</td>
-<td>-1.011429</td>
-<td>0.017939</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000011</td>
-<td>0.001366</td>
-<td>0.004875</td>
-<td>3981.773670</td>
-<td>-2119.287504</td>
-<td>145.714232</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Spink8</td>
-<td>0.386160</td>
-<td>4</td>
-<td>Spink8</td>
-<td>544.733658</td>
-<td>1.540709</td>
-<td>-89.582212</td>
-<td>-1.292471</td>
-<td>0.048386</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000023</td>
-<td>0.000463</td>
-<td>0.004225</td>
-<td>213.791549</td>
-<td>-878.843599</td>
-<td>789.261387</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Vim</td>
-<td>0.152102</td>
-<td>4</td>
-<td>Vim</td>
-<td>544.733658</td>
-<td>5.403095</td>
-<td>-5073.752713</td>
-<td>0.314954</td>
-<td>0.061191</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000023</td>
-<td>0.001294</td>
-<td>0.004482</td>
-<td>10182.132550</td>
-<td>-5309.926117</td>
-<td>236.173404</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Cdhr4</td>
-<td>0.058661</td>
-<td>4</td>
-<td>Cdhr4</td>
-<td>544.733658</td>
-<td>15.553480</td>
-<td>5174.380569</td>
-<td>-0.720568</td>
-<td>0.003751</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000007</td>
-<td>0.001779</td>
-<td>0.004288</td>
-<td>-10314.134013</td>
-<td>5055.927174</td>
-<td>118.453395</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Camkv</td>
-<td>0.148880</td>
-<td>4</td>
-<td>Camkv</td>
-<td>544.733658</td>
-<td>5.540997</td>
-<td>-4285.018227</td>
-<td>-5.748463</td>
-<td>0.267292</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000011</td>
-<td>0.000640</td>
-<td>0.004441</td>
-<td>8604.663579</td>
-<td>-4661.390989</td>
-<td>376.372762</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Pip4k2a</td>
-<td>0.057655</td>
-<td>4</td>
-<td>Pip4k2a</td>
-<td>544.733658</td>
-<td>15.841994</td>
-<td>-4829.402616</td>
-<td>0.638928</td>
-<td>0.021795</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000005</td>
-<td>0.001414</td>
-<td>0.004472</td>
-<td>9693.432357</td>
-<td>-4950.743568</td>
-<td>121.340952</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Enc1</td>
-<td>0.459936</td>
-<td>4</td>
-<td>Enc1</td>
-<td>1143.629056</td>
-<td>1.033906</td>
-<td>-4429.628950</td>
-<td>-5.762820</td>
-<td>0.330282</td>
-<td>SE</td>
-<td>5749</td>
-<td>0.000324</td>
-<td>0.006134</td>
-<td>0.003355</td>
-<td>8893.885026</td>
-<td>-5240.320650</td>
-<td>810.691700</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
+<div id="cell-39" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과를 변수 주석의 DataFrame인 `adata.var`와 연결합니다.</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>results.index <span class="op">=</span> results[<span class="st">"g"</span>]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>adata.var <span class="op">=</span> pd.concat([adata.var, results.loc[adata.var.index.values, :]], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"./data/spatial/visium/adata_processed_sc.h5ad"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 그런 다음 공간에 따라 달라지는 중요한 유전자를 검사하고 `sc.pl.spatial` 함수를 사용하여 시각화할 수 있습니다.</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>results.sort_values(<span class="st">"qval"</span>).head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="단일-세포-데이터를-참조해-세포-유형-추정" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> 단일 세포 데이터를 참조해 세포 유형 추정</h1>
 <p><code>Visium</code> 데이터에서 해당 위치의 세포 유형을 알아내기 위해 scRNA-seq 데이터를 참조할 수 있습니다. 가능하다면 동일한 조직 시료에서 얻은 데이터를 사용하는 것이 좋습니다. 여기에서는 <a href="">Allen Institute</a>에서 공개한 마우스 대뇌 피질 데이터셋을 사용합니다. 이 데이터셋은 사전 처리된 데이터를 <code>h5ad</code>형식으로 제공됩니다. 아래 코드를 사용해 다운로드 합니다.</p>
-<div id="cell-41" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>path_file <span class="op">=</span> <span class="st">"./input/spatial/visium/allen_cortex.h5ad"</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(path_file):</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    file_url <span class="op">=</span> os.path.join(path_data, <span class="st">"spatial/visium/allen_cortex.h5ad"</span>)</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    urllib.request.urlretrieve(file_url, path_file)</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>adata_cortex <span class="op">=</span> sc.read_h5ad(<span class="st">"./input/spatial/visium/allen_cortex.h5ad"</span>)</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 이 객체의 원시 행렬의 인덱스에는 유전자 이름이 없음으로 추가해줍니다.</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>adata_cortex.raw.var.index <span class="op">=</span> adata_cortex.raw.var._index</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co"># adata_cortex.raw.var.index</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>adata_cortex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
-<pre><code>AnnData object with n_obs × n_vars = 14249 × 34617
-    obs: 'orig.ident', 'nCount_RNA', 'nFeature_RNA', 'sample_id', 'sample_type', 'organism', 'donor', 'sex', 'age_days', 'eye_condition', 'genotype', 'driver_lines', 'reporter_lines', 'brain_hemisphere', 'brain_region', 'brain_subregion', 'injection_label_direction', 'injection_primary', 'injection_secondary', 'injection_tract', 'injection_material', 'injection_exclusion_criterion', 'facs_date', 'facs_container', 'facs_sort_criteria', 'rna_amplification_set', 'library_prep_set', 'library_prep_avg_size_bp', 'seq_name', 'seq_tube', 'seq_batch', 'total_reads', 'percent_exon_reads', 'percent_intron_reads', 'percent_intergenic_reads', 'percent_rrna_reads', 'percent_mt_exon_reads', 'percent_reads_unique', 'percent_synth_reads', 'percent_ecoli_reads', 'percent_aligned_reads_total', 'complexity_cg', 'genes_detected_cpm_criterion', 'genes_detected_fpkm_criterion', 'tdt_cpm', 'gfp_cpm', 'class', 'subclass', 'cluster', 'confusion_score', 'cluster_correlation', 'core_intermediate_call'
-    var: 'features'</code></pre>
-</div>
+<div id="cell-41" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>path_file <span class="op">=</span> <span class="st">"./input/spatial/visium/allen_cortex.h5ad"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(path_file):</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    file_url <span class="op">=</span> os.path.join(path_data, <span class="st">"spatial/visium/allen_cortex.h5ad"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    urllib.request.urlretrieve(file_url, path_file)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>adata_cortex <span class="op">=</span> sc.read_h5ad(<span class="st">"./input/spatial/visium/allen_cortex.h5ad"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 이 객체의 원시 행렬의 인덱스에는 유전자 이름이 없음으로 추가해줍니다.</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>adata_cortex.raw.var.index <span class="op">=</span> adata_cortex.raw.var._index</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># adata_cortex.raw.var.index</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>adata_cortex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>데이터에 포함된 메타데이터도 확인해봅니다.</p>
-<div id="cell-43" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>adata_cortex.obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">orig.ident</th>
-<th data-quarto-table-cell-role="th">nCount_RNA</th>
-<th data-quarto-table-cell-role="th">nFeature_RNA</th>
-<th data-quarto-table-cell-role="th">sample_id</th>
-<th data-quarto-table-cell-role="th">sample_type</th>
-<th data-quarto-table-cell-role="th">organism</th>
-<th data-quarto-table-cell-role="th">donor</th>
-<th data-quarto-table-cell-role="th">sex</th>
-<th data-quarto-table-cell-role="th">age_days</th>
-<th data-quarto-table-cell-role="th">eye_condition</th>
-<th data-quarto-table-cell-role="th">...</th>
-<th data-quarto-table-cell-role="th">genes_detected_cpm_criterion</th>
-<th data-quarto-table-cell-role="th">genes_detected_fpkm_criterion</th>
-<th data-quarto-table-cell-role="th">tdt_cpm</th>
-<th data-quarto-table-cell-role="th">gfp_cpm</th>
-<th data-quarto-table-cell-role="th">class</th>
-<th data-quarto-table-cell-role="th">subclass</th>
-<th data-quarto-table-cell-role="th">cluster</th>
-<th data-quarto-table-cell-role="th">confusion_score</th>
-<th data-quarto-table-cell-role="th">cluster_correlation</th>
-<th data-quarto-table-cell-role="th">core_intermediate_call</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">F1S4_160108_001_A01</td>
-<td>0</td>
-<td>1730700.0</td>
-<td>9029</td>
-<td>527128530</td>
-<td>Cells</td>
-<td>Mus musculus</td>
-<td>225675</td>
-<td>M</td>
-<td>53</td>
-<td>Normal</td>
-<td>...</td>
-<td>10445</td>
-<td>9222</td>
-<td>248.86</td>
-<td>248.86</td>
-<td>GABAergic</td>
-<td>Vip</td>
-<td>Vip Arhgap36 Hmcn1</td>
-<td>0.4385</td>
-<td>0.837229</td>
-<td>Intermediate</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">F1S4_160108_001_B01</td>
-<td>0</td>
-<td>1909605.0</td>
-<td>10207</td>
-<td>527128536</td>
-<td>Cells</td>
-<td>Mus musculus</td>
-<td>225675</td>
-<td>M</td>
-<td>53</td>
-<td>Normal</td>
-<td>...</td>
-<td>11600</td>
-<td>10370</td>
-<td>289.61</td>
-<td>289.61</td>
-<td>GABAergic</td>
-<td>Lamp5</td>
-<td>Lamp5 Lsp1</td>
-<td>0.1025</td>
-<td>0.878743</td>
-<td>Core</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">F1S4_160108_001_C01</td>
-<td>0</td>
-<td>1984948.0</td>
-<td>10578</td>
-<td>527128542</td>
-<td>Cells</td>
-<td>Mus musculus</td>
-<td>225675</td>
-<td>M</td>
-<td>53</td>
-<td>Normal</td>
-<td>...</td>
-<td>11848</td>
-<td>10734</td>
-<td>281.06</td>
-<td>281.06</td>
-<td>GABAergic</td>
-<td>Lamp5</td>
-<td>Lamp5 Lsp1</td>
-<td>0.0195</td>
-<td>0.887084</td>
-<td>Core</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">F1S4_160108_001_D01</td>
-<td>0</td>
-<td>2291552.0</td>
-<td>8482</td>
-<td>527128548</td>
-<td>Cells</td>
-<td>Mus musculus</td>
-<td>225675</td>
-<td>M</td>
-<td>53</td>
-<td>Normal</td>
-<td>...</td>
-<td>9494</td>
-<td>8561</td>
-<td>390.02</td>
-<td>390.02</td>
-<td>GABAergic</td>
-<td>Vip</td>
-<td>Vip Crispld2 Htr2c</td>
-<td>0.2734</td>
-<td>0.843552</td>
-<td>Core</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">F1S4_160108_001_E01</td>
-<td>0</td>
-<td>1757463.0</td>
-<td>8697</td>
-<td>527128554</td>
-<td>Cells</td>
-<td>Mus musculus</td>
-<td>225675</td>
-<td>M</td>
-<td>53</td>
-<td>Normal</td>
-<td>...</td>
-<td>10012</td>
-<td>8791</td>
-<td>253.92</td>
-<td>253.92</td>
-<td>GABAergic</td>
-<td>Lamp5</td>
-<td>Lamp5 Plch2 Dock5</td>
-<td>0.7532</td>
-<td>0.854994</td>
-<td>Core</td>
-</tr>
-</tbody>
-</table>
-
-<p>5 rows × 52 columns</p>
-</div>
-</div>
+<div id="cell-43" class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>adata_cortex.obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>그런 다음 정규화 및 차원 축소를 실행합니다.</p>
-<div id="cell-45" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata_cortex, target_sum<span class="op">=</span><span class="fl">1e5</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata_cortex)</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata_cortex, min_mean<span class="op">=</span><span class="fl">0.0125</span>, max_mean<span class="op">=</span><span class="dv">3</span>, min_disp<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata_cortex, max_value<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>sc.tl.pca(adata_cortex, svd_solver<span class="op">=</span><span class="st">"arpack"</span>)</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata_cortex, n_pcs<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata_cortex)</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    sc.pl.umap(</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>        adata_cortex,</span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"subclass"</span>,</span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>        legend_fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-25-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="scanpy_workshop_07_files/figure-html/cell-25-output-1.png" width="245" height="253" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-45" class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata_cortex, target_sum<span class="op">=</span><span class="fl">1e5</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata_cortex)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata_cortex, min_mean<span class="op">=</span><span class="fl">0.0125</span>, max_mean<span class="op">=</span><span class="dv">3</span>, min_disp<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata_cortex, max_value<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>sc.tl.pca(adata_cortex, svd_solver<span class="op">=</span><span class="st">"arpack"</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata_cortex, n_pcs<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata_cortex)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    sc.pl.umap(</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        adata_cortex,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"subclass"</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        legend_fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>속도를 높이고 좀 더 견고한 분석을 위해 세포 유형을 클래스당 최대 200개(<code>subclass</code>)로 다운 샘플링합니다.</p>
-<div id="cell-47" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>target_cells <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>adatas2 <span class="op">=</span> [</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    adata_cortex[adata_cortex.obs.subclass <span class="op">==</span> clust]</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> clust <span class="kw">in</span> adata_cortex.obs.subclass.cat.categories</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dat <span class="kw">in</span> adatas2:</span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dat.n_obs <span class="op">&gt;</span> target_cells:</span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>        sc.pp.subsample(dat, n_obs<span class="op">=</span>target_cells)</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>adata_cortex <span class="op">=</span> adatas2[<span class="dv">0</span>].concatenate(<span class="op">*</span>adatas2[<span class="dv">1</span>:])</span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>adata_cortex.obs.subclass.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
-<pre><code>subclass
-Astro         200
-L6 IT         200
-Sst           200
-Pvalb         200
-NP            200
-Lamp5         200
-L6b           200
-Vip           200
-L6 CT         200
-L5 PT         200
-L5 IT         200
-L4            200
-L2/3 IT       200
-Sncg          125
-Endo           94
-Oligo          91
-VLMC           67
-SMC            55
-Macrophage     51
-Meis2          45
-Peri           32
-Serpinf1       27
-CR              7
-Name: count, dtype: int64</code></pre>
-</div>
+<div id="cell-47" class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>target_cells <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>adatas2 <span class="op">=</span> [</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    adata_cortex[adata_cortex.obs.subclass <span class="op">==</span> clust]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> clust <span class="kw">in</span> adata_cortex.obs.subclass.cat.categories</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dat <span class="kw">in</span> adatas2:</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dat.n_obs <span class="op">&gt;</span> target_cells:</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        sc.pp.subsample(dat, n_obs<span class="op">=</span>target_cells)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>adata_cortex <span class="op">=</span> adatas2[<span class="dv">0</span>].concatenate(<span class="op">*</span>adatas2[<span class="dv">1</span>:])</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>adata_cortex.obs.subclass.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>다시 시각화를 해봅니다.</p>
-<div id="cell-49" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.umap(</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>        adata_cortex,</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"class"</span>,</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"subclass"</span>,</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span>sc.pl.palettes.default_28,</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>        legend_fontsize<span class="op">=</span><span class="dv">8</span>,</span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-27-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="scanpy_workshop_07_files/figure-html/cell-27-output-1.png" width="546" height="256" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-49" class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.umap(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        adata_cortex,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"class"</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"subclass"</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        palette<span class="op">=</span>sc.pl.palettes.default_28,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        legend_fontsize<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="visium-데이터셋-하위-집합-만들기" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="visium-데이터셋-하위-집합-만들기"><span class="header-section-number">8.1</span> <code>Visium</code> 데이터셋 하위 집합 만들기</h2>
 <p>불러온 scRNA-seq 데이터는 마우스 대뇌 피질에 대한 것임으로 전체 <code>Visium</code> 데이터에서 대뇌 피질에 대한 부분만 분리해 사용합니다. 물론 전체 데이터를 사용해서 분석을 수행할 수 있지만 위양성이 발생할 수 있음으로 주의해서 해석해야 합니다.</p>
 <p>디컨볼루션을 위해서는 카운트 데이터가 필요하므로 앞서 생성한 <code>counts_adata</code> 객체에서 하위 집합을 만들 것입니다.</p>
-<div id="cell-51" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>lib_a <span class="op">=</span> <span class="st">"V1_Mouse_Brain_Sagittal_Anterior"</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>counts_adata.obs[<span class="st">"clusters"</span>] <span class="op">=</span> adata.obs.clusters</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>adata_anterior_subset <span class="op">=</span> counts_adata[</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    (counts_adata.obs.library_id <span class="op">==</span> lib_a) <span class="op">&amp;</span> (counts_adata.obsm[<span class="st">"spatial"</span>][:, <span class="dv">1</span>] <span class="op">&lt;</span> <span class="dv">6000</span>),</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    :,</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>].copy()</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 대뇌 피질 클러스터 선택</span></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>adata_anterior_subset <span class="op">=</span> adata_anterior_subset[</span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    adata_anterior_subset.obs.clusters.isin([<span class="st">"3"</span>, <span class="st">"5"</span>, <span class="st">"6"</span>]), :</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 올바른 구역만 있는지 확인</span></span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>        adata_anterior_subset,</span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
-<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>lib_a,</span>
-<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"clusters"</span>],</span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># size=1.5,</span></span>
-<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-28-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="scanpy_workshop_07_files/figure-html/cell-28-output-1.png" width="276" height="141" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-51" class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lib_a <span class="op">=</span> <span class="st">"V1_Mouse_Brain_Sagittal_Anterior"</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>counts_adata.obs[<span class="st">"clusters"</span>] <span class="op">=</span> adata.obs.clusters</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>adata_anterior_subset <span class="op">=</span> counts_adata[</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    (counts_adata.obs.library_id <span class="op">==</span> lib_a) <span class="op">&amp;</span> (counts_adata.obsm[<span class="st">"spatial"</span>][:, <span class="dv">1</span>] <span class="op">&lt;</span> <span class="dv">6000</span>),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    :,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>].copy()</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 대뇌 피질 클러스터 선택</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>adata_anterior_subset <span class="op">=</span> adata_anterior_subset[</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    adata_anterior_subset.obs.clusters.isin([<span class="st">"3"</span>, <span class="st">"5"</span>, <span class="st">"6"</span>]), :</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 올바른 구역만 있는지 확인</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>        adata_anterior_subset,</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>lib_a,</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"clusters"</span>],</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># size=1.5,</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="디컨볼루션deconvolution" class="level2" data-number="8.2">
@@ -1597,171 +945,102 @@ Name: count, dtype: int64</code></pre>
 <li><code>Visium</code> 데이터의 클러스터 간에 DE 유전자를 사용.</li>
 </ol>
 <p>여기서는 scRNAseq 데이터의 클러스터당 상위 DE 유전자를 사용할 것입니다.</p>
-<div id="cell-53" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata_cortex, <span class="st">"subclass"</span>, method<span class="op">=</span><span class="st">"t-test"</span>, n_genes<span class="op">=</span><span class="dv">100</span>, use_raw<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>sc.tl.filter_rank_genes_groups(adata_cortex, min_fold_change<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>genes <span class="op">=</span> sc.get.rank_genes_groups_df(adata_cortex, group<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co"># genes</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>deg <span class="op">=</span> genes.names.unique().tolist()</span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Visium 데이터에도 있는 유전자만 남깁니다.</span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>deg <span class="op">=</span> np.intersect1d(deg, adata_anterior_subset.var.index).tolist()</span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="co"># print(len(deg))</span></span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dotplot 그리기</span></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_dotplot(adata_cortex, n_genes<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-29-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="scanpy_workshop_07_files/figure-html/cell-29-output-1.png" width="991" height="540" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-53" class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata_cortex, <span class="st">"subclass"</span>, method<span class="op">=</span><span class="st">"t-test"</span>, n_genes<span class="op">=</span><span class="dv">100</span>, use_raw<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>sc.tl.filter_rank_genes_groups(adata_cortex, min_fold_change<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>genes <span class="op">=</span> sc.get.rank_genes_groups_df(adata_cortex, group<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># genes</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>deg <span class="op">=</span> genes.names.unique().tolist()</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Visium 데이터에도 있는 유전자만 남깁니다.</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>deg <span class="op">=</span> np.intersect1d(deg, adata_anterior_subset.var.index).tolist()</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co"># print(len(deg))</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dotplot 그리기</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_dotplot(adata_cortex, n_genes<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="모델-훈련" class="level3" data-number="8.2.2">
 <h3 data-number="8.2.2" class="anchored" data-anchor-id="모델-훈련"><span class="header-section-number">8.2.2</span> 모델 훈련</h3>
 <p>이제 scRNA-seq 데이터를 사용해 모델을 훈련해보겠습니다. 모든 데이터가 카운트 단위여야 한다는 것에 유의하세요. 또한 <code>anndata</code> 객체에 카운트 데이터가 복사본으로 <code>count</code> 레이어로 저장되어 있어야 합니다.</p>
-<div id="cell-55" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 카운트 데이터 복사하기</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>sc_adata <span class="op">=</span> adata_cortex.copy()</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>sc_adata.X <span class="op">=</span> adata_cortex.raw.X.copy()</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 카운트 레이어 추가</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>sc_adata.layers[<span class="st">"counts"</span>] <span class="op">=</span> sc_adata.X.copy()</span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="co"># DEG에 속한 유전자로 하위 집합 만들기</span></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>sc_adata <span class="op">=</span> sc_adata[:, deg].copy()</span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="co"># stereoscope 만들기</span></span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>RNAStereoscope.setup_anndata(sc_adata, layer<span class="op">=</span><span class="st">"counts"</span>, labels_key<span class="op">=</span><span class="st">"subclass"</span>)</span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델은 파일에 저장되므로 실행 속도가 느린 경우 train = False를 설정해 로컬에 저장된 모델을 읽습니다.</span></span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> train:</span>
-<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    sc_model <span class="op">=</span> RNAStereoscope(sc_adata)</span>
-<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    sc_model.train(max_epochs<span class="op">=</span><span class="dv">300</span>)</span>
-<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>    sc_model.history[<span class="st">"elbo_train"</span>][<span class="dv">10</span>:].plot()</span>
-<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    sc_model.save(<span class="st">"./data/spatial/visium/scanpy_scmodel"</span>, overwrite<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>    sc_model <span class="op">=</span> RNAStereoscope.load(<span class="st">"./data/spatial/visium/scanpy_scmodel"</span>, sc_adata)</span>
-<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Loaded RNA model from file!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
-GPU available: True (cuda), used: True
-TPU available: False, using: 0 TPU cores
-IPU available: False, using: 0 IPUs
-HPU available: False, using: 0 HPUs
-You are using a CUDA device ('NVIDIA GeForce RTX 4090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
-LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Epoch 300/300: 100%|██████████| 300/300 [00:15&lt;00:00, 19.80it/s, v_num=1, train_loss_step=1.38e+7, train_loss_epoch=1.34e+7]</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`Trainer.fit` stopped: `max_epochs=300` reached.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Epoch 300/300: 100%|██████████| 300/300 [00:15&lt;00:00, 19.86it/s, v_num=1, train_loss_step=1.38e+7, train_loss_epoch=1.34e+7]</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-30-output-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="scanpy_workshop_07_files/figure-html/cell-30-output-5.png" width="174" height="190" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-55" class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 카운트 데이터 복사하기</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sc_adata <span class="op">=</span> adata_cortex.copy()</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>sc_adata.X <span class="op">=</span> adata_cortex.raw.X.copy()</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 카운트 레이어 추가</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>sc_adata.layers[<span class="st">"counts"</span>] <span class="op">=</span> sc_adata.X.copy()</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># DEG에 속한 유전자로 하위 집합 만들기</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>sc_adata <span class="op">=</span> sc_adata[:, deg].copy()</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># stereoscope 만들기</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>RNAStereoscope.setup_anndata(sc_adata, layer<span class="op">=</span><span class="st">"counts"</span>, labels_key<span class="op">=</span><span class="st">"subclass"</span>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델은 파일에 저장되므로 실행 속도가 느린 경우 train = False를 설정해 로컬에 저장된 모델을 읽습니다.</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> train:</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    sc_model <span class="op">=</span> RNAStereoscope(sc_adata)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    sc_model.train(max_epochs<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    sc_model.history[<span class="st">"elbo_train"</span>][<span class="dv">10</span>:].plot()</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    sc_model.save(<span class="st">"./data/spatial/visium/scanpy_scmodel"</span>, overwrite<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    sc_model <span class="op">=</span> RNAStereoscope.load(<span class="st">"./data/spatial/visium/scanpy_scmodel"</span>, sc_adata)</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Loaded RNA model from file!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="세포-유형-예측하기" class="level3" data-number="8.2.3">
 <h3 data-number="8.2.3" class="anchored" data-anchor-id="세포-유형-예측하기"><span class="header-section-number">8.2.3</span> 세포 유형 예측하기</h3>
 <p>먼저 새로운 <code>Visium</code> 개체 <code>st_adata</code>를 만들고 카운트 데이터를 레이어로 만듭니다.</p>
-<div id="cell-57" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>st_adata <span class="op">=</span> adata_anterior_subset.copy()</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>st_adata.layers[<span class="st">"counts"</span>] <span class="op">=</span> st_adata.X.copy()</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>st_adata <span class="op">=</span> st_adata[:, deg].copy()</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>SpatialStereoscope.setup_anndata(st_adata, layer<span class="op">=</span><span class="st">"counts"</span>)</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> train:</span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>    spatial_model <span class="op">=</span> SpatialStereoscope.from_rna_model(st_adata, sc_model)</span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    spatial_model.train(max_epochs<span class="op">=</span><span class="dv">2000</span>)</span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    spatial_model.history[<span class="st">"elbo_train"</span>][<span class="dv">10</span>:].plot()</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>    spatial_model.save(<span class="st">"./data/spatial/visium/scanpy_stmodel"</span>, overwrite<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>    spatial_model <span class="op">=</span> SpatialStereoscope.load(<span class="st">"./data/spatial/visium/scanpy_stmodel"</span>, st_adata)</span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Loaded Spatial model from file!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>GPU available: True (cuda), used: True
-TPU available: False, using: 0 TPU cores
-IPU available: False, using: 0 IPUs
-HPU available: False, using: 0 HPUs
-LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Epoch 2000/2000: 100%|██████████| 2000/2000 [00:19&lt;00:00, 102.09it/s, v_num=1, train_loss_step=1.11e+6, train_loss_epoch=1.1e+6] </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`Trainer.fit` stopped: `max_epochs=2000` reached.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Epoch 2000/2000: 100%|██████████| 2000/2000 [00:19&lt;00:00, 100.99it/s, v_num=1, train_loss_step=1.11e+6, train_loss_epoch=1.1e+6]</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-31-output-5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="scanpy_workshop_07_files/figure-html/cell-31-output-5.png" width="207" height="185" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-57" class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>st_adata <span class="op">=</span> adata_anterior_subset.copy()</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>st_adata.layers[<span class="st">"counts"</span>] <span class="op">=</span> st_adata.X.copy()</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>st_adata <span class="op">=</span> st_adata[:, deg].copy()</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>SpatialStereoscope.setup_anndata(st_adata, layer<span class="op">=</span><span class="st">"counts"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> train:</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    spatial_model <span class="op">=</span> SpatialStereoscope.from_rna_model(st_adata, sc_model)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    spatial_model.train(max_epochs<span class="op">=</span><span class="dv">2000</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    spatial_model.history[<span class="st">"elbo_train"</span>][<span class="dv">10</span>:].plot()</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    spatial_model.save(<span class="st">"./data/spatial/visium/scanpy_stmodel"</span>, overwrite<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    spatial_model <span class="op">=</span> SpatialStereoscope.load(<span class="st">"./data/spatial/visium/scanpy_stmodel"</span>, st_adata)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Loaded Spatial model from file!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이제 scRNA-seq 데이터에서 가져온 세포 유형이 실제로 어떻게 예측되는지 시각화를 통해 살펴봅니다.</p>
-<div id="cell-59" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델의 예측 결과를 `.obs` 슬롯에 추가합니다.</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>st_adata.obsm[<span class="st">"deconvolution"</span>] <span class="op">=</span> spatial_model.get_proportions()</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 또한 .obsm에 데이터프레임 추가합니다.</span></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ct <span class="kw">in</span> st_adata.obsm[<span class="st">"deconvolution"</span>].columns:</span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    st_adata.obs[ct] <span class="op">=</span> st_adata.obsm[<span class="st">"deconvolution"</span>][ct]</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">6</span>, <span class="dv">4</span>)}):</span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>        st_adata,</span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"L2/3 IT"</span>, <span class="st">"L4"</span>, <span class="st">"L5 PT"</span>, <span class="st">"L6 CT"</span>, <span class="st">"Oligo"</span>, <span class="st">"Astro"</span>],</span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>lib_a,</span>
-<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="fl">1.5</span>,</span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-32-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="scanpy_workshop_07_files/figure-html/cell-32-output-1.png" width="678" height="614" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-59" class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델의 예측 결과를 `.obs` 슬롯에 추가합니다.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>st_adata.obsm[<span class="st">"deconvolution"</span>] <span class="op">=</span> spatial_model.get_proportions()</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 또한 .obsm에 데이터프레임 추가합니다.</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ct <span class="kw">in</span> st_adata.obsm[<span class="st">"deconvolution"</span>].columns:</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    st_adata.obs[ct] <span class="op">=</span> st_adata.obsm[<span class="st">"deconvolution"</span>][ct]</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">6</span>, <span class="dv">4</span>)}):</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        st_adata,</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"L2/3 IT"</span>, <span class="st">"L4"</span>, <span class="st">"L5 PT"</span>, <span class="st">"L6 CT"</span>, <span class="st">"Oligo"</span>, <span class="st">"Astro"</span>],</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>lib_a,</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>        ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>또한 바이올린 플랏으로 클러스터간 예측된 세포 유형에 대해 시각화해봅니다.</p>
-<div id="cell-61" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.violin(</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>        st_adata,</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"L2/3 IT"</span>, <span class="st">"L6 CT"</span>, <span class="st">"Oligo"</span>, <span class="st">"Astro"</span>],</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>        jitter<span class="op">=</span><span class="fl">0.4</span>,</span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>        groupby<span class="op">=</span><span class="st">"clusters"</span>,</span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>        rotation<span class="op">=</span><span class="dv">90</span>,</span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-33-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="scanpy_workshop_07_files/figure-html/cell-33-output-1.png" width="1216" height="256" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-61" class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">5</span>, <span class="dv">5</span>)}):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    sc.pl.violin(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>        st_adata,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"L2/3 IT"</span>, <span class="st">"L6 CT"</span>, <span class="st">"Oligo"</span>, <span class="st">"Astro"</span>],</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        jitter<span class="op">=</span><span class="fl">0.4</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        groupby<span class="op">=</span><span class="st">"clusters"</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        rotation<span class="op">=</span><span class="dv">90</span>,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1782,29 +1061,22 @@ Note
 <section id="다른-구역-선택하기" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> 다른 구역 선택하기</h1>
 <p>대뇌피질이 아닌 다른 구역(여기서는 Brain Sagittal Posterior)을 선택하는 코드는 다음과 같습니다. Sagittal Posterior는 신경세포뿐만 아니라 비신경세포로 구성된 부분으로 감각 처리, 운동 조절, 기억 형성 등 다양한 뇌 기능에 중요한 역할을 합니다.</p>
-<div id="cell-63" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>lib_p <span class="op">=</span> <span class="st">"V1_Mouse_Brain_Sagittal_Posterior"</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>adata_subregion <span class="op">=</span> adata[</span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>    (adata.obs.library_id <span class="op">==</span> lib_p) <span class="op">&amp;</span> (adata.obsm[<span class="st">"spatial"</span>][:, <span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">6500</span>),</span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>    :,</span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>].copy()</span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">4</span>, <span class="dv">6</span>)}):</span>
-<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
-<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>        adata_subregion,</span>
-<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
-<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>lib_p,</span>
-<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"n_genes_by_counts"</span>],</span>
-<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="fl">1.5</span>,</span>
-<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_workshop_07_files/figure-html/cell-34-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="scanpy_workshop_07_files/figure-html/cell-34-output-1.png" width="218" height="298" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="cell-63" class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lib_p <span class="op">=</span> <span class="st">"V1_Mouse_Brain_Sagittal_Posterior"</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>adata_subregion <span class="op">=</span> adata[</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    (adata.obs.library_id <span class="op">==</span> lib_p) <span class="op">&amp;</span> (adata.obsm[<span class="st">"spatial"</span>][:, <span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">6500</span>),</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    :,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>].copy()</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> plt.rc_context({<span class="st">"figure.figsize"</span>: (<span class="dv">4</span>, <span class="dv">6</span>)}):</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    sc.pl.spatial(</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>        adata_subregion,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>        img_key<span class="op">=</span><span class="st">"hires"</span>,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>        library_id<span class="op">=</span>lib_p,</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>[<span class="st">"n_genes_by_counts"</span>],</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="나가며" class="level1" data-number="10">

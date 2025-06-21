@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -122,9 +122,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -444,7 +441,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -648,7 +645,7 @@ b
 <blockquote class="blockquote">
 <p>우리는 <code>Python</code>의 대표적인 라이브러리인 <code>Pandas</code>를 사용하도록 할게요.</p>
 </blockquote>
-<div id="cell-3" class="cell" data-execution_count="6">
+<div id="cell-3" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 필요한 라이브러리 불러들이기</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
@@ -661,131 +658,9 @@ b
 <section id="pew-research-center-dataset" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="pew-research-center-dataset"><span class="header-section-number">2.1.1</span> Pew Research Center Dataset</h3>
 <p>종교에 따른 개인의 수입의 관한 데이터입니다. 먼저 <code>pandas</code>의 <code>read_csv</code>기능을 사용해 파일을 읽어옵니다.</p>
-<div id="cell-6" class="cell" data-execution_count="7">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/pew-raw.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">religion</th>
-<th data-quarto-table-cell-role="th">&lt;$10k</th>
-<th data-quarto-table-cell-role="th">$10-20k</th>
-<th data-quarto-table-cell-role="th">$20-30k</th>
-<th data-quarto-table-cell-role="th">$30-40k</th>
-<th data-quarto-table-cell-role="th">$40-50k</th>
-<th data-quarto-table-cell-role="th">$50-75k</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>Agnostic</td>
-<td>27</td>
-<td>34</td>
-<td>60</td>
-<td>81</td>
-<td>76</td>
-<td>137</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>Atheist</td>
-<td>12</td>
-<td>27</td>
-<td>37</td>
-<td>52</td>
-<td>35</td>
-<td>70</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>Buddhist</td>
-<td>27</td>
-<td>21</td>
-<td>30</td>
-<td>34</td>
-<td>33</td>
-<td>58</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>Catholic</td>
-<td>418</td>
-<td>617</td>
-<td>732</td>
-<td>670</td>
-<td>638</td>
-<td>1116</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>Dont know/refused</td>
-<td>15</td>
-<td>14</td>
-<td>15</td>
-<td>11</td>
-<td>10</td>
-<td>35</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>Evangelical Prot</td>
-<td>575</td>
-<td>869</td>
-<td>1064</td>
-<td>982</td>
-<td>881</td>
-<td>1486</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>Hindu</td>
-<td>1</td>
-<td>9</td>
-<td>7</td>
-<td>9</td>
-<td>11</td>
-<td>34</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>Historically Black Prot</td>
-<td>228</td>
-<td>244</td>
-<td>236</td>
-<td>238</td>
-<td>197</td>
-<td>223</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>Jehovahs Witness</td>
-<td>20</td>
-<td>27</td>
-<td>24</td>
-<td>24</td>
-<td>21</td>
-<td>30</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>Jewish</td>
-<td>19</td>
-<td>19</td>
-<td>25</td>
-<td>25</td>
-<td>30</td>
-<td>95</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <ul>
 <li>Evangelical Prot는 기독교 종파중에 하나로 ’개신교’입니다.</li>
@@ -795,374 +670,19 @@ b
 <p>다시 말해서 보기에는 좋아보일지는 몰라도 분석하기에는 어려운 형식입니다.</p>
 </blockquote>
 <p>이러한 데이터를 Tidy data 형태로 변환하기 위해서 <code>pandas</code>라이브러리에서는 아주 쉬운 기능을 제공해 줍니다. 바로 <code>melt</code>라는 기능이지요. <strong>pivot table</strong>의 반대되는 개념으로 행이 많은 데이터를 열이 많은 데이터로 바꿔줍니다. <code>melt</code>는 아주 유용하기 때문에 앞으로도 자주 언급 됩니다.</p>
-<div id="cell-9" class="cell" data-execution_count="8">
+<div id="cell-9" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>formatted_df <span class="op">=</span> pd.melt(df, [<span class="st">"religion"</span>], var_name<span class="op">=</span><span class="st">"income"</span>, value_name<span class="op">=</span><span class="st">"freq"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>formatted_df <span class="op">=</span> formatted_df.sort_values(by<span class="op">=</span>[<span class="st">"religion"</span>])  <span class="co"># 종교 이름순으로 정렬</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>formatted_df.head(<span class="dv">10</span>)  <span class="co"># 너무 길기 때문에 윗쪽 10개만 보겠습니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">religion</th>
-<th data-quarto-table-cell-role="th">income</th>
-<th data-quarto-table-cell-role="th">freq</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>Agnostic</td>
-<td>&lt;$10k</td>
-<td>27</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">30</td>
-<td>Agnostic</td>
-<td>$30-40k</td>
-<td>81</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">40</td>
-<td>Agnostic</td>
-<td>$40-50k</td>
-<td>76</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">50</td>
-<td>Agnostic</td>
-<td>$50-75k</td>
-<td>137</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">10</td>
-<td>Agnostic</td>
-<td>$10-20k</td>
-<td>34</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">20</td>
-<td>Agnostic</td>
-<td>$20-30k</td>
-<td>60</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">41</td>
-<td>Atheist</td>
-<td>$40-50k</td>
-<td>35</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">21</td>
-<td>Atheist</td>
-<td>$20-30k</td>
-<td>37</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">11</td>
-<td>Atheist</td>
-<td>$10-20k</td>
-<td>27</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">31</td>
-<td>Atheist</td>
-<td>$30-40k</td>
-<td>52</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>이것이 <em>Pew Research Center Dataset</em> 의 Tidy data 형태 입니다.</p>
 </section>
 <section id="billboard-top-100-dataset" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="billboard-top-100-dataset"><span class="header-section-number">2.1.2</span> Billboard Top 100 Dataset</h3>
 <p>이 데이터는 아주 오래전 같은 1999년부터 2000년까지의 빌보드차트 주간 순위 변동을 포함하고 있는 데이터 입니다.</p>
-<div id="cell-12" class="cell" data-execution_count="69">
+<div id="cell-12" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/billboard.csv"</span>, encoding<span class="op">=</span><span class="st">"mac_latin2"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="69">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">artist.inverted</th>
-<th data-quarto-table-cell-role="th">track</th>
-<th data-quarto-table-cell-role="th">time</th>
-<th data-quarto-table-cell-role="th">genre</th>
-<th data-quarto-table-cell-role="th">date.entered</th>
-<th data-quarto-table-cell-role="th">date.peaked</th>
-<th data-quarto-table-cell-role="th">x1st.week</th>
-<th data-quarto-table-cell-role="th">x2nd.week</th>
-<th data-quarto-table-cell-role="th">x3rd.week</th>
-<th data-quarto-table-cell-role="th">...</th>
-<th data-quarto-table-cell-role="th">x67th.week</th>
-<th data-quarto-table-cell-role="th">x68th.week</th>
-<th data-quarto-table-cell-role="th">x69th.week</th>
-<th data-quarto-table-cell-role="th">x70th.week</th>
-<th data-quarto-table-cell-role="th">x71st.week</th>
-<th data-quarto-table-cell-role="th">x72nd.week</th>
-<th data-quarto-table-cell-role="th">x73rd.week</th>
-<th data-quarto-table-cell-role="th">x74th.week</th>
-<th data-quarto-table-cell-role="th">x75th.week</th>
-<th data-quarto-table-cell-role="th">x76th.week</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>2000</td>
-<td>Destiny's Child</td>
-<td>Independent Women Part I</td>
-<td>3:38</td>
-<td>Rock</td>
-<td>2000-09-23</td>
-<td>2000-11-18</td>
-<td>78</td>
-<td>63.0</td>
-<td>49.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>2000</td>
-<td>Santana</td>
-<td>Maria, Maria</td>
-<td>4:18</td>
-<td>Rock</td>
-<td>2000-02-12</td>
-<td>2000-04-08</td>
-<td>15</td>
-<td>8.0</td>
-<td>6.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>2000</td>
-<td>Savage Garden</td>
-<td>I Knew I Loved You</td>
-<td>4:07</td>
-<td>Rock</td>
-<td>1999-10-23</td>
-<td>2000-01-29</td>
-<td>71</td>
-<td>48.0</td>
-<td>43.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>2000</td>
-<td>Madonna</td>
-<td>Music</td>
-<td>3:45</td>
-<td>Rock</td>
-<td>2000-08-12</td>
-<td>2000-09-16</td>
-<td>41</td>
-<td>23.0</td>
-<td>18.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>2000</td>
-<td>Aguilera, Christina</td>
-<td>Come On Over Baby (All I Want Is You)</td>
-<td>3:38</td>
-<td>Rock</td>
-<td>2000-08-05</td>
-<td>2000-10-14</td>
-<td>57</td>
-<td>47.0</td>
-<td>45.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>2000</td>
-<td>Janet</td>
-<td>Doesn't Really Matter</td>
-<td>4:17</td>
-<td>Rock</td>
-<td>2000-06-17</td>
-<td>2000-08-26</td>
-<td>59</td>
-<td>52.0</td>
-<td>43.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>2000</td>
-<td>Destiny's Child</td>
-<td>Say My Name</td>
-<td>4:31</td>
-<td>Rock</td>
-<td>1999-12-25</td>
-<td>2000-03-18</td>
-<td>83</td>
-<td>83.0</td>
-<td>44.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>2000</td>
-<td>Iglesias, Enrique</td>
-<td>Be With You</td>
-<td>3:36</td>
-<td>Latin</td>
-<td>2000-04-01</td>
-<td>2000-06-24</td>
-<td>63</td>
-<td>45.0</td>
-<td>34.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>2000</td>
-<td>Sisqo</td>
-<td>Incomplete</td>
-<td>3:52</td>
-<td>Rock</td>
-<td>2000-06-24</td>
-<td>2000-08-12</td>
-<td>77</td>
-<td>66.0</td>
-<td>61.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>2000</td>
-<td>Lonestar</td>
-<td>Amazed</td>
-<td>4:25</td>
-<td>Country</td>
-<td>1999-06-05</td>
-<td>2000-03-04</td>
-<td>81</td>
-<td>54.0</td>
-<td>44.0</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-</tbody>
-</table>
-
-<p>10 rows × 83 columns</p>
-</div>
-</div>
 </div>
 <p><strong>문제점:</strong></p>
 <ul>
@@ -1170,7 +690,7 @@ b
 <li>순위가 100위권 밖으로 밀려나게 되면 <code>Nan</code> 값을 가지고, 따라서 필요없는 부수적인 값이 많아진다.</li>
 </ul>
 <p>위 데이터의 깔끔한 데이터를 만들기 위해서는 다시 <code>melt</code> 기능을 사용하겠습니다. 각각의 열이 행이 되도록 하고, 순위가 100위 밖으로 밀려난 경우(<code>Nan</code>값을 갖는경우)에는 행을 삭제할게요.</p>
-<div id="cell-14" class="cell" data-execution_count="70">
+<div id="cell-14" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Melting</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>id_vars <span class="op">=</span> [</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"year"</span>,</span>
@@ -1206,139 +726,6 @@ b
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>billboard <span class="op">=</span> df</span>
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="70">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">artist.inverted</th>
-<th data-quarto-table-cell-role="th">track</th>
-<th data-quarto-table-cell-role="th">time</th>
-<th data-quarto-table-cell-role="th">genre</th>
-<th data-quarto-table-cell-role="th">week</th>
-<th data-quarto-table-cell-role="th">rank</th>
-<th data-quarto-table-cell-role="th">date</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">246</td>
-<td>2000</td>
-<td>2 Pac</td>
-<td>Baby Don't Cry (Keep Ya Head Up II)</td>
-<td>4:22</td>
-<td>Rap</td>
-<td>1</td>
-<td>87</td>
-<td>2000-02-26</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">563</td>
-<td>2000</td>
-<td>2 Pac</td>
-<td>Baby Don't Cry (Keep Ya Head Up II)</td>
-<td>4:22</td>
-<td>Rap</td>
-<td>2</td>
-<td>82</td>
-<td>2000-03-04</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">880</td>
-<td>2000</td>
-<td>2 Pac</td>
-<td>Baby Don't Cry (Keep Ya Head Up II)</td>
-<td>4:22</td>
-<td>Rap</td>
-<td>3</td>
-<td>72</td>
-<td>2000-03-11</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1197</td>
-<td>2000</td>
-<td>2 Pac</td>
-<td>Baby Don't Cry (Keep Ya Head Up II)</td>
-<td>4:22</td>
-<td>Rap</td>
-<td>4</td>
-<td>77</td>
-<td>2000-03-18</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">1514</td>
-<td>2000</td>
-<td>2 Pac</td>
-<td>Baby Don't Cry (Keep Ya Head Up II)</td>
-<td>4:22</td>
-<td>Rap</td>
-<td>5</td>
-<td>87</td>
-<td>2000-03-25</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1831</td>
-<td>2000</td>
-<td>2 Pac</td>
-<td>Baby Don't Cry (Keep Ya Head Up II)</td>
-<td>4:22</td>
-<td>Rap</td>
-<td>6</td>
-<td>94</td>
-<td>2000-04-01</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2148</td>
-<td>2000</td>
-<td>2 Pac</td>
-<td>Baby Don't Cry (Keep Ya Head Up II)</td>
-<td>4:22</td>
-<td>Rap</td>
-<td>7</td>
-<td>99</td>
-<td>2000-04-08</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">287</td>
-<td>2000</td>
-<td>2Ge+her</td>
-<td>The Hardest Part Of Breaking Up (Is Getting Ba...</td>
-<td>3:15</td>
-<td>R&amp;B</td>
-<td>1</td>
-<td>91</td>
-<td>2000-09-02</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">604</td>
-<td>2000</td>
-<td>2Ge+her</td>
-<td>The Hardest Part Of Breaking Up (Is Getting Ba...</td>
-<td>3:15</td>
-<td>R&amp;B</td>
-<td>2</td>
-<td>87</td>
-<td>2000-09-09</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">921</td>
-<td>2000</td>
-<td>2Ge+her</td>
-<td>The Hardest Part Of Breaking Up (Is Getting Ba...</td>
-<td>3:15</td>
-<td>R&amp;B</td>
-<td>3</td>
-<td>92</td>
-<td>2000-09-16</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>위와 같이 데이터를 깔끔하게 만들었습니다. 하지만 <em>track, time, genre</em> 열을 보시면 아주 많은 중복이 있는 것을 알 수 있습니다. 이러한 점을 해결 하는 방법은 다음 예제에서 다루어 보겠습니다.</p>
 </section>
@@ -1351,207 +738,18 @@ b
 <li>다양한 관측 단위(observational units), 여기서는 <code>song</code> 과 <code>rank</code>가 하나의 표에 들어 있습니다. 이를 위해서는 표를 나눌 필요가 있습니다.</li>
 </ul>
 <p>먼저, 각각의 노래의 자세한 내용을 담고 있는 표를 만들어 보겠습니다. 그런다음 각각의 <code>song_id</code>를 부여합니다. 그런다음 순위 값을 가지고 있는 표를 <code>song_id</code>로 정리합니다.</p>
-<div id="cell-17" class="cell" data-execution_count="11">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>songs_cols <span class="op">=</span> [<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"time"</span>, <span class="st">"genre"</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> billboard[songs_cols].drop_duplicates()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>songs <span class="op">=</span> songs.reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>songs[<span class="st">"song_id"</span>] <span class="op">=</span> songs.index</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>songs.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">artist.inverted</th>
-<th data-quarto-table-cell-role="th">track</th>
-<th data-quarto-table-cell-role="th">time</th>
-<th data-quarto-table-cell-role="th">genre</th>
-<th data-quarto-table-cell-role="th">song_id</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>2000</td>
-<td>2 Pac</td>
-<td>Baby Don't Cry (Keep Ya Head Up II)</td>
-<td>4:22</td>
-<td>Rap</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>2000</td>
-<td>2Ge+her</td>
-<td>The Hardest Part Of Breaking Up (Is Getting Ba...</td>
-<td>3:15</td>
-<td>R&amp;B</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>2000</td>
-<td>3 Doors Down</td>
-<td>Kryptonite</td>
-<td>3:53</td>
-<td>Rock</td>
-<td>2</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>2000</td>
-<td>3 Doors Down</td>
-<td>Loser</td>
-<td>4:24</td>
-<td>Rock</td>
-<td>3</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>2000</td>
-<td>504 Boyz</td>
-<td>Wobble Wobble</td>
-<td>3:35</td>
-<td>Rap</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>2000</td>
-<td>98°</td>
-<td>Give Me Just One Night (Una Noche)</td>
-<td>3:24</td>
-<td>Rock</td>
-<td>5</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>2000</td>
-<td>A*Teens</td>
-<td>Dancing Queen</td>
-<td>3:44</td>
-<td>Pop</td>
-<td>6</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>2000</td>
-<td>Aaliyah</td>
-<td>I Don't Wanna</td>
-<td>4:15</td>
-<td>Rock</td>
-<td>7</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>2000</td>
-<td>Aaliyah</td>
-<td>Try Again</td>
-<td>4:03</td>
-<td>Rock</td>
-<td>8</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>2000</td>
-<td>Adams, Yolanda</td>
-<td>Open My Heart</td>
-<td>5:30</td>
-<td>Gospel</td>
-<td>9</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>위 와같은 새로운 표를 분리하고, 아래와 같이 순위를 포함하고 있는 표를 새로 만들어줍니다. &gt; 두개의 표를 연결하기 위해 <code>song_id</code>열을 만드는 것을 주의하세요</p>
-<div id="cell-19" class="cell" data-execution_count="12">
+<div id="cell-19" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> pd.merge(billboard, songs, on<span class="op">=</span>[<span class="st">"year"</span>, <span class="st">"artist.inverted"</span>, <span class="st">"track"</span>, <span class="st">"time"</span>, <span class="st">"genre"</span>])</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ranks <span class="op">=</span> ranks[[<span class="st">"song_id"</span>, <span class="st">"date"</span>, <span class="st">"rank"</span>]]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ranks.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">song_id</th>
-<th data-quarto-table-cell-role="th">date</th>
-<th data-quarto-table-cell-role="th">rank</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>0</td>
-<td>2000-02-26</td>
-<td>87</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>0</td>
-<td>2000-03-04</td>
-<td>82</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>0</td>
-<td>2000-03-11</td>
-<td>72</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>0</td>
-<td>2000-03-18</td>
-<td>77</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>0</td>
-<td>2000-03-25</td>
-<td>87</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>0</td>
-<td>2000-04-01</td>
-<td>94</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>0</td>
-<td>2000-04-08</td>
-<td>99</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>1</td>
-<td>2000-09-02</td>
-<td>91</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>1</td>
-<td>2000-09-09</td>
-<td>87</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>1</td>
-<td>2000-09-16</td>
-<td>92</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 </section>
 <section id="다양한-변수가-하나의-열에-있는-경우-multiple-variables-stored-in-one-column" class="level2" data-number="2.3">
@@ -1569,178 +767,12 @@ b
 <li>열의 이름에 적혀있는 “m”이나 “f”는 성별을 뜻합니다.</li>
 <li>열의 이름에 적혀있는 숫자는 나이대(“0-14”,“15-24”, “25-34”, “45-54”, “55-64”, “65”, “unknown”)를 나타냅니다.</li>
 </ul>
-<div id="cell-22" class="cell" data-execution_count="49">
+<div id="cell-22" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/tb-raw.csv"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="49">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">country</th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">m014</th>
-<th data-quarto-table-cell-role="th">m1524</th>
-<th data-quarto-table-cell-role="th">m2534</th>
-<th data-quarto-table-cell-role="th">m3544</th>
-<th data-quarto-table-cell-role="th">m4554</th>
-<th data-quarto-table-cell-role="th">m5564</th>
-<th data-quarto-table-cell-role="th">m65</th>
-<th data-quarto-table-cell-role="th">mu</th>
-<th data-quarto-table-cell-role="th">f014</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>AD</td>
-<td>2000</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>1.0</td>
-<td>0.0</td>
-<td>0</td>
-<td>0</td>
-<td>0.0</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>AE</td>
-<td>2000</td>
-<td>2.0</td>
-<td>4.0</td>
-<td>4.0</td>
-<td>6.0</td>
-<td>5</td>
-<td>12</td>
-<td>10.0</td>
-<td>NaN</td>
-<td>3.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>AF</td>
-<td>2000</td>
-<td>52.0</td>
-<td>228.0</td>
-<td>183.0</td>
-<td>149.0</td>
-<td>129</td>
-<td>94</td>
-<td>80.0</td>
-<td>NaN</td>
-<td>93.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>AG</td>
-<td>2000</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0</td>
-<td>0</td>
-<td>1.0</td>
-<td>NaN</td>
-<td>1.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>AL</td>
-<td>2000</td>
-<td>2.0</td>
-<td>19.0</td>
-<td>21.0</td>
-<td>14.0</td>
-<td>24</td>
-<td>19</td>
-<td>16.0</td>
-<td>NaN</td>
-<td>3.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>AM</td>
-<td>2000</td>
-<td>2.0</td>
-<td>152.0</td>
-<td>130.0</td>
-<td>131.0</td>
-<td>63</td>
-<td>26</td>
-<td>21.0</td>
-<td>NaN</td>
-<td>1.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>AN</td>
-<td>2000</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>1.0</td>
-<td>2.0</td>
-<td>0</td>
-<td>0</td>
-<td>0.0</td>
-<td>NaN</td>
-<td>0.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>AO</td>
-<td>2000</td>
-<td>186.0</td>
-<td>999.0</td>
-<td>1003.0</td>
-<td>912.0</td>
-<td>482</td>
-<td>312</td>
-<td>194.0</td>
-<td>NaN</td>
-<td>247.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>AR</td>
-<td>2000</td>
-<td>97.0</td>
-<td>278.0</td>
-<td>594.0</td>
-<td>402.0</td>
-<td>419</td>
-<td>368</td>
-<td>330.0</td>
-<td>NaN</td>
-<td>121.0</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>AS</td>
-<td>2000</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>1</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>이 데이터를 정리하기 위해서는 먼저 <code>melt</code>를 이용해 <code>sex</code> + <code>age group</code> 를 합쳐서 하나의 행으로 만들겠습니다. 그런 다음에 다시 행을 <code>sex</code>, <code>age</code>로 구분해서 정리하도록 하죠.</p>
-<div id="cell-24" class="cell" data-execution_count="50">
+<div id="cell-24" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.melt(df, id_vars<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>], value_name<span class="op">=</span><span class="st">"cases"</span>, var_name<span class="op">=</span><span class="st">"sex_and_age"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Sex, Age lower bound and Age upper bound group</span></span>
@@ -1760,106 +792,6 @@ b
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna()</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(ascending<span class="op">=</span><span class="va">True</span>, by<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"sex"</span>, <span class="st">"age"</span>])</span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="50">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">country</th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">cases</th>
-<th data-quarto-table-cell-role="th">sex</th>
-<th data-quarto-table-cell-role="th">age</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>AD</td>
-<td>2000</td>
-<td>0.0</td>
-<td>m</td>
-<td>0-14</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">10</td>
-<td>AD</td>
-<td>2000</td>
-<td>0.0</td>
-<td>m</td>
-<td>15-24</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">20</td>
-<td>AD</td>
-<td>2000</td>
-<td>1.0</td>
-<td>m</td>
-<td>25-34</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">30</td>
-<td>AD</td>
-<td>2000</td>
-<td>0.0</td>
-<td>m</td>
-<td>35-44</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">40</td>
-<td>AD</td>
-<td>2000</td>
-<td>0.0</td>
-<td>m</td>
-<td>45-54</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">50</td>
-<td>AD</td>
-<td>2000</td>
-<td>0.0</td>
-<td>m</td>
-<td>55-64</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">81</td>
-<td>AE</td>
-<td>2000</td>
-<td>3.0</td>
-<td>f</td>
-<td>0-14</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>AE</td>
-<td>2000</td>
-<td>2.0</td>
-<td>m</td>
-<td>0-14</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">11</td>
-<td>AE</td>
-<td>2000</td>
-<td>4.0</td>
-<td>m</td>
-<td>15-24</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">21</td>
-<td>AE</td>
-<td>2000</td>
-<td>4.0</td>
-<td>m</td>
-<td>25-34</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>이것이 정리된 결과 입니다.</p>
 </section>
@@ -1869,7 +801,7 @@ b
 <section id="global-historical-climatology-network-dataset" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="global-historical-climatology-network-dataset"><span class="header-section-number">2.4.1</span> Global Historical Climatology Network Dataset</h3>
 <p>이것은 2010년도 멕시코 기상청(MX17004)에서 5개월 동안 측정한 기상 데이터입니다.</p>
-<div id="cell-28" class="cell" data-execution_count="24">
+<div id="cell-28" class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/weather-raw.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>문제점:</strong></p>
@@ -1877,123 +809,12 @@ b
 <li>변수들이 행(<code>tmin</code>, <code>tmax</code>) 과 열(<code>days</code>)에 존재합니다.</li>
 </ul>
 <p>깔끔한 데이터를 만들기 위해 <code>melt</code>기능을 사용해 <code>day_raw</code>를 각각의 열로 만들겠습니다.</p>
-<div id="cell-30" class="cell" data-execution_count="25">
+<div id="cell-30" class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.melt(df, id_vars<span class="op">=</span>[<span class="st">"id"</span>, <span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"element"</span>], var_name<span class="op">=</span><span class="st">"day_raw"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="25">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">year</th>
-<th data-quarto-table-cell-role="th">month</th>
-<th data-quarto-table-cell-role="th">element</th>
-<th data-quarto-table-cell-role="th">day_raw</th>
-<th data-quarto-table-cell-role="th">value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>1</td>
-<td>tmax</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>1</td>
-<td>tmin</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>2</td>
-<td>tmax</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>2</td>
-<td>tmin</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>3</td>
-<td>tmax</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>3</td>
-<td>tmin</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>4</td>
-<td>tmax</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>4</td>
-<td>tmin</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>5</td>
-<td>tmax</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>MX17004</td>
-<td>2010</td>
-<td>5</td>
-<td>tmin</td>
-<td>d1</td>
-<td>NaN</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>그럼에도 아직 불필요한 것들이 보이는 군요. 좀 더 깔끔한 데이터를 만들기 위해 <code>tmin</code>, <code>tmax</code>를 각각의 열로 만들겠습니다. 그리고 날짜 정보들을 합쳐서 <code>date</code>로 통합하겠습니다.</p>
-<div id="cell-32" class="cell" data-execution_count="26">
+<div id="cell-32" class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting day</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"day"</span>] <span class="op">=</span> df[<span class="st">"day_raw"</span>].<span class="bu">str</span>.extract(<span class="st">"d(</span><span class="er">\</span><span class="st">d+)"</span>, expand<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"id"</span>] <span class="op">=</span> <span class="st">"MX17004"</span></span>
@@ -2017,46 +838,6 @@ b
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.pivot_table(index<span class="op">=</span>[<span class="st">"id"</span>, <span class="st">"date"</span>], columns<span class="op">=</span><span class="st">"element"</span>, values<span class="op">=</span><span class="st">"value"</span>)</span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>df.reset_index(drop<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">element</th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">date</th>
-<th data-quarto-table-cell-role="th">tmax</th>
-<th data-quarto-table-cell-role="th">tmin</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>MX17004</td>
-<td>2010-02-02</td>
-<td>27.3</td>
-<td>14.4</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>MX17004</td>
-<td>2010-02-03</td>
-<td>24.1</td>
-<td>14.4</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>MX17004</td>
-<td>2010-03-05</td>
-<td>32.1</td>
-<td>14.2</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 <p>충분히 깔끔한 모양새가 되었습니다.</p>
 </section>
@@ -2072,7 +853,7 @@ b
 <li>연도(Year)”가 파일 이름에 적혀져 있다.</li>
 </ul>
 <p>서로 다른 파일에 데이터가 흩어져 있어 조금 복잡한 과정이 필요합니다. 먼저 아래의 코드로 파일 리스트를 만들고 거기에서 <em>연도</em> 값을 뽑아냅니다. 그런 다음 각각의 파일에서 표를 만들어내고 마지막으로 <code>concat</code>기능으로 사용해 하나의 표로 합치겠습니다.</p>
-<div id="cell-35" class="cell" data-execution_count="5">
+<div id="cell-35" class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_year(string):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    match <span class="op">=</span> re.match(<span class="st">".+(</span><span class="er">\</span><span class="st">d</span><span class="sc">{4}</span><span class="st">)"</span>, string)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> match <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
@@ -2091,66 +872,6 @@ b
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(df_list)</span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<div>
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">rank</th>
-<th data-quarto-table-cell-role="th">name</th>
-<th data-quarto-table-cell-role="th">frequency</th>
-<th data-quarto-table-cell-role="th">sex</th>
-<th data-quarto-table-cell-role="th">year</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>1</td>
-<td>Noah</td>
-<td>837</td>
-<td>Male</td>
-<td>2014</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>2</td>
-<td>Alexander</td>
-<td>747</td>
-<td>Male</td>
-<td>2014</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>3</td>
-<td>William</td>
-<td>687</td>
-<td>Male</td>
-<td>2014</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>4</td>
-<td>Michael</td>
-<td>680</td>
-<td>Male</td>
-<td>2014</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>5</td>
-<td>Liam</td>
-<td>670</td>
-<td>Male</td>
-<td>2014</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
 </div>
 </section>
 </section>

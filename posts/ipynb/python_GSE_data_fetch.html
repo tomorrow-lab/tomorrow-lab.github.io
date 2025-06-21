@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -122,9 +122,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -419,7 +416,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -483,7 +480,7 @@ GSM7290772_SC10_38T_barcodes.tsv.gz  GSM7290785_SC216_7_barcodes.tsv.gz
 GSM7290772_SC10_38T_features.tsv.gz  GSM7290785_SC216_7_features.tsv.gz
 GSM7290772_SC10_38T_matrix.mtx.gz    GSM7290785_SC216_7_matrix.mtx.gz</code></pre>
 <p>골치가 벌써 아파지네요. 그래도 파일명에 일정한 패턴이 있기에 아래 파이썬 코드를 사용해 갹갹의 <code>adata</code> 객체를 만들어서 합치면 될 것 같습니다.</p>
-<div id="cell-2" class="cell" data-execution_count="1">
+<div id="cell-2" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> anndata <span class="im">as</span> ad</span>
@@ -558,377 +555,186 @@ GSM7290772_SC10_38T_matrix.mtx.gz    GSM7290785_SC216_7_matrix.mtx.gz</code></pr
 <span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>            adatas.append(adata)</span>
 <span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total number of processed samples: </span><span class="sc">{</span><span class="bu">len</span>(adatas)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Successfully read GSM7290779_SC173_2
-Successfully read GSM7290775_SC10_8
-Successfully read GSM7290761_SC10_22T
-Successfully read GSM7290770_SC10_35N
-Successfully read GSM7290768_SC10_29N
-Successfully read GSM7290777_SC143_7
-Successfully read GSM7290776_SC143_17
-Successfully read GSM7290766_SC10_27N
-Successfully read GSM7290774_SC10_7
-Successfully read GSM7290763_SC10_24T
-Successfully read GSM7290784_SC216_6
-Successfully read GSM7290767_SC10_28T
-Successfully read GSM7290764_SC10_25N
-Successfully read GSM7290782_SC216_3
-Successfully read GSM7290780_SC216_1
-Successfully read GSM7290783_SC216_5
-Successfully read GSM7290769_SC10_30T
-Successfully read GSM7290773_SC10_5
-Successfully read GSM7290771_SC10_37N
-Successfully read GSM7290772_SC10_38T
-Successfully read GSM7290765_SC10_26N
-Successfully read GSM7290760_SC10_21N
-Successfully read GSM7290762_SC10_23N
-Successfully read GSM7290781_SC216_2
-Successfully read GSM7290785_SC216_7
-Successfully read GSM7290778_SC173_1
-Total number of processed samples: 26</code></pre>
-</div>
 </div>
 <p>성공적으로 데이터를 불어왔는지 확인하기 첫번째 객체의 데이터를 확인해봅니다.</p>
-<div id="cell-4" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adatas[<span class="dv">0</span>].obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Code_name</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">GSM7290779_AAACCCAAGCTAATCC-1</td>
-<td>GSM7290779</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">GSM7290779_AAACGAAAGTCTAGCT-1</td>
-<td>GSM7290779</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">GSM7290779_AAAGAACAGCTCAGAG-1</td>
-<td>GSM7290779</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">GSM7290779_AAAGAACCATGAATAG-1</td>
-<td>GSM7290779</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">GSM7290779_AAAGGATAGAGGCTGT-1</td>
-<td>GSM7290779</td>
-</tr>
-</tbody>
-</table>
-
+<div id="cell-4" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adatas[<span class="dv">0</span>].obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-<div id="cell-5" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adatas[<span class="dv">0</span>].var.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">gene_ids</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">MIR1302-2HG</td>
-<td>ENSG00000243485</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">FAM138A</td>
-<td>ENSG00000237613</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">OR4F5</td>
-<td>ENSG00000186092</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">AL627309.1</td>
-<td>ENSG00000238009</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">AL627309.3</td>
-<td>ENSG00000239945</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
+<div id="cell-5" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adatas[<span class="dv">0</span>].var.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>문제없이 불러온 것 같습니다.</p>
 </section>
 <section id="여러-데이터를-하나로-합치기" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> 여러 데이터를 하나로 합치기</h1>
 <p>이제 여러 데이터를 하나의 객체로 합쳐보겠습니다. 추가로 메타 데이터를 찾아서 맵핑을 통해 환자 정보와 질병 정보를 추가합니다.</p>
-<div id="cell-7" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_var_names_unique(adatas: <span class="bu">list</span>[ad.AnnData]) <span class="op">-&gt;</span> <span class="bu">list</span>[ad.AnnData]:</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> adata <span class="kw">in</span> adatas:</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        adata.var_names_make_unique()</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adatas</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge_anndata(adatas: <span class="bu">list</span>[ad.AnnData]) <span class="op">-&gt;</span> ad.AnnData:</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    adata_merged <span class="op">=</span> ad.concat(adatas, join<span class="op">=</span><span class="st">"outer"</span>, axis<span class="op">=</span><span class="dv">0</span>, index_unique<span class="op">=</span><span class="st">"-"</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    all_var <span class="op">=</span> pd.concat([adata.var <span class="cf">for</span> adata <span class="kw">in</span> adatas], axis<span class="op">=</span><span class="dv">0</span>, join<span class="op">=</span><span class="st">"outer"</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    all_var <span class="op">=</span> all_var.loc[<span class="op">~</span>all_var.index.duplicated(keep<span class="op">=</span><span class="st">"first"</span>)]</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    adata_merged.var <span class="op">=</span> all_var.loc[adata_merged.var_names]</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    adata_merged.obs[<span class="st">"Code_name"</span>] <span class="op">=</span> np.concatenate(</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        [np.repeat(adata.obs[<span class="st">"Code_name"</span>].iloc[<span class="dv">0</span>], adata.n_obs) <span class="cf">for</span> adata <span class="kw">in</span> adatas]</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adata_merged</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_sample_dict() <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]:</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290760"</span>: <span class="st">"L1_N"</span>,</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290761"</span>: <span class="st">"L1_T"</span>,</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290762"</span>: <span class="st">"C1_N"</span>,</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290763"</span>: <span class="st">"C1_T"</span>,</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290764"</span>: <span class="st">"L2_N"</span>,</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290765"</span>: <span class="st">"L3_N"</span>,</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290766"</span>: <span class="st">"L4_N"</span>,</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290767"</span>: <span class="st">"L4_T"</span>,</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290768"</span>: <span class="st">"C2_N"</span>,</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290769"</span>: <span class="st">"C2_T"</span>,</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290770"</span>: <span class="st">"L5_N"</span>,</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290771"</span>: <span class="st">"C3_N"</span>,</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290772"</span>: <span class="st">"C3_T"</span>,</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290773"</span>: <span class="st">"C4_T"</span>,</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290774"</span>: <span class="st">"C5_T"</span>,</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290775"</span>: <span class="st">"L6_T"</span>,</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290776"</span>: <span class="st">"L7_N"</span>,</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290777"</span>: <span class="st">"C6_T"</span>,</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290778"</span>: <span class="st">"L8_T"</span>,</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290779"</span>: <span class="st">"L8_T"</span>,</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290780"</span>: <span class="st">"L9_N"</span>,</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290781"</span>: <span class="st">"L9_T"</span>,</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290782"</span>: <span class="st">"L10_T"</span>,</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290783"</span>: <span class="st">"L11_T"</span>,</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290784"</span>: <span class="st">"L11_N"</span>,</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290785"</span>: <span class="st">"L12_T"</span>,</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> map_code_to_sample(code: <span class="bu">str</span>, sample_dict: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sample_dict.get(code, <span class="va">None</span>)</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_metadata() <span class="op">-&gt;</span> pd.DataFrame:</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    metadata <span class="op">=</span> {</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Patient"</span>: [</span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C1"</span>,</span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C2"</span>,</span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C3"</span>,</span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C4"</span>,</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C5"</span>,</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C6"</span>,</span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L1"</span>,</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L4"</span>,</span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L6"</span>,</span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L8"</span>,</span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L9"</span>,</span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L11"</span>,</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Location"</span>: [</span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Gender"</span>: [<span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>],</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Current_age"</span>: [<span class="dv">47</span>, <span class="dv">39</span>, <span class="dv">65</span>, <span class="dv">85</span>, <span class="dv">72</span>, <span class="dv">62</span>, <span class="dv">64</span>, <span class="dv">70</span>, <span class="dv">68</span>, <span class="dv">54</span>, <span class="dv">56</span>, <span class="dv">60</span>],</span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Stage_at_collection"</span>: [</span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>            <span class="st">"II"</span>,</span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>        <span class="st">"MS_status"</span>: [</span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSI"</span>,</span>
-<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
-<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>    meta_df <span class="op">=</span> pd.DataFrame(metadata)</span>
-<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>    meta_df.set_index(<span class="st">"Patient"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> meta_df</span>
-<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_patient_id(sample: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sample.split(<span class="st">"_"</span>)[<span class="dv">0</span>]</span>
-<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> determine_tissue(sample: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>    parts <span class="op">=</span> sample.split(<span class="st">"_"</span>)</span>
-<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> parts[<span class="op">-</span><span class="dv">1</span>].endswith(<span class="st">"T"</span>):</span>
-<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"tumor"</span></span>
-<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> parts[<span class="op">-</span><span class="dv">1</span>].endswith(<span class="st">"N"</span>):</span>
-<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"normal"</span></span>
-<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"unknown"</span></span>
-<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_metadata_to_anndata(adata: ad.AnnData, meta_df: pd.DataFrame) <span class="op">-&gt;</span> ad.AnnData:</span>
-<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a>    adata.obs[<span class="st">"Patient"</span>] <span class="op">=</span> adata.obs[<span class="st">"Sample"</span>].<span class="bu">apply</span>(extract_patient_id)</span>
-<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> column <span class="kw">in</span> meta_df.columns:</span>
-<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a>        adata.obs[column] <span class="op">=</span> adata.obs[<span class="st">"Patient"</span>].<span class="bu">map</span>(meta_df[column])</span>
-<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a>    adata.obs[<span class="st">"Tissue_type"</span>] <span class="op">=</span> adata.obs[<span class="st">"Sample"</span>].<span class="bu">apply</span>(determine_tissue)</span>
-<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adata</span>
-<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Main execution</span></span>
-<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a>adatas <span class="op">=</span> make_var_names_unique(adatas)</span>
-<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a>adata_merged <span class="op">=</span> merge_anndata(adatas)</span>
-<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a>sample_dict <span class="op">=</span> create_sample_dict()</span>
-<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a>adata_merged.obs[<span class="st">"Sample"</span>] <span class="op">=</span> adata_merged.obs[<span class="st">"Code_name"</span>].<span class="bu">apply</span>(</span>
-<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: map_code_to_sample(x, sample_dict)</span>
-<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a>meta_df <span class="op">=</span> create_metadata()</span>
-<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a>adata_merged <span class="op">=</span> add_metadata_to_anndata(adata_merged, meta_df)</span>
-<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the result</span></span>
-<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>adata_merged.obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Code_name</th>
-<th data-quarto-table-cell-role="th">Sample</th>
-<th data-quarto-table-cell-role="th">Patient</th>
-<th data-quarto-table-cell-role="th">Location</th>
-<th data-quarto-table-cell-role="th">Gender</th>
-<th data-quarto-table-cell-role="th">Current_age</th>
-<th data-quarto-table-cell-role="th">Stage_at_collection</th>
-<th data-quarto-table-cell-role="th">MS_status</th>
-<th data-quarto-table-cell-role="th">Tissue_type</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">GSM7290779_AAACCCAAGCTAATCC-1-0</td>
-<td>GSM7290779</td>
-<td>L8_T</td>
-<td>L8</td>
-<td>Liver</td>
-<td>M</td>
-<td>54.0</td>
-<td>IV</td>
-<td>MSS</td>
-<td>tumor</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">GSM7290779_AAACGAAAGTCTAGCT-1-0</td>
-<td>GSM7290779</td>
-<td>L8_T</td>
-<td>L8</td>
-<td>Liver</td>
-<td>M</td>
-<td>54.0</td>
-<td>IV</td>
-<td>MSS</td>
-<td>tumor</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">GSM7290779_AAAGAACAGCTCAGAG-1-0</td>
-<td>GSM7290779</td>
-<td>L8_T</td>
-<td>L8</td>
-<td>Liver</td>
-<td>M</td>
-<td>54.0</td>
-<td>IV</td>
-<td>MSS</td>
-<td>tumor</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">GSM7290779_AAAGAACCATGAATAG-1-0</td>
-<td>GSM7290779</td>
-<td>L8_T</td>
-<td>L8</td>
-<td>Liver</td>
-<td>M</td>
-<td>54.0</td>
-<td>IV</td>
-<td>MSS</td>
-<td>tumor</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">GSM7290779_AAAGGATAGAGGCTGT-1-0</td>
-<td>GSM7290779</td>
-<td>L8_T</td>
-<td>L8</td>
-<td>Liver</td>
-<td>M</td>
-<td>54.0</td>
-<td>IV</td>
-<td>MSS</td>
-<td>tumor</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
+<div id="cell-7" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_var_names_unique(adatas: <span class="bu">list</span>[ad.AnnData]) <span class="op">-&gt;</span> <span class="bu">list</span>[ad.AnnData]:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> adata <span class="kw">in</span> adatas:</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        adata.var_names_make_unique()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adatas</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge_anndata(adatas: <span class="bu">list</span>[ad.AnnData]) <span class="op">-&gt;</span> ad.AnnData:</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    adata_merged <span class="op">=</span> ad.concat(adatas, join<span class="op">=</span><span class="st">"outer"</span>, axis<span class="op">=</span><span class="dv">0</span>, index_unique<span class="op">=</span><span class="st">"-"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    all_var <span class="op">=</span> pd.concat([adata.var <span class="cf">for</span> adata <span class="kw">in</span> adatas], axis<span class="op">=</span><span class="dv">0</span>, join<span class="op">=</span><span class="st">"outer"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    all_var <span class="op">=</span> all_var.loc[<span class="op">~</span>all_var.index.duplicated(keep<span class="op">=</span><span class="st">"first"</span>)]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    adata_merged.var <span class="op">=</span> all_var.loc[adata_merged.var_names]</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    adata_merged.obs[<span class="st">"Code_name"</span>] <span class="op">=</span> np.concatenate(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        [np.repeat(adata.obs[<span class="st">"Code_name"</span>].iloc[<span class="dv">0</span>], adata.n_obs) <span class="cf">for</span> adata <span class="kw">in</span> adatas]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adata_merged</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_sample_dict() <span class="op">-&gt;</span> <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]:</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290760"</span>: <span class="st">"L1_N"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290761"</span>: <span class="st">"L1_T"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290762"</span>: <span class="st">"C1_N"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290763"</span>: <span class="st">"C1_T"</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290764"</span>: <span class="st">"L2_N"</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290765"</span>: <span class="st">"L3_N"</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290766"</span>: <span class="st">"L4_N"</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290767"</span>: <span class="st">"L4_T"</span>,</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290768"</span>: <span class="st">"C2_N"</span>,</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290769"</span>: <span class="st">"C2_T"</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290770"</span>: <span class="st">"L5_N"</span>,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290771"</span>: <span class="st">"C3_N"</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290772"</span>: <span class="st">"C3_T"</span>,</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290773"</span>: <span class="st">"C4_T"</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290774"</span>: <span class="st">"C5_T"</span>,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290775"</span>: <span class="st">"L6_T"</span>,</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290776"</span>: <span class="st">"L7_N"</span>,</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290777"</span>: <span class="st">"C6_T"</span>,</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290778"</span>: <span class="st">"L8_T"</span>,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290779"</span>: <span class="st">"L8_T"</span>,</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290780"</span>: <span class="st">"L9_N"</span>,</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290781"</span>: <span class="st">"L9_T"</span>,</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290782"</span>: <span class="st">"L10_T"</span>,</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290783"</span>: <span class="st">"L11_T"</span>,</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290784"</span>: <span class="st">"L11_N"</span>,</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"GSM7290785"</span>: <span class="st">"L12_T"</span>,</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> map_code_to_sample(code: <span class="bu">str</span>, sample_dict: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sample_dict.get(code, <span class="va">None</span>)</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_metadata() <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    metadata <span class="op">=</span> {</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Patient"</span>: [</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C1"</span>,</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C2"</span>,</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C3"</span>,</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C4"</span>,</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C5"</span>,</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>            <span class="st">"C6"</span>,</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L1"</span>,</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L4"</span>,</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L6"</span>,</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L8"</span>,</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L9"</span>,</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>            <span class="st">"L11"</span>,</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Location"</span>: [</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Colon"</span>,</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Liver"</span>,</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Gender"</span>: [<span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>],</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Current_age"</span>: [<span class="dv">47</span>, <span class="dv">39</span>, <span class="dv">65</span>, <span class="dv">85</span>, <span class="dv">72</span>, <span class="dv">62</span>, <span class="dv">64</span>, <span class="dv">70</span>, <span class="dv">68</span>, <span class="dv">54</span>, <span class="dv">56</span>, <span class="dv">60</span>],</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Stage_at_collection"</span>: [</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>            <span class="st">"II"</span>,</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IV"</span>,</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>        <span class="st">"MS_status"</span>: [</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSI"</span>,</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>            <span class="st">"MSS"</span>,</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>    meta_df <span class="op">=</span> pd.DataFrame(metadata)</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>    meta_df.set_index(<span class="st">"Patient"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> meta_df</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_patient_id(sample: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sample.split(<span class="st">"_"</span>)[<span class="dv">0</span>]</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> determine_tissue(sample: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>    parts <span class="op">=</span> sample.split(<span class="st">"_"</span>)</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> parts[<span class="op">-</span><span class="dv">1</span>].endswith(<span class="st">"T"</span>):</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"tumor"</span></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> parts[<span class="op">-</span><span class="dv">1</span>].endswith(<span class="st">"N"</span>):</span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"normal"</span></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"unknown"</span></span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_metadata_to_anndata(adata: ad.AnnData, meta_df: pd.DataFrame) <span class="op">-&gt;</span> ad.AnnData:</span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>    adata.obs[<span class="st">"Patient"</span>] <span class="op">=</span> adata.obs[<span class="st">"Sample"</span>].<span class="bu">apply</span>(extract_patient_id)</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> column <span class="kw">in</span> meta_df.columns:</span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>        adata.obs[column] <span class="op">=</span> adata.obs[<span class="st">"Patient"</span>].<span class="bu">map</span>(meta_df[column])</span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>    adata.obs[<span class="st">"Tissue_type"</span>] <span class="op">=</span> adata.obs[<span class="st">"Sample"</span>].<span class="bu">apply</span>(determine_tissue)</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adata</span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Main execution</span></span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>adatas <span class="op">=</span> make_var_names_unique(adatas)</span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>adata_merged <span class="op">=</span> merge_anndata(adatas)</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>sample_dict <span class="op">=</span> create_sample_dict()</span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>adata_merged.obs[<span class="st">"Sample"</span>] <span class="op">=</span> adata_merged.obs[<span class="st">"Code_name"</span>].<span class="bu">apply</span>(</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: map_code_to_sample(x, sample_dict)</span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a>meta_df <span class="op">=</span> create_metadata()</span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>adata_merged <span class="op">=</span> add_metadata_to_anndata(adata_merged, meta_df)</span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the result</span></span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>adata_merged.obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>위의 출력을 보니 데이터가 정상적으로 합쳐진 것 같습니다. 데이터의 크기도 확인해보죠.</p>
-<div id="cell-9" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>adata_merged.obs.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="32">
-<pre><code>(39992, 15)</code></pre>
-</div>
+<div id="cell-9" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>adata_merged.obs.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="데이터-저장하기" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> 데이터 저장하기</h1>
 <p>이제 데이터 분석에 사용하기 위해 결과를 <code>h5ad</code> 파일로 저장합니다.</p>
 <div id="cell-11" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 저장</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>adata_merged.write(<span class="st">"../output/241015_GSE231559_merged.h5ad"</span>, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 저장</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>adata_merged.write(<span class="st">"../output/241015_GSE231559_merged.h5ad"</span>, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="마치며" class="level1" data-number="5">

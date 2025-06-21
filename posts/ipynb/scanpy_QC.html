@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -122,9 +122,6 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -449,7 +446,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -475,7 +472,7 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>분자 식별자가 잘못 붙어 있을 수도 있음으로 세포라는 용어 대신에 바코드라는 용어를 사용합니다.</p>
 </blockquote>
-<div id="2ff5338f-d762-441d-bb60-cfb494e334d8" class="cell" data-tags="[]" data-execution_count="2">
+<div id="2ff5338f-d762-441d-bb60-cfb494e334d8" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data_path <span class="op">=</span> <span class="st">"../input/231114_HL187/Isotype/"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sample_name <span class="op">=</span> <span class="st">"Isotype"</span></span>
@@ -488,10 +485,6 @@ window.Quarto = {
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>init_barcode_count <span class="op">=</span> adata.shape[<span class="dv">0</span>]</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>init_gene_count <span class="op">=</span> adata.shape[<span class="dv">1</span>]</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>AnnData object with n_obs × n_vars = 13486 × 32285
-    var: 'gene_ids', 'feature_types', 'genome'</code></pre>
-</div>
 </div>
 <p>정상적으로 데이터가 불러져 왔다면 <code>adata.var</code>에서 <code>gene_ids(Ensembl Id)</code>, <code>feature_types</code> 등의 유전자 정보와 바코드(<code>n_obs</code>) X 유전자 수(<code>n_vars</code>)를 확인 할 수 있습니다.</p>
 </section>
@@ -505,131 +498,41 @@ window.Quarto = {
 </ul>
 <p>저품질 데이터는 각 항목의 임계값을 통해 필터링되며 낮은 카운트 깊이와 검출된 유전자 수, 높은 비율의 미토콘드리아 유전자로 판단합니다. 세포 신호가 잘못 해석될 수 있으므로 임계값을 결정할 때는 여러 변인을 고려해야 합니다. 예를 들어 미토콘드리아 수가 상대적으로 높은 세포는 호흡 과정에 관여할 수 있으므로 필터링해서는 안 됩니다. 반면, 미토콘드리아 수가 낮거나 높은 세포는 휴지기에 있는 세포 집단이나 크기가 큰 세포에 해당할 수 있습니다. 따라서 일반적으로 가능한 적은 수의 세포를 제외하고 최대한 허용하는 것이 좋습니다.</p>
 <p>여기에서는 MAD(중앙값 절대 편차)를 사용한 임계값 설정으로 저품질 데이터를 필터링 합니다. MAD는 <span class="math inline">\(MAD=median(|X_i-median(X)|)\)</span> 로 주어지며, <span class="math inline">\(X_i\)</span> 는 관측값의 각 QC 메트릭이며 메트릭의 변동성을 나타냅니다. Germain et al., 2020에서 사용된 것 처럼 5 MAD 차이가 나는 경우에 이상값으로 표시하겠습니다. <code>scanpy</code>에서는 <code>sc.pp.calculate_qc_metrics</code> 함수를 사용해 <code>QC metric</code> 계산 할 수 있습니다. 다음의 코드를 사용해 미토콘드리아, 리보솜 및 헤모글로빈 유전자를 정의합니다. 미토콘드리아 유전자는 종에 따라 접두사 <code>mt-</code>(마우스) 또는 <code>MT-</code>(사람)이 추가되어 있습니다.</p>
-<div id="3baa6041-1279-41ef-99b4-9cc355b4175a" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for mouse genes</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mitochondrial genes</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"mt"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"mt-"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ribosomal genes</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"ribo"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"Rpl"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># hemoglobin genes.</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"hb"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.contains(<span class="st">"^Hb[^(p)]"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Malat1</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"Malat1"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.contains(<span class="st">"Malat1"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the respective QC metrics with scanpy.</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>sc.pp.calculate_qc_metrics(</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    qc_vars<span class="op">=</span>[<span class="st">"mt"</span>, <span class="st">"ribo"</span>, <span class="st">"hb"</span>, <span class="st">"Malat1"</span>],</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    inplace<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    percent_top<span class="op">=</span>[<span class="dv">20</span>],</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    log1p<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>AnnData object with n_obs × n_vars = 13486 × 32285
-    obs: 'n_genes_by_counts', 'log1p_n_genes_by_counts', 'total_counts', 'log1p_total_counts', 'pct_counts_in_top_20_genes', 'total_counts_mt', 'log1p_total_counts_mt', 'pct_counts_mt', 'total_counts_ribo', 'log1p_total_counts_ribo', 'pct_counts_ribo', 'total_counts_hb', 'log1p_total_counts_hb', 'pct_counts_hb', 'total_counts_Malat1', 'log1p_total_counts_Malat1', 'pct_counts_Malat1'
-    var: 'gene_ids', 'feature_types', 'genome', 'mt', 'ribo', 'hb', 'Malat1', 'n_cells_by_counts', 'mean_counts', 'log1p_mean_counts', 'pct_dropout_by_counts', 'total_counts', 'log1p_total_counts'</code></pre>
+<div id="3baa6041-1279-41ef-99b4-9cc355b4175a" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for mouse genes</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mitochondrial genes</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"mt"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"mt-"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ribosomal genes</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"ribo"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"Rpl"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># hemoglobin genes.</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"hb"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.contains(<span class="st">"^Hb[^(p)]"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Malat1</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"Malat1"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.contains(<span class="st">"Malat1"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the respective QC metrics with scanpy.</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>sc.pp.calculate_qc_metrics(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    qc_vars<span class="op">=</span>[<span class="st">"mt"</span>, <span class="st">"ribo"</span>, <span class="st">"hb"</span>, <span class="st">"Malat1"</span>],</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    inplace<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    percent_top<span class="op">=</span>[<span class="dv">20</span>],</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    log1p<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="4844a2a1-f0e2-446e-b29a-fc2d664704f8" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        adata.obs.n_genes_by_counts.describe(),</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        adata.obs.total_counts.describe(),</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        adata.obs.pct_counts_mt.describe(),</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        adata.obs.pct_counts_ribo.describe(),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        adata.obs.pct_counts_hb.describe(),</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">n_genes_by_counts</th>
-<th data-quarto-table-cell-role="th">total_counts</th>
-<th data-quarto-table-cell-role="th">pct_counts_mt</th>
-<th data-quarto-table-cell-role="th">pct_counts_ribo</th>
-<th data-quarto-table-cell-role="th">pct_counts_hb</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">count</td>
-<td>13486.000000</td>
-<td>13486.000000</td>
-<td>13486.000000</td>
-<td>13486.000000</td>
-<td>13486.000000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">mean</td>
-<td>2170.148228</td>
-<td>7194.561523</td>
-<td>1.063374</td>
-<td>8.822847</td>
-<td>0.008010</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">std</td>
-<td>1066.073444</td>
-<td>5309.599609</td>
-<td>1.890632</td>
-<td>3.806559</td>
-<td>0.022218</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">min</td>
-<td>180.000000</td>
-<td>500.000000</td>
-<td>0.000000</td>
-<td>0.200000</td>
-<td>0.000000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">25%</td>
-<td>1334.000000</td>
-<td>2991.250000</td>
-<td>0.499700</td>
-<td>6.600059</td>
-<td>0.000000</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">50%</td>
-<td>2122.000000</td>
-<td>6181.500000</td>
-<td>0.764679</td>
-<td>8.779517</td>
-<td>0.000000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">75%</td>
-<td>2874.000000</td>
-<td>10178.750000</td>
-<td>1.127175</td>
-<td>10.907173</td>
-<td>0.007614</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">max</td>
-<td>8886.000000</td>
-<td>79911.000000</td>
-<td>55.456173</td>
-<td>35.833851</td>
-<td>0.730536</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
+<div id="4844a2a1-f0e2-446e-b29a-fc2d664704f8" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        adata.obs.n_genes_by_counts.describe(),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        adata.obs.total_counts.describe(),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        adata.obs.pct_counts_mt.describe(),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        adata.obs.pct_counts_ribo.describe(),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        adata.obs.pct_counts_hb.describe(),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>출력 결과를 통해 <code>.var</code>와 <code>.obs</code>에 몇 개의 열이 추가되었습니다. 추가된 열에 대한 간략한 설명은 아래와 같으며 자세한 내용은 <code>scanpy</code> 공식 문서에서 확인할 수 있습니다.</p>
 <ul>
@@ -640,301 +543,220 @@ window.Quarto = {
 <li><code>pct_counts_ribo</code>는 세포의 총 개수 중 리보솜 유전자의 비율로 세포 유형을 판단하는데 별 도움이 되지 않는다고 알려졌습니다.</li>
 </ul>
 <p>이제 몇 가지 QC metric에 대한 시각화를 해봅니다.</p>
-<div id="be341c8f-d2e1-4d9c-b533-6a13c6731496" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sc.pl.violin(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"n_genes_by_counts"</span>, <span class="st">"total_counts"</span>, <span class="st">"pct_counts_mt"</span>],</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    jitter<span class="op">=</span><span class="fl">0.4</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    multi_panel<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_QC_files/figure-html/cell-6-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="scanpy_QC_files/figure-html/cell-6-output-1.png" width="1182" height="381" class="figure-img"></a></p>
-</figure>
+<div id="be341c8f-d2e1-4d9c-b533-6a13c6731496" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sc.pl.violin(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"n_genes_by_counts"</span>, <span class="st">"total_counts"</span>, <span class="st">"pct_counts_mt"</span>],</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    jitter<span class="op">=</span><span class="fl">0.4</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    multi_panel<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div id="1a1910b6-1fc7-4c7b-b6b8-92022938503a" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].hist(adata.obs.n_genes_by_counts, bins<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"n_genes_by_counts"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].hist(adata.obs.total_counts, bins<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"total_counts"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].hist(adata.obs.pct_counts_Malat1, bins<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].set_title(<span class="st">"pct_counts_Malat1"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div id="dedd0868-fc39-4591-8c08-b3b9f5df3a9c" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].hist(adata.obs.pct_counts_ribo, bins<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"pct_counts_ribo"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].hist(adata.obs.pct_counts_hb, bins<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"pct_counts_hb"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].hist(adata.obs.pct_counts_mt, bins<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].set_title(<span class="st">"pct_counts_mt"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1a1910b6-1fc7-4c7b-b6b8-92022938503a" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].hist(adata.obs.n_genes_by_counts, bins<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"n_genes_by_counts"</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].hist(adata.obs.total_counts, bins<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"total_counts"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].hist(adata.obs.pct_counts_Malat1, bins<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].set_title(<span class="st">"pct_counts_Malat1"</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_QC_files/figure-html/cell-7-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="scanpy_QC_files/figure-html/cell-7-output-1.png" width="792" height="301" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="dedd0868-fc39-4591-8c08-b3b9f5df3a9c" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].hist(adata.obs.pct_counts_ribo, bins<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"pct_counts_ribo"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].hist(adata.obs.pct_counts_hb, bins<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"pct_counts_hb"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].hist(adata.obs.pct_counts_mt, bins<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].set_title(<span class="st">"pct_counts_mt"</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_QC_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="scanpy_QC_files/figure-html/cell-8-output-1.png" width="783" height="301" class="figure-img"></a></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc.pl.scatter(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"total_counts"</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_genes_by_counts"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"pct_counts_mt"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="f1f08cf5-d8d6-4d3f-88c3-81ffff7b9e04" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="8">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="scanpy_QC_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="scanpy_QC_files/figure-html/cell-9-output-1.png" class="img-fluid" width="532"></a></p>
-</div>
-</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sc.pl.scatter(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"total_counts"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_genes_by_counts"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"pct_counts_mt"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f1f08cf5-d8d6-4d3f-88c3-81ffff7b9e04" class="cell quarto-layout-panel" data-layout-ncol="2">
+
 </div>
 <p>위 플롯을 통해 미토콘드리아 유전자의 비율이 높으면 셀의 총 카운트 수(total_counts)와 유전자의 수(n_genes_by_counts)가 매우 높다는 것을 알 수 있습니다. 이 플롯을 기반으로 MAD을 통한 필터링을 적용하겠습니다. 먼저, 아래와 같이 MAD 함수를 정의하고 <code>log1p_total_counts</code>, <code>log1p_n_genes_by_counts</code>, <code>pct_counts_in_top_20_genes</code> QC metric으로 5 MAD 사이의 데이터를 필터링 합니다.</p>
-<div id="ca277222-21d0-4a4f-95cc-d7952cbc8860" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_outlier(adata, metric: <span class="bu">str</span>, nmads: <span class="bu">int</span>):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    M <span class="op">=</span> adata.obs[metric]</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    outlier <span class="op">=</span> (M <span class="op">&lt;</span> np.median(M) <span class="op">-</span> nmads <span class="op">*</span> median_abs_deviation(M)) <span class="op">|</span> (</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        np.median(M) <span class="op">+</span> nmads <span class="op">*</span> median_abs_deviation(M) <span class="op">&lt;</span> M</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> outlier</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"outlier"</span>] <span class="op">=</span> (</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    is_outlier(adata, <span class="st">"log1p_total_counts"</span>, <span class="dv">5</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> is_outlier(adata, <span class="st">"log1p_n_genes_by_counts"</span>, <span class="dv">5</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> is_outlier(adata, <span class="st">"pct_counts_in_top_20_genes"</span>, <span class="dv">5</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>adata.obs.outlier.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>outlier
-False    13155
-True       331
-Name: count, dtype: int64</code></pre>
-</div>
+<div id="ca277222-21d0-4a4f-95cc-d7952cbc8860" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_outlier(adata, metric: <span class="bu">str</span>, nmads: <span class="bu">int</span>):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    M <span class="op">=</span> adata.obs[metric]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    outlier <span class="op">=</span> (M <span class="op">&lt;</span> np.median(M) <span class="op">-</span> nmads <span class="op">*</span> median_abs_deviation(M)) <span class="op">|</span> (</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        np.median(M) <span class="op">+</span> nmads <span class="op">*</span> median_abs_deviation(M) <span class="op">&lt;</span> M</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> outlier</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"outlier"</span>] <span class="op">=</span> (</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    is_outlier(adata, <span class="st">"log1p_total_counts"</span>, <span class="dv">5</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> is_outlier(adata, <span class="st">"log1p_n_genes_by_counts"</span>, <span class="dv">5</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> is_outlier(adata, <span class="st">"pct_counts_in_top_20_genes"</span>, <span class="dv">5</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>adata.obs.outlier.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>미토콘드리아 유전자 비율은 좀 더 엄격하게 3 MAD 기준으로 필터링하고 백분율이 8%를 초과하는 세포도 제외합니다.</p>
-<div id="f7f3211a-8976-42b9-a922-73735d641714" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"mt_outlier"</span>] <span class="op">=</span> is_outlier(adata, <span class="st">"pct_counts_mt"</span>, <span class="dv">3</span>) <span class="op">|</span> (adata.obs[<span class="st">"pct_counts_mt"</span>] <span class="op">&gt;</span> <span class="dv">8</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>adata.obs.mt_outlier.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>mt_outlier
-False    12054
-True      1432
-Name: count, dtype: int64</code></pre>
-</div>
+<div id="f7f3211a-8976-42b9-a922-73735d641714" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"mt_outlier"</span>] <span class="op">=</span> is_outlier(adata, <span class="st">"pct_counts_mt"</span>, <span class="dv">3</span>) <span class="op">|</span> (adata.obs[<span class="st">"pct_counts_mt"</span>] <span class="op">&gt;</span> <span class="dv">8</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>adata.obs.mt_outlier.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이제 <code>outlier</code>, <code>mt_outlier</code> 에 모두 해당하는 데이터는 제거하고 미토콘드리아 유전자의 비율에 대해 시각화합니다. 시각화를 통하면 직관적으로 알수 있습니다.</p>
-<div id="e23c69ec-b933-495d-9d4d-1df9b42d02f8" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total number of cells: </span><span class="sc">{</span>adata<span class="sc">.</span>n_obs<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[(<span class="op">~</span>adata.obs.outlier) <span class="op">&amp;</span> (<span class="op">~</span>adata.obs.mt_outlier)].copy()</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of cells after filtering of low quality cells: </span><span class="sc">{</span>adata<span class="sc">.</span>n_obs<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Total number of cells: 13486
-Number of cells after filtering of low quality cells: 11826</code></pre>
+<div id="e23c69ec-b933-495d-9d4d-1df9b42d02f8" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total number of cells: </span><span class="sc">{</span>adata<span class="sc">.</span>n_obs<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[(<span class="op">~</span>adata.obs.outlier) <span class="op">&amp;</span> (<span class="op">~</span>adata.obs.mt_outlier)].copy()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of cells after filtering of low quality cells: </span><span class="sc">{</span>adata<span class="sc">.</span>n_obs<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> sc.pl.scatter(adata, <span class="st">"total_counts"</span>, <span class="st">"n_genes_by_counts"</span>, color<span class="op">=</span><span class="st">"pct_counts_mt"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="261e8bd6-abfa-45bd-8890-652b5fc02dd7" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="13">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="scanpy_QC_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="scanpy_QC_files/figure-html/cell-13-output-1.png" class="img-fluid" width="537"></a></p>
-</div>
-</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> sc.pl.scatter(adata, <span class="st">"total_counts"</span>, <span class="st">"n_genes_by_counts"</span>, color<span class="op">=</span><span class="st">"pct_counts_mt"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="261e8bd6-abfa-45bd-8890-652b5fc02dd7" class="cell quarto-layout-panel" data-layout-ncol="2">
+
 </div>
 <section id="배경ambient-rna-제거" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="배경ambient-rna-제거"><span class="header-section-number">3.1</span> 배경(Ambient) RNA 제거</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://www.sc-best-practices.org/_images/ambient_rna.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="배경 RNA는 세포의 기본 mRNA와 함께 카운트되어 혼동을 일으킵니다."><img src="https://www.sc-best-practices.org/_images/ambient_rna.jpeg" class="img-fluid figure-img" alt="배경 RNA는 세포의 기본 mRNA와 함께 카운트되어 혼동을 일으킵니다."></a></p>
+<p><a href="https://www.sc-best-practices.org/_images/ambient_rna.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="배경 RNA는 세포의 기본 mRNA와 함께 카운트되어 혼동을 일으킵니다."><img src="https://www.sc-best-practices.org/_images/ambient_rna.jpeg" class="img-fluid figure-img" alt="배경 RNA는 세포의 기본 mRNA와 함께 카운트되어 혼동을 일으킵니다."></a></p>
 <figcaption>배경 RNA는 세포의 기본 mRNA와 함께 카운트되어 혼동을 일으킵니다.</figcaption>
 </figure>
 </div>
 <p><code>droplet</code> 기술을 사용한 scRNA-seq의 경우, 세포가 용해되면서 나온 mRNA가 세포들과 함께 시퀀싱될 수 있습니다. 이런 현상을 배경(Ambient) RNA 오염이라 하며 다운스트림 분석에서 해석을 왜곡할 수 있습니다.</p>
 <p>배경 RNA 오염은 사용한 scRNA-seq 기술과 분석한 세포의 유형에 따라 달라지기 때문에 데이터를 적절하게 보정하는 것이 중요합니다. 현재 알려진 방법으로는 <code>SoupX</code>[Young and Behjati, 2020] 및 <code>DecontX</code>[Yang et al., 2020]와 같은 방법이 있는데 이는 세포 용해액의 구성을 추정해 카운트 행렬의 값을 수정하는 원리입니다.</p>
 <p><code>SoupX</code>는 <code>R</code>언어로 작성되어 있음으로 아래의 코드와 같이 파이썬의 <code>rpy2</code> 모듈을 사용해야 합니다.</p>
-<div id="6441c4ed-38f2-47ea-b4be-92220649e256" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>library(SoupX)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    WARNING: The R package "reticulate" only fixed recently
-    an issue that caused a segfault when used with rpy2:
-    https://github.com/rstudio/reticulate/pull/1188
-    Make sure that you use a version of that package that includes
-    the fix.
-    </code></pre>
-</div>
+<div id="6441c4ed-38f2-47ea-b4be-92220649e256" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>library(SoupX)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>SoupX</code>로 더 나은 결과를 얻기 위해서는 클러스터링 정보가 필요합니다.[Young and Behjati, 2020] 먼저 <code>AnnData</code> 객체의 복사본을 만들어 정규화하고, 클러스터링을 진행 합니다. 클러스터링 정보는 <code>soupx_groups</code> 객체로 저장해 사용합니다.</p>
-<div id="12bc6f7f-fa8a-4e8f-ab71-bb7f99262c80" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>adata_pp <span class="op">=</span> adata.copy()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_per_cell(adata_pp)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata_pp)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>sc.pp.pca(adata_pp)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata_pp)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata_pp, key_added<span class="op">=</span><span class="st">"soupx_groups"</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 클러스터를 .obs에 soupx_groups로 추가하고 벡터로 저장합니다.</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>soupx_groups <span class="op">=</span> adata_pp.obs[<span class="st">"soupx_groups"</span>]</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체의 복사본을 삭제해 메모리를 절약합니다.</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> adata_pp</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 세포, 유전자, 필터링된 카운터 행렬을 저장합니다.</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># SoupX에는 모양 특징 x 바코드 행렬이 필요하므로 transpose해야 합니다.</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>cells <span class="op">=</span> adata.obs_names</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>genes <span class="op">=</span> adata.var_names</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> adata.X.T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="12bc6f7f-fa8a-4e8f-ab71-bb7f99262c80" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>adata_pp <span class="op">=</span> adata.copy()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_per_cell(adata_pp)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata_pp)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>sc.pp.pca(adata_pp)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata_pp)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata_pp, key_added<span class="op">=</span><span class="st">"soupx_groups"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 클러스터를 .obs에 soupx_groups로 추가하고 벡터로 저장합니다.</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>soupx_groups <span class="op">=</span> adata_pp.obs[<span class="st">"soupx_groups"</span>]</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체의 복사본을 삭제해 메모리를 절약합니다.</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> adata_pp</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 세포, 유전자, 필터링된 카운터 행렬을 저장합니다.</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># SoupX에는 모양 특징 x 바코드 행렬이 필요하므로 transpose해야 합니다.</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>cells <span class="op">=</span> adata.obs_names</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>genes <span class="op">=</span> adata.var_names</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> adata.X.T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>cellranger</code>에서 얻은 <code>raw_feature_bc_matrix.h5</code>를 <code>data_tod</code> 객체로 저장해 <code>SoupX</code>의 인풋으로 사용합니다.</p>
-<div id="3f0fadba-b7fa-4afc-b975-dfee2be8edd7" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>adata_raw <span class="op">=</span> sc.read_10x_h5(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span>data_path <span class="op">+</span> <span class="st">"raw_feature_bc_matrix.h5"</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>adata_raw.var_names_make_unique()</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>data_tod <span class="op">=</span> adata_raw.X.T</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 객체를 삭제해 메모리를 절약합니다.</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> adata_raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3f0fadba-b7fa-4afc-b975-dfee2be8edd7" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adata_raw <span class="op">=</span> sc.read_10x_h5(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    filename<span class="op">=</span>data_path <span class="op">+</span> <span class="st">"raw_feature_bc_matrix.h5"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>adata_raw.var_names_make_unique()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>data_tod <span class="op">=</span> adata_raw.X.T</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 객체를 삭제해 메모리를 절약합니다.</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> adata_raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이제 <code>SoupX</code>를 실행하기 위한 모든 준비가 완료되었습니다. <code>SoupChannel</code> 객체를 만들고 메타데이터를 데이터 프레임 형식으로 추가합니다. 그런다음 <code>autoEstCont</code>함수를 사용해 배경 RNA 오염 비율을 계산하고 <code>adjustCounts</code>로 카운트 행렬을 보정합니다.다</p>
-<div id="e4364038-67f5-4007-989f-09c5b597d613" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R <span class="op">-</span>i data <span class="op">-</span>i data_tod <span class="op">-</span>i genes <span class="op">-</span>i cells <span class="op">-</span>i soupx_groups <span class="op">-</span>o out </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># specify row and column names of data</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>rownames(data) <span class="op">=</span> genes</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>colnames(data) <span class="op">=</span> cells</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ensure correct sparse format for table of counts and table of droplets</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>data <span class="op">&lt;-</span> <span class="im">as</span>(data, <span class="st">"sparseMatrix"</span>)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>data_tod <span class="op">&lt;-</span> <span class="im">as</span>(data_tod, <span class="st">"sparseMatrix"</span>)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate SoupChannel Object for SoupX </span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> SoupChannel(data_tod, data, calcSoupProfile <span class="op">=</span> FALSE)</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add extra meta data to the SoupChannel object</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>soupProf <span class="op">=</span> data.frame(row.names <span class="op">=</span> rownames(data), est <span class="op">=</span> rowSums(data)<span class="op">/</span><span class="bu">sum</span>(data), counts <span class="op">=</span> rowSums(data))</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> setSoupProfile(sc, soupProf)</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Set cluster information in SoupChannel</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> setClusters(sc, soupx_groups)</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate contamination fraction</span></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>sc  <span class="op">=</span> autoEstCont(sc, doPlot<span class="op">=</span>TRUE)</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Infer corrected table of counts and rount to integer</span></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> adjustCounts(sc, roundToInt <span class="op">=</span> TRUE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><a href="scanpy_QC_files/figure-html/cell-18-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="scanpy_QC_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
-</div>
+<div id="e4364038-67f5-4007-989f-09c5b597d613" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R <span class="op">-</span>i data <span class="op">-</span>i data_tod <span class="op">-</span>i genes <span class="op">-</span>i cells <span class="op">-</span>i soupx_groups <span class="op">-</span>o out </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># specify row and column names of data</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>rownames(data) <span class="op">=</span> genes</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>colnames(data) <span class="op">=</span> cells</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ensure correct sparse format for table of counts and table of droplets</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>data <span class="op">&lt;-</span> <span class="im">as</span>(data, <span class="st">"sparseMatrix"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>data_tod <span class="op">&lt;-</span> <span class="im">as</span>(data_tod, <span class="st">"sparseMatrix"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate SoupChannel Object for SoupX </span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> SoupChannel(data_tod, data, calcSoupProfile <span class="op">=</span> FALSE)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add extra meta data to the SoupChannel object</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>soupProf <span class="op">=</span> data.frame(row.names <span class="op">=</span> rownames(data), est <span class="op">=</span> rowSums(data)<span class="op">/</span><span class="bu">sum</span>(data), counts <span class="op">=</span> rowSums(data))</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> setSoupProfile(sc, soupProf)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Set cluster information in SoupChannel</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> setClusters(sc, soupx_groups)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate contamination fraction</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>sc  <span class="op">=</span> autoEstCont(sc, doPlot<span class="op">=</span>TRUE)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Infer corrected table of counts and rount to integer</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> adjustCounts(sc, roundToInt <span class="op">=</span> TRUE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이후의 모든 분석 단계에 보정된 카운트 행렬을 사용하고자 <code>soupX_counts</code> 레이어로 <code>.X</code>을 덮어씌웁니다.</p>
-<div id="63ab3451-b517-4c87-9350-08aecaa27822" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>adata.layers[<span class="st">"counts"</span>] <span class="op">=</span> adata.X</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>adata.layers[<span class="st">"soupX_counts"</span>] <span class="op">=</span> out.T</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>adata.X <span class="op">=</span> adata.layers[<span class="st">"soupX_counts"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="63ab3451-b517-4c87-9350-08aecaa27822" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>adata.layers[<span class="st">"counts"</span>] <span class="op">=</span> adata.X</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>adata.layers[<span class="st">"soupX_counts"</span>] <span class="op">=</span> out.T</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>adata.X <span class="op">=</span> adata.layers[<span class="st">"soupX_counts"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>추가로 최소 20개 이상의 세포에서 검출되지 않는 유전자는 필터링합니다.</p>
-<div id="82664698-932f-494a-88fe-2baf820fcbcf" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total number of genes: </span><span class="sc">{</span>adata<span class="sc">.</span>n_vars<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Min 20 cells - filters out 0 count genes</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_genes(adata, min_cells<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of genes after cell filter: </span><span class="sc">{</span>adata<span class="sc">.</span>n_vars<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Total number of genes: 32285
-Number of genes after cell filter: 14534</code></pre>
-</div>
+<div id="82664698-932f-494a-88fe-2baf820fcbcf" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total number of genes: </span><span class="sc">{</span>adata<span class="sc">.</span>n_vars<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Min 20 cells - filters out 0 count genes</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_genes(adata, min_cells<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of genes after cell filter: </span><span class="sc">{</span>adata<span class="sc">.</span>n_vars<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="이중체doublet-검출" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="이중체doublet-검출"><span class="header-section-number">3.2</span> 이중체(Doublet) 검출</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://www.sc-best-practices.org/_images/doublet_detection.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="세포 쌍을 무작위로 샘플링하고 유전자 발현 프로필을 평균화하여 염색체 수를 얻고 PCA 공간에 투영합니다. 그런 다음 kNN으로 Doublet점수를 계산해 검출합니다."><img src="https://www.sc-best-practices.org/_images/doublet_detection.jpeg" class="img-fluid figure-img" alt="세포 쌍을 무작위로 샘플링하고 유전자 발현 프로필을 평균화하여 염색체 수를 얻고 PCA 공간에 투영합니다. 그런 다음 kNN으로 Doublet점수를 계산해 검출합니다."></a></p>
+<p><a href="https://www.sc-best-practices.org/_images/doublet_detection.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="세포 쌍을 무작위로 샘플링하고 유전자 발현 프로필을 평균화하여 염색체 수를 얻고 PCA 공간에 투영합니다. 그런 다음 kNN으로 Doublet점수를 계산해 검출합니다."><img src="https://www.sc-best-practices.org/_images/doublet_detection.jpeg" class="img-fluid figure-img" alt="세포 쌍을 무작위로 샘플링하고 유전자 발현 프로필을 평균화하여 염색체 수를 얻고 PCA 공간에 투영합니다. 그런 다음 kNN으로 Doublet점수를 계산해 검출합니다."></a></p>
 <figcaption>세포 쌍을 무작위로 샘플링하고 유전자 발현 프로필을 평균화하여 염색체 수를 얻고 PCA 공간에 투영합니다. 그런 다음 kNN으로 Doublet점수를 계산해 검출합니다.</figcaption>
 </figure>
 </div>
 <p>이중체는 두 개 이상의 세포가 하나의 <code>droplet</code>에 포함된 것입니다. 이런 기술적인 문제가 있기 때문에 카운터 행렬에서 ‘세포’ 대신 ’바코드’라는 용어를 사용하는 것입니다. 이중체는 동일한 세포 유형(그러나 다른 개체에서 유래한)에 의해 형성된 동형 이중체와 그렇지 않은 이형 이중체가 있습니다. 동형 이중체는 카운트 행렬의 정보로 구별이 어렵고 셀 해싱이나 SNP로만 식별할 수 있기 때문에 여기서 다루는 이중체 검출의 목표가 아닙니다.</p>
 <p>반면에 이형 이중체는 잘못 분류될 가능성이 높고 다운스트림 결과를 왜곡할 수 있음으로 이를 식별하는 것은 중요합니다. 일반적으로 이중체 검출은 전처리 초기 단계에서 진행합니다. 이형 이중체 검출을 위한 여러 소프트웨어 패키지들이 있는데 <code>scDblFinder</code>는 현재 가장 검출 정확도가 높고 우수한 계산 효율성 및 안정성을 가진 도구로 평가됩니다.[Xi and Li, 2021] 따라서 여기에서는 <code>scDblFinder</code> 사용합니다.</p>
-<div id="2cf00332-8494-4ff8-9a3c-a29ecb1f03f3" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>library(Seurat)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>library(scater)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>library(scDblFinder)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>library(BiocParallel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2cf00332-8494-4ff8-9a3c-a29ecb1f03f3" class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>library(Seurat)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>library(scater)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>library(scDblFinder)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>library(BiocParallel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="17346345-3cfb-4904-8238-767720739546" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>data_mat <span class="op">=</span> adata.X.T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="17346345-3cfb-4904-8238-767720739546" class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_mat <span class="op">=</span> adata.X.T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>scDblFinder</code>는 입력 값으로 <code>SingleCellExperiment</code>객체를 사용하므로 아래 예시 코드와 같이 <code>AnnData</code>객체를 변환해야 합니다. 코드를 실행하면 다음의 열이 결과로 추가됩니다.</p>
 <ul>
 <li>scDblFinder.score: Doublet 점수(높을수록 셀이 이중일 가능성이 높음)</li>
 <li>scDblFinder.class: 분류(Doublet 또는 Singlet)</li>
 </ul>
-<div id="bc97186f-d40d-4087-a608-11885777beff" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R <span class="op">-</span>i data_mat <span class="op">-</span>o doublet_score <span class="op">-</span>o doublet_class</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span>.seed(<span class="dv">42</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>sce <span class="op">=</span> scDblFinder(</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    SingleCellExperiment(<span class="bu">list</span>(counts<span class="op">=</span>data_mat), )</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>doublet_score <span class="op">=</span> sce$scDblFinder.score</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>doublet_class <span class="op">=</span> sce$scDblFinder.<span class="kw">class</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="bc97186f-d40d-4087-a608-11885777beff" class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R <span class="op">-</span>i data_mat <span class="op">-</span>o doublet_score <span class="op">-</span>o doublet_class</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span>.seed(<span class="dv">42</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>sce <span class="op">=</span> scDblFinder(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    SingleCellExperiment(<span class="bu">list</span>(counts<span class="op">=</span>data_mat), )</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>doublet_score <span class="op">=</span> sce$scDblFinder.score</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>doublet_class <span class="op">=</span> sce$scDblFinder.<span class="kw">class</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4e9f9a09-77c4-4c82-84fa-64784f49c1db" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scDblFinder 결과를 AnnData 객체의 .obs에 추가합니다.</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"scDblFinder_score"</span>] <span class="op">=</span> doublet_score</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"scDblFinder_class"</span>] <span class="op">=</span> doublet_class</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>adata.obs.scDblFinder_class.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
-<pre><code>scDblFinder_class
-singlet    10125
-doublet     1701
-Name: count, dtype: int64</code></pre>
-</div>
+<div id="4e9f9a09-77c4-4c82-84fa-64784f49c1db" class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scDblFinder 결과를 AnnData 객체의 .obs에 추가합니다.</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"scDblFinder_score"</span>] <span class="op">=</span> doublet_score</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"scDblFinder_class"</span>] <span class="op">=</span> doublet_class</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>adata.obs.scDblFinder_class.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Doublet 점수를 시각화해 <code>scDblFinder_class</code>이 올바른지 확인합니다.</p>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plt.hist(doublet_score, bins<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Doublet score"</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="cf41918e-69ec-4126-9789-ff6b85488221" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="25">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="scanpy_QC_files/figure-html/cell-25-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="scanpy_QC_files/figure-html/cell-25-output-1.png" class="img-fluid" width="437"></a></p>
-</div>
-</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>plt.hist(doublet_score, bins<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Doublet score"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cf41918e-69ec-4126-9789-ff6b85488221" class="cell quarto-layout-panel" data-layout-ncol="2">
+
 </div>
 <p>추후에 진행될 다운스트림 분석 과정에서 더 많은 또는 더 적은 셀을 필터링하는 것이 필요할 수 있습니다. 따라서 지금 당장 식별된 이중체를 삭제하는 것은 좋은 생각이 아닙니다. 지금까지 진행한 품질 관리 절차를 통해 얼마나 많은 바코드와 유전자가 필터링 되었는지 확인하고 파일로 저장하겠습니다.</p>
-<div id="ae52d3e2-1a00-4b44-acd4-d423f3cb2d39" class="cell" data-execution_count="26">
-<div class="cell-output cell-output-stdout">
-<pre><code>바코드 수: 13486 -&gt; 11826(0.9)
-유전자 수: 32285 -&gt; 14534(0.5)</code></pre>
-</div>
-</div>
 </section>
 </section>
 <section id="결론" class="level1" data-number="4">

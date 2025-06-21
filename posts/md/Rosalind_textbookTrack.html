@@ -1187,7 +1187,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -1441,10 +1441,10 @@ GATATATGCATATACTT</code></pre>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Find positions with the minimum skew in a DNA sequence."""</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    skew <span class="op">=</span> [<span class="dv">0</span>]</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> {<span class="st">"G"</span>: <span class="dv">1</span>, <span class="st">"C"</span>: <span class="op">-</span><span class="dv">1</span>, <span class="st">"A"</span>: <span class="dv">0</span>, <span class="st">"T"</span>: <span class="dv">0</span>}</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, nucleotide <span class="kw">in</span> <span class="bu">enumerate</span>(seq):</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        skew.append(skew[i] <span class="op">+</span> delta[nucleotide])</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    min_skew <span class="op">=</span> <span class="bu">min</span>(skew)</span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (i <span class="cf">for</span> i, value <span class="kw">in</span> <span class="bu">enumerate</span>(skew) <span class="cf">if</span> value <span class="op">==</span> min_skew)</span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
@@ -1580,8 +1580,8 @@ CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAATGCCTAGCGGCT
 <span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_approximate_kmers(observed_kmers: Dict[<span class="bu">str</span>, <span class="bu">int</span>], max_mismatches: <span class="bu">int</span>, kmer_length: <span class="bu">int</span>) <span class="op">-&gt;</span> Iterator[Tuple[<span class="bu">str</span>, <span class="bu">int</span>]]:</span>
 <span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> potential_kmer <span class="kw">in</span> generate_all_kmers(kmer_length):</span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="bu">sum</span>(observed_kmers[observed_kmer] </span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> observed_kmer <span class="kw">in</span> observed_kmers </span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="bu">sum</span>(observed_kmers[observed_kmer]</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> observed_kmer <span class="kw">in</span> observed_kmers</span>
 <span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> calculate_hamming_distance(potential_kmer, observed_kmer) <span class="op">&lt;=</span> max_mismatches)</span>
 <span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> count <span class="op">&gt;</span> <span class="dv">0</span>:</span>
 <span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> (potential_kmer, count)</span>
@@ -1647,9 +1647,9 @@ CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAATGCCTAGCGGCT
 <span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_approximate_kmers(kmer_counts: Dict[<span class="bu">str</span>, <span class="bu">int</span>], max_mismatches: <span class="bu">int</span>, kmer_length: <span class="bu">int</span>) <span class="op">-&gt;</span> Iterator[Tuple[<span class="bu">str</span>, <span class="bu">int</span>]]:</span>
 <span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> potential_kmer <span class="kw">in</span> generate_all_kmers(kmer_length):</span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="bu">sum</span>(kmer_counts[observed_kmer] <span class="cf">for</span> observed_kmer <span class="kw">in</span> kmer_counts </span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="bu">sum</span>(kmer_counts[observed_kmer] <span class="cf">for</span> observed_kmer <span class="kw">in</span> kmer_counts</span>
 <span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> hamming_distance(potential_kmer, observed_kmer) <span class="op">&lt;=</span> max_mismatches)</span>
-<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>        count <span class="op">+=</span> <span class="bu">sum</span>(kmer_counts[observed_kmer] <span class="cf">for</span> observed_kmer <span class="kw">in</span> kmer_counts </span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>        count <span class="op">+=</span> <span class="bu">sum</span>(kmer_counts[observed_kmer] <span class="cf">for</span> observed_kmer <span class="kw">in</span> kmer_counts</span>
 <span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>                     <span class="cf">if</span> hamming_distance(reverse_complement(potential_kmer), observed_kmer) <span class="op">&lt;=</span> max_mismatches)</span>
 <span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> count <span class="op">&gt;</span> <span class="dv">0</span>:</span>
 <span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> (potential_kmer, count)</span>
@@ -1702,7 +1702,7 @@ CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAATGCCTAGCGGCT
 <span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_approximate_kmers(kmer_counts: Dict[<span class="bu">str</span>, <span class="bu">int</span>], max_mismatches: <span class="bu">int</span>, kmer_length: <span class="bu">int</span>) <span class="op">-&gt;</span> Iterator[Tuple[<span class="bu">str</span>, <span class="bu">int</span>]]:</span>
 <span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> potential_kmer <span class="kw">in</span> generate_kmers(kmer_length):</span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="bu">sum</span>(kmer_counts[observed_kmer] <span class="cf">for</span> observed_kmer <span class="kw">in</span> kmer_counts </span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="bu">sum</span>(kmer_counts[observed_kmer] <span class="cf">for</span> observed_kmer <span class="kw">in</span> kmer_counts</span>
 <span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> calculate_hamming_distance(potential_kmer, observed_kmer) <span class="op">&lt;=</span> max_mismatches)</span>
 <span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> count <span class="op">&gt;</span> <span class="dv">0</span>:</span>
 <span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> (potential_kmer, count)</span>
@@ -1848,7 +1848,7 @@ ACG</code></pre>
 <span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {sequence}</span>
 <span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(sequence) <span class="op">==</span> <span class="dv">1</span>:</span>
 <span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">set</span>(nucleotides)</span>
-<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>    neighbors <span class="op">=</span> <span class="bu">set</span>()</span>
 <span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>    suffix_neighbors <span class="op">=</span> generate_neighbors(sequence[<span class="dv">1</span>:], max_distance)</span>
 <span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> suffix <span class="kw">in</span> suffix_neighbors:</span>
@@ -1902,7 +1902,7 @@ GAAAATT</code></pre>
 <span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {sequence}</span>
 <span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(sequence) <span class="op">==</span> <span class="dv">1</span>:</span>
 <span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">set</span>(nucleotides)</span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    neighbor_set <span class="op">=</span> <span class="bu">set</span>()</span>
 <span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> neighbor <span class="kw">in</span> generate_neighbors(sequence[<span class="dv">1</span>:], max_distance):</span>
 <span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> calculate_hamming_distance(sequence[<span class="dv">1</span>:], neighbor) <span class="op">&lt;</span> max_distance:</span>
@@ -1920,7 +1920,7 @@ GAAAATT</code></pre>
 <span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">set</span>(kmer <span class="cf">for</span> sequence <span class="kw">in</span> dna_sequences <span class="cf">for</span> kmer <span class="kw">in</span> generate_substrings(sequence, kmer_length))</span>
 <span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> contains_approximate_match(pattern: <span class="bu">str</span>, text: <span class="bu">str</span>, max_distance: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
-<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">any</span>(calculate_hamming_distance(substring, pattern) <span class="op">&lt;=</span> max_distance </span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">any</span>(calculate_hamming_distance(substring, pattern) <span class="op">&lt;=</span> max_distance</span>
 <span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> substring <span class="kw">in</span> generate_substrings(text, <span class="bu">len</span>(pattern)))</span>
 <span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> enumerate_motifs(dna_sequences: List[<span class="bu">str</span>], kmer_length: <span class="bu">int</span>, max_distance: <span class="bu">int</span>) <span class="op">-&gt;</span> Set[<span class="bu">str</span>]:</span>
@@ -1988,13 +1988,13 @@ AGTACGGGACAG</code></pre>
 <span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_median_string(dna_sequences: List[<span class="bu">str</span>], kmer_length: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>    min_distance <span class="op">=</span> math.inf</span>
 <span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>    median_kmer <span class="op">=</span> <span class="st">""</span></span>
-<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> kmer <span class="kw">in</span> generate_kmers(kmer_length):</span>
 <span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>        current_distance <span class="op">=</span> calculate_total_distance(kmer, dna_sequences)</span>
 <span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> current_distance <span class="op">&lt;</span> min_distance:</span>
 <span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>            min_distance <span class="op">=</span> current_distance</span>
 <span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>            median_kmer <span class="op">=</span> kmer</span>
-<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> median_kmer</span>
 <span id="cb48-32"><a href="#cb48-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-33"><a href="#cb48-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
@@ -2194,7 +2194,7 @@ TTC</code></pre>
 <span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    nucleotide_to_index: Dict[<span class="bu">str</span>, <span class="bu">int</span>] <span class="op">=</span> {<span class="st">"A"</span>: <span class="dv">0</span>, <span class="st">"C"</span>: <span class="dv">1</span>, <span class="st">"G"</span>: <span class="dv">2</span>, <span class="st">"T"</span>: <span class="dv">3</span>}</span>
 <span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">max</span>(</span>
 <span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>        generate_kmers(sequence, kmer_length),</span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>        key<span class="op">=</span><span class="kw">lambda</span> kmer: math.prod(profile[nucleotide_to_index[nucleotide]][position] </span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>        key<span class="op">=</span><span class="kw">lambda</span> kmer: math.prod(profile[nucleotide_to_index[nucleotide]][position]</span>
 <span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="cf">for</span> position, nucleotide <span class="kw">in</span> <span class="bu">enumerate</span>(kmer))</span>
 <span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a></span>
@@ -2202,9 +2202,9 @@ TTC</code></pre>
 <span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    nucleotides: List[<span class="bu">str</span>] <span class="op">=</span> [<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>]</span>
 <span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>    motif_count: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(motifs)</span>
 <span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>    motif_length: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(motifs[<span class="dv">0</span>])</span>
-<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
-<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>        [(<span class="bu">sum</span>(motif[position] <span class="op">==</span> nucleotide <span class="cf">for</span> motif <span class="kw">in</span> motifs) <span class="op">+</span> pseudocount) <span class="op">/</span> motif_count </span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>        [(<span class="bu">sum</span>(motif[position] <span class="op">==</span> nucleotide <span class="cf">for</span> motif <span class="kw">in</span> motifs) <span class="op">+</span> pseudocount) <span class="op">/</span> motif_count</span>
 <span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>         <span class="cf">for</span> position <span class="kw">in</span> <span class="bu">range</span>(motif_length)]</span>
 <span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> nucleotide <span class="kw">in</span> nucleotides</span>
 <span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>    ]</span>
@@ -2217,16 +2217,16 @@ TTC</code></pre>
 <span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> greedy_motif_search(dna_sequences: List[<span class="bu">str</span>], kmer_length: <span class="bu">int</span>, pseudocount: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
 <span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>    best_motifs: List[<span class="bu">str</span>] <span class="op">=</span> [sequence[:kmer_length] <span class="cf">for</span> sequence <span class="kw">in</span> dna_sequences]</span>
-<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> kmer <span class="kw">in</span> generate_kmers(dna_sequences[<span class="dv">0</span>], kmer_length):</span>
 <span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a>        current_motifs: List[<span class="bu">str</span>] <span class="op">=</span> [kmer]</span>
 <span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> sequence <span class="kw">in</span> dna_sequences[<span class="dv">1</span>:]:</span>
 <span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>            profile: List[List[<span class="bu">float</span>]] <span class="op">=</span> create_profile(current_motifs, pseudocount)</span>
 <span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>            current_motifs.append(find_most_probable_kmer(sequence, kmer_length, profile))</span>
-<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> calculate_score(current_motifs) <span class="op">&lt;</span> calculate_score(best_motifs):</span>
 <span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a>            best_motifs <span class="op">=</span> current_motifs</span>
-<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_motifs</span>
 <span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-48"><a href="#cb57-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
@@ -2311,25 +2311,25 @@ ACGTGCAA</code></pre>
 <span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> randomized_motif_search(dna_sequences: List[<span class="bu">str</span>], kmer_length: <span class="bu">int</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, List[<span class="bu">str</span>]]:</span>
 <span id="cb60-41"><a href="#cb60-41" aria-hidden="true" tabindex="-1"></a>    motifs <span class="op">=</span> [generate_random_kmer(seq, kmer_length) <span class="cf">for</span> seq <span class="kw">in</span> dna_sequences]</span>
 <span id="cb60-42"><a href="#cb60-42" aria-hidden="true" tabindex="-1"></a>    best_score <span class="op">=</span> math.inf</span>
-<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-44"><a href="#cb60-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb60-45"><a href="#cb60-45" aria-hidden="true" tabindex="-1"></a>        profile <span class="op">=</span> create_profile(motifs, pseudocount<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb60-46"><a href="#cb60-46" aria-hidden="true" tabindex="-1"></a>        motifs <span class="op">=</span> find_motifs(profile, dna_sequences)</span>
 <span id="cb60-47"><a href="#cb60-47" aria-hidden="true" tabindex="-1"></a>        current_score <span class="op">=</span> calculate_score(motifs)</span>
-<span id="cb60-48"><a href="#cb60-48" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb60-48"><a href="#cb60-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-49"><a href="#cb60-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> current_score <span class="op">&gt;=</span> best_score:</span>
 <span id="cb60-50"><a href="#cb60-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> best_score, motifs</span>
-<span id="cb60-51"><a href="#cb60-51" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb60-51"><a href="#cb60-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-52"><a href="#cb60-52" aria-hidden="true" tabindex="-1"></a>        best_score <span class="op">=</span> current_score</span>
 <span id="cb60-53"><a href="#cb60-53" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-54"><a href="#cb60-54" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_best_motifs(search_function: Callable, iterations: <span class="bu">int</span>, <span class="op">*</span>args) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
 <span id="cb60-55"><a href="#cb60-55" aria-hidden="true" tabindex="-1"></a>    best_score, best_motifs <span class="op">=</span> search_function(<span class="op">*</span>args)</span>
-<span id="cb60-56"><a href="#cb60-56" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-56"><a href="#cb60-56" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-57"><a href="#cb60-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(iterations <span class="op">-</span> <span class="dv">1</span>):</span>
 <span id="cb60-58"><a href="#cb60-58" aria-hidden="true" tabindex="-1"></a>        score, motifs <span class="op">=</span> search_function(<span class="op">*</span>args)</span>
 <span id="cb60-59"><a href="#cb60-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> score <span class="op">&lt;</span> best_score:</span>
 <span id="cb60-60"><a href="#cb60-60" aria-hidden="true" tabindex="-1"></a>            best_score, best_motifs <span class="op">=</span> score, motifs</span>
-<span id="cb60-61"><a href="#cb60-61" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-61"><a href="#cb60-61" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-62"><a href="#cb60-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_motifs</span>
 <span id="cb60-63"><a href="#cb60-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-64"><a href="#cb60-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
@@ -2386,7 +2386,7 @@ TCCACGTG</code></pre>
 <span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>    nucleotides: List[<span class="bu">str</span>] <span class="op">=</span> [<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>]</span>
 <span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>    motif_count: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(motifs)</span>
 <span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>    motif_length: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(motifs[<span class="dv">0</span>])</span>
-<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
 <span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>        [(<span class="bu">sum</span>(motif[position] <span class="op">==</span> nucleotide <span class="cf">for</span> motif <span class="kw">in</span> motifs) <span class="op">+</span> pseudocount) <span class="op">/</span> (motif_count <span class="op">+</span> <span class="dv">4</span><span class="op">*</span>pseudocount)</span>
 <span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>         <span class="cf">for</span> position <span class="kw">in</span> <span class="bu">range</span>(motif_length)]</span>
@@ -2649,7 +2649,7 @@ TTC -&gt; TCT</code></pre>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> construct_de_bruijn_graph(sequence: <span class="bu">str</span>, kmer_length: <span class="bu">int</span>) <span class="op">-&gt;</span> OrderedDictType[<span class="bu">str</span>, Set[<span class="bu">str</span>]]:</span>
 <span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>    adjacency_list: OrderedDictType[<span class="bu">str</span>, Set[<span class="bu">str</span>]] <span class="op">=</span> OrderedDict()</span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(sequence) <span class="op">-</span> kmer_length <span class="op">+</span> <span class="dv">2</span>):</span>
 <span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>        adjacency_list[sequence[i:i <span class="op">+</span> kmer_length <span class="op">-</span> <span class="dv">1</span>]] <span class="op">=</span> <span class="bu">set</span>()</span>
 <span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -2906,7 +2906,7 @@ GGA -&gt; GAG</code></pre>
 <span id="cb87-57"><a href="#cb87-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-58"><a href="#cb87-58" aria-hidden="true" tabindex="-1"></a>    start_node <span class="op">=</span> [node <span class="cf">for</span> node, diff <span class="kw">in</span> degree_differences.items() <span class="cf">if</span> diff <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>][<span class="dv">0</span>]</span>
 <span id="cb87-59"><a href="#cb87-59" aria-hidden="true" tabindex="-1"></a>    end_node <span class="op">=</span> [node <span class="cf">for</span> node, diff <span class="kw">in</span> degree_differences.items() <span class="cf">if</span> diff <span class="op">==</span> <span class="dv">1</span>][<span class="dv">0</span>]</span>
-<span id="cb87-60"><a href="#cb87-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb87-60"><a href="#cb87-60" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-61"><a href="#cb87-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> start_node <span class="kw">in</span> graph:</span>
 <span id="cb87-62"><a href="#cb87-62" aria-hidden="true" tabindex="-1"></a>        graph[start_node].append(end_node)</span>
 <span id="cb87-63"><a href="#cb87-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
@@ -3019,7 +3019,7 @@ TTAC</code></pre>
 <span id="cb90-60"><a href="#cb90-60" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb90-61"><a href="#cb90-61" aria-hidden="true" tabindex="-1"></a>    start_node <span class="op">=</span> [node <span class="cf">for</span> node, diff <span class="kw">in</span> degree_differences.items() <span class="cf">if</span> diff <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>][<span class="dv">0</span>]</span>
 <span id="cb90-62"><a href="#cb90-62" aria-hidden="true" tabindex="-1"></a>    end_node <span class="op">=</span> [node <span class="cf">for</span> node, diff <span class="kw">in</span> degree_differences.items() <span class="cf">if</span> diff <span class="op">==</span> <span class="dv">1</span>][<span class="dv">0</span>]</span>
-<span id="cb90-63"><a href="#cb90-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb90-63"><a href="#cb90-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb90-64"><a href="#cb90-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> start_node <span class="kw">in</span> graph:</span>
 <span id="cb90-65"><a href="#cb90-65" aria-hidden="true" tabindex="-1"></a>        graph[start_node].append(end_node)</span>
 <span id="cb90-66"><a href="#cb90-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
@@ -3227,7 +3227,7 @@ GTCG|AGAT</code></pre>
 <span id="cb95-51"><a href="#cb95-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb95-52"><a href="#cb95-52" aria-hidden="true" tabindex="-1"></a>    start_node <span class="op">=</span> [node <span class="cf">for</span> node, diff <span class="kw">in</span> degree_differences.items() <span class="cf">if</span> diff <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>][<span class="dv">0</span>]</span>
 <span id="cb95-53"><a href="#cb95-53" aria-hidden="true" tabindex="-1"></a>    end_node <span class="op">=</span> [node <span class="cf">for</span> node, diff <span class="kw">in</span> degree_differences.items() <span class="cf">if</span> diff <span class="op">==</span> <span class="dv">1</span>][<span class="dv">0</span>]</span>
-<span id="cb95-54"><a href="#cb95-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb95-54"><a href="#cb95-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb95-55"><a href="#cb95-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> start_node <span class="kw">in</span> graph:</span>
 <span id="cb95-56"><a href="#cb95-56" aria-hidden="true" tabindex="-1"></a>        graph[start_node].append(end_node)</span>
 <span id="cb95-57"><a href="#cb95-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
@@ -3249,7 +3249,7 @@ GTCG|AGAT</code></pre>
 <span id="cb95-73"><a href="#cb95-73" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> string_spelled_by_gapped_patterns(gapped_patterns: List[Tuple[<span class="bu">str</span>, <span class="bu">str</span>]], k: <span class="bu">int</span>, d: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb95-74"><a href="#cb95-74" aria-hidden="true" tabindex="-1"></a>    prefix_string <span class="op">=</span> <span class="st">''</span>.join(pattern[<span class="dv">0</span>][<span class="dv">0</span>] <span class="cf">for</span> pattern <span class="kw">in</span> gapped_patterns[:<span class="op">-</span><span class="dv">1</span>]) <span class="op">+</span> gapped_patterns[<span class="op">-</span><span class="dv">1</span>][<span class="dv">0</span>]</span>
 <span id="cb95-75"><a href="#cb95-75" aria-hidden="true" tabindex="-1"></a>    suffix_string <span class="op">=</span> <span class="st">''</span>.join(pattern[<span class="dv">1</span>][<span class="dv">0</span>] <span class="cf">for</span> pattern <span class="kw">in</span> gapped_patterns[:<span class="op">-</span><span class="dv">1</span>]) <span class="op">+</span> gapped_patterns[<span class="op">-</span><span class="dv">1</span>][<span class="dv">1</span>]</span>
-<span id="cb95-76"><a href="#cb95-76" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb95-76"><a href="#cb95-76" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb95-77"><a href="#cb95-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k <span class="op">+</span> d <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(prefix_string)):</span>
 <span id="cb95-78"><a href="#cb95-78" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> prefix_string[i] <span class="op">!=</span> suffix_string[i <span class="op">-</span> k <span class="op">-</span> d <span class="op">-</span> <span class="dv">1</span>]:</span>
 <span id="cb95-79"><a href="#cb95-79" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"-1"</span></span>
@@ -3425,11 +3425,11 @@ GAGC|CGGA</code></pre>
 <span id="cb101-10"><a href="#cb101-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
 <span id="cb101-11"><a href="#cb101-11" aria-hidden="true" tabindex="-1"></a>            prefix_string <span class="op">+=</span> prefix</span>
 <span id="cb101-12"><a href="#cb101-12" aria-hidden="true" tabindex="-1"></a>            suffix_string <span class="op">+=</span> suffix</span>
-<span id="cb101-13"><a href="#cb101-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb101-13"><a href="#cb101-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb101-14"><a href="#cb101-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k <span class="op">+</span> d <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(prefix_string)):</span>
 <span id="cb101-15"><a href="#cb101-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> prefix_string[i] <span class="op">!=</span> suffix_string[i <span class="op">-</span> k <span class="op">-</span> d <span class="op">-</span> <span class="dv">1</span>]:</span>
 <span id="cb101-16"><a href="#cb101-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"-1"</span></span>
-<span id="cb101-17"><a href="#cb101-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb101-17"><a href="#cb101-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb101-18"><a href="#cb101-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> prefix_string <span class="op">+</span> suffix_string[<span class="bu">len</span>(suffix_string) <span class="op">-</span> k <span class="op">-</span> d <span class="op">-</span> <span class="dv">1</span>:]</span>
 <span id="cb101-19"><a href="#cb101-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb101-20"><a href="#cb101-20" aria-hidden="true" tabindex="-1"></a>sample_input: <span class="bu">str</span> <span class="op">=</span> <span class="st">"""</span></span>
@@ -3586,26 +3586,26 @@ GAGC|CGGA</code></pre>
 <span id="cb107-20"><a href="#cb107-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'GAU'</span>: <span class="st">'D'</span>, <span class="st">'GAC'</span>: <span class="st">'D'</span>, <span class="st">'GAA'</span>: <span class="st">'E'</span>, <span class="st">'GAG'</span>: <span class="st">'E'</span>,</span>
 <span id="cb107-21"><a href="#cb107-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'GGU'</span>: <span class="st">'G'</span>, <span class="st">'GGC'</span>: <span class="st">'G'</span>, <span class="st">'GGA'</span>: <span class="st">'G'</span>, <span class="st">'GGG'</span>: <span class="st">'G'</span></span>
 <span id="cb107-22"><a href="#cb107-22" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb107-23"><a href="#cb107-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb107-23"><a href="#cb107-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-24"><a href="#cb107-24" aria-hidden="true" tabindex="-1"></a>    protein_sequence: <span class="bu">str</span> <span class="op">=</span> <span class="st">""</span></span>
-<span id="cb107-25"><a href="#cb107-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb107-25"><a href="#cb107-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-26"><a href="#cb107-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># RNA 서열을 3개의 뉴클레오티드(코돈)씩 나누어 처리</span></span>
 <span id="cb107-27"><a href="#cb107-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(rna_sequence), <span class="dv">3</span>):</span>
 <span id="cb107-28"><a href="#cb107-28" aria-hidden="true" tabindex="-1"></a>        codon: <span class="bu">str</span> <span class="op">=</span> rna_sequence[i:i<span class="op">+</span><span class="dv">3</span>]</span>
-<span id="cb107-29"><a href="#cb107-29" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb107-29"><a href="#cb107-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-30"><a href="#cb107-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 코돈이 3개의 뉴클레오티드로 완전하지 않으면 중단</span></span>
 <span id="cb107-31"><a href="#cb107-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(codon) <span class="op">!=</span> <span class="dv">3</span>:</span>
 <span id="cb107-32"><a href="#cb107-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb107-33"><a href="#cb107-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb107-33"><a href="#cb107-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-34"><a href="#cb107-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 코돈을 아미노산으로 변환</span></span>
 <span id="cb107-35"><a href="#cb107-35" aria-hidden="true" tabindex="-1"></a>        amino_acid: <span class="bu">str</span> <span class="op">=</span> codon_table.get(codon, <span class="st">''</span>)</span>
-<span id="cb107-36"><a href="#cb107-36" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb107-36"><a href="#cb107-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-37"><a href="#cb107-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 종결 코돈('*')을 만나면 번역 중단</span></span>
 <span id="cb107-38"><a href="#cb107-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> amino_acid <span class="op">==</span> <span class="st">'*'</span>:</span>
 <span id="cb107-39"><a href="#cb107-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb107-40"><a href="#cb107-40" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb107-40"><a href="#cb107-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-41"><a href="#cb107-41" aria-hidden="true" tabindex="-1"></a>        protein_sequence <span class="op">+=</span> amino_acid</span>
-<span id="cb107-42"><a href="#cb107-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb107-42"><a href="#cb107-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-43"><a href="#cb107-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> protein_sequence</span>
 <span id="cb107-44"><a href="#cb107-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb107-45"><a href="#cb107-45" aria-hidden="true" tabindex="-1"></a><span class="co"># 입력 RNA 서열</span></span>
@@ -3660,22 +3660,22 @@ ATGGCC</code></pre>
 <span id="cb110-19"><a href="#cb110-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'GAU'</span>: <span class="st">'D'</span>, <span class="st">'GAC'</span>: <span class="st">'D'</span>, <span class="st">'GAA'</span>: <span class="st">'E'</span>, <span class="st">'GAG'</span>: <span class="st">'E'</span>,</span>
 <span id="cb110-20"><a href="#cb110-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'GGU'</span>: <span class="st">'G'</span>, <span class="st">'GGC'</span>: <span class="st">'G'</span>, <span class="st">'GGA'</span>: <span class="st">'G'</span>, <span class="st">'GGG'</span>: <span class="st">'G'</span></span>
 <span id="cb110-21"><a href="#cb110-21" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb110-22"><a href="#cb110-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb110-22"><a href="#cb110-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-23"><a href="#cb110-23" aria-hidden="true" tabindex="-1"></a>    protein_sequence: List[<span class="bu">str</span>] <span class="op">=</span> []</span>
-<span id="cb110-24"><a href="#cb110-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb110-24"><a href="#cb110-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-25"><a href="#cb110-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(rna_sequence), <span class="dv">3</span>):</span>
 <span id="cb110-26"><a href="#cb110-26" aria-hidden="true" tabindex="-1"></a>        codon: <span class="bu">str</span> <span class="op">=</span> rna_sequence[i:i<span class="op">+</span><span class="dv">3</span>]</span>
-<span id="cb110-27"><a href="#cb110-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb110-27"><a href="#cb110-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-28"><a href="#cb110-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(codon) <span class="op">!=</span> <span class="dv">3</span>:</span>
 <span id="cb110-29"><a href="#cb110-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb110-30"><a href="#cb110-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb110-30"><a href="#cb110-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-31"><a href="#cb110-31" aria-hidden="true" tabindex="-1"></a>        amino_acid: <span class="bu">str</span> <span class="op">=</span> codon_to_amino_acid.get(codon, <span class="st">''</span>)</span>
-<span id="cb110-32"><a href="#cb110-32" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb110-32"><a href="#cb110-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-33"><a href="#cb110-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> amino_acid <span class="op">==</span> <span class="st">'*'</span>:</span>
 <span id="cb110-34"><a href="#cb110-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb110-35"><a href="#cb110-35" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb110-35"><a href="#cb110-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-36"><a href="#cb110-36" aria-hidden="true" tabindex="-1"></a>        protein_sequence.append(amino_acid)</span>
-<span id="cb110-37"><a href="#cb110-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb110-37"><a href="#cb110-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-38"><a href="#cb110-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">''</span>.join(protein_sequence)</span>
 <span id="cb110-39"><a href="#cb110-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb110-40"><a href="#cb110-40" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reverse_complement(dna_sequence: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -3695,7 +3695,7 @@ ATGGCC</code></pre>
 <span id="cb110-54"><a href="#cb110-54" aria-hidden="true" tabindex="-1"></a>        rna_substring: <span class="bu">str</span> <span class="op">=</span> dna_to_rna(dna_substring)</span>
 <span id="cb110-55"><a href="#cb110-55" aria-hidden="true" tabindex="-1"></a>        reverse_complement_rna: <span class="bu">str</span> <span class="op">=</span> dna_to_rna(reverse_complement_substring)</span>
 <span id="cb110-56"><a href="#cb110-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb110-57"><a href="#cb110-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (translate_rna_to_protein(rna_substring) <span class="op">==</span> peptide <span class="kw">or</span> </span>
+<span id="cb110-57"><a href="#cb110-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (translate_rna_to_protein(rna_substring) <span class="op">==</span> peptide <span class="kw">or</span></span>
 <span id="cb110-58"><a href="#cb110-58" aria-hidden="true" tabindex="-1"></a>            translate_rna_to_protein(reverse_complement_rna) <span class="op">==</span> peptide):</span>
 <span id="cb110-59"><a href="#cb110-59" aria-hidden="true" tabindex="-1"></a>            encoding_substrings.append(dna_substring)</span>
 <span id="cb110-60"><a href="#cb110-60" aria-hidden="true" tabindex="-1"></a></span>
@@ -3737,13 +3737,13 @@ ATGGCC</code></pre>
 <span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>    total_mass: <span class="bu">int</span> <span class="op">=</span> <span class="bu">sum</span>(AMINO_ACID_MASSES[amino_acid] <span class="cf">for</span> amino_acid <span class="kw">in</span> peptide)</span>
 <span id="cb113-10"><a href="#cb113-10" aria-hidden="true" tabindex="-1"></a>    spectrum: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>, total_mass]</span>
 <span id="cb113-11"><a href="#cb113-11" aria-hidden="true" tabindex="-1"></a>    circular_peptide: <span class="bu">str</span> <span class="op">=</span> peptide <span class="op">+</span> peptide</span>
-<span id="cb113-12"><a href="#cb113-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb113-12"><a href="#cb113-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb113-13"><a href="#cb113-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subpeptide_length <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(peptide)):</span>
 <span id="cb113-14"><a href="#cb113-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> start_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(peptide)):</span>
 <span id="cb113-15"><a href="#cb113-15" aria-hidden="true" tabindex="-1"></a>            subpeptide: <span class="bu">str</span> <span class="op">=</span> circular_peptide[start_index:start_index <span class="op">+</span> subpeptide_length]</span>
 <span id="cb113-16"><a href="#cb113-16" aria-hidden="true" tabindex="-1"></a>            subpeptide_mass: <span class="bu">int</span> <span class="op">=</span> <span class="bu">sum</span>(AMINO_ACID_MASSES[amino_acid] <span class="cf">for</span> amino_acid <span class="kw">in</span> subpeptide)</span>
 <span id="cb113-17"><a href="#cb113-17" aria-hidden="true" tabindex="-1"></a>            spectrum.append(subpeptide_mass)</span>
-<span id="cb113-18"><a href="#cb113-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb113-18"><a href="#cb113-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb113-19"><a href="#cb113-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sorted</span>(spectrum)</span>
 <span id="cb113-20"><a href="#cb113-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb113-21"><a href="#cb113-21" aria-hidden="true" tabindex="-1"></a>sample_input: <span class="bu">str</span> <span class="op">=</span> <span class="st">"""</span></span>
@@ -3779,10 +3779,10 @@ ATGGCC</code></pre>
 <span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_possible_peptides(target_mass: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb116-8"><a href="#cb116-8" aria-hidden="true" tabindex="-1"></a>    peptide_count: Dict[<span class="bu">int</span>, <span class="bu">int</span>] <span class="op">=</span> defaultdict(<span class="bu">int</span>)</span>
-<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb116-10"><a href="#cb116-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> current_mass <span class="kw">in</span> <span class="bu">range</span>(LIGHTEST_AMINO_ACID, target_mass <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb116-11"><a href="#cb116-11" aria-hidden="true" tabindex="-1"></a>        peptide_count[current_mass] <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> amino_acid_mass <span class="kw">in</span> AMINO_ACID_MASSES <span class="cf">if</span> amino_acid_mass <span class="op">==</span> current_mass)</span>
-<span id="cb116-12"><a href="#cb116-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb116-12"><a href="#cb116-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb116-13"><a href="#cb116-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> amino_acid_mass <span class="kw">in</span> AMINO_ACID_MASSES:</span>
 <span id="cb116-14"><a href="#cb116-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current_mass <span class="op">&gt;=</span> amino_acid_mass:</span>
 <span id="cb116-15"><a href="#cb116-15" aria-hidden="true" tabindex="-1"></a>                peptide_count[current_mass] <span class="op">+=</span> peptide_count[current_mass <span class="op">-</span> amino_acid_mass]</span>
@@ -3853,7 +3853,7 @@ ATGGCC</code></pre>
 <span id="cb119-39"><a href="#cb119-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cyclopeptide_sequencing(spectrum: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> Set[<span class="bu">str</span>]:</span>
 <span id="cb119-40"><a href="#cb119-40" aria-hidden="true" tabindex="-1"></a>    candidate_peptides: List[List[<span class="bu">int</span>]] <span class="op">=</span> [[]]</span>
 <span id="cb119-41"><a href="#cb119-41" aria-hidden="true" tabindex="-1"></a>    result: Set[<span class="bu">str</span>] <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb119-42"><a href="#cb119-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb119-42"><a href="#cb119-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb119-43"><a href="#cb119-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> candidate_peptides:</span>
 <span id="cb119-44"><a href="#cb119-44" aria-hidden="true" tabindex="-1"></a>        candidate_peptides <span class="op">=</span> expand_peptides(candidate_peptides)</span>
 <span id="cb119-45"><a href="#cb119-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> peptide <span class="kw">in</span> candidate_peptides[:]:</span>
@@ -3863,7 +3863,7 @@ ATGGCC</code></pre>
 <span id="cb119-49"><a href="#cb119-49" aria-hidden="true" tabindex="-1"></a>                candidate_peptides.remove(peptide)</span>
 <span id="cb119-50"><a href="#cb119-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="kw">not</span> is_consistent(peptide, spectrum):</span>
 <span id="cb119-51"><a href="#cb119-51" aria-hidden="true" tabindex="-1"></a>                candidate_peptides.remove(peptide)</span>
-<span id="cb119-52"><a href="#cb119-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb119-52"><a href="#cb119-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb119-53"><a href="#cb119-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
 <span id="cb119-54"><a href="#cb119-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb119-55"><a href="#cb119-55" aria-hidden="true" tabindex="-1"></a>sample_input: <span class="bu">str</span> <span class="op">=</span> <span class="st">"""</span></span>
@@ -3903,13 +3903,13 @@ ATGGCC</code></pre>
 <span id="cb122-9"><a href="#cb122-9" aria-hidden="true" tabindex="-1"></a>    total_mass: <span class="bu">int</span> <span class="op">=</span> <span class="bu">sum</span>(AMINO_ACID_MASSES[aa] <span class="cf">for</span> aa <span class="kw">in</span> peptide)</span>
 <span id="cb122-10"><a href="#cb122-10" aria-hidden="true" tabindex="-1"></a>    spectrum: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>, total_mass]</span>
 <span id="cb122-11"><a href="#cb122-11" aria-hidden="true" tabindex="-1"></a>    extended_peptide: <span class="bu">str</span> <span class="op">=</span> peptide <span class="op">+</span> peptide</span>
-<span id="cb122-12"><a href="#cb122-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb122-12"><a href="#cb122-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb122-13"><a href="#cb122-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> length <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(peptide)):</span>
 <span id="cb122-14"><a href="#cb122-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> start <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(peptide)):</span>
 <span id="cb122-15"><a href="#cb122-15" aria-hidden="true" tabindex="-1"></a>            subpeptide: <span class="bu">str</span> <span class="op">=</span> extended_peptide[start:start <span class="op">+</span> length]</span>
 <span id="cb122-16"><a href="#cb122-16" aria-hidden="true" tabindex="-1"></a>            subpeptide_mass: <span class="bu">int</span> <span class="op">=</span> <span class="bu">sum</span>(AMINO_ACID_MASSES[aa] <span class="cf">for</span> aa <span class="kw">in</span> subpeptide)</span>
 <span id="cb122-17"><a href="#cb122-17" aria-hidden="true" tabindex="-1"></a>            spectrum.append(subpeptide_mass)</span>
-<span id="cb122-18"><a href="#cb122-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb122-18"><a href="#cb122-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb122-19"><a href="#cb122-19" aria-hidden="true" tabindex="-1"></a>    spectrum.sort()</span>
 <span id="cb122-20"><a href="#cb122-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spectrum</span>
 <span id="cb122-21"><a href="#cb122-21" aria-hidden="true" tabindex="-1"></a></span>
@@ -3917,10 +3917,10 @@ ATGGCC</code></pre>
 <span id="cb122-23"><a href="#cb122-23" aria-hidden="true" tabindex="-1"></a>    theoretical_spectrum: List[<span class="bu">int</span>] <span class="op">=</span> calculate_cyclospectrum(peptide)</span>
 <span id="cb122-24"><a href="#cb122-24" aria-hidden="true" tabindex="-1"></a>    score: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb122-25"><a href="#cb122-25" aria-hidden="true" tabindex="-1"></a>    unique_masses: <span class="bu">set</span> <span class="op">=</span> <span class="bu">set</span>(theoretical_spectrum <span class="op">+</span> experimental_spectrum)</span>
-<span id="cb122-26"><a href="#cb122-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb122-26"><a href="#cb122-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb122-27"><a href="#cb122-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mass <span class="kw">in</span> unique_masses:</span>
 <span id="cb122-28"><a href="#cb122-28" aria-hidden="true" tabindex="-1"></a>        score <span class="op">+=</span> <span class="bu">min</span>(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))</span>
-<span id="cb122-29"><a href="#cb122-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb122-29"><a href="#cb122-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb122-30"><a href="#cb122-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> score</span>
 <span id="cb122-31"><a href="#cb122-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb122-32"><a href="#cb122-32" aria-hidden="true" tabindex="-1"></a>sample_input: <span class="bu">str</span> <span class="op">=</span> <span class="st">"""</span></span>
@@ -3967,13 +3967,13 @@ ATGGCC</code></pre>
 <span id="cb125-13"><a href="#cb125-13" aria-hidden="true" tabindex="-1"></a>    total_mass: <span class="bu">int</span> <span class="op">=</span> <span class="bu">sum</span>(peptide)</span>
 <span id="cb125-14"><a href="#cb125-14" aria-hidden="true" tabindex="-1"></a>    spectrum: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>, total_mass]</span>
 <span id="cb125-15"><a href="#cb125-15" aria-hidden="true" tabindex="-1"></a>    extended_peptide: List[<span class="bu">int</span>] <span class="op">=</span> peptide <span class="op">+</span> peptide</span>
-<span id="cb125-16"><a href="#cb125-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb125-16"><a href="#cb125-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb125-17"><a href="#cb125-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> length <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(peptide)):</span>
 <span id="cb125-18"><a href="#cb125-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> start <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(peptide)):</span>
 <span id="cb125-19"><a href="#cb125-19" aria-hidden="true" tabindex="-1"></a>            subpeptide: List[<span class="bu">int</span>] <span class="op">=</span> extended_peptide[start:start <span class="op">+</span> length]</span>
 <span id="cb125-20"><a href="#cb125-20" aria-hidden="true" tabindex="-1"></a>            subpeptide_mass: <span class="bu">int</span> <span class="op">=</span> <span class="bu">sum</span>(subpeptide)</span>
 <span id="cb125-21"><a href="#cb125-21" aria-hidden="true" tabindex="-1"></a>            spectrum.append(subpeptide_mass)</span>
-<span id="cb125-22"><a href="#cb125-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb125-22"><a href="#cb125-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb125-23"><a href="#cb125-23" aria-hidden="true" tabindex="-1"></a>    spectrum.sort()</span>
 <span id="cb125-24"><a href="#cb125-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spectrum</span>
 <span id="cb125-25"><a href="#cb125-25" aria-hidden="true" tabindex="-1"></a></span>
@@ -4064,7 +4064,7 @@ ATGGCC</code></pre>
 <span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_spectrum_convolution(spectrum: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>    spectrum.sort()</span>
 <span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>    convolution_list: List[<span class="bu">int</span>] <span class="op">=</span> []</span>
-<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb128-7"><a href="#cb128-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(spectrum) <span class="op">-</span> <span class="dv">1</span>):</span>
 <span id="cb128-8"><a href="#cb128-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(spectrum)):</span>
 <span id="cb128-9"><a href="#cb128-9" aria-hidden="true" tabindex="-1"></a>            mass_difference: <span class="bu">int</span> <span class="op">=</span> spectrum[j] <span class="op">-</span> spectrum[i]</span>
@@ -4076,11 +4076,11 @@ ATGGCC</code></pre>
 <span id="cb128-15"><a href="#cb128-15" aria-hidden="true" tabindex="-1"></a>        frequency_dict[mass] <span class="op">=</span> convolution_list.count(mass)</span>
 <span id="cb128-16"><a href="#cb128-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb128-17"><a href="#cb128-17" aria-hidden="true" tabindex="-1"></a>    sorted_masses: List[<span class="bu">int</span>] <span class="op">=</span> <span class="bu">sorted</span>(frequency_dict, key<span class="op">=</span>frequency_dict.get, reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb128-18"><a href="#cb128-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb128-18"><a href="#cb128-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb128-19"><a href="#cb128-19" aria-hidden="true" tabindex="-1"></a>    result: List[<span class="bu">int</span>] <span class="op">=</span> []</span>
 <span id="cb128-20"><a href="#cb128-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mass <span class="kw">in</span> sorted_masses:</span>
 <span id="cb128-21"><a href="#cb128-21" aria-hidden="true" tabindex="-1"></a>        result.extend([mass] <span class="op">*</span> frequency_dict[mass])</span>
-<span id="cb128-22"><a href="#cb128-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb128-22"><a href="#cb128-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb128-23"><a href="#cb128-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
 <span id="cb128-24"><a href="#cb128-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb128-25"><a href="#cb128-25" aria-hidden="true" tabindex="-1"></a>sample_input: <span class="bu">str</span> <span class="op">=</span> <span class="st">"""</span></span>
@@ -4236,18 +4236,18 @@ ATGGCC</code></pre>
 <span id="cb134-8"><a href="#cb134-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-9"><a href="#cb134-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_linear_spectrum(peptide: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb134-10"><a href="#cb134-10" aria-hidden="true" tabindex="-1"></a>    prefix_masses: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>]</span>
-<span id="cb134-11"><a href="#cb134-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb134-11"><a href="#cb134-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-12"><a href="#cb134-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> amino_acid <span class="kw">in</span> peptide:</span>
 <span id="cb134-13"><a href="#cb134-13" aria-hidden="true" tabindex="-1"></a>        current_mass <span class="op">=</span> prefix_masses[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> AMINO_ACID_MASSES[amino_acid]</span>
 <span id="cb134-14"><a href="#cb134-14" aria-hidden="true" tabindex="-1"></a>        prefix_masses.append(current_mass)</span>
-<span id="cb134-15"><a href="#cb134-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb134-15"><a href="#cb134-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-16"><a href="#cb134-16" aria-hidden="true" tabindex="-1"></a>    linear_spectrum: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>]</span>
-<span id="cb134-17"><a href="#cb134-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb134-17"><a href="#cb134-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-18"><a href="#cb134-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(peptide)):</span>
 <span id="cb134-19"><a href="#cb134-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(peptide) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb134-20"><a href="#cb134-20" aria-hidden="true" tabindex="-1"></a>            subpeptide_mass <span class="op">=</span> prefix_masses[j] <span class="op">-</span> prefix_masses[i]</span>
 <span id="cb134-21"><a href="#cb134-21" aria-hidden="true" tabindex="-1"></a>            linear_spectrum.append(subpeptide_mass)</span>
-<span id="cb134-22"><a href="#cb134-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb134-22"><a href="#cb134-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-23"><a href="#cb134-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sorted</span>(linear_spectrum)</span>
 <span id="cb134-24"><a href="#cb134-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb134-25"><a href="#cb134-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
@@ -4284,28 +4284,28 @@ ATGGCC</code></pre>
 <span id="cb137-8"><a href="#cb137-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-9"><a href="#cb137-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_linear_spectrum(peptide: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb137-10"><a href="#cb137-10" aria-hidden="true" tabindex="-1"></a>    prefix_masses: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>]</span>
-<span id="cb137-11"><a href="#cb137-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb137-11"><a href="#cb137-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-12"><a href="#cb137-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> amino_acid <span class="kw">in</span> peptide:</span>
 <span id="cb137-13"><a href="#cb137-13" aria-hidden="true" tabindex="-1"></a>        current_mass <span class="op">=</span> prefix_masses[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> AMINO_ACID_MASSES[amino_acid]</span>
 <span id="cb137-14"><a href="#cb137-14" aria-hidden="true" tabindex="-1"></a>        prefix_masses.append(current_mass)</span>
-<span id="cb137-15"><a href="#cb137-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb137-15"><a href="#cb137-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-16"><a href="#cb137-16" aria-hidden="true" tabindex="-1"></a>    linear_spectrum: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>]</span>
-<span id="cb137-17"><a href="#cb137-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb137-17"><a href="#cb137-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-18"><a href="#cb137-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(peptide)):</span>
 <span id="cb137-19"><a href="#cb137-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(peptide) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb137-20"><a href="#cb137-20" aria-hidden="true" tabindex="-1"></a>            subpeptide_mass <span class="op">=</span> prefix_masses[j] <span class="op">-</span> prefix_masses[i]</span>
 <span id="cb137-21"><a href="#cb137-21" aria-hidden="true" tabindex="-1"></a>            linear_spectrum.append(subpeptide_mass)</span>
-<span id="cb137-22"><a href="#cb137-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb137-22"><a href="#cb137-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-23"><a href="#cb137-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sorted</span>(linear_spectrum)</span>
 <span id="cb137-24"><a href="#cb137-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-25"><a href="#cb137-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_linear_score(peptide: <span class="bu">str</span>, experimental_spectrum: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb137-26"><a href="#cb137-26" aria-hidden="true" tabindex="-1"></a>    theoretical_spectrum: List[<span class="bu">int</span>] <span class="op">=</span> calculate_linear_spectrum(peptide)</span>
 <span id="cb137-27"><a href="#cb137-27" aria-hidden="true" tabindex="-1"></a>    score: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb137-28"><a href="#cb137-28" aria-hidden="true" tabindex="-1"></a>    unique_masses: <span class="bu">set</span> <span class="op">=</span> <span class="bu">set</span>(theoretical_spectrum <span class="op">+</span> experimental_spectrum)</span>
-<span id="cb137-29"><a href="#cb137-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb137-29"><a href="#cb137-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-30"><a href="#cb137-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mass <span class="kw">in</span> unique_masses:</span>
 <span id="cb137-31"><a href="#cb137-31" aria-hidden="true" tabindex="-1"></a>        score <span class="op">+=</span> <span class="bu">min</span>(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))</span>
-<span id="cb137-32"><a href="#cb137-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb137-32"><a href="#cb137-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-33"><a href="#cb137-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> score</span>
 <span id="cb137-34"><a href="#cb137-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb137-35"><a href="#cb137-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
@@ -4350,28 +4350,28 @@ ATGGCC</code></pre>
 <span id="cb140-8"><a href="#cb140-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-9"><a href="#cb140-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_linear_spectrum(peptide: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb140-10"><a href="#cb140-10" aria-hidden="true" tabindex="-1"></a>    prefix_masses: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>]</span>
-<span id="cb140-11"><a href="#cb140-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb140-11"><a href="#cb140-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-12"><a href="#cb140-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> amino_acid <span class="kw">in</span> peptide:</span>
 <span id="cb140-13"><a href="#cb140-13" aria-hidden="true" tabindex="-1"></a>        current_mass <span class="op">=</span> prefix_masses[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> AMINO_ACID_MASSES[amino_acid]</span>
 <span id="cb140-14"><a href="#cb140-14" aria-hidden="true" tabindex="-1"></a>        prefix_masses.append(current_mass)</span>
-<span id="cb140-15"><a href="#cb140-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb140-15"><a href="#cb140-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-16"><a href="#cb140-16" aria-hidden="true" tabindex="-1"></a>    linear_spectrum: List[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>]</span>
-<span id="cb140-17"><a href="#cb140-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb140-17"><a href="#cb140-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-18"><a href="#cb140-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(peptide)):</span>
 <span id="cb140-19"><a href="#cb140-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(peptide) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb140-20"><a href="#cb140-20" aria-hidden="true" tabindex="-1"></a>            subpeptide_mass <span class="op">=</span> prefix_masses[j] <span class="op">-</span> prefix_masses[i]</span>
 <span id="cb140-21"><a href="#cb140-21" aria-hidden="true" tabindex="-1"></a>            linear_spectrum.append(subpeptide_mass)</span>
-<span id="cb140-22"><a href="#cb140-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb140-22"><a href="#cb140-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-23"><a href="#cb140-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sorted</span>(linear_spectrum)</span>
 <span id="cb140-24"><a href="#cb140-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-25"><a href="#cb140-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_linear_score(peptide: <span class="bu">str</span>, experimental_spectrum: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb140-26"><a href="#cb140-26" aria-hidden="true" tabindex="-1"></a>    theoretical_spectrum: List[<span class="bu">int</span>] <span class="op">=</span> calculate_linear_spectrum(peptide)</span>
 <span id="cb140-27"><a href="#cb140-27" aria-hidden="true" tabindex="-1"></a>    score: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb140-28"><a href="#cb140-28" aria-hidden="true" tabindex="-1"></a>    unique_masses: <span class="bu">set</span> <span class="op">=</span> <span class="bu">set</span>(theoretical_spectrum <span class="op">+</span> experimental_spectrum)</span>
-<span id="cb140-29"><a href="#cb140-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb140-29"><a href="#cb140-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-30"><a href="#cb140-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mass <span class="kw">in</span> unique_masses:</span>
 <span id="cb140-31"><a href="#cb140-31" aria-hidden="true" tabindex="-1"></a>        score <span class="op">+=</span> <span class="bu">min</span>(theoretical_spectrum.count(mass), experimental_spectrum.count(mass))</span>
-<span id="cb140-32"><a href="#cb140-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb140-32"><a href="#cb140-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-33"><a href="#cb140-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> score</span>
 <span id="cb140-34"><a href="#cb140-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb140-35"><a href="#cb140-35" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> trim_leaderboard(leaderboard: List[<span class="bu">str</span>], spectrum: List[<span class="bu">int</span>], n: <span class="bu">int</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
@@ -4440,7 +4440,7 @@ ATGGCC</code></pre>
 <span id="cb143-20"><a href="#cb143-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> placed_elements</span>
 <span id="cb143-21"><a href="#cb143-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb143-22"><a href="#cb143-22" aria-hidden="true" tabindex="-1"></a>    current_distance: <span class="bu">int</span> <span class="op">=</span> distances[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb143-23"><a href="#cb143-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb143-23"><a href="#cb143-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb143-24"><a href="#cb143-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Try placing on the left</span></span>
 <span id="cb143-25"><a href="#cb143-25" aria-hidden="true" tabindex="-1"></a>    left_differences: List[<span class="bu">int</span>] <span class="op">=</span> calculate_absolute_differences({current_distance}, placed_elements)</span>
 <span id="cb143-26"><a href="#cb143-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> is_multiset_subset(left_differences, distances):</span>
@@ -4549,7 +4549,7 @@ ATGGCC</code></pre>
 <span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_manhattan_tourist_input(input_text: <span class="bu">str</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, <span class="bu">int</span>, List[List[<span class="bu">int</span>]], List[List[<span class="bu">int</span>]]]:</span>
 <span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> input_text.strip().split(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
 <span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>    rows, cols <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, lines[<span class="dv">0</span>].split())</span>
-<span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb149-7"><a href="#cb149-7" aria-hidden="true" tabindex="-1"></a>    down_weights <span class="op">=</span> [[<span class="dv">0</span>] <span class="op">*</span> (cols <span class="op">+</span> <span class="dv">1</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(rows)]</span>
 <span id="cb149-8"><a href="#cb149-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(rows):</span>
 <span id="cb149-9"><a href="#cb149-9" aria-hidden="true" tabindex="-1"></a>        line <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, lines[i <span class="op">+</span> <span class="dv">1</span>].split()))</span>
@@ -4567,7 +4567,7 @@ ATGGCC</code></pre>
 <span id="cb149-21"><a href="#cb149-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb149-22"><a href="#cb149-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_longest_manhattan_path(rows: <span class="bu">int</span>, cols: <span class="bu">int</span>, down_weights: List[List[<span class="bu">int</span>]], right_weights: List[List[<span class="bu">int</span>]]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb149-23"><a href="#cb149-23" aria-hidden="true" tabindex="-1"></a>    path_scores <span class="op">=</span> [[<span class="dv">0</span>] <span class="op">*</span> (cols <span class="op">+</span> <span class="dv">1</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(rows <span class="op">+</span> <span class="dv">1</span>)]</span>
-<span id="cb149-24"><a href="#cb149-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb149-24"><a href="#cb149-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb149-25"><a href="#cb149-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, rows <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb149-26"><a href="#cb149-26" aria-hidden="true" tabindex="-1"></a>        path_scores[i][<span class="dv">0</span>] <span class="op">=</span> path_scores[i <span class="op">-</span> <span class="dv">1</span>][<span class="dv">0</span>] <span class="op">+</span> down_weights[i <span class="op">-</span> <span class="dv">1</span>][<span class="dv">0</span>]</span>
 <span id="cb149-27"><a href="#cb149-27" aria-hidden="true" tabindex="-1"></a></span>
@@ -4578,7 +4578,7 @@ ATGGCC</code></pre>
 <span id="cb149-32"><a href="#cb149-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, cols <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb149-33"><a href="#cb149-33" aria-hidden="true" tabindex="-1"></a>            path_scores[i][j] <span class="op">=</span> <span class="bu">max</span>(path_scores[i <span class="op">-</span> <span class="dv">1</span>][j] <span class="op">+</span> down_weights[i <span class="op">-</span> <span class="dv">1</span>][j],</span>
 <span id="cb149-34"><a href="#cb149-34" aria-hidden="true" tabindex="-1"></a>                                    path_scores[i][j <span class="op">-</span> <span class="dv">1</span>] <span class="op">+</span> right_weights[i][j <span class="op">-</span> <span class="dv">1</span>])</span>
-<span id="cb149-35"><a href="#cb149-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb149-35"><a href="#cb149-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb149-36"><a href="#cb149-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> path_scores[rows][cols]</span>
 <span id="cb149-37"><a href="#cb149-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb149-38"><a href="#cb149-38" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
@@ -4894,7 +4894,7 @@ PLEASANTLY
 <span id="cb158-94"><a href="#cb158-94" aria-hidden="true" tabindex="-1"></a>            up_score: <span class="bu">int</span> <span class="op">=</span> score_matrix[i <span class="op">-</span> <span class="dv">1</span>][j] <span class="op">-</span> indel_penalty</span>
 <span id="cb158-95"><a href="#cb158-95" aria-hidden="true" tabindex="-1"></a>            left_score: <span class="bu">int</span> <span class="op">=</span> score_matrix[i][j <span class="op">-</span> <span class="dv">1</span>] <span class="op">-</span> indel_penalty</span>
 <span id="cb158-96"><a href="#cb158-96" aria-hidden="true" tabindex="-1"></a>            score_matrix[i][j] <span class="op">=</span> <span class="bu">max</span>(diagonal_score, up_score, left_score)</span>
-<span id="cb158-97"><a href="#cb158-97" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb158-97"><a href="#cb158-97" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb158-98"><a href="#cb158-98" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> score_matrix[i][j] <span class="op">==</span> diagonal_score:</span>
 <span id="cb158-99"><a href="#cb158-99" aria-hidden="true" tabindex="-1"></a>                backtrack_matrix[i][j] <span class="op">=</span> <span class="st">"diagonal"</span></span>
 <span id="cb158-100"><a href="#cb158-100" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> score_matrix[i][j] <span class="op">==</span> up_score:</span>
@@ -4906,7 +4906,7 @@ PLEASANTLY
 <span id="cb158-106"><a href="#cb158-106" aria-hidden="true" tabindex="-1"></a>    j: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(padded_seq2) <span class="op">-</span> <span class="dv">1</span></span>
 <span id="cb158-107"><a href="#cb158-107" aria-hidden="true" tabindex="-1"></a>    aligned_seq1: <span class="bu">str</span> <span class="op">=</span> <span class="st">""</span></span>
 <span id="cb158-108"><a href="#cb158-108" aria-hidden="true" tabindex="-1"></a>    aligned_seq2: <span class="bu">str</span> <span class="op">=</span> <span class="st">""</span></span>
-<span id="cb158-109"><a href="#cb158-109" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb158-109"><a href="#cb158-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb158-110"><a href="#cb158-110" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">!=</span> <span class="dv">0</span> <span class="kw">or</span> j <span class="op">!=</span> <span class="dv">0</span>:</span>
 <span id="cb158-111"><a href="#cb158-111" aria-hidden="true" tabindex="-1"></a>        direction: <span class="bu">str</span> <span class="op">=</span> backtrack_matrix[i][j]</span>
 <span id="cb158-112"><a href="#cb158-112" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> direction <span class="op">==</span> <span class="st">"diagonal"</span>:</span>
@@ -5097,10 +5097,10 @@ MEANLY</code></pre>
 <h2 data-number="54.3" class="anchored" data-anchor-id="solution-54"><span class="header-section-number">54.3</span> Solution</h2>
 <div class="sourceCode" id="cb164"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_edit_distance(source: <span class="bu">str</span>, target: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>    distance_matrix <span class="op">=</span> {}</span>
-<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb164-4"><a href="#cb164-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> target_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(target) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb164-5"><a href="#cb164-5" aria-hidden="true" tabindex="-1"></a>        distance_matrix[target_index, <span class="dv">0</span>] <span class="op">=</span> target_index</span>
-<span id="cb164-6"><a href="#cb164-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb164-6"><a href="#cb164-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb164-7"><a href="#cb164-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> source_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(source) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb164-8"><a href="#cb164-8" aria-hidden="true" tabindex="-1"></a>        distance_matrix[<span class="dv">0</span>, source_index] <span class="op">=</span> source_index</span>
 <span id="cb164-9"><a href="#cb164-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -5149,7 +5149,7 @@ TAGA--TA</code></pre>
 <span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_fitting_alignment(sequence1: <span class="bu">str</span>, sequence2: <span class="bu">str</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, <span class="bu">str</span>, <span class="bu">str</span>]:</span>
 <span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>    score_matrix: Dict[Tuple[<span class="bu">int</span>, <span class="bu">int</span>], <span class="bu">int</span>] <span class="op">=</span> {}</span>
 <span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a>    path_matrix: Dict[Tuple[<span class="bu">int</span>, <span class="bu">int</span>], <span class="bu">str</span>] <span class="op">=</span> {}</span>
-<span id="cb167-6"><a href="#cb167-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb167-6"><a href="#cb167-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb167-7"><a href="#cb167-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> seq2_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(sequence2) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb167-8"><a href="#cb167-8" aria-hidden="true" tabindex="-1"></a>        score_matrix[seq2_index, <span class="dv">0</span>] <span class="op">=</span> <span class="op">-</span>seq2_index</span>
 <span id="cb167-9"><a href="#cb167-9" aria-hidden="true" tabindex="-1"></a>        path_matrix[seq2_index, <span class="dv">0</span>] <span class="op">=</span> <span class="st">"↑"</span></span>
@@ -5224,7 +5224,7 @@ HEAG</code></pre>
 <span id="cb170-3"><a href="#cb170-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_overlap_alignment(sequence1: <span class="bu">str</span>, sequence2: <span class="bu">str</span>, mismatch_penalty: <span class="bu">int</span> <span class="op">=</span> <span class="op">-</span><span class="dv">2</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, <span class="bu">str</span>, <span class="bu">str</span>]:</span>
 <span id="cb170-4"><a href="#cb170-4" aria-hidden="true" tabindex="-1"></a>    score_matrix: Dict[Tuple[<span class="bu">int</span>, <span class="bu">int</span>], <span class="bu">int</span>] <span class="op">=</span> {}</span>
 <span id="cb170-5"><a href="#cb170-5" aria-hidden="true" tabindex="-1"></a>    path_matrix: Dict[Tuple[<span class="bu">int</span>, <span class="bu">int</span>], <span class="bu">str</span>] <span class="op">=</span> {}</span>
-<span id="cb170-6"><a href="#cb170-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb170-6"><a href="#cb170-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb170-7"><a href="#cb170-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> seq2_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(sequence2) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb170-8"><a href="#cb170-8" aria-hidden="true" tabindex="-1"></a>        score_matrix[seq2_index, <span class="dv">0</span>] <span class="op">=</span> seq2_index <span class="op">*</span> mismatch_penalty</span>
 <span id="cb170-9"><a href="#cb170-9" aria-hidden="true" tabindex="-1"></a>        path_matrix[seq2_index, <span class="dv">0</span>] <span class="op">=</span> <span class="st">"↑"</span></span>
@@ -5375,13 +5375,13 @@ PRTWPSEIN-</code></pre>
 <span id="cb173-79"><a href="#cb173-79" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> global_alignment_affine(seq1: <span class="bu">str</span>, seq2: <span class="bu">str</span>, gap_open_penalty: <span class="bu">int</span> <span class="op">=</span> <span class="op">-</span><span class="dv">11</span>, gap_extend_penalty: <span class="bu">int</span> <span class="op">=</span> <span class="op">-</span><span class="dv">1</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, <span class="bu">str</span>, <span class="bu">str</span>]:</span>
 <span id="cb173-80"><a href="#cb173-80" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb173-81"><a href="#cb173-81" aria-hidden="true" tabindex="-1"></a><span class="co">    Perform global sequence alignment with affine gap penalty.</span></span>
-<span id="cb173-82"><a href="#cb173-82" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb173-82"><a href="#cb173-82" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb173-83"><a href="#cb173-83" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
 <span id="cb173-84"><a href="#cb173-84" aria-hidden="true" tabindex="-1"></a><span class="co">    seq1 (str): First sequence to align</span></span>
 <span id="cb173-85"><a href="#cb173-85" aria-hidden="true" tabindex="-1"></a><span class="co">    seq2 (str): Second sequence to align</span></span>
 <span id="cb173-86"><a href="#cb173-86" aria-hidden="true" tabindex="-1"></a><span class="co">    gap_open_penalty (int): Penalty for opening a gap</span></span>
 <span id="cb173-87"><a href="#cb173-87" aria-hidden="true" tabindex="-1"></a><span class="co">    gap_extend_penalty (int): Penalty for extending a gap</span></span>
-<span id="cb173-88"><a href="#cb173-88" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb173-88"><a href="#cb173-88" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb173-89"><a href="#cb173-89" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
 <span id="cb173-90"><a href="#cb173-90" aria-hidden="true" tabindex="-1"></a><span class="co">    Tuple[int, str, str]: Alignment score and aligned sequences</span></span>
 <span id="cb173-91"><a href="#cb173-91" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
@@ -5579,7 +5579,7 @@ MEASNLY</code></pre>
 <span id="cb176-81"><a href="#cb176-81" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Tuple[List[<span class="bu">int</span>], List[<span class="bu">int</span>]]:</span>
 <span id="cb176-82"><a href="#cb176-82" aria-hidden="true" tabindex="-1"></a>    current_scores <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">0</span>, (<span class="bu">len</span>(sequence1) <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> gap_penalty, gap_penalty))</span>
 <span id="cb176-83"><a href="#cb176-83" aria-hidden="true" tabindex="-1"></a>    backtrack <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (<span class="bu">len</span>(sequence1) <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb176-84"><a href="#cb176-84" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb176-84"><a href="#cb176-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb176-85"><a href="#cb176-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(sequence2) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb176-86"><a href="#cb176-86" aria-hidden="true" tabindex="-1"></a>        previous_scores <span class="op">=</span> current_scores[:]</span>
 <span id="cb176-87"><a href="#cb176-87" aria-hidden="true" tabindex="-1"></a>        current_scores[<span class="dv">0</span>] <span class="op">=</span> previous_scores[<span class="dv">0</span>] <span class="op">+</span> gap_penalty</span>
@@ -5594,7 +5594,7 @@ MEASNLY</code></pre>
 <span id="cb176-96"><a href="#cb176-96" aria-hidden="true" tabindex="-1"></a>            ]</span>
 <span id="cb176-97"><a href="#cb176-97" aria-hidden="true" tabindex="-1"></a>            current_scores[i] <span class="op">=</span> <span class="bu">max</span>(options)</span>
 <span id="cb176-98"><a href="#cb176-98" aria-hidden="true" tabindex="-1"></a>            backtrack[i] <span class="op">=</span> options.index(current_scores[i])</span>
-<span id="cb176-99"><a href="#cb176-99" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb176-99"><a href="#cb176-99" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb176-100"><a href="#cb176-100" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> current_scores, backtrack</span>
 <span id="cb176-101"><a href="#cb176-101" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb176-102"><a href="#cb176-102" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_middle_edge(</span>
@@ -5604,17 +5604,17 @@ MEASNLY</code></pre>
 <span id="cb176-106"><a href="#cb176-106" aria-hidden="true" tabindex="-1"></a>    gap_penalty: <span class="bu">int</span></span>
 <span id="cb176-107"><a href="#cb176-107" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Tuple[Tuple[<span class="bu">int</span>, <span class="bu">int</span>], Tuple[<span class="bu">int</span>, <span class="bu">int</span>]]:</span>
 <span id="cb176-108"><a href="#cb176-108" aria-hidden="true" tabindex="-1"></a>    midpoint <span class="op">=</span> floor(<span class="bu">len</span>(sequence2) <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb176-109"><a href="#cb176-109" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb176-109"><a href="#cb176-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb176-110"><a href="#cb176-110" aria-hidden="true" tabindex="-1"></a>    forward_scores, _ <span class="op">=</span> calculate_alignment_scores(</span>
 <span id="cb176-111"><a href="#cb176-111" aria-hidden="true" tabindex="-1"></a>        sequence1, sequence2[:midpoint], scoring_matrix, gap_penalty</span>
 <span id="cb176-112"><a href="#cb176-112" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb176-113"><a href="#cb176-113" aria-hidden="true" tabindex="-1"></a>    reverse_scores, reverse_backtrack <span class="op">=</span> calculate_alignment_scores(</span>
 <span id="cb176-114"><a href="#cb176-114" aria-hidden="true" tabindex="-1"></a>        sequence1[::<span class="op">-</span><span class="dv">1</span>], sequence2[midpoint:][::<span class="op">-</span><span class="dv">1</span>], scoring_matrix, gap_penalty</span>
 <span id="cb176-115"><a href="#cb176-115" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb176-116"><a href="#cb176-116" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb176-116"><a href="#cb176-116" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb176-117"><a href="#cb176-117" aria-hidden="true" tabindex="-1"></a>    total_scores <span class="op">=</span> [f <span class="op">+</span> r <span class="cf">for</span> f, r <span class="kw">in</span> <span class="bu">zip</span>(forward_scores, reverse_scores[::<span class="op">-</span><span class="dv">1</span>])]</span>
 <span id="cb176-118"><a href="#cb176-118" aria-hidden="true" tabindex="-1"></a>    best_score_index <span class="op">=</span> total_scores.index(<span class="bu">max</span>(total_scores))</span>
-<span id="cb176-119"><a href="#cb176-119" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb176-119"><a href="#cb176-119" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb176-120"><a href="#cb176-120" aria-hidden="true" tabindex="-1"></a>    start_node <span class="op">=</span> (best_score_index, midpoint)</span>
 <span id="cb176-121"><a href="#cb176-121" aria-hidden="true" tabindex="-1"></a>    possible_moves <span class="op">=</span> [</span>
 <span id="cb176-122"><a href="#cb176-122" aria-hidden="true" tabindex="-1"></a>        (start_node[<span class="dv">0</span>], start_node[<span class="dv">1</span>] <span class="op">+</span> <span class="dv">1</span>),</span>
@@ -5622,7 +5622,7 @@ MEASNLY</code></pre>
 <span id="cb176-124"><a href="#cb176-124" aria-hidden="true" tabindex="-1"></a>        (start_node[<span class="dv">0</span>] <span class="op">+</span> <span class="dv">1</span>, start_node[<span class="dv">1</span>] <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb176-125"><a href="#cb176-125" aria-hidden="true" tabindex="-1"></a>    ]</span>
 <span id="cb176-126"><a href="#cb176-126" aria-hidden="true" tabindex="-1"></a>    end_node <span class="op">=</span> possible_moves[reverse_backtrack[::<span class="op">-</span><span class="dv">1</span>][best_score_index]]</span>
-<span id="cb176-127"><a href="#cb176-127" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb176-127"><a href="#cb176-127" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb176-128"><a href="#cb176-128" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (start_node, end_node)</span>
 <span id="cb176-129"><a href="#cb176-129" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb176-130"><a href="#cb176-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample usage</span></span>
@@ -5737,7 +5737,7 @@ PLEASANTLY
 <span id="cb179-81"><a href="#cb179-81" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Tuple[List[<span class="bu">int</span>], List[<span class="bu">int</span>]]:</span>
 <span id="cb179-82"><a href="#cb179-82" aria-hidden="true" tabindex="-1"></a>    current_scores <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">0</span>, (<span class="bu">len</span>(sequence1) <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> gap_penalty, gap_penalty))</span>
 <span id="cb179-83"><a href="#cb179-83" aria-hidden="true" tabindex="-1"></a>    backtrack <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (<span class="bu">len</span>(sequence1) <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb179-84"><a href="#cb179-84" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb179-84"><a href="#cb179-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb179-85"><a href="#cb179-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(sequence2) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb179-86"><a href="#cb179-86" aria-hidden="true" tabindex="-1"></a>        previous_scores <span class="op">=</span> current_scores[:]</span>
 <span id="cb179-87"><a href="#cb179-87" aria-hidden="true" tabindex="-1"></a>        current_scores[<span class="dv">0</span>] <span class="op">=</span> previous_scores[<span class="dv">0</span>] <span class="op">+</span> gap_penalty</span>
@@ -5752,7 +5752,7 @@ PLEASANTLY
 <span id="cb179-96"><a href="#cb179-96" aria-hidden="true" tabindex="-1"></a>            ]</span>
 <span id="cb179-97"><a href="#cb179-97" aria-hidden="true" tabindex="-1"></a>            current_scores[i] <span class="op">=</span> <span class="bu">max</span>(options)</span>
 <span id="cb179-98"><a href="#cb179-98" aria-hidden="true" tabindex="-1"></a>            backtrack[i] <span class="op">=</span> options.index(current_scores[i])</span>
-<span id="cb179-99"><a href="#cb179-99" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb179-99"><a href="#cb179-99" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb179-100"><a href="#cb179-100" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> current_scores, backtrack</span>
 <span id="cb179-101"><a href="#cb179-101" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb179-102"><a href="#cb179-102" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_middle_edge(</span>
@@ -5762,17 +5762,17 @@ PLEASANTLY
 <span id="cb179-106"><a href="#cb179-106" aria-hidden="true" tabindex="-1"></a>    gap_penalty: <span class="bu">int</span></span>
 <span id="cb179-107"><a href="#cb179-107" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Tuple[Tuple[<span class="bu">int</span>, <span class="bu">int</span>], Tuple[<span class="bu">int</span>, <span class="bu">int</span>]]:</span>
 <span id="cb179-108"><a href="#cb179-108" aria-hidden="true" tabindex="-1"></a>    midpoint <span class="op">=</span> floor(<span class="bu">len</span>(sequence2) <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb179-109"><a href="#cb179-109" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb179-109"><a href="#cb179-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb179-110"><a href="#cb179-110" aria-hidden="true" tabindex="-1"></a>    forward_scores, _ <span class="op">=</span> calculate_alignment_scores(</span>
 <span id="cb179-111"><a href="#cb179-111" aria-hidden="true" tabindex="-1"></a>        sequence1, sequence2[:midpoint], scoring_matrix, gap_penalty</span>
 <span id="cb179-112"><a href="#cb179-112" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb179-113"><a href="#cb179-113" aria-hidden="true" tabindex="-1"></a>    reverse_scores, reverse_backtrack <span class="op">=</span> calculate_alignment_scores(</span>
 <span id="cb179-114"><a href="#cb179-114" aria-hidden="true" tabindex="-1"></a>        sequence1[::<span class="op">-</span><span class="dv">1</span>], sequence2[midpoint:][::<span class="op">-</span><span class="dv">1</span>], scoring_matrix, gap_penalty</span>
 <span id="cb179-115"><a href="#cb179-115" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb179-116"><a href="#cb179-116" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb179-116"><a href="#cb179-116" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb179-117"><a href="#cb179-117" aria-hidden="true" tabindex="-1"></a>    total_scores <span class="op">=</span> [f <span class="op">+</span> r <span class="cf">for</span> f, r <span class="kw">in</span> <span class="bu">zip</span>(forward_scores, reverse_scores[::<span class="op">-</span><span class="dv">1</span>])]</span>
 <span id="cb179-118"><a href="#cb179-118" aria-hidden="true" tabindex="-1"></a>    best_score_index <span class="op">=</span> total_scores.index(<span class="bu">max</span>(total_scores))</span>
-<span id="cb179-119"><a href="#cb179-119" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb179-119"><a href="#cb179-119" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb179-120"><a href="#cb179-120" aria-hidden="true" tabindex="-1"></a>    start_node <span class="op">=</span> (best_score_index, midpoint)</span>
 <span id="cb179-121"><a href="#cb179-121" aria-hidden="true" tabindex="-1"></a>    possible_moves <span class="op">=</span> [</span>
 <span id="cb179-122"><a href="#cb179-122" aria-hidden="true" tabindex="-1"></a>        (start_node[<span class="dv">0</span>], start_node[<span class="dv">1</span>] <span class="op">+</span> <span class="dv">1</span>),</span>
@@ -5780,7 +5780,7 @@ PLEASANTLY
 <span id="cb179-124"><a href="#cb179-124" aria-hidden="true" tabindex="-1"></a>        (start_node[<span class="dv">0</span>] <span class="op">+</span> <span class="dv">1</span>, start_node[<span class="dv">1</span>] <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb179-125"><a href="#cb179-125" aria-hidden="true" tabindex="-1"></a>    ]</span>
 <span id="cb179-126"><a href="#cb179-126" aria-hidden="true" tabindex="-1"></a>    end_node <span class="op">=</span> possible_moves[reverse_backtrack[::<span class="op">-</span><span class="dv">1</span>][best_score_index]]</span>
-<span id="cb179-127"><a href="#cb179-127" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb179-127"><a href="#cb179-127" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb179-128"><a href="#cb179-128" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (start_node, end_node)</span>
 <span id="cb179-129"><a href="#cb179-129" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb179-130"><a href="#cb179-130" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_alignment_score(</span>
@@ -5904,14 +5904,14 @@ ATGTACTG-</code></pre>
 <span id="cb182-25"><a href="#cb182-25" aria-hidden="true" tabindex="-1"></a>    scores: Dict[Tuple[<span class="bu">int</span>, ...], <span class="bu">int</span>] <span class="op">=</span> {}</span>
 <span id="cb182-26"><a href="#cb182-26" aria-hidden="true" tabindex="-1"></a>    pointers: Dict[Tuple[<span class="bu">int</span>, ...], Tuple[<span class="bu">int</span>, ...]] <span class="op">=</span> {}</span>
 <span id="cb182-27"><a href="#cb182-27" aria-hidden="true" tabindex="-1"></a>    scores[(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb182-28"><a href="#cb182-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb182-28"><a href="#cb182-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb182-29"><a href="#cb182-29" aria-hidden="true" tabindex="-1"></a>    ranges <span class="op">=</span> [<span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(seq) <span class="op">+</span> <span class="dv">1</span>) <span class="cf">for</span> seq <span class="kw">in</span> sequences]</span>
-<span id="cb182-30"><a href="#cb182-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb182-30"><a href="#cb182-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb182-31"><a href="#cb182-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> position <span class="kw">in</span> product(<span class="op">*</span>ranges):</span>
 <span id="cb182-32"><a href="#cb182-32" aria-hidden="true" tabindex="-1"></a>        valid_pointers <span class="op">=</span> <span class="bu">list</span>(<span class="bu">filter</span>(<span class="kw">lambda</span> x: is_valid_coordinate(x, position), generate_moves(<span class="dv">3</span>)))</span>
 <span id="cb182-33"><a href="#cb182-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> valid_pointers:</span>
 <span id="cb182-34"><a href="#cb182-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb182-35"><a href="#cb182-35" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb182-35"><a href="#cb182-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb182-36"><a href="#cb182-36" aria-hidden="true" tabindex="-1"></a>        possible_scores <span class="op">=</span> [scores[get_previous_position(position, ptr)] <span class="op">+</span> calculate_score(sequences, position, ptr) <span class="cf">for</span> ptr <span class="kw">in</span> valid_pointers]</span>
 <span id="cb182-37"><a href="#cb182-37" aria-hidden="true" tabindex="-1"></a>        scores[position] <span class="op">=</span> <span class="bu">max</span>(possible_scores)</span>
 <span id="cb182-38"><a href="#cb182-38" aria-hidden="true" tabindex="-1"></a>        pointers[position] <span class="op">=</span> valid_pointers[possible_scores.index(<span class="bu">max</span>(possible_scores))]</span>
@@ -5919,16 +5919,16 @@ ATGTACTG-</code></pre>
 <span id="cb182-40"><a href="#cb182-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Traceback to recover alignment</span></span>
 <span id="cb182-41"><a href="#cb182-41" aria-hidden="true" tabindex="-1"></a>    total_score <span class="op">=</span> scores[position]</span>
 <span id="cb182-42"><a href="#cb182-42" aria-hidden="true" tabindex="-1"></a>    aligned_sequences <span class="op">=</span> [<span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>]</span>
-<span id="cb182-43"><a href="#cb182-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb182-43"><a href="#cb182-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb182-44"><a href="#cb182-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">any</span>([x <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">for</span> x <span class="kw">in</span> position]):</span>
 <span id="cb182-45"><a href="#cb182-45" aria-hidden="true" tabindex="-1"></a>        pointer <span class="op">=</span> pointers[position]</span>
 <span id="cb182-46"><a href="#cb182-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, seq <span class="kw">in</span> <span class="bu">enumerate</span>(sequences):</span>
 <span id="cb182-47"><a href="#cb182-47" aria-hidden="true" tabindex="-1"></a>            aligned_sequences[i] <span class="op">+=</span> seq[position[i] <span class="op">-</span> <span class="dv">1</span>] <span class="cf">if</span> pointer[i] <span class="op">==</span> <span class="op">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">"-"</span></span>
 <span id="cb182-48"><a href="#cb182-48" aria-hidden="true" tabindex="-1"></a>        position <span class="op">=</span> get_previous_position(position, pointer)</span>
 <span id="cb182-49"><a href="#cb182-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb182-50"><a href="#cb182-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (total_score, </span>
-<span id="cb182-51"><a href="#cb182-51" aria-hidden="true" tabindex="-1"></a>            aligned_sequences[<span class="dv">0</span>][::<span class="op">-</span><span class="dv">1</span>], </span>
-<span id="cb182-52"><a href="#cb182-52" aria-hidden="true" tabindex="-1"></a>            aligned_sequences[<span class="dv">1</span>][::<span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb182-50"><a href="#cb182-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (total_score,</span>
+<span id="cb182-51"><a href="#cb182-51" aria-hidden="true" tabindex="-1"></a>            aligned_sequences[<span class="dv">0</span>][::<span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb182-52"><a href="#cb182-52" aria-hidden="true" tabindex="-1"></a>            aligned_sequences[<span class="dv">1</span>][::<span class="op">-</span><span class="dv">1</span>],</span>
 <span id="cb182-53"><a href="#cb182-53" aria-hidden="true" tabindex="-1"></a>            aligned_sequences[<span class="dv">2</span>][::<span class="op">-</span><span class="dv">1</span>])</span>
 <span id="cb182-54"><a href="#cb182-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb182-55"><a href="#cb182-55" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
@@ -6091,11 +6091,11 @@ ATGTACTG-</code></pre>
 <span id="cb191-3"><a href="#cb191-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_breakpoints(permutation: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb191-4"><a href="#cb191-4" aria-hidden="true" tabindex="-1"></a>    augmented_permutation <span class="op">=</span> [<span class="dv">0</span>] <span class="op">+</span> permutation <span class="op">+</span> [<span class="bu">max</span>(permutation) <span class="op">+</span> <span class="dv">1</span>]</span>
 <span id="cb191-5"><a href="#cb191-5" aria-hidden="true" tabindex="-1"></a>    breakpoint_count <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb191-6"><a href="#cb191-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb191-6"><a href="#cb191-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb191-7"><a href="#cb191-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(augmented_permutation) <span class="op">-</span> <span class="dv">1</span>):</span>
 <span id="cb191-8"><a href="#cb191-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> augmented_permutation[i] <span class="op">!=</span> augmented_permutation[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">+</span> <span class="dv">1</span>:</span>
 <span id="cb191-9"><a href="#cb191-9" aria-hidden="true" tabindex="-1"></a>            breakpoint_count <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb191-10"><a href="#cb191-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb191-10"><a href="#cb191-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb191-11"><a href="#cb191-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> breakpoint_count</span>
 <span id="cb191-12"><a href="#cb191-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb191-13"><a href="#cb191-13" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
@@ -6650,7 +6650,7 @@ TTTCAAATC</code></pre>
 <span id="cb218-15"><a href="#cb218-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
 <span id="cb218-16"><a href="#cb218-16" aria-hidden="true" tabindex="-1"></a>            nodes.extend([<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> gene, <span class="op">-</span><span class="dv">2</span> <span class="op">*</span> gene <span class="op">-</span> <span class="dv">1</span>])</span>
 <span id="cb218-17"><a href="#cb218-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> nodes</span>
-<span id="cb218-18"><a href="#cb218-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb218-18"><a href="#cb218-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb218-19"><a href="#cb218-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> colored_edges(genome: List[List[<span class="bu">int</span>]]) <span class="op">-&gt;</span> Dict[<span class="bu">int</span>, <span class="bu">int</span>]:</span>
 <span id="cb218-20"><a href="#cb218-20" aria-hidden="true" tabindex="-1"></a>    graph: Dict[<span class="bu">int</span>, <span class="bu">int</span>] <span class="op">=</span> {}</span>
 <span id="cb218-21"><a href="#cb218-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> chromosome <span class="kw">in</span> genome:</span>
@@ -6666,7 +6666,7 @@ TTTCAAATC</code></pre>
 <span id="cb218-31"><a href="#cb218-31" aria-hidden="true" tabindex="-1"></a>        graph.pop(edge[<span class="dv">0</span>])</span>
 <span id="cb218-32"><a href="#cb218-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
 <span id="cb218-33"><a href="#cb218-33" aria-hidden="true" tabindex="-1"></a>        graph.pop(edge[<span class="dv">1</span>])</span>
-<span id="cb218-34"><a href="#cb218-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb218-34"><a href="#cb218-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb218-35"><a href="#cb218-35" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> two_break_on_genome_graph(graph: Dict[<span class="bu">int</span>, <span class="bu">int</span>], i: <span class="bu">int</span>, ip: <span class="bu">int</span>, j: <span class="bu">int</span>, jp: <span class="bu">int</span>) <span class="op">-&gt;</span> Dict[<span class="bu">int</span>, <span class="bu">int</span>]:</span>
 <span id="cb218-36"><a href="#cb218-36" aria-hidden="true" tabindex="-1"></a>    new_graph <span class="op">=</span> copy(graph)</span>
 <span id="cb218-37"><a href="#cb218-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> edge <span class="kw">in</span> [(i, ip), (j, jp)]:</span>
@@ -6677,7 +6677,7 @@ TTTCAAATC</code></pre>
 <span id="cb218-42"><a href="#cb218-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb218-43"><a href="#cb218-43" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_first_key(dictionary: Dict) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb218-44"><a href="#cb218-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">next</span>(<span class="bu">iter</span>(dictionary.keys()))</span>
-<span id="cb218-45"><a href="#cb218-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb218-45"><a href="#cb218-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb218-46"><a href="#cb218-46" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_node_cycle(graph: Dict[<span class="bu">int</span>, <span class="bu">int</span>]) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb218-47"><a href="#cb218-47" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> get_first_key(graph)</span>
 <span id="cb218-48"><a href="#cb218-48" aria-hidden="true" tabindex="-1"></a>    current <span class="op">=</span> start</span>
@@ -6690,7 +6690,7 @@ TTTCAAATC</code></pre>
 <span id="cb218-55"><a href="#cb218-55" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> [next_node] <span class="op">+</span> component <span class="op">+</span> [current]</span>
 <span id="cb218-56"><a href="#cb218-56" aria-hidden="true" tabindex="-1"></a>        component.extend([current, next_node])</span>
 <span id="cb218-57"><a href="#cb218-57" aria-hidden="true" tabindex="-1"></a>        current <span class="op">=</span> neighbor</span>
-<span id="cb218-58"><a href="#cb218-58" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb218-58"><a href="#cb218-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb218-59"><a href="#cb218-59" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_node_cycles(graph: Dict[<span class="bu">int</span>, <span class="bu">int</span>]) <span class="op">-&gt;</span> Iterator[List[<span class="bu">int</span>]]:</span>
 <span id="cb218-60"><a href="#cb218-60" aria-hidden="true" tabindex="-1"></a>    graph <span class="op">=</span> copy(graph)</span>
 <span id="cb218-61"><a href="#cb218-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k, v <span class="kw">in</span> <span class="bu">list</span>(graph.items()):</span>
@@ -7123,7 +7123,7 @@ TTTCAAATC</code></pre>
 <span id="cb230-39"><a href="#cb230-39" aria-hidden="true" tabindex="-1"></a>    size: Dict[<span class="bu">int</span>, <span class="bu">int</span>] <span class="op">=</span> defaultdict(<span class="kw">lambda</span>: <span class="dv">1</span>)  <span class="co"># the number of descendants of a node</span></span>
 <span id="cb230-40"><a href="#cb230-40" aria-hidden="true" tabindex="-1"></a>    tree: Dict[<span class="bu">int</span>, List[Dict[<span class="bu">str</span>, <span class="bu">float</span>]]] <span class="op">=</span> {}  <span class="co"># the graph / tree we're building</span></span>
 <span id="cb230-41"><a href="#cb230-41" aria-hidden="true" tabindex="-1"></a>    node_label <span class="op">=</span> num_clusters  <span class="co"># a label for internal nodes as we add them</span></span>
-<span id="cb230-42"><a href="#cb230-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb230-42"><a href="#cb230-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb230-43"><a href="#cb230-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">len</span>(clusters) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
 <span id="cb230-44"><a href="#cb230-44" aria-hidden="true" tabindex="-1"></a>        i, j <span class="op">=</span> closest(distance_matrix)</span>
 <span id="cb230-45"><a href="#cb230-45" aria-hidden="true" tabindex="-1"></a>        a, b <span class="op">=</span> clusters[i], clusters[j]</span>
@@ -8106,14 +8106,14 @@ GAT</code></pre>
 <span id="cb260-5"><a href="#cb260-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
 <span id="cb260-6"><a href="#cb260-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.id_generator <span class="op">=</span> count(start<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb260-7"><a href="#cb260-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.root: Tuple[<span class="bu">int</span>, Dict[<span class="bu">str</span>, Any]] <span class="op">=</span> (<span class="bu">next</span>(<span class="va">self</span>.id_generator), {})</span>
-<span id="cb260-8"><a href="#cb260-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb260-8"><a href="#cb260-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb260-9"><a href="#cb260-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> insert(<span class="va">self</span>, sequence: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
 <span id="cb260-10"><a href="#cb260-10" aria-hidden="true" tabindex="-1"></a>        current_node <span class="op">=</span> <span class="va">self</span>.root</span>
 <span id="cb260-11"><a href="#cb260-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> character <span class="kw">in</span> sequence:</span>
 <span id="cb260-12"><a href="#cb260-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> character <span class="kw">not</span> <span class="kw">in</span> current_node[<span class="dv">1</span>]:</span>
 <span id="cb260-13"><a href="#cb260-13" aria-hidden="true" tabindex="-1"></a>                current_node[<span class="dv">1</span>][character] <span class="op">=</span> (<span class="bu">next</span>(<span class="va">self</span>.id_generator), {})</span>
 <span id="cb260-14"><a href="#cb260-14" aria-hidden="true" tabindex="-1"></a>            current_node <span class="op">=</span> current_node[<span class="dv">1</span>][character]</span>
-<span id="cb260-15"><a href="#cb260-15" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb260-15"><a href="#cb260-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb260-16"><a href="#cb260-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_trie(sequences: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, Dict[<span class="bu">str</span>, Any]]:</span>
 <span id="cb260-17"><a href="#cb260-17" aria-hidden="true" tabindex="-1"></a>    trie <span class="op">=</span> Trie()</span>
 <span id="cb260-18"><a href="#cb260-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> sequence <span class="kw">in</span> sequences:</span>
@@ -8388,7 +8388,7 @@ $</code></pre>
 <span id="cb269-11"><a href="#cb269-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> suffix_tree(sequence: <span class="bu">str</span>, start_positions: Tuple[<span class="bu">int</span>, ...]) <span class="op">-&gt;</span> Dict[<span class="bu">str</span>, Dict]:</span>
 <span id="cb269-12"><a href="#cb269-12" aria-hidden="true" tabindex="-1"></a>    tree: Dict[<span class="bu">str</span>, Dict] <span class="op">=</span> {}</span>
 <span id="cb269-13"><a href="#cb269-13" aria-hidden="true" tabindex="-1"></a>    unique_bases <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">set</span>([sequence[start] <span class="cf">for</span> start <span class="kw">in</span> start_positions]))</span>
-<span id="cb269-14"><a href="#cb269-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb269-14"><a href="#cb269-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb269-15"><a href="#cb269-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> base <span class="kw">in</span> unique_bases:</span>
 <span id="cb269-16"><a href="#cb269-16" aria-hidden="true" tabindex="-1"></a>        matching_positions <span class="op">=</span> [start <span class="cf">for</span> start <span class="kw">in</span> start_positions <span class="cf">if</span> sequence[start] <span class="op">==</span> base]</span>
 <span id="cb269-17"><a href="#cb269-17" aria-hidden="true" tabindex="-1"></a>        subsequences <span class="op">=</span> [sequence[s:] <span class="cf">for</span> s <span class="kw">in</span> matching_positions]</span>
@@ -8396,7 +8396,7 @@ $</code></pre>
 <span id="cb269-19"><a href="#cb269-19" aria-hidden="true" tabindex="-1"></a>        prefix_length <span class="op">=</span> <span class="bu">len</span>(common_prefix)</span>
 <span id="cb269-20"><a href="#cb269-20" aria-hidden="true" tabindex="-1"></a>        new_start_positions <span class="op">=</span> [start <span class="op">+</span> prefix_length <span class="cf">for</span> start <span class="kw">in</span> matching_positions <span class="cf">if</span> start <span class="op">+</span> prefix_length <span class="op">&lt;</span> <span class="bu">len</span>(sequence)]</span>
 <span id="cb269-21"><a href="#cb269-21" aria-hidden="true" tabindex="-1"></a>        tree[common_prefix] <span class="op">=</span> suffix_tree(sequence, <span class="bu">tuple</span>(new_start_positions))</span>
-<span id="cb269-22"><a href="#cb269-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb269-22"><a href="#cb269-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb269-23"><a href="#cb269-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tree</span>
 <span id="cb269-24"><a href="#cb269-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb269-25"><a href="#cb269-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_suffix_tree(sequence: <span class="bu">str</span>) <span class="op">-&gt;</span> Dict[<span class="bu">str</span>, Dict]:</span>
@@ -8739,26 +8739,26 @@ GGGT</code></pre>
 <span id="cb281-28"><a href="#cb281-28" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb281-29"><a href="#cb281-29" aria-hidden="true" tabindex="-1"></a>    lower_bound: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb281-30"><a href="#cb281-30" aria-hidden="true" tabindex="-1"></a>    upper_bound: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(text)</span>
-<span id="cb281-31"><a href="#cb281-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb281-31"><a href="#cb281-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb281-32"><a href="#cb281-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> lower_bound <span class="op">&lt;</span> upper_bound:</span>
 <span id="cb281-33"><a href="#cb281-33" aria-hidden="true" tabindex="-1"></a>        mid_point: <span class="bu">int</span> <span class="op">=</span> (lower_bound <span class="op">+</span> upper_bound) <span class="op">//</span> <span class="dv">2</span></span>
 <span id="cb281-34"><a href="#cb281-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pattern <span class="op">&gt;</span> text[suffix_array[mid_point]:][: <span class="bu">len</span>(pattern)]:</span>
 <span id="cb281-35"><a href="#cb281-35" aria-hidden="true" tabindex="-1"></a>            lower_bound <span class="op">=</span> mid_point <span class="op">+</span> <span class="dv">1</span></span>
 <span id="cb281-36"><a href="#cb281-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
 <span id="cb281-37"><a href="#cb281-37" aria-hidden="true" tabindex="-1"></a>            upper_bound <span class="op">=</span> mid_point</span>
-<span id="cb281-38"><a href="#cb281-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb281-38"><a href="#cb281-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb281-39"><a href="#cb281-39" aria-hidden="true" tabindex="-1"></a>    first_occurrence: <span class="bu">int</span> <span class="op">=</span> lower_bound</span>
 <span id="cb281-40"><a href="#cb281-40" aria-hidden="true" tabindex="-1"></a>    upper_bound <span class="op">=</span> <span class="bu">len</span>(text)</span>
-<span id="cb281-41"><a href="#cb281-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb281-41"><a href="#cb281-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb281-42"><a href="#cb281-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> lower_bound <span class="op">&lt;</span> upper_bound:</span>
 <span id="cb281-43"><a href="#cb281-43" aria-hidden="true" tabindex="-1"></a>        mid_point: <span class="bu">int</span> <span class="op">=</span> (lower_bound <span class="op">+</span> upper_bound) <span class="op">//</span> <span class="dv">2</span></span>
 <span id="cb281-44"><a href="#cb281-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pattern <span class="op">&lt;</span> text[suffix_array[mid_point]:][: <span class="bu">len</span>(pattern)]:</span>
 <span id="cb281-45"><a href="#cb281-45" aria-hidden="true" tabindex="-1"></a>            upper_bound <span class="op">=</span> mid_point</span>
 <span id="cb281-46"><a href="#cb281-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
 <span id="cb281-47"><a href="#cb281-47" aria-hidden="true" tabindex="-1"></a>            lower_bound <span class="op">=</span> mid_point <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb281-48"><a href="#cb281-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb281-48"><a href="#cb281-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb281-49"><a href="#cb281-49" aria-hidden="true" tabindex="-1"></a>    last_occurrence: <span class="bu">int</span> <span class="op">=</span> upper_bound</span>
-<span id="cb281-50"><a href="#cb281-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb281-50"><a href="#cb281-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb281-51"><a href="#cb281-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> first_occurrence <span class="op">&gt;</span> last_occurrence:</span>
 <span id="cb281-52"><a href="#cb281-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span>
 <span id="cb281-53"><a href="#cb281-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
@@ -8874,14 +8874,14 @@ GGGT</code></pre>
 <span id="cb287-28"><a href="#cb287-28" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb287-29"><a href="#cb287-29" aria-hidden="true" tabindex="-1"></a>    first_column <span class="op">=</span> <span class="bu">list</span>(index_characters(<span class="bu">sorted</span>(bwt_sequence)))</span>
 <span id="cb287-30"><a href="#cb287-30" aria-hidden="true" tabindex="-1"></a>    last_column <span class="op">=</span> <span class="bu">list</span>(index_characters(bwt_sequence))</span>
-<span id="cb287-31"><a href="#cb287-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb287-31"><a href="#cb287-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb287-32"><a href="#cb287-32" aria-hidden="true" tabindex="-1"></a>    current_char: Tuple[<span class="bu">str</span>, <span class="bu">int</span>] <span class="op">=</span> (<span class="st">"$"</span>, <span class="dv">0</span>)</span>
 <span id="cb287-33"><a href="#cb287-33" aria-hidden="true" tabindex="-1"></a>    original_sequence: List[<span class="bu">str</span>] <span class="op">=</span> []</span>
-<span id="cb287-34"><a href="#cb287-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb287-34"><a href="#cb287-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb287-35"><a href="#cb287-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(bwt_sequence)):</span>
 <span id="cb287-36"><a href="#cb287-36" aria-hidden="true" tabindex="-1"></a>        current_char <span class="op">=</span> first_column[last_column.index(current_char)]</span>
 <span id="cb287-37"><a href="#cb287-37" aria-hidden="true" tabindex="-1"></a>        original_sequence.append(current_char[<span class="dv">0</span>])</span>
-<span id="cb287-38"><a href="#cb287-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb287-38"><a href="#cb287-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb287-39"><a href="#cb287-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">''</span>.join(original_sequence)</span>
 <span id="cb287-40"><a href="#cb287-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb287-41"><a href="#cb287-41" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"TTCCTAACG$A"</span></span>
@@ -8972,16 +8972,16 @@ CCT CAC GAG CAG ATC</code></pre>
 <span id="cb293-5"><a href="#cb293-5" aria-hidden="true" tabindex="-1"></a>        count: Dict[<span class="bu">str</span>, List[<span class="bu">int</span>]] <span class="op">=</span> {char: [<span class="dv">0</span>] <span class="op">*</span> (<span class="bu">len</span>(bwt) <span class="op">+</span> <span class="dv">1</span>) <span class="cf">for</span> char <span class="kw">in</span> <span class="bu">set</span>(bwt)}</span>
 <span id="cb293-6"><a href="#cb293-6" aria-hidden="true" tabindex="-1"></a>        first_occurrence: Dict[<span class="bu">str</span>, <span class="bu">int</span>] <span class="op">=</span> {}</span>
 <span id="cb293-7"><a href="#cb293-7" aria-hidden="true" tabindex="-1"></a>        sorted_bwt: List[<span class="bu">str</span>] <span class="op">=</span> <span class="bu">sorted</span>(bwt)</span>
-<span id="cb293-8"><a href="#cb293-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb293-8"><a href="#cb293-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb293-9"><a href="#cb293-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, char <span class="kw">in</span> <span class="bu">enumerate</span>(bwt):</span>
 <span id="cb293-10"><a href="#cb293-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> c <span class="kw">in</span> count:</span>
 <span id="cb293-11"><a href="#cb293-11" aria-hidden="true" tabindex="-1"></a>                count[c][i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> count[c][i]</span>
 <span id="cb293-12"><a href="#cb293-12" aria-hidden="true" tabindex="-1"></a>            count[char][i <span class="op">+</span> <span class="dv">1</span>] <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb293-13"><a href="#cb293-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb293-13"><a href="#cb293-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb293-14"><a href="#cb293-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, char <span class="kw">in</span> <span class="bu">enumerate</span>(sorted_bwt):</span>
 <span id="cb293-15"><a href="#cb293-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> char <span class="kw">not</span> <span class="kw">in</span> first_occurrence:</span>
 <span id="cb293-16"><a href="#cb293-16" aria-hidden="true" tabindex="-1"></a>                first_occurrence[char] <span class="op">=</span> i</span>
-<span id="cb293-17"><a href="#cb293-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb293-17"><a href="#cb293-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb293-18"><a href="#cb293-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> count, first_occurrence</span>
 <span id="cb293-19"><a href="#cb293-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb293-20"><a href="#cb293-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> count_matches(pattern: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
@@ -9039,18 +9039,18 @@ ACC CCG CAG</code></pre>
 <span id="cb296-5"><a href="#cb296-5" aria-hidden="true" tabindex="-1"></a>        first_column: List[<span class="bu">str</span>] <span class="op">=</span> <span class="bu">sorted</span>(bwt)</span>
 <span id="cb296-6"><a href="#cb296-6" aria-hidden="true" tabindex="-1"></a>        count: Dict[<span class="bu">str</span>, List[<span class="bu">int</span>]] <span class="op">=</span> {char: [<span class="dv">0</span>] <span class="op">*</span> (<span class="bu">len</span>(bwt) <span class="op">+</span> <span class="dv">1</span>) <span class="cf">for</span> char <span class="kw">in</span> <span class="bu">set</span>(bwt)}</span>
 <span id="cb296-7"><a href="#cb296-7" aria-hidden="true" tabindex="-1"></a>        start_index: Dict[<span class="bu">str</span>, <span class="bu">int</span>] <span class="op">=</span> {char: first_column.index(char) <span class="cf">for</span> char <span class="kw">in</span> <span class="bu">set</span>(bwt)}</span>
-<span id="cb296-8"><a href="#cb296-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb296-8"><a href="#cb296-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb296-9"><a href="#cb296-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, char <span class="kw">in</span> <span class="bu">enumerate</span>(bwt):</span>
 <span id="cb296-10"><a href="#cb296-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> c <span class="kw">in</span> count:</span>
 <span id="cb296-11"><a href="#cb296-11" aria-hidden="true" tabindex="-1"></a>                count[c][i <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> count[c][i]</span>
 <span id="cb296-12"><a href="#cb296-12" aria-hidden="true" tabindex="-1"></a>            count[char][i <span class="op">+</span> <span class="dv">1</span>] <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb296-13"><a href="#cb296-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb296-13"><a href="#cb296-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb296-14"><a href="#cb296-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> first_column, count, start_index</span>
 <span id="cb296-15"><a href="#cb296-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb296-16"><a href="#cb296-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> count_occurrences(pattern: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb296-17"><a href="#cb296-17" aria-hidden="true" tabindex="-1"></a>        top: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb296-18"><a href="#cb296-18" aria-hidden="true" tabindex="-1"></a>        bottom: <span class="bu">int</span> <span class="op">=</span> <span class="bu">len</span>(bwt) <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb296-19"><a href="#cb296-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb296-19"><a href="#cb296-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb296-20"><a href="#cb296-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> top <span class="op">&lt;=</span> bottom:</span>
 <span id="cb296-21"><a href="#cb296-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> pattern:</span>
 <span id="cb296-22"><a href="#cb296-22" aria-hidden="true" tabindex="-1"></a>                symbol: <span class="bu">str</span> <span class="op">=</span> pattern[<span class="op">-</span><span class="dv">1</span>]</span>
@@ -9347,14 +9347,14 @@ ATT GCC GCTA TATT
 <span id="cb305-32"><a href="#cb305-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb305-33"><a href="#cb305-33" aria-hidden="true" tabindex="-1"></a>    tree: Dict[<span class="bu">int</span>, List[Dict[<span class="bu">str</span>, <span class="bu">int</span>]]] <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
 <span id="cb305-34"><a href="#cb305-34" aria-hidden="true" tabindex="-1"></a>    node_colors: Dict[<span class="bu">int</span>, Union[<span class="bu">str</span>, <span class="va">None</span>]] <span class="op">=</span> defaultdict(<span class="kw">lambda</span>: <span class="va">None</span>)</span>
-<span id="cb305-35"><a href="#cb305-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb305-35"><a href="#cb305-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb305-36"><a href="#cb305-36" aria-hidden="true" tabindex="-1"></a>    parsing_tree <span class="op">=</span> <span class="va">True</span></span>
 <span id="cb305-37"><a href="#cb305-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> line <span class="kw">in</span> file_obj:</span>
 <span id="cb305-38"><a href="#cb305-38" aria-hidden="true" tabindex="-1"></a>        line <span class="op">=</span> line.strip()</span>
 <span id="cb305-39"><a href="#cb305-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> line <span class="op">==</span> <span class="st">"-"</span>:</span>
 <span id="cb305-40"><a href="#cb305-40" aria-hidden="true" tabindex="-1"></a>            parsing_tree <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb305-41"><a href="#cb305-41" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb305-42"><a href="#cb305-42" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb305-42"><a href="#cb305-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb305-43"><a href="#cb305-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> parsing_tree:</span>
 <span id="cb305-44"><a href="#cb305-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="st">" -&gt; "</span> <span class="kw">in</span> line:</span>
 <span id="cb305-45"><a href="#cb305-45" aria-hidden="true" tabindex="-1"></a>                parent, children <span class="op">=</span> line.split(<span class="st">" -&gt; "</span>)</span>
@@ -9367,7 +9367,7 @@ ATT GCC GCTA TATT
 <span id="cb305-52"><a href="#cb305-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb305-53"><a href="#cb305-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(input_data, <span class="bu">str</span>) <span class="kw">and</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span> <span class="kw">not</span> <span class="kw">in</span> input_data:</span>
 <span id="cb305-54"><a href="#cb305-54" aria-hidden="true" tabindex="-1"></a>        file_obj.close()</span>
-<span id="cb305-55"><a href="#cb305-55" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb305-55"><a href="#cb305-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb305-56"><a href="#cb305-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tree, node_colors</span>
 <span id="cb305-57"><a href="#cb305-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb305-58"><a href="#cb305-58" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
@@ -9541,7 +9541,7 @@ B   0.273   0.727</code></pre>
 <span id="cb314-7"><a href="#cb314-7" aria-hidden="true" tabindex="-1"></a>    states <span class="op">=</span> <span class="bu">next</span>(input_lines).split()</span>
 <span id="cb314-8"><a href="#cb314-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_lines)  <span class="co"># Skip separator</span></span>
 <span id="cb314-9"><a href="#cb314-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_lines)  <span class="co"># Skip column headers</span></span>
-<span id="cb314-10"><a href="#cb314-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb314-10"><a href="#cb314-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb314-11"><a href="#cb314-11" aria-hidden="true" tabindex="-1"></a>    transition_probabilities <span class="op">=</span> {}</span>
 <span id="cb314-12"><a href="#cb314-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> line <span class="kw">in</span> input_lines:</span>
 <span id="cb314-13"><a href="#cb314-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> line.strip():</span>
@@ -9549,13 +9549,13 @@ B   0.273   0.727</code></pre>
 <span id="cb314-15"><a href="#cb314-15" aria-hidden="true" tabindex="-1"></a>            current_state <span class="op">=</span> row_data[<span class="dv">0</span>]</span>
 <span id="cb314-16"><a href="#cb314-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> next_state, probability <span class="kw">in</span> <span class="bu">zip</span>(states, row_data[<span class="dv">1</span>:]):</span>
 <span id="cb314-17"><a href="#cb314-17" aria-hidden="true" tabindex="-1"></a>                transition_probabilities[(current_state, next_state)] <span class="op">=</span> <span class="bu">float</span>(probability)</span>
-<span id="cb314-18"><a href="#cb314-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb314-18"><a href="#cb314-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb314-19"><a href="#cb314-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hidden_path, transition_probabilities</span>
 <span id="cb314-20"><a href="#cb314-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb314-21"><a href="#cb314-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_hidden_path_probability(hidden_path, transition_probabilities):</span>
 <span id="cb314-22"><a href="#cb314-22" aria-hidden="true" tabindex="-1"></a>    initial_probability <span class="op">=</span> <span class="fl">0.5</span></span>
 <span id="cb314-23"><a href="#cb314-23" aria-hidden="true" tabindex="-1"></a>    path_probability <span class="op">=</span> initial_probability <span class="op">*</span> prod(</span>
-<span id="cb314-24"><a href="#cb314-24" aria-hidden="true" tabindex="-1"></a>        transition_probabilities[state_pair] </span>
+<span id="cb314-24"><a href="#cb314-24" aria-hidden="true" tabindex="-1"></a>        transition_probabilities[state_pair]</span>
 <span id="cb314-25"><a href="#cb314-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> state_pair <span class="kw">in</span> <span class="bu">zip</span>(hidden_path, hidden_path[<span class="dv">1</span>:])</span>
 <span id="cb314-26"><a href="#cb314-26" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb314-27"><a href="#cb314-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> path_probability</span>
@@ -9591,7 +9591,7 @@ BBBAAABABABBBBBBAAAAAABAAAABABABBBBBABAABABABABBBB
 A   B
 --------
     x   y   z
-A   0.612   0.314   0.074 
+A   0.612   0.314   0.074
 B   0.346   0.317   0.336</code></pre>
 </section>
 <section id="sample-output-105" class="level2" data-number="105.2">
@@ -9613,7 +9613,7 @@ B   0.346   0.317   0.336</code></pre>
 <span id="cb317-11"><a href="#cb317-11" aria-hidden="true" tabindex="-1"></a>    states <span class="op">=</span> <span class="bu">next</span>(input_lines).split()</span>
 <span id="cb317-12"><a href="#cb317-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_lines)  <span class="co"># Skip separator</span></span>
 <span id="cb317-13"><a href="#cb317-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_lines)  <span class="co"># Skip column headers</span></span>
-<span id="cb317-14"><a href="#cb317-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb317-14"><a href="#cb317-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb317-15"><a href="#cb317-15" aria-hidden="true" tabindex="-1"></a>    emission_probabilities <span class="op">=</span> {}</span>
 <span id="cb317-16"><a href="#cb317-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> line <span class="kw">in</span> input_lines:</span>
 <span id="cb317-17"><a href="#cb317-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> line.strip():</span>
@@ -9621,7 +9621,7 @@ B   0.346   0.317   0.336</code></pre>
 <span id="cb317-19"><a href="#cb317-19" aria-hidden="true" tabindex="-1"></a>            state <span class="op">=</span> row_data[<span class="dv">0</span>]</span>
 <span id="cb317-20"><a href="#cb317-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> symbol, probability <span class="kw">in</span> <span class="bu">zip</span>(symbols, row_data[<span class="dv">1</span>:]):</span>
 <span id="cb317-21"><a href="#cb317-21" aria-hidden="true" tabindex="-1"></a>                emission_probabilities[(state, symbol)] <span class="op">=</span> <span class="bu">float</span>(probability)</span>
-<span id="cb317-22"><a href="#cb317-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb317-22"><a href="#cb317-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb317-23"><a href="#cb317-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> emission_sequence, hidden_path, emission_probabilities</span>
 <span id="cb317-24"><a href="#cb317-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb317-25"><a href="#cb317-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_emission_probability(emission_sequence, hidden_path, emission_probabilities):</span>
@@ -9637,7 +9637,7 @@ B   0.346   0.317   0.336</code></pre>
 <span id="cb317-35"><a href="#cb317-35" aria-hidden="true" tabindex="-1"></a><span class="st">A B</span></span>
 <span id="cb317-36"><a href="#cb317-36" aria-hidden="true" tabindex="-1"></a><span class="st">--------</span></span>
 <span id="cb317-37"><a href="#cb317-37" aria-hidden="true" tabindex="-1"></a><span class="st">    x   y   z</span></span>
-<span id="cb317-38"><a href="#cb317-38" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.612   0.314   0.074 </span></span>
+<span id="cb317-38"><a href="#cb317-38" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.612   0.314   0.074</span></span>
 <span id="cb317-39"><a href="#cb317-39" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.346   0.317   0.336</span></span>
 <span id="cb317-40"><a href="#cb317-40" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb317-41"><a href="#cb317-41" aria-hidden="true" tabindex="-1"></a></span>
@@ -9664,7 +9664,7 @@ A   0.641   0.359
 B   0.729   0.271
 --------
     x   y   z
-A   0.117   0.691   0.192   
+A   0.117   0.691   0.192
 B   0.097   0.42    0.483</code></pre>
 </section>
 <section id="sample-output-106" class="level2" data-number="106.2">
@@ -9685,14 +9685,14 @@ B   0.097   0.42    0.483</code></pre>
 <span id="cb320-10"><a href="#cb320-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_iterator)</span>
 <span id="cb320-11"><a href="#cb320-11" aria-hidden="true" tabindex="-1"></a>    states <span class="op">=</span> <span class="bu">next</span>(input_iterator).split()</span>
 <span id="cb320-12"><a href="#cb320-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_iterator)</span>
-<span id="cb320-13"><a href="#cb320-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb320-13"><a href="#cb320-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb320-14"><a href="#cb320-14" aria-hidden="true" tabindex="-1"></a>    transition_lines <span class="op">=</span> [<span class="bu">next</span>(input_iterator) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(states) <span class="op">+</span> <span class="dv">1</span>)]</span>
 <span id="cb320-15"><a href="#cb320-15" aria-hidden="true" tabindex="-1"></a>    transition_matrix <span class="op">=</span> {</span>
 <span id="cb320-16"><a href="#cb320-16" aria-hidden="true" tabindex="-1"></a>        (states[i], states[j]): <span class="bu">float</span>(value)</span>
 <span id="cb320-17"><a href="#cb320-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, row <span class="kw">in</span> <span class="bu">enumerate</span>(transition_lines[<span class="dv">1</span>:])</span>
 <span id="cb320-18"><a href="#cb320-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, value <span class="kw">in</span> <span class="bu">enumerate</span>(row.split()[<span class="dv">1</span>:])</span>
 <span id="cb320-19"><a href="#cb320-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb320-20"><a href="#cb320-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb320-20"><a href="#cb320-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb320-21"><a href="#cb320-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_iterator)</span>
 <span id="cb320-22"><a href="#cb320-22" aria-hidden="true" tabindex="-1"></a>    emission_lines <span class="op">=</span> [<span class="bu">next</span>(input_iterator) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(states) <span class="op">+</span> <span class="dv">1</span>)]</span>
 <span id="cb320-23"><a href="#cb320-23" aria-hidden="true" tabindex="-1"></a>    emission_matrix <span class="op">=</span> {</span>
@@ -9700,7 +9700,7 @@ B   0.097   0.42    0.483</code></pre>
 <span id="cb320-25"><a href="#cb320-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, row <span class="kw">in</span> <span class="bu">enumerate</span>(emission_lines[<span class="dv">1</span>:])</span>
 <span id="cb320-26"><a href="#cb320-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, value <span class="kw">in</span> <span class="bu">enumerate</span>(row.split()[<span class="dv">1</span>:])</span>
 <span id="cb320-27"><a href="#cb320-27" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb320-28"><a href="#cb320-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb320-28"><a href="#cb320-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb320-29"><a href="#cb320-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sequence, states, transition_matrix, emission_matrix</span>
 <span id="cb320-30"><a href="#cb320-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb320-31"><a href="#cb320-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> viterbi(sequence: <span class="bu">str</span>, states: List[<span class="bu">str</span>], transition_matrix: Dict[Tuple[<span class="bu">str</span>, <span class="bu">str</span>], <span class="bu">float</span>], emission_matrix: Dict[Tuple[<span class="bu">str</span>, <span class="bu">str</span>], <span class="bu">float</span>]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -9717,8 +9717,8 @@ B   0.097   0.42    0.483</code></pre>
 <span id="cb320-42"><a href="#cb320-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, sequence_length):</span>
 <span id="cb320-43"><a href="#cb320-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, current_state <span class="kw">in</span> <span class="bu">enumerate</span>(states):</span>
 <span id="cb320-44"><a href="#cb320-44" aria-hidden="true" tabindex="-1"></a>            probabilities <span class="op">=</span> [</span>
-<span id="cb320-45"><a href="#cb320-45" aria-hidden="true" tabindex="-1"></a>                log(transition_matrix[previous_state, current_state]) <span class="op">+</span> </span>
-<span id="cb320-46"><a href="#cb320-46" aria-hidden="true" tabindex="-1"></a>                log(emission_matrix[current_state, sequence[t]]) <span class="op">+</span> </span>
+<span id="cb320-45"><a href="#cb320-45" aria-hidden="true" tabindex="-1"></a>                log(transition_matrix[previous_state, current_state]) <span class="op">+</span></span>
+<span id="cb320-46"><a href="#cb320-46" aria-hidden="true" tabindex="-1"></a>                log(emission_matrix[current_state, sequence[t]]) <span class="op">+</span></span>
 <span id="cb320-47"><a href="#cb320-47" aria-hidden="true" tabindex="-1"></a>                viterbi_matrix[t<span class="op">-</span><span class="dv">1</span>, k]</span>
 <span id="cb320-48"><a href="#cb320-48" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> k, previous_state <span class="kw">in</span> <span class="bu">enumerate</span>(states)</span>
 <span id="cb320-49"><a href="#cb320-49" aria-hidden="true" tabindex="-1"></a>            ]</span>
@@ -9747,7 +9747,7 @@ B   0.097   0.42    0.483</code></pre>
 <span id="cb320-72"><a href="#cb320-72" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.729   0.271</span></span>
 <span id="cb320-73"><a href="#cb320-73" aria-hidden="true" tabindex="-1"></a><span class="st">--------</span></span>
 <span id="cb320-74"><a href="#cb320-74" aria-hidden="true" tabindex="-1"></a><span class="st">    x   y   z</span></span>
-<span id="cb320-75"><a href="#cb320-75" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.117   0.691   0.192   </span></span>
+<span id="cb320-75"><a href="#cb320-75" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.117   0.691   0.192</span></span>
 <span id="cb320-76"><a href="#cb320-76" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.097   0.42    0.483</span></span>
 <span id="cb320-77"><a href="#cb320-77" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb320-78"><a href="#cb320-78" aria-hidden="true" tabindex="-1"></a></span>
@@ -9770,11 +9770,11 @@ x   y   z
 A   B
 --------
     A   B
-A   0.303   0.697 
-B   0.831   0.169 
+A   0.303   0.697
+B   0.831   0.169
 --------
     x   y   z
-A   0.533   0.065   0.402 
+A   0.533   0.065   0.402
 B   0.342   0.334   0.324</code></pre>
 </section>
 <section id="sample-output-107" class="level2" data-number="107.2">
@@ -9793,14 +9793,14 @@ B   0.342   0.334   0.324</code></pre>
 <span id="cb323-8"><a href="#cb323-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_iterator)</span>
 <span id="cb323-9"><a href="#cb323-9" aria-hidden="true" tabindex="-1"></a>    states <span class="op">=</span> <span class="bu">next</span>(input_iterator).split()</span>
 <span id="cb323-10"><a href="#cb323-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_iterator)</span>
-<span id="cb323-11"><a href="#cb323-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb323-11"><a href="#cb323-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb323-12"><a href="#cb323-12" aria-hidden="true" tabindex="-1"></a>    transition_lines <span class="op">=</span> [<span class="bu">next</span>(input_iterator) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(states) <span class="op">+</span> <span class="dv">1</span>)]</span>
 <span id="cb323-13"><a href="#cb323-13" aria-hidden="true" tabindex="-1"></a>    transition_matrix <span class="op">=</span> {</span>
 <span id="cb323-14"><a href="#cb323-14" aria-hidden="true" tabindex="-1"></a>        (states[i], states[j]): <span class="bu">float</span>(value)</span>
 <span id="cb323-15"><a href="#cb323-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, row <span class="kw">in</span> <span class="bu">enumerate</span>(transition_lines[<span class="dv">1</span>:])</span>
 <span id="cb323-16"><a href="#cb323-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, value <span class="kw">in</span> <span class="bu">enumerate</span>(row.split()[<span class="dv">1</span>:])</span>
 <span id="cb323-17"><a href="#cb323-17" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb323-18"><a href="#cb323-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb323-18"><a href="#cb323-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb323-19"><a href="#cb323-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">next</span>(input_iterator)</span>
 <span id="cb323-20"><a href="#cb323-20" aria-hidden="true" tabindex="-1"></a>    emission_lines <span class="op">=</span> [<span class="bu">next</span>(input_iterator) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(states) <span class="op">+</span> <span class="dv">1</span>)]</span>
 <span id="cb323-21"><a href="#cb323-21" aria-hidden="true" tabindex="-1"></a>    emission_matrix <span class="op">=</span> {</span>
@@ -9808,7 +9808,7 @@ B   0.342   0.334   0.324</code></pre>
 <span id="cb323-23"><a href="#cb323-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, row <span class="kw">in</span> <span class="bu">enumerate</span>(emission_lines[<span class="dv">1</span>:])</span>
 <span id="cb323-24"><a href="#cb323-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, value <span class="kw">in</span> <span class="bu">enumerate</span>(row.split()[<span class="dv">1</span>:])</span>
 <span id="cb323-25"><a href="#cb323-25" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb323-26"><a href="#cb323-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb323-26"><a href="#cb323-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb323-27"><a href="#cb323-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sequence, states, transition_matrix, emission_matrix</span>
 <span id="cb323-28"><a href="#cb323-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb323-29"><a href="#cb323-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_hmm_likelihood(sequence, states, transition_matrix, emission_matrix):</span>
@@ -9820,8 +9820,8 @@ B   0.342   0.334   0.324</code></pre>
 <span id="cb323-35"><a href="#cb323-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, emission <span class="kw">in</span> <span class="bu">enumerate</span>(sequence[<span class="dv">1</span>:], start<span class="op">=</span><span class="dv">1</span>):</span>
 <span id="cb323-36"><a href="#cb323-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, current_state <span class="kw">in</span> <span class="bu">enumerate</span>(states):</span>
 <span id="cb323-37"><a href="#cb323-37" aria-hidden="true" tabindex="-1"></a>            probability_matrix[i, j] <span class="op">=</span> <span class="bu">sum</span>(</span>
-<span id="cb323-38"><a href="#cb323-38" aria-hidden="true" tabindex="-1"></a>                transition_matrix[previous_state, current_state] <span class="op">*</span> </span>
-<span id="cb323-39"><a href="#cb323-39" aria-hidden="true" tabindex="-1"></a>                emission_matrix[current_state, emission] <span class="op">*</span> </span>
+<span id="cb323-38"><a href="#cb323-38" aria-hidden="true" tabindex="-1"></a>                transition_matrix[previous_state, current_state] <span class="op">*</span></span>
+<span id="cb323-39"><a href="#cb323-39" aria-hidden="true" tabindex="-1"></a>                emission_matrix[current_state, emission] <span class="op">*</span></span>
 <span id="cb323-40"><a href="#cb323-40" aria-hidden="true" tabindex="-1"></a>                probability_matrix[i <span class="op">-</span> <span class="dv">1</span>, k]</span>
 <span id="cb323-41"><a href="#cb323-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> k, previous_state <span class="kw">in</span> <span class="bu">enumerate</span>(states)</span>
 <span id="cb323-42"><a href="#cb323-42" aria-hidden="true" tabindex="-1"></a>            )</span>
@@ -9836,11 +9836,11 @@ B   0.342   0.334   0.324</code></pre>
 <span id="cb323-51"><a href="#cb323-51" aria-hidden="true" tabindex="-1"></a><span class="st">A   B</span></span>
 <span id="cb323-52"><a href="#cb323-52" aria-hidden="true" tabindex="-1"></a><span class="st">--------</span></span>
 <span id="cb323-53"><a href="#cb323-53" aria-hidden="true" tabindex="-1"></a><span class="st">    A   B</span></span>
-<span id="cb323-54"><a href="#cb323-54" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.303   0.697 </span></span>
-<span id="cb323-55"><a href="#cb323-55" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.831   0.169 </span></span>
+<span id="cb323-54"><a href="#cb323-54" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.303   0.697</span></span>
+<span id="cb323-55"><a href="#cb323-55" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.831   0.169</span></span>
 <span id="cb323-56"><a href="#cb323-56" aria-hidden="true" tabindex="-1"></a><span class="st">--------</span></span>
 <span id="cb323-57"><a href="#cb323-57" aria-hidden="true" tabindex="-1"></a><span class="st">    x   y   z</span></span>
-<span id="cb323-58"><a href="#cb323-58" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.533   0.065   0.402 </span></span>
+<span id="cb323-58"><a href="#cb323-58" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.533   0.065   0.402</span></span>
 <span id="cb323-59"><a href="#cb323-59" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.342   0.334   0.324</span></span>
 <span id="cb323-60"><a href="#cb323-60" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb323-61"><a href="#cb323-61" aria-hidden="true" tabindex="-1"></a></span>
@@ -10732,21 +10732,21 @@ A   0.911   0.089
 B   0.228   0.772
 --------
     x   y   z
-A   0.356   0.191   0.453 
+A   0.356   0.191   0.453
 B   0.04    0.467   0.493</code></pre>
 </section>
 <section id="sample-output-113" class="level2" data-number="113.2">
 <h2 data-number="113.2" class="anchored" data-anchor-id="sample-output-113"><span class="header-section-number">113.2</span> Sample Output</h2>
-<pre><code>A   B 
-0.5438  0.4562 
-0.6492  0.3508 
-0.9647  0.0353 
-0.9936  0.0064 
-0.9957  0.0043 
-0.9891  0.0109 
-0.9154  0.0846 
-0.964   0.036 
-0.8737  0.1263 
+<pre><code>A   B
+0.5438  0.4562
+0.6492  0.3508
+0.9647  0.0353
+0.9936  0.0064
+0.9957  0.0043
+0.9891  0.0109
+0.9154  0.0846
+0.964   0.036
+0.8737  0.1263
 0.8167  0.1833</code></pre>
 </section>
 <section id="solution-113" class="level2" data-number="113.3">
@@ -10828,7 +10828,7 @@ B   0.04    0.467   0.493</code></pre>
 <span id="cb341-75"><a href="#cb341-75" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.228   0.772</span></span>
 <span id="cb341-76"><a href="#cb341-76" aria-hidden="true" tabindex="-1"></a><span class="st">--------</span></span>
 <span id="cb341-77"><a href="#cb341-77" aria-hidden="true" tabindex="-1"></a><span class="st">    x   y   z</span></span>
-<span id="cb341-78"><a href="#cb341-78" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.356   0.191   0.453 </span></span>
+<span id="cb341-78"><a href="#cb341-78" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.356   0.191   0.453</span></span>
 <span id="cb341-79"><a href="#cb341-79" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.04    0.467   0.493</span></span>
 <span id="cb341-80"><a href="#cb341-80" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb341-81"><a href="#cb341-81" aria-hidden="true" tabindex="-1"></a></span>
@@ -10850,21 +10850,21 @@ x   y   z
 A   B
 --------
     A   B
-A   0.019   0.981 
-B   0.668   0.332 
+A   0.019   0.981
+B   0.668   0.332
 --------
 x   y   z
-A   0.175   0.003   0.821 
+A   0.175   0.003   0.821
 B   0.196   0.512   0.293</code></pre>
 </section>
 <section id="sample-output-114" class="level2" data-number="114.2">
 <h2 data-number="114.2" class="anchored" data-anchor-id="sample-output-114"><span class="header-section-number">114.2</span> Sample Output</h2>
 <pre><code>A   B
-A   0.000   1.000   
-B   0.786   0.214   
+A   0.000   1.000
+B   0.786   0.214
 --------
     x   y   z
-A   0.242   0.000   0.758   
+A   0.242   0.000   0.758
 B   0.172   0.828   0.000</code></pre>
 </section>
 <section id="solution-114" class="level2" data-number="114.3">
@@ -10995,11 +10995,11 @@ B   0.172   0.828   0.000</code></pre>
 <span id="cb344-124"><a href="#cb344-124" aria-hidden="true" tabindex="-1"></a><span class="st">A   B</span></span>
 <span id="cb344-125"><a href="#cb344-125" aria-hidden="true" tabindex="-1"></a><span class="st">--------</span></span>
 <span id="cb344-126"><a href="#cb344-126" aria-hidden="true" tabindex="-1"></a><span class="st">    A   B</span></span>
-<span id="cb344-127"><a href="#cb344-127" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.019   0.981 </span></span>
-<span id="cb344-128"><a href="#cb344-128" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.668   0.332 </span></span>
+<span id="cb344-127"><a href="#cb344-127" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.019   0.981</span></span>
+<span id="cb344-128"><a href="#cb344-128" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.668   0.332</span></span>
 <span id="cb344-129"><a href="#cb344-129" aria-hidden="true" tabindex="-1"></a><span class="st">--------</span></span>
 <span id="cb344-130"><a href="#cb344-130" aria-hidden="true" tabindex="-1"></a><span class="st">x   y   z</span></span>
-<span id="cb344-131"><a href="#cb344-131" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.175   0.003   0.821 </span></span>
+<span id="cb344-131"><a href="#cb344-131" aria-hidden="true" tabindex="-1"></a><span class="st">A   0.175   0.003   0.821</span></span>
 <span id="cb344-132"><a href="#cb344-132" aria-hidden="true" tabindex="-1"></a><span class="st">B   0.196   0.512   0.293</span></span>
 <span id="cb344-133"><a href="#cb344-133" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb344-134"><a href="#cb344-134" aria-hidden="true" tabindex="-1"></a></span>
@@ -11047,16 +11047,16 @@ B   0.172   0.828   0.000</code></pre>
 <span id="cb347-12"><a href="#cb347-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> spectrum_graph(masses: List[<span class="bu">int</span>]) <span class="op">-&gt;</span> DefaultDict[<span class="bu">int</span>, List[Dict[<span class="bu">str</span>, <span class="bu">int</span>]]]:</span>
 <span id="cb347-13"><a href="#cb347-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reverse mapping of weights to amino acids</span></span>
 <span id="cb347-14"><a href="#cb347-14" aria-hidden="true" tabindex="-1"></a>    weight_to_amino_acid: Dict[<span class="bu">int</span>, <span class="bu">str</span>] <span class="op">=</span> {weight: aa <span class="cf">for</span> aa, weight <span class="kw">in</span> amino_acid_weights.items()}</span>
-<span id="cb347-15"><a href="#cb347-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb347-15"><a href="#cb347-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb347-16"><a href="#cb347-16" aria-hidden="true" tabindex="-1"></a>    graph: DefaultDict[<span class="bu">int</span>, List[Dict[<span class="bu">str</span>, <span class="bu">int</span>]]] <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
-<span id="cb347-17"><a href="#cb347-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb347-17"><a href="#cb347-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb347-18"><a href="#cb347-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create graph based on mass differences</span></span>
 <span id="cb347-19"><a href="#cb347-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(masses)):</span>
 <span id="cb347-20"><a href="#cb347-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(masses)):</span>
 <span id="cb347-21"><a href="#cb347-21" aria-hidden="true" tabindex="-1"></a>            difference: <span class="bu">int</span> <span class="op">=</span> masses[j] <span class="op">-</span> masses[i]</span>
 <span id="cb347-22"><a href="#cb347-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> difference <span class="kw">in</span> weight_to_amino_acid:</span>
 <span id="cb347-23"><a href="#cb347-23" aria-hidden="true" tabindex="-1"></a>                graph[masses[i]].append({<span class="st">"n"</span>: masses[j], <span class="st">"l"</span>: weight_to_amino_acid[difference]})</span>
-<span id="cb347-24"><a href="#cb347-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb347-24"><a href="#cb347-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb347-25"><a href="#cb347-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> graph</span>
 <span id="cb347-26"><a href="#cb347-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb347-27"><a href="#cb347-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
@@ -11381,10 +11381,10 @@ XZZXZXXXZXZZXZXXZ</code></pre>
 <span id="cb362-23"><a href="#cb362-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(proteome) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb362-24"><a href="#cb362-24" aria-hidden="true" tabindex="-1"></a>            peptide: <span class="bu">str</span> <span class="op">=</span> proteome[i:j]</span>
 <span id="cb362-25"><a href="#cb362-25" aria-hidden="true" tabindex="-1"></a>            peptide_vector: List[<span class="bu">int</span>] <span class="op">=</span> create_peptide_vector(peptide)</span>
-<span id="cb362-26"><a href="#cb362-26" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb362-26"><a href="#cb362-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb362-27"><a href="#cb362-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(peptide_vector) <span class="op">&gt;</span> <span class="bu">len</span>(spectral_vector):</span>
 <span id="cb362-28"><a href="#cb362-28" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
-<span id="cb362-29"><a href="#cb362-29" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb362-29"><a href="#cb362-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb362-30"><a href="#cb362-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(peptide_vector) <span class="op">==</span> <span class="bu">len</span>(spectral_vector):</span>
 <span id="cb362-31"><a href="#cb362-31" aria-hidden="true" tabindex="-1"></a>                score: <span class="bu">float</span> <span class="op">=</span> <span class="bu">sum</span>(s <span class="op">*</span> v <span class="cf">for</span> s, v <span class="kw">in</span> <span class="bu">zip</span>(spectral_vector, peptide_vector))</span>
 <span id="cb362-32"><a href="#cb362-32" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> score <span class="op">&gt;</span> max_score:</span>
@@ -11454,10 +11454,10 @@ XXXZXZXXZXZXXXZXXZX
 <span id="cb365-30"><a href="#cb365-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(proteome) <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb365-31"><a href="#cb365-31" aria-hidden="true" tabindex="-1"></a>            peptide: <span class="bu">str</span> <span class="op">=</span> proteome[i:j]</span>
 <span id="cb365-32"><a href="#cb365-32" aria-hidden="true" tabindex="-1"></a>            peptide_vector: List[<span class="bu">int</span>] <span class="op">=</span> create_peptide_vector(peptide)</span>
-<span id="cb365-33"><a href="#cb365-33" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb365-33"><a href="#cb365-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb365-34"><a href="#cb365-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(peptide_vector) <span class="op">&gt;</span> <span class="bu">len</span>(spectral_vector):</span>
 <span id="cb365-35"><a href="#cb365-35" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
-<span id="cb365-36"><a href="#cb365-36" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb365-36"><a href="#cb365-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb365-37"><a href="#cb365-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(peptide_vector) <span class="op">==</span> <span class="bu">len</span>(spectral_vector):</span>
 <span id="cb365-38"><a href="#cb365-38" aria-hidden="true" tabindex="-1"></a>                score: <span class="bu">float</span> <span class="op">=</span> <span class="bu">sum</span>(s <span class="op">*</span> v <span class="cf">for</span> s, v <span class="kw">in</span> <span class="bu">zip</span>(spectral_vector, peptide_vector))</span>
 <span id="cb365-39"><a href="#cb365-39" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> score <span class="op">&gt;</span> max_score:</span>
@@ -11704,7 +11704,7 @@ XXXZXZXXZXZXXXZXXZX
 <span id="cb374-61"><a href="#cb374-61" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (t <span class="op">==</span> <span class="dv">0</span>) <span class="kw">and</span> (mass <span class="op">-</span> mass_differences[mass] <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="kw">and</span> (j <span class="op">-</span> mass_differences[mass] <span class="op">&gt;=</span> <span class="dv">0</span>):</span>
 <span id="cb374-62"><a href="#cb374-62" aria-hidden="true" tabindex="-1"></a>                    score_matrix[mass][j][t] <span class="op">=</span> spectral_vector[j] <span class="op">+</span> score_matrix[mass <span class="op">-</span> mass_differences[mass]][j <span class="op">-</span> mass_differences[mass]][t]</span>
 <span id="cb374-63"><a href="#cb374-63" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> (t <span class="op">&gt;</span> <span class="dv">0</span>) <span class="kw">and</span> (mass <span class="op">-</span> mass_differences[mass] <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="kw">and</span> (j <span class="op">-</span> mass_differences[mass] <span class="op">&gt;=</span> <span class="dv">0</span>):</span>
-<span id="cb374-64"><a href="#cb374-64" aria-hidden="true" tabindex="-1"></a>                    score_matrix[mass][j][t] <span class="op">=</span> spectral_vector[j] <span class="op">+</span> <span class="bu">max</span>(score_matrix[mass <span class="op">-</span> mass_differences[mass]][j <span class="op">-</span> mass_differences[mass]][t], </span>
+<span id="cb374-64"><a href="#cb374-64" aria-hidden="true" tabindex="-1"></a>                    score_matrix[mass][j][t] <span class="op">=</span> spectral_vector[j] <span class="op">+</span> <span class="bu">max</span>(score_matrix[mass <span class="op">-</span> mass_differences[mass]][j <span class="op">-</span> mass_differences[mass]][t],</span>
 <span id="cb374-65"><a href="#cb374-65" aria-hidden="true" tabindex="-1"></a>                                                                         <span class="bu">max</span>(score_matrix[mass <span class="op">-</span> mass_differences[mass]][j_star][t <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j_star <span class="kw">in</span> <span class="bu">range</span>(j)))</span>
 <span id="cb374-66"><a href="#cb374-66" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> (t <span class="op">&gt;</span> <span class="dv">0</span>) <span class="kw">and</span> (mass <span class="op">-</span> mass_differences[mass] <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="kw">and</span> (j <span class="op">&gt;</span> <span class="dv">0</span>):</span>
 <span id="cb374-67"><a href="#cb374-67" aria-hidden="true" tabindex="-1"></a>                    score_matrix[mass][j][t] <span class="op">=</span> spectral_vector[j] <span class="op">+</span> <span class="bu">max</span>(score_matrix[mass <span class="op">-</span> mass_differences[mass]][j_star][t <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j_star <span class="kw">in</span> <span class="bu">range</span>(j))</span>

@@ -529,7 +529,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">June 17, 2025</p>
+      <p class="date-modified">June 21, 2025</p>
     </div>
   </div>
     
@@ -570,13 +570,13 @@ window.Quarto = {
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_dna_symbols(dna):</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the symbols we're interested in</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    symbols <span class="op">=</span> [<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>]</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use Counter to count occurrences of each symbol in the DNA</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    dna_counter <span class="op">=</span> Counter(dna)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a dictionary with counts for each symbol of interest</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    symbols_count <span class="op">=</span> {symbol: dna_counter.get(symbol, <span class="dv">0</span>) <span class="cf">for</span> symbol <span class="kw">in</span> symbols}</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> symbols_count</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
@@ -621,19 +621,19 @@ window.Quarto = {
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_nucleotide_genbank_entries(genus_name, start_date, end_date):</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Retrieve the count of Nucleotide GenBank entries for a given genus and date range.</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    genus_name (str): The name of the genus to search for.</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    start_date (str): The start date of the publication range (format: YYYY/MM/DD).</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    end_date (str): The end date of the publication range (format: YYYY/MM/DD).</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">    int: The count of entries found.</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    Entrez.email <span class="op">=</span> <span class="st">"byterube@gmail.com"</span>  <span class="co"># Replace with your email</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="ss">f'"</span><span class="sc">{</span>genus_name<span class="sc">}</span><span class="ss">"[Organism] AND ("</span><span class="sc">{</span>start_date<span class="sc">}</span><span class="ss">"[Publication Date] : "</span><span class="sc">{</span>end_date<span class="sc">}</span><span class="ss">"[Publication Date])'</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> Entrez.esearch(db<span class="op">=</span><span class="st">"nucleotide"</span>, term<span class="op">=</span>query) <span class="im">as</span> handle:</span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>            record <span class="op">=</span> Entrez.read(handle)</span>
@@ -791,10 +791,10 @@ GHQDWGTQTFSCMHWVGWMGWVDCNYDARAHPEFYTIREYADITWYSDTSSNFRGRIGQN</code></pre>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_sequences(genbank_ids: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[Seq]:</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Fetch sequences from GenBank given a list of IDs.</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">    genbank_ids (List[str]): List of GenBank IDs.</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">    List[Seq]: List of Seq objects representing the fetched sequences.</span></span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
@@ -809,11 +809,11 @@ GHQDWGTQTFSCMHWVGWMGWVDCNYDARAHPEFYTIREYADITWYSDTSSNFRGRIGQN</code></pre>
 <span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> align_sequences(seq1: Seq, seq2: Seq) <span class="op">-&gt;</span> Optional[<span class="bu">float</span>]:</span>
 <span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">    Perform global alignment of two sequences using Bio.Align.PairwiseAligner.</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
 <span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">    seq1 (Seq): First sequence.</span></span>
 <span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">    seq2 (Seq): Second sequence.</span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
 <span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co">    Optional[float]: Alignment score, or None if alignment fails.</span></span>
 <span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
@@ -824,7 +824,7 @@ GHQDWGTQTFSCMHWVGWMGWVDCNYDARAHPEFYTIREYADITWYSDTSSNFRGRIGQN</code></pre>
 <span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>        aligner.mismatch_score <span class="op">=</span> <span class="op">-</span><span class="dv">4</span></span>
 <span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>        aligner.open_gap_score <span class="op">=</span> <span class="op">-</span><span class="dv">10</span></span>
 <span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>        aligner.extend_gap_score <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>        alignments <span class="op">=</span> aligner.align(seq1, seq2)</span>
 <span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> alignments.score</span>
 <span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
@@ -1004,19 +1004,19 @@ MAMAPRTEINSTRING</code></pre>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_genetic_code(dna, protein):</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># List of genetic code table IDs to check</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    table_ids <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>,]</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> table <span class="kw">in</span> table_ids:</span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Translate DNA using the current table</span></span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>            translated <span class="op">=</span> translate(dna, table<span class="op">=</span>table, to_stop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Check if the translated protein matches the given protein</span></span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> translated <span class="op">==</span> protein:</span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> table</span>
 <span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span>:</span>
 <span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If there's an error with a particular table, skip it</span></span>
 <span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no matching table is found</span></span>
 <span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span>
 <span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
@@ -1073,16 +1073,16 @@ B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</code></pre>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quality_filtration(data):</span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read the threshold and percentage from the first line</span></span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    t, p <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, data[<span class="dv">0</span>].strip().split())</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Process the FASTQ data</span></span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(data), <span class="dv">4</span>):</span>
 <span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        sequence <span class="op">=</span> data[i<span class="op">+</span><span class="dv">1</span>].strip()</span>
 <span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>        quality_string <span class="op">=</span> data[i<span class="op">+</span><span class="dv">3</span>].strip()</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert quality string to Phred scores</span></span>
 <span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>        phred_quality <span class="op">=</span> [<span class="bu">ord</span>(char) <span class="op">-</span> <span class="dv">33</span> <span class="cf">for</span> char <span class="kw">in</span> quality_string]</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Perform quality check</span></span>
 <span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        passes <span class="op">=</span> <span class="bu">sum</span>(ph <span class="op">&gt;=</span> t <span class="cf">for</span> ph <span class="kw">in</span> phred_quality)</span>
 <span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (passes <span class="op">/</span> <span class="bu">len</span>(phred_quality)) <span class="op">*</span> <span class="dv">100</span> <span class="op">&gt;=</span> p:</span>
@@ -1214,7 +1214,7 @@ GATTATGATATCAGTTGGCTCCGAGAGCGT
 <span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_quality_scores(fastq_data):</span>
 <span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Extract quality scores from FASTQ data."""</span></span>
 <span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    fastq_io <span class="op">=</span> StringIO(fastq_data)</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [record.letter_annotations[<span class="st">"phred_quality"</span>] </span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [record.letter_annotations[<span class="st">"phred_quality"</span>]</span>
 <span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(fastq_io, <span class="st">"fastq"</span>)]</span>
 <span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_below_threshold(qualities, threshold):</span>
@@ -1222,12 +1222,12 @@ GATTATGATATCAGTTGGCTCCGAGAGCGT
 <span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    num_sequences <span class="op">=</span> <span class="bu">len</span>(qualities)</span>
 <span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    num_positions <span class="op">=</span> <span class="bu">len</span>(qualities[<span class="dv">0</span>])</span>
 <span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_positions):</span>
 <span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>        average_quality <span class="op">=</span> <span class="bu">sum</span>(q[i] <span class="cf">for</span> q <span class="kw">in</span> qualities) <span class="op">/</span> num_sequences</span>
 <span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> average_quality <span class="op">&lt;</span> threshold:</span>
 <span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
 <span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bphr(data):</span>
@@ -1365,11 +1365,11 @@ B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8</code></pre>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> start <span class="op">&lt;</span> <span class="bu">len</span>(phred_quality) <span class="kw">and</span> phred_quality[start] <span class="op">&lt;</span> threshold:</span>
 <span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>        start <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> <span class="bu">len</span>(phred_quality)</span>
 <span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> end <span class="op">&gt;</span> start <span class="kw">and</span> phred_quality[end<span class="op">-</span><span class="dv">1</span>] <span class="op">&lt;</span> threshold:</span>
 <span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>        end <span class="op">-=</span> <span class="dv">1</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> start, end</span>
 <span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_fastq_record(identifier, sequence, quality_string, start, end):</span>
@@ -1385,14 +1385,14 @@ B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8</code></pre>
 <span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>        identifier <span class="op">=</span> data[i].strip()</span>
 <span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>        sequence <span class="op">=</span> data[i<span class="op">+</span><span class="dv">1</span>].strip()</span>
 <span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>        quality_string <span class="op">=</span> data[i<span class="op">+</span><span class="dv">3</span>].strip()</span>
-<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>        phred_quality <span class="op">=</span> convert_to_phred(quality_string)</span>
 <span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>        start, end <span class="op">=</span> find_quality_bounds(phred_quality, threshold)</span>
-<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> start <span class="op">&lt;</span> end:</span>
 <span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>            filtered_record <span class="op">=</span> format_fastq_record(identifier, sequence, quality_string, start, end)</span>
 <span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a>            filtered_records.append(filtered_record)</span>
-<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> filtered_records</span>
 <span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
@@ -1445,11 +1445,11 @@ ATGGACTCCTTTGTTTGCCTTAAATAGATACATATTCAACAAGTGTGCACTTAGCCTTGCCGACTCCTTTGTTTGCCTTA
 <span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    pattern_length <span class="op">=</span> <span class="bu">len</span>(pattern)</span>
 <span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    seq_length <span class="op">=</span> <span class="bu">len</span>(seq)</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(seq_length <span class="op">-</span> pattern_length <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> hamming_distance(seq[i:i<span class="op">+</span>pattern_length], pattern) <span class="op">&lt;=</span> max_mismatches:</span>
 <span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
 <span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Your sample input</span></span>
@@ -1479,7 +1479,7 @@ ATGGACTCCTTTGTTTGCCTTAAATAGATACATATTCAACAAGTGTGCACTTAGCCTTGCCGACTCCTTTGTTTGCCTTA
 <span id="cb41-42"><a href="#cb41-42" aria-hidden="true" tabindex="-1"></a>        count_s <span class="op">=</span> count_inexact_repeats(potential_repeat, s)</span>
 <span id="cb41-43"><a href="#cb41-43" aria-hidden="true" tabindex="-1"></a>        count_t <span class="op">=</span> count_inexact_repeats(potential_repeat, t)</span>
 <span id="cb41-44"><a href="#cb41-44" aria-hidden="true" tabindex="-1"></a>        total_count <span class="op">=</span> count_s <span class="op">+</span> count_t</span>
-<span id="cb41-45"><a href="#cb41-45" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb41-45"><a href="#cb41-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-46"><a href="#cb41-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> total_count <span class="op">&gt;</span> best_count:</span>
 <span id="cb41-47"><a href="#cb41-47" aria-hidden="true" tabindex="-1"></a>            best_count <span class="op">=</span> total_count</span>
 <span id="cb41-48"><a href="#cb41-48" aria-hidden="true" tabindex="-1"></a>            best_repeat <span class="op">=</span> potential_repeat</span>
@@ -1526,10 +1526,10 @@ GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT</code></pre>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simple_msa(sequences):</span>
 <span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the length of the longest sequence</span></span>
 <span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    max_length <span class="op">=</span> <span class="bu">max</span>(<span class="bu">len</span>(seq) <span class="cf">for</span> seq <span class="kw">in</span> sequences)</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pad shorter sequences with gaps</span></span>
 <span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    aligned_sequences <span class="op">=</span> [seq.ljust(max_length, <span class="st">'-'</span>) <span class="cf">for</span> seq <span class="kw">in</span> sequences]</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> aligned_sequences</span>
 <span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_differences(seq1, seq2):</span>
@@ -1539,15 +1539,15 @@ GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT</code></pre>
 <span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parse the FASTA string</span></span>
 <span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    fasta_io <span class="op">=</span> StringIO(fasta_string)</span>
 <span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    sequences <span class="op">=</span> <span class="bu">list</span>(SeqIO.parse(fasta_io, <span class="st">"fasta"</span>))</span>
-<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Perform a simple multiple sequence alignment</span></span>
 <span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>    aligned_seqs <span class="op">=</span> simple_msa([<span class="bu">str</span>(seq.seq) <span class="cf">for</span> seq <span class="kw">in</span> sequences])</span>
-<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>    n_seqs <span class="op">=</span> <span class="bu">len</span>(aligned_seqs)</span>
 <span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>    avg_distances <span class="op">=</span> []</span>
 <span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_seqs):</span>
-<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>        total_distance <span class="op">=</span> <span class="bu">sum</span>(calculate_differences(aligned_seqs[i], aligned_seqs[j]) </span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>        total_distance <span class="op">=</span> <span class="bu">sum</span>(calculate_differences(aligned_seqs[i], aligned_seqs[j])</span>
 <span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>                             <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_seqs) <span class="cf">if</span> i <span class="op">!=</span> j)</span>
 <span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>        avg_distances.append(total_distance <span class="op">/</span> (n_seqs <span class="op">-</span> <span class="dv">1</span>))</span>
 <span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a></span>
