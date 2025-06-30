@@ -31,3 +31,22 @@ http://scripts.sil.org/OFL
   font-style: normal;
   font-display: swap; /* 폰트 로딩 방식: 빠르게 대체 폰트 보여줌 */
 }
+
+/* scroll()은 사용자가 스크롤할 때만 애니메이션 진행 */
+footer::after {
+  content: "";
+  height: 0.5em;
+  width: 100%;
+  background: #8fbcbb;
+  /* background: rgba(143,188,187, 1); */
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  animation: progress-expand linear;
+  animation-timeline: scroll();
+}
+
+@keyframes progress-expand {
+  from { width: 0% }
+  to { width: 100% }
+}
