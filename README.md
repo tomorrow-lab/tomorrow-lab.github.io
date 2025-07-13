@@ -30,9 +30,9 @@ The publish command will confirm that you want to publish, render your content, 
 
 # 할일 목록
 
-- [ ] Theme을 catppuccin-latte으로 변경
-- [ ] https://github.com/catppuccin/catppuccin?tab=readme-ov-file#-showcase
-- [ ] scRNA-seq workshop 파일 수행해서 업로드
+- [x] Theme을 Nord theme으로 변경
+- [x] https://github.com/catppuccin/catppuccin?tab=readme-ov-file#-showcase
+- [x] scRNA-seq workshop 파일 수행해서 업로드
 
 # Tomorrow-Lab: Bridging Computer Science and Biology
 
