@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Taeyoon Kim">
+<meta name="dcterms.date" content="2025-07-20">
+
+<title>AutoGluon을 사용한 AutoML – tomorrow-lab</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../.././static/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-4db64599af60036475c97bad6bd17674.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fd64621b13fe97dabb7154a6833c9727.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-4db64599af60036475c97bad6bd17674.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-615e9099705790c04ecd5fb72654dad3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-9fb45e1c0f076e82ba962e8962635873.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-615e9099705790c04ecd5fb72654dad3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-31EWCYNR0V"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="AutoGluon을 사용한 AutoML – tomorrow-lab">
+<meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/tutoral_autoGluon_files/figure-html/cell-12-output-1.jpeg">
+<meta property="og:site_name" content="tomorrow-lab">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">tomorrow-lab</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-exclamation-triangle" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/partrita"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<div style="margin-top: 30px; margin-bottom: 20px;">
+    <a href="https://substack.com/@tomorrowlab">
+        <img alt="Static Badge" src="https://img.shields.io/badge/EHOTTL%40substack_-FF6719?link=https%3A%2F%2Fsubstack.com%2F%40tomorrowlab">
+    </a>
+    <a href="https://pixi.sh">
+        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json" alt="Pixi Badge">
+    </a>
+    <!-- <script async src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script> -->
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#설치" id="toc-설치" class="nav-link active" data-scroll-target="#설치"><span class="header-section-number">1</span> 설치</a></li>
+  <li><a href="#테이블-형식-데이터-예측" id="toc-테이블-형식-데이터-예측" class="nav-link" data-scroll-target="#테이블-형식-데이터-예측"><span class="header-section-number">2</span> 테이블 형식 데이터 예측</a>
+  <ul class="collapse">
+  <li><a href="#예제-데이터" id="toc-예제-데이터" class="nav-link" data-scroll-target="#예제-데이터"><span class="header-section-number">2.1</span> 예제 데이터</a></li>
+  <li><a href="#학습" id="toc-학습" class="nav-link" data-scroll-target="#학습"><span class="header-section-number">2.2</span> 학습</a></li>
+  <li><a href="#예측" id="toc-예측" class="nav-link" data-scroll-target="#예측"><span class="header-section-number">2.3</span> 예측</a></li>
+  <li><a href="#평가" id="toc-평가" class="nav-link" data-scroll-target="#평가"><span class="header-section-number">2.4</span> 평가</a></li>
+  </ul></li>
+  <li><a href="#멀티모달-데이터-예측" id="toc-멀티모달-데이터-예측" class="nav-link" data-scroll-target="#멀티모달-데이터-예측"><span class="header-section-number">3</span> 멀티모달 데이터 예측</a>
+  <ul class="collapse">
+  <li><a href="#예제-데이터-1" id="toc-예제-데이터-1" class="nav-link" data-scroll-target="#예제-데이터-1"><span class="header-section-number">3.1</span> 예제 데이터</a></li>
+  <li><a href="#학습-1" id="toc-학습-1" class="nav-link" data-scroll-target="#학습-1"><span class="header-section-number">3.2</span> 학습</a></li>
+  <li><a href="#예측-1" id="toc-예측-1" class="nav-link" data-scroll-target="#예측-1"><span class="header-section-number">3.3</span> 예측</a></li>
+  <li><a href="#평가-1" id="toc-평가-1" class="nav-link" data-scroll-target="#평가-1"><span class="header-section-number">3.4</span> 평가</a></li>
+  </ul></li>
+  <li><a href="#시계열-데이터-예측" id="toc-시계열-데이터-예측" class="nav-link" data-scroll-target="#시계열-데이터-예측"><span class="header-section-number">4</span> 시계열 데이터 예측</a>
+  <ul class="collapse">
+  <li><a href="#시계열-데이터를-timeseriesdataframe으로-로드하기" id="toc-시계열-데이터를-timeseriesdataframe으로-로드하기" class="nav-link" data-scroll-target="#시계열-데이터를-timeseriesdataframe으로-로드하기"><span class="header-section-number">4.1</span> 시계열 데이터를 <code>TimeSeriesDataFrame</code>으로 로드하기</a></li>
+  <li><a href="#timeseriespredictor.fit으로-시계열-모델-학습" id="toc-timeseriespredictor.fit으로-시계열-모델-학습" class="nav-link" data-scroll-target="#timeseriespredictor.fit으로-시계열-모델-학습"><span class="header-section-number">4.2</span> <code>TimeSeriesPredictor.fit</code>으로 시계열 모델 학습</a></li>
+  <li><a href="#timeseriespredictor.predict로-예측-생성" id="toc-timeseriespredictor.predict로-예측-생성" class="nav-link" data-scroll-target="#timeseriespredictor.predict로-예측-생성"><span class="header-section-number">4.3</span> <code>TimeSeriesPredictor.predict</code>로 예측 생성</a></li>
+  <li><a href="#다양한-모델의-성능-평가" id="toc-다양한-모델의-성능-평가" class="nav-link" data-scroll-target="#다양한-모델의-성능-평가"><span class="header-section-number">4.4</span> 다양한 모델의 성능 평가</a></li>
+  <li><a href="#요약" id="toc-요약" class="nav-link" data-scroll-target="#요약"><span class="header-section-number">4.5</span> 요약</a></li>
+  </ul></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">5</span> 마치며</a>
+  <ul class="collapse">
+  <li><a href="#참고-자료" id="toc-참고-자료" class="nav-link" data-scroll-target="#참고-자료"><span class="header-section-number">5.1</span> 참고 자료</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">AutoGluon을 사용한 AutoML</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">AWS</div>
+    <div class="quarto-category">AutoGluon</div>
+    <div class="quarto-category">MachineLearning</div>
+    <div class="quarto-category">AutoML</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Taeyoon Kim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 20, 2025</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">July 20, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>AWS AI가 개발한 AutoGluon은 머신러닝 작업을 자동화하여 애플리케이션에서 강력한 예측 성능을 쉽게 달성할 수 있도록 지원합니다. 단 몇 줄의 코드만으로 이미지, 텍스트, 시계열 및 테이블 형식 데이터에 대해 높은 정확도의 머신러닝 및 딥러닝 모델을 학습하고 배포할 수 있습니다.</p>
+<ul>
+<li>빠른 프로토타이핑: 몇 줄의 코드로 원시 데이터에 대한 머신러닝 솔루션을 구축합니다.</li>
+<li>최첨단 기술: 전문가 지식 없이도 자동으로 SOTA 모델을 활용합니다.</li>
+<li>쉬운 배포: 클라우드 예측기 및 사전 빌드된 컨테이너를 사용하여 실험에서 프로덕션으로 전환합니다.</li>
+<li>사용자 정의 가능: 사용자 정의 기능 처리, 모델 및 메트릭으로 확장 가능합니다.</li>
+</ul>
+<section id="설치" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 설치</h1>
+<p>AutoGluon은 Python 3.9 - 3.12을 지원되며 Linux, MacOS 및 Windows에서 사용할 수 있습니다. 다음과 같이 <a href="https://github.com/astral-sh/uv">uv</a>를 사용해 AutoGluon을 설치할 수 있습니다:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add autogluon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>GPU 지원, Conda 설치 및 선택적 종속성을 포함한 자세한 지침은 아래를 참조하십시오.</p>
+<ul>
+<li>https://auto.gluon.ai/stable/install.html</li>
+<li>https://github.com/autogluon/autogluon</li>
+</ul>
+<div id="596536bf" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="테이블-형식-데이터-예측" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 테이블 형식 데이터 예측</h1>
+<p>AutoGluon의 <code>TabularPredictor</code>를 사용하여 테이블 형식 데이터셋의 다른 열을 기반으로 대상 열의 값을 예측하는 방법을 알아봅니다. 먼저 AutoGluon이 설치되었는지 확인한 다음 AutoGluon의 <code>TabularDataset</code>과 <code>TabularPredictor</code>를 가져옵니다. 전자는 데이터를 로드하는 데 사용하고 후자는 모델을 학습하고 예측하는 데 사용합니다.</p>
+<div id="49d4154e" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autogluon.tabular <span class="im">import</span> TabularDataset, TabularPredictor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="예제-데이터" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="예제-데이터"><span class="header-section-number">2.1</span> 예제 데이터</h2>
+<p>이 튜토리얼에서는 <a href="https://www.nature.com/nature/volumes/600/issues/7887">Nature 7887호</a>의 커버 스토리인 <a href="https://www.nature.com/articles/s41586-021-04086-x.pdf">수학 정리에 대한 AI 기반 직관</a>의 데이터셋을 사용합니다. 목표는 매듭의 속성을 기반으로 매듭의 시그니처를 예측하는 것입니다. <a href="https://github.com/deepmind/mathematics_conjectures/blob/main/knot_theory.ipynb">원본 데이터</a>에서 10K개의 학습 예제와 5K개의 테스트 예제를 샘플링했습니다. 샘플링된 데이터셋을 사용하면 이 튜토리얼을 빠르게 실행할 수 있지만, 원한다면 AutoGluon은 전체 데이터셋도 처리할 수 있습니다.</p>
+<p>이 데이터셋을 URL에서 직접 로드합니다. AutoGluon의 <code>TabularDataset</code>은 pandas <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">DataFrame</a>의 하위 클래스이므로 모든 <code>DataFrame</code> 메서드를 <code>TabularDataset</code>에서도 사용할 수 있습니다.</p>
+<div id="f211ba5a" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/mli/ag-docs/main/knot_theory/"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>train_data <span class="op">=</span> TabularDataset(<span class="ss">f"</span><span class="sc">{</span>data_url<span class="sc">}</span><span class="ss">train.csv"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>train_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">chern_simons</th>
+<th data-quarto-table-cell-role="th">cusp_volume</th>
+<th data-quarto-table-cell-role="th">hyperbolic_adjoint_torsion_degree</th>
+<th data-quarto-table-cell-role="th">hyperbolic_torsion_degree</th>
+<th data-quarto-table-cell-role="th">injectivity_radius</th>
+<th data-quarto-table-cell-role="th">longitudinal_translation</th>
+<th data-quarto-table-cell-role="th">meridinal_translation_imag</th>
+<th data-quarto-table-cell-role="th">meridinal_translation_real</th>
+<th data-quarto-table-cell-role="th">short_geodesic_imag_part</th>
+<th data-quarto-table-cell-role="th">short_geodesic_real_part</th>
+<th data-quarto-table-cell-role="th">Symmetry_0</th>
+<th data-quarto-table-cell-role="th">Symmetry_D3</th>
+<th data-quarto-table-cell-role="th">Symmetry_D4</th>
+<th data-quarto-table-cell-role="th">Symmetry_D6</th>
+<th data-quarto-table-cell-role="th">Symmetry_D8</th>
+<th data-quarto-table-cell-role="th">Symmetry_Z/2 + Z/2</th>
+<th data-quarto-table-cell-role="th">volume</th>
+<th data-quarto-table-cell-role="th">signature</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>70746</td>
+<td>0.090530</td>
+<td>12.226322</td>
+<td>0</td>
+<td>10</td>
+<td>0.507756</td>
+<td>10.685555</td>
+<td>1.144192</td>
+<td>-0.519157</td>
+<td>-2.760601</td>
+<td>1.015512</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>11.393225</td>
+<td>-2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>240827</td>
+<td>0.232453</td>
+<td>13.800773</td>
+<td>0</td>
+<td>14</td>
+<td>0.413645</td>
+<td>10.453156</td>
+<td>1.320249</td>
+<td>-0.158522</td>
+<td>-3.013258</td>
+<td>0.827289</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>12.742782</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>155659</td>
+<td>-0.144099</td>
+<td>14.761030</td>
+<td>0</td>
+<td>14</td>
+<td>0.436928</td>
+<td>13.405199</td>
+<td>1.101142</td>
+<td>0.768894</td>
+<td>2.233106</td>
+<td>0.873856</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>15.236505</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>239963</td>
+<td>-0.171668</td>
+<td>13.738019</td>
+<td>0</td>
+<td>22</td>
+<td>0.249481</td>
+<td>27.819496</td>
+<td>0.493827</td>
+<td>-1.188718</td>
+<td>-2.042771</td>
+<td>0.498961</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>17.279890</td>
+<td>-8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>90504</td>
+<td>0.235188</td>
+<td>15.896359</td>
+<td>0</td>
+<td>10</td>
+<td>0.389329</td>
+<td>15.330971</td>
+<td>1.036879</td>
+<td>0.722828</td>
+<td>-3.056138</td>
+<td>0.778658</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>16.749298</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>우리의 목표는 18개의 고유한 정수를 가진 “signature” 열에 저장됩니다. pandas가 이 데이터 유형을 범주형으로 올바르게 인식하지 못했지만 AutoGluon이 이 문제를 해결할 것입니다.</p>
+<div id="27254579" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> <span class="st">"signature"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train_data[label].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>count    10000.000000
+mean        -0.022000
+std          3.025166
+min        -12.000000
+25%         -2.000000
+50%          0.000000
+75%          2.000000
+max         12.000000
+Name: signature, dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="학습" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="학습"><span class="header-section-number">2.2</span> 학습</h2>
+<p>이제 레이블 열 이름을 지정하여 <code>TabularPredictor</code>를 구성한 다음 <code>TabularPredictor.fit()</code>으로 데이터셋에 대해 학습합니다. 다른 매개변수를 지정할 필요가 없습니다. AutoGluon은 이것이 다중 클래스 분류 작업임을 인식하고, 자동 특성 공학을 수행하고, 여러 모델을 학습한 다음, 모델을 앙상블하여 최종 예측기를 생성합니다.</p>
+<div id="9396270a" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>predictor <span class="op">=</span> TabularPredictor(label<span class="op">=</span>label, verbosity<span class="op">=</span><span class="dv">0</span>).fit(train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>모델 학습은 CPU에 따라 몇 분 또는 그 이하가 소요됩니다. <code>time_limit</code> 인수를 지정하여 학습 속도를 높일 수 있습니다. 예를 들어, <code>fit(..., time_limit=60)</code>은 60초 후에 학습을 중지합니다. 일반적으로 시간 제한이 길수록 예측 성능이 향상되며, 시간 제한이 너무 낮으면 AutoGluon이 합리적인 모델 세트를 학습하고 앙상블하는 것을 방해합니다.</p>
+</section>
+<section id="예측" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="예측"><span class="header-section-number">2.3</span> 예측</h2>
+<p>학습 데이터셋에 대해 학습된 예측기가 있으면 예측 및 평가에 사용할 별도의 데이터 세트를 로드할 수 있습니다.</p>
+<div id="09e4ab3e" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>test_data <span class="op">=</span> TabularDataset(<span class="ss">f"</span><span class="sc">{</span>data_url<span class="sc">}</span><span class="ss">test.csv"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> predictor.predict(test_data.drop(columns<span class="op">=</span>[label]))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>y_pred.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>0   -4
+1    0
+2    0
+3    4
+4    2
+Name: signature, dtype: int64</code></pre>
+</div>
+</div>
+</section>
+<section id="평가" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="평가"><span class="header-section-number">2.4</span> 평가</h2>
+<p><code>evaluate()</code> 함수를 사용하여 테스트 데이터셋에서 예측기를 평가할 수 있습니다. 이 함수는 모델 학습에 사용되지 않은 데이터에 대해 예측기가 얼마나 잘 수행되는지 측정합니다.</p>
+<div id="86671541" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>predictor.evaluate(test_data, silent<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>{'accuracy': 0.9482,
+ 'balanced_accuracy': np.float64(0.7448082022363894),
+ 'mcc': np.float64(0.936511530000817)}</code></pre>
+</div>
+</div>
+<p>AutoGluon의 <code>TabularPredictor</code>는 또한 <code>leaderboard()</code> 함수를 제공하여 테스트 데이터에 대한 각 개별 학습 모델의 성능을 평가할 수 있습니다.</p>
+<div id="b29aa81a" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>predictor.leaderboard(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">model</th>
+<th data-quarto-table-cell-role="th">score_test</th>
+<th data-quarto-table-cell-role="th">score_val</th>
+<th data-quarto-table-cell-role="th">eval_metric</th>
+<th data-quarto-table-cell-role="th">pred_time_test</th>
+<th data-quarto-table-cell-role="th">pred_time_val</th>
+<th data-quarto-table-cell-role="th">fit_time</th>
+<th data-quarto-table-cell-role="th">pred_time_test_marginal</th>
+<th data-quarto-table-cell-role="th">pred_time_val_marginal</th>
+<th data-quarto-table-cell-role="th">fit_time_marginal</th>
+<th data-quarto-table-cell-role="th">stack_level</th>
+<th data-quarto-table-cell-role="th">can_infer</th>
+<th data-quarto-table-cell-role="th">fit_order</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>WeightedEnsemble_L2</td>
+<td>0.9482</td>
+<td>0.964965</td>
+<td>accuracy</td>
+<td>0.498636</td>
+<td>0.403077</td>
+<td>8.703081</td>
+<td>0.004810</td>
+<td>0.000391</td>
+<td>0.042636</td>
+<td>2</td>
+<td>True</td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>LightGBM</td>
+<td>0.9456</td>
+<td>0.955956</td>
+<td>accuracy</td>
+<td>0.019126</td>
+<td>0.003349</td>
+<td>1.833650</td>
+<td>0.019126</td>
+<td>0.003349</td>
+<td>1.833650</td>
+<td>1</td>
+<td>True</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>XGBoost</td>
+<td>0.9448</td>
+<td>0.956957</td>
+<td>accuracy</td>
+<td>0.095466</td>
+<td>0.010777</td>
+<td>3.124414</td>
+<td>0.095466</td>
+<td>0.010777</td>
+<td>3.124414</td>
+<td>1</td>
+<td>True</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>LightGBMLarge</td>
+<td>0.9444</td>
+<td>0.949950</td>
+<td>accuracy</td>
+<td>0.077716</td>
+<td>0.014079</td>
+<td>5.836701</td>
+<td>0.077716</td>
+<td>0.014079</td>
+<td>5.836701</td>
+<td>1</td>
+<td>True</td>
+<td>13</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>CatBoost</td>
+<td>0.9432</td>
+<td>0.955956</td>
+<td>accuracy</td>
+<td>0.024575</td>
+<td>0.002570</td>
+<td>7.570538</td>
+<td>0.024575</td>
+<td>0.002570</td>
+<td>7.570538</td>
+<td>1</td>
+<td>True</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>RandomForestEntr</td>
+<td>0.9384</td>
+<td>0.949950</td>
+<td>accuracy</td>
+<td>0.189795</td>
+<td>0.174759</td>
+<td>0.604675</td>
+<td>0.189795</td>
+<td>0.174759</td>
+<td>0.604675</td>
+<td>1</td>
+<td>True</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>NeuralNetFastAI</td>
+<td>0.9376</td>
+<td>0.944945</td>
+<td>accuracy</td>
+<td>0.053981</td>
+<td>0.005054</td>
+<td>3.912081</td>
+<td>0.053981</td>
+<td>0.005054</td>
+<td>3.912081</td>
+<td>1</td>
+<td>True</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>ExtraTreesGini</td>
+<td>0.9360</td>
+<td>0.946947</td>
+<td>accuracy</td>
+<td>0.154584</td>
+<td>0.212095</td>
+<td>1.019274</td>
+<td>0.154584</td>
+<td>0.212095</td>
+<td>1.019274</td>
+<td>1</td>
+<td>True</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>ExtraTreesEntr</td>
+<td>0.9358</td>
+<td>0.942943</td>
+<td>accuracy</td>
+<td>0.165139</td>
+<td>0.191926</td>
+<td>0.821660</td>
+<td>0.165139</td>
+<td>0.191926</td>
+<td>0.821660</td>
+<td>1</td>
+<td>True</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>NeuralNetTorch</td>
+<td>0.9352</td>
+<td>0.949950</td>
+<td>accuracy</td>
+<td>0.013011</td>
+<td>0.003917</td>
+<td>126.092729</td>
+<td>0.013011</td>
+<td>0.003917</td>
+<td>126.092729</td>
+<td>1</td>
+<td>True</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>RandomForestGini</td>
+<td>0.9352</td>
+<td>0.944945</td>
+<td>accuracy</td>
+<td>0.061000</td>
+<td>0.176905</td>
+<td>0.607355</td>
+<td>0.061000</td>
+<td>0.176905</td>
+<td>0.607355</td>
+<td>1</td>
+<td>True</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>LightGBMXT</td>
+<td>0.9320</td>
+<td>0.945946</td>
+<td>accuracy</td>
+<td>0.036335</td>
+<td>0.005550</td>
+<td>2.252661</td>
+<td>0.036335</td>
+<td>0.005550</td>
+<td>2.252661</td>
+<td>1</td>
+<td>True</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>KNeighborsDist</td>
+<td>0.2210</td>
+<td>0.213213</td>
+<td>accuracy</td>
+<td>0.014668</td>
+<td>0.014991</td>
+<td>0.017095</td>
+<td>0.014668</td>
+<td>0.014991</td>
+<td>0.017095</td>
+<td>1</td>
+<td>True</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>KNeighborsUnif</td>
+<td>0.2180</td>
+<td>0.223223</td>
+<td>accuracy</td>
+<td>0.015354</td>
+<td>0.016935</td>
+<td>0.019544</td>
+<td>0.015354</td>
+<td>0.016935</td>
+<td>0.019544</td>
+<td>1</td>
+<td>True</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="멀티모달-데이터-예측" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 멀티모달 데이터 예측</h1>
+<p>AutoGluon의 <code>MultiModalPredictor</code>는 이미지, 텍스트, 테이블 형식 데이터를 포함한 입력을 위해 최첨단 딥러닝 모델을 자동으로 구축할 수 있는 모델 동물원의 딥러닝 모델 동물원입니다. 데이터를 AutoGluon의 멀티모달 데이터프레임 형식으로 변환하면 <code>MultiModalPredictor</code>가 다른 기능을 기반으로 한 열의 값을 예측할 수 있습니다.</p>
+<section id="예제-데이터-1" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="예제-데이터-1"><span class="header-section-number">3.1</span> 예제 데이터</h2>
+<p>이 튜토리얼에서는 <a href="https://www.kaggle.com/c/petfinder-adoption-prediction">PetFinder 데이터셋</a>의 단순화 및 서브샘플링된 버전을 사용합니다. 목표는 입양 프로필을 기반으로 애완동물 입양률을 예측하는 것입니다. 이 단순화된 버전에서 입양 속도는 0(느림)과 1(빠름)의 두 가지 범주로 그룹화됩니다. 먼저 petfinder 데이터셋이 포함된 zip 파일을 다운로드하고 현재 작업 디렉토리에 압축을 풉니다.</p>
+<div id="a06f2603" class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autogluon.core.utils.loaders <span class="im">import</span> load_zip</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>download_dir <span class="op">=</span> <span class="st">"./ag_multimodal_tutorial"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>zip_file <span class="op">=</span> <span class="st">"https://automl-mm-bench.s3.amazonaws.com/petfinder_for_tutorial.zip"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>load_zip.unzip(zip_file, unzip_dir<span class="op">=</span>download_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>다음으로, pandas를 사용하여 데이터셋의 CSV 파일을 <code>DataFrames</code>으로 읽어들입니다. 예측하려는 열은 “AdoptionSpeed”입니다.</p>
+<div id="29b2e971" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>dataset_path <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>download_dir<span class="sc">}</span><span class="ss">/petfinder_for_tutorial"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>train_data <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>dataset_path<span class="sc">}</span><span class="ss">/train.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>test_data <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>dataset_path<span class="sc">}</span><span class="ss">/test.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>label_col <span class="op">=</span> <span class="st">"AdoptionSpeed"</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>image_col <span class="op">=</span> <span class="st">"Images"</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>train_data[image_col] <span class="op">=</span> train_data[image_col].<span class="bu">apply</span>(<span class="kw">lambda</span> ele: ele.split(<span class="st">";"</span>)[<span class="dv">0</span>])</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>test_data[image_col] <span class="op">=</span> test_data[image_col].<span class="bu">apply</span>(<span class="kw">lambda</span> ele: ele.split(<span class="st">";"</span>)[<span class="dv">0</span>])</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> path_expander(path, base_folder):</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    path_l <span class="op">=</span> path.split(<span class="st">";"</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">";"</span>.join([os.path.abspath(os.path.join(base_folder, path)) <span class="cf">for</span> path <span class="kw">in</span> path_l])</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>train_data[image_col] <span class="op">=</span> train_data[image_col].<span class="bu">apply</span>(</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> ele: path_expander(ele, base_folder<span class="op">=</span>dataset_path)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>test_data[image_col] <span class="op">=</span> test_data[image_col].<span class="bu">apply</span>(</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> ele: path_expander(ele, base_folder<span class="op">=</span>dataset_path)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>PetFinder 데이터셋에는 이미지 디렉토리가 있으며, 데이터의 일부 레코드에는 여러 이미지가 연결되어 있습니다. AutoGluon의 멀티모달 데이터프레임 형식에서는 이미지 열에 단일 이미지 파일 경로인 문자열이 포함되어야 합니다. 이 예에서는 이미지 특성 열을 첫 번째 이미지로만 제한하고 현재 디렉토리 구조에 맞게 모든 것을 올바르게 설정하기 위해 약간의 경로 조작이 필요합니다.</p>
+<p>각 동물의 입양 프로필에는 사진, 텍스트 설명, 나이, 품종, 이름, 색상 등과 같은 다양한 테이블 형식 특성이 포함됩니다. 예제 데이터 행의 사진과 설명을 살펴보겠습니다.</p>
+<div id="2091f7d1" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Image, display</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>example_row <span class="op">=</span> train_data.iloc[<span class="dv">0</span>]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>example_image <span class="op">=</span> example_row[image_col]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>pil_img <span class="op">=</span> Image(filename<span class="op">=</span>example_image)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>display(pil_img)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>example_row[<span class="st">"Description"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="tutoral_autoGluon_files/figure-html/cell-12-output-1.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="tutoral_autoGluon_files/figure-html/cell-12-output-1.jpeg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>"I rescued Yumi Hamasaki at a food stall far away in Kelantan. At that time i was on my way back to KL, she was suffer from stomach problem and looking very2 sick.. I send her to vet &amp; get the treatment + vaccinated and right now she's very2 healthy.. About yumi : - love to sleep with ppl - she will keep on meowing if she's hugry - very2 active, always seeking for people to accompany her playing - well trained (poo+pee in her own potty) - easy to bathing - I only feed her with these brands : IAMS, Kittenbites, Pro-formance Reason why i need someone to adopt Yumi: I just married and need to move to a new house where no pets are allowed :( As Yumi is very2 special to me, i will only give her to ppl that i think could take care of her just like i did (especially on her foods things).."</code></pre>
+</div>
+</div>
+</section>
+<section id="학습-1" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="학습-1"><span class="header-section-number">3.2</span> 학습</h2>
+<p>이제 데이터가 적절한 형식이 되었으므로 학습 데이터에 대해 <code>MultiModalPredictor</code>를 학습시킬 수 있습니다. 여기서는 이 빠른 데모를 위해 짧은 학습 시간 예산을 설정합니다. 학습 시간이 길수록 예측 성능이 향상되지만 짧은 시간 안에 놀라울 정도로 좋은 성능을 얻을 수 있습니다.</p>
+<div id="fe36d073" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autogluon.multimodal <span class="im">import</span> MultiModalPredictor</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>predictor <span class="op">=</span> MultiModalPredictor(label<span class="op">=</span>label_col, verbosity<span class="op">=</span><span class="dv">0</span>).fit(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    train_data<span class="op">=</span>train_data, time_limit<span class="op">=</span><span class="dv">120</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Seed set to 0
+INFO: Using 16bit Automatic Mixed Precision (AMP)
+INFO: GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+INFO: HPU available: False, using: 0 HPUs
+INFO: You are using a CUDA device ('NVIDIA GeForce RTX 4090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: 
+  | Name              | Type                | Params | Mode 
+------------------------------------------------------------------
+0 | model             | MultimodalFusionMLP | 207 M  | train
+1 | validation_metric | BinaryAUROC         | 0      | train
+2 | loss_func         | CrossEntropyLoss    | 0      | train
+------------------------------------------------------------------
+207 M     Trainable params
+0         Non-trainable params
+207 M     Total params
+828.307   Total estimated model params size (MB)
+1171      Modules in train mode
+0         Modules in eval mode</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 0:  50%|█████     | 30/60 [00:03&lt;00:03,  8.10it/s]                   </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 0, global step 1: 'val_roc_auc' reached 0.56208 (best 0.56208), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=0-step=1.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 0: 100%|██████████| 60/60 [00:12&lt;00:00,  4.99it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 0, global step 4: 'val_roc_auc' reached 0.75111 (best 0.75111), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=0-step=4.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1:  50%|█████     | 30/60 [00:02&lt;00:02, 11.48it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 1, global step 5: 'val_roc_auc' reached 0.76056 (best 0.76056), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=1-step=5.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1: 100%|██████████| 60/60 [00:11&lt;00:00,  5.39it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 1, global step 8: 'val_roc_auc' reached 0.78417 (best 0.78417), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=1-step=8.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 2:  50%|█████     | 30/60 [00:02&lt;00:02, 11.62it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 2, global step 9: 'val_roc_auc' reached 0.78306 (best 0.78417), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=2-step=9.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 2: 100%|██████████| 60/60 [00:11&lt;00:00,  5.27it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 2, global step 12: 'val_roc_auc' reached 0.79056 (best 0.79056), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=2-step=12.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 3:  50%|█████     | 30/60 [00:02&lt;00:02, 11.77it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 3, global step 13: 'val_roc_auc' reached 0.78417 (best 0.79056), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=3-step=13.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 3: 100%|██████████| 60/60 [00:11&lt;00:00,  5.36it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 3, global step 16: 'val_roc_auc' reached 0.78806 (best 0.79056), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=3-step=16.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 4:  50%|█████     | 30/60 [00:02&lt;00:02, 11.22it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 4, global step 17: 'val_roc_auc' reached 0.79222 (best 0.79222), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=4-step=17.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 4: 100%|██████████| 60/60 [00:11&lt;00:00,  5.13it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 4, global step 20: 'val_roc_auc' reached 0.79111 (best 0.79222), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=4-step=20.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 5:  50%|█████     | 30/60 [00:02&lt;00:02, 11.55it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 5, global step 21: 'val_roc_auc' was not in top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 5: 100%|██████████| 60/60 [00:08&lt;00:00,  7.18it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 5, global step 24: 'val_roc_auc' reached 0.80014 (best 0.80014), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=5-step=24.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 6:  50%|█████     | 30/60 [00:02&lt;00:02, 11.40it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 6, global step 25: 'val_roc_auc' reached 0.79764 (best 0.80014), saving model to '/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/learn_autogluon/AutogluonModels/ag-20250718_065554/epoch=6-step=25.ckpt' as top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 6: 100%|██████████| 60/60 [00:11&lt;00:00,  5.26it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 6, global step 28: 'val_roc_auc' was not in top 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 7:  50%|█████     | 30/60 [00:02&lt;00:02, 11.35it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: Epoch 7, global step 29: 'val_roc_auc' was not in top 3
+INFO: Time limit reached. Elapsed time is 0:02:02. Signaling Trainer to stop.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 7:  52%|█████▏    | 31/60 [00:06&lt;00:05,  4.98it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Predicting DataLoader 0: 100%|██████████| 4/4 [00:00&lt;00:00,  8.12it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Predicting DataLoader 0: 100%|██████████| 4/4 [00:00&lt;00:00,  8.38it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Predicting DataLoader 0: 100%|██████████| 4/4 [00:00&lt;00:00,  8.34it/s]</code></pre>
+</div>
+</div>
+<p>내부적으로 <code>MultiModalPredictor</code>는 문제 유형(분류 또는 회귀)을 자동으로 유추하고, 특성 양식을 감지하고, 멀티모달 모델 풀에서 모델을 선택하고, 선택된 모델을 학습합니다. 여러 백본이 사용되는 경우 MultiModalPredictor는 그 위에 후기 융합 모델(MLP 또는 트랜스포머)을 추가합니다.</p>
+</section>
+<section id="예측-1" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="예측-1"><span class="header-section-number">3.3</span> 예측</h2>
+<p>모델을 학습시킨 후, 이를 사용하여 보류된 테스트 데이터셋의 레이블을 예측합니다.</p>
+<div id="0f9259f3" class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> predictor.predict(test_data.drop(columns<span class="op">=</span>label_col))</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>predictions[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Predicting DataLoader 0: 100%|██████████| 4/4 [00:00&lt;00:00, 11.89it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>8     0
+70    1
+82    1
+28    0
+63    1
+Name: AdoptionSpeed, dtype: int64</code></pre>
+</div>
+</div>
+<p>분류 작업의 경우 각 출력 클래스에 대한 예측 확률을 쉽게 얻을 수 있습니다.</p>
+<div id="af91e6ad" class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> predictor.predict_proba(test_data.drop(columns<span class="op">=</span>label_col))</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>probs[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Predicting DataLoader 0: 100%|██████████| 4/4 [00:00&lt;00:00, 12.30it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">0</th>
+<th data-quarto-table-cell-role="th">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>0.998383</td>
+<td>0.001617</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">70</td>
+<td>0.000966</td>
+<td>0.999034</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">82</td>
+<td>0.000547</td>
+<td>0.999453</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">28</td>
+<td>0.999870</td>
+<td>0.000130</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">63</td>
+<td>0.005271</td>
+<td>0.994729</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="평가-1" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="평가-1"><span class="header-section-number">3.4</span> 평가</h2>
+<p>마지막으로, 보류된 테스트 데이터셋에서 다른 성능 메트릭, 이 경우 <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html">roc_auc</a>에 대해 예측기를 평가할 수 있습니다.</p>
+<div id="148303f4" class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> predictor.evaluate(test_data, metrics<span class="op">=</span>[<span class="st">"roc_auc"</span>])</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Predicting DataLoader 0: 100%|██████████| 4/4 [00:00&lt;00:00, 11.93it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>{'roc_auc': np.float64(0.8976)}</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="시계열-데이터-예측" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 시계열 데이터 예측</h1>
+<p>간단한 <code>fit()</code> 호출을 통해 AutoGluon은 다음을 학습하고 조정할 수 있습니다.</p>
+<ul>
+<li>간단한 예측 모델 (예: ARIMA, ETS, Theta),</li>
+<li>강력한 딥러닝 모델 (예: DeepAR, Temporal Fusion Transformer),</li>
+<li>트리 기반 모델 (예: LightGBM),</li>
+<li>다른 모델의 예측을 결합하는 앙상블</li>
+</ul>
+<p>이를 통해 단변량 시계열 데이터에 대한 다단계 <em>확률적</em> 예측을 생성합니다.</p>
+<p>이 튜토리얼에서는 AutoGluon을 사용하여 <a href="https://www.sciencedirect.com/science/article/pii/S0169207019301128">M4 예측 대회</a> 데이터셋에 대한 시간별 예측을 빠르게 생성하는 방법을 보여줍니다.</p>
+<section id="시계열-데이터를-timeseriesdataframe으로-로드하기" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="시계열-데이터를-timeseriesdataframe으로-로드하기"><span class="header-section-number">4.1</span> 시계열 데이터를 <code>TimeSeriesDataFrame</code>으로 로드하기</h2>
+<p>먼저 필요한 모듈을 가져옵니다.</p>
+<div id="6af0b278" class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autogluon.timeseries <span class="im">import</span> TimeSeriesDataFrame, TimeSeriesPredictor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>autogluon.timeseries</code>를 사용하려면 다음 두 클래스만 필요합니다:</p>
+<ul>
+<li><code>TimeSeriesDataFrame</code>은 여러 시계열로 구성된 데이터셋을 저장합니다.</li>
+<li><code>TimeSeriesPredictor</code>는 최상의 예측 모델을 피팅, 튜닝 및 선택하고 새로운 예측을 생성하는 작업을 처리합니다.</li>
+</ul>
+<p>M4 시간별 데이터셋의 하위 집합을 <code>pandas.DataFrame</code>으로 로드합니다.</p>
+<div id="d1568462" class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://autogluon.s3.amazonaws.com/datasets/timeseries/m4_hourly_subset/train.csv"</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">item_id</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th">target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>H1</td>
+<td>1750-01-01 00:00:00</td>
+<td>605.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>H1</td>
+<td>1750-01-01 01:00:00</td>
+<td>586.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>H1</td>
+<td>1750-01-01 02:00:00</td>
+<td>586.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>H1</td>
+<td>1750-01-01 03:00:00</td>
+<td>559.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>H1</td>
+<td>1750-01-01 04:00:00</td>
+<td>511.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>AutoGluon은 시계열 데이터를 <a href="https://doc.dataiku.com/dss/latest/time-series/data-formatting.html#long-format">long format</a>으로 예상합니다. 데이터 프레임의 각 행에는 다음으로 표시되는 단일 시계열의 단일 관측(타임스텝)이 포함됩니다.</p>
+<ul>
+<li>시계열의 고유 ID(<code>"item_id"</code>) (int 또는 str)</li>
+<li>관측의 타임스탬프(<code>"timestamp"</code>) (<code>pandas.Timestamp</code> 또는 호환 형식)</li>
+<li>시계열의 숫자 값(<code>"target"</code>)</li>
+</ul>
+<p>원본 데이터셋은 항상 고유 ID, 타임스탬프 및 대상 값에 대한 최소 세 개의 열이 있는 이 형식을 따라야 하지만 이러한 열의 이름은 임의로 지정할 수 있습니다. 그러나 AutoGluon에서 사용하는 <code>TimeSeriesDataFrame</code>을 구성할 때 열 이름을 제공하는 것이 중요합니다. 데이터가 예상 형식과 일치하지 않으면 AutoGluon에서 예외가 발생합니다.</p>
+<div id="94be5c6e" class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>train_data <span class="op">=</span> TimeSeriesDataFrame.from_data_frame(</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    df, id_column<span class="op">=</span><span class="st">"item_id"</span>, timestamp_column<span class="op">=</span><span class="st">"timestamp"</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>train_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">target</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">item_id</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td rowspan="5" data-quarto-table-cell-role="th" data-valign="top">H1</td>
+<td data-quarto-table-cell-role="th">1750-01-01 00:00:00</td>
+<td>605.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1750-01-01 01:00:00</td>
+<td>586.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1750-01-01 02:00:00</td>
+<td>586.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1750-01-01 03:00:00</td>
+<td>559.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1750-01-01 04:00:00</td>
+<td>511.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><code>TimeSeriesDataFrame</code>에 저장된 각 개별 시계열을 _item_이라고 합니다. 예를 들어, 항목은 수요 예측의 다른 제품에 해당하거나 금융 데이터셋의 다른 주식에 해당할 수 있습니다. 이 설정은 시계열의 _패널_이라고도 합니다. 이것은 다변량 예측과 동일하지 않습니다. AutoGluon은 다른 항목(시계열) 간의 상호 작용을 모델링하지 않고 각 시계열에 대해 개별적으로 예측을 생성합니다.</p>
+<p><code>TimeSeriesDataFrame</code>은 <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">pandas.DataFrame</a>에서 상속되므로 <code>pandas.DataFrame</code>의 모든 속성과 메서드를 <code>TimeSeriesDataFrame</code>에서 사용할 수 있습니다. 또한 다양한 데이터 형식에 대한 로더와 같은 다른 유틸리티 기능도 제공합니다.</p>
+</section>
+<section id="timeseriespredictor.fit으로-시계열-모델-학습" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="timeseriespredictor.fit으로-시계열-모델-학습"><span class="header-section-number">4.2</span> <code>TimeSeriesPredictor.fit</code>으로 시계열 모델 학습</h2>
+<p>시계열의 미래 값을 예측하려면 <code>TimeSeriesPredictor</code> 객체를 만들어야 합니다. <code>autogluon.timeseries</code>의 모델은 시계열을 미래의 _여러 단계_로 예측합니다. 우리는 작업에 따라 이러한 단계의 수, 즉 <em>예측 길이</em>(_예측 기간_이라고도 함)를 선택합니다. 예를 들어 우리 데이터셋에는 시간별 _빈도_로 측정된 시계열이 포함되어 있으므로 <code>prediction_length = 48</code>로 설정하여 미래 48시간까지 예측하는 모델을 학습합니다.</p>
+<p>AutoGluon에 학습된 모델을 <code>./autogluon-m4-hourly</code> 폴더에 저장하도록 지시합니다. 또한 AutoGluon이 <a href="https://en.wikipedia.org/wiki/Mean_absolute_scaled_error">평균 절대 스케일 오차(MASE)</a>에 따라 모델 순위를 매겨야 하며 예측하려는 데이터가 <code>TimeSeriesDataFrame</code>의 <code>"target"</code> 열에 저장되도록 지정합니다.</p>
+<div id="e865486a" class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>predictor <span class="op">=</span> TimeSeriesPredictor(</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    prediction_length<span class="op">=</span><span class="dv">48</span>,</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    path<span class="op">=</span><span class="st">"autogluon-m4-hourly"</span>,</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    target<span class="op">=</span><span class="st">"target"</span>,</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>    eval_metric<span class="op">=</span><span class="st">"MASE"</span>,</span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>    verbosity<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>predictor.fit(train_data, presets<span class="op">=</span><span class="st">"medium_quality"</span>, time_limit<span class="op">=</span><span class="dv">600</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>&lt;autogluon.timeseries.predictor.TimeSeriesPredictor at 0x73aacd597390&gt;</code></pre>
+</div>
+</div>
+<p>여기서는 <code>"medium_quality"</code> 사전 설정을 사용하고 학습 시간을 10분(600초)으로 제한했습니다. 사전 설정은 AutoGluon이 학습할 모델에 대한 파라미터를 정의합니다. <code>medium_quality</code> 사전 설정의 경우 다음과 같습니다.</p>
+<ul>
+<li>간단한 기준선(<code>Naive</code>, <code>SeasonalNaive</code>)</li>
+<li>통계 모델(<code>ETS</code>, <code>Theta</code>)</li>
+<li>LightGBM 기반 트리 기반 모델(<code>RecursiveTabular</code>, <code>DirectTabular</code>)</li>
+<li>딥러닝 모델 <code>TemporalFusionTransformer</code></li>
+<li>그리고 이들을 결합한 가중 앙상블입니다.</li>
+</ul>
+<p><code>TimeSeriesPredictor</code>에 사용할 수 있는 다른 사전 설정은</p>
+<ul>
+<li><code>"fast_training"</code>, <code>"high_quality"</code> 및 <code>"best_quality"</code> 등이 있습니다.</li>
+</ul>
+<blockquote class="blockquote">
+<p>사전 설정들은 일반적으로 더 정확한 예측을 생성하지만 학습하는 데 시간이 더 오래 걸립니다.</p>
+</blockquote>
+<p>AutoGluon은 <code>fit()</code> 을 통해 주어진 시간 제한 내에서 가능한 한 많은 모델을 학습합니다. 그런 다음 학습된 모델은 내부 검증 세트에서의 성능을 기반으로 순위가 매겨집니다. 기본적으로 이 검증 세트는 <code>train_data</code>의 각 시계열에서 마지막 <code>prediction_length</code> 타임스텝을 제외하여 구성됩니다.</p>
+</section>
+<section id="timeseriespredictor.predict로-예측-생성" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="timeseriespredictor.predict로-예측-생성"><span class="header-section-number">4.3</span> <code>TimeSeriesPredictor.predict</code>로 예측 생성</h2>
+<p>이제 학습된 <code>TimeSeriesPredictor</code>를 사용하여 미래 시계열 값을 예측할 수 있습니다. 기본적으로 AutoGluon은 내부 검증 세트에서 가장 좋은 점수를 받은 모델을 사용하여 예측합니다. 예측에는 항상 <code>train_data</code>의 각 시계열 끝에서 시작하여 다음 <code>prediction_length</code> 타임스텝에 대한 예측이 포함됩니다.</p>
+<div id="7b919132" class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> predictor.predict(train_data)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>predictions.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">0.1</th>
+<th data-quarto-table-cell-role="th">0.2</th>
+<th data-quarto-table-cell-role="th">0.3</th>
+<th data-quarto-table-cell-role="th">0.4</th>
+<th data-quarto-table-cell-role="th">0.5</th>
+<th data-quarto-table-cell-role="th">0.6</th>
+<th data-quarto-table-cell-role="th">0.7</th>
+<th data-quarto-table-cell-role="th">0.8</th>
+<th data-quarto-table-cell-role="th">0.9</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">item_id</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td rowspan="5" data-quarto-table-cell-role="th" data-valign="top">H1</td>
+<td data-quarto-table-cell-role="th">1750-01-30 04:00:00</td>
+<td>622.354942</td>
+<td>598.425139</td>
+<td>606.981886</td>
+<td>613.221995</td>
+<td>617.991382</td>
+<td>622.354942</td>
+<td>627.043820</td>
+<td>631.702888</td>
+<td>637.264877</td>
+<td>645.002394</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1750-01-30 05:00:00</td>
+<td>563.318481</td>
+<td>537.515631</td>
+<td>547.162459</td>
+<td>553.498017</td>
+<td>558.639161</td>
+<td>563.318481</td>
+<td>567.705346</td>
+<td>572.642124</td>
+<td>578.556409</td>
+<td>587.001385</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1750-01-30 06:00:00</td>
+<td>521.525187</td>
+<td>494.325763</td>
+<td>504.013476</td>
+<td>511.095175</td>
+<td>516.550982</td>
+<td>521.525187</td>
+<td>526.583225</td>
+<td>532.032613</td>
+<td>538.334244</td>
+<td>547.525425</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1750-01-30 07:00:00</td>
+<td>490.088652</td>
+<td>461.432323</td>
+<td>471.588108</td>
+<td>478.747585</td>
+<td>484.678311</td>
+<td>490.088652</td>
+<td>495.704356</td>
+<td>501.733837</td>
+<td>508.553248</td>
+<td>519.106916</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1750-01-30 08:00:00</td>
+<td>465.376269</td>
+<td>435.200758</td>
+<td>445.454704</td>
+<td>452.924012</td>
+<td>459.572474</td>
+<td>465.376269</td>
+<td>470.925032</td>
+<td>477.133554</td>
+<td>484.607983</td>
+<td>495.218336</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>AutoGluon은 <em>확률적</em> 예측을 생성합니다. 미래의 시계열의 평균(기대값)을 예측하는 것 외에도 모델은 예측 분포의 분위수를 제공합니다. 분위수 예측은 가능한 결과의 범위에 대한 아이디어를 제공합니다. 예를 들어, <code>"0.1"</code> 분위수가 <code>500.0</code>과 같으면 모델은 대상 값이 <code>500.0</code> 미만일 확률이 10%라고 예측합니다.</p>
+<p>이제 데이터셋의 시계열 중 하나에 대한 예측과 실제 관측값을 시각화합니다. 잠재적 결과의 범위를 표시하기 위해 평균 예측과 10% 및 90% 분위수를 플로팅합니다.</p>
+<div id="8a53e59f" class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>test_data <span class="op">=</span> TimeSeriesDataFrame.from_path(</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://autogluon.s3.amazonaws.com/datasets/timeseries/m4_hourly_subset/test.csv"</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>predictor.plot(</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    test_data, predictions, quantile_levels<span class="op">=</span>[<span class="fl">0.1</span>, <span class="fl">0.9</span>], max_history_length<span class="op">=</span><span class="dv">200</span>, max_num_item_ids<span class="op">=</span><span class="dv">4</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="tutoral_autoGluon_files/figure-html/cell-22-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="tutoral_autoGluon_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="다양한-모델의-성능-평가" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="다양한-모델의-성능-평가"><span class="header-section-number">4.4</span> 다양한 모델의 성능 평가</h2>
+<p><code>leaderboard()</code> 메서드를 통해 AutoGluon이 학습한 각 모델의 성능을 볼 수 있습니다. 테스트 데이터 세트를 리더보드 함수에 제공하여 학습된 모델이 보이지 않는 테스트 데이터에서 얼마나 잘 수행되는지 확인합니다. 리더보드에는 내부 검증 데이터셋에서 계산된 검증 점수도 포함됩니다.</p>
+<p>테스트 데이터에는 예측 기간(각 시계열의 마지막 <code>prediction_length</code> 값)과 과거 데이터(마지막 <code>prediction_last</code> 값을 제외한 모든 값)가 모두 포함됩니다.</p>
+<p>AutoGluon 리더보드에서 점수가 높을수록 항상 더 나은 예측 성능에 해당합니다. 따라서 MASE 점수에 <code>-1</code>을 곱하여 “음수 MASE”가 높을수록 더 정확한 예측에 해당하도록 합니다.</p>
+<div id="2c4881ca" class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>predictor.leaderboard(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">model</th>
+<th data-quarto-table-cell-role="th">score_test</th>
+<th data-quarto-table-cell-role="th">score_val</th>
+<th data-quarto-table-cell-role="th">pred_time_test</th>
+<th data-quarto-table-cell-role="th">pred_time_val</th>
+<th data-quarto-table-cell-role="th">fit_time_marginal</th>
+<th data-quarto-table-cell-role="th">fit_order</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>WeightedEnsemble</td>
+<td>-0.697607</td>
+<td>-0.791366</td>
+<td>13.339781</td>
+<td>8.644861</td>
+<td>0.386227</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Chronos[bolt_small]</td>
+<td>-0.725739</td>
+<td>-0.812070</td>
+<td>1.574927</td>
+<td>1.777771</td>
+<td>0.084811</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>RecursiveTabular</td>
+<td>-0.862797</td>
+<td>-0.933874</td>
+<td>0.488657</td>
+<td>0.336368</td>
+<td>3.245855</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>SeasonalNaive</td>
+<td>-1.022854</td>
+<td>-1.216909</td>
+<td>0.133975</td>
+<td>0.105367</td>
+<td>0.061909</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>DirectTabular</td>
+<td>-1.605700</td>
+<td>-1.292127</td>
+<td>0.160719</td>
+<td>0.166876</td>
+<td>3.339360</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>ETS</td>
+<td>-1.806136</td>
+<td>-1.966098</td>
+<td>10.985835</td>
+<td>6.286225</td>
+<td>0.059151</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Theta</td>
+<td>-1.905367</td>
+<td>-2.142551</td>
+<td>0.287385</td>
+<td>0.309614</td>
+<td>0.060678</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>TemporalFusionTransformer</td>
+<td>-2.065762</td>
+<td>-2.403856</td>
+<td>0.125047</td>
+<td>0.077620</td>
+<td>33.022607</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Naive</td>
+<td>-6.696079</td>
+<td>-6.662942</td>
+<td>0.119962</td>
+<td>1.052629</td>
+<td>0.064250</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="요약" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="요약"><span class="header-section-number">4.5</span> 요약</h2>
+<p><code>autogluon.timeseries</code>를 사용하여 M4 시간별 데이터셋에 대한 확률적 다단계 예측을 수행했습니다. 시계열 예측을 위한 AutoGluon의 고급 기능에 대해 알아보려면 <a href="https://auto.gluon.ai/stable/tutorials/timeseries/forecasting-indepth.html">시계열 예측 - 심층 분석</a>을 확인하십시오.</p>
+</section>
+</section>
+<section id="마치며" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 마치며</h1>
+<p>이 튜토리얼에서는 AutoGluon의 기능의 일부만 다루었습니다. AutoGluon은 테이블, 멀티모달, 시계열 등 다양한 데이터 유형에 대해 손쉽게 AutoML을 적용할 수 있는 강력한 오픈소스 프레임워크입니다. 이 튜토리얼에서는 <code>TabularPredictor</code>, <code>MultiModalPredictor</code>, <code>TimeSeriesPredictor</code>의 기본 사용법을 예제를 통해 데이터 준비, 모델 학습, 예측, 평가까지의 워크플로우로 살펴보았습니다.</p>
+<p>AutoGluon을 활용하면 머신러닝 모델 개발의 진입 장벽을 크게 낮출 수 있으며, 실험에서 프로덕션까지의 전환도 매우 간편합니다. 더 깊이 있는 활용법과 고급 기능은 공식 문서와 심화 튜토리얼을 참고해보시기 바랍니다.</p>
+<section id="참고-자료" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="참고-자료"><span class="header-section-number">5.1</span> 참고 자료</h2>
+<ul>
+<li><a href="https://auto.gluon.ai/">AutoGluon 공식 문서</a></li>
+<li><a href="https://github.com/autogluon/autogluon">GitHub 저장소</a></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+<script>
+  function loadGiscus() {
+    // Function to get the theme based on body class
+    const getTheme = () => {
+      let baseTheme = document.getElementById('giscus-base-theme').value;
+      let altTheme = document.getElementById('giscus-alt-theme').value;
+      if (authorPrefersDark) {
+          [baseTheme, altTheme] = [altTheme, baseTheme];
+      }
+      return document.body.classList.contains('quarto-dark') ? altTheme : baseTheme;
+    };
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.dataset.repo = "partrita/giscus";
+    script.dataset.repoId = "R_kgDONvsa2g";
+    script.dataset.category = "General";
+    script.dataset.categoryId = "DIC_kwDONvsa2s4CmWd7";
+    script.dataset.mapping = "title";
+    script.dataset.reactionsEnabled = "1";
+    script.dataset.emitMetadata = "0";
+    script.dataset.inputPosition = "top";
+    script.dataset.theme = getTheme();
+    script.dataset.lang = "en";
+    script.crossOrigin = "anonymous";
+    // Append the script to the desired div instead of at the end of the body
+    document.getElementById("quarto-content").appendChild(script);
+  }
+  loadGiscus();
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Proudly served by <a href="https://pages.github.com/">github pages</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This blog is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
