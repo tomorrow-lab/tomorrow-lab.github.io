@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -122,6 +122,9 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -432,7 +435,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 23, 2025</p>
+      <p class="date-modified">August 25, 2025</p>
     </div>
   </div>
     
@@ -492,7 +495,7 @@ Note
 </section>
 <section id="x-mex-to-anndata" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> <code>10X MEX</code> to <code>AnnData</code></h1>
-<div id="cell-2" class="cell">
+<div id="cell-2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> anndata</span>
@@ -520,28 +523,37 @@ Note
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>adata.var_names_make_unique()</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>AnnData object with n_obs × n_vars = 2700 × 32738
+    var: 'gene_ids'</code></pre>
+</div>
 </div>
 <p>위 출력 결과를 통해 원시 데이터에 총 2,700개의 바코드와 32,738개의 유전자가 있다는 것을 알 수 있습니다.</p>
 <section id="기본적인-데이터-qc-하기" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="기본적인-데이터-qc-하기"><span class="header-section-number">3.1</span> 기본적인 데이터 QC 하기</h2>
-<div id="cell-4" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 기본 필터링: 최소 유전자가 200개 이상인 세포 필터링</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_cells(adata, min_genes<span class="op">=</span><span class="dv">200</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 최소 3개 이상의 세포에서 발현되는 유전자 필터링</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_genes(adata, min_cells<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 미토콘드리아 유전자 그룹을 "mt"로 주석</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"mt"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"MT-"</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># QC 지표 계산</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>sc.pp.calculate_qc_metrics(adata, qc_vars<span class="op">=</span>[<span class="st">"mt"</span>], percent_top<span class="op">=</span><span class="va">None</span>, log1p<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 별 발현 수가 2500개 미만인 데이터 선택</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[adata.obs.n_genes_by_counts <span class="op">&lt;</span> <span class="dv">2500</span>, :]</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 미토콘드리아 발현 비율이 5% 미만인 데이터 선택 후 복사</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[adata.obs.pct_counts_mt <span class="op">&lt;</span> <span class="dv">5</span>, :].copy()</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 기본 필터링: 최소 유전자가 200개 이상인 세포 필터링</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_cells(adata, min_genes<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 최소 3개 이상의 세포에서 발현되는 유전자 필터링</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_genes(adata, min_cells<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 미토콘드리아 유전자 그룹을 "mt"로 주석</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"mt"</span>] <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">"MT-"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># QC 지표 계산</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>sc.pp.calculate_qc_metrics(adata, qc_vars<span class="op">=</span>[<span class="st">"mt"</span>], percent_top<span class="op">=</span><span class="va">None</span>, log1p<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 별 발현 수가 2500개 미만인 데이터 선택</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[adata.obs.n_genes_by_counts <span class="op">&lt;</span> <span class="dv">2500</span>, :]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 미토콘드리아 발현 비율이 5% 미만인 데이터 선택 후 복사</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[adata.obs.pct_counts_mt <span class="op">&lt;</span> <span class="dv">5</span>, :].copy()</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>AnnData object with n_obs × n_vars = 2638 × 13714
+    obs: 'n_genes', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt'
+    var: 'gene_ids', 'n_cells', 'mt', 'n_cells_by_counts', 'mean_counts', 'pct_dropout_by_counts', 'total_counts'</code></pre>
+</div>
 </div>
 <p>위 결과를 통해 데이터 QC를 거치자 데이터가 조금 감소한 것(바코드 2,638개, 유전자 13,714개)을 알 수 있습니다.</p>
 </section>
@@ -561,111 +573,160 @@ Note
 <p>전체 유전자를 다 사용한 것과 클러스터링 결과는 동일합니다.</p>
 </div>
 </div>
-<div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 총 카운트 정규화</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata, target_sum<span class="op">=</span><span class="fl">1e4</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 로그 스케일 변환</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 고변동성 유전자 식별</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata, min_mean<span class="op">=</span><span class="fl">0.0125</span>, max_mean<span class="op">=</span><span class="dv">3</span>, min_disp<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 나중에 사용하기 위해 AnnData 객체의 .raw 속성을 정규화되고 로그 스케일링된 원시 유전자 발현으로 설정</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>adata.raw <span class="op">=</span> adata</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링 실행</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var.highly_variable]</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 세포의 총 카운트 및 발현된 미토콘드리아 유전자의 백분율 효과를 회귀로 제거하고 데이터를 단위 분산으로 스케일링</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>sc.pp.regress_out(adata, [<span class="st">"total_counts"</span>, <span class="st">"pct_counts_mt"</span>])</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 유전자를 단위 분산으로 스케일링하고 표준 편차가 10을 초과하는 값을 클리핑</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata, max_value<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># PCA 수행</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>sc.tl.pca(adata, svd_solver<span class="op">=</span><span class="st">"arpack"</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 이웃 찾기</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_neighbors<span class="op">=</span><span class="dv">10</span>, n_pcs<span class="op">=</span><span class="dv">40</span>)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 수행</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Leiden 알고리즘을 사용하여 클러스터링 수행</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    resolution<span class="op">=</span><span class="fl">0.4</span>,</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 처리된 데이터셋 반환</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-6" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 총 카운트 정규화</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata, target_sum<span class="op">=</span><span class="fl">1e4</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 로그 스케일 변환</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 고변동성 유전자 식별</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata, min_mean<span class="op">=</span><span class="fl">0.0125</span>, max_mean<span class="op">=</span><span class="dv">3</span>, min_disp<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 나중에 사용하기 위해 AnnData 객체의 .raw 속성을 정규화되고 로그 스케일링된 원시 유전자 발현으로 설정</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>adata.raw <span class="op">=</span> adata</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링 실행</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var.highly_variable]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 세포의 총 카운트 및 발현된 미토콘드리아 유전자의 백분율 효과를 회귀로 제거하고 데이터를 단위 분산으로 스케일링</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>sc.pp.regress_out(adata, [<span class="st">"total_counts"</span>, <span class="st">"pct_counts_mt"</span>])</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 유전자를 단위 분산으로 스케일링하고 표준 편차가 10을 초과하는 값을 클리핑</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata, max_value<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># PCA 수행</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>sc.tl.pca(adata, svd_solver<span class="op">=</span><span class="st">"arpack"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 이웃 찾기</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_neighbors<span class="op">=</span><span class="dv">10</span>, n_pcs<span class="op">=</span><span class="dv">40</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 수행</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Leiden 알고리즘을 사용하여 클러스터링 수행</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    resolution<span class="op">=</span><span class="fl">0.4</span>,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 처리된 데이터셋 반환</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>AnnData object with n_obs × n_vars = 2638 × 1838
+    obs: 'n_genes', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'leiden'
+    var: 'gene_ids', 'n_cells', 'mt', 'n_cells_by_counts', 'mean_counts', 'pct_dropout_by_counts', 'total_counts', 'highly_variable', 'means', 'dispersions', 'dispersions_norm', 'mean', 'std'
+    uns: 'log1p', 'hvg', 'pca', 'neighbors', 'umap', 'leiden'
+    obsm: 'X_pca', 'X_umap'
+    varm: 'PCs'
+    obsp: 'distances', 'connectivities'</code></pre>
+</div>
 </div>
 <p>이제 유전자의 갯수가 13,714개에서 1,838개로 줄어다는 것을 알 수 있습니다.</p>
 </section>
 <section id="umap-그리기" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="umap-그리기"><span class="header-section-number">3.3</span> UMAP 그리기</h2>
-<div id="cell-8" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 시각화</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"leiden"</span>,  <span class="co"># 클러스터링 결과에 따라 색상 지정</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    add_outline<span class="op">=</span><span class="va">True</span>,  <span class="co"># 클러스터 경계 추가</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    legend_loc<span class="op">=</span><span class="st">"on data"</span>,  <span class="co"># 범례 위치 설정</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    legend_fontsize<span class="op">=</span><span class="dv">12</span>,  <span class="co"># 범례 글꼴 크기 설정</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    legend_fontoutline<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 범례 글꼴 외곽선 굵기 설정</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,  <span class="co"># 테두리 제거</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span><span class="st">"Set1"</span>,  <span class="co"># 색상 팔레트 설정</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-8" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 시각화</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"leiden"</span>,  <span class="co"># 클러스터링 결과에 따라 색상 지정</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    add_outline<span class="op">=</span><span class="va">True</span>,  <span class="co"># 클러스터 경계 추가</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    legend_loc<span class="op">=</span><span class="st">"on data"</span>,  <span class="co"># 범례 위치 설정</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    legend_fontsize<span class="op">=</span><span class="dv">12</span>,  <span class="co"># 범례 글꼴 크기 설정</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    legend_fontoutline<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 범례 글꼴 외곽선 굵기 설정</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,  <span class="co"># 테두리 제거</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span><span class="st">"Set1"</span>,  <span class="co"># 색상 팔레트 설정</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="scanpy_adata2mtx_files/figure-html/cell-5-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="scanpy_adata2mtx_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <p>이 데이터셋은 이미 많이 알려진 것이라. 클러스터에 대한 마커 유전자를 찾고 어떤 세포인지 알아내는 과정은 생략하겠습니다.</p>
 <p>아래와 같이 수동으로 이름을 지정해줍니다. 숫자로 표시되는 각각의 클러스터에 대하여 아래 코드를 통해 이름을 붙여줍니다.</p>
-<div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>new_cluster_names <span class="op">=</span> [</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CD4T"</span>,  <span class="co"># CD4T 세포</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monocytes"</span>,  <span class="co"># 단핵구</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CD8T"</span>,  <span class="co"># CD8T 세포</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B cells"</span>,  <span class="co"># B 세포</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dendritic"</span>,  <span class="co"># 수상돌기세포</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Megakaryocytes"</span>,  <span class="co"># 거대혈소판세포</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>adata.rename_categories(<span class="st">"leiden"</span>, new_cluster_names)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 클러스터링된 세포의 UMAP 다시 시각화</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"leiden"</span>,  <span class="co"># 클러스터링 결과에 따라 색상 지정</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    add_outline<span class="op">=</span><span class="va">True</span>,  <span class="co"># 클러스터 경계 추가</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    legend_loc<span class="op">=</span><span class="st">"on data"</span>,  <span class="co"># 범례 위치 설정</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    legend_fontsize<span class="op">=</span><span class="dv">12</span>,  <span class="co"># 범례 글꼴 크기 설정</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    legend_fontoutline<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 범례 글꼴 외곽선 굵기 설정</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,  <span class="co"># 테두리 제거</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span><span class="st">"Set1"</span>,  <span class="co"># 색상 팔레트 설정</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-10" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>new_cluster_names <span class="op">=</span> [</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CD4T"</span>,  <span class="co"># CD4T 세포</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monocytes"</span>,  <span class="co"># 단핵구</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CD8T"</span>,  <span class="co"># CD8T 세포</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B cells"</span>,  <span class="co"># B 세포</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dendritic"</span>,  <span class="co"># 수상돌기세포</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Megakaryocytes"</span>,  <span class="co"># 거대혈소판세포</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>adata.rename_categories(<span class="st">"leiden"</span>, new_cluster_names)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 클러스터링된 세포의 UMAP 다시 시각화</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"leiden"</span>,  <span class="co"># 클러스터링 결과에 따라 색상 지정</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    add_outline<span class="op">=</span><span class="va">True</span>,  <span class="co"># 클러스터 경계 추가</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    legend_loc<span class="op">=</span><span class="st">"on data"</span>,  <span class="co"># 범례 위치 설정</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    legend_fontsize<span class="op">=</span><span class="dv">12</span>,  <span class="co"># 범례 글꼴 크기 설정</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    legend_fontoutline<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 범례 글꼴 외곽선 굵기 설정</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,  <span class="co"># 테두리 제거</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span><span class="st">"Set1"</span>,  <span class="co"># 색상 팔레트 설정</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="scanpy_adata2mtx_files/figure-html/cell-6-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="scanpy_adata2mtx_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <p>이후 데이터를 다시 읽어왔을때와 동일한지 확인하기 위해 <code>adata</code> 객체에 포함되어 있는 메타데이터의 데이터형을 확인합니다.</p>
-<div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adata 메타데이터의 데이터 타입</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>adata.obs.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-12" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adata 메타데이터의 데이터 타입</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>adata.obs.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>n_genes                 int64
+n_genes_by_counts       int32
+total_counts          float32
+total_counts_mt       float32
+pct_counts_mt         float32
+leiden               category
+dtype: object</code></pre>
+</div>
 </div>
 </section>
 <section id="h5ad-파일로-저장하기" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="h5ad-파일로-저장하기"><span class="header-section-number">3.4</span> H5AD 파일로 저장하기</h2>
 <p>AnnData 객체를 저장할때는 H5AD(Hierarchical Data Format 5) 파일을 사용합니다. 이 파일 형식은 대용량 데이터셋의 주요 구성 요소(예: 표현형 데이터, 주석, 메타데이터)를 계층적으로 구조화해서 효율적으로 저장하고 처리할 수 있게 해 줍니다.</p>
-<div id="cell-14" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 분석 결과를 저장할 파일 경로</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>output_path <span class="op">=</span> <span class="st">"../output/pbmc3k/"</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># `compression='gzip'`는 디스크 공간을 절약하지만 쓰기와 이후의 읽기가 약간 느려집니다.</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>adata.write(output_path <span class="op">+</span> <span class="st">"pbmc3k.h5ad"</span>, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-14" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 분석 결과를 저장할 파일 경로</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>output_path <span class="op">=</span> <span class="st">"../output/pbmc3k/"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># `compression='gzip'`는 디스크 공간을 절약하지만 쓰기와 이후의 읽기가 약간 느려집니다.</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>adata.write(output_path <span class="op">+</span> <span class="st">"pbmc3k.h5ad"</span>, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="h5ad-파일-다시-불러오기" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="h5ad-파일-다시-불러오기"><span class="header-section-number">3.5</span> H5AD 파일 다시 불러오기</h2>
 <p><code>sc.read_h5ad</code> 함수는 H5AD 파일 형식을 AnnData 객체로 직접 불러옵니다.</p>
-<div id="cell-16" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 저장했던 h5ad파일을 다시 불러옵니다.</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_h5ad(output_path <span class="op">+</span> <span class="st">"pbmc3k.h5ad"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-16" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 저장했던 h5ad파일을 다시 불러옵니다.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_h5ad(output_path <span class="op">+</span> <span class="st">"pbmc3k.h5ad"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>AnnData object with n_obs × n_vars = 2638 × 1838
+    obs: 'n_genes', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'leiden'
+    var: 'gene_ids', 'n_cells', 'mt', 'n_cells_by_counts', 'mean_counts', 'pct_dropout_by_counts', 'total_counts', 'highly_variable', 'means', 'dispersions', 'dispersions_norm', 'mean', 'std'
+    uns: 'hvg', 'leiden', 'leiden_colors', 'log1p', 'neighbors', 'pca', 'umap'
+    obsm: 'X_pca', 'X_umap'
+    varm: 'PCs'
+    obsp: 'connectivities', 'distances'</code></pre>
+</div>
 </div>
 <p>데이터를 다시 불러와보니 유전자의 갯수가 1,838개입니다. <code>highly variable</code> 유전자가 아닌 원래 유전자 데이터로 되돌리려면 아래와 같이 해줍니다.</p>
-<div id="cell-18" class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체를 불러온 후 원시 데이터로 변환</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata.raw.to_adata()</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-18" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체를 불러온 후 원시 데이터로 변환</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata.raw.to_adata()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>AnnData object with n_obs × n_vars = 2638 × 13714
+    obs: 'n_genes', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'leiden'
+    var: 'gene_ids', 'n_cells', 'mt', 'n_cells_by_counts', 'mean_counts', 'pct_dropout_by_counts', 'total_counts', 'highly_variable', 'means', 'dispersions', 'dispersions_norm'
+    uns: 'hvg', 'leiden', 'leiden_colors', 'log1p', 'neighbors', 'pca', 'umap'
+    obsm: 'X_pca', 'X_umap'
+    obsp: 'connectivities', 'distances'</code></pre>
+</div>
 </div>
 <p>이제 유전자의 갯수가 13,714개로 돌아왔습니다.</p>
 </section>
@@ -673,38 +734,38 @@ Note
 <section id="anndata-to-10x-mex" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> <code>AnnData</code> to <code>10X MEX</code></h1>
 <p><code>10X MEX format</code> 으로 저장하는 방법은 아래와 같습니다.</p>
-<div id="cell-20" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># genes.tsv 로 유전자 정보 저장</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_genes <span class="op">=</span> adata.var.gene_ids.reset_index()</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df_genes.set_index(<span class="st">"gene_ids"</span>).to_csv(</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"genes.tsv"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># barcodes.tsv 로 저장</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.obs.index).to_csv(</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"barcodes.tsv"</span>,</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 좌표 저장</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.obsm[<span class="st">"X_umap"</span>], index<span class="op">=</span>adata.obs_names).to_csv(</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"UMAP.tsv"</span>,</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 메타 데이터 저장</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>adata.obs.to_csv(</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"metadata.tsv"</span>,</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co"># mtx 희소 행렬 저장, Transpose 필요</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>scipy.io.mmwrite(output_path <span class="op">+</span> <span class="st">"matrix.mtx"</span>, adata.X.T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># genes.tsv 로 유전자 정보 저장</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df_genes <span class="op">=</span> adata.var.gene_ids.reset_index()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>df_genes.set_index(<span class="st">"gene_ids"</span>).to_csv(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"genes.tsv"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># barcodes.tsv 로 저장</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.obs.index).to_csv(</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"barcodes.tsv"</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 좌표 저장</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.obsm[<span class="st">"X_umap"</span>], index<span class="op">=</span>adata.obs_names).to_csv(</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"UMAP.tsv"</span>,</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 메타 데이터 저장</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>adata.obs.to_csv(</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"metadata.tsv"</span>,</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co"># mtx 희소 행렬 저장, Transpose 필요</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>scipy.io.mmwrite(output_path <span class="op">+</span> <span class="st">"matrix.mtx"</span>, adata.X.T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>output_path</code>에 파일이 5개 생겼을 것입니다.</p>
 </section>
@@ -714,113 +775,216 @@ Note
 <section id="read_10x_mtx함수-사용" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="read_10x_mtx함수-사용"><span class="header-section-number">5.1</span> <code>read_10x_mtx()</code>함수 사용</h2>
 <p>만약 다른 분석 도구를 통해 처리된 데이터의 경우라면 그리 추천하지는 않는 방법입니다.</p>
-<div id="cell-22" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 읽기</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_10x_mtx(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    output_path,  <span class="co"># `.mtx` 파일이 있는 디렉토리</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span><span class="st">"gene_symbols"</span>,  <span class="co"># 변수 이름에 유전자 기호 사용 (변수 축 인덱스)</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># `sc.read_10x_mtx`에서 `var_names='gene_ids'`를 사용하는 경우 이 작업이 필요하지 않음</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>adata.var_names_make_unique()</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-22" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 읽기</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_10x_mtx(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    output_path,  <span class="co"># `.mtx` 파일이 있는 디렉토리</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span><span class="st">"gene_symbols"</span>,  <span class="co"># 변수 이름에 유전자 기호 사용 (변수 축 인덱스)</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># `sc.read_10x_mtx`에서 `var_names='gene_ids'`를 사용하는 경우 이 작업이 필요하지 않음</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>adata.var_names_make_unique()</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>AnnData object with n_obs × n_vars = 2638 × 13714
+    var: 'gene_ids'</code></pre>
+</div>
 </div>
 <p><code>adata.var</code> 출력을 확인해 정상적으로 유전자 이름을 불러왔는지도 확인합니다.</p>
-<div id="cell-24" class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adata.var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-24" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>adata.var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">gene_ids</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AL627309.1</td>
+<td>ENSG00000237683</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">AP006222.2</td>
+<td>ENSG00000228463</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">RP11-206L10.2</td>
+<td>ENSG00000228327</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">RP11-206L10.9</td>
+<td>ENSG00000237491</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">LINC00115</td>
+<td>ENSG00000225880</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AC145212.1</td>
+<td>ENSG00000215750</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">AL592183.1</td>
+<td>ENSG00000220023</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AL354822.1</td>
+<td>ENSG00000215615</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">PNRC2-1</td>
+<td>ENSG00000215700</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SRSF10-1</td>
+<td>ENSG00000215699</td>
+</tr>
+</tbody>
+</table>
+
+<p>13714 rows × 1 columns</p>
+</div>
+</div>
 </div>
 <p>기존에 작업한 메타데이터와 UMAP 좌표 정보도 불러옵니다.</p>
-<div id="cell-26" class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 세포 메타데이터 불러오기</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cell_meta <span class="op">=</span> pd.read_csv(output_path <span class="op">+</span> <span class="st">"metadata.tsv"</span>, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체에 메타데이터 및 변수 이름 설정</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>adata.obs <span class="op">=</span> cell_meta</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 데이터 불러오기</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>umap <span class="op">=</span> pd.read_csv(</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"UMAP.tsv"</span>,</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 데이터 설정</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> umap.loc[adata.obs.index].values</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 세포 메타데이터 불러오기</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>cell_meta <span class="op">=</span> pd.read_csv(output_path <span class="op">+</span> <span class="st">"metadata.tsv"</span>, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체에 메타데이터 및 변수 이름 설정</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>adata.obs <span class="op">=</span> cell_meta</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 데이터 불러오기</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>umap <span class="op">=</span> pd.read_csv(</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"UMAP.tsv"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 데이터 설정</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> umap.loc[adata.obs.index].values</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>AnnData object with n_obs × n_vars = 2638 × 13714
+    obs: 'n_genes', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'leiden'
+    var: 'gene_ids'
+    obsm: 'X_umap'</code></pre>
+</div>
 </div>
 <p>위 결과를 통해 정상적으로 데이터를 불러왔음을 확인 할 수 있습니다.</p>
 </section>
 <section id="수작업으로-anndata-객체를-만드는-방법" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="수작업으로-anndata-객체를-만드는-방법"><span class="header-section-number">5.2</span> 수작업으로 <code>Anndata</code> 객체를 만드는 방법</h2>
 <p>수작업을 통해 만드는 방법을 해봅니다. <code>10X MEX format</code>과 동일하지는 않지만 유사한 형태의 경우에는 이 방법이 유용합니다.</p>
-<div id="cell-28" class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mtx 희소 행렬 불러오기</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> mmread(output_path <span class="op">+</span> <span class="st">"matrix.mtx"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체 생성</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> anndata.AnnData(X<span class="op">=</span>X.transpose().tocsr())</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 세포 메타데이터 불러오기</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>cell_meta <span class="op">=</span> pd.read_csv(output_path <span class="op">+</span> <span class="st">"metadata.tsv"</span>, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 이름 불러오기</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> pd.read_csv(</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"genes.tsv"</span>,</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    names<span class="op">=</span>[<span class="st">"gene_ids"</span>, <span class="st">"gene_symbols"</span>],</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 바코드 불러오기</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>barcodes <span class="op">=</span> pd.read_csv(</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    input_path <span class="op">+</span> <span class="st">"barcodes.tsv"</span>,</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체에 메타데이터 및 변수 이름 설정</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>adata.obs <span class="op">=</span> cell_meta</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>adata.obs.index <span class="op">=</span> <span class="bu">list</span>(barcodes.index)</span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>adata.var.index <span class="op">=</span> gene_names[<span class="st">"gene_symbols"</span>].values</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"gene_ids"</span>] <span class="op">=</span> gene_names[<span class="st">"gene_ids"</span>].values</span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 데이터 불러오기</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>umap <span class="op">=</span> pd.read_csv(</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"UMAP.tsv"</span>,</span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 데이터 설정</span></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> umap.loc[adata.obs.index].values</span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a><span class="co"># adata 데이터 확인</span></span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-28" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mtx 희소 행렬 불러오기</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> mmread(output_path <span class="op">+</span> <span class="st">"matrix.mtx"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체 생성</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> anndata.AnnData(X<span class="op">=</span>X.transpose().tocsr())</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 세포 메타데이터 불러오기</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>cell_meta <span class="op">=</span> pd.read_csv(output_path <span class="op">+</span> <span class="st">"metadata.tsv"</span>, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 이름 불러오기</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> pd.read_csv(</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"genes.tsv"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    names<span class="op">=</span>[<span class="st">"gene_ids"</span>, <span class="st">"gene_symbols"</span>],</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 바코드 불러오기</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>barcodes <span class="op">=</span> pd.read_csv(</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    input_path <span class="op">+</span> <span class="st">"barcodes.tsv"</span>,</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co"># AnnData 객체에 메타데이터 및 변수 이름 설정</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>adata.obs <span class="op">=</span> cell_meta</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>adata.obs.index <span class="op">=</span> <span class="bu">list</span>(barcodes.index)</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>adata.var.index <span class="op">=</span> gene_names[<span class="st">"gene_symbols"</span>].values</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"gene_ids"</span>] <span class="op">=</span> gene_names[<span class="st">"gene_ids"</span>].values</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 데이터 불러오기</span></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>umap <span class="op">=</span> pd.read_csv(</span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>    output_path <span class="op">+</span> <span class="st">"UMAP.tsv"</span>,</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>,</span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>    index_col<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 데이터 설정</span></span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> umap.loc[adata.obs.index].values</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a><span class="co"># adata 데이터 확인</span></span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>AnnData object with n_obs × n_vars = 2638 × 13714
+    obs: 'n_genes', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'leiden'
+    var: 'gene_ids'
+    obsm: 'X_umap'</code></pre>
+</div>
 </div>
 <section id="메타-데이터의-데이터형-확인하기" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="메타-데이터의-데이터형-확인하기"><span class="header-section-number">5.2.1</span> 메타 데이터의 데이터형 확인하기</h3>
 <p>위의 방법을 통해 메타 데이터를 불러오면 데이터의 형이 잘못 지정되는 경우가 있습니다.</p>
-<div id="cell-30" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adata.obs의 데이터 타입 확인</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>adata.obs.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-30" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adata.obs의 데이터 타입 확인</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>adata.obs.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>n_genes                int64
+n_genes_by_counts      int64
+total_counts         float64
+total_counts_mt      float64
+pct_counts_mt        float64
+leiden                object
+dtype: object</code></pre>
+</div>
 </div>
 <p>예를 들면 <code>leiden</code> 클러스터는 기본적으로 숫자로 지정되는데 다시 불러오는 과정 중에 <code>category</code>가 아닌 <code>int</code>형으로 되는 경우가 있습니다. 이번에는 <code>object</code>로 되어 있습니다. 아래와 같이 <code>category</code>로 수정해줍니다.</p>
-<div id="cell-32" class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adata.obs의 'leiden' 열을 범주형으로 변환한 후 데이터 타입 확인</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>adata.obs.astype({<span class="st">"leiden"</span>: <span class="st">"category"</span>}).dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-32" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adata.obs의 'leiden' 열을 범주형으로 변환한 후 데이터 타입 확인</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>adata.obs.astype({<span class="st">"leiden"</span>: <span class="st">"category"</span>}).dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>n_genes                 int64
+n_genes_by_counts       int64
+total_counts          float64
+total_counts_mt       float64
+pct_counts_mt         float64
+leiden               category
+dtype: object</code></pre>
+</div>
 </div>
 <p>UMAP을 그려서 마지막으로 확인해 봅니다.</p>
-<div id="cell-34" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 시각화</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    adata,</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"leiden"</span>,  <span class="co"># 클러스터링 결과에 따라 색상 지정</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    add_outline<span class="op">=</span><span class="va">True</span>,  <span class="co"># 클러스터 경계 추가</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    legend_loc<span class="op">=</span><span class="st">"on data"</span>,  <span class="co"># 범례 위치 설정</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    legend_fontsize<span class="op">=</span><span class="dv">12</span>,  <span class="co"># 범례 글꼴 크기 설정</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    legend_fontoutline<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 범례 글꼴 외곽선 굵기 설정</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,  <span class="co"># 테두리 제거</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span><span class="st">"Set1"</span>,  <span class="co"># 색상 팔레트 설정</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-34" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP 시각화</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"leiden"</span>,  <span class="co"># 클러스터링 결과에 따라 색상 지정</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    add_outline<span class="op">=</span><span class="va">True</span>,  <span class="co"># 클러스터 경계 추가</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    legend_loc<span class="op">=</span><span class="st">"on data"</span>,  <span class="co"># 범례 위치 설정</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    legend_fontsize<span class="op">=</span><span class="dv">12</span>,  <span class="co"># 범례 글꼴 크기 설정</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    legend_fontoutline<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 범례 글꼴 외곽선 굵기 설정</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,  <span class="co"># 테두리 제거</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span><span class="st">"Set1"</span>,  <span class="co"># 색상 팔레트 설정</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="scanpy_adata2mtx_files/figure-html/cell-18-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="scanpy_adata2mtx_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <p>UMAP이 문제없이 재현되는 것을 확인 할 수 있습니다.</p>
 </section>

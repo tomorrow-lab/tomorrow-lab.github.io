@@ -433,7 +433,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 23, 2025</p>
+      <p class="date-modified">August 25, 2025</p>
     </div>
   </div>
     
@@ -646,7 +646,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <h1 data-number="6"><span class="header-section-number">6</span> Count matrix 데이터 읽기</h1>
 <section id="scanpy-사용" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="scanpy-사용"><span class="header-section-number">6.1</span> Scanpy 사용</h2>
-<div id="1e83ee5a-1b68-4e1b-915e-a29168d38d21" class="cell" data-tags="[]">
+<div id="1e83ee5a-1b68-4e1b-915e-a29168d38d21" class="cell" data-tags="[]" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># conda install pandas scanpy</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -656,64 +656,95 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># read_10x_mtx 함수를 사용</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_10x_mtx(file_path, var_names<span class="op">=</span><span class="st">"gene_symbols"</span>, cache<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>AnnData object with n_obs × n_vars = 1311 × 32285
+    var: 'gene_ids', 'feature_types'</code></pre>
 </div>
-<div id="1868db07-40b2-4213-b062-f88b1fe0d693" class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># conda install -c bioconda scvelo</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scvelo <span class="im">as</span> scv</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load loom files for spliced/unspliced matrices for each sample</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>loom <span class="op">=</span> scv.read(<span class="ss">f"</span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">/run_count_mNeuron1k.loom"</span>, validate<span class="op">=</span><span class="va">False</span>, cache<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># rename barcodes in order to merge:</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>barcodes <span class="op">=</span> [bc.split(<span class="st">":"</span>)[<span class="dv">1</span>] <span class="cf">for</span> bc <span class="kw">in</span> loom.obs.index.tolist()]</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>barcodes <span class="op">=</span> [bc[<span class="dv">0</span> : <span class="bu">len</span>(bc) <span class="op">-</span> <span class="dv">1</span>] <span class="op">+</span> <span class="st">"-1"</span> <span class="cf">for</span> bc <span class="kw">in</span> barcodes]</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>loom.obs.index <span class="op">=</span> barcodes</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co"># make variable names unique</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>loom.var_names_make_unique()</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"># merge matrices into the original adata object</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> scv.utils.merge(adata, loom)</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4ffd23b8-a12a-4920-9c5d-537386cda97a" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>scv.pl.proportions(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1868db07-40b2-4213-b062-f88b1fe0d693" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># conda install -c bioconda scvelo</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scvelo <span class="im">as</span> scv</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load loom files for spliced/unspliced matrices for each sample</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>loom <span class="op">=</span> scv.read(<span class="ss">f"</span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">/run_count_mNeuron1k.loom"</span>, validate<span class="op">=</span><span class="va">False</span>, cache<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># rename barcodes in order to merge:</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>barcodes <span class="op">=</span> [bc.split(<span class="st">":"</span>)[<span class="dv">1</span>] <span class="cf">for</span> bc <span class="kw">in</span> loom.obs.index.tolist()]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>barcodes <span class="op">=</span> [bc[<span class="dv">0</span> : <span class="bu">len</span>(bc) <span class="op">-</span> <span class="dv">1</span>] <span class="op">+</span> <span class="st">"-1"</span> <span class="cf">for</span> bc <span class="kw">in</span> barcodes]</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>loom.obs.index <span class="op">=</span> barcodes</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># make variable names unique</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>loom.var_names_make_unique()</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co"># merge matrices into the original adata object</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> scv.utils.merge(adata, loom)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>AnnData object with n_obs × n_vars = 1311 × 32285
+    obs: 'initial_size_unspliced', 'initial_size_spliced', 'initial_size'
+    var: 'gene_ids', 'feature_types', 'Accession', 'Chromosome', 'End', 'Start', 'Strand'
+    layers: 'matrix', 'ambiguous', 'spliced', 'unspliced'</code></pre>
+</div>
+</div>
+<div id="4ffd23b8-a12a-4920-9c5d-537386cda97a" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>scv.pl.proportions(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="cellranger_alignment_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="cellranger_alignment_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <div id="14b6ea54-2dbd-4180-95cf-a4c16038a9c4" class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>adata.write(<span class="st">"../output/mNeuron1k.h5ad"</span>, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>adata.write(<span class="st">"../output/mNeuron1k.h5ad"</span>, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="seurat-사용" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="seurat-사용"><span class="header-section-number">6.2</span> Seurat 사용</h2>
 <p>R에 좀 더 익숙하시다면 Seurat을 사용하세요. 저는 파이썬 문법을 더 좋아하지만 솔직히 분석 도구의 완성도 측면에서는 Seurat이 더 나은 것 같습니다. 아래 코드는 jupyter notebook에서 R코드를 사용하기 위해 필요한 것으로 rStudio를 사용하신다면 %%R이 포함된 셀의 코드만 사용하시면 됩니다.</p>
-<div id="fd9293cd-66d8-4aab-9a91-581156580ebb" class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2.rinterface_lib.callbacks <span class="im">as</span> rcb</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import rpy2.robjects as ro</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>rcb.logger.setLevel(logging.ERROR)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext rpy2.ipython</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fd9293cd-66d8-4aab-9a91-581156580ebb" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2.rinterface_lib.callbacks <span class="im">as</span> rcb</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import rpy2.robjects as ro</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>rcb.logger.setLevel(logging.ERROR)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext rpy2.ipython</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c9b851da-9d12-465a-94b3-cb3979c9255e" class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>library(dplyr)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>library(Seurat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c9b851da-9d12-465a-94b3-cb3979c9255e" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>library(dplyr)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>library(Seurat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    WARNING: The R package "reticulate" only fixed recently
+    an issue that caused a segfault when used with rpy2:
+    https://github.com/rstudio/reticulate/pull/1188
+    Make sure that you use a version of that package that includes
+    the fix.
+    </code></pre>
 </div>
-<div id="03a5512a-eef5-4b89-969d-0715287d90de" class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">&lt;-</span> <span class="st">"../input/run_count_mNeuron1k/outs/filtered_feature_bc_matrix"</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>neuron_data <span class="op">&lt;-</span> Read10X(data_dir<span class="op">=</span>file_path)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the Seurat object.</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>obj <span class="op">&lt;-</span> CreateSeuratObject(counts <span class="op">=</span> neuron_data)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>obj</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="03a5512a-eef5-4b89-969d-0715287d90de" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">&lt;-</span> <span class="st">"../input/run_count_mNeuron1k/outs/filtered_feature_bc_matrix"</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>neuron_data <span class="op">&lt;-</span> Read10X(data_dir<span class="op">=</span>file_path)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the Seurat object.</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>obj <span class="op">&lt;-</span> CreateSeuratObject(counts <span class="op">=</span> neuron_data)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>obj</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>An object of class Seurat 
+32285 features across 1311 samples within 1 assay 
+Active assay: RNA (32285 features, 0 variable features)</code></pre>
+</div>
 </div>
 <p>Seurat object를 파일로 저장하는 방법에도 여러가지가 있지만 R에서 많이 사용되는 *.rds를 사용하는 코드는 아래와 같습니다.</p>
-<div id="2a3178bf-3aff-4ee4-a2a8-d7b36eefa45a" class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>saveRDS(obj, <span class="bu">file</span> <span class="op">=</span> <span class="st">"../output/mNeuron1k.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2a3178bf-3aff-4ee4-a2a8-d7b36eefa45a" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>R</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>saveRDS(obj, <span class="bu">file</span> <span class="op">=</span> <span class="st">"../output/mNeuron1k.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>

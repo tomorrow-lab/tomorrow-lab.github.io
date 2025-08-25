@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -122,6 +122,9 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -422,7 +425,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 23, 2025</p>
+      <p class="date-modified">August 25, 2025</p>
     </div>
   </div>
     
@@ -464,7 +467,7 @@ Note
 <h1 data-number="2"><span class="header-section-number">2</span> 예제 데이터셋 불러오기</h1>
 <p><code>Scanpy</code>의 <code>datasets.ebi_expression_atlas</code>함수를 사용하면 EBI Single Cell Expression Atlas의 데이터를 가져와 <code>AnnData</code>객체로 바로 만들 수 있습니다.</p>
 <p>먼저 필요한 라이브러리를 불러옵니다.</p>
-<div id="cell-2" class="cell">
+<div id="cell-2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -473,9 +476,13 @@ Note
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 경고 무시</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>warnings.simplefilter(<span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-3" class="cell">
+<div id="cell-3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.datasets.ebi_expression_atlas(<span class="st">"E-MTAB-9467"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>AnnData object with n_obs × n_vars = 39638 × 21893
+    obs: 'Sample Characteristic[organism]', 'Sample Characteristic Ontology Term[organism]', 'Sample Characteristic[individual]', 'Sample Characteristic Ontology Term[individual]', 'Sample Characteristic[ethnic group]', 'Sample Characteristic Ontology Term[ethnic group]', 'Sample Characteristic[sex]', 'Sample Characteristic Ontology Term[sex]', 'Sample Characteristic[age]', 'Sample Characteristic Ontology Term[age]', 'Sample Characteristic[developmental stage]', 'Sample Characteristic Ontology Term[developmental stage]', 'Sample Characteristic[disease]', 'Sample Characteristic Ontology Term[disease]', 'Sample Characteristic[organism part]', 'Sample Characteristic Ontology Term[organism part]', 'Sample Characteristic[cell type]', 'Sample Characteristic Ontology Term[cell type]', 'Sample Characteristic[clinical history]', 'Sample Characteristic Ontology Term[clinical history]', 'Factor Value[clinical history]', 'Factor Value Ontology Term[clinical history]', 'Factor Value[sampling time point]', 'Factor Value Ontology Term[sampling time point]', 'Factor Value[inferred cell type - ontology labels]', 'Factor Value Ontology Term[inferred cell type - ontology labels]', 'Factor Value[inferred cell type - authors labels]', 'Factor Value Ontology Term[inferred cell type - authors labels]'</code></pre>
+</div>
 </div>
 <p>위 출력을 통해 총 39,638개의 세포와 21,893개의 유전자 정보가 포함되어 있다는 것을 알 수 있습니다. 그리고 세포의 주석(<code>obs</code>항목)이 아주 많다는 것을 알 수 있네요.</p>
 <section id="anndata-객체에-대하여" class="level2" data-number="2.1">
@@ -490,68 +497,305 @@ Note
 </section>
 <section id="세포-주석-살펴보기" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="세포-주석-살펴보기"><span class="header-section-number">2.2</span> 세포 주석 살펴보기</h2>
-<div id="cell-5" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adata.obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-5" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adata.obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[organism]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[organism]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[individual]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[individual]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[ethnic group]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[ethnic group]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[sex]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[sex]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[age]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[age]</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic[clinical history]</th>
+<th data-quarto-table-cell-role="th">Sample Characteristic Ontology Term[clinical history]</th>
+<th data-quarto-table-cell-role="th">Factor Value[clinical history]</th>
+<th data-quarto-table-cell-role="th">Factor Value Ontology Term[clinical history]</th>
+<th data-quarto-table-cell-role="th">Factor Value[sampling time point]</th>
+<th data-quarto-table-cell-role="th">Factor Value Ontology Term[sampling time point]</th>
+<th data-quarto-table-cell-role="th">Factor Value[inferred cell type - ontology labels]</th>
+<th data-quarto-table-cell-role="th">Factor Value Ontology Term[inferred cell type - ontology labels]</th>
+<th data-quarto-table-cell-role="th">Factor Value[inferred cell type - authors labels]</th>
+<th data-quarto-table-cell-role="th">Factor Value Ontology Term[inferred cell type - authors labels]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAACCGCACAAGCCC</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAACCGTCATTGCGA</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAACTCCAAGGTGTG</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAACTCCAGCGTCCA</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SAMEA7198212-AAAATGATCCTAGGGC</td>
+<td>Homo sapiens</td>
+<td>http://purl.obolibrary.org/obo/NCBITaxon_9606</td>
+<td>patient1</td>
+<td>NaN</td>
+<td>Thai</td>
+<td>NaN</td>
+<td>male</td>
+<td>http://purl.obolibrary.org/obo/PATO_0000384</td>
+<td>35 year</td>
+<td>NaN</td>
+<td>...</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>secondary DENV-4 infection</td>
+<td>NaN</td>
+<td>one day before defervescence</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 28 columns</p>
+</div>
+</div>
 </div>
 </section>
 </section>
 <section id="유전자-주석-살펴보기" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> 유전자 주석 살펴보기</h1>
 <p>유전자의 이름이 <code>ensembl_gene_id</code>로 되어 있는 것은 아래 코드로 확인할 수 있습니다.</p>
-<div id="cell-7" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adata.var.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-7" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>adata.var.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">ENSG00000000003</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ENSG00000000419</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">ENSG00000000457</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ENSG00000000460</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">ENSG00000000938</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 <p>위 결과로 이 데이터셋에는 <code>gene_symbol</code>의 정보는 포함되어 있지않고 오직 <code>ensembl_gene_id</code>형태의 값만 있다는 것을 알 수 있습니다. 이 값들은 사람이 해석하기는 너무 힘들죠.</p>
 </section>
 <section id="gene_symbol-데이터-추가하기" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> gene_symbol 데이터 추가하기</h1>
 <p><code>sc.queries.biomart_annotations</code>함수를 사용합니다.</p>
-<div id="cell-9" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 기호를 검색합니다. requires pybiomart</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>annot <span class="op">=</span> sc.queries.biomart_annotations(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    org<span class="op">=</span><span class="st">"hsapiens"</span>,  <span class="co"># Organism to query "hsapiens", "mmusculus"</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    attrs<span class="op">=</span>[<span class="st">"ensembl_gene_id"</span>, <span class="st">"external_gene_name"</span>],  <span class="co"># Attributes to query biomart for</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>).set_index(<span class="st">"ensembl_gene_id"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 주석에 없는 유전자를 필터링합니다</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var.index.intersection(annot.index)]</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 기호를 할당합니다</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"gene_symbol"</span>] <span class="op">=</span> [</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    annot.loc[ensembl_id, <span class="st">"external_gene_name"</span>] <span class="cf">for</span> ensembl_id <span class="kw">in</span> adata.var.index</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>adata.var <span class="op">=</span> (</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    adata.var.reset_index().rename(columns<span class="op">=</span>{<span class="st">"index"</span>: <span class="st">"ensembl_gene_id"</span>}).set_index(<span class="st">"gene_symbol"</span>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 기호가 없는 유전자를 제거합니다</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, <span class="op">~</span>pd.isnull(adata.var.index)]</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 중복된 유전자 기호의 이름을 변경합니다</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>adata.var_names_make_unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 기호를 검색합니다. requires pybiomart</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>annot <span class="op">=</span> sc.queries.biomart_annotations(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    org<span class="op">=</span><span class="st">"hsapiens"</span>,  <span class="co"># Organism to query "hsapiens", "mmusculus"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    attrs<span class="op">=</span>[<span class="st">"ensembl_gene_id"</span>, <span class="st">"external_gene_name"</span>],  <span class="co"># Attributes to query biomart for</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>).set_index(<span class="st">"ensembl_gene_id"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 주석에 없는 유전자를 필터링합니다</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var.index.intersection(annot.index)]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 기호를 할당합니다</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>adata.var[<span class="st">"gene_symbol"</span>] <span class="op">=</span> [</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    annot.loc[ensembl_id, <span class="st">"external_gene_name"</span>] <span class="cf">for</span> ensembl_id <span class="kw">in</span> adata.var.index</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>adata.var <span class="op">=</span> (</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    adata.var.reset_index().rename(columns<span class="op">=</span>{<span class="st">"index"</span>: <span class="st">"ensembl_gene_id"</span>}).set_index(<span class="st">"gene_symbol"</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 유전자 기호가 없는 유전자를 제거합니다</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, <span class="op">~</span>pd.isnull(adata.var.index)]</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 중복된 유전자 기호의 이름을 변경합니다</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>adata.var_names_make_unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>이제 어떻게 변경되었는지 확인해봅니다.</p>
-<div id="cell-11" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>adata.var.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-11" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>adata.var.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ensembl_gene_id</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">gene_symbol</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TSPAN6</td>
+<td>ENSG00000000003</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">DPM1</td>
+<td>ENSG00000000419</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SCYL3</td>
+<td>ENSG00000000457</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">FIRRM</td>
+<td>ENSG00000000460</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">FGR</td>
+<td>ENSG00000000938</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 <p>이제 <code>ensembl_gene_id</code>뿐만 아니라 <code>gene_symbol</code> 정보도 포함되어 있습니다.</p>
 </section>
 <section id="가장-발현-비율이-높은-유전자-시각화" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> 가장 발현 비율이 높은 유전자 시각화</h1>
 <p>모든 세포에서 평균적으로 발현이 가장 높은 상위 20개의 유전자를 살펴보죠.</p>
-<div id="cell-13" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># iteritems 메서드가 판다스 2.0에서 제거되어 생기는 오류를 회피</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pd.DataFrame.iteritems <span class="op">=</span> pd.DataFrame.items</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>sc.pl.highest_expr_genes(adata, n_top<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-13" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># iteritems 메서드가 판다스 2.0에서 제거되어 생기는 오류를 회피</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pd.DataFrame.iteritems <span class="op">=</span> pd.DataFrame.items</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sc.pl.highest_expr_genes(adata, n_top<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="scanpy_Id2symbol_files/figure-html/cell-8-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="scanpy_Id2symbol_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <p>결과를 자세히 보면 <code>B2M</code>, <code>B2M-1</code>이 따로 분리되어 있는 것을 볼 수 있습니다. 이건 앞서 이야기한 일부 유전자에 여러 개의 Ensembl ID가 있는 문제에서 비롯됩니다. 즉, <code>B2M</code>유전자가 2개 이상의 <code>Ensembl ID</code>를 갖고 있기 때문입니다.</p>
 </section>
 <section id="파일-저장하기" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> 파일 저장하기</h1>
 <p>다음번에 사용하기 위해 아래 코드로 <code>AnnData</code>객체를 저장합니다.</p>
-<div id="cell-15" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"../output/"</span> <span class="op">+</span> <span class="st">"E-MTAB-9467.h5ad"</span>, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-15" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"../output/"</span> <span class="op">+</span> <span class="st">"E-MTAB-9467.h5ad"</span>, compression<span class="op">=</span><span class="st">"gzip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="나가며" class="level1" data-number="7">

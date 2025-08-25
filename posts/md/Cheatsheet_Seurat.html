@@ -523,7 +523,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 23, 2025</p>
+      <p class="date-modified">August 25, 2025</p>
     </div>
   </div>
     
@@ -1025,7 +1025,7 @@ Note
 <span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co"># SeuratObject에 DM 임베딩 추가</span></span>
 <span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>SeuratObject<span class="sc">@</span>reductions[[<span class="st">"dm"</span>]] <span class="ot">&lt;-</span> <span class="fu">CreateDimReducObject</span>(</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">embeddings =</span> dm<span class="sc">@</span>eigenvectors,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">embeddings =</span> dm<span class="sc">@</span>eigenvectors,                                </span>
 <span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">key =</span> <span class="st">"DC_"</span>,</span>
 <span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">assay =</span> <span class="st">"RNA"</span></span>
 <span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1382,7 +1382,7 @@ Note
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>또는 각 클러스터가 평균 발현으로 색상별로 나타내고, 해당 유전자를 발현하는 세포의 비율로 크기별로 나타내는 점 도플롯을 사용할 수 있습니다:</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># coord_flip() 함수를 위해 필요</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) </span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">DotPlot</span>(</span>
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">object =</span> SeuratObject,</span>
@@ -1420,7 +1420,7 @@ Note
 <span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>enrich_results <span class="ot">&lt;-</span> <span class="fu">enrichr</span>(</span>
 <span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">genes =</span> top5<span class="sc">$</span>gene[top5<span class="sc">$</span>cluster <span class="sc">==</span> <span class="st">"1"</span>], <span class="co"># 관심있는 클러스터 이름</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">databases =</span> <span class="st">"KEGG_2019_Human"</span> )[[<span class="dv">1</span>]] <span class="co"># 사용할 데이터베이스</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">databases =</span> <span class="st">"KEGG_2019_Human"</span> )[[<span class="dv">1</span>]] <span class="co"># 사용할 데이터베이스 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>enrichR</code> 에 포함된 유용한 데이터베이스 목록은 다음과 같습니다:</p>
 <ul>
 <li>GO_Biological_Process_2017b</li>
@@ -1470,7 +1470,7 @@ Note
 <p>그 답은 간단합니다. 클러스터링은 문제를 단순화하며, 경로 상에서 거의 동일한 위치에 있는 세포 그룹을 찾아냅니다. 이러한 그룹은 이후 세포가 어떤 경로를 통해 이동하고 분기되는지를 파악하는 데 연결될 수 있습니다. 이상적으로 TI 를 위한 클러스터링 방법은 밀도를 기반으로 셀을 그룹화해서는 안 됩니다. 예를 들어 DBSCAN 과 같은 밀도 기반 클러스터링은 정의상 모든 세포가 고밀도 영역을 통해 연결되지만 유전자 발현에서는 차이가 발생할 수 있습니다. 여기서는 <strong>Seurat</strong>의 표준 클러스터링 방법인 라이든 (Leiden) 클러스터링을 사용할 것입니다.</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>clustering <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    SeuratObject<span class="sc">@</span>meta.data[, <span class="st">"seurat_clusters"</span>]</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이제부터 이 클러스터링 결과를 경로 분석에 적용할 것입니다. 전체 프로세스는 단일 함수인 <code>slingshot</code> 을 사용하여 수행할 수 있으며, 이는 경로 분석을 위한 두 가지 주요 단계를 간단히 묶어 놓은 래퍼 (wrapper) 입니다. 프로세스의 첫 번째 단계는 세포 계통 (cell lineages) 을 정의하고, 그 다음 데이터를 통해 경로를 정의하는 곡선을 맞추는 것입니다. 이러한 단계들은 아래에서 설명합니다.</p>
 <section id="slingshot-으로-세포-계통-정의하기" class="level3" data-number="17.1.1">
 <h3 data-number="17.1.1" class="anchored" data-anchor-id="slingshot-으로-세포-계통-정의하기"><span class="header-section-number">17.1.1</span> Slingshot 으로 세포 계통 정의하기</h3>

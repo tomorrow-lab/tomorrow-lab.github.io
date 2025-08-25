@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -82,6 +82,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-406820b4c2a393f327d85a420d57510d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-780e9400721330a0ce32a7ca13ebdec7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-406820b4c2a393f327d85a420d57510d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,12 +122,18 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="Calplot: 파이썬으로 만드는 멋진 캘린더 히트맵 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/Python_calplot_files/figure-html/cell-4-output-1.png">
 <meta property="og:site_name" content="tomorrow-lab">
+<meta property="og:image:height" content="895">
+<meta property="og:image:width" content="1149">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -415,7 +424,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 23, 2025</p>
+      <p class="date-modified">August 25, 2025</p>
     </div>
   </div>
     
@@ -463,7 +472,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <section id="기상-관측소-데이터와서-편집하기" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> 기상 관측소 데이터와서 편집하기</h1>
 <p><a href="https://github.com/meteostat/meteostat-python">Meteostat</a> 라이브러리를 사용하여 서울 근처 기상 관측소 데이터를 선택합니다. 날씨 데이터를 가져온 뒤에는 일교차(최고 기온(tmax)과 최저 기온(tmin)의 차이), 눈/비 여부(강수량(prcp) 또는 적설량(snow)이 있는 경우 1, 없는 경우 NaN)에 대한 데이터를 열을 추가해줍니다.</p>
-<div id="3e6bab5c-d759-471f-a462-b15367967d76" class="cell">
+<div id="3e6bab5c-d759-471f-a462-b15367967d76" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stations: Stations <span class="op">=</span> Stations()</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get nearby weather stations based on latitude and longitude</span></span>
@@ -491,6 +500,127 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the last few rows of the data</span></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>weather_data.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>선택된 관측소: Seoul</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">tavg</th>
+<th data-quarto-table-cell-role="th">tmin</th>
+<th data-quarto-table-cell-role="th">tmax</th>
+<th data-quarto-table-cell-role="th">prcp</th>
+<th data-quarto-table-cell-role="th">snow</th>
+<th data-quarto-table-cell-role="th">wdir</th>
+<th data-quarto-table-cell-role="th">wspd</th>
+<th data-quarto-table-cell-role="th">wpgt</th>
+<th data-quarto-table-cell-role="th">pres</th>
+<th data-quarto-table-cell-role="th">tsun</th>
+<th data-quarto-table-cell-role="th">diurnal_range</th>
+<th data-quarto-table-cell-role="th">rain_or_snow</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-12-27</td>
+<td>-2.6</td>
+<td>-5.5</td>
+<td>-0.7</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>283.0</td>
+<td>8.7</td>
+<td>NaN</td>
+<td>1026.6</td>
+<td>NaN</td>
+<td>4.8</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-12-28</td>
+<td>-2.1</td>
+<td>-6.7</td>
+<td>-1.4</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>284.0</td>
+<td>8.2</td>
+<td>NaN</td>
+<td>1024.3</td>
+<td>NaN</td>
+<td>5.3</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-12-29</td>
+<td>2.6</td>
+<td>-4.2</td>
+<td>4.1</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>70.0</td>
+<td>5.1</td>
+<td>NaN</td>
+<td>1024.9</td>
+<td>NaN</td>
+<td>8.3</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-12-30</td>
+<td>4.8</td>
+<td>1.9</td>
+<td>9.3</td>
+<td>0.2</td>
+<td>NaN</td>
+<td>351.0</td>
+<td>8.6</td>
+<td>NaN</td>
+<td>1018.7</td>
+<td>NaN</td>
+<td>7.4</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-12-31</td>
+<td>0.1</td>
+<td>-1.4</td>
+<td>4.4</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>281.0</td>
+<td>9.9</td>
+<td>NaN</td>
+<td>1020.6</td>
+<td>NaN</td>
+<td>5.8</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 </section>
 <section id="시각화-하기" class="level1" data-number="4">
@@ -498,34 +628,48 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <section id="평균-기온-캘린더-플롯" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="평균-기온-캘린더-플롯"><span class="header-section-number">4.1</span> 평균 기온 캘린더 플롯</h2>
 <p>calplot을 사용해 연도별 평균 기온을 캘린더 형태로 시각화합니다. 색상 맵은 coolwarm으로 설정해 표현합니다.</p>
-<div id="061c73c4" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    weather_data[<span class="st">"tavg"</span>],</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"coolwarm"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    yearascending<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    yearlabel_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">16</span>},</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    suptitle<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 평균 기온"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    suptitle_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">20</span>, <span class="st">"y"</span>: <span class="fl">1.05</span>},</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="061c73c4" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    weather_data[<span class="st">"tavg"</span>],</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"coolwarm"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    yearascending<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    yearlabel_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">16</span>},</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    suptitle<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 평균 기온"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    suptitle_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">20</span>, <span class="st">"y"</span>: <span class="fl">1.05</span>},</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Python_calplot_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Python_calplot_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <p>위 시각화 결과를 보면 2021년 1월달의 평균 기온이 유난히 낮았다는 것과 2024년 12월의 평균기온이 상당히 높다는 것을 알 수 있습니다. 그리고 여름이 계속 더워지고 있다는 추세가 보이는 것 같습니다.</p>
 </section>
 <section id="일교차-캘린더-플롯" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="일교차-캘린더-플롯"><span class="header-section-number">4.2</span> 일교차 캘린더 플롯</h2>
 <p>일반적으로 일교차는 봄과 가을이 심하다고 알고있는데 실제로 그런지 확인해보겠습니다. 일교차 데이터를 캘린더 플롯으로 표현하고 색상 맵은 YlGn으로 설정해 녹색 계열로 변화를 나타냅니다.</p>
-<div id="e17a18d3" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    weather_data[<span class="st">"diurnal_range"</span>],</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"YlGn"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    yearascending<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    yearlabel_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">16</span>},</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    suptitle<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 일교차"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    suptitle_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">20</span>, <span class="st">"y"</span>: <span class="fl">1.05</span>},</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e17a18d3" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 시각화</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>calplot.calplot(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    weather_data[<span class="st">"diurnal_range"</span>],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"YlGn"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    yearascending<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    yearlabel_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">16</span>},</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    suptitle<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>NAME<span class="sc">}</span><span class="ss"> 일교차"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    suptitle_kws<span class="op">=</span>{<span class="st">"fontsize"</span>: <span class="dv">20</span>, <span class="st">"y"</span>: <span class="fl">1.05</span>},</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="Python_calplot_files/figure-html/cell-5-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="Python_calplot_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <p>일교차는 더운 기간(7-9월) 제외하고는 패턴을 찾기 힘들어 보입니다. 그리고 가을 보다 봄(3-4월)이 확실히 일교차가 심한 것을 알 수 있네요.</p>
 </section>
@@ -1001,6 +1145,38 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

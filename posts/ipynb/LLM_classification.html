@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -82,6 +82,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-406820b4c2a393f327d85a420d57510d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-780e9400721330a0ce32a7ca13ebdec7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-406820b4c2a393f327d85a420d57510d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -122,12 +125,18 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="LLM을 사용한 스팸 메시지 분류 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/LLM_classification_files/figure-html/cell-4-output-1.png">
 <meta property="og:site_name" content="tomorrow-lab">
+<meta property="og:image:height" content="354">
+<meta property="og:image:width" content="394">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -426,7 +435,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 23, 2025</p>
+      <p class="date-modified">August 25, 2025</p>
     </div>
   </div>
     
@@ -475,134 +484,202 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>3단계는 모델을 미세 조정하고 실제 스팸 필터링에 활용하는 과정입니다. 1단계에서 준비한 데이터셋을 사용하여 2단계에서 설정한 모델을 미세 조정합니다. 미세 조정은 모델이 스팸 메일과 정상 메일을 구분하는 방법을 학습하는 과정입니다. 충분한 미세 조정 후에는 모델을 새로운 데이터에 적용하여 스팸 메일을 분류할 수 있습니다. 이제 단계별로 코드 예제를 다루어 보죠.</p>
 <section id="단계-데이터셋-준비" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> 1단계: 데이터셋 준비</h1>
+<div id="cell-2" class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>matplotlib version: 3.10.0
+numpy version: 2.2.3
+tiktoken version: 0.9.0
+torch version: 2.6.0
+pandas version: 2.2.3</code></pre>
+</div>
+</div>
 <div id="cell-3" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 상수 정의: 파일 경로 및 URL을 쉽게 관리하기 위함</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>DATA_URL <span class="op">=</span> <span class="st">"https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip"</span>  <span class="co"># 데이터셋 URL</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>DATA_FILENAME <span class="op">=</span> <span class="st">"sms_spam_collection.zip"</span>  <span class="co"># 다운로드할 ZIP 파일 이름</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> <span class="st">"../data/input"</span>  <span class="co"># 데이터 저장 디렉토리</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>EXTRACTED_DIR <span class="op">=</span> Path(DATA_DIR) <span class="op">/</span> <span class="st">"sms_spam_collection"</span>  <span class="co"># 압축 해제 후 데이터 저장 디렉토리</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>DATA_FILEPATH <span class="op">=</span> EXTRACTED_DIR <span class="op">/</span> <span class="st">"SMSSpamCollection.tsv"</span>  <span class="co"># 최종 데이터 파일 경로</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> download_and_extract_data(url, filename, extract_dir, filepath):</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""SMS 스팸 컬렉션 데이터셋을 다운로드하고 압축 해제합니다.</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">        url (str): 데이터셋 URL</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">        filename (str): 다운로드할 파일 이름</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">        extract_dir (Path): 압축 해제할 디렉토리</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">        filepath (Path): 최종 데이터 파일 경로</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> filepath.exists():  <span class="co"># 파일이 이미 존재하면 다운로드 및 압축 해제 생략</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss"> already exists. Skipping download and extraction."</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    os.makedirs(extract_dir, exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># 압축 해제 디렉토리 생성 (존재하지 않을 경우)</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    zip_filepath <span class="op">=</span> Path(DATA_DIR) <span class="op">/</span> filename  <span class="co"># ZIP 파일 경로</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Downloading data from </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>zip_filepath<span class="sc">}</span><span class="ss">..."</span>)  <span class="co"># 다운로드 시작 메시지 출력</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> urllib.request.urlopen(url) <span class="im">as</span> response:  <span class="co"># URL에 연결</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(zip_filepath, <span class="st">"wb"</span>) <span class="im">as</span> out_file:  <span class="co"># 파일 쓰기 모드로 열기</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>            out_file.write(response.read())  <span class="co"># 파일에 내용 쓰기</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Extracting data from </span><span class="sc">{</span>zip_filepath<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>extract_dir<span class="sc">}</span><span class="ss">..."</span>)  <span class="co"># 압축 해제 시작 메시지 출력</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(zip_filepath, <span class="st">"r"</span>) <span class="im">as</span> zip_ref:  <span class="co"># ZIP 파일 열기</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        zip_ref.extractall(extract_dir)  <span class="co"># 압축 해제</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    original_filepath <span class="op">=</span> extract_dir <span class="op">/</span> <span class="st">"SMSSpamCollection"</span>  <span class="co"># 원래 파일 이름</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    os.rename(original_filepath, filepath)  <span class="co"># 파일 이름 변경</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Data downloaded and extracted to </span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># 완료 메시지 출력</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    os.remove(zip_filepath)  <span class="co"># 임시 ZIP 파일 삭제</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_data(filepath):</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""SMS 스팸 컬렉션 데이터를 pandas DataFrame으로 로드합니다.</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">        filepath (Path): 데이터 파일 경로</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">        pandas.DataFrame: 데이터셋</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(filepath, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"Label"</span>, <span class="st">"Text"</span>])  <span class="co"># TSV 파일 읽기</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:  <span class="co"># 파일이 없을 경우</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error: File not found at </span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:  <span class="co"># 다른 에러 발생 시</span></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"An error occurred while reading the file: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 다운로드 및 압축 해제</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>download_and_extract_data(DATA_URL, DATA_FILENAME, EXTRACTED_DIR, DATA_FILEPATH)</span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 로드</span></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> load_data(DATA_FILEPATH)</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 상수 정의: 파일 경로 및 URL을 쉽게 관리하기 위함</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>DATA_URL <span class="op">=</span> <span class="st">"https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip"</span>  <span class="co"># 데이터셋 URL</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>DATA_FILENAME <span class="op">=</span> <span class="st">"sms_spam_collection.zip"</span>  <span class="co"># 다운로드할 ZIP 파일 이름</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> <span class="st">"../data/input"</span>  <span class="co"># 데이터 저장 디렉토리</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>EXTRACTED_DIR <span class="op">=</span> Path(DATA_DIR) <span class="op">/</span> <span class="st">"sms_spam_collection"</span>  <span class="co"># 압축 해제 후 데이터 저장 디렉토리</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>DATA_FILEPATH <span class="op">=</span> EXTRACTED_DIR <span class="op">/</span> <span class="st">"SMSSpamCollection.tsv"</span>  <span class="co"># 최종 데이터 파일 경로</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> download_and_extract_data(url, filename, extract_dir, filepath):</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""SMS 스팸 컬렉션 데이터셋을 다운로드하고 압축 해제합니다.</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">        url (str): 데이터셋 URL</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">        filename (str): 다운로드할 파일 이름</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">        extract_dir (Path): 압축 해제할 디렉토리</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">        filepath (Path): 최종 데이터 파일 경로</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> filepath.exists():  <span class="co"># 파일이 이미 존재하면 다운로드 및 압축 해제 생략</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss"> already exists. Skipping download and extraction."</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    os.makedirs(extract_dir, exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># 압축 해제 디렉토리 생성 (존재하지 않을 경우)</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    zip_filepath <span class="op">=</span> Path(DATA_DIR) <span class="op">/</span> filename  <span class="co"># ZIP 파일 경로</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Downloading data from </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>zip_filepath<span class="sc">}</span><span class="ss">..."</span>)  <span class="co"># 다운로드 시작 메시지 출력</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> urllib.request.urlopen(url) <span class="im">as</span> response:  <span class="co"># URL에 연결</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(zip_filepath, <span class="st">"wb"</span>) <span class="im">as</span> out_file:  <span class="co"># 파일 쓰기 모드로 열기</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            out_file.write(response.read())  <span class="co"># 파일에 내용 쓰기</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Extracting data from </span><span class="sc">{</span>zip_filepath<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>extract_dir<span class="sc">}</span><span class="ss">..."</span>)  <span class="co"># 압축 해제 시작 메시지 출력</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(zip_filepath, <span class="st">"r"</span>) <span class="im">as</span> zip_ref:  <span class="co"># ZIP 파일 열기</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        zip_ref.extractall(extract_dir)  <span class="co"># 압축 해제</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    original_filepath <span class="op">=</span> extract_dir <span class="op">/</span> <span class="st">"SMSSpamCollection"</span>  <span class="co"># 원래 파일 이름</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    os.rename(original_filepath, filepath)  <span class="co"># 파일 이름 변경</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Data downloaded and extracted to </span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># 완료 메시지 출력</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    os.remove(zip_filepath)  <span class="co"># 임시 ZIP 파일 삭제</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_data(filepath):</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""SMS 스팸 컬렉션 데이터를 pandas DataFrame으로 로드합니다.</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="co">        filepath (Path): 데이터 파일 경로</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="co">        pandas.DataFrame: 데이터셋</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(filepath, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">"Label"</span>, <span class="st">"Text"</span>])  <span class="co"># TSV 파일 읽기</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:  <span class="co"># 파일이 없을 경우</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error: File not found at </span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:  <span class="co"># 다른 에러 발생 시</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"An error occurred while reading the file: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 다운로드 및 압축 해제</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>download_and_extract_data(DATA_URL, DATA_FILENAME, EXTRACTED_DIR, DATA_FILEPATH)</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 로드</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> load_data(DATA_FILEPATH)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>../data/input/sms_spam_collection/SMSSpamCollection.tsv already exists. Skipping download and extraction.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Label</th>
+<th data-quarto-table-cell-role="th">Text</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5567</td>
+<td>spam</td>
+<td>This is the 2nd time we have tried 2 contact u...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5568</td>
+<td>ham</td>
+<td>Will ü b going to esplanade fr home?</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5569</td>
+<td>ham</td>
+<td>Pity, * was in mood for that. So...any other s...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5570</td>
+<td>ham</td>
+<td>The guy did some bitching but I acted like i'd...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5571</td>
+<td>ham</td>
+<td>Rofl. Its true to its name</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 <div id="cell-4" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># label 열의 값 분포 계산</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>label_counts <span class="op">=</span> df[<span class="st">"Label"</span>].value_counts()</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 시각화</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))  <span class="co"># figure 크기 설정</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 막대 색상 지정</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>bar_color <span class="op">=</span> <span class="st">"#8FBCBB"</span>  <span class="co"># 원하는 색상 코드</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.countplot(x<span class="op">=</span><span class="st">"Label"</span>, data<span class="op">=</span>df, color<span class="op">=</span>bar_color)  <span class="co"># countplot 사용</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)  <span class="co"># 그래프 제목 설정</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">""</span>)  <span class="co"># x축 레이블 설정</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Number of Samples"</span>)  <span class="co"># y축 레이블 설정</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 레이블의 비율 표시</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, count <span class="kw">in</span> <span class="bu">enumerate</span>(label_counts):</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    percentage <span class="op">=</span> (count <span class="op">/</span> <span class="bu">len</span>(df)) <span class="op">*</span> <span class="dv">100</span>  <span class="co"># 백분율 계산</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    plt.text(i, count <span class="op">+</span> <span class="dv">100</span>, <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span>, ha<span class="op">=</span><span class="st">"center"</span>)  <span class="co"># 텍스트 추가</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 오른쪽 및 위쪽 테두리 제거</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"right"</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"top"</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># 그래프 출력</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># label 열의 값 분포 계산</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>label_counts <span class="op">=</span> df[<span class="st">"Label"</span>].value_counts()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 시각화</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))  <span class="co"># figure 크기 설정</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 막대 색상 지정</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>bar_color <span class="op">=</span> <span class="st">"#8FBCBB"</span>  <span class="co"># 원하는 색상 코드</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.countplot(x<span class="op">=</span><span class="st">"Label"</span>, data<span class="op">=</span>df, color<span class="op">=</span>bar_color)  <span class="co"># countplot 사용</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)  <span class="co"># 그래프 제목 설정</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">""</span>)  <span class="co"># x축 레이블 설정</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Number of Samples"</span>)  <span class="co"># y축 레이블 설정</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 레이블의 비율 표시</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, count <span class="kw">in</span> <span class="bu">enumerate</span>(label_counts):</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    percentage <span class="op">=</span> (count <span class="op">/</span> <span class="bu">len</span>(df)) <span class="op">*</span> <span class="dv">100</span>  <span class="co"># 백분율 계산</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    plt.text(i, count <span class="op">+</span> <span class="dv">100</span>, <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span>, ha<span class="op">=</span><span class="st">"center"</span>)  <span class="co"># 텍스트 추가</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 오른쪽 및 위쪽 테두리 제거</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"right"</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"top"</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># 그래프 출력</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="LLM_classification_files/figure-html/cell-4-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="LLM_classification_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <section id="데이터셋-불균형-해소" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="데이터셋-불균형-해소"><span class="header-section-number">1.1</span> 데이터셋 불균형 해소</h2>
 <p>머신러닝 모델 훈련 시 가장 흔하게 마주하는 문제 중 하나는 데이터셋의 불균형입니다. 특히 스팸 필터링과 같이 특정 클래스의 데이터가 현저히 적은 경우 모델의 성능 저하를 야기할 수 있습니다. 이를 해결하기 위해 “ham” 메일과 “spam” 메일의 개수를 동일하게 맞춰줍니다. 구체적으로 “ham” 메일 중에서 “spam” 메일의 개수만큼 무작위로 샘플링하여 두 종류의 메일을 합쳐 균형 잡힌 데이터셋을 생성할 것입니다. 이렇게 생성된 <code>balanced_df</code>는 “ham”을 0, “spam”을 1로 매핑하여 숫자 레이블로 변환합니다.</p>
 <div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_balanced_dataset(df):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "spam" 인스턴스 개수 세기</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    num_spam <span class="op">=</span> df[df[<span class="st">"Label"</span>] <span class="op">==</span> <span class="st">"spam"</span>].shape[<span class="dv">0</span>]</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "spam" 인스턴스 개수와 일치하도록 "ham" 인스턴스 무작위 샘플링</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    ham_subset <span class="op">=</span> df[df[<span class="st">"Label"</span>] <span class="op">==</span> <span class="st">"ham"</span>].sample(num_spam, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "ham" 서브셋과 "spam" 데이터 결합</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    balanced_df <span class="op">=</span> pd.concat([ham_subset, df[df[<span class="st">"Label"</span>] <span class="op">==</span> <span class="st">"spam"</span>]])</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> balanced_df</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>balanced_df <span class="op">=</span> create_balanced_dataset(df)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>balanced_df[<span class="st">"Label"</span>] <span class="op">=</span> balanced_df[<span class="st">"Label"</span>].<span class="bu">map</span>({<span class="st">"ham"</span>: <span class="dv">0</span>, <span class="st">"spam"</span>: <span class="dv">1</span>})</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(balanced_df[<span class="st">"Label"</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_balanced_dataset(df):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "spam" 인스턴스 개수 세기</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    num_spam <span class="op">=</span> df[df[<span class="st">"Label"</span>] <span class="op">==</span> <span class="st">"spam"</span>].shape[<span class="dv">0</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "spam" 인스턴스 개수와 일치하도록 "ham" 인스턴스 무작위 샘플링</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ham_subset <span class="op">=</span> df[df[<span class="st">"Label"</span>] <span class="op">==</span> <span class="st">"ham"</span>].sample(num_spam, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "ham" 서브셋과 "spam" 데이터 결합</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    balanced_df <span class="op">=</span> pd.concat([ham_subset, df[df[<span class="st">"Label"</span>] <span class="op">==</span> <span class="st">"spam"</span>]])</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> balanced_df</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>balanced_df <span class="op">=</span> create_balanced_dataset(df)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>balanced_df[<span class="st">"Label"</span>] <span class="op">=</span> balanced_df[<span class="st">"Label"</span>].<span class="bu">map</span>({<span class="st">"ham"</span>: <span class="dv">0</span>, <span class="st">"spam"</span>: <span class="dv">1</span>})</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(balanced_df[<span class="st">"Label"</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Label
+0    747
+1    747
+Name: count, dtype: int64</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -627,80 +704,87 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="모델-초기화-initializing-the-model"><span class="header-section-number">2.2.2</span> 모델 초기화 (Initializing the model)</h3>
 <p><code>AutoModelForSequenceClassification</code> 클래스를 사용하여 사전 훈련된 모델을 불러오고, 원하는 task에 맞게 head 부분을 수정합니다. 본 튜토리얼에서는 스팸 메일 분류를 위해 2개의 label (스팸, 햄)을 가진 <code>classification head</code>를 사용합니다.</p>
 <div id="cell-8" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader, Dataset</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> (</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    AutoModelForSequenceClassification,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    AutoTokenizer,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    Trainer,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    TrainingArguments,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>model_id <span class="op">=</span> <span class="st">"answerdotai/ModernBERT-base"</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 토크나이저를 데이터셋 생성 또는 멀티프로세싱 전에 전역적으로 초기화합니다.</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_id)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 로더 클래스 정의</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomDataset(Dataset):</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, texts, labels, tokenizer):  <span class="co"># 토크나이저를 인자로 추가</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.texts <span class="op">=</span> texts</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.labels <span class="op">=</span> labels</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tokenizer <span class="op">=</span> tokenizer  <span class="co"># 전달받은 토크나이저 사용</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.texts)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        encoding <span class="op">=</span> <span class="va">self</span>.tokenizer(</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.texts[idx],</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>            truncation<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">=</span><span class="st">"max_length"</span>,</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            max_length<span class="op">=</span><span class="dv">128</span>,</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            return_tensors<span class="op">=</span><span class="st">"pt"</span>,</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">"input_ids"</span>: encoding[<span class="st">"input_ids"</span>].flatten(),</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">"attention_mask"</span>: encoding[<span class="st">"attention_mask"</span>].flatten(),</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">"labels"</span>: torch.tensor(<span class="va">self</span>.labels[idx], dtype<span class="op">=</span>torch.<span class="bu">long</span>),</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>texts <span class="op">=</span> balanced_df[<span class="st">"Text"</span>].to_list()</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> balanced_df[<span class="st">"Label"</span>].to_list()</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> CustomDataset(texts, labels, tokenizer)  <span class="co"># 토크나이저 인스턴스 전달</span></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>train_loader <span class="op">=</span> DataLoader(dataset, batch_size<span class="op">=</span><span class="dv">16</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 로드 및 설정</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> torch.backends.mps.is_available():</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> torch.device(<span class="st">"mps"</span>)</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Using MPS"</span>)</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> torch.cuda.is_available():</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> torch.device(<span class="st">"cuda"</span>)</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Using CUDA"</span>)</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> torch.device(<span class="st">"cpu"</span>)</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Using CPU"</span>)</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForSequenceClassification.from_pretrained(model_id, num_labels<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> model.to(device)</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 학습 설정 및 조정</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>training_args <span class="op">=</span> TrainingArguments(</span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    output_dir<span class="op">=</span><span class="st">"../data/output/ModernBERT-spam"</span>,</span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    num_train_epochs<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size<span class="op">=</span><span class="dv">16</span>,</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    logging_dir<span class="op">=</span><span class="st">"../data/output/ModernBERT-spam/logs"</span>,</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>    logging_steps<span class="op">=</span><span class="dv">40</span>,</span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> Trainer(</span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>training_args,</span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>    train_dataset<span class="op">=</span>dataset,</span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader, Dataset</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> (</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    AutoModelForSequenceClassification,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    AutoTokenizer,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    Trainer,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    TrainingArguments,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>model_id <span class="op">=</span> <span class="st">"answerdotai/ModernBERT-base"</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 토크나이저를 데이터셋 생성 또는 멀티프로세싱 전에 전역적으로 초기화합니다.</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_id)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터 로더 클래스 정의</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomDataset(Dataset):</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, texts, labels, tokenizer):  <span class="co"># 토크나이저를 인자로 추가</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.texts <span class="op">=</span> texts</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.labels <span class="op">=</span> labels</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tokenizer <span class="op">=</span> tokenizer  <span class="co"># 전달받은 토크나이저 사용</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.texts)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        encoding <span class="op">=</span> <span class="va">self</span>.tokenizer(</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.texts[idx],</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>            truncation<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">=</span><span class="st">"max_length"</span>,</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>            max_length<span class="op">=</span><span class="dv">128</span>,</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>            return_tensors<span class="op">=</span><span class="st">"pt"</span>,</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">"input_ids"</span>: encoding[<span class="st">"input_ids"</span>].flatten(),</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">"attention_mask"</span>: encoding[<span class="st">"attention_mask"</span>].flatten(),</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">"labels"</span>: torch.tensor(<span class="va">self</span>.labels[idx], dtype<span class="op">=</span>torch.<span class="bu">long</span>),</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>texts <span class="op">=</span> balanced_df[<span class="st">"Text"</span>].to_list()</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> balanced_df[<span class="st">"Label"</span>].to_list()</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> CustomDataset(texts, labels, tokenizer)  <span class="co"># 토크나이저 인스턴스 전달</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>train_loader <span class="op">=</span> DataLoader(dataset, batch_size<span class="op">=</span><span class="dv">16</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 로드 및 설정</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> torch.backends.mps.is_available():</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> torch.device(<span class="st">"mps"</span>)</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Using MPS"</span>)</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> torch.cuda.is_available():</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> torch.device(<span class="st">"cuda"</span>)</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Using CUDA"</span>)</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> torch.device(<span class="st">"cpu"</span>)</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Using CPU"</span>)</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForSequenceClassification.from_pretrained(model_id, num_labels<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> model.to(device)</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 학습 설정 및 조정</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>training_args <span class="op">=</span> TrainingArguments(</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    output_dir<span class="op">=</span><span class="st">"../data/output/ModernBERT-spam"</span>,</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    num_train_epochs<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size<span class="op">=</span><span class="dv">16</span>,</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    logging_dir<span class="op">=</span><span class="st">"../data/output/ModernBERT-spam/logs"</span>,</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    logging_steps<span class="op">=</span><span class="dv">40</span>,</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> Trainer(</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>training_args,</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>    train_dataset<span class="op">=</span>dataset,</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Using MPS</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Some weights of ModernBertForSequenceClassification were not initialized from the model checkpoint at answerdotai/ModernBERT-base and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -711,54 +795,115 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <h3 data-number="3.0.1" class="anchored" data-anchor-id="모델-가중치-동결-freezing-pretrained-weights"><span class="header-section-number">3.0.1</span> 모델 가중치 동결 (Freezing pretrained weights)</h3>
 <p>사전 훈련된 모델의 가중치를 미세 조정(fine-tuning) 과정에서 동결하는 것은 일반적인 방법입니다. 이를 통해 사전 훈련된 모델이 가진 지식을 유지하면서, 특정 task에 맞게 모델을 조정할 수 있습니다. 하지만 여기에서는 모든 가중치를 미세 조정하여 모델 성능을 극대화합니다.</p>
 <div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 조정 수행</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 조정 수행</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+      
+      <progress value="282" max="282" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [282/282 04:08, Epoch 3/3]
+    </div>
+    
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Step</th>
+<th data-quarto-table-cell-role="th">Training Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>40</td>
+<td>0.251200</td>
+</tr>
+<tr class="even">
+<td>80</td>
+<td>0.079900</td>
+</tr>
+<tr class="odd">
+<td>120</td>
+<td>0.046400</td>
+</tr>
+<tr class="even">
+<td>160</td>
+<td>0.027300</td>
+</tr>
+<tr class="odd">
+<td>200</td>
+<td>0.041400</td>
+</tr>
+<tr class="even">
+<td>240</td>
+<td>0.001200</td>
+</tr>
+<tr class="odd">
+<td>280</td>
+<td>0.000200</td>
+</tr>
+</tbody>
+</table>
+<p>
+</p></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>TrainOutput(global_step=282, training_loss=0.06348936739650139, metrics={'train_runtime': 250.0251, 'train_samples_per_second': 17.926, 'train_steps_per_second': 1.128, 'total_flos': 381819166460928.0, 'train_loss': 0.06348936739650139, 'epoch': 3.0})</code></pre>
+</div>
 </div>
 </section>
 <section id="모델로-예측하기" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="모델로-예측하기"><span class="header-section-number">3.1</span> 모델로 예측하기</h2>
 <p>앞서 구축하고 미세 조정한 LLM 모델을 이용하여 실제 환경에서 새로운 이메일에 대한 스팸 여부를 예측해보겠습니다. 이 과정은 모델의 실용성을 검증하는 핵심적인 단계입니다.</p>
 <div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 새로운 데이터에 대한 예측 사용</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>predict_texts <span class="op">=</span> [</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CONGRATULATIONS! You've been selected to receive a FREE iPhone 14 Pro Max! Click the link below to claim your prize within the next 30 minutes: bit.ly/free-iphone-claim. Don't miss out on this EXCLUSIVE offer"</span>,  <span class="co"># 스팸</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hi, how are you? I wanted to catch up and see if you're free for a call sometime this week."</span>,  <span class="co"># 햄</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Reminder: Don't forget to pick up your dry cleaning today."</span>,  <span class="co"># 햄</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 예측 시 *동일한* 토크나이저 인스턴스 사용</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>predict_encodings <span class="op">=</span> tokenizer(  <span class="co"># 전역적으로 초기화된 토크나이저 사용</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    predict_texts, truncation<span class="op">=</span><span class="va">True</span>, padding<span class="op">=</span><span class="va">True</span>, return_tensors<span class="op">=</span><span class="st">"pt"</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 예측</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    outputs <span class="op">=</span> model(</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        input_ids<span class="op">=</span>predict_encodings[<span class="st">"input_ids"</span>].to(device),</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        attention_mask<span class="op">=</span>predict_encodings[<span class="st">"attention_mask"</span>].to(device),</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 예측 결과 추출</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> torch.argmax(outputs.logits, dim<span class="op">=-</span><span class="dv">1</span>)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 예측 결과 해석 및 출력</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> text, prediction <span class="kw">in</span> <span class="bu">zip</span>(predict_texts, predictions):</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> prediction.item() <span class="op">==</span> <span class="dv">1</span>:</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"스팸: </span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"햄: </span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 새로운 데이터에 대한 예측 사용</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>predict_texts <span class="op">=</span> [</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CONGRATULATIONS! You've been selected to receive a FREE iPhone 14 Pro Max! Click the link below to claim your prize within the next 30 minutes: bit.ly/free-iphone-claim. Don't miss out on this EXCLUSIVE offer"</span>,  <span class="co"># 스팸</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hi, how are you? I wanted to catch up and see if you're free for a call sometime this week."</span>,  <span class="co"># 햄</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Reminder: Don't forget to pick up your dry cleaning today."</span>,  <span class="co"># 햄</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 예측 시 *동일한* 토크나이저 인스턴스 사용</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>predict_encodings <span class="op">=</span> tokenizer(  <span class="co"># 전역적으로 초기화된 토크나이저 사용</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    predict_texts, truncation<span class="op">=</span><span class="va">True</span>, padding<span class="op">=</span><span class="va">True</span>, return_tensors<span class="op">=</span><span class="st">"pt"</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 예측</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    outputs <span class="op">=</span> model(</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        input_ids<span class="op">=</span>predict_encodings[<span class="st">"input_ids"</span>].to(device),</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        attention_mask<span class="op">=</span>predict_encodings[<span class="st">"attention_mask"</span>].to(device),</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 예측 결과 추출</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> torch.argmax(outputs.logits, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 예측 결과 해석 및 출력</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> text, prediction <span class="kw">in</span> <span class="bu">zip</span>(predict_texts, predictions):</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> prediction.item() <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"스팸: </span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"햄: </span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>스팸: CONGRATULATIONS! You've been selected to receive a FREE iPhone 14 Pro Max! Click the link below to claim your prize within the next 30 minutes: bit.ly/free-iphone-claim. Don't miss out on this EXCLUSIVE offer
+햄: Hi, how are you? I wanted to catch up and see if you're free for a call sometime this week.
+햄: Reminder: Don't forget to pick up your dry cleaning today.</code></pre>
+</div>
 </div>
 <p>위의 출력을 보니 성능이 꽤 괜찮은 것 처럼 보이네요.</p>
 </section>
 <section id="hugging-face-hub에-모델-저장" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="hugging-face-hub에-모델-저장"><span class="header-section-number">3.2</span> Hugging Face Hub에 모델 저장</h2>
 <p>이제 미세 조정한 모델을 허깅페이스에 업로드합니다. 이렇게 올려두면 모델을 공유하거나 필요할때 다운로드해서 바로 사용할 수 있습니다.</p>
-<div id="cell-14" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 토크나이저 업로드</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tokenizer.push_to_hub(<span class="st">"ehottl/ModernBERT-spam"</span>)  <span class="co"># 본인 계정 이름과 저장소 이름 작성</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 트레이너를 사용한 모델 업로드</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>trainer.push_to_hub(<span class="st">"ehottl/ModernBERT-spam"</span>)  <span class="co"># 본인 계정 이름과 저장소 이름 작성</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-14" class="cell" data-scrolled="true">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 토크나이저 업로드</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tokenizer.push_to_hub(<span class="st">"ehottl/ModernBERT-spam"</span>)  <span class="co"># 본인 계정 이름과 저장소 이름 작성</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 트레이너를 사용한 모델 업로드</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>trainer.push_to_hub(<span class="st">"ehottl/ModernBERT-spam"</span>)  <span class="co"># 본인 계정 이름과 저장소 이름 작성</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No files have been modified since last commit. Skipping to prevent empty commit.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>CommitInfo(commit_url='https://huggingface.co/ehottl/ModernBERT-spam/commit/23f02271322e82762e9c5ca4322dad918205d6bf', commit_message='ehottl/ModernBERT-spam', commit_description='', oid='23f02271322e82762e9c5ca4322dad918205d6bf', pr_url=None, repo_url=RepoUrl('https://huggingface.co/ehottl/ModernBERT-spam', endpoint='https://huggingface.co', repo_type='model', repo_id='ehottl/ModernBERT-spam'), pr_revision=None, pr_num=None)</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -1233,6 +1378,38 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
