@@ -109,19 +109,19 @@ for position in range(1, sequence_length + 1):
     # 대상 위치 마스킹
     masked_input_ids: torch.Tensor = input_ids.clone()
     masked_input_ids[0, position] = tokenizer.mask_token_id
-
+    
     # 마스킹된 토큰에 대한 로짓 얻기
     with torch.no_grad():
         logits: torch.Tensor = model(masked_input_ids).logits
-
+        
     # 로그 확률 계산
     probabilities: torch.Tensor = torch.nn.functional.softmax(logits[0, position], dim=0)
     log_probabilities: torch.Tensor = torch.log(probabilities)
-
+    
     # 야생형 잔기의 로그 확률 얻기
     wt_residue: int = input_ids[0, position].item()
     log_prob_wt: float = log_probabilities[wt_residue].item()
-
+    
     # 각 변이에 대한 LLR 계산
     for i, amino_acid in enumerate(amino_acids):
         log_prob_mt: float = log_probabilities[tokenizer.convert_tokens_to_ids(amino_acid)].item()

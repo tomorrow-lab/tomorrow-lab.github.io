@@ -43,10 +43,10 @@ Source: [Algorithms by Dasgupta, Papadimitriou, Vazirani. McGraw-Hill. 2006](ht
 def fibonacci(n: int) -> int:
     fib: list[int] = [0] * (n + 1)
     fib[1] = 1
-
+    
     for i in range(2, n + 1):
         fib[i] = fib[i - 1] + fib[i - 2]
-
+    
     return fib[n]
 
 n: int = 6
@@ -62,10 +62,10 @@ from gmpy2 import mpz
 def fibonacci_gmpy2(n: int) -> mpz:
     a: mpz = gmpy2.mpz(0)
     b: mpz = gmpy2.mpz(1)
-
+    
     for _ in range(n):
         a, b = b, a + b
-
+    
     return a
 
 # 예제 사용
@@ -111,7 +111,7 @@ from typing import List, Tuple
 
 def binary_search(arr: List[int], target: int) -> int:
     low, high = 0, len(arr) - 1
-
+    
     while low <= high:
         mid = (low + high) // 2
         if arr[mid] == target:
@@ -120,7 +120,7 @@ def binary_search(arr: List[int], target: int) -> int:
             low = mid + 1
         else:
             high = mid - 1
-
+    
     return -1  # Target not found
 
 def parse_input(input_str: str) -> Tuple[int, int, List[int], List[int]]:
@@ -129,7 +129,7 @@ def parse_input(input_str: str) -> Tuple[int, int, List[int], List[int]]:
     m = int(lines[1])
     array = list(map(int, lines[2].split()))
     items = list(map(int, lines[3].split()))
-
+    
     return n, m, array, items
 
 sample_input = """
@@ -439,7 +439,7 @@ def parse_ints(x: str) -> List[int]:
 def merge_sorted_lists(list1: List[int], list2: List[int]) -> List[int]:
     merged = []
     i, j = 0, 0
-
+    
     while i < len(list1) and j < len(list2):
         if list1[i] < list2[j]:
             merged.append(list1[i])
@@ -447,10 +447,10 @@ def merge_sorted_lists(list1: List[int], list2: List[int]) -> List[int]:
         else:
             merged.append(list2[j])
             j += 1
-
+    
     merged.extend(list1[i:])
     merged.extend(list2[j:])
-
+    
     return merged
 
 sample_input = """
@@ -531,7 +531,7 @@ for arr in arrays:
     if result:
         print(*result)
     else:
-        print(-1)
+        print(-1) 
 ```
 
 # 3SUM
@@ -641,9 +641,9 @@ def read_non_empty_line(handle: Iterator[str]) -> str:
 
 def parse_graph(handle: Iterator[str], directed: bool = False, weighted: bool = False) -> Dict[int, List[Union[int, Dict[str, int]]]]:
     nodes, n_edges = parse_ints(read_non_empty_line(handle))
-
+    
     graph = {n: [] for n in range(1, nodes + 1)}
-
+    
     for _ in range(n_edges):
         edge = parse_ints(read_non_empty_line(handle))
         if weighted:
@@ -664,14 +664,14 @@ def bfs(graph: Dict[int, List[int]], start: int = 1) -> List[int]:
     distances = [-1] * (n + 1)
     distances[start] = 0
     queue = deque([start])
-
+    
     while queue:
         node = queue.popleft()
         for neighbor in graph[node]:
             if distances[neighbor] == -1:
                 queue.append(neighbor)
                 distances[neighbor] = distances[node] + 1
-
+    
     return distances[1:]
 
 # Sample input
@@ -729,7 +729,7 @@ from typing import List, Dict, Set, Union
 
 def parse_integers(input_string: str) -> List[int]:
     return list(map(int, input_string.split()))
-
+    
 def parse_graph(input_lines: List[str], is_directed: bool = False, is_weighted: bool = False) -> Dict[int, List[Union[int, Dict[str, int]]]]:
     graph_info = input_lines[0]
     if graph_info == "":
@@ -854,7 +854,7 @@ def parse_integers(line: str) -> List[int]:
 def merge(left: List[int], right: List[int]) -> List[int]:
     merged = []
     left_index, right_index = 0, 0
-
+    
     while left_index < len(left) and right_index < len(right):
         if left[left_index] < right[right_index]:
             merged.append(left[left_index])
@@ -862,11 +862,11 @@ def merge(left: List[int], right: List[int]) -> List[int]:
         else:
             merged.append(right[right_index])
             right_index += 1
-
+            
     # Append any remaining elements from both halves
     merged.extend(left[left_index:])
     merged.extend(right[right_index:])
-
+    
     return merged
 
 def merge_sort(array: List[int]) -> List[int]:
@@ -919,15 +919,15 @@ def parse_integers(line: str) -> List[int]:
 def partition(array: List[int]) -> List[int]:
     if len(array) <= 1:
         return array
-
+    
     pivot = array[0]
     swap_index = 0
-
+    
     for current_index in range(1, len(array)):
         if array[current_index] <= pivot:
             swap_index += 1
             array[current_index], array[swap_index] = array[swap_index], array[current_index]
-
+    
     array[0], array[swap_index] = array[swap_index], array[0]
     return array
 
@@ -975,7 +975,7 @@ def three_way_partition(array: List[int], start: int = None, end: int = None) ->
         start = 0
     if end is None:
         end = len(array) - 1
-
+    
     pivot = array[start]
     low = start
     current = start
@@ -1054,9 +1054,9 @@ def read_non_empty_line(input_iterator: Iterator[str]) -> str:
 
 def create_graph(input_iterator: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Dict[int, List[Union[int, Dict[str, int]]]]:
     num_nodes, num_edges = parse_integers(read_non_empty_line(input_iterator))
-
+    
     graph = {node: [] for node in range(1, num_nodes + 1)}
-
+    
     for _ in range(num_edges):
         edge_data = parse_integers(read_non_empty_line(input_iterator))
         if is_weighted:
@@ -1169,9 +1169,9 @@ def read_non_empty_line(input_iterator: Iterator[str]) -> str:
 
 def parse_graph(input_iterator: Iterator[str], directed: bool = False, weighted: bool = False) -> Dict[int, List[Union[int, Dict[str, int]]]]:
     num_nodes, num_edges = parse_integers(read_non_empty_line(input_iterator))
-
+    
     graph = {node: [] for node in range(1, num_nodes + 1)}
-
+    
     for _ in range(num_edges):
         edge = parse_integers(read_non_empty_line(input_iterator))
         if weighted:
@@ -1186,7 +1186,7 @@ def parse_graph(input_iterator: Iterator[str], directed: bool = False, weighted:
                 graph[to_node].append(from_node)
 
     return graph
-
+    
 def is_bipartite(graph: Dict[int, List[int]]) -> int:
     color = {1: 0}
     queue = [1]
@@ -1279,9 +1279,9 @@ def read_non_empty_line(input_iter: Iterator[str]) -> str:
 
 def parse_graph(input_iter: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Dict[int, List[Union[int, Dict[str, int]]]]:
     node_count, edge_count = parse_integers(read_non_empty_line(input_iter))
-
+    
     graph = {node: [] for node in range(1, node_count + 1)}
-
+    
     for _ in range(edge_count):
         edge = parse_integers(read_non_empty_line(input_iter))
         if is_weighted:
@@ -1401,9 +1401,9 @@ def read_non_empty_line(input_iter: Iterator[str]) -> str:
 
 def parse_graph(input_iter: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Dict[int, List[Union[int, Dict[str, int]]]]:
     vertex_count, edge_count = parse_integers(read_non_empty_line(input_iter))
-
+    
     adjacency_list = {vertex: [] for vertex in range(1, vertex_count + 1)}
-
+    
     for _ in range(edge_count):
         edge = parse_integers(read_non_empty_line(input_iter))
         if is_weighted:
@@ -1436,7 +1436,7 @@ def dijkstra(graph, start_vertex=1):
             else:
                 next_vertex = neighbor
                 edge_weight = 1  # Assume unit weight for unweighted graphs
-
+            
             if next_vertex not in visited:
                 new_distance = distances[current_vertex] + edge_weight
                 if new_distance < distances[next_vertex]:
@@ -1674,9 +1674,9 @@ Graph = Dict[int, List[Union[int, EdgeInfo]]]
 
 def parse_graph(input_iterator: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Graph:
     vertex_count, edge_count = parse_integers(read_non_empty_line(input_iterator))
-
+    
     adjacency_list: Graph = {vertex: [] for vertex in range(1, vertex_count + 1)}
-
+    
     for _ in range(edge_count):
         edge_data = parse_integers(read_non_empty_line(input_iterator))
         if is_weighted:
@@ -1800,9 +1800,9 @@ def read_non_empty_line(input_iter: Iterator[str]) -> str:
 
 def parse_graph(input_iter: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Graph:
     vertex_count, edge_count = parse_integers(read_non_empty_line(input_iter))
-
+    
     adj_list: Graph = {vertex: [] for vertex in range(1, vertex_count + 1)}
-
+    
     for _ in range(edge_count):
         edge_data = parse_integers(read_non_empty_line(input_iter))
         if is_weighted:
@@ -1934,7 +1934,7 @@ def three_way_partition(arr: List[int], low: int = 0, high: int = None) -> Tuple
     """Partition the array into three parts based on a pivot."""
     if high is None:
         high = len(arr) - 1
-
+    
     pivot = arr[low]
     mid = low
 
@@ -1955,7 +1955,7 @@ def find_kth_element(arr: List[int], k: int) -> int:
     """Find the k-th element in the array using a three-way partitioning method."""
     def find_kth_recursive(arr: List[int], k: int, low: int, high: int) -> int:
         left, right = three_way_partition(arr, low, high)
-
+        
         if k < left:
             return find_kth_recursive(arr, k, low, left - 1)
         elif k > right:
@@ -2124,9 +2124,9 @@ def read_non_empty_line(input_iterator: Iterator[str]) -> str:
 
 def parse_graph(input_iterator: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Graph:
     vertex_count, edge_count = parse_integers(read_non_empty_line(input_iterator))
-
+    
     adjacency_list: Graph = {vertex: [] for vertex in range(1, vertex_count + 1)}
-
+    
     for _ in range(edge_count):
         edge_data = parse_integers(read_non_empty_line(input_iterator))
         if is_weighted:
@@ -2234,9 +2234,9 @@ def read_non_empty_line(input_iterator: Iterator[str]) -> str:
 
 def parse_graph(input_iterator: Iterator[str], is_directed: bool = False) -> Graph:
     vertex_count, edge_count = parse_integers(read_non_empty_line(input_iterator))
-
+    
     adjacency_list: Graph = defaultdict(list)
-
+    
     for _ in range(edge_count):
         source, destination = parse_integers(read_non_empty_line(input_iterator))
         adjacency_list[source].append(destination)
@@ -2346,9 +2346,9 @@ def read_non_empty_line(input_iterator: Iterator[str]) -> str:
 
 def parse_graph(input_iterator: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Dict[int, List[Union[int, Dict[str, int]]]]:
     node_count, edge_count = parse_integers(read_non_empty_line(input_iterator))
-
+    
     adjacency_list = {node: [] for node in range(1, node_count + 1)}
-
+    
     for _ in range(edge_count):
         edge_data = parse_integers(read_non_empty_line(input_iterator))
         if is_weighted:
@@ -2531,9 +2531,9 @@ def read_non_empty_line(input_iterator: Iterator[str]) -> str:
 
 def parse_graph(input_iterator: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Graph:
     node_count, edge_count = parse_integers(read_non_empty_line(input_iterator))
-
+    
     graph = {n: [] for n in range(1, node_count + 1)}
-
+    
     for _ in range(edge_count):
         edge = parse_integers(read_non_empty_line(input_iterator))
         if is_weighted:
@@ -2692,7 +2692,7 @@ def reverse_graph(original_graph):
         for neighbor in original_graph[node]:
             reversed_graph[neighbor].append(node)
     return reversed_graph
-
+    
 def find_strongly_connected_components(graph):
     node_order = topological_sort(graph)
     reversed_graph = reverse_graph(graph)
@@ -2708,7 +2708,7 @@ def find_component_index(node, components):
     for index, component in enumerate(components):
         if node in component:
             return index
-
+            
 def condense_graph(original_graph, components):
     condensed_graph = {}
     for index, component in enumerate(components):
@@ -2848,9 +2848,9 @@ def read_non_empty_line(input_iterator: Iterator[str]) -> str:
 
 def parse_graph(input_iterator: Iterator[str], is_directed: bool = False, is_weighted: bool = False) -> Graph:
     node_count, edge_count = parse_integers(read_non_empty_line(input_iterator))
-
+    
     graph = {node: [] for node in range(1, node_count + 1)}
-
+    
     for _ in range(edge_count):
         edge = parse_integers(read_non_empty_line(input_iterator))
         if is_weighted:
@@ -2875,7 +2875,7 @@ def bfs(graph: Graph, start_node=1) -> List[int]:
     distances = [-1 for _ in range(node_count + 1)]
     distances[start_node] = 0
     queue = [start_node]
-
+    
     while queue:
         current_node = queue.pop(0)
         for neighbor in graph[current_node]:
@@ -3147,7 +3147,7 @@ def create_graph(input_stream: Iterator[str], is_directed: bool = False, is_weig
     graph_info = next(input_stream)
     if graph_info == "\n":
         graph_info = next(input_stream)
-
+    
     vertex_count, edge_count = parse_integers(graph_info)
     edge_list = [next(input_stream) for _ in range(edge_count)]
     adjacency_list: Dict[int, List[Union[int, Dict[str, int]]]] = {v: [] for v in range(1, vertex_count + 1)}
@@ -3197,7 +3197,7 @@ def shortest_distances_acyclic_graph(graph: Dict[int, List[Dict[str, int]]]) -> 
     distances = [inf for _ in range(vertex_count + 1)]
     distances[1] = 0
     topological_order = topological_sort(simplify_graph(graph))
-
+    
     for current_vertex in topological_order:
         seen_vertices = set()
         for edge in reversed(graph[current_vertex]):
@@ -3206,7 +3206,7 @@ def shortest_distances_acyclic_graph(graph: Dict[int, List[Dict[str, int]]]) -> 
                 seen_vertices.add(neighbor)
                 if distances[current_vertex] + edge["weight"] < distances[neighbor]:
                     distances[neighbor] = distances[current_vertex] + edge["weight"]
-
+    
     return ["x" if d == inf else d for d in distances[1:]]
 
 sample_input = """

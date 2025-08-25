@@ -49,7 +49,7 @@ def count_nucleotides(dna_string):
     count_C = 0
     count_G = 0
     count_T = 0
-
+    
     for nucleotide in dna_string:
         if nucleotide == 'A':
             count_A += 1
@@ -59,7 +59,7 @@ def count_nucleotides(dna_string):
             count_G += 1
         elif nucleotide == 'T':
             count_T += 1
-
+    
     return count_A, count_C, count_G, count_T
 
 # Sample Dataset
@@ -153,18 +153,18 @@ To find the reverse complement of a DNA string, follow these steps:
 def reverse_complement(dna_string):
     # Dictionary to map each nucleotide to its complement
     complement = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
-
+    
     # Reverse the DNA string
     reversed_dna = dna_string[::-1]
-
+    
     # Replace each nucleotide with its complement
     reverse_complement_dna = ''.join(complement[base] for base in reversed_dna)
-
+    
     return reverse_complement_dna
 
 # Sample Dataset
 dna_string = "AAAACCCGGT"
-print(reverse_complement(dna_string))
+print(reverse_complement(dna_string))  
 # Output should be "ACCGGGTTTT"
 ```
 
@@ -228,17 +228,17 @@ Here is the Python function to implement this approach:
 def total_rabbit_pairs(n, k):
     if n == 1 or n == 2:
         return 1
-
+    
     # Initialize the first two months
     F1 = 1
     F2 = 1
-
+    
     # Compute the number of rabbit pairs for each subsequent month
     for month in range(3, n + 1):
         F_current = F2 + k * F1
         F1 = F2
         F2 = F_current
-
+    
     return F2
 
 # Sample Dataset
@@ -313,14 +313,14 @@ Here's the Python code to achieve this:
 def parse_fasta(fasta_strings):
     sequences = {}
     label = None
-
+    
     for line in fasta_strings.splitlines():
         if line.startswith('>'):
             label = line[1:].strip()
             sequences[label] = ""
         else:
             sequences[label] += line.strip()
-
+    
     return sequences
 
 def gc_content(dna_string):
@@ -331,13 +331,13 @@ def highest_gc_content(fasta_strings):
     sequences = parse_fasta(fasta_strings)
     max_gc_id = None
     max_gc_content = 0
-
+    
     for label, dna_string in sequences.items():
         gc = gc_content(dna_string)
         if gc > max_gc_content:
             max_gc_content = gc
             max_gc_id = label
-
+            
     return max_gc_id, max_gc_content
 
 # Sample Dataset
@@ -404,12 +404,12 @@ The Hamming distance between two strings of equal length is the number of positi
 def hamming_distance(s, t):
     # Initialize the counter for differences
     count = 0
-
+    
     # Traverse both strings and compare characters
     for char1, char2 in zip(s, t):
         if char1 != char2:
             count += 1
-
+    
     return count
 
 # Sample Dataset
@@ -500,10 +500,10 @@ Here is the Python code that implements the above steps:
 def probability_dominant_phenotype(k, m, n):
     # Total population
     total = k + m + n
-
+    
     # Total number of possible pairings
     total_pairings = total * (total - 1)
-
+    
     # Probabilities of each pairing type
     prob_AA_AA = k * (k - 1) / total_pairings
     prob_AA_Aa = 2 * k * m / total_pairings
@@ -511,7 +511,7 @@ def probability_dominant_phenotype(k, m, n):
     prob_Aa_Aa = m * (m - 1) / total_pairings
     prob_Aa_aa = 2 * m * n / total_pairings
     prob_aa_aa = n * (n - 1) / total_pairings
-
+    
     # Probabilities of dominant phenotype from each pairing
     prob_dom_AA_AA = 1.0  # 100%
     prob_dom_AA_Aa = 1.0  # 100%
@@ -519,7 +519,7 @@ def probability_dominant_phenotype(k, m, n):
     prob_dom_Aa_Aa = 0.75 # 75%
     prob_dom_Aa_aa = 0.5  # 50%
     prob_dom_aa_aa = 0.0  # 0%
-
+    
     # Total probability of dominant phenotype
     prob_dom = (prob_AA_AA * prob_dom_AA_AA +
                 prob_AA_Aa * prob_dom_AA_Aa +
@@ -527,7 +527,7 @@ def probability_dominant_phenotype(k, m, n):
                 prob_Aa_Aa * prob_dom_Aa_Aa +
                 prob_Aa_aa * prob_dom_Aa_aa +
                 prob_aa_aa * prob_dom_aa_aa)
-
+    
     return prob_dom
 
 # Sample Dataset
@@ -618,7 +618,7 @@ def translate_rna_to_protein(rna_sequence):
     }
 
     protein_string = []
-
+    
     # Proces the RNA sequence in chunks of three nucleotides (codons)
     for i in range(0, len(rna_sequence), 3):
         codon = rna_sequence[i:i+3]
@@ -627,7 +627,7 @@ def translate_rna_to_protein(rna_sequence):
             if amino_acid == "Stop":
                 break
             protein_string.append(amino_acid)
-
+    
     return ''.join(protein_string)
 
 # Sample Dataset
@@ -706,14 +706,14 @@ def find_motif_locations(s, t):
     positions = []
     len_s = len(s)
     len_t = len(t)
-
+    
     # Iterate through the main string `s`
     for i in range(len_s - len_t + 1):
         # Check if the substring `t` matches the segment in `s` starting at position `i`
         if s[i:i+len_t] == t:
             # If it matches, record the 1-based position
             positions.append(i + 1)
-
+    
     return positions
 
 # Sample Dataset
@@ -798,7 +798,7 @@ Here's the Python code to solve the problem:
 def parse_fasta(fasta_string):
     sequences = {}
     current_label = ""
-
+    
     lines = fasta_string.strip().split('\n')
     for line in lines:
         line = line.strip()
@@ -807,7 +807,7 @@ def parse_fasta(fasta_string):
             sequences[current_label] = ""
         else:
             sequences[current_label] += line
-
+            
     return list(sequences.values())
 
 def calculate_profile_matrix(dna_strings):
@@ -818,11 +818,11 @@ def calculate_profile_matrix(dna_strings):
         'G': [0] * n,
         'T': [0] * n
     }
-
+    
     for dna in dna_strings:
         for i, nucleotide in enumerate(dna):
             profile_matrix[nucleotide][i] += 1
-
+    
     return profile_matrix
 
 def calculate_consensus_string(profile_matrix, length):
@@ -841,7 +841,7 @@ def consensus_and_profile(fasta_string):
     dna_strings = parse_fasta(fasta_string)
     profile_matrix = calculate_profile_matrix(dna_strings)
     consensus_string = calculate_consensus_string(profile_matrix, len(dna_strings[0]))
-
+    
     return consensus_string, profile_matrix
 
 # Sample Dataset as a single string
@@ -943,14 +943,14 @@ To solve the problem of computing the number of rabbit pairs after a given numbe
 def mortal_fibonacci_rabbits(n, m):
     rabbits = [0] * m
     rabbits[0] = 1  # Initial pair of rabbits
-
+    
     for month in range(1, n):
         new_born = sum(rabbits[1:])  # All rabbits that are not in their first month
         # Shift all rabbits to the next month
         for i in range(m-1, 0, -1):
             rabbits[i] = rabbits[i-1]
         rabbits[0] = new_born  # Update the new-born rabbits
-
+    
     return sum(rabbits)
 
 # Test the function with the sample dataset
@@ -1035,19 +1035,19 @@ def infer_mrna_from_protein(protein):
         'P': 4, 'Q': 2, 'R': 6, 'S': 6, 'T': 4, 'V': 4,
         'W': 1, 'Y': 2, 'Stop': 3
     }
-
+    
     # Initialize the number of possible RNA strings
     possible_rna_strings = 1
-
+    
     # Calculate the product of possible codons for each amino acid
     for aa in protein:
         possible_rna_strings *= codon_count[aa]
         possible_rna_strings %= 1000000  # Take modulo 1,000,000 to keep the number manageable
-
+    
     # Multiply by the number of stop codons
     possible_rna_strings *= codon_count['Stop']
     possible_rna_strings %= 1000000  # Take modulo 1,000,000 again
-
+    
     return possible_rna_strings
 
 # Sample Dataset
@@ -1256,12 +1256,12 @@ Here's the Python code to compute the expected number of dominant offspring:
 def expected_dominant_offspring(couples):
     # Probabilities of offspring having dominant phenotype for each genotype pairing
     probabilities = [1.0, 1.0, 1.0, 0.75, 0.5, 0.0]
-
+    
     # Calculate the expected number of dominant offspring
     expected_value = 0
     for i in range(6):
         expected_value += couples[i] * probabilities[i] * 2
-
+    
     return expected_value
 
 # Sample dataset
@@ -1351,11 +1351,11 @@ def find_longest_common_substring(dna_strings):
     # Find the shortest string in the list
     shortest_str = min(dna_strings, key=len)
     len_shortest = len(shortest_str)
-
+    
     # Function to check if a substring is common in all strings
     def is_common(sub):
         return all(sub in dna for dna in dna_strings)
-
+    
     # Iterate over all substrings of the shortest string
     for length in range(len_shortest, 0, -1):
         for start in range(len_shortest - length + 1):
@@ -1474,13 +1474,13 @@ def fetch_fasta(uniprot_id):
 def find_motif_locations(sequence, motif_regex):
     matches = re.finditer(motif_regex, sequence)
     return [match.start() + 1 for match in matches]  # Convert to 1-based index
-
+    
 def fetch_input(data):
     ids = []
     for line in data.strip().split('\n'):
         ids.append(line)
     return ids
-
+   
 data = """
 A2Z669
 B5ZC00
@@ -1593,7 +1593,7 @@ def translate_dna_to_protein(dna_seq):
 
 def find_orfs(dna_seq):
     orfs = set()
-
+    
     # Generate 3 reading frames for the DNA sequence
     for frame in range(3):
         for i in range(frame, len(dna_seq) - 2, 3):
@@ -1601,7 +1601,7 @@ def find_orfs(dna_seq):
                 protein, has_stop_codon = translate_dna_to_protein(dna_seq[i:])
                 if protein and has_stop_codon:
                     orfs.add(protein)
-
+    
     return orfs
 
 def reverse_complement(dna_seq):
@@ -1613,7 +1613,7 @@ def main():
 AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG"""
 
     dna_seq = ''.join(line.strip() for line in fasta_input.split('\n') if not line.startswith('>'))
-
+    
     # Get reverse complement of the DNA sequence
     reverse_complement_seq = reverse_complement(dna_seq)
 
@@ -1673,13 +1673,13 @@ from itertools import permutations
 def enumerate_gene_orders(n):
     # Generate permutations
     perm = permutations(range(1, n + 1))
-
+    
     # Convert permutations to a list
     perm_list = list(perm)
-
+    
     # Print the number of permutations
     print(len(perm_list))
-
+    
     # Print each permutation
     for p in perm_list:
         print(' '.join(map(str, p)))
@@ -1793,7 +1793,7 @@ def reverse_complement(dna):
 def find_reverse_palindromes(dna):
     results = []
     length = len(dna)
-
+    
     for i in range(length):
         for j in range(4, 13):  # 길이가 4에서 12까지인 모든 경우를 확인
             if i + j > length:
@@ -1801,7 +1801,7 @@ def find_reverse_palindromes(dna):
             substring = dna[i:i+j]
             if substring == reverse_complement(substring):
                 results.append((i+1, j))
-
+    
     return results
 
 # 샘플 데이터셋
@@ -2072,24 +2072,24 @@ def longest_subsequence(long_type, seq):
     """
     # 입력 시퀀스를 내림차순으로 변경할지 여부에 따라 결정
     seq = list(reversed(seq)) if long_type != "inc" else seq
-
+    
     # 부분 수열의 길이를 저장할 리스트 초기화
     L = [1] * len(seq)
     # 이전 인덱스를 저장할 리스트 초기화
     prev_idxes = []
-
+    
     # 각 위치마다 최장 부분 수열의 길이 계산
     for i in range(len(L)):
         subproblems = [L[k] for k in range(i) if seq[k] < seq[i]]
         L[i] = 1 + max(subproblems, default=0)
-
+        
         if len(subproblems) == 0:
             prev_idxes.append(-1)
         else:
             # 최장 부분 수열의 마지막 인덱스 계산
             last_idx = len(L[:i]) - L[:i][::-1].index(max(subproblems)) - 1
             prev_idxes.append(last_idx)
-
+    
     return prev_idxes, seq
 
 def decode_prev_idx(data_package):
@@ -2104,7 +2104,7 @@ def decode_prev_idx(data_package):
     """
     prev_idxes, seq = data_package
     vals = []
-
+    
     # 각 최장 부분 수열을 복원
     for cur_idx in range(len(prev_idxes) - 1, -1, -1):
         val = []
@@ -2114,7 +2114,7 @@ def decode_prev_idx(data_package):
             prev_idx = prev_idxes[cur_idx]
             cur_idx = prev_idx
         vals.append(val)
-
+    
     return vals
 
 def print_result(long_type, seq):
@@ -2199,7 +2199,7 @@ def parse_fasta(fasta_text):
     sequences = {}
     current_header = None
     current_sequence = []
-
+    
     lines = fasta_text.splitlines()
     for line in lines:
         line = line.strip()
@@ -2210,11 +2210,11 @@ def parse_fasta(fasta_text):
             current_header = line[1:]
         else:
             current_sequence.append(line)
-
+    
     # 마지막 시퀀스 처리
     if current_header:
         sequences[current_header] = ''.join(current_sequence)
-
+    
     return sequences
 
 def overlap(s1, s2):
@@ -2227,11 +2227,11 @@ def overlap(s1, s2):
 def shortest_superstring(dna_sequences):
     strings = list(dna_sequences.values())
     n = len(strings)
-
+    
     while n > 1:
         max_overlap = -1
         best_i, best_j = -1, -1
-
+        
         for i in range(n):
             for j in range(n):
                 if i != j:
@@ -2239,14 +2239,14 @@ def shortest_superstring(dna_sequences):
                     if overlap_len > max_overlap:
                         max_overlap = overlap_len
                         best_i, best_j = i, j
-
+        
         if max_overlap > 0:
             strings[best_i] += strings[best_j][max_overlap:]
             strings.pop(best_j)
             n -= 1
         else:
             break
-
+    
     return strings[0]
 
 # 예시로 주어진 FASTA 형식 텍스트
@@ -2340,14 +2340,14 @@ def count_nucleotides(s):
 
 def calculate_perfect_matchings(s):
     count_A, count_U, count_C, count_G = count_nucleotides(s)
-
+    
     # Check if counts of A == U and C == G
     if count_A != count_U or count_C != count_G:
         return 0
-
+    
     # Calculate number of perfect matchings
     perfect_matchings = math.factorial(count_A) * math.factorial(count_C)
-
+    
     return perfect_matchings
 
 # Example usage with sample dataset
@@ -2418,13 +2418,13 @@ import math
 def partial_permutations(n, k):
     # Calculate n!
     n_fact = math.factorial(n)
-
+    
     # Calculate (n-k)!
     nk_fact = math.factorial(n - k)
-
+    
     # Calculate P(n, k) = n! / (n-k)!
     P_n_k = n_fact // nk_fact
-
+    
     # Return P(n, k) % 1,000,000
     return P_n_k % 1000000
 
@@ -2621,14 +2621,14 @@ from itertools import permutations, product
 def signed_permutations(n):
     # Generate all permutations of length n
     perms = list(permutations(range(1, n + 1)))
-
+    
     # Generate all possible signed permutations
     signed_perms = []
     for perm in perms:
         for signs in product([-1, 1], repeat=n):
             signed_perm = [a * sign for a, sign in zip(perm, signs)]
             signed_perms.append(signed_perm)
-
+    
     return signed_perms
 
 # Read the input
@@ -2710,14 +2710,14 @@ def parse_fasta(fasta_str):
 def find_spliced_motif(s, t):
     indices = []
     t_index = 0
-
+    
     for s_index in range(len(s)):
         if t_index < len(t) and s[s_index] == t[t_index]:
             indices.append(s_index + 1)
             t_index += 1
             if t_index == len(t):
                 break
-
+    
     return indices
 
 # Sample input
@@ -2816,16 +2816,16 @@ def parse_fasta(fasta_str):
 def count_transitions_transversions(s1, s2):
     transitions = 0
     transversions = 0
-
+    
     transitions_set = {('A', 'G'), ('G', 'A'), ('C', 'T'), ('T', 'C')}
-
+    
     for base1, base2 in zip(s1, s2):
         if base1 != base2:
             if (base1, base2) in transitions_set:
                 transitions += 1
             else:
                 transversions += 1
-
+                
     return transitions, transversions
 
 def transition_transversion_ratio(s1, s2):
@@ -3038,7 +3038,7 @@ def count_non_crossing_matchings(rna):
 
     Parameters:
     rna (str): The RNA string.
-
+    
     Returns:
     int: The number of non-crossing perfect matchings modulo 1,000,000.
     """
@@ -3049,16 +3049,16 @@ def count_non_crossing_matchings(rna):
         "G": "C",
         "C": "G"
     }
-
+    
     n = len(rna)
-
+    
     # If the length of the RNA string is odd, return 0
     if n % 2 != 0:
         return 0
-
+    
     # Memoization dictionary
     dp = {}
-
+    
     def helper(lo, hi):
         """
         Recursive helper function that computes the number of non-crossing perfect matchings
@@ -3076,21 +3076,21 @@ def count_non_crossing_matchings(rna):
             return 1
         if (lo, hi) in dp:
             return dp[(lo, hi)]
-
+        
         curr = rna[lo]
         target = mapping[curr]
         acc = 0
-
+        
         # Iterate through the possible pairs
         for i in range(lo + 1, hi + 1, 2):
             if rna[i] == target:
                 left = helper(lo + 1, i - 1)
                 right = helper(i + 1, hi)
                 acc += (left * right) % 1000000
-
+        
         dp[(lo, hi)] = acc % 1000000
         return dp[(lo, hi)]
-
+    
     # Call the helper function starting from index 0 to n-1
     return helper(0, n - 1)
 
@@ -3098,14 +3098,14 @@ def count_non_crossing_matchings(rna):
 def parse_fasta(fasta_str):
     sequences = {}
     current_label = None
-
+    
     for line in fasta_str.strip().split("\n"):
         if line.startswith(">"):
             current_label = line[1:].strip()
             sequences[current_label] = ""
         else:
             sequences[current_label] += line.strip()
-
+    
     return sequences
 
 # Sample Input in FASTA format
@@ -3234,12 +3234,12 @@ def find_correct_reads(reads):
     Identifies the correct reads in the dataset.
     """
     from collections import defaultdict
-
+    
     read_counts = defaultdict(int)
     for read in reads:
         read_counts[read] += 1
         read_counts[reverse_complement(read)] += 1
-
+    
     correct_reads = {read for read, count in read_counts.items() if count > 1}
     return correct_reads
 
@@ -3423,14 +3423,14 @@ from itertools import product
 def parse_fasta(fasta_str):
     sequences = {}
     current_label = None
-
+    
     for line in fasta_str.strip().split("\n"):
         if line.startswith(">"):
             current_label = line[1:].strip()
             sequences[current_label] = ""
         else:
             sequences[current_label] += line.strip()
-
+    
     return sequences
 
 def generate_kmers(k, alphabet='ACGT'):
@@ -3449,7 +3449,7 @@ def count_kmers(dna, k):
 def kmer_composition(dna, k=4):
     kmers = generate_kmers(k)
     kmer_counts = count_kmers(dna, k)
-
+    
     return [kmer_counts.get(kmer, 0) for kmer in kmers]
 
 # Sample Input in FASTA format
@@ -3546,16 +3546,16 @@ def compute_failure_array(s):
     n = len(s)
     P = [0] * n
     k = 0
-
+    
     for i in range(1, n):
         while k > 0 and s[k] != s[i]:
             k = P[k - 1]
-
+        
         if s[k] == s[i]:
             k += 1
-
+        
         P[i] = k
-
+    
     return P
 
 # Sample Input in FASTA format
@@ -3670,7 +3670,7 @@ def longest_common_subsequence(s, t):
     m, n = len(s), len(t)
     # Create a 2D table to store lengths of longest common subsequences.
     dp = [[0] * (n + 1) for _ in range(m + 1)]
-
+    
     # Fill the table
     for i in range(1, m + 1):
         for j in range(1, n + 1):
@@ -3678,7 +3678,7 @@ def longest_common_subsequence(s, t):
                 dp[i][j] = dp[i - 1][j - 1] + 1
             else:
                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-
+    
     # Backtrack to find the LCS
     lcs = []
     i, j = m, n
@@ -3691,7 +3691,7 @@ def longest_common_subsequence(s, t):
             i -= 1
         else:
             j -= 1
-
+    
     return ''.join(reversed(lcs))
 
 # Sample Input in FASTA format
@@ -3906,10 +3906,10 @@ from math import factorial
 def count_nucleotides(sequence):
     """
     Count the occurrences of each nucleotide in the RNA sequence.
-
+    
     Args:
     sequence (str): The RNA sequence as a string.
-
+    
     Returns:
     dict: A dictionary with counts for 'A', 'U', 'G', and 'C'.
     """
@@ -3922,11 +3922,11 @@ def count_nucleotides(sequence):
 def max_matching_pairs(a, b):
     """
     Calculate the number of ways to pair 'a' items with 'b' items.
-
+    
     Args:
     a (int): Number of items of type A.
     b (int): Number of items of type B.
-
+    
     Returns:
     int: The number of maximum matching pairs.
     """
@@ -3935,30 +3935,30 @@ def max_matching_pairs(a, b):
 def maximum_matchings(sequence):
     """
     Calculate the number of maximum matchings in an RNA sequence.
-
+    
     Args:
     sequence (str): The RNA sequence.
-
+    
     Returns:
     int: The number of maximum matchings.
     """
     # Count nucleotides
     counts = count_nucleotides(sequence)
-
+    
     # Get counts for each nucleotide
     A = counts['A']
     U = counts['U']
     G = counts['G']
     C = counts['C']
-
+    
     # Calculate the number of possible AU and GC pairings
     min_au_pairs = min(A, U)
     min_gc_pairs = min(G, C)
-
+    
     # Compute number of ways to form these pairs
     au_pairings = max_matching_pairs(A, min_au_pairs) * max_matching_pairs(U, min_au_pairs)
     gc_pairings = max_matching_pairs(G, min_gc_pairs) * max_matching_pairs(C, min_gc_pairs)
-
+    
     # Total number of maximum matchings
     total_matchings = au_pairings * gc_pairings
     return total_matchings
@@ -4150,50 +4150,50 @@ def get_all_permutations(s):
 def get_reversal_distance(p1, p2):
     if p1 == p2:
         return 0
-
+    
     target = tuple(p2)
     fromfirst = {tuple(p1): 0}
     q = collections.deque([p1])
-
+    
     while q:
         s = q.popleft()
         c = fromfirst[s]
-
+        
         for j in get_all_permutations(s):
             if j == target:
                 return c + 1
-
+            
             if j not in fromfirst:
                 fromfirst[j] = c + 1
-
+                
                 if c != 4:
                     q.append(j)
-
+                    
     fromsecond = {tuple(p2): 0}
     target = tuple(p1)
     q = collections.deque([p2])
     answer = 100000
-
+    
     while q:
         s = q.popleft()
         c = fromsecond[s]
-
+        
         if c == 4:
             break
-
+        
         for j in get_all_permutations(s):
             if j == target:
                 return c + 1
-
+            
             if j not in fromsecond:
                 fromsecond[j] = c + 1
-
+                
                 if c != 3:
                     q.append(j)
-
+                    
             if j in fromfirst:
                 answer = min(answer, fromfirst[j] + fromsecond[j])
-
+                
     return answer
 
 
@@ -4373,17 +4373,17 @@ def calculate_probability(N, x, s):
             prob_match *= x / 2
         else:  # base in 'AT'
             prob_match *= (1 - x) / 2
-
+    
     # Step 2: Compute the probability of the entire string matching
     # This is already computed as prob_match
-
+    
     # Step 3: Calculate the complementary probability
     prob_not_match = 1 - prob_match
-
+    
     # Step 4: Compute the final probability
     prob_all_not_match = prob_not_match ** N
     prob_at_least_one_match = 1 - prob_all_not_match
-
+    
     return prob_at_least_one_match
 
 # Sample input
@@ -4560,21 +4560,21 @@ Here's the Python code to achieve this:
 def expected_restriction_sites(n, s, A):
     len_s = len(s)
     B = []
-
+    
     for gc_content in A:
         p_gc = gc_content / 2
         p_at = (1 - gc_content) / 2
-
+        
         prob_s = 1.0
         for nucleotide in s:
             if nucleotide in 'GC':
                 prob_s *= p_gc
             else:
                 prob_s *= p_at
-
+        
         expected_count = prob_s * (n - len_s + 1)
         B.append(expected_count)
-
+    
     return B
 
 # Sample input
@@ -4744,17 +4744,17 @@ def dis_tree(T, x, y):
     # Find the indices of x and y in the Newick string T
     x_index = T.find(x)
     y_index = T.find(y)
-
+    
     # Extract the relevant substring between the indices of x and y
     sub_tree = [i for i in T[min(x_index, y_index):max(x_index, y_index)] if i in [')', '(', ',']]
-
+    
     # Convert the list of characters to a string
     bracket = ''.join(sub_tree)
-
+    
     # Remove empty pairs of parentheses
     while '(,)' in bracket:
         bracket = bracket.replace('(,)', '')
-
+    
     # Determine the number of steps based on the type of brackets remaining
     if bracket.count('(') == len(bracket) or bracket.count(')') == len(bracket):
         return len(bracket)
@@ -4767,13 +4767,13 @@ def process_input(input_data):
     # Parse the input data into a list of tree and node pairs
     tree_data = [line.strip().replace(";", "") for line in input_data.strip().split("\n") if line.strip()]
     results = []
-
+    
     # Iterate through the parsed data to proces each tree and node pair
     for i in range(0, len(tree_data), 2):
         T = tree_data[i]
         x, y = tree_data[i+1].split(' ')
         results.append(dis_tree(T, x, y))
-
+    
     return results
 
 # Sample input
@@ -4846,16 +4846,16 @@ Here's the code to solve the problem:
 ```python
 def shortest_common_supersequence(s, t):
     m, n = len(s), len(t)
-
+    
     # Initialize the DP table
     dp = [[0] * (n + 1) for _ in range(m + 1)]
-
+    
     # Fill the base cases
     for i in range(1, m + 1):
         dp[i][0] = i
     for j in range(1, n + 1):
         dp[0][j] = j
-
+    
     # Fill the DP table
     for i in range(1, m + 1):
         for j in range(1, n + 1):
@@ -4863,11 +4863,11 @@ def shortest_common_supersequence(s, t):
                 dp[i][j] = dp[i - 1][j - 1] + 1
             else:
                 dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + 1
-
+    
     # Backtrack to find the SCS
     i, j = m, n
     scs = []
-
+    
     while i > 0 and j > 0:
         if s[i - 1] == t[j - 1]:
             scs.append(s[i - 1])
@@ -4879,14 +4879,14 @@ def shortest_common_supersequence(s, t):
         else:
             scs.append(t[j - 1])
             j -= 1
-
+    
     while i > 0:
         scs.append(s[i - 1])
         i -= 1
     while j > 0:
         scs.append(t[j - 1])
         j -= 1
-
+    
     return ''.join(reversed(scs))
 
 # Sample input
@@ -5071,19 +5071,19 @@ def bfs(start, target):
                 if new_tuple not in visited:
                     visited.add(new_tuple)
                     queue.append((new_perm, path + [(i+1, j+1)]))
-
+                    
     return -1, []
 
 def sorting_by_reversals(pi, gamma):
     distance, reversals = bfs(pi, gamma)
     return distance, reversals
-
+    
 def parse_input(input_string):
     lines = input_string.strip().split("\n")
     pi = [int(x) for x in lines[0].split()]
     gamma = [int(x) for x in lines[1].split()]
     return pi, gamma
-
+    
 # Sample input
 sample_input = """
 6 5 4 7 2 3 9 8 10 1
@@ -5273,13 +5273,13 @@ def main():
     GAT
     """
     patterns = input_data.strip().split()
-
+    
     # Build the trie
     trie = build_trie(patterns)
-
+    
     # Convert trie to adjacency list
     adjacency_list = trie_to_adjacency_list(trie)
-
+    
     # Print the adjacency list
     for parent, child, char in adjacency_list:
         print(f"{parent} {child} {char}")
@@ -5460,31 +5460,31 @@ def find_splits(node, taxa, splits):
     # If it's a leaf node, return the set containing the taxon name
     if not node.children:
         return {node.name}
-
+    
     # Recursively find splits in left and right children
     left = find_splits(node.children[0], taxa, splits)
     right = find_splits(node.children[1], taxa, splits)
-
+    
     # Combine left and right splits
     split = left | right
-
+    
     # Check if this split is non-trivial and add it to the splits list
     if 1 < len(split) < len(taxa) - 1:
         splits.append(split)
-
+    
     return split
 
 # Function to create a character table from the splits
 def create_character_table(tree, taxa):
     splits = []
     find_splits(tree, set(taxa), splits)
-
+    
     table = []
     # Convert each split into a binary row
     for split in splits:
         row = ['1' if taxon in split else '0' for taxon in taxa]
         table.append(''.join(row))
-
+    
     return table
 
 # Sample Newick string
@@ -5614,16 +5614,16 @@ def construct_de_bruijn_graph(kmers):
     for kmer in kmers:
         rc_kmer = reverse_complement(kmer)
         kmers_with_rc.add(rc_kmer)
-
+    
     adjacency_list = defaultdict(set)
     k = len(next(iter(kmers))) - 1  # Length of the k-mer
-
+    
     for kmer in kmers_with_rc:
         for i in range(len(kmer) - k):
             prefix = kmer[i:i+k]
             suffix = kmer[i+1:i+k+1]
             adjacency_list[prefix].add(suffix)
-
+    
     return adjacency_list
 
 def format_adjacency_list(adj_list):
@@ -5638,13 +5638,13 @@ def main(input_data):
     """Main function to proces the input data and generate the De Bruijn graph."""
     lines = input_data.strip().split('\n')
     kplus1_mers = set(lines)
-
+    
     # Determine k from the length of the (k+1)-mers
     k = len(next(iter(kplus1_mers))) - 1
-
+    
     # Construct the De Bruijn graph
     adj_list = construct_de_bruijn_graph(kplus1_mers)
-
+    
     # Format and print the adjacency list
     formatted_output = format_adjacency_list(adj_list)
     for line in formatted_output:
@@ -5883,13 +5883,13 @@ def infer_peptide(n: int, parent_mass: float, ion_masses: List[float], peptides:
             amino_acids = amino_acid_masses.get(delta_mass, [])
             if amino_acids:
                 possible_ions.append((i, j, amino_acids))
-
+    
     if possible_ions:
         # Update ion masses and peptide candidates
         new_ion_masses = ion_masses[possible_ions[0][1]:]
         new_amino_acids = possible_ions[0][2]
         new_peptides = [peptide + aa for peptide in peptides for aa in new_amino_acids]
-
+        
         # Recursively infer peptide sequences
         return infer_peptide(n, parent_mass, new_ion_masses, new_peptides)
 
@@ -5959,10 +5959,10 @@ def calculate_shared_chromosome_probabilities(sample_input: str):
     """
     Calculate the common logarithm of the probability that two diploid siblings
     share at least k of their 2n chromosomes, given n.
-
+    
     Args:
     - sample_input (str): The input string representing the value of n.
-
+    
     Returns:
     - List of float: Logarithm base 10 of the cumulative probabilities.
     """
@@ -6244,14 +6244,14 @@ def build_suffix_tree(edges, s):
 def dfs(node, s, k, path, results):
     if len(node.children) == 0:
         return 1  # Leaf node
-
+    
     count = 0
     for child in node.children.values():
         count += dfs(child, s, k, path + s[child.start:child.start + child.length], results)
-
+    
     if count >= k:
         results.append((path, len(path)))
-
+    
     return count
 
 def longest_k_fold_substring(s, k, edges):
@@ -6259,9 +6259,9 @@ def longest_k_fold_substring(s, k, edges):
     root = nodes['node1']
     results = []
     dfs(root, s, k, "", results)
-
+    
     results.sort(key=lambda x: x[1], reverse=True)
-
+    
     return results[0][0] if results else ""
 
 # Sample input
@@ -6651,28 +6651,28 @@ CGTCTATC
 def char_table_from_strings(dna_list):
     """
     Builds a character table from a given list of DNA strings.
-
+    
     Parameters:
     dna_list (list of str): A list of DNA strings.
-
+    
     Returns:
     set of str: A set containing nontrivial character rows.
     """
     character_table = set()
-
+    
     # Iterate over each position in the DNA strings
     for pos in range(len(dna_list[0])):
         # Determine the reference character at the current position from the first DNA string
         ref_char = dna_list[0][pos]
-
+        
         # Create a binary array indicating the presence of the reference character at the current position
         char_array = [int(dna[pos] == ref_char) for dna in dna_list]
-
+        
         # Check if the character array is nontrivial (i.e., it has both 0s and 1s but not all 0s or all 1s)
         if 1 < sum(char_array) < len(dna_list) - 1:
             # Convert the binary array to a string and add it to the character table
             character_table.add(''.join(map(str, char_array)))
-
+    
     return character_table
 
 # Sample input
@@ -6760,28 +6760,28 @@ def parse_fasta(fasta_string):
 
     if sequence:
         sequences.append(''.join(sequence))
-
+    
     return sequences
 
 def count_optimal_alignments(s, t):
     '''Counts the total number of optimal alignments of s and t with respect to edit alignment score.'''
     MOD = 134217727  # Modulo value to prevent overflow
-
+    
     m, n = len(s), len(t)
-
+    
     # Initialize DP tables
     dp = [[0] * (n + 1) for _ in range(m + 1)]  # Table for edit distances
     count = [[0] * (n + 1) for _ in range(m + 1)]  # Table for counting optimal alignments
-
+    
     # Base cases: edit distance and count for aligning to empty string
     for i in range(m + 1):
         dp[i][0] = i
         count[i][0] = 1
-
+    
     for j in range(n + 1):
         dp[0][j] = j
         count[0][j] = 1
-
+    
     # Fill the DP tables
     for i in range(1, m + 1):
         for j in range(1, n + 1):
@@ -6789,10 +6789,10 @@ def count_optimal_alignments(s, t):
             insert_cost = dp[i][j-1] + 1
             delete_cost = dp[i-1][j] + 1
             replace_cost = dp[i-1][j-1] + (0 if s[i-1] == t[j-1] else 1)
-
+            
             # Find the minimum cost among the three operations
             dp[i][j] = min(insert_cost, delete_cost, replace_cost)
-
+            
             # Count the number of ways to achieve this minimum cost
             if dp[i][j] == insert_cost:
                 count[i][j] += count[i][j-1]
@@ -6800,10 +6800,10 @@ def count_optimal_alignments(s, t):
                 count[i][j] += count[i-1][j]
             if dp[i][j] == replace_cost:
                 count[i][j] += count[i-1][j-1]
-
+            
             # Apply the modulo to keep the count manageable
             count[i][j] %= MOD
-
+    
     return count[m][n]
 
 # Sample dataset in FASTA format
@@ -6881,7 +6881,7 @@ import functools
 
 def count_unrooted_binary_trees(num_leaves: int) -> int:
     """
-    Returns the number of unrooted binary trees with num_leaves leaves,
+    Returns the number of unrooted binary trees with num_leaves leaves, 
     modulo 1,000,000.
     """
     MODULO = 10**6
@@ -7236,12 +7236,12 @@ from collections import defaultdict
 def get_protein_weights():
     """Returns a dictionary mapping amino acids to their weights."""
     return {
-        'G': Decimal('57.02146'), 'A': Decimal('71.03711'), 'S': Decimal('87.03203'),
-        'P': Decimal('97.05276'), 'V': Decimal('99.06841'), 'T': Decimal('101.04768'),
-        'C': Decimal('103.00919'), 'I': Decimal('113.08406'), 'L': Decimal('113.08406'),
-        'N': Decimal('114.04293'), 'D': Decimal('115.02694'), 'Q': Decimal('128.05858'),
-        'K': Decimal('128.09496'), 'E': Decimal('129.04259'), 'M': Decimal('131.04049'),
-        'H': Decimal('137.05891'), 'F': Decimal('147.06841'), 'R': Decimal('156.10111'),
+        'G': Decimal('57.02146'), 'A': Decimal('71.03711'), 'S': Decimal('87.03203'), 
+        'P': Decimal('97.05276'), 'V': Decimal('99.06841'), 'T': Decimal('101.04768'), 
+        'C': Decimal('103.00919'), 'I': Decimal('113.08406'), 'L': Decimal('113.08406'), 
+        'N': Decimal('114.04293'), 'D': Decimal('115.02694'), 'Q': Decimal('128.05858'), 
+        'K': Decimal('128.09496'), 'E': Decimal('129.04259'), 'M': Decimal('131.04049'), 
+        'H': Decimal('137.05891'), 'F': Decimal('147.06841'), 'R': Decimal('156.10111'), 
         'Y': Decimal('163.06333'), 'W': Decimal('186.07931')
     }
 
@@ -7260,7 +7260,7 @@ def calculate_multiplicity(proteins, spectrum_weights):
     """
     max_multiplicity = -1
     best_protein = None
-
+    
     for protein in proteins:
         # Compute the spectrum weights for all prefixes and suffixes of the protein
         spectrum = []
@@ -7268,22 +7268,22 @@ def calculate_multiplicity(proteins, spectrum_weights):
             spectrum.append(calculate_weight(protein[:i]))
         for i in range(len(protein)):
             spectrum.append(calculate_weight(protein[i:]))
-
+        
         spectrum_weights_count = defaultdict(int)
-
+        
         # Count the differences between the spectrum weights and given weights
         for protein_weight in spectrum:
             for given_weight in spectrum_weights:
                 diff = round(protein_weight - given_weight, 3)
                 spectrum_weights_count[diff] += 1
-
+        
         # Determine the maximum multiplicity for the current protein
         current_multiplicity = max(spectrum_weights_count.values(), default=0)
-
+        
         if current_multiplicity > max_multiplicity:
             max_multiplicity = current_multiplicity
             best_protein = protein
-
+    
     return max_multiplicity, best_protein
 
 # Sample input (for demonstration purposes)
@@ -7394,7 +7394,7 @@ for line in lines[1:]:
             group_C.append(taxa[i])
         elif line[i] == '0':
             group_D.append(taxa[i])
-
+    
     # Ensure each group has at least two taxa to form a quartet
     if len(group_C) >= 2 and len(group_D) >= 2:
         # Generate all possible pairs for group C and group D
@@ -7405,7 +7405,7 @@ for line in lines[1:]:
                         # Form pairs (A, B) from group_C and (C, D) from group_D
                         pair_A = tuple(sorted([group_C[i], group_C[j]]))
                         pair_B = tuple(sorted([group_D[k], group_D[l]]))
-
+                        
                         # Add the sorted quartet to the set
                         sorted_quartet = (pair_A, pair_B) if pair_A < pair_B else (pair_B, pair_A)
                         unique_quartets.add(sorted_quartet)
@@ -7490,19 +7490,19 @@ def build_spectrum_graph(L, mass_table):
     matches any amino acid's mas in the mass_table.
     """
     graph = defaultdict(list)
-
+    
     # Iterate over each pair of nodes (u, v) where v > u
     for i, u in enumerate(L):
         for j, v in enumerate(L):
             if v > u:
                 # Calculate the weight difference between v and u
                 weight_diff = v - u
-
+                
                 # Check if this weight difference matches any amino acid mass
                 for symbol, mas in mass_table.items():
                     if abs(weight_diff - mass) < 1e-5:
                         graph[u].append((v, symbol))
-
+    
     return graph
 
 def find_longest_path(graph, start):
@@ -7511,21 +7511,21 @@ def find_longest_path(graph, start):
     """
     stack = [(start, '')]  # Stack for DFS: (current_node, path_string)
     longest_path = ''
-
+    
     # Store the longest path ending at each node
     path_map = defaultdict(str)
-
+    
     while stack:
         node, path = stack.pop()
-
+        
         # Update the longest path for the current node
         if len(path) > len(path_map[node]):
             path_map[node] = path
-
+        
         # Traverse neighbors
         for neighbor, symbol in graph[node]:
             stack.append((neighbor, path + symbol))
-
+    
     # Return the longest path found
     longest_path = max(path_map.values(), key=len)
     return longest_path
@@ -7536,14 +7536,14 @@ def find_longest_protein_string(L, mass_table):
     """
     # Create the spectrum graph from the list L
     graph = build_spectrum_graph(L, mass_table)
-
+    
     # Find the longest path starting from each node in L
     longest_protein = ''
     for node in L:
         current_protein = find_longest_path(graph, node)
         if len(current_protein) > len(longest_protein):
             longest_protein = current_protein
-
+    
     return longest_protein
 
 # Sample input
@@ -7640,7 +7640,7 @@ from collections import defaultdict
 
 clas SuffixTree:
     """Creates a suffix tree for the provided word."""
-
+    
     def __init__(self, word):
         """Initializes the suffix tree."""
         self.nodes = [self.Node(None, 0)]  # Initialize with root node.
@@ -7998,11 +7998,11 @@ def generate_combinations(n, items):
         return [[]]
     if not items:
         return []
-
+    
     head, *tail = items
     with_head = [[head] + rest for rest in generate_combinations(n-1, tail)]
     without_head = generate_combinations(n, tail)
-
+    
     return with_head + without_head
 
 def memoized_combinations(n, k):
@@ -8042,7 +8042,7 @@ def generate_unrooted_binary_trees(species):
                 if remaining_key in seen_combinations:
                     continue
                 seen_combinations.add(remaining_key)
-
+                
                 for left_tree in generate_unrooted_binary_trees(remaining_species):
                     for right_tree in generate_unrooted_binary_trees(selected_species):
                         trees.append(f"({right_tree},{left_tree})")
@@ -8117,21 +8117,21 @@ def find_cyclic_superstring(dna_strings):
     def flatten_list_of_lists(list_of_lists):
         """Flattens one level of nesting in a list of lists."""
         return chain.from_iterable(list_of_lists)
-
+    
     num_strings = len(dna_strings)
     string_length = len(dna_strings[0])  # Assumes all strings have the same length
-
+    
     for k in range(string_length - 1, 1, -1):
         # Create adjacency list of k-mers
         adj_list = dict(flatten_list_of_lists([
-            [(dna[i:i+k], dna[i+1:i+k+1]) for i in range(string_length - k)]
+            [(dna[i:i+k], dna[i+1:i+k+1]) for i in range(string_length - k)] 
             for dna in dna_strings
         ]))
-
+        
         # Start with an arbitrary k-mer and initialize the superstring
         first_kmer = kmer = next(iter(adj_list))
         superstring = ''
-
+        
         while True:
             if kmer in adj_list:
                 # Add the last character of the k-mer to the superstring
@@ -8441,13 +8441,13 @@ prob_dict = {
 def calculate_child_probabilities(parent1, parent2):
     """
     Given the genotype probabilities of two parents, calculate the probabilities for the child.
-
+    
     :param parent1: Dictionary containing the probabilities for the first parent (keys: 'AA', 'Aa', 'aa')
     :param parent2: Dictionary containing the probabilities for the second parent (keys: 'AA', 'Aa', 'aa')
     :return: Dictionary containing the probabilities for the child (keys: 'AA', 'Aa', 'aa')
     """
     child_prob = {"AA": 0.0, "Aa": 0.0, "aa": 0.0}
-
+    
     # Combine the genotype probabilities from both parents using the Mendelian inheritance rules
     for p1_genotype, p1_prob in parent1.items():
         for p2_genotype, p2_prob in parent2.items():
@@ -8456,7 +8456,7 @@ def calculate_child_probabilities(parent1, parent2):
             child_prob["AA"] += p1_prob * p2_prob * child_distribution[0]
             child_prob["Aa"] += p1_prob * p2_prob * child_distribution[1]
             child_prob["aa"] += p1_prob * p2_prob * child_distribution[2]
-
+    
     return child_prob
 
 # Known genotype probabilities for the leaves (ancestral individuals)
@@ -8803,7 +8803,7 @@ clas PAM250:
 
 def local_alignment(v, w, scoring_matrix, sigma):
     """Returns the score and local alignment with the given scoring matrix and indel penalty sigma for strings v, w."""
-
+    
     # Initialize the matrices S (score) and backtrack.
     S = np.zeros((len(v) + 1, len(w) + 1), dtype=int)
     backtrack = np.zeros((len(v) + 1, len(w) + 1), dtype=int)
@@ -8957,13 +8957,13 @@ def parse_fasta(data):
     """
     sequences = []
     entries = data.strip().split('>')
-
+    
     for entry in entries:
         if entry:
             lines = entry.splitlines()
             sequence = ''.join(lines[1:])
             sequences.append(sequence)
-
+    
     return sequences
 
 # Sample input in FASTA format
@@ -9530,7 +9530,7 @@ from math import sqrt
 def reconstruct_set(input_data):
     """
     Reconstruct the original set from the given differences.
-
+    
     :param input_data: A string containing space-separated integers representing the differences
     :return: A list of integers representing the reconstructed set
     """
@@ -9769,7 +9769,7 @@ def get_fingerprints_list(taxa_dict, tree):
     last_char = ''
     taxon = ''
     taxa_stack = []
-
+    
     for char in tree:
         if char in ('(', ',', ')'):
             if last_char in ('(', ','):
@@ -9785,12 +9785,12 @@ def get_fingerprints_list(taxa_dict, tree):
         else:
             if char != ' ':
                 taxon += char
-
+    
     return result
 
 def find_split_distance(taxa, tree1, tree2):
     random.seed()  # Initialize random number generator
-
+    
     taxa_dict = {taxon: random.randint(0, 2**12) for taxon in taxa}  # Adjusted bit range for randomness
 
     fingerprints1 = sorted(get_fingerprints_list(taxa_dict, tree1))
@@ -9902,10 +9902,10 @@ def calculate_final_probability(N, m, g, k):
     Calculate the probability of observing at least k recessive alleles after g generations.
     """
     previous_p = calculate_initial_probabilities(N, m)
-
+    
     for _ in range(2, g + 1):
         previous_p = update_probabilities(previous_p, N)
-
+    
     return sum(previous_p[k - 1:])
 
 # Sample input
@@ -10215,15 +10215,15 @@ GAAGA
 def calculate_nxx(contigs, xx):
     total_length = sum(len(contig) for contig in contigs)
     target_length = total_length * xx / 100
-
+    
     sorted_contigs = sorted(contigs, key=len, reverse=True)
     cumulative_length = 0
-
+    
     for contig in sorted_contigs:
         cumulative_length += len(contig)
         if cumulative_length >= target_length:
             return len(contig)
-
+    
     return 0
 
 # Read input
@@ -10666,7 +10666,7 @@ def global_align_with_affine(s, t, scores, gap, gap_e):
             costX = [M[i-1][j] + gap, X[i-1][j] + gap_e]
             X[i][j] = max(costX)
             traceX[i][j] = costX.index(X[i][j])
-
+            
             costY = [M[i][j-1] + gap, Y[i][j-1] + gap_e]
             Y[i][j] = max(costY)
             traceY[i][j] = costY.index(Y[i][j])
@@ -10674,7 +10674,7 @@ def global_align_with_affine(s, t, scores, gap, gap_e):
             costM = [M[i-1][j-1] + match_score(scores, s[i-1], t[j-1]), X[i][j], Y[i][j]]
             M[i][j] = max(costM)
             traceM[i][j] = costM.index(M[i][j])
-
+    
     # Get maximum score and initialize aligned strings
     max_score = M[m][n]
     s_align, t_align = s, t
@@ -11586,7 +11586,7 @@ def quartet_distance(taxa, t1, t2):
                 break
             else:
                 node_names[current_node] = token
-
+        
         return tree, parent, node_names
 
     def get_children(tree, parent, edge_id):
@@ -11957,31 +11957,31 @@ BLOSUM62 = {
 
 def local_alignment_with_affine_gap(str1, str2, gap_open=11, gap_extend=1):
     m, n = len(str1), len(str2)
-
+    
     # Initialize score matrices
     M = [[0] * (n + 1) for _ in range(m + 1)]
     X = [[-float('inf')] * (n + 1) for _ in range(m + 1)]
     Y = [[-float('inf')] * (n + 1) for _ in range(m + 1)]
-
+    
     # Initialize backtrack matrices
     B = [[0] * (n + 1) for _ in range(m + 1)]
-
+    
     max_score, max_i, max_j = 0, 0, 0
-
+    
     # Fill matrices
     for i in range(1, m + 1):
         for j in range(1, n + 1):
             X[i][j] = max(X[i][j-1] - gap_extend, M[i][j-1] - gap_open - gap_extend)
             Y[i][j] = max(Y[i-1][j] - gap_extend, M[i-1][j] - gap_open - gap_extend)
-
+            
             key = (str1[i-1], str2[j-1]) if (str1[i-1], str2[j-1]) in BLOSUM62 else (str2[j-1], str1[i-1])
             match_score = BLOSUM62[key]
-
+            
             M[i][j] = max(0, M[i-1][j-1] + match_score, X[i][j], Y[i][j])
-
+            
             if M[i][j] > max_score:
                 max_score, max_i, max_j = M[i][j], i, j
-
+            
             if M[i][j] == 0:
                 B[i][j] = 0
             elif M[i][j] == M[i-1][j-1] + match_score:
@@ -11990,11 +11990,11 @@ def local_alignment_with_affine_gap(str1, str2, gap_open=11, gap_extend=1):
                 B[i][j] = 2
             else:
                 B[i][j] = 3
-
+    
     # Backtrack
     i, j = max_i, max_j
     aligned_1, aligned_2 = [], []
-
+    
     while B[i][j] != 0:
         if B[i][j] == 1:
             aligned_1.append(str1[i-1])
@@ -12009,7 +12009,7 @@ def local_alignment_with_affine_gap(str1, str2, gap_open=11, gap_extend=1):
             aligned_1.append(str1[i-1])
             aligned_2.append('-')
             i -= 1
-
+    
     return max_score, ''.join(reversed(aligned_1)), ''.join(reversed(aligned_2))
 
 def parse_fasta(fasta_str):
@@ -12189,7 +12189,7 @@ clas Newick:
         rsub_list = []
         pre_order = self.traverse(order='pre')
         k = len(next(iter(DNA_strings.values())))
-
+        
         for pos in range(k):
             for node in pre_order:
                 if node.children:
@@ -12326,7 +12326,7 @@ clas Newick:
         rsub_list = []
         pre_order = self.traverse(order='pre')
         k = len(next(iter(DNA_strings.values())))
-
+        
         for pos in range(k):
             for node in pre_order:
                 if node.children:

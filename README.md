@@ -14,7 +14,7 @@ pixi run preview
 
 I add github action for publishing. Just `git push origin` will cover it.
 
-<!--
+<!-- 
 Once you have configured the source branch and updated your .gitignore, navigate to the directory where your project / git repository is located, make sure you are not on the gh-pages branch, and execute the quarto publish command for GitHub Pages:
 
 ```
