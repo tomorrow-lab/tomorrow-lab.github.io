@@ -1,0 +1,809 @@
+---
+title: "파이썬 코딩 팁"
+author: "Taeyoon Kim"
+categories: [Python, Tip, Productivity, Programming,  Cheatsheet]
+draft: false
+date: "2024-12-21"
+date-modified: last-modified
+execute:
+  echo: false
+---
+
+![](learn_pythonCoding.png){width=100% fig-align="center"}
+
+# 파이썬 코딩을 위한 조언
+
+이 글은 [원본 글](https://qiita.com/sugulu_Ogawa_ISID/items/c0e8a5e6b177bfe05e99)의 내용을 임의로 번역한 것입니다. 원저자는 데이터 사이언티스트와 AI 엔지니어가 Python으로 효율적으로 코드를 작성하기 위한 다양한 팁과 노하우를 공유하고자 여러 가지 원칙과 기법을 소개합니다. 이 내용을 통해 여러분의 프로그래밍 능력을 한층 더 향상시키길 바랍니다.
+
+## 레벨 1
+
+### 기본적인 명명법
+
+함수나 변수(Variables)를 명명할 때는 아래의 규칙을 따르는 것이 좋습니다.
+
+#### 변수, 함수, 메소드, 모듈
+
+소문자만 사용하고 필요에 따라 언더스코어(`_`)로 단어를 구분하는 스네이크 표기법을 따르세요. 읽는 사람이 쉽게 이해할 수 있도록 하는 것이 중요합니다. 예를 들어 `test_set`이 있습니다.
+
+#### 클래스명
+
+클래스의 이름은 첫 글자를 대문자로 작성하고, 단어는 언더스코어가 아닌 대문자로 구별합니다. 예시로 `ClassAll`이 있습니다.
+
+##### 클래스 내에서만 사용되는 프라이빗 변수
+
+변수명 맨 앞에 언더스코어를 붙여야 합니다. 예를 들어 `_single_leading_underscores`가 있습니다. 클래스 내에서만 사용되는 프라이빗 메소드 또한 메소드명 앞에 언더스코어를 붙입니다. 예시로 `_single_leading_underscore(self, ...)`가 있습니다.
+
+#### 상수 (Constants)
+
+상수는 값이 변하지 않으므로 대문자만 사용하여 명명합니다. 단어들은 언더스코어(`_`)로 구분합니다. 예시로 `ALL_CAPS_WITH_UNDERSCORES`가 있습니다.
+
+#### 패키지명
+
+패키지명은 소문자만 사용해야 합니다. 예시로 `lowers`가 있습니다.
+
+:::{.callout-note}
+
+- 함수와 메소드의 차이점: 함수는 클래스 안에 독립적으로 존재하며, 메소드는 클래스 내에 있는 함수를 의미합니다.
+- 모듈과 패키지: 패키지는 가장 상위 레벨이며, 모듈은 패키지 내의 파일을 의미합니다. 예를 들어 `sklearn`은 패키지이고, `sklearn.linear_model`은 모듈입니다.
+:::
+
+#### 명명법 1: 장황한 부분 제거하기
+
+클래스의 메소드 이름에는 클래스명이 반복되어서는 안 됩니다. 예를 들어 `class_1.class_1_max_length = 10`보다 `class_1.max_length = 10`이 더 적절합니다. 즉, 미리 `클래스명.변수명`을 고려하여 명명해야 합니다.
+
+#### 라이브러리 import 규칙
+
+##### 라이브러리 순서
+
+외부 클래스나 함수를 `import`할 때 주의해야 할 점은 다음 세 가지입니다. 첫 번째는 `import`하는 순서입니다. 아래와 같은 순서로 라이브러리를 불러오세요.
+
+```python
+#| echo: false
+import 표준라이브러리
+import 서드파티라이브러리
+import 개인적으로_작성한라이브러리
+```
+
+모듈 단위로 불러오는 것이 좋습니다. 예를 들어 `from pkg.module_1 import class_1` 대신 `from pkg import module_1`으로 하고, 이후에 `my_class = module_1.class_1()`과 같이 코드를 작성합니다.
+
+##### 여러 라이브러리를 한 줄에 불러오지 않기
+
+```python
+#| echo: false
+import pkg, pkg2  # 이 경우 아래와 같이 한 줄씩 작성합니다.
+
+import pkg
+import pkg2
+
+# 그러나 모듈의 경우 한 줄에 여러 개를 가져와도 괜찮습니다.
+from pkg import module_1, module_2
+```
+
+### 재현성을 위해 seed 고정하기
+
+데이터 분석의 재현성을 위해 `seed` 값을 지정하는 것이 좋습니다.
+
+```python
+import os
+import random
+import numpy as np
+import torch
+
+SEED_VALUE = 42  # 값은 무엇이든 괜찮습니다.
+os.environ['PYTHONHASHSEED'] = str(SEED_VALUE)
+random.seed(SEED_VALUE)
+np.random.seed(SEED_VALUE)
+torch.manual_seed(SEED_VALUE)  # PyTorch의 경우
+```
+
+`PyTorch`에서 GPU를 사용해 연산하는 경우에는 아래와 같이 설정해야 합니다. 다만 계산 속도가 떨어지기 때문에 추천하지는 않습니다.
+
+```python
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+```
+
+Scikit-learn의 경우 각 알고리즘에 `seed` 값을 정하는 부분이 있습니다. 예를 들어 아래와 같습니다.
+
+```python
+from sklearn.linear_model import LogisticRegression
+
+SEED_VALUE = 42
+clf = LogisticRegression(random_state=SEED_VALUE)
+```
+
+
+## 레벨 2
+
+### 역방향 변수 명명 (Reverse Notation)
+
+예를 들어 `a`의 길이, `b`의 길이, `c`의 길이와 같은 세 가지 변수를 만들고 싶다면, `a_length`, `b_length`, `c_length` 대신 `length_a`, `length_b`, `length_c`로 작성하는 것이 좋습니다. 이렇게 하면 단어의 앞부분이 동일해져 코드가 더 읽기 쉬워집니다. 만약 특정 변수인 `a`에 더 집중하고 싶다면, `a_length`, `a_width`, `a_max_length`와 같이 작성할 수 있습니다. 주목해야 할 대상을 변수명 앞에 두어 통일성을 유지하는 것이 바람직합니다.
+
+### SOLID 원칙 따르기
+
+[SOLID](https://en.wikipedia.org/wiki/SOLID)는 로버트 마틴이 제안한 소프트웨어 설계 원리입니다. 모든 원리를 알 필요는 없지만, 첫 번째 원칙인 단일 책임 원리(Single Responsibility Principle)는 반드시 기억해야 합니다.
+
+단일 책임 원리는 "함수나 클래스, 메소드는 단 하나의 책임만을 가져야 한다"는 의미입니다. 여기서 "단 하나"의 정의가 다소 모호할 수 있지만, 가능한 한 함수나 클래스, 메소드를 짧게 작성하여 상위 개념 변경에 영향을 받도록 하라는 의미로 이해하면 됩니다.
+
+데이터 사이언티스트나 AI 엔지니어가 수행하는 작업은 보통 "데이터 전처리, 학습, 추론"과 같은 정형화된 흐름으로 진행됩니다. 따라서 구현하는 프로그램도 이러한 순서를 따르게 되며, 하나의 메인 클래스나 메소드가 비대해지고 여러 작업(책무)을 수행하게 되는 경우가 많습니다.
+
+Jupyter Notebook에서 그치는 수준이라면 괜찮지만, 시스템 개발에 데이터 과학이나 AI를 도입하기 위해서는 이러한 상태가 바람직하지 않습니다.
+
+AI 시스템에서 SoE(System of Engagement)의 개발은 SoR(System of Records)와 같이 요구 사항 정의 및 외부/내부 설계를 철저히 하는 워터폴 개발 방식이 아닌 애자일 개발 형태가 많습니다. 애자일 개발에서는 CI(Continuous Integration), 즉 자동 테스트를 실시하는 것이 기본입니다. 따라서 실제로 프로토타입을 만들고 동작을 살펴본 후 개선점을 발견하여 더 나은 결과물을 만드는 것이 목표입니다.
+
+이러한 "개선" 과정에서 단일 클래스나 메소드의 책임이 클수록 수정해야 할 코드의 양도 많아집니다. 수정해야 할 코드가 많으면 영향 범위도 커지고, 새로운 단위 테스트를 작성해야 할 필요성도 증가합니다. 동시에 기존에 작성한 단위 테스트도 대부분 무용지물이 될 수 있습니다.
+
+단위 테스트의 대폭적인 수정이나 변화가 빈번하게 발생하는 상황에서 개발을 진행하면, 단위 테스트를 제대로 수행할 수 없게 되고 시스템 전체의 품질도 저하될 수 있습니다. 또한, 개선을 위한 수정이 예상치 못한 부분에 영향을 미쳐 버그가 발생하기 쉬워집니다.
+
+### 함수와 메소드에 타입 힌트 작성하기
+
+"SOLID의 S: 단일 책임"을 염두에 두고 함수나 메소드를 분할하면 많은 함수와 메소드가 생성됩니다. 이처럼 많은 함수와 메소드가 존재하면 이해하기 어려워질 수 있습니다. 코드 작성 시에는 괜찮지만, 3개월 후에 수정하거나 다른 사람이 코드를 사용할 때 "이 함수의 인수에는 무엇이 들어 있고, 어떤 것이 출력되는가?"라는 혼란스러운 상황이 발생할 수 있습니다.
+
+따라서 함수를 구현할 때 타입 힌트를 붙이는 것이 좋습니다. 타입 힌트는 아래와 같이 작성할 수 있습니다.
+
+```python
+def calc_billing_amount(amount: int, price: int) -> int:
+    billing_amount = amount * price
+    return billing_amount
+```
+
+인수 변수의 데이터형을 인수명 뒤에 기재하여 알 수 있도록 하고, 함수에서 반환되는 변수의 데이터형도 명시해주면 좋습니다.
+
+타입 힌트는 강제성이 없으며, 위 예제에서 첫 번째 인수인 `amount`에 `int`가 아닌 `float`를 지정하고 `calc_billing_amount(0.5, 100)`을 실행해도 에러는 발생하지 않습니다.
+
+리스트나 사전형을 사용할 경우 또는 여러 데이터형을 허용하고 싶다면 다음과 같이 작성합니다.
+
+```python
+from typing import Dict, List, Union
+
+def calc_billing_amount(
+    amount_list: List[int], price_dictionary: Dict[str, Union[int, float]]
+) -> int:
+    billing_amount = 0
+    for index, (key, value) in enumerate(price_dictionary.items()):
+        billing_amount += amount_list[index] * value
+
+    return int(billing_amount)
+```
+
+타입 힌트를 위해 리스트와 사전형을 사용하려면 `from typing import List, Dict, Union`으로 임포트합니다. 예를 들어 요소가 `int`형 리스트인 경우는 `List[int]`로 기재하고, 키가 `string`형이며 값이 `int` 또는 `float`일 경우는 `Dict[str, Union[int, float]]`로 작성합니다.
+
+실행하면 605가 출력됩니다.
+
+```python
+amount = [3, 10]
+price = {"item1": 100, "item2": 30.5}
+calc_billing_amount(amount, price)
+```
+
+타입 힌트를 작성하는 것은 번거롭지만 많은 클래스와 메소드를 파악하기 쉽게 만들어주므로 추천합니다.
+
+### 클래스와 메소드에는 docstring 기재하기
+
+`docstring`은 클래스나 메소드, 함수의 사양이나 사용 방법을 설명하는 것입니다. 앞서 언급했듯이 단일 책임 원칙으로 인해 생성된 많은 클래스나 함수를 쉽게 파악하기 어려운 경우가 많습니다. 타입 힌트만으로는 여전히 알기 어렵기 때문에 상세한 설명으로 docstring을 작성하는 것이 좋습니다.
+
+그러나 너무 세세하게 작성하는 것은 번거로운 일이므로 프라이빗 메소드나 행 수가 적은 메소드 등은 한 줄의 docstring으로 충분하다고 생각됩니다. 반면 다른 팀원이 사용하는 클래스나 메소드 또는 AI 시스템에서 중요한 역할을 하는 주요 클래스 등은 상세한 설명이 필요합니다.
+
+docstring 작성 방식은 여러 가지가 있지만 보통은 reStructuredText, Google style 또는 Numpy style이 많이 사용됩니다. 이 세 가지 중 하나를 사용하는 이유는 나중에 Sphinx를 통해 자동으로 문서화할 수 있기 때문입니다. 따라서 Sphinx에서 지원하는 docstring 형식을 채택하는 것이 좋습니다. docstring의 세 가지 종류에 대한 설명은 나중에 기회가 있을 때 다루도록 하겠습니다.
+
+Google style과 Numpy style은 길이가 길어 저는 reStructuredText style을 선호합니다. 예시는 아래와 같습니다.
+
+```python
+class User:
+    """본 시스템을 사용하는 어카운트 유저를 표시하는 클래스이다.
+    :param name: 유저명
+    :param user_type: 어카운트 타입 (admin 또는 normal)
+    """
+
+    def __init__(self, name: str, user_type: str):
+        self.name = name
+        self.user_type = user_type
+
+    def print_user_type(self):
+        """유저의 타입을 출력한다.
+        :param None: 입력 인수가 없다.
+        :return: user_type을 문자열로 출력한다.
+        :rtype: str
+        """
+        print(self.user_type)
+```
+
+Example까지 포함하면 매우 유용합니다. 얼마나 자세하게 쓸지는 Example이나 인수 및 반환 값 설명 후 결정하면 됩니다.
+
+위와 같이 적으면 VS Code 등의 에디터에서 해당 프로그램 부분에 마우스를 올리면 docstring이 표시되어 프로그램 이해를 돕습니다.
+
+### 학습 완료 모델과 전처리 및 하이퍼파라미터 정보 저장하기
+
+AI, 머신러닝 및 딥러닝에서는 학습 완료 모델만 저장하는 것이 아니라 전처리 파라미터와 모델 하이퍼파라미터 설정 등 학습 재현에 필요한 모든 정보를 저장해야 합니다. 
+
+모든 정보가 포함되어 있으면 어떤 저장 방법을 사용하든 상관없지만 scikit-learn과 PyTorch에서 예시는 다음과 같습니다.
+
+#### Scikit-learn 예시
+
+```python
+from datetime import datetime, timedelta, timezone
+import numpy as np
+from joblib import dump, load
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+
+# iris 데이터 준비
+X, y = load_iris(return_X_y=True)
+
+# 전처리(표준화 및 제곱항 추가)
+preprocess_pipeline = Pipeline(steps=[("standard_scaler", StandardScaler())])
+preprocess_pipeline.steps.append(("polynomial_features_2", PolynomialFeatures(2)))
+
+# 전처리 적용
+X_preprocessed = preprocess_pipeline.fit_transform(X)
+
+# 학습기 준비
+C = 1.2  # 하이퍼파라미터 설정
+model = LogisticRegression(random_state=0, C=C)
+
+# 학습 실시
+model.fit(X_preprocessed, y)
+
+# 학습 데이터 성능 평가
+accuracy_training = model.score(X_preprocessed, y)
+
+# 저장할 데이터 준비
+KST = timezone(timedelta(hours=9), "KST") 
+now = datetime.now(KST).strftime("%Y%m%d_%H%M%S")
+
+training_info = {
+    "training_data": "iris",
+    "model_type": "LogisticRegression",
+    "hyper_param_logreg_C": C,
+    "accuracy_training": accuracy_training,
+    "save_date": now,
+}
+
+save_data = {
+    "preprocess_pipeline": preprocess_pipeline,
+    "trained_model": model,
+    "training_info": training_info,
+}
+filename = "./iris_model_" + now + ".joblib"
+
+# 저장
+dump(save_data, filename)
+```
+
+저장한 파일을 불러올 경우 아래와 같이 작성합니다.
+
+```python
+load_data = load(filename)
+
+preprocess_pipeline = load_data["preprocess_pipeline"]
+model = load_data["trained_model"]
+print(load_data["training_info"])
+```
+
+위 코드의 출력은 다음과 같습니다.
+
+```
+{'training_data': 'iris', 'model_type': 'LogisticRegression', 'hyper_param_logreg_C': 1.2, 'accuracy_training': 0.9866666666666667, 'save_date': '20200503_205145'}
+```
+
+#### PyTorch 예시
+
+```python
+PATH = './checkpoint_' + str(epoch) + '.pt'
+
+torch.save({
+    'epoch': epoch,
+    'total_epoch': total_epoch,
+    'model_state_dict': model.state_dict(),
+    'scheduler_state_dict': scheduler.state_dict(),
+    'optimizer_state_dict': optimizer.state_dict(),
+    'loss_train': loss_train,
+    'loss_eval': loss_eval,
+}, PATH)
+```
+
+모델을 불러오는 경우 예제 코드는 다음과 같습니다.
+
+```python
+model = TheModelClass()
+scheduler = TheSchedulerClass()
+optimizer = TheOptimizerClass()
+
+checkpoint = torch.load(PATH)
+model.load_state_dict(checkpoint['model_state_dict'])
+scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+total_epoch = checkpoint['total_epoch']
+epoch = checkpoint['epoch']
+loss_train = checkpoint['loss_train']
+loss_eval = checkpoint['loss_eval']
+
+model.train()
+# model.eval()
+```
+
+딥러닝의 데이터 세트와 데이터 로더까지 체크포인트로 저장하면 파일 크기가 너무 커지므로 별도로 저장하는 것을 추천합니다.
+
+```python
+# 데이터 세트 및 데이터 로더 저장
+torch.save(trainset, './trainset.pt')
+torch.save(trainloader, './dataloader.pt')
+```
+
+다시 불러오는 코드는 다음과 같습니다.
+
+```python
+trainset = torch.load('./trainset.pt')
+trainloader = torch.load('./dataloader.pt')
+```
+
+## 레벨 3
+
+### 적절한 영어 단어와 품사로 명명하기
+
+클래스, 메소드, 함수를 많이 만들수록 명명 규칙이 더욱 중요해집니다. 이상적으로는 이름만 보고도 "어떤 처리를 하고 있는가? 즉, 어떤 기능을 수행하며, 어떤 입력을 받고 어떤 출력을 하는가?"를 알 수 있어야 합니다.
+
+하지만 데이터 사이언스나 AI 분야에서는 알고리즘 자체가 복잡하기 때문에, 처음 보는 사람이 주석 없이 클래스나 메소드를 이해하기는 어렵습니다. 따라서 명명 방법은 가능한 한 의도를 명확히 전달하는 것을 목표로 해야 합니다.
+
+지켜야 할 최소한의 규칙은 다음과 같습니다:
+
+1. 클래스명과 변수명은 명사로 작성합니다.
+2. 메소드와 함수의 이름은 동사로 시작합니다.
+3. 멤버 변수의 `boolean` 형은 동사로 시작하는 것이 좋습니다. 예) `is_admin`, `has_item`, `can_drive` 등
+4. 코딩 규칙을 준수합니다.
+
+### 적절한 예외 처리 구현하기
+
+에러(예외)에 대한 `try-catch` 구문은 데이터 사이언티스트와 AI 엔지니어에게 매우 중요한 부분입니다. AI를 시스템에 구현할 때는 에러 핸들링이 필수적입니다. 예외가 발생하면 시스템 전체가 중단될 수 있기 때문입니다.
+
+따라서 구현 코드에서 `try` 블록이 상위 레벨에 위치하도록 하여, 코드가 `try:` 블록 안에 들어가지 않도록 해야 합니다. 아래 예제를 살펴보겠습니다.
+
+예를 들어 나눗셈 함수를 정의할 때:
+
+```python
+def func_division(a, b):
+    ret = a / b
+    return ret
+```
+
+위 함수에 `func_division(10, 0)`과 같이 입력하면 에러가 발생하여 프로그램이 중단됩니다. 따라서 예외 처리를 추가해야 합니다.
+
+```python
+def func_division(a, b):
+    try:
+        ret = a / b
+        return ret
+    except:
+        print("예외가 발생했습니다.")
+```
+
+그러나 이것만으로는 충분하지 않습니다. 발생할 수 있는 예외를 구체적으로 처리해야 합니다.
+
+```python
+def func_division(a, b):
+    try:
+        ret = a / b
+        return ret
+    except ZeroDivisionError as err:
+        print('0으로 나누는 에러가 발생했습니다:', err)
+    except Exception as err:
+        print("예기치 못한 에러가 발생했습니다:", err)
+```
+
+이제 이전에 발생했던 `ans = func_division(10, 0)`을 다시 실행하면 "0으로 나누는 에러가 발생했습니다: division by zero"라는 메시지가 출력됩니다. 또한 `ans = func_division("hoge", "fuga")`를 실행하면 숫자가 아니므로 또 다른 에러가 발생합니다.
+
+### 적절하게 로그 출력하기
+
+코드의 작동을 확인하기 위해 `print` 문을 사용하는 습관은 좋지 않습니다. 대신 적절한 로그를 출력하도록 작성해야 합니다. 로그 사용법은 다음과 같습니다.
+
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+# 로그에 기록할 내용
+total_epoch = 1000
+epoch = 100
+loss_train = 5.44444
+
+# 로그 리스트 생성
+log_list = [total_epoch, epoch, loss_train]
+
+# 로그 기록
+logger.info(
+    "total_epoch: {0[0]}, epoch: {0[1]}, loss_train: {0[2]:.2f}".format(log_list)
+)
+
+# 기록된 내용을 출력하여 확인
+print("total_epoch: {0[0]}, epoch: {0[1]}, loss_train: {0[2]:.2f}".format(log_list))
+```
+
+저장된 로그를 `print` 문으로 확인하면 다음과 같이 출력됩니다.
+
+```
+total_epoch: 1000, epoch: 100, loss_train: 5.44
+```
+
+여기서 `{0:.2f}`는 `.format`으로 받은 리스트의 두 번째 요소를 소수점 두 자리까지 표시하는 것을 의미합니다. 로그 작성에 대한 자세한 내용은 [공식 문서](https://docs.python.org/ko/3/howto/logging.html)를 참고하세요.
+
+파이썬 3.8 이상을 사용하는 경우 `f-string`을 사용하여 다음과 같이 작성할 수 있습니다.
+
+```python
+# 로그에 기록할 값 설정
+total_epoch = 1000
+epoch = 100
+loss_train = 5.44444
+
+# 로그 기록
+logger.info(f"{total_epoch=}, {epoch=}, loss_train: {loss_train=:.2f}")
+```
+
+### 함수와 메소드의 인수는 3개 이하로 제한하기
+
+함수나 메소드의 인수는 많아도 최대 3개까지로 제한하는 것이 좋습니다. 4개 이상의 인수는 피하는 것이 바람직합니다. 인수가 많으면 해당 함수의 사용법을 이해하기 어려워지고, 단위 테스트 준비나 관리도 복잡해집니다.
+
+많은 인수를 다루고 싶다면 사전형 변수를 사용하여 `hogehoge_config`와 같은 형태로 하나의 사전 변수를 전달하는 방법이 있습니다.
+
+예를 들어 복잡한 계산 함수를 정의할 때:
+
+```python
+def func_many_calculation(a, b, c, d, e):
+    ret = a * b * c / d / e
+    return ret
+```
+
+위 함수는 `ans = func_many_calculation(10, 2, 3, 5, 2)`와 같이 사용하면 인수가 많아 다루기 불편하고 오류가 발생할 가능성이 높습니다. 따라서 다음과 같이 사전형으로 정의하는 것이 좋습니다.
+
+```python
+def func_many_calculation(func_config):
+    a = func_config["a"]
+    b = func_config["b"]
+    c = func_config["c"]
+    d = func_config["d"]
+    e = func_config["e"]
+    ret = a * b * c / d / e
+    return ret
+```
+
+이렇게 하면 `func_config = {"a": 10,"b": 2,"c": 3,"d": 5,"e": 2}`를 대입하여 `ans = func_many_calculation(func_config)`를 실행할 수 있습니다.
+
+그러나 이러한 방식은 함수 정의를 더욱 복잡하게 만들 수 있으므로, 함수 정의 부분에서는 인수를 보통대로 작성하고 실행하는 부분에서는 인수를 적게 사용하는 것이 좋습니다.
+
+```python
+def func_many_calculation(a, b, c, d, e):
+    ret = a * b * c / d / e
+    return ret
+
+func_config = {"a": 10, "b": 2, "c": 3, "d": 5, "e": 2}
+ans = func_many_calculation(**func_config)
+```
+
+### *args, **kwargs 를 적절히 사용하기
+
+:::{.callout-note}
+`args`는 `arguments`, `kwargs`는 `keyword arguments`의 약어입니다.
+:::
+
+`*args`와 `**kwargs`는 가변 길이 인수를 나타냅니다. 여기서 `*`는 리스트 변수의 언팩(unpacking) 조작이며, `**`는 사전형 변수의 언팩 조작입니다. 가변 길이 인수를 사용하는 이유는 크게 세 가지입니다.
+
+첫 번째 이유는 함수의 인수에 여분의 값을 받아들이기 위해서입니다. 예를 들어 아래 함수를 실행하면 `func_args_kwargs2(10, 20, 30)`의 출력이 10이 되어 에러 없이 실행됩니다.
+
+```python
+def func_args_kwargs2(a, *args):
+    print(a)
+```
+
+두 번째 이유는 함수를 확장하여 인수를 나중에 추가하고 싶을 때입니다. 이 경우 `*args`로 받으면 함수 본체나 인수 정의 부분을 수정할 필요가 없습니다.
+
+세 번째 이유는 함수나 메소드를 실행할 때 선택적으로 전달할 수 있는 인수를 받아들이기 위해서입니다. 이때에는 기본값을 설정해 두어야 합니다. 예를 들어 다음과 같이 작성할 수 있습니다.
+
+```python
+def func_args_kwargs3(a, *args, **kwargs):
+    b = kwargs.pop("b", 2.0)
+    print(a * b)
+```
+
+이렇게 하면 기본값을 설정하면서도 가변 길이 인수를 사용할 수 있습니다.
+
+## 레벨 4
+
+### if 문을 간결하게 작성하기
+
+파이썬에서는 `if` 문을 한 줄로 작성할 수 있습니다.
+
+```python
+# 짝수인지 홀수인지 판별
+num = 10
+
+if num % 2 == 0:
+    print("짝수")
+else:
+    print("홀수")
+```
+
+위 코드는 다음과 같이 간단하게 표현할 수 있습니다.
+
+```python
+# 짝수인지 홀수인지 판별
+num = 10
+
+print("짝수") if num % 2 == 0 else print("홀수")
+```
+
+### sklearn 규격에 맞춰 전처리 및 모델 클래스 구현하기
+
+sklearn 규격이란 `scikit-learn`의 `BaseEstimator`, `TransformerMixin`, `ClassifierMixin` 등을 상속받아, scikit-learn의 다른 객체와 함께 사용될 수 있도록 구현된 클래스를 의미합니다. 자신이 만든 전처리 클래스나 모델을 sklearn 규격으로 만들면, scikit-learn의 `Pipeline`과 함께 사용할 수 있어 매우 편리합니다.
+
+예를 들어, 전처리 클래스를 구현할 때는 `TransformerMixin`과 `BaseEstimator`를 상속합니다.
+
+```python
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.utils.validation import check_array, check_is_fitted
+
+class TemplateTransformer(TransformerMixin, BaseEstimator):
+    def __init__(self, demo_param='demo'):
+        self.demo_param = demo_param
+        
+    def fit(self, X, y=None):
+        X = check_array(X, accept_sparse=True)
+        self.n_features_ = X.shape[1]
+        return self
+
+    def transform(self, X):
+        """ 인수 X에 전처리를 적용한다. """
+        check_is_fitted(self, 'n_features_')
+        X = check_array(X, accept_sparse=True)
+        X_transformed = hogehoge(X)  # 여기서 hogehoge는 실제 변환 로직으로 대체해야 합니다.
+        return X_transformed
+```
+
+모델 클래스는 `ClassifierMixin`과 `BaseEstimator`를 상속하여 구현할 수 있습니다.
+
+```python
+from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.utils.validation import check_array, check_is_fitted, check_X_y
+
+class TemplateClassifier(ClassifierMixin, BaseEstimator):
+    """ 모델 클래스의 예시 """
+    
+    def __init__(self, demo_param="demo"):
+        self.demo_param = demo_param 
+        
+    def fit(self, X, y):
+        X, y = check_X_y(X, y)
+        self.fugafuga = piyopiyo(X, y)  # piyopiyo는 모델 학습 로직으로 대체해야 합니다.
+        return self
+
+    def predict(self, X):
+        """ 미지의 데이터 추론 """
+        check_is_fitted(self, ["fugafuga"])
+        X = check_array(X)
+        y_predicted = self.fugafuga(X)  # 여기서도 추론 로직으로 대체해야 합니다.
+        return y_predicted
+```
+
+sklearn 규격으로 클래스를 구현할 때는 scikit-learn에서 제공하는 템플릿을 기반으로 변경하는 것을 추천합니다.
+
+### 데코레이터를 적절히 활용하기
+
+데코레이터는 `@hogehoge`와 같은 형태로 주로 메소드나 함수 위에서 사용됩니다. 파이썬에는 표준 데코레이터와 사용자 정의 데코레이터가 있습니다. 자주 사용되는 표준 데코레이터로는 `@property`, `@staticmethod`, `@classmethod`, `@abstractmethod` 등이 있습니다. 하나씩 살펴보겠습니다.
+
+#### @property
+
+`@property`는 클래스 외부에서 해당 멤버 변수를 변경할 수 없도록 만드는 데코레이터입니다.
+
+```python
+class User:
+    def __init__(self, name: str, user_type: str):
+        self.name = name
+        self.__user_type = user_type
+
+    @property
+    def user_type(self):
+        return self.__user_type
+```
+
+위의 예에서 `User` 클래스의 `user_type`은 `@property`로 정의되어 있습니다. 따라서 `taro = User("taro", "admin")` 후에 `print(taro.user_type)`를 실행하면 "admin"이 출력됩니다. 그러나 `taro.user_type = "normal"`과 같이 변경하려고 하면 에러가 발생합니다. 이렇게 외부에서 변경할 수 없는 변수를 정의할 수 있습니다.
+
+#### @staticmethod 및 @classmethod
+
+`@staticmethod`와 `@classmethod`는 객체를 생성하지 않고도 메소드를 호출할 수 있게 해줍니다.
+
+```python
+class User:
+    def __init__(self, name: str, user_type: str):
+        self.name = name
+        self.user_type = user_type
+
+    @staticmethod
+    def say_hello(name):
+        print("Hello " + name)
+```
+
+위와 같이 정의한 후 아래와 같이 실행하면 "Hello Hanako"가 출력됩니다.
+
+```python
+User.say_hello("Hanako")
+```
+
+#### @abstractmethod
+
+다른 표준 Python 데코레이터인 `@abstractmethod`는 클래스의 메소드에 붙여 사용하며, 해당 클래스를 상속받은 자식 클래스에서 반드시 그 메소드를 구현해야 합니다. 구현하지 않으면 에러가 발생합니다. 즉, 추상 클래스를 정의하고 자식 클래스에서 메소드 구현을 강제하고 싶을 때 사용합니다.
+
+#### 사용자 정의 데코레이터
+
+사용자 정의 데코레이터를 통해 특정 조건을 만족하는 경우에만 메소드를 실행하도록 할 수 있습니다. 예를 들어, 사용자가 'admin'일 때만 특정 작업을 수행하도록 하는 경우입니다.
+
+```python
+def admin_only(func):
+    """데코레이터 정의"""
+    def wrapper(self, *args, **kwargs):
+        if self.user_type == "admin":
+            return func(self, *args, **kwargs)
+        else:
+            print("권한 오류: 이 기능은 admin만 사용할 수 있습니다.")
+    
+    return wrapper
+
+
+class User:
+    def __init__(self, name: str, user_type: str):
+        self.name = name
+        self.user_type = user_type
+
+    @admin_only
+    def func_admin_can_do(self):
+        print("I'm admin.")
+```
+
+이렇게 정의하면 `@admin_only` 데코레이터를 붙이는 것만으로 사용자가 'admin'인 경우에만 처리가 실행됩니다. 'admin' 여부를 판단하는 로직이 여러 메소드에 필요하거나 동일한 코드를 반복 작성해야 하는 경우에 데코레이터가 특히 유용합니다.
+
+#### 데코레이터 사용의 이점
+
+데코레이터를 사용하면 다음과 같은 이점이 있습니다:
+
+1. 코드 중복을 줄일 수 있습니다.
+2. 권한 체크 로직을 한 곳에서 관리할 수 있어 유지보수가 쉬워집니다.
+3. 메소드의 본래 기능과 권한 체크 로직을 분리하여 코드의 가독성을 향상시킬 수 있습니다.
+4. 새로운 admin 전용 메소드를 추가할 때 데코레이터만 붙이면 되므로 개발 효율성이 높아집니다.
+
+## 마치며
+
+이 글에서는 데이터 사이언티스트와 AI 엔지니어가 Python을 활용하여 효율적으로 작업할 수 있는 다양한 방법과 유용한 팁을 소개했습니다. 마지막으로 이 글이 여러분의 프로그래밍 여정에 작은 도움이 되기를 바라며 앞으로도 지속적인 학습과 개선을 통해 더 나은 개발자가 되시길 응원합니다. 읽어 주셔서 감사합니다.
+
+# 타입 힌팅
+
+## 변수
+
+```python
+age: int = 1
+
+child: bool
+if age < 18:
+	child = True
+else:
+	child = False
+```
+
+## 유용한 내부 타입
+
+```python
+x: int = 1
+x: float = 1.0
+x: bool = True
+x: str = "string"
+x: bytes = b"test"
+x: list[int] = [1]
+x: set[int] = {6, 7}
+x: dict[str, float] = {"field": 2.0}
+```
+
+## 함수
+
+```python
+from typing import Callable, Iteractor, Union, Optional
+
+def stringfy(num: int) -> str:
+	return str(num)
+
+def plus(num1: int, num: int) -> int:
+	return num1 + num2
+```
+
+## 객체 지향 프로그래밍
+
+
+```python
+from typing import Union
+
+class Calculator:
+	def __init__(self):
+		self.result: Union[int, float] = 0
+	def add(self, a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
+	self.result = a + b
+	return self.result
+	def subtract(self, a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
+	self.result = a - b
+	return self.result
+	def multiply(self, a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
+	self.result = a * b
+	return self.result
+	def devide(self, a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
+	self.result = a / b
+	return self.result
+```
+
+# 기타
+
+## Jupyter에서 사용하지 않는 커널 삭제
+
+### 커널 리스트 확인
+
+```bash
+jupyter kernelspec list
+```
+
+### 커널 삭제
+
+```bash
+jupyter kernelspec uninstall [unwanted_kernel_name]
+```
+
+## API 키 안전하게 사용하기
+
+### python-dotenv 사용[^1]
+
+API 토큰을 변수에 담아서 사용하는 것은 보안상 좋지 않은 방법이다. 여러가지 우회방법이 있지만 가장 유명한것은 아무래도 `python-dotenv`를 사용하는 방법이다.
+
+#### 설치
+
+```bash
+(venv) uv pip install python-dotenv
+```
+
+#### .env 파일 만들기
+
+설치가 끝나면 `.env` 파일을 작성해준다. 문자열이더라도 따옴표는 안 붙여도 된다. 파일 경로는 아무데나 저장해도 상관없는데 보통 프로젝트 루트 디렉토리에 저장한다. 프로젝트 루트 폴더에 `.env`를 만들고 아래와 같이 API 토큰을 입력한다.
+
+```bash
+HK_TOKEN=hf_cTKyTsXtqSHWyXPLAuxSIGECiIctuNsBona
+```
+
+#### .gitignore 파일에 예외처리
+
+일반적으로는 이미 명시되어 있겠지만 노파심에 한번 `.gitignore`파일에 아래 내용이 있는지 확인합니다.
+
+```bash
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+```
+
+#### 코드 예시
+
+```python
+import os
+from dotenv import load_dotenv
+
+load_dotenv(verbose=True)
+TOKEN = os.getenv('HK_TOKEN')
+print(TOKEN)
+```
+
+`load_dotenv()` 함수에 사용되는 변수는 다음과 같다.
+
+- dotenv_path: .env 파일의 절대경로 및 상대경로
+- stream: .env 파일 내용에 대한 StringIO 객체
+- verbose: .env 파일 누락 등의 경고 메시지를 출력할 것인지에 대한 옵션
+- override: 시스템 환경변수를 .env 파일에 정의한 환경변수가 덮어쓸지에 대한 옵션
+
+---
+
+# Reference
+
+[^1]: [https://pypi.org/project/python-dotenv/](https://pypi.org/project/python-dotenv/) 

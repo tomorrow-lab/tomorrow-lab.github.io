@@ -1,0 +1,237 @@
+---
+title: "Flox 시작하기"
+author: "Taeyoon Kim"
+categories: [Python, Tip, Productivity, Programming,  Cheatsheet]
+draft: false
+date: "2025-09-06"
+date-modified: last-modified
+execute:
+  echo: false
+---
+
+![](setup_flox.png){width=100% fig-align="center"}
+
+Flox는 [Nix](https://nixos.org/)를 기반으로 개발 환경을 만들고 관리하는 도구입니다. Nix는 강력한 도구지만, 진입 장벽이 높아 사용하기 어렵다는 평가를 받기도 합니다. Flox는 이러한 Nix의 복잡성을 해결하여, 누구나 쉽게 개발 환경을 구성하고 공유할 수 있도록 돕습니다. Flox를 사용하면 프로젝트별로 필요한 패키지를 격리하여 관리할 수 있어 개발 편의성이 크게 향상됩니다. 이 글에서는 Flox를 처음 사용하는 개발자를 위한 기본 사용법을 안내합니다.
+
+# Flox 설치 및 삭제법
+
+## 설치
+
+[Flox 공식 웹사이트](https://flox.dev/docs/install-flox/install/)에서 OS별 설치 방법을 안내합니다. [Homebrew](https://brew.sh/)를 사용한다면 아래 명령어를 실행하세요.
+
+```bash
+brew install flox
+```
+
+## 삭제
+
+시스템에서 Flox를 완전히 제거하려면 다음 절차를 따르세요. 진행하기 전에 중요한 Nix 관련 파일과 패키지를 백업해두는 것을 권장합니다. Flox 제거 후에는 시스템을 재부팅하는 것이 좋습니다.
+
+```bash
+brew uninstall flox
+```
+
+사용자 환경 설정을 포함한 모든 Flox 관련 데이터를 완전히 삭제하려면 다음 명령어를 사용하세요.
+
+```bash
+brew uninstall --force --zap flox
+```
+
+# 튜토리얼
+
+## 기초 사용법
+
+Flox를 사용하면 새 프로젝트나 기존 프로젝트에 독립된 개발 환경을 설정할 수 있습니다. Flox 환경은 새로운 셸이나 현재 셸에서 활성화할 수 있습니다. Flox 환경의 패키지는 시스템에 설치된 패키지보다 우선적으로 적용되며, 기존 시스템 환경은 전혀 변경되지 않습니다. Flox 환경을 벗어나면 원래의 셸 상태로 돌아갑니다.[^1]
+
+### 가상환경 만들기
+
+`flox init` 명령을 사용하여 `example-python-project`라는 이름의 프로젝트 환경을 설정해 보겠습니다.
+
+```bash
+mkdir example-python-project && cd example-python-project
+flox init
+```
+
+환경이 생성되면 `flox init`을 실행한 위치에 `.flox` 디렉터리와 관련 파일들이 만들어진 것을 확인할 수 있습니다. 이 디렉터리에는 환경에 대한 선언적 구성 정보가 저장되며, 버전 관리에 포함하여 팀원들과 공유할 수 있습니다.
+
+```bash
+flox init
+✨ Created environment example-python-project (aarch64-darwin)
+
+Next:
+  $ flox search <package>    <- Search for a package
+  $ flox install <package>   <- Install a package into an environment
+  $ flox activate            <- Enter the environment
+```
+
+> `flox init`으로 만든 가상환경 목록은 `flox envs` 명령어로 확인할 수 있습니다.
+
+### 가상환경 삭제
+
+`flox delete` 명령어로 가상 환경과 관련된 모든 데이터를 삭제합니다. 기본적으로 현재 디렉터리의 환경만 삭제하지만, `-d` 플래그를 사용하면 다른 디렉터리의 환경도 삭제할 수 있습니다. 환경을 삭제하기 전에는 확인 메시지가 표시됩니다.
+
+### 가상환경 활성화
+
+`flox activate` 명령으로 환경을 활성화하면 설치한 패키지를 사용할 수 있습니다. 환경이 활성화되면 터미널 프롬프트가 변경된 것을 볼 수 있습니다.
+
+```bash
+flox activate
+✅ You are now using the environment 'example-python-project'.
+To stop using this environment, type 'exit'
+```
+
+```bash
+flox [example-python-project] ➜  example-python-project
+```
+
+### 패키지 검색, 표시 및 설치
+
+Flox는 8만 개 이상의 오픈 소스 패키지를 제공하며, 이 패키지들을 가상 환경에 설치할 수 있습니다. `flox search`, `flox show`, `flox install` 명령어로 패키지를 검색하고 설치하세요. `example-project`가 파이썬 프로젝트라고 가정하고 `flox search`로 `python`을 검색해 보겠습니다.
+
+```bash
+flox search python
+```
+
+```bash
+flox search python
+
+python     High-level dynamically-typed programming language
+gpython    Python interpreter written in Go
+python2    High-level dynamically-typed programming language
+python3    High-level dynamically-typed programming language
+python27   High-level dynamically-typed programming language
+python36   A high-level dynamically-typed programming language
+python37   A high-level dynamically-typed programming language
+python38   A high-level dynamically-typed programming language
+python39   High-level dynamically-typed programming language
+python-qt  PythonQt is a dynamic Python binding for the Qt framework. It offers an easy way to embed the Python scripting language into your C++ Qt applications
+
+Showing 10 of 21672 results. Use `flox search python --all` to see the full list.
+
+Use 'flox show <package>' to see available versions
+```
+
+특정 패키지의 상세 정보(사용 가능한 버전 등)를 보려면 `flox show`를 사용하세요.
+
+> 여기서는 `python3`으로 버전을 지정하겠습니다.
+
+```bash
+flox show python3
+```
+
+```bash
+flox show python3
+python3 - High-level dynamically-typed programming language
+    python3@3.13.6
+    python3@3.13.5
+    python3@3.13.4
+    ...
+    python3@3.9.9
+    python3@3.9.6
+    python3@3.9.5
+    python3@3.8.9
+```
+
+원하는 패키지를 찾았다면 `flox install`로 설치할 수 있습니다.
+
+```bash
+flox install python3@3.9.9
+✅ 'python3' installed to environment 'example-python-project'
+```
+
+`which python` 명령어로 설치된 파이썬의 위치를 확인할 수 있습니다.
+
+```bash
+which python
+~/example-python-project/.flox/run/aarch64-darwin.example-python-project.dev/bin/python
+```
+
+위 결과를 통해 시스템과 격리된 공간에 파이썬이 설치되었음을 알 수 있습니다.
+
+### 가상환경에 설치된 패키지 확인 및 제거
+
+설치된 패키지 목록은 `flox list` 명령어로 확인합니다.
+
+```bash
+flox list
+python3: python3 (3.9.9)
+```
+
+패키지를 제거할 때는 `flox uninstall` 명령어를 사용합니다.
+
+```bash
+flox uninstall python3
+🗑️  'python3' uninstalled from environment 'example-python-project'
+```
+
+### 가상환경 가비지 컬렉션
+
+가상환경을 여러 개 만들다 보면 불필요한 파일들이 쌓여 저장 공간을 차지할 수 있습니다. `flox gc` 명령어를 실행하면 Flox가 관리하는 데이터와 Nix 저장소의 불필요한 파일을 정리하여 공간을 확보할 수 있습니다.
+
+### 고급 사용법
+
+지금까지 알아본 방법 외에 더 세밀한 설정이 필요하다면, `flox edit` 명령어를 통해 `toml` 파일을 직접 편집할 수 있습니다. 자세한 내용은 공식 문서를 참고하시기 바랍니다.
+
+### 가상환경 나가기
+
+활성화된 환경을 종료하려면 `exit` 명령을 입력하거나 단축키 `CTRL + D`를 사용하세요.
+
+## 가상환경 공유하기
+
+Flox의 가장 큰 장점 중 하나는 다른 사용자와 가상 환경을 매우 쉽게 공유할 수 있다는 점입니다. 공유 방법은 다음 세 가지가 있습니다.
+
+  - `.flox` 폴더를 통한 공유: `git`과 같은 버전 관리 시스템에 등록해 공유합니다.
+  - [FloxHub](https://www.google.com/search?q=http://hub.flox.dev/)으로 환경 공유: Flox에서 제공하는 명령어를 통해 공유합니다.
+  - 컨테이너: Flox 환경을 컨테이너 이미지로 만들어 공유합니다.
+
+### 폴더를 통한 공유
+
+`flox init`을 실행한 디렉터리에 생성된 `.flox` 폴더를 공유하면, 다른 사용자는 `git clone`으로 프로젝트를 복제한 뒤 `flox activate` 명령만 실행하면 동일한 환경을 구성할 수 있습니다.
+
+> 환경을 생성한 사용자와 다른 CPU 아키텍처 또는 OS를 사용하는 사용자와 환경을 공유하는 경우, 시스템별 패키지를 사용할 수 없는 문제가 발생할 수 있습니다. 이 문제는 매니페스트 파일을 약간 수정하여 해결할 수 있습니다.
+
+다음은 git을 사용하여 프로젝트를 공유하는 예시입니다. 첫 번째 사용자가 환경을 생성하고 git에 추가합니다.
+
+```bash
+git add .flox
+git commit -m "sharing flox environment"
+git push
+```
+
+다른 개발자는 프로젝트를 내려받은 후 `flox activate`만 실행하면 동일한 버전의 패키지가 자동으로 설치되어 즉시 개발을 시작할 수 있습니다.
+
+### FloxHub로 공유
+
+`flox push` 명령을 사용하면 FloxHub를 통해 환경을 쉽게 공유할 수 있습니다.
+
+```bash
+flox push
+✅  example-project successfully pushed to FloxHub
+
+    Use 'flox pull youruser/example-project' to get this environment in any other location.
+```
+
+다른 사용자는 `flox activate -r username/environment` 명령어를 사용하여 원격 저장소에 있는 환경을 활성화할 수 있습니다.
+
+### 컨테이너로 공유
+
+Flox는 현재 환경을 `Docker` 등에서 사용할 수 있는 OCI 컨테이너 이미지로 만들 수 있습니다. `flox containerize`를 실행하면 컨테이너 이미지가 생성되며, 이 명령은 이미지를 Docker에 자동으로 로드합니다.
+
+```bash
+flox containerize --runtime docker
+...
+Creating layer 1 from paths: [...]
+...
+Loaded image: example-project:latest
+✨ Container written to Docker runtime
+```
+
+# 마치며
+
+Nix의 강력함은 알고 있지만 높은 학습 곡선 때문에 망설였던 개발자에게 Flox는 훌륭한 대안이 될 수 있습니다. Flox를 사용하면 복잡한 설정 없이도 프로젝트별로 격리된 개발 환경을 손쉽게 구성하고, 팀원과 일관된 환경을 공유할 수 있습니다. 이 글에서 다룬 기본적인 기능만으로도 개발 생산성을 크게 높일 수 있을 것입니다. 재현 가능하고 독립적인 개발 환경을 구축하고 싶다면 Flox를 사용해 보시기를 추천합니다.
+
+---
+
+# Reference
+
+[^1]: [공식문서](https://flox.dev/docs/) 
