@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Taeyoon Kim">
+<meta name="dcterms.date" content="2025-03-13">
+
+<title>LLM 사전 학습에 대한 이해 – tomorrow-lab</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../.././static/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-6fd95b7d3155c993f73d60cd550fc209.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2375aafe15b9f7556f0e5751296f19d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-31EWCYNR0V"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="LLM 사전 학습에 대한 이해 – tomorrow-lab">
+<meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/ml_LLM_pretraining_files/figure-html/cell-33-output-1.png">
+<meta property="og:site_name" content="tomorrow-lab">
+<meta property="og:image:height" content="398">
+<meta property="og:image:width" content="540">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">tomorrow-lab</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-exclamation-triangle" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/partrita"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<div style="margin-top: 30px; margin-bottom: 20px;">
+    <a href="https://substack.com/@tomorrowlab">
+        <img alt="Static Badge" src="https://img.shields.io/badge/EHOTTL%40substack_-FF6719?link=https%3A%2F%2Fsubstack.com%2F%40tomorrowlab">
+    </a>
+    <a href="https://pixi.sh">
+        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json" alt="Pixi Badge">
+    </a>
+    <!-- <script async src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script> -->
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#llm-사전-학습이란" id="toc-llm-사전-학습이란" class="nav-link active" data-scroll-target="#llm-사전-학습이란"><span class="header-section-number">1</span> LLM 사전 학습이란?</a>
+  <ul class="collapse">
+  <li><a href="#일반-사전학습-모델-불러오기" id="toc-일반-사전학습-모델-불러오기" class="nav-link" data-scroll-target="#일반-사전학습-모델-불러오기"><span class="header-section-number">1.1</span> 일반 사전학습 모델 불러오기</a></li>
+  </ul></li>
+  <li><a href="#데이터-준비" id="toc-데이터-준비" class="nav-link" data-scroll-target="#데이터-준비"><span class="header-section-number">2</span> 데이터 준비</a>
+  <ul class="collapse">
+  <li><a href="#hugging-face에서-데이터-다운로드" id="toc-hugging-face에서-데이터-다운로드" class="nav-link" data-scroll-target="#hugging-face에서-데이터-다운로드"><span class="header-section-number">2.1</span> Hugging Face에서 데이터 다운로드</a>
+  <ul class="collapse">
+  <li><a href="#사전-학습-및-미세-조정-데이터-세트-비교" id="toc-사전-학습-및-미세-조정-데이터-세트-비교" class="nav-link" data-scroll-target="#사전-학습-및-미세-조정-데이터-세트-비교"><span class="header-section-number">2.1.1</span> 사전 학습 및 미세 조정 데이터 세트 비교</a></li>
+  </ul></li>
+  <li><a href="#직접-데이터-스크랩해오기" id="toc-직접-데이터-스크랩해오기" class="nav-link" data-scroll-target="#직접-데이터-스크랩해오기"><span class="header-section-number">2.2</span> 직접 데이터 스크랩해오기</a></li>
+  <li><a href="#데이터-정리" id="toc-데이터-정리" class="nav-link" data-scroll-target="#데이터-정리"><span class="header-section-number">2.3</span> 데이터 정리</a>
+  <ul class="collapse">
+  <li><a href="#너무-짧은-데이터-제거" id="toc-너무-짧은-데이터-제거" class="nav-link" data-scroll-target="#너무-짧은-데이터-제거"><span class="header-section-number">2.3.1</span> 너무 짧은 데이터 제거</a></li>
+  <li><a href="#훈련-샘플-내-반복된-텍스트-제거" id="toc-훈련-샘플-내-반복된-텍스트-제거" class="nav-link" data-scroll-target="#훈련-샘플-내-반복된-텍스트-제거"><span class="header-section-number">2.3.2</span> 훈련 샘플 내 반복된 텍스트 제거</a></li>
+  <li><a href="#중복-제거" id="toc-중복-제거" class="nav-link" data-scroll-target="#중복-제거"><span class="header-section-number">2.3.3</span> 중복 제거</a></li>
+  <li><a href="#언어-필터링" id="toc-언어-필터링" class="nav-link" data-scroll-target="#언어-필터링"><span class="header-section-number">2.3.4</span> 언어 필터링</a></li>
+  </ul></li>
+  <li><a href="#데이터-세트를-디스크에-저장" id="toc-데이터-세트를-디스크에-저장" class="nav-link" data-scroll-target="#데이터-세트를-디스크에-저장"><span class="header-section-number">2.4</span> 데이터 세트를 디스크에 저장</a></li>
+  </ul></li>
+  <li><a href="#데이터-패키징" id="toc-데이터-패키징" class="nav-link" data-scroll-target="#데이터-패키징"><span class="header-section-number">3</span> 데이터 패키징</a>
+  <ul class="collapse">
+  <li><a href="#토큰화-및-input_ids-만들기" id="toc-토큰화-및-input_ids-만들기" class="nav-link" data-scroll-target="#토큰화-및-input_ids-만들기"><span class="header-section-number">3.1</span> 토큰화 및 input_ids 만들기</a></li>
+  <li><a href="#데이터-패킹" id="toc-데이터-패킹" class="nav-link" data-scroll-target="#데이터-패킹"><span class="header-section-number">3.2</span> 데이터 패킹</a></li>
+  <li><a href="#패킹된-데이터-세트-디스크에-저장" id="toc-패킹된-데이터-세트-디스크에-저장" class="nav-link" data-scroll-target="#패킹된-데이터-세트-디스크에-저장"><span class="header-section-number">3.3</span> 패킹된 데이터 세트 디스크에 저장</a></li>
+  </ul></li>
+  <li><a href="#모델-훈련-준비하기" id="toc-모델-훈련-준비하기" class="nav-link" data-scroll-target="#모델-훈련-준비하기"><span class="header-section-number">4</span> 모델 훈련 준비하기</a>
+  <ul class="collapse">
+  <li><a href="#모델-구성" id="toc-모델-구성" class="nav-link" data-scroll-target="#모델-구성"><span class="header-section-number">4.1</span> 모델 구성</a></li>
+  <li><a href="#가중치-초기화" id="toc-가중치-초기화" class="nav-link" data-scroll-target="#가중치-초기화"><span class="header-section-number">4.2</span> 가중치 초기화</a>
+  <ul class="collapse">
+  <li><a href="#가중치-랜덤-초기화" id="toc-가중치-랜덤-초기화" class="nav-link" data-scroll-target="#가중치-랜덤-초기화"><span class="header-section-number">4.2.1</span> 가중치 랜덤 초기화</a></li>
+  <li><a href="#기존-모델에-추가-사전-훈련" id="toc-기존-모델에-추가-사전-훈련" class="nav-link" data-scroll-target="#기존-모델에-추가-사전-훈련"><span class="header-section-number">4.2.2</span> 기존 모델에 추가 사전 훈련</a></li>
+  <li><a href="#기존-학습된-모델-축소" id="toc-기존-학습된-모델-축소" class="nav-link" data-scroll-target="#기존-학습된-모델-축소"><span class="header-section-number">4.2.3</span> 기존 학습된 모델 축소</a></li>
+  <li><a href="#기존-학습된-모델-확장" id="toc-기존-학습된-모델-확장" class="nav-link" data-scroll-target="#기존-학습된-모델-확장"><span class="header-section-number">4.2.4</span> 기존 학습된 모델 확장</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#모델-학습" id="toc-모델-학습" class="nav-link" data-scroll-target="#모델-학습"><span class="header-section-number">5</span> 모델 학습</a>
+  <ul class="collapse">
+  <li><a href="#학습할-모델-로드하기" id="toc-학습할-모델-로드하기" class="nav-link" data-scroll-target="#학습할-모델-로드하기"><span class="header-section-number">5.1</span> 학습할 모델 로드하기</a></li>
+  <li><a href="#데이터셋-로드" id="toc-데이터셋-로드" class="nav-link" data-scroll-target="#데이터셋-로드"><span class="header-section-number">5.2</span> 데이터셋 로드</a></li>
+  <li><a href="#학습-파라미터-구성" id="toc-학습-파라미터-구성" class="nav-link" data-scroll-target="#학습-파라미터-구성"><span class="header-section-number">5.3</span> 학습 파라미터 구성</a></li>
+  <li><a href="#트레이너-실행-및-모니터링" id="toc-트레이너-실행-및-모니터링" class="nav-link" data-scroll-target="#트레이너-실행-및-모니터링"><span class="header-section-number">5.4</span> 트레이너 실행 및 모니터링</a></li>
+  <li><a href="#모델의-성능-확인" id="toc-모델의-성능-확인" class="nav-link" data-scroll-target="#모델의-성능-확인"><span class="header-section-number">5.5</span> 모델의 성능 확인</a></li>
+  </ul></li>
+  <li><a href="#모델-평가" id="toc-모델-평가" class="nav-link" data-scroll-target="#모델-평가"><span class="header-section-number">6</span> 모델 평가</a>
+  <ul class="collapse">
+  <li><a href="#벤치마크-평가법" id="toc-벤치마크-평가법" class="nav-link" data-scroll-target="#벤치마크-평가법"><span class="header-section-number">6.1</span> 벤치마크 평가법</a></li>
+  <li><a href="#리더보드-평가법" id="toc-리더보드-평가법" class="nav-link" data-scroll-target="#리더보드-평가법"><span class="header-section-number">6.2</span> 리더보드 평가법</a></li>
+  </ul></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">7</span> 마치며</a>
+  <ul class="collapse">
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">7.1</span> Reference</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">LLM 사전 학습에 대한 이해</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">LLM</div>
+    <div class="quarto-category">Machine Learning</div>
+    <div class="quarto-category">Python</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Taeyoon Kim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 13, 2025</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">September 6, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>이 글은 <a href="https://learn.deeplearning.ai/courses/pretraining-llms">deeplearning.ai</a>의 Pre-training LLM 강의를 듣고 나름대로 정리를 해본 글입니다. 자세한 내용은 강의를 참고해주세요. LLM 사전 학습은 컴퓨팅 파워가 많이 필요하기 때문에 사실상 개인이 수행하기에는 어려운 작업이지만, 이 글을 통해 LLM 사전 학습에 대한 전반적인 이해를 얻을 수 있을 것입니다.</p>
+<section id="llm-사전-학습이란" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> LLM 사전 학습이란?</h1>
+<p>대규모 언어 모델(LLM)을 처음부터 훈련하는 것은 막대한 계산 자원과 시간이 소요됩니다. 그래서 이미 방대한 텍스트 데이터를 활용해 사전 학습된 모델을 가져와 특정 작업에 맞게 소규모 데이터셋으로 미세 조정(Fine-tuning)하는 것이 일반적인 자연어 처리(NLP) 방법입니다. 그러나 이 글에서는 데이터를 수집하고 준비하는 첫번째 단계부터 LLM 모델을 사전 학습 시키는 아래와 같은 과정에 대해 배워보도록 하겠습니다.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR;
+    A[데이터 수집] --&gt; B[데이터 패키징]
+    B --&gt; C[모델 학습]
+    C --&gt; D[모델 사용]
+    D --&gt; E[모델 평가]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="일반-사전학습-모델-불러오기" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="일반-사전학습-모델-불러오기"><span class="header-section-number">1.1</span> 일반 사전학습 모델 불러오기</h2>
+<p>여기서 예시로 다루는 <code>TinySolar-248m-4k</code> 모델은 248M 매개변수(GPT2와 비슷한 규모)와 4096 토큰 컨텍스트 윈도우를 가진 작은 디코더 전용 소형 모델입니다. 이 모델은 Hugging Face 모델 라이브러리에서 <a href="https://huggingface.co/upstage/TinySolar-248m-4k">링크</a> 확인 할 수 있습니다.</p>
+<p>모델을 불러오는 과정은 다음 세 단계로 이루어집니다: 1. Hugging Face 모델 라이브러리에서 모델 경로 지정하기 2. <code>transformers</code> 라이브러리의 <code>AutoModelforCausalLM</code>을 사용하여 모델 불러오기 3. 같은 모델 경로에서 모델의 토크나이저 불러오기</p>
+</section>
+</section>
+<section id="데이터-준비" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 데이터 준비</h1>
+<p>언어 모델을 학습할 때 사용하는 데이터의 품질은 매우 중요하며 사전 학습(Pre-training)에서 필요한 데이터와 미세 조정(Fine-tuning)에서의 데이터는 서로 다른 성질을 가지고 있습니다.</p>
+<p>사전 학습에 사용되는 데이터는 일반적으로 더 대규모 데이터로 구조화가 덜 되어 있습니다. 반면에 미세 조정에서 사용되는 데이터는 특정 작업에 맞게 구조화된 데이터로 구성되어 있습니다. 비유하자면 사전 학습은 많은 책을 읽는 것과 같고, 미세 조정은 예비 고사를 치르는 것과 같습니다.</p>
+<p>여기에서는 학습 데이터를 확보하는 두 가지 방법을 살펴보겠습니다:</p>
+<ol type="1">
+<li>Hugging Face에서 기존 데이터셋 다운로드</li>
+<li>직접 수집한 텍스트 파일로 데이터셋 생성</li>
+</ol>
+<p>두 경우 모두 결과는 <code>Datasets</code> 라이브러리의 일부인 Hugging Face <code>Dataset</code> 객체가 됩니다. Dataset의 속성과 사용 방법에 대한 자세한 내용은 <a href="https://huggingface.co/docs/datasets/en/index">Hugging Face 웹사이트</a>에서 확인할 수 있습니다.</p>
+<section id="hugging-face에서-데이터-다운로드" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="hugging-face에서-데이터-다운로드"><span class="header-section-number">2.1</span> Hugging Face에서 데이터 다운로드</h2>
+<p>여기서 다운로드하는 <code>upstage/Pretraining_Dataset</code> 데이터셋은 <strong>Red Pajama</strong>라는 훨씬 더 큰(1조 토큰 규모) 데이터셋의 서브셋입니다. 전체 데이터셋은 Hugging Face의 <a href="https://huggingface.co/datasets/togethercomputer/RedPajama-Data-1T">이 링크</a>에서 확인할 수 있습니다.</p>
+<div id="cell-5" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pretraining_dataset <span class="op">=</span> load_dataset(<span class="st">"upstage/Pretraining_Dataset"</span>, split<span class="op">=</span><span class="st">"train"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pretraining_dataset <span class="op">=</span> pretraining_dataset.select_columns([<span class="st">"text"</span>])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pretraining_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset({
+    features: ['text'],
+    num_rows: 60000
+})</code></pre>
+</div>
+</div>
+<div id="cell-6" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pretraining_dataset[<span class="st">"text"</span>][<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>In 1793 Zaman Shah, a grandson of Ahmad Shah Durrani, won a brief war of succession to become ruler of Afghanistan. The support of Painda Khan, chief of the Baraksai branch of the Durrani tribe, was decisive in his victory. In the next fifty year., the brothers of Zaman shah and the sons of Painda Khan were to dominate the affairs of Afghanistan. The Durrani tribe was very large with several branches and numerous clans. 1 Abmad Shah and his successors belonged to the Sadozai clan, but other clans, such as the Mohammedzai of Painda Khan, were larger and more powerful and this situation caused many problems.
+Mahmud had revolted unsuccessfully several times with Persian backing, but now with Fateh Khan's help he was able to defeat Zaman who was captured and blinded. Mahmud's position was insecure however. Persian invasions threatened, the tribes were discontented, and another brother of Zaman, Shuja-ul-Mulk, was in arms against him. In 1803 Shuja succeeded in toppling Mahmud after three years in power. But Shuja's rule was effective only in Kabul and Peshawar since Mahmud's brother Firuz held Herat, and Fateh Khan controUed the country around Kandahar. Mahmud escaped from the prison where he had been confined and in 1809 he and Fateh Khan defeated Shuja, who eventually fled to India where he was given a pension by the British, and Mabmud returned to power.
+During his years in power Fateh Khan had made many enemies including Mabmud's son Kamran, and most recently Firuz. At this point Fath Ali Shah of Persia sent Mahmud an ultimatum to dispose of Fateh Khan or face a massive Persian invasion. 5 These combined factors, persuaded Mahmud to sacrifice his vizier. Fateh Khan was seized, blinded, kept prisoner, and finally cut to pieces in 1818. 6 Like Zaman, Mabmud had destroyed the man who was keeping him on the throne and his fall was equally swift. Fateh Khan's brothers led a general revolt and assumed control themselves while Mabmud, Kamran, and Firuz fled to Herat.
+These continued civil wars and the division of royal authority were disastrous for Afghanistan. Herat was cast adrift and now isolated and surrounded by enemies. On the west, the Persians were eager to make good their long-standing claim to the city. On the east, only the disunity of Fateh Khan's brothers prevented them from avenging him. Herat might have fallen to either one if it had not first begun to arouse the interest of outside powers.</code></pre>
+</div>
+</div>
+<section id="사전-학습-및-미세-조정-데이터-세트-비교" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="사전-학습-및-미세-조정-데이터-세트-비교"><span class="header-section-number">2.1.1</span> 사전 학습 및 미세 조정 데이터 세트 비교</h3>
+<p>다음 셀에서는 위에서 로드한 사전 학습 데이터 세트와 대조할 미세 조정 데이터 세트를 다운로드합니다. Alpaca 모델 및 명령어 튜닝 데이터 세트에 대한 자세한 내용은 <a href="https://crfm.stanford.edu/2023/03/13/alpaca.html">여기</a>에서 확인할 수 있습니다.</p>
+<div id="cell-8" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>instruction_dataset <span class="op">=</span> load_dataset(<span class="st">"c-s-ale/alpaca-gpt4-data"</span>, split<span class="op">=</span><span class="st">"train"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"""Instruction: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"instruction"</span>]<span class="sc">}</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ss">Input: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"input"</span>]<span class="sc">}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ss">Output: </span><span class="sc">{</span>instruction_dataset[i][<span class="st">"output"</span>]<span class="sc">}</span><span class="ss">"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Instruction: Give three tips for staying healthy.
+Input: 
+Output: 1. Eat a balanced and nutritious diet: Make sure your meals are inclusive of a variety of fruits and vegetables, lean protein, whole grains, and healthy fats. This helps to provide your body with the essential nutrients to function at its best and can help prevent chronic diseases.
+
+2. Engage in regular physical activity: Exercise is crucial for maintaining strong bones, muscles, and cardiovascular health. Aim for at least 150 minutes of moderate aerobic exercise or 75 minutes of vigorous exercise each week.
+
+3. Get enough sleep: Getting enough quality sleep is crucial for physical and mental well-being. It helps to regulate mood, improve cognitive function, and supports healthy growth and immune function. Aim for 7-9 hours of sleep each night.</code></pre>
+</div>
+</div>
+<p>사전 학습 데이터가 단순한 원시 텍스트로 구성된 것과 달리 미세 조정용 데이터 세트는 질문-답변 쌍이나 명령어-응답 형태로 구조화되어 있다는 것을 알 수 있습니다. 또한 필요한 경우 추가 입력 컨텍스트를 포함할 수도 있습니다. 다만 여기에서는 앞으로는 비구조화된 사전 학습 데이터 세트만 사용할 것입니다.</p>
+</section>
+</section>
+<section id="직접-데이터-스크랩해오기" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="직접-데이터-스크랩해오기"><span class="header-section-number">2.2</span> 직접 데이터 스크랩해오기</h2>
+<div id="cell-10" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> Dataset, concatenate_datasets</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 스크랩된 텍스트 데이터를 저장할 리스트 초기화</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>scrap_text <span class="op">=</span> []</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>source_dir <span class="op">=</span> Path(<span class="st">"../data/input/scraped_text"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리 내 모든 파일 읽기</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> source_dir.iterdir():</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> file_path.is_file():  <span class="co"># 파일인지 확인</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> file_path.<span class="bu">open</span>(<span class="st">"r"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            scrap_text.append({<span class="st">"text"</span>: <span class="bu">file</span>.read()})</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 리스트를 Dataset 객체로 변환</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>scrap_text_dataset <span class="op">=</span> Dataset.from_list(scrap_text)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 기존 데이터셋과 새로 만든 데이터셋 결합</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> concatenate_datasets([pretraining_dataset, scrap_text_dataset])</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 출력</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset({
+    features: ['text'],
+    num_rows: 60004
+})</code></pre>
+</div>
+</div>
+</section>
+<section id="데이터-정리" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="데이터-정리"><span class="header-section-number">2.3</span> 데이터 정리</h2>
+<p>이제 다음과 같은 데이터 정리 단계를 수행합니다:</p>
+<ol type="1">
+<li>너무 짧은 데이터 필터링<br>
+</li>
+<li>하나의 텍스트 내에서 반복된 부분 제거<br>
+</li>
+<li>중복된 문서 제거<br>
+</li>
+<li>비영어 텍스트를 제거하는 품질 필터 적용</li>
+</ol>
+<section id="너무-짧은-데이터-제거" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="너무-짧은-데이터-제거"><span class="header-section-number">2.3.1</span> 너무 짧은 데이터 제거</h3>
+<p>짧은 데이터는 모델이 학습하는 데 도움이 되지 않을 수 있습니다. 따라서 이번 단계에서는 너무 짧은 데이터를 제거합니다. 여기서는 3개 이하의 토큰을 가진 데이터를 제거합니다.</p>
+<div id="cell-12" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> heapq</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> paragraph_length_filter(example):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""페이지의 줄 수가 너무 적거나 줄 길이가 너무 짧으면 False를 반환합니다."""</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> example[<span class="st">"text"</span>].split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 가장 긴 3개의 줄의 길이를 계산하고, 그 중 최소 길이가 3보다 작은 경우 False 반환</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(lines) <span class="op">&lt;</span> <span class="dv">3</span> <span class="kw">or</span> <span class="bu">min</span>(heapq.nlargest(<span class="dv">3</span>, [<span class="bu">len</span>(line) <span class="cf">for</span> line <span class="kw">in</span> lines])) <span class="op">&lt;</span> <span class="dv">3</span>:</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터 정리 전 데이터의 수: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링 작업 수행</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(paragraph_length_filter, load_from_cache_file<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터 정리 후 데이터의 수: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>데이터 정리 전 데이터의 수: 60004</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"a61f5ccafbd84aa58a2950cb17c11bff","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>데이터 정리 후 데이터의 수: 52355</code></pre>
+</div>
+</div>
+</section>
+<section id="훈련-샘플-내-반복된-텍스트-제거" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="훈련-샘플-내-반복된-텍스트-제거"><span class="header-section-number">2.3.2</span> 훈련 샘플 내 반복된 텍스트 제거</h3>
+<p>여기서는 각 샘플 내에서 반복된 텍스트를 제거합니다. 이를 통해 모델이 반복된 텍스트를 학습하는 것을 방지할 수 있습니다.</p>
+<div id="cell-14" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_duplicates(paragraphs: <span class="bu">list</span>[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">tuple</span>[<span class="bu">int</span>, <span class="bu">int</span>]:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""중복된 단락의 수와 문자 수를 계산합니다."""</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    unique_paragraphs <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    duplicate_chars <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    duplicate_count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> paragraph <span class="kw">in</span> paragraphs:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> paragraph <span class="kw">in</span> unique_paragraphs:</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            duplicate_chars <span class="op">+=</span> <span class="bu">len</span>(paragraph)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            duplicate_count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            unique_paragraphs.add(paragraph)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> duplicate_count, duplicate_chars</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> paragraph_repetition_filter(example: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""페이지에 중복이 너무 많으면 False를 반환합니다."""</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> example[<span class="st">"text"</span>]</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    paragraphs <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r"</span><span class="ch">\n</span><span class="op">{2,}</span><span class="vs">"</span>).split(text.strip())</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    duplicate_count, duplicate_chars <span class="op">=</span> find_duplicates(paragraphs)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> duplicate_count <span class="op">/</span> <span class="bu">len</span>(paragraphs) <span class="op">&gt;</span> <span class="fl">0.3</span>:</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> duplicate_chars <span class="op">/</span> <span class="bu">len</span>(text) <span class="op">&gt;</span> <span class="fl">0.2</span>:</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋에 필터 적용</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>filtered_dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(paragraph_repetition_filter, load_from_cache_file<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"필터링 후 데이터셋 크기: </span><span class="sc">{</span>filtered_dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"1237457ab7ba4bd8b90196c582517cdb","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>필터링 후 데이터셋 크기: 52326</code></pre>
+</div>
+</div>
+</section>
+<section id="중복-제거" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="중복-제거"><span class="header-section-number">2.3.3</span> 중복 제거</h3>
+<p>이 섹션에서는 전체 데이터 세트에서 중복된 샘플을 제거합니다. (이전 단계에서는 각 샘플 내에서 반복된 텍스트만 제거했습니다.)</p>
+<div id="cell-16" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> deduplication(dataset: Dataset) <span class="op">-&gt;</span> Dataset:</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    unique_texts <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dedup_func(example: <span class="bu">dict</span>[<span class="bu">str</span>, Any]) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""중복된 텍스트 항목을 제거합니다."""</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> example[<span class="st">"text"</span>] <span class="kw">in</span> unique_texts:</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        unique_texts.add(example[<span class="st">"text"</span>])</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    deduplicated_dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(dedup_func, load_from_cache_file<span class="op">=</span><span class="va">False</span>, num_proc<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"원래 데이터셋 크기: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"중복 제거 후 데이터셋 크기: </span><span class="sc">{</span>deduplicated_dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> deduplicated_dataset</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> deduplication(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"70f638b5bf814e079bde83d7c0d94a8b","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>원래 데이터셋 크기: 52355
+중복 제거 후 데이터셋 크기: 43621</code></pre>
+</div>
+</div>
+</section>
+<section id="언어-필터링" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="언어-필터링"><span class="header-section-number">2.3.4</span> 언어 필터링</h3>
+<p>여기서는 영어가 아닌 텍스트 샘플을 제거합니다. 이를 위해 <code>lingua-py</code>라는 언어 감지 라이브러리를 사용합니다. 자세한 내용은 <a href="https://github.com/pemistahl/lingua-py">여기</a>에서 확인할 수 있습니다.</p>
+<div id="cell-18" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lingua <span class="im">import</span> Language, LanguageDetectorBuilder</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 영어와 한국어 감지를 위한 언어 감지기 생성</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>detector <span class="op">=</span> LanguageDetectorBuilder.from_languages(Language.ENGLISH, Language.KOREAN).build()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋에서 영어 텍스트만 필터링</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">filter</span>(</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: detector.detect_language_of(x[<span class="st">"text"</span>].replace(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>)) <span class="op">==</span> Language.ENGLISH,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    load_from_cache_file<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    num_proc<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 필터링 후 데이터셋 크기 출력</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"제거 후 데이터셋 크기: </span><span class="sc">{</span>dataset<span class="sc">.</span>num_rows<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Parameter 'function'=&lt;function &lt;lambda&gt; at 0x7388a02aa7a0&gt; of the transform datasets.arrow_dataset.Dataset.filter@2.0.1 couldn't be hashed properly, a random hash was used instead. Make sure your transforms and parameters are serializable with pickle or dill for the dataset fingerprinting and caching to work. If you reuse this transform, the caching mechanism will consider it to be different from the previous calls and recompute everything. This warning is only showed once. Subsequent hashing failures won't be showed.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"9aeec63daf7d486aa2ac646e1eef1689","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>제거 후 데이터셋 크기: 43322</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="데이터-세트를-디스크에-저장" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="데이터-세트를-디스크에-저장"><span class="header-section-number">2.4</span> 데이터 세트를 디스크에 저장</h2>
+<p>Parquet 데이터 형식에 대한 자세한 내용은 <a href="https://parquet.apache.org/">여기</a>에서 확인할 수 있습니다.</p>
+<div id="cell-20" class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> Path(<span class="st">"../data/output"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"preprocessed_dataset.parquet"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 파케이 파일로 저장</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>dataset.to_parquet(file_path)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터셋이 성공적으로 저장되었습니다: </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"3febd67ed36046529f6d90decfcb1db3","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>데이터셋이 성공적으로 저장되었습니다: ../data/output/preprocessed_dataset.parquet</code></pre>
+</div>
+</div>
+<p>이제 데이터 세트를 모델 학습에 사용할 수 있도록 패키징하는 방법을 배웁니다.</p>
+</section>
+</section>
+<section id="데이터-패키징" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 데이터 패키징</h1>
+<p>데이터 패키징은 토큰화(Tokenizing)와 패킹(Packing) 과정을 포함하며 각각의 역할은 아래와 같습니다.</p>
+<ul>
+<li><strong>토큰화(Tokenizing)</strong>: 각 텍스트를 의미 있는 작은 단위(토큰)로 분할하는 과정<br>
+</li>
+<li><strong>패킹(Packing)</strong>: 훈련 효율성을 높이기 위해 토큰을 최대 시퀀스 길이에 맞게 정리하는 과정</li>
+</ul>
+<section id="토큰화-및-input_ids-만들기" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="토큰화-및-input_ids-만들기"><span class="header-section-number">3.1</span> 토큰화 및 input_ids 만들기</h2>
+<p>이전 단계에서 저장한 데이터 세트를 불러오는 것부터 시작합니다.</p>
+<div id="cell-22" class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datasets</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> datasets.load_dataset(<span class="st">"parquet"</span>, data_files<span class="op">=</span>file_path.as_posix(), split<span class="op">=</span><span class="st">"train"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"ee98a8ff2acb4aea81d8ddd1cf355fe3","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset({
+    features: ['text'],
+    num_rows: 43322
+})</code></pre>
+</div>
+</div>
+<p>Hugging Face <code>Dataset</code> 객체의 <code>shard</code> 메서드를 사용하여 데이터 세트를 10개의 더 작은 조각(<em>shards</em>)으로 분할합니다. (<em>shard</em>는 깨진 유리 조각처럼 데이터를 나누는 개념입니다.) Sharding에 대한 자세한 내용은 <a href="https://huggingface.co/docs/datasets/en/process#shard">여기</a>에서 확인할 수 있습니다.</p>
+<div id="cell-24" class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.shard(num_shards<span class="op">=</span><span class="dv">10</span>, index<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset({
+    features: ['text'],
+    num_rows: 4333
+})</code></pre>
+</div>
+</div>
+<p>토크나이저를 불러오고, <code>input_ids</code>를 생성하는 데 사용할 수 있습니다. 이 과정은 데이터를 토큰화하고 토큰을 <code>input_ids</code>로 변환하는 과정입니다.</p>
+<div id="cell-26" class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>model_path_or_name <span class="op">=</span> <span class="st">"upstage/SOLAR-10.7B-v1.0"</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    model_path_or_name,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    use_fast<span class="op">=</span><span class="va">False</span>,  <span class="co"># 참고: 긴 텍스트 샘플이 때때로 멈추는 경향이 있어 빠른 토큰화를 비활성화합니다. 대신 병렬 처리를 위해 map 함수와 datasets 라이브러리를 사용하겠습니다.</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>tokenizer.tokenize(<span class="st">"I'm a short sentence"</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 헬퍼 함수 생성:</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tokenization(example):</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 토큰화</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> tokenizer.tokenize(example[<span class="st">"text"</span>])</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 토큰을 ID로 변환</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    token_ids <span class="op">=</span> tokenizer.convert_tokens_to_ids(tokens)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># &lt;bos&gt;, &lt;eos&gt; 토큰을 token_ids의 앞과 뒤에 추가</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bos: 시퀀스 시작, eos: 시퀀스 끝</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    token_ids <span class="op">=</span> [tokenizer.bos_token_id] <span class="op">+</span> token_ids <span class="op">+</span> [tokenizer.eos_token_id]</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    example[<span class="st">"input_ids"</span>] <span class="op">=</span> token_ids</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 최종 데이터셋의 총 토큰 수를 계산하는 데 이 열을 사용할 것입니다.</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    example[<span class="st">"num_tokens"</span>] <span class="op">=</span> <span class="bu">len</span>(token_ids)</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> example</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>사전 학습 데이터 세트의 모든 예제를 토큰화 합니다.</p>
+<blockquote class="blockquote">
+<p>이 과정은 시간이 오래 걸릴 수 있습니다.</p>
+</blockquote>
+<div id="cell-28" class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋의 각 예제에 tokenization 함수를 적용합니다.</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># load_from_cache_file=False 옵션은 캐시된 결과를 사용하지 않고 항상 새로 계산하도록 합니다.</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> dataset.<span class="bu">map</span>(tokenization, load_from_cache_file<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 변환된 데이터셋의 정보를 출력합니다.</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"0243925ef2864690a83015407733b113","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset({
+    features: ['text', 'input_ids', 'num_tokens'],
+    num_rows: 4333
+})</code></pre>
+</div>
+</div>
+<div id="cell-29" class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> dataset[<span class="dv">3</span>]  <span class="co"># 데이터셋에서 네 번째 샘플을 선택합니다.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"text"</span>, sample[<span class="st">"text"</span>][:<span class="dv">30</span>])  <span class="co"># 샘플 텍스트의 처음 30자를 출력합니다.</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">input_ids"</span>, sample[<span class="st">"input_ids"</span>][:<span class="dv">30</span>])  <span class="co"># 토큰화된 입력 ID의 처음 30개를 출력합니다.</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">num_tokens"</span>, sample[<span class="st">"num_tokens"</span>])  <span class="co"># 샘플의 총 토큰 수를 출력합니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>text A cool look at climate
+Ian Sin
+
+input_ids [1, 330, 5106, 913, 438, 11259, 13, 28737, 276, 318, 1505, 992, 2261, 2308, 302, 272, 1830, 11259, 2268, 11725, 297, 272, 6194, 684, 767, 6768, 905, 304, 5780, 1580]
+
+num_tokens 3731</code></pre>
+</div>
+</div>
+<p>데이터셋의 총 토큰 수를 확인합니다.</p>
+<div id="cell-31" class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>total_tokens <span class="op">=</span> np.<span class="bu">sum</span>(dataset[<span class="st">"num_tokens"</span>])</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"총 토큰 수: </span><span class="sc">{</span>total_tokens<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>총 토큰 수: 5689564</code></pre>
+</div>
+</div>
+</section>
+<section id="데이터-패킹" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="데이터-패킹"><span class="header-section-number">3.2</span> 데이터 패킹</h2>
+<p>데이터 패킹은 여러 데이터를 효율적으로 하나의 데이터 블록으로 결합하는 과정입니다. 이 기술은 특히 자연어 처리(NLP) 작업에서 배치 처리 효율성을 높이는 데 중요합니다. 아래 다이어그램은 일반적인 워크플로우를 보여줍니다.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD;
+    B[Load Dataset];
+    B --&gt; C[Tokenize Each Example];
+    C --&gt; D[Create input_ids];
+    D --&gt; E[Pad Sequences to Max Length];
+    E --&gt; F[Pack Tokens into Batches];
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ol type="1">
+<li>데이터셋 로드: 원시 텍스트 데이터를 메모리에 불러옵니다.</li>
+<li>토큰화: 각 예제 텍스트를 개별 토큰으로 분할합니다. 이는 단어, 하위 단어 또는 문자 수준에서 수행될 수 있습니다.</li>
+<li>input_ids 생성: 토큰을 해당하는 정수 ID로 변환합니다. 이는 모델이 이해할 수 있는 형식입니다.</li>
+<li>시퀀스 패딩: 배치 내의 모든 시퀀스가 동일한 길이를 갖도록 짧은 시퀀스에 패딩을 추가합니다.</li>
+<li>배치로 토큰 패킹: 여러 예제의 토큰을 하나의 배치로 결합합니다.</li>
+</ol>
+<p>마지막 단계에서 모든 예제의 input_ids를 하나의 리스트로 연결하는 것은 메모리 효율성과 처리 속도를 향상시키는 중요한 최적화 기법입니다. 이렇게 하면 모델이 한 번에 여러 예제를 처리할 수 있습니다. 이러한 패킹 기법은 GPU 메모리 사용을 최적화하고 병렬 처리 능력을 최대한 활용할 수 있어 전체적인 훈련 시간을 단축시킬 수 있습니다.</p>
+<div id="cell-33" class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset의 "input_ids" 배열을 연결하여 하나의 배열로 만듭니다.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> np.concatenate(dataset[<span class="st">"input_ids"</span>])</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 연결된 배열의 길이를 출력합니다.</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"연결된 배열의 길이 </span><span class="sc">{</span><span class="bu">len</span>(input_ids)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 최대 시퀀스 길이를 설정합니다.</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>max_seq_length <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 총 길이를 계산합니다. input_ids의 길이에서 max_seq_length로 나누어 나머지를 뺀 값입니다.</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>total_length <span class="op">=</span> <span class="bu">len</span>(input_ids) <span class="op">-</span> <span class="bu">len</span>(input_ids) <span class="op">%</span> max_seq_length</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 계산된 총 길이를 출력합니다.</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"계산된 총 길이: </span><span class="sc">{</span>total_length<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>연결된 배열의 길이 5689564
+계산된 총 길이: 5689536</code></pre>
+</div>
+</div>
+<p>리스트 끝에서 추가 토큰을 버려서 토큰의 수가 <code>max_seq_length</code>로 정확하게 나누어지도록 합니다.</p>
+<div id="cell-35" class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids 배열을 total_length 길이만큼 자릅니다.</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> input_ids[:total_length]</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 잘린 배열의 shape(형상)을 출력합니다.</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids의 shape: </span><span class="sc">{</span>input_ids<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids 배열을 (행: -1, 열: max_seq_length) 형태로 재구조화하고, 데이터 타입을 int32로 변환합니다.</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>input_ids_reshaped <span class="op">=</span> input_ids.reshape(<span class="op">-</span><span class="dv">1</span>, max_seq_length).astype(np.int32)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 재구조화된 배열의 shape(형상)을 출력합니다.</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids_reshaped의 shape: </span><span class="sc">{</span>input_ids_reshaped<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 재구조화된 배열의 데이터 타입을 출력합니다.</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"input_ids_reshaped의 데이터 타입: </span><span class="sc">{</span><span class="bu">type</span>(input_ids_reshaped)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>input_ids의 shape: (5689536,)
+input_ids_reshaped의 shape: (177798, 32)
+input_ids_reshaped의 데이터 타입: &lt;class 'numpy.ndarray'&gt;</code></pre>
+</div>
+</div>
+<p>Hugging Face 데이터 세트로 변환하려면 다음과 같이 합니다.</p>
+<div id="cell-37" class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input_ids_reshaped를 리스트로 변환합니다.</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>input_ids_list <span class="op">=</span> input_ids_reshaped.tolist()</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 변환된 리스트를 사용하여 새로운 Dataset 객체를 생성합니다.</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset <span class="op">=</span> datasets.Dataset.from_dict({<span class="st">"input_ids"</span>: input_ids_list})</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 생성된 Dataset 객체의 정보를 출력합니다.</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"생성된 Dataset 객체: </span><span class="sc">{</span>packaged_pretrain_dataset<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>생성된 Dataset 객체: Dataset({
+    features: ['input_ids'],
+    num_rows: 177798
+})</code></pre>
+</div>
+</div>
+</section>
+<section id="패킹된-데이터-세트-디스크에-저장" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="패킹된-데이터-세트-디스크에-저장"><span class="header-section-number">3.3</span> 패킹된 데이터 세트 디스크에 저장</h2>
+<p>Hugging Face Dataset 객체를 디스크에 저장하는 방법은 다음과 같습니다.</p>
+<blockquote class="blockquote">
+<p><code>to_parquet()</code> 메서드는 데이터를 Parquet 파일 형식으로 저장합니다. Parquet는 효율적인 컬럼 기반 저장 형식으로, 대규모 데이터를 저장하고 처리하는 데 최적화되어 있습니다. Parquet 형식은 다른 데이터 분석 툴(예: pandas, Apache Spark 등)과 쉽게 호환됩니다. 데이터 세트를 다른 시스템 또는 다른 툴과 공유할 때 유용하며 압축과 성능 최적화 측면에서 효율적입니다.</p>
+</blockquote>
+<div id="cell-39" class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"packaged_pretrain_dataset.parquet"</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 파케이 파일로 저장</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset.to_parquet(file_path)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"데이터셋이 성공적으로 저장되었습니다: </span><span class="sc">{</span>file_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"13e397341dc645a3bea854847aae09b9","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>데이터셋이 성공적으로 저장되었습니다: ../data/output/packaged_pretrain_dataset.parquet</code></pre>
+</div>
+</div>
+<div id="cell-40" class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>packaged_pretrain_dataset</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>Dataset({
+    features: ['input_ids'],
+    num_rows: 177798
+})</code></pre>
+</div>
+</div>
+<div id="cell-41" class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(packaged_pretrain_dataset[<span class="dv">0</span>][<span class="st">"input_ids"</span>][<span class="dv">0</span>:<span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1, 560, 28705, 28740, 28787, 28774, 28770, 1054, 14886, 23452]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="모델-훈련-준비하기" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 모델 훈련 준비하기</h1>
+<section id="모델-구성" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="모델-구성"><span class="header-section-number">4.1</span> 모델 구성</h2>
+<p>Meta의 Llama 모델 계열을 기반으로 모델을 구성할 것입니다. transformers 라이브러리에는 이 모델들과 함께 작업할 수 있는 여러 도구가 있으며, 이에 대해 <a href="https://huggingface.co/docs/transformers/main/en/model_doc/llama">여기</a>에서 읽을 수 있습니다.</p>
+<p>시작은 <code>LlamaConfig</code> 객체를 생성하여 모델의 아키텍처를 구성하는 것입니다.</p>
+<div id="cell-43" class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> LlamaConfig, LlamaForCausalLM</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_nparams(model):</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""모델의 총 파라미터 개수를 계산하여 출력합니다."""</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    nparams <span class="op">=</span> <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> model.parameters())</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"모델의 총 파라미터 개수: </span><span class="sc">{</span>nparams<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="co"># LlamaConfig 객체를 생성합니다.</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> LlamaConfig()</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"기본 설정: </span><span class="sc">{</span>config<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>기본 설정: LlamaConfig {
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 1,
+  "eos_token_id": 2,
+  "hidden_act": "silu",
+  "hidden_size": 4096,
+  "initializer_range": 0.02,
+  "intermediate_size": 11008,
+  "max_position_embeddings": 2048,
+  "model_type": "llama",
+  "num_attention_heads": 32,
+  "num_hidden_layers": 32,
+  "num_key_value_heads": 32,
+  "pretraining_tp": 1,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": null,
+  "rope_theta": 10000.0,
+  "tie_word_embeddings": false,
+  "transformers_version": "4.37.2",
+  "use_cache": true,
+  "vocab_size": 32000
+}
+</code></pre>
+</div>
+</div>
+<div id="cell-44" class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 아키텍처를 변경하기 위해 설정 값을 업데이트합니다:</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>config.num_hidden_layers <span class="op">=</span> <span class="dv">12</span>  <span class="co"># 기본값 32에서 12로 감소</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>config.hidden_size <span class="op">=</span> <span class="dv">1024</span>  <span class="co"># 기본값 4096에서 1024로 감소 (1/4 축소)</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>config.intermediate_size <span class="op">=</span> <span class="dv">4096</span>  <span class="co"># 기본값 11008에서 4096으로 감소 (MLP 표현 차원, 약 1/3 축소)</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>config.num_key_value_heads <span class="op">=</span> <span class="dv">8</span>  <span class="co"># 기본값 num_attention_heads=32에서 8로 감소 (1/4 축소)</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>config.torch_dtype <span class="op">=</span> <span class="st">"bfloat16"</span>  <span class="co"># 정밀도를 감소</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>config.use_cache <span class="op">=</span> <span class="va">False</span>  <span class="co"># `True`는 gradient checkpointing과 호환되지 않음</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"업데이트된 설정: </span><span class="sc">{</span>config<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>업데이트된 설정: LlamaConfig {
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 1,
+  "eos_token_id": 2,
+  "hidden_act": "silu",
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "max_position_embeddings": 2048,
+  "model_type": "llama",
+  "num_attention_heads": 32,
+  "num_hidden_layers": 12,
+  "num_key_value_heads": 8,
+  "pretraining_tp": 1,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": null,
+  "rope_theta": 10000.0,
+  "tie_word_embeddings": false,
+  "torch_dtype": "bfloat16",
+  "transformers_version": "4.37.2",
+  "use_cache": false,
+  "vocab_size": 32000
+}
+</code></pre>
+</div>
+</div>
+</section>
+<section id="가중치-초기화" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="가중치-초기화"><span class="header-section-number">4.2</span> 가중치 초기화</h2>
+<p>모델 훈련을 위한 가중치 초기화 방법에는 다음 4가지가 있습니다. 각각을 간략히 설명하고 4번째 방법인 depth upscaling 방법을 사용해 학습을 진행하겠습니다.</p>
+<section id="가중치-랜덤-초기화" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="가중치-랜덤-초기화"><span class="header-section-number">4.2.1</span> 가중치 랜덤 초기화</h3>
+<p>모델의 가중치를 랜덤으로 초기화하는 방법입니다. 모든 가중치는 평균이 0이고 표준 편차가 0.02인 절단된 정규 분포(truncated normal distribution)에서 값을 설정합니다. 평균에서 2시그마(2σ)를 초과하는 값은 0으로 설정됩니다.</p>
+<p>장점:</p>
+<ul>
+<li>대칭성을 깨뜨려 뉴런이 서로 다르게 학습할 수 있도록 도움.</li>
+<li>다양한 초기값으로 파라미터 공간 탐색 가능.</li>
+</ul>
+<p>단점: - 초기값이 너무 크거나 작으면 기울기 폭주(exploding gradient) 또는 소실(vanishing gradient) 문제가 발생할 수 있음. - 깊은 네트워크에서는 비효율적일 수 있음.</p>
+</section>
+<section id="기존-모델에-추가-사전-훈련" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="기존-모델에-추가-사전-훈련"><span class="header-section-number">4.2.2</span> 기존 모델에 추가 사전 훈련</h3>
+<p>기존 공개된 모델을 로드하여 새로운 데이터로 추가 학습을 진행하는 방법입니다.</p>
+<p>장점:</p>
+<ul>
+<li>기존 모델의 강점을 유지하면서 새로운 데이터에 맞게 업데이트 가능.</li>
+<li>학습 시간이 단축될 수 있음.</li>
+</ul>
+<p>단점:</p>
+<ul>
+<li>기존 모델이 새로운 데이터와 충분히 유사하지 않다면 성능 저하 가능.</li>
+<li>추가 훈련 시 과적합(overfitting) 위험 발생 가능.</li>
+</ul>
+</section>
+<section id="기존-학습된-모델-축소" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="기존-학습된-모델-축소"><span class="header-section-number">4.2.3</span> 기존 학습된 모델 축소</h3>
+<p>예를 들면 <code>tinySolar-248m-4k</code> 모델을 12개 레이어에서 10개 레이어로 축소합니다.</p>
+<p>장점: - 모델 크기를 줄여 계산 비용 감소. - 간단한 작업에 더 적합하게 조정 가능.</p>
+<p>단점: - 복잡한 문제에서는 성능 저하 가능. - 중요한 정보가 손실될 수 있음.</p>
+</section>
+<section id="기존-학습된-모델-확장" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="기존-학습된-모델-확장"><span class="header-section-number">4.2.4</span> 기존 학습된 모델 확장</h3>
+<p>예를 들면 <code>tinySolar-248m-4k</code> 모델을 12개 레이어에서 16개 레이어로 확장할 것입니다. 이는 복잡한 문제를 해결하기 위해 모델의 표현력을 높이는 데 효과적이며, 기존 사전 학습된 가중치를 활용해 효율적으로 확장할 수 있는 장점이 있습니다.</p>
+<p>장점: - 더 복잡한 문제를 처리할 수 있는 능력 향상. - 기존 모델의 성능을 확장하여 더 많은 데이터를 활용 가능.</p>
+<p>단점: - 계산 비용 증가 및 학습 시간 연장. - 레이어를 잘못 추가하면 과적합 위험 증가.</p>
+<section id="실습" class="level4" data-number="4.2.4.1">
+<h4 data-number="4.2.4.1" class="anchored" data-anchor-id="실습"><span class="header-section-number">4.2.4.1</span> 실습</h4>
+<p>이제 12개 레이어의 <code>tinySolar-248m-4k</code> 모델을 16개 레이어로 확장하는 방법을 알아보도록 하겠습니다. 레이어 선택 전략: 원본 12개 레이어 중 하위 8개(초기 특징 추출) + 상위 8개(고수준 추상화)를 중복 추출하는 방법을 사용하겠습니다. 이를 통해 계산 효율성(전체 레이어 재학습 대신 기존 레이어 재활용으로 학습 시간 단축)과 호환성이 보장(임베딩/분류 레이어 유지로 입력-출력 구조 일관성 확보)됩니다. 수행할 단계는 다음과 같습니다:</p>
+<ol type="1">
+<li>16개 레이어 모델 구성 및 랜덤 가중치 초기화
+<ul>
+<li>16개 레이어 구조의 새 모델을 생성하고 랜덤 가중치로 초기화합니다.</li>
+</ul></li>
+<li>12개 레이어를 가진 <code>tinySolar-248m-4k</code> 모델 메모리 로드
+<ul>
+<li>기존 12개 레이어 모델을 메모리에 불러옵니다.</li>
+</ul></li>
+<li>레이어 복제 및 가중치 덮어쓰기
+<ul>
+<li>원본 12개 레이어 모델에서 하위 8개 레이어와 상위 8개 레이어를 복사하여 16개 레이어 모델의 랜덤 가중치를 대체합니다.</li>
+</ul></li>
+<li>임베딩/분류 레이어 복제
+<ul>
+<li>원본 모델의 임베딩 레이어(embedding layers)와 분류 레이어(classifying layers)를 새 모델의 랜덤 초기화된 해당 레이어에 복사합니다.</li>
+</ul></li>
+</ol>
+<div id="cell-46" class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM, AutoTokenizer, LlamaConfig, TextStreamer</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co"># LLaMA 모델 구성 설정</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> LlamaConfig(</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    num_hidden_layers<span class="op">=</span><span class="dv">16</span>,  <span class="co"># 최종적으로 16개의 레이어를 가진 모델을 원함</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    hidden_size<span class="op">=</span><span class="dv">1024</span>,</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    intermediate_size<span class="op">=</span><span class="dv">4096</span>,</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    num_attention_heads<span class="op">=</span><span class="dv">32</span>,</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>    num_key_value_heads<span class="op">=</span><span class="dv">8</span>,</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span><span class="st">"bfloat16"</span>,</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(config)</span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 새로운 모델 생성 및 bfloat16으로 변환</span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LlamaForCausalLM(config)</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> model.to(dtype<span class="op">=</span>torch.bfloat16)</span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>print_nparams(model)  <span class="co"># 308839424 =&gt; 308M</span></span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델 로드</span></span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>model_name_or_path <span class="op">=</span> <span class="st">"upstage/TinySolar-248m-4k"</span></span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>pretrained_model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>    model_name_or_path,</span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"cpu"</span>,</span>
+<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
+<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name_or_path)</span>
+<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a>print_nparams(pretrained_model)  <span class="co"># 248013824 =&gt; 248M</span></span>
+<span id="cb48-32"><a href="#cb48-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-33"><a href="#cb48-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델의 레이어를 새 모델로 복사</span></span>
+<span id="cb48-34"><a href="#cb48-34" aria-hidden="true" tabindex="-1"></a>model.model.layers <span class="op">=</span> deepcopy(pretrained_model.model.layers[:<span class="op">-</span><span class="dv">4</span>]) <span class="op">+</span> deepcopy(</span>
+<span id="cb48-35"><a href="#cb48-35" aria-hidden="true" tabindex="-1"></a>    pretrained_model.model.layers[<span class="dv">4</span>:]</span>
+<span id="cb48-36"><a href="#cb48-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-37"><a href="#cb48-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-38"><a href="#cb48-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 임베딩 레이어 복사</span></span>
+<span id="cb48-39"><a href="#cb48-39" aria-hidden="true" tabindex="-1"></a>model.model.embed_tokens <span class="op">=</span> deepcopy(pretrained_model.model.embed_tokens)</span>
+<span id="cb48-40"><a href="#cb48-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-41"><a href="#cb48-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 언어 모델 헤드 복사</span></span>
+<span id="cb48-42"><a href="#cb48-42" aria-hidden="true" tabindex="-1"></a>model.lm_head <span class="op">=</span> deepcopy(pretrained_model.lm_head)</span>
+<span id="cb48-43"><a href="#cb48-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-44"><a href="#cb48-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.config)</span>
+<span id="cb48-45"><a href="#cb48-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-46"><a href="#cb48-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 간단한 추론 실행으로 학습되지 않은 모델 테스트</span></span>
+<span id="cb48-47"><a href="#cb48-47" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"I am an engineer. I love"</span></span>
+<span id="cb48-48"><a href="#cb48-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-49"><a href="#cb48-49" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(prompt, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(model.device)</span>
+<span id="cb48-50"><a href="#cb48-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-51"><a href="#cb48-51" aria-hidden="true" tabindex="-1"></a>streamer <span class="op">=</span> TextStreamer(tokenizer, skip_prompt<span class="op">=</span><span class="va">True</span>, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb48-52"><a href="#cb48-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-53"><a href="#cb48-53" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(</span>
+<span id="cb48-54"><a href="#cb48-54" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>inputs, streamer<span class="op">=</span>streamer, use_cache<span class="op">=</span><span class="va">True</span>, max_new_tokens<span class="op">=</span><span class="dv">128</span>, do_sample<span class="op">=</span><span class="va">False</span></span>
+<span id="cb48-55"><a href="#cb48-55" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>LlamaConfig {
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 1,
+  "eos_token_id": 2,
+  "hidden_act": "silu",
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "max_position_embeddings": 2048,
+  "model_type": "llama",
+  "num_attention_heads": 32,
+  "num_hidden_layers": 16,
+  "num_key_value_heads": 8,
+  "pretraining_tp": 1,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": null,
+  "rope_theta": 10000.0,
+  "tie_word_embeddings": false,
+  "torch_dtype": "bfloat16",
+  "transformers_version": "4.37.2",
+  "use_cache": false,
+  "vocab_size": 32000
+}
+
+모델의 총 파라미터 개수: 308839424</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>모델의 총 파라미터 개수: 248013824
+LlamaConfig {
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "bos_token_id": 1,
+  "eos_token_id": 2,
+  "hidden_act": "silu",
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "max_position_embeddings": 2048,
+  "model_type": "llama",
+  "num_attention_heads": 32,
+  "num_hidden_layers": 16,
+  "num_key_value_heads": 8,
+  "pretraining_tp": 1,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": null,
+  "rope_theta": 10000.0,
+  "tie_word_embeddings": false,
+  "torch_dtype": "bfloat16",
+  "transformers_version": "4.37.2",
+  "use_cache": false,
+  "vocab_size": 32000
+}
+
+to work with people who are not afraid to look at the world and are not afraid to look at the world with a little bit of a twist.
+I am a very humble person and I am very fortunate to have a great team of people who work hard to make a difference.
+I am very fortunate to have a great team of people who work hard to make a difference.
+I am very fortunate to have a great team of people who work hard to make a difference.
+I am very fortunate to have a great team of people who work hard to make a difference.
+I am very fortunate to have a great team</code></pre>
+</div>
+</div>
+<p>위의 결과를 통해 학습되지 않은 모델은 성능이 좋지 않다는 것을 알 수 있습니다.(같은 말을 반복) 일단은 해당 모델을 디스크에 저장하겠습니다. 새 모델 이름은 확장된 3억 8백만 개 매개변수(308M)를 반영해 <code>TinySolar-308m-4k-init</code>로 지정하겠습니다.</p>
+<div id="cell-48" class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">"TinySolar-308m-4k-init"</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> output_dir <span class="op">/</span> file_name</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 디렉토리가 존재하지 않으면 생성</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>output_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 308M 파라미터 모델 저장</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>model.save_pretrained(file_path)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 참고: 메모리 제한 환경에서 대규모 모델 실행 시 사용 (메모리 문제 발생 시 실행)</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gc</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> model  <span class="co"># 모델 객체 삭제</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>gc.collect()  <span class="co"># 가비지 컬렉션 수행</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>222</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="모델-학습" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 모델 학습</h1>
+<p>사전 학습(pretraining)은 컴퓨팅 자원이 매우 많이 듭니다! 따라서 사전 학습 프로젝트를 시작하기 전에 비용이 얼마나 들지 확인해보는것이 좋습니다. 🤗 Hugging Face의 <a href="https://huggingface.co/training-cluster">비용 계산기</a>를 사용하여 학습 작업 비용을 대략적으로 예상할 수 있습니다. AWS나 Google Cloud와 같은 다른 인프라에서 학습할 경우, 해당 제공업체의 최신 비용 추정치를 참조하시기 바랍니다.</p>
+<section id="학습할-모델-로드하기" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="학습할-모델-로드하기"><span class="header-section-number">5.1</span> 학습할 모델 로드하기</h2>
+<p>이전에 만들었던 확장(upscale)한 모델을 다시 불러옵니다.</p>
+<div id="cell-50" class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>pretrained_model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    file_path.as_posix(),</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>pretrained_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>LlamaForCausalLM(
+  (model): LlamaModel(
+    (embed_tokens): Embedding(32000, 1024)
+    (layers): ModuleList(
+      (0-15): 16 x LlamaDecoderLayer(
+        (self_attn): LlamaSdpaAttention(
+          (q_proj): Linear(in_features=1024, out_features=1024, bias=False)
+          (k_proj): Linear(in_features=1024, out_features=256, bias=False)
+          (v_proj): Linear(in_features=1024, out_features=256, bias=False)
+          (o_proj): Linear(in_features=1024, out_features=1024, bias=False)
+          (rotary_emb): LlamaRotaryEmbedding()
+        )
+        (mlp): LlamaMLP(
+          (gate_proj): Linear(in_features=1024, out_features=4096, bias=False)
+          (up_proj): Linear(in_features=1024, out_features=4096, bias=False)
+          (down_proj): Linear(in_features=4096, out_features=1024, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): LlamaRMSNorm()
+        (post_attention_layernorm): LlamaRMSNorm()
+      )
+    )
+    (norm): LlamaRMSNorm()
+  )
+  (lm_head): Linear(in_features=1024, out_features=32000, bias=False)
+)</code></pre>
+</div>
+</div>
+<p>위 출력 결과를 통해 레이어가 16개인 것을 확인 할 수 있습니다.</p>
+</section>
+<section id="데이터셋-로드" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="데이터셋-로드"><span class="header-section-number">5.2</span> 데이터셋 로드</h2>
+<p><code>Dataset</code> 객체의 두 가지 메서드를 업데이트하여 트레이너와 인터페이스할 수 있도록 합니다. 이 메서드들은 생성한 데이터셋을 학습 데이터로 지정할 때 필요 합니다.</p>
+<div id="cell-52" class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datasets</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomDataset(Dataset):</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, args, split<span class="op">=</span><span class="st">"train"</span>):</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""커스텀 데이터셋 객체를 초기화합니다."""</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.args <span class="op">=</span> args</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dataset <span class="op">=</span> datasets.load_dataset(<span class="st">"parquet"</span>, data_files<span class="op">=</span>args.dataset_name, split<span class="op">=</span>split)</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""데이터셋의 샘플 수를 반환합니다."""</span></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.dataset)</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a><span class="co">        지정된 인덱스에서 데이터셋의 단일 데이터 샘플을 검색합니다.</span></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 리스트를 PyTorch용 LongTensor로 변환</span></span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a>        input_ids <span class="op">=</span> torch.LongTensor(<span class="va">self</span>.dataset[idx][<span class="st">"input_ids"</span>])</span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> torch.LongTensor(<span class="va">self</span>.dataset[idx][<span class="st">"input_ids"</span>])</span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 샘플을 딕셔너리 형태로 반환</span></span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"input_ids"</span>: input_ids, <span class="st">"labels"</span>: labels}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="학습-파라미터-구성" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="학습-파라미터-구성"><span class="header-section-number">5.3</span> 학습 파라미터 구성</h2>
+<p>여기서는 모델 학습에 필요한 다양한 매개변수를 정의합니다. 그리고 이전에 준비한 데이터셋을 학습 과정에 연결합니다.</p>
+<div id="cell-54" class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass, field</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> transformers</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> Path(<span class="st">"../data/output"</span>)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>dataset_name <span class="op">=</span> <span class="st">"packaged_pretrain_dataset.parquet"</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>dataset_path <span class="op">=</span> output_dir <span class="op">/</span> dataset_name</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomArguments(transformers.TrainingArguments):</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 데이터셋 구성</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>    dataset_name: <span class="bu">str</span> <span class="op">=</span> field(  <span class="co"># 데이터셋 파일 경로 설정</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span>dataset_path.as_posix()</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>    num_proc: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1</span>)  <span class="co"># 데이터 전처리를 위한 서브 프로세스 수</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>    max_seq_length: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">32</span>)  <span class="co"># 최대 시퀀스 길이</span></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 핵심 학습 설정</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>    seed: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">0</span>)  <span class="co"># 초기화를 위한 랜덤 시드, 재현성을 보장</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    optim: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"adamw_torch"</span>)  <span class="co"># 옵티마이저 설정, 여기서는 PyTorch의 AdamW 사용</span></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    max_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">10000</span>)  <span class="co"># 최대 학습 스텝 수</span></span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">2</span>)  <span class="co"># 각 디바이스에서 학습에 사용되는 배치 크기</span></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 기타 학습 설정</span></span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>    learning_rate: <span class="bu">float</span> <span class="op">=</span> field(default<span class="op">=</span><span class="fl">5e-5</span>)  <span class="co"># 옵티마이저의 초기 학습률 설정</span></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>    weight_decay: <span class="bu">float</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">0</span>)  <span class="co"># 가중치 감소율 설정</span></span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>    warmup_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">10</span>)  <span class="co"># 학습률 워밍업 단계 수 설정</span></span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>    lr_scheduler_type: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"linear"</span>)  <span class="co"># 학습률 스케줄러 유형 설정</span></span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>    gradient_checkpointing: <span class="bu">bool</span> <span class="op">=</span> field(</span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="va">True</span></span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 메모리 절약을 위한 그래디언트 체크포인트 활성화</span></span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a>    dataloader_num_workers: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">2</span>)  <span class="co"># 데이터 로딩을 위한 서브 프로세스 수 설정</span></span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a>    bf16: <span class="bu">bool</span> <span class="op">=</span> field(default<span class="op">=</span><span class="va">True</span>)  <span class="co"># 지원되는 하드웨어에서 bfloat16 정밀도를 사용하여 학습 수행</span></span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>    gradient_accumulation_steps: <span class="bu">int</span> <span class="op">=</span> field(</span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>        default<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>    )  <span class="co"># 모델 가중치를 업데이트하기 전에 그래디언트를 누적하는 단계 수</span></span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 로깅 구성</span></span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>    logging_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># 학습 정보를 로깅하는 빈도(스텝 단위)</span></span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>    report_to: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"none"</span>)  <span class="co"># 로깅 대상(e.g., WandB, TensorBoard)</span></span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 저장 구성</span></span>
+<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a>    save_strategy: <span class="bu">str</span> <span class="op">=</span> field(default<span class="op">=</span><span class="st">"steps"</span>)  <span class="co"># "epoch"으로 변경 가능 (저장 전략)</span></span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a>    save_steps: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># 학습 체크포인트를 저장하는 빈도(스텝 단위)</span></span>
+<span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a>    save_total_limit: <span class="bu">int</span> <span class="op">=</span> field(default<span class="op">=</span><span class="dv">2</span>)  <span class="co"># 저장할 체크포인트의 최대 개수 제한</span></span>
+<span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-48"><a href="#cb57-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-49"><a href="#cb57-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 사용자 정의 인자를 파싱하고 모델 저장 경로를 설정합니다:</span></span>
+<span id="cb57-50"><a href="#cb57-50" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> transformers.HfArgumentParser(CustomArguments)</span>
+<span id="cb57-51"><a href="#cb57-51" aria-hidden="true" tabindex="-1"></a>(args,) <span class="op">=</span> parser.parse_args_into_dataclasses(args<span class="op">=</span>[<span class="ss">f"--output_dir=</span><span class="sc">{</span>output_dir<span class="sc">.</span>as_posix()<span class="sc">}</span><span class="ss">"</span>])</span>
+<span id="cb57-52"><a href="#cb57-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-53"><a href="#cb57-53" aria-hidden="true" tabindex="-1"></a><span class="co"># 학습 데이터셋을 설정합니다:</span></span>
+<span id="cb57-54"><a href="#cb57-54" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> CustomDataset(args<span class="op">=</span>args)</span>
+<span id="cb57-55"><a href="#cb57-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-56"><a href="#cb57-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터셋의 형태를 확인합니다:</span></span>
+<span id="cb57-57"><a href="#cb57-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Input shape: "</span>, train_dataset[<span class="dv">0</span>][<span class="st">"input_ids"</span>].shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"a6104f722c364a50becb34e592d0b7b9","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Input shape:  torch.Size([32])</code></pre>
+</div>
+</div>
+</section>
+<section id="트레이너-실행-및-모니터링" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="트레이너-실행-및-모니터링"><span class="header-section-number">5.4</span> 트레이너 실행 및 모니터링</h2>
+<p>먼저, 학습 중 손실 값을 기록하기 위한 콜백을 설정합니다. 이 콜백은 학습 과정에서 발생하는 손실 값을 추적하고 기록하기 위함입니다.</p>
+<blockquote class="blockquote">
+<p>손실 값의 추이를 그래프로 시각화하면 학습 과정을 더 쉽게 이해할 수 있습니다. 급격한 손실 변화나 이상치가 있는지 주의 깊게 관찰하세요. 이는 학습 과정에서의 문제를 나타낼 수 있습니다.</p>
+</blockquote>
+<div id="cell-56" class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> Trainer, TrainerCallback</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 손실 값 기록을 위한 커스텀 콜백 정의</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LossLoggingCallback(TrainerCallback):</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> on_log(<span class="va">self</span>, args, state, control, logs<span class="op">=</span><span class="va">None</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""학습 중 로그 데이터를 수집합니다"""</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> logs <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.logs.append(logs)</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""콜백 초기화 및 로그 저장소 생성"""</span></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.logs <span class="op">=</span> []</span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 콜백 객체 생성</span></span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a>loss_logging_callback <span class="op">=</span> LossLoggingCallback()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>그런 다음 <code>transformers</code> 라이브러리에서 Hugging Face <code>Trainer</code> 객체의 인스턴스를 생성합니다. 트레이너의 <code>train()</code> 메서드를 호출하여 학습을 시작합니다:</p>
+<div id="cell-58" class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> Trainer(</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>pretrained_model,</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>args,</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    train_dataset<span class="op">=</span>train_dataset,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>    eval_dataset<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    callbacks<span class="op">=</span>[loss_logging_callback],</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+      
+      <progress value="10000" max="10000" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [10000/10000 06:25, Epoch 0/1]
+    </div>
+    
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Step</th>
+<th data-quarto-table-cell-role="th">Training Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1000</td>
+<td>4.417900</td>
+</tr>
+<tr class="even">
+<td>2000</td>
+<td>4.274800</td>
+</tr>
+<tr class="odd">
+<td>3000</td>
+<td>4.152300</td>
+</tr>
+<tr class="even">
+<td>4000</td>
+<td>4.100100</td>
+</tr>
+<tr class="odd">
+<td>5000</td>
+<td>4.017500</td>
+</tr>
+<tr class="even">
+<td>6000</td>
+<td>3.982000</td>
+</tr>
+<tr class="odd">
+<td>7000</td>
+<td>3.934200</td>
+</tr>
+<tr class="even">
+<td>8000</td>
+<td>3.971900</td>
+</tr>
+<tr class="odd">
+<td>9000</td>
+<td>3.944800</td>
+</tr>
+<tr class="even">
+<td>10000</td>
+<td>3.939500</td>
+</tr>
+</tbody>
+</table>
+<p>
+</p></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>TrainOutput(global_step=10000, training_loss=4.073491650390625, metrics={'train_runtime': 386.2049, 'train_samples_per_second': 51.786, 'train_steps_per_second': 25.893, 'total_flos': 1060114268160000.0, 'train_loss': 4.073491650390625, 'epoch': 0.11})</code></pre>
+</div>
+</div>
+<p>시각화를 통해 Training loss가 어떻게 줄었는지 확인해보겠습니다.</p>
+<div id="cell-60" class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot 스타일 적용</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"ggplot"</span>)</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> loss_logging_callback.logs</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="co"># loss_logging_callback에서 기록한 손실 값 가져오기</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>losses <span class="op">=</span> [log[<span class="st">"loss"</span>] <span class="cf">for</span> log <span class="kw">in</span> logs <span class="cf">if</span> <span class="st">"loss"</span> <span class="kw">in</span> log]  <span class="co"># 'loss' 키가 있는 로그만 추출</span></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))  <span class="co"># 배경색 설정</span></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>plt.plot(losses)</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Epochs"</span>)</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Loss"</span>)</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Training Loss"</span>)</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="ml_LLM_pretraining_files/figure-html/cell-33-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="ml_LLM_pretraining_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>학습을 계속할 수록 손실 값이 줄어드는 것을 확인할 수 있습니다. 이는 모델이 데이터를 더 잘 이해하고 있음을 의미합니다. 그러나 손실 값이 감소하는 속도가 느려지면 학습이 수렴(convergence)하고 있음을 나타낼 수 있습니다. 이 경우 학습률을 조정하거나 다른 하이퍼파라미터를 조정하여 성능을 향상시킬 수 있습니다. 이제 학습된 모델을 저장해보죠.</p>
+<div id="cell-62" class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 모델 이름 및 저장 경로 설정</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">"TinySolar-308m-4k-finetune"</span>  <span class="co"># 파인튜닝된 모델 이름</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>save_path <span class="op">=</span> output_dir <span class="op">/</span> model_name  <span class="co"># 모델 저장 경로 생성</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 사전 학습된 모델 저장</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>pretrained_model.save_pretrained(save_path.as_posix())  <span class="co"># 모델 가중치와 구성 파일 저장</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 토크나이저 저장</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>tokenizer.save_pretrained(save_path.as_posix())  <span class="co"># 토크나이저 관련 파일(vocab 등) 저장</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>('../data/output/TinySolar-308m-4k-finetune/tokenizer_config.json',
+ '../data/output/TinySolar-308m-4k-finetune/special_tokens_map.json',
+ '../data/output/TinySolar-308m-4k-finetune/tokenizer.model',
+ '../data/output/TinySolar-308m-4k-finetune/added_tokens.json',
+ '../data/output/TinySolar-308m-4k-finetune/tokenizer.json')</code></pre>
+</div>
+</div>
+</section>
+<section id="모델의-성능-확인" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="모델의-성능-확인"><span class="header-section-number">5.5</span> 모델의 성능 확인</h2>
+<p>모델 학습을 진행하면서 모델의 체크포인트(임시 저장)를 만들었습니다. 이 체크포인트를 불러와서 사용해보는 코드는 아래와 같습니다. 모델의 토크나이저는 이전과 마찬가지로 Solar 토크나이저를 사용하고 <code>TextStreamer</code> 객체를 설정하여 생성되는 텍스트를 출력합니다.</p>
+<div id="cell-64" class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModelForCausalLM, AutoTokenizer, TextStreamer</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 토크나이저 설정</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>model_name_or_path <span class="op">=</span> <span class="st">"upstage/TinySolar-248m-4k"</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name_or_path)</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 중간 체크포인트 모델 로드</span></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>checkpoint_path <span class="op">=</span> <span class="st">"../data/output/checkpoint-10000"</span></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> AutoModelForCausalLM.from_pretrained(</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>    checkpoint_path,</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16,</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 프롬프트 설정</span></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"I am an engineer. I love"</span></span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 입력 토큰화</span></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(prompt, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(model2.device)</span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. 텍스트 스트리머 설정</span></span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>streamer <span class="op">=</span> TextStreamer(tokenizer, skip_prompt<span class="op">=</span><span class="va">True</span>, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. 텍스트 생성</span></span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model2.generate(</span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>inputs,</span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a>    streamer<span class="op">=</span>streamer,</span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a>    use_cache<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>    max_new_tokens<span class="op">=</span><span class="dv">64</span>,</span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a>    do_sample<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb65-33"><a href="#cb65-33" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>what I see in people like me and so, for me, my passion is a passion for health and love. As long and as I am an entrepreneur (both in the fields of health marketing and customer sales, there is a difference that must be recognised here. In this issue, I am in charge of what I</code></pre>
+</div>
+</div>
+<p>위의 결과를 보면 처음 시작했던 모델과 비교하면 훨씬 더 자연스러운 텍스트가 생성되는 것을 확인할 수 있습니다. 다만 맥락은 이해하기 어렵네요.</p>
+</section>
+</section>
+<section id="모델-평가" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 모델 평가</h1>
+<p>LLM 모델 평가는 전통적인 기계학습 모델과 달리 복잡하고 다면적인 과정입니다. 주요 평가 방법으로는 벤치마크 평가와 리더보드 평가가 존재합니다. 다만 실제 구현하는 코드는 이 글의 범위를 벗어나기에 생략하겠습니다.</p>
+<section id="벤치마크-평가법" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="벤치마크-평가법"><span class="header-section-number">6.1</span> 벤치마크 평가법</h2>
+<p>벤치마크 평가는 표준화된 데이터셋과 태스크를 사용하여 모델의 성능을 객관적으로 측정합니다.</p>
+<ul>
+<li>LM Evaluation Harness: EleutherAI에서 개발한 도구로, 다양한 벤치마크 태스크에 대해 LLM을 평가할 수 있습니다. 다음 <a href="https://github.com/EleutherAI/lm-evaluation-harness">GitHub 리포지토리</a>에서 찾을 수 있습니다.</li>
+<li>TruthfulQA: 모델의 진실성과 정확성을 평가하는 벤치마크로, 817개의 질문을 포함하며 건강, 법률, 금융 등 38개 주제를 다룹니다. TruthfulQA 벤치마크에 대한 자세한 내용은 <a href="https://arxiv.org/abs/2109.07958">이 논문</a>에서 읽을 수 있으며 구현 코드는 다음 <a href="https://github.com/sylinrl/TruthfulQA">GitHub 리포지토리</a>에서 확인할 수 있습니다.</li>
+</ul>
+</section>
+<section id="리더보드-평가법" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="리더보드-평가법"><span class="header-section-number">6.2</span> 리더보드 평가법</h2>
+<p>리더보드는 다양한 모델의 성능을 비교할 수 있는 플랫폼을 제공합니다.</p>
+<ul>
+<li>Hugging Face <a href="https://huggingface.co/open-llm-leaderboard">리더보드</a>: 다양한 LLM 모델의 성능을 비교할 수 있는 플랫폼입니다. 전문가나 일반 사용자가 직접 모델의 출력을 평가하는 방식입니다.</li>
+</ul>
+</section>
+</section>
+<section id="마치며" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> 마치며</h1>
+<p>이번 강의에서는 LLM 사전 학습을 위한 데이터 수집, 정제, 패키징, 모델 구성, 가중치 초기화, 학습의 과정을 배웠습니다. 이러한 과정을 통해 LLM 모델을 효율적으로 학습하고 성능을 평가할 수 있습니다. 이제 여러분도 LLM 모델을 구축하고 평가할 수 있는 능력을 갖추셨습니다. 앞으로도 다양한 업무에 LLM 모델을 적용하여 더 나은 성능을 달성하시기 바랍니다.</p>
+<blockquote class="blockquote">
+<p>AI는 새로운 전기와 같아서 삶의 거의 모든 영역을 변화시키고 개선할 것입니다. - <a href="https://www.andrewng.org/">Andrew Ng</a></p>
+</blockquote>
+<section id="reference" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="reference"><span class="header-section-number">7.1</span> Reference</h2>
+<ul>
+<li><a href="https://learn.deeplearning.ai/courses/pretraining-llms/lesson/xg5n5/why-pre-training">Pretraining LLMs</a></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+<script>
+  function loadGiscus() {
+    // Function to get the theme based on body class
+    const getTheme = () => {
+      let baseTheme = document.getElementById('giscus-base-theme').value;
+      let altTheme = document.getElementById('giscus-alt-theme').value;
+      if (authorPrefersDark) {
+          [baseTheme, altTheme] = [altTheme, baseTheme];
+      }
+      return document.body.classList.contains('quarto-dark') ? altTheme : baseTheme;
+    };
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.dataset.repo = "partrita/giscus";
+    script.dataset.repoId = "R_kgDONvsa2g";
+    script.dataset.category = "General";
+    script.dataset.categoryId = "DIC_kwDONvsa2s4CmWd7";
+    script.dataset.mapping = "title";
+    script.dataset.reactionsEnabled = "1";
+    script.dataset.emitMetadata = "0";
+    script.dataset.inputPosition = "top";
+    script.dataset.theme = getTheme();
+    script.dataset.lang = "en";
+    script.crossOrigin = "anonymous";
+    // Append the script to the desired div instead of at the end of the body
+    document.getElementById("quarto-content").appendChild(script);
+  }
+  loadGiscus();
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Proudly served by <a href="https://pages.github.com/">github pages</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This blog is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

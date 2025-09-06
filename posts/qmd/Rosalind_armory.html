@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Taeyoon Kim">
+<meta name="dcterms.date" content="2024-09-28">
+
+<title>Rosalind Armory 문제풀이 – tomorrow-lab</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../.././static/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-6fd95b7d3155c993f73d60cd550fc209.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2375aafe15b9f7556f0e5751296f19d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-31EWCYNR0V"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Rosalind Armory 문제풀이 – tomorrow-lab">
+<meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/qmd/Rosalind_armory.png">
+<meta property="og:site_name" content="tomorrow-lab">
+<meta property="og:image:height" content="320">
+<meta property="og:image:width" content="640">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">tomorrow-lab</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-exclamation-triangle" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/partrita"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<div style="margin-top: 30px; margin-bottom: 20px;">
+    <a href="https://substack.com/@tomorrowlab">
+        <img alt="Static Badge" src="https://img.shields.io/badge/EHOTTL%40substack_-FF6719?link=https%3A%2F%2Fsubstack.com%2F%40tomorrowlab">
+    </a>
+    <a href="https://pixi.sh">
+        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json" alt="Pixi Badge">
+    </a>
+    <!-- <script async src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script> -->
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-the-bioinformatics-armory" id="toc-introduction-to-the-bioinformatics-armory" class="nav-link active" data-scroll-target="#introduction-to-the-bioinformatics-armory"><span class="header-section-number">1</span> Introduction to the Bioinformatics Armory</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset" id="toc-sample-dataset" class="nav-link" data-scroll-target="#sample-dataset"><span class="header-section-number">1.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output" id="toc-sample-output" class="nav-link" data-scroll-target="#sample-output"><span class="header-section-number">1.2</span> Sample Output</a></li>
+  <li><a href="#solution" id="toc-solution" class="nav-link" data-scroll-target="#solution"><span class="header-section-number">1.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#genbank-introduction" id="toc-genbank-introduction" class="nav-link" data-scroll-target="#genbank-introduction"><span class="header-section-number">2</span> GenBank Introduction</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-1" id="toc-sample-dataset-1" class="nav-link" data-scroll-target="#sample-dataset-1"><span class="header-section-number">2.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-1" id="toc-sample-output-1" class="nav-link" data-scroll-target="#sample-output-1"><span class="header-section-number">2.2</span> Sample Output</a></li>
+  <li><a href="#solution-1" id="toc-solution-1" class="nav-link" data-scroll-target="#solution-1"><span class="header-section-number">2.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#data-formats" id="toc-data-formats" class="nav-link" data-scroll-target="#data-formats"><span class="header-section-number">3</span> Data Formats</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-2" id="toc-sample-dataset-2" class="nav-link" data-scroll-target="#sample-dataset-2"><span class="header-section-number">3.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-2" id="toc-sample-output-2" class="nav-link" data-scroll-target="#sample-output-2"><span class="header-section-number">3.2</span> Sample Output</a></li>
+  <li><a href="#solution-2" id="toc-solution-2" class="nav-link" data-scroll-target="#solution-2"><span class="header-section-number">3.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#new-motif-discovery" id="toc-new-motif-discovery" class="nav-link" data-scroll-target="#new-motif-discovery"><span class="header-section-number">4</span> New Motif Discovery</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-3" id="toc-sample-dataset-3" class="nav-link" data-scroll-target="#sample-dataset-3"><span class="header-section-number">4.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-3" id="toc-sample-output-3" class="nav-link" data-scroll-target="#sample-output-3"><span class="header-section-number">4.2</span> Sample Output</a></li>
+  <li><a href="#solution-3" id="toc-solution-3" class="nav-link" data-scroll-target="#solution-3"><span class="header-section-number">4.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#pairwise-global-alignment" id="toc-pairwise-global-alignment" class="nav-link" data-scroll-target="#pairwise-global-alignment"><span class="header-section-number">5</span> Pairwise Global Alignment</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-4" id="toc-sample-dataset-4" class="nav-link" data-scroll-target="#sample-dataset-4"><span class="header-section-number">5.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-4" id="toc-sample-output-4" class="nav-link" data-scroll-target="#sample-output-4"><span class="header-section-number">5.2</span> Sample Output</a></li>
+  <li><a href="#solution-4" id="toc-solution-4" class="nav-link" data-scroll-target="#solution-4"><span class="header-section-number">5.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#fastq-format-introduction" id="toc-fastq-format-introduction" class="nav-link" data-scroll-target="#fastq-format-introduction"><span class="header-section-number">6</span> FASTQ format introduction</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-5" id="toc-sample-dataset-5" class="nav-link" data-scroll-target="#sample-dataset-5"><span class="header-section-number">6.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-5" id="toc-sample-output-5" class="nav-link" data-scroll-target="#sample-output-5"><span class="header-section-number">6.2</span> Sample Output</a></li>
+  <li><a href="#solution-5" id="toc-solution-5" class="nav-link" data-scroll-target="#solution-5"><span class="header-section-number">6.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#read-quality-distribution" id="toc-read-quality-distribution" class="nav-link" data-scroll-target="#read-quality-distribution"><span class="header-section-number">7</span> Read Quality Distribution</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-6" id="toc-sample-dataset-6" class="nav-link" data-scroll-target="#sample-dataset-6"><span class="header-section-number">7.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-6" id="toc-sample-output-6" class="nav-link" data-scroll-target="#sample-output-6"><span class="header-section-number">7.2</span> Sample Output</a></li>
+  <li><a href="#solution-6" id="toc-solution-6" class="nav-link" data-scroll-target="#solution-6"><span class="header-section-number">7.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#protein-translation" id="toc-protein-translation" class="nav-link" data-scroll-target="#protein-translation"><span class="header-section-number">8</span> Protein Translation</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-7" id="toc-sample-dataset-7" class="nav-link" data-scroll-target="#sample-dataset-7"><span class="header-section-number">8.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-7" id="toc-sample-output-7" class="nav-link" data-scroll-target="#sample-output-7"><span class="header-section-number">8.2</span> Sample Output</a></li>
+  <li><a href="#solution-7" id="toc-solution-7" class="nav-link" data-scroll-target="#solution-7"><span class="header-section-number">8.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#read-filtration-by-quality" id="toc-read-filtration-by-quality" class="nav-link" data-scroll-target="#read-filtration-by-quality"><span class="header-section-number">9</span> Read Filtration by Quality</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-8" id="toc-sample-dataset-8" class="nav-link" data-scroll-target="#sample-dataset-8"><span class="header-section-number">9.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-8" id="toc-sample-output-8" class="nav-link" data-scroll-target="#sample-output-8"><span class="header-section-number">9.2</span> Sample Output</a></li>
+  <li><a href="#solution-8" id="toc-solution-8" class="nav-link" data-scroll-target="#solution-8"><span class="header-section-number">9.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#complementing-a-strand-of-dna" id="toc-complementing-a-strand-of-dna" class="nav-link" data-scroll-target="#complementing-a-strand-of-dna"><span class="header-section-number">10</span> Complementing a Strand of DNA</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-9" id="toc-sample-dataset-9" class="nav-link" data-scroll-target="#sample-dataset-9"><span class="header-section-number">10.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-9" id="toc-sample-output-9" class="nav-link" data-scroll-target="#sample-output-9"><span class="header-section-number">10.2</span> Sample Output</a></li>
+  <li><a href="#solution-9" id="toc-solution-9" class="nav-link" data-scroll-target="#solution-9"><span class="header-section-number">10.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#base-quality-distribution" id="toc-base-quality-distribution" class="nav-link" data-scroll-target="#base-quality-distribution"><span class="header-section-number">11</span> Base Quality Distribution</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-10" id="toc-sample-dataset-10" class="nav-link" data-scroll-target="#sample-dataset-10"><span class="header-section-number">11.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-10" id="toc-sample-output-10" class="nav-link" data-scroll-target="#sample-output-10"><span class="header-section-number">11.2</span> Sample Output</a></li>
+  <li><a href="#solution-10" id="toc-solution-10" class="nav-link" data-scroll-target="#solution-10"><span class="header-section-number">11.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#finding-genes-with-orfs" id="toc-finding-genes-with-orfs" class="nav-link" data-scroll-target="#finding-genes-with-orfs"><span class="header-section-number">12</span> Finding Genes with ORFs</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-11" id="toc-sample-dataset-11" class="nav-link" data-scroll-target="#sample-dataset-11"><span class="header-section-number">12.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-11" id="toc-sample-output-11" class="nav-link" data-scroll-target="#sample-output-11"><span class="header-section-number">12.2</span> Sample Output</a></li>
+  <li><a href="#solution-11" id="toc-solution-11" class="nav-link" data-scroll-target="#solution-11"><span class="header-section-number">12.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#base-filtration-by-quality" id="toc-base-filtration-by-quality" class="nav-link" data-scroll-target="#base-filtration-by-quality"><span class="header-section-number">13</span> Base Filtration by Quality</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-12" id="toc-sample-dataset-12" class="nav-link" data-scroll-target="#sample-dataset-12"><span class="header-section-number">13.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-12" id="toc-sample-output-12" class="nav-link" data-scroll-target="#sample-output-12"><span class="header-section-number">13.2</span> Sample Output</a></li>
+  <li><a href="#solution-12" id="toc-solution-12" class="nav-link" data-scroll-target="#solution-12"><span class="header-section-number">13.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#suboptimal-local-alignment" id="toc-suboptimal-local-alignment" class="nav-link" data-scroll-target="#suboptimal-local-alignment"><span class="header-section-number">14</span> Suboptimal Local Alignment</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-13" id="toc-sample-dataset-13" class="nav-link" data-scroll-target="#sample-dataset-13"><span class="header-section-number">14.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-13" id="toc-sample-output-13" class="nav-link" data-scroll-target="#sample-output-13"><span class="header-section-number">14.2</span> Sample Output</a></li>
+  <li><a href="#solution-13" id="toc-solution-13" class="nav-link" data-scroll-target="#solution-13"><span class="header-section-number">14.3</span> Solution</a></li>
+  </ul></li>
+  <li><a href="#global-multiple-alignment" id="toc-global-multiple-alignment" class="nav-link" data-scroll-target="#global-multiple-alignment"><span class="header-section-number">15</span> Global Multiple Alignment</a>
+  <ul class="collapse">
+  <li><a href="#sample-dataset-14" id="toc-sample-dataset-14" class="nav-link" data-scroll-target="#sample-dataset-14"><span class="header-section-number">15.1</span> Sample Dataset</a></li>
+  <li><a href="#sample-output-14" id="toc-sample-output-14" class="nav-link" data-scroll-target="#sample-output-14"><span class="header-section-number">15.2</span> Sample Output</a></li>
+  <li><a href="#solution-14" id="toc-solution-14" class="nav-link" data-scroll-target="#solution-14"><span class="header-section-number">15.3</span> Solution</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Rosalind Armory 문제풀이</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">Rosalind</div>
+    <div class="quarto-category">Bioinformatics</div>
+    <div class="quarto-category">Tip</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Taeyoon Kim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 28, 2024</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">September 6, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="Rosalind_armory.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="Rosalind_armory.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
+</figure>
+</div>
+<p>생물 정보학 분석을 위해 사용할 수 있는 소프트웨어는 이미 많습니다. <a href="../../posts/md/Rosalind_stronghold.html">Rosalind_Stronghold</a> 에서는 알고리즘을 직접 구현했다면, 여기 <a href="../../posts/md/Rosalind_armory.html">Rosalind_Armory</a> 에서는 이미 존재하는 도구를 사용하여 비슷한 문제를 풀어봅니다.</p>
+<p><a href="https://rosalind.info/">Rosalind</a> 는 <a href="http://projecteuler.net/">프로젝트 오일러</a>, <a href="http://code.google.com/codejam">구글 코드 잼</a> 에서 영감을 얻었습니다. 이 프로젝트의 이름은 DNA 이중나선을 발견하는 데 기여한 <a href="http://en.wikipedia.org/wiki/Rosalind_Franklin">로잘린드 프랭클린</a> 에서 따왔습니다. Rosalind 는 프로그래밍 실력을 키우고자 하는 생물학자와 분자생물학의 계산 문제를 접해본 적이 없는 프로그래머들에게 도움이 될 것입니다.</p>
+<section id="introduction-to-the-bioinformatics-armory" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction to the Bioinformatics Armory</h1>
+<p>This initial problem is aimed at familiarizing you with Rosalind’s task-solving pipeline. To solve it, you merely have to take a given&nbsp;<a href="https://rosalind.info/glossary/dna/">DNA</a>&nbsp;<a href="https://rosalind.info/glossary/genetic-string/">sequence</a>&nbsp;and find its&nbsp;<a href="https://rosalind.info/glossary/nucleotide/">nucleotide</a>&nbsp;counts; this problem is equivalent to&nbsp;<a href="https://rosalind.info/problems/dna/">“Counting DNA Nucleotides”</a>&nbsp;in the&nbsp;<a href="http://rosalind.info/problems/list-view/">Stronghold</a>.</p>
+<p>Of the many tools for&nbsp;<a href="https://rosalind.info/glossary/dna/">DNA</a>&nbsp;sequence analysis, one of the most popular is the&nbsp;<a href="https://rosalind.info/glossary/sms-2/">Sequence Manipulation Suite</a>. Commonly known as SMS 2, it comprises a collection of programs for generating, formatting, and analyzing short&nbsp;<a href="https://rosalind.info/glossary/strand/">strands</a>&nbsp;of DNA and&nbsp;<a href="https://rosalind.info/glossary/polypeptide/">polypeptides</a>.</p>
+<p>One of the simplest SMS 2 programs, called&nbsp;<code>DNA stats</code>, counts the number of occurrences of each nucleotide in a given strand of DNA. An online interface for&nbsp;<code>DNA stats</code>&nbsp;can be found&nbsp;<a href="http://www.bioinformatics.org/sms2/dna_stats.html">here</a>.</p>
+<p>Given:&nbsp;A&nbsp;<a href="https://rosalind.info/glossary/dna-string/">DNA string</a>&nbsp;<span class="math inline">\(s\)</span>&nbsp;of length at most 1000&nbsp;<a href="https://rosalind.info/glossary/base-pair/">bp</a>.</p>
+<p>Return:&nbsp;Four integers (separated by spaces) representing the respective number of times that the symbols ‘A’, ‘C’, ‘G’, and ‘T’ occur in&nbsp;<span class="math inline">\(s\)</span>.&nbsp;</p>
+<p><strong>Note</strong>: You must provide your answer in the format shown in the sample output below.</p>
+<section id="sample-dataset" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sample-dataset"><span class="header-section-number">1.1</span> Sample Dataset</h2>
+<pre><code>AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC</code></pre>
+</section>
+<section id="sample-output" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sample-output"><span class="header-section-number">1.2</span> Sample Output</h2>
+<pre><code>20 12 17 21</code></pre>
+</section>
+<section id="solution" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="solution"><span class="header-section-number">1.3</span> Solution</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_dna_symbols(dna):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the symbols we're interested in</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    symbols <span class="op">=</span> [<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use Counter to count occurrences of each symbol in the DNA</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    dna_counter <span class="op">=</span> Counter(dna)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a dictionary with counts for each symbol of interest</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    symbols_count <span class="op">=</span> {symbol: dna_counter.get(symbol, <span class="dv">0</span>) <span class="cf">for</span> symbol <span class="kw">in</span> symbols}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> symbols_count</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="st">AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the symbols count</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>symbols_count <span class="op">=</span> count_dna_symbols(sample_input)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the counts in the desired format</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">" "</span>.join(<span class="bu">str</span>(symbols_count[symbol]) <span class="cf">for</span> symbol <span class="kw">in</span> [<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="genbank-introduction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> GenBank Introduction</h1>
+<p>GenBank comprises several subdivisions:</p>
+<ul>
+<li><a href="http://www.ncbi.nlm.nih.gov/nucleotide">Nucleotide</a>: a collection of&nbsp;<a href="https://rosalind.info/glossary/nucleic-acid/">nucleic acid</a>&nbsp;<a href="https://rosalind.info/glossary/genetic-string/">sequences</a>&nbsp;from several sources.</li>
+<li><a href="http://www.ncbi.nlm.nih.gov/gss">Genome Survey Sequence</a>&nbsp;(GSS): uncharacterized short&nbsp;<a href="https://rosalind.info/glossary/genome/">genomic</a>&nbsp;sequences.</li>
+<li><a href="https://www.ncbi.nlm.nih.gov/est">Expressed Sequence Tags</a>, (EST): uncharacterized short&nbsp;<a href="https://rosalind.info/glossary/complementary-dna/">cDNA</a>&nbsp;sequences.</li>
+</ul>
+<p>Searching the Nucleotide database with general text queries will produce the most relevant results. You can also use a simple query based on protein name, gene name or&nbsp;<a href="https://rosalind.info/glossary/gene-symbol/">gene symbol</a>.</p>
+<p>To limit your search to only certain kinds of records, you can search using GenBank’s&nbsp;<a href="http://www.ncbi.nlm.nih.gov/nuccore/limits">Limits</a>&nbsp;page or alternatively use the&nbsp;<code>Filter your results</code>&nbsp;field to select categories of records after a search.</p>
+<p>If you can not find what you are searching for, check how the database interpreted your query by investigating the&nbsp;<code>Search details</code>&nbsp;field on the right side of the page. This field automatically translates your search into standard keywords.</p>
+<p>For example, if you search for&nbsp;<code>Drosophila</code>, the&nbsp;<code>Search details</code>&nbsp;field will contain (<code>Drosophila[All Fields]</code>), and you will obtain all entries that mention&nbsp;<em>Drosophila</em>&nbsp;(including all its&nbsp;<a href="https://rosalind.info/glossary/endosymbiont/">endosymbionts</a>). You can restrict your search to only organisms belonging to the&nbsp;<em>Drosophila</em>&nbsp;<a href="https://rosalind.info/glossary/genus/">genus</a>&nbsp;by using a search tag and searching for&nbsp;<code>Drosophila[Organism]</code>.</p>
+<p>Given:&nbsp;A&nbsp;<a href="https://rosalind.info/glossary/genus/">genus</a>&nbsp;name, followed by two dates in YYYY/M/D format.</p>
+<p>Return:&nbsp;The number of Nucleotide GenBank entries for the given genus that were published between the dates specified.</p>
+<section id="sample-dataset-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sample-dataset-1"><span class="header-section-number">2.1</span> Sample Dataset</h2>
+<pre><code>Anthoxanthum
+2003/7/25
+2005/12/27</code></pre>
+</section>
+<section id="sample-output-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sample-output-1"><span class="header-section-number">2.2</span> Sample Output</h2>
+<pre><code>7</code></pre>
+</section>
+<section id="solution-1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="solution-1"><span class="header-section-number">2.3</span> Solution</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_nucleotide_genbank_entries(genus_name, start_date, end_date):</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Retrieve the count of Nucleotide GenBank entries for a given genus and date range.</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    genus_name (str): The name of the genus to search for.</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    start_date (str): The start date of the publication range (format: YYYY/MM/DD).</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    end_date (str): The end date of the publication range (format: YYYY/MM/DD).</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">    int: The count of entries found.</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    Entrez.email <span class="op">=</span> <span class="st">"byterube@gmail.com"</span>  <span class="co"># Replace with your email</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="ss">f'"</span><span class="sc">{</span>genus_name<span class="sc">}</span><span class="ss">"[Organism] AND ("</span><span class="sc">{</span>start_date<span class="sc">}</span><span class="ss">"[Publication Date] : "</span><span class="sc">{</span>end_date<span class="sc">}</span><span class="ss">"[Publication Date])'</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> Entrez.esearch(db<span class="op">=</span><span class="st">"nucleotide"</span>, term<span class="op">=</span>query) <span class="im">as</span> handle:</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>            record <span class="op">=</span> Entrez.read(handle)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="bu">int</span>(record[<span class="st">"Count"</span>])</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"An error occurred: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input data</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="st">Anthoxanthum</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="st">2003/7/25</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="st">2005/12/27</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting input values</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>genus_name <span class="op">=</span> sample_input[<span class="dv">0</span>]</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>start_date <span class="op">=</span> sample_input[<span class="dv">1</span>]</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>end_date <span class="op">=</span> sample_input[<span class="dv">2</span>]</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the count of GenBank entries</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> get_nucleotide_genbank_entries(genus_name, start_date, end_date)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="data-formats" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Data Formats</h1>
+<p>GenBank can be accessed&nbsp;<a href="http://www.ncbi.nlm.nih.gov/genbank/">here</a>. A detailed description of the GenBank format can be found&nbsp;<a href="http://www.ncbi.nlm.nih.gov/Sitemap/samplerecord.html">here</a>. A tool, from the&nbsp;<a href="https://rosalind.info/glossary/sms-2/">SMS 2</a>&nbsp;package, for converting GenBank to FASTA can be found&nbsp;<a href="http://www.bioinformatics.org/sms2/genbank_fasta.html">here</a>.</p>
+<p>Given:&nbsp;A collection of&nbsp;<span class="math inline">\(n\)</span>&nbsp;(<span class="math inline">\(n≤10\)</span>) GenBank entry IDs.</p>
+<p>Return:&nbsp;The shortest of the strings associated with the IDs in&nbsp;<a href="https://rosalind.info/glossary/fasta-format/">FASTA</a>&nbsp;format.</p>
+<section id="sample-dataset-2" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sample-dataset-2"><span class="header-section-number">3.1</span> Sample Dataset</h2>
+<pre><code>FJ817486 JX069768 JX469983</code></pre>
+</section>
+<section id="sample-output-2" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sample-output-2"><span class="header-section-number">3.2</span> Sample Output</h2>
+<pre><code>&gt;JX469983.1 Zea mays subsp. mays clone UT3343 G2-like transcription factor mRNA, partial cds
+ATGATGTATCATGCGAAGAATTTTTCTGTGCCCTTTGCTCCGCAGAGGGCACAGGATAATGAGCATGCAA
+GTAATATTGGAGGTATTGGTGGACCCAACATAAGCAACCCTGCTAATCCTGTAGGAAGTGGGAAACAACG
+GCTACGGTGGACATCGGATCTTCATAATCGCTTTGTGGATGCCATCGCCCAGCTTGGTGGACCAGACAGA
+GCTACACCTAAAGGGGTTCTCACTGTGATGGGTGTACCAGGGATCACAATTTATCATGTGAAGAGCCATC
+TGCAGAAGTATCGCCTTGCAAAGTATATACCCGACTCTCCTGCTGAAGGTTCCAAGGACGAAAAGAAAGA
+TTCGAGTGATTCCCTCTCGAACACGGATTCGGCACCAGGATTGCAAATCAATGAGGCACTAAAGATGCAA
+ATGGAGGTTCAGAAGCGACTACATGAGCAACTCGAGGTTCAAAGACAACTGCAACTAAGAATTGAAGCAC
+AAGGAAGATACTTGCAGATGATCATTGAGGAGCAACAAAAGCTTGGTGGATCAATTAAGGCTTCTGAGGA
+TCAGAAGCTTTCTGATTCACCTCCAAGCTTAGATGACTACCCAGAGAGCATGCAACCTTCTCCCAAGAAA
+CCAAGGATAGACGCATTATCACCAGATTCAGAGCGCGATACAACACAACCTGAATTCGAATCCCATTTGA
+TCGGTCCGTGGGATCACGGCATTGCATTCCCAGTGGAGGAGTTCAAAGCAGGCCCTGCTATGAGCAAGTC
+A</code></pre>
+</section>
+<section id="solution-2" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="solution-2"><span class="header-section-number">3.3</span> Solution</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez, SeqIO</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_shortest_sequence(entry_ids: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Fetch nucleotide sequences for given entry IDs and print the shortest one in FASTA format.</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">    entry_ids (List[str]): A list of GenBank entry IDs.</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Raises:</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Exception: If there's an error fetching or parsing the sequences.</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    Entrez.email <span class="op">=</span> <span class="st">"byterube@gmail.com"</span>  <span class="co"># Replace with your email</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fetch sequences</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> Entrez.efetch(db<span class="op">=</span><span class="st">"nucleotide"</span>, <span class="bu">id</span><span class="op">=</span>entry_ids, rettype<span class="op">=</span><span class="st">"fasta"</span>, retmode<span class="op">=</span><span class="st">"text"</span>) <span class="im">as</span> handle:</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>            records <span class="op">=</span> <span class="bu">list</span>(SeqIO.parse(handle, <span class="st">"fasta"</span>))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> records:</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"No sequences found for the given entry IDs."</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find and print the shortest sequence</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        shortest_record <span class="op">=</span> <span class="bu">min</span>(records, key<span class="op">=</span><span class="kw">lambda</span> record: <span class="bu">len</span>(record.seq))</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(shortest_record.<span class="bu">format</span>(<span class="st">"fasta"</span>))</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"An error occurred: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input data</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="st">FJ817486 JX069768 JX469983</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>entry_ids <span class="op">=</span> sample_input.split()</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Get and print the shortest sequence</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>get_shortest_sequence(entry_ids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="new-motif-discovery" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> New Motif Discovery</h1>
+<p>The novel-motif finding tool MEME can be found&nbsp;<a href="http://meme-suite.org/tools/meme">here</a>.</p>
+<p>Given:&nbsp;A set of protein strings in FASTA format that share some motif with minimum length 20.</p>
+<p>Return:&nbsp;<a href="https://rosalind.info/glossary/motif-regular-expression/">Regular expression</a>&nbsp;for the best-scoring motif.</p>
+<section id="sample-dataset-3" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sample-dataset-3"><span class="header-section-number">4.1</span> Sample Dataset</h2>
+<pre><code>&gt;Rosalind_7142
+PFTADSMDTSNMAQCRVEDLWWCWIPVHKNPHSFLKTWSPAAGHRGWQFDHNFFVYMMGQ
+FYMTKYNHGYAPARRKRFMCQTFFILTFMHFCFRRAHSMVEWCPLTTVSQFDCTPCAIFE
+WGFMMEFPCFRKQMHHQSYPPQNGLMNFNMTISWYQMKRQHICHMWAEVGILPVPMPFNM
+SYQIWEKGMSMGCENNQKDNEVMIMCWTSDIKKDGPEIWWMYNLPHYLTATRIGLRLALY
+&gt;Rosalind_4494
+VPHRVNREGFPVLDNTFHEQEHWWKEMHVYLDALCHCPEYLDGEKVYFNLYKQQISCERY
+PIDHPSQEIGFGGKQHFTRTEFHTFKADWTWFWCEPTMQAQEIKIFDEQGTSKLRYWADF
+QRMCEVPSGGCVGFEDSQYYENQWQREEYQCGRIKSFNKQYEHDLWWCWIPVHKKPHSFL
+KTWSPAAGHRGWQFDHNFFSTKCSCIMSNCCQPPQQCGQYLTSVCWCCPEYEYVTKREEM
+&gt;Rosalind_3636
+ETCYVSQLAYCRGPLLMNDGGYGPLLMNDGGYTISWYQAEEAFPLRWIFMMFWIDGHSCF
+NKESPMLVTQHALRGNFWDMDTCFMPNTLNQLPVRIVEFAKELIKKEFCMNWICAPDPMA
+GNSQFIHCKNCFHNCFRQVGMDLWWCWIPVHKNPHSFLKTWSPAAGHRGWQFDHNFFQMM
+GHQDWGTQTFSCMHWVGWMGWVDCNYDARAHPEFYTIREYADITWYSDTSSNFRGRIGQN</code></pre>
+</section>
+<section id="sample-output-3" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sample-output-3"><span class="header-section-number">4.2</span> Sample Output</h2>
+<pre><code>DLWWCWIPVHK[NK]PHSFLKTWSPAAGHRGWQFDHNFF</code></pre>
+</section>
+<section id="solution-3" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="solution-3"><span class="header-section-number">4.3</span> Solution</h2>
+<p>install MM</p>
+</section>
+</section>
+<section id="pairwise-global-alignment" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Pairwise Global Alignment</h1>
+<p>An online interface to EMBOSS’s&nbsp;<code>Needle</code>&nbsp;tool for aligning&nbsp;<a href="https://rosalind.info/glossary/dna-string/">DNA</a>&nbsp;and&nbsp;<a href="https://rosalind.info/glossary/rna-string/">RNA strings</a>&nbsp;can be found&nbsp;<a href="http://www.ebi.ac.uk/Tools/psa/emboss_needle/nucleotide.html">here</a>.</p>
+<p>Use:</p>
+<ul>
+<li>The&nbsp;<a href="https://rosalind.info/glossary/dnafull/">DNAfull</a>&nbsp;scoring matrix; note that DNAfull uses&nbsp;<a href="https://rosalind.info/glossary/iupac-notation/">IUPAC notation</a>&nbsp;for ambiguous nucleotides.</li>
+<li>Gap opening penalty of 10.</li>
+<li>Gap extension penalty of 1.</li>
+</ul>
+<p>For our purposes, the “pair” output format will work fine; this format shows the two strings aligned at the bottom of the output file beneath some statistics about the alignment.</p>
+<p>Given:&nbsp;Two GenBank IDs.</p>
+<p>Return:&nbsp;The maximum global alignment score between the DNA strings associated with these IDs.</p>
+<section id="sample-dataset-4" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sample-dataset-4"><span class="header-section-number">5.1</span> Sample Dataset</h2>
+<pre><code>JX205496.1 JX469991.1</code></pre>
+</section>
+<section id="sample-output-4" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sample-output-4"><span class="header-section-number">5.2</span> Sample Output</h2>
+<pre><code>257</code></pre>
+</section>
+<section id="solution-4" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="solution-4"><span class="header-section-number">5.3</span> Solution</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez, SeqIO</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Align</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> Seq</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Optional</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_sequences(genbank_ids: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> List[Seq]:</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Fetch sequences from GenBank given a list of IDs.</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">    genbank_ids (List[str]): List of GenBank IDs.</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">    List[Seq]: List of Seq objects representing the fetched sequences.</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    Entrez.email <span class="op">=</span> <span class="st">"byterube@gmail.com"</span>  <span class="co"># Replace with your email</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> Entrez.efetch(db<span class="op">=</span><span class="st">"nucleotide"</span>, <span class="bu">id</span><span class="op">=</span>genbank_ids, rettype<span class="op">=</span><span class="st">"fasta"</span>, retmode<span class="op">=</span><span class="st">"text"</span>) <span class="im">as</span> handle:</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> [record.seq <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(handle, <span class="st">"fasta"</span>)]</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error fetching sequences: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> align_sequences(seq1: Seq, seq2: Seq) <span class="op">-&gt;</span> Optional[<span class="bu">float</span>]:</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">    Perform global alignment of two sequences using Bio.Align.PairwiseAligner.</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">    seq1 (Seq): First sequence.</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">    seq2 (Seq): Second sequence.</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co">    Optional[float]: Alignment score, or None if alignment fails.</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>        aligner <span class="op">=</span> Align.PairwiseAligner()</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>        aligner.mode <span class="op">=</span> <span class="st">'global'</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        aligner.match_score <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>        aligner.mismatch_score <span class="op">=</span> <span class="op">-</span><span class="dv">4</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>        aligner.open_gap_score <span class="op">=</span> <span class="op">-</span><span class="dv">10</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>        aligner.extend_gap_score <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>        alignments <span class="op">=</span> aligner.align(seq1, seq2)</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> alignments.score</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error during alignment: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input data</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="st">JX462666.1 NM_001251956.1</span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>genbank_ids <span class="op">=</span> sample_input.strip().split()</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch sequences</span></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>sequences <span class="op">=</span> fetch_sequences(genbank_ids)</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform alignment</span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>alignment_score <span class="op">=</span> align_sequences(sequences[<span class="dv">0</span>], sequences[<span class="dv">1</span>])</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> alignment_score <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>alignment_score<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="fastq-format-introduction" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> FASTQ format introduction</h1>
+<p>Sometimes it’s necessary to convert data from FASTQ format to FASTA format. For example, you may want to perform a BLAST search using reads in FASTQ format obtained from your brand new Illumina Genome Analyzer.</p>
+<p>Links:</p>
+<ul>
+<li><p>A FASTQ to FASTA converter can be accessed from the&nbsp;<a href="http://sequenceconversion.bugaco.com/converter/biology/sequences/index.php">Sequence conversion website</a></p></li>
+<li><p>A free GUI converter developed by BlastStation is available&nbsp;<a href="http://www.blaststation.com/freestuff/en/fastq2fasta.php">here</a>&nbsp;for download or as an add-on to Google Chrome.</p></li>
+<li><p>There is a&nbsp;<a href="https://main.g2.bx.psu.edu/root?tool_id=cshl_fastq_to_fasta">FASTQ to FASTA converter</a>&nbsp;in the&nbsp;<a href="https://rosalind.info/glossary/galaxy/">Galaxy</a>&nbsp;web platform. Note that you should register in the Galaxy and upload your file prior to using this tool.</p></li>
+</ul>
+<p>Given:&nbsp;FASTQ file</p>
+<p>Return:&nbsp;Corresponding FASTA records</p>
+<section id="sample-dataset-5" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sample-dataset-5"><span class="header-section-number">6.1</span> Sample Dataset</h2>
+<pre><code>@SEQ_ID
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
++
+!*((((***+))%%%++)(%%%%)***-+*****))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65</code></pre>
+</section>
+<section id="sample-output-5" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sample-output-5"><span class="header-section-number">6.2</span> Sample Output</h2>
+<pre><code>&gt;SEQ_ID
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT</code></pre>
+</section>
+<section id="solution-5" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="solution-5"><span class="header-section-number">6.3</span> Solution</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_fastq_to_fasta(fastq_string):</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Convert a FASTQ string to a FASTA string.</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">    fastq_string (str): Input FASTQ formatted string.</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">    str: FASTA formatted string.</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create file-like objects for input and output</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    fastq_handle <span class="op">=</span> StringIO(fastq_string)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    fasta_handle <span class="op">=</span> StringIO()</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Perform the conversion</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    SeqIO.convert(fastq_handle, <span class="st">'fastq'</span>, fasta_handle, <span class="st">'fasta'</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the FASTA string and reset the StringIO</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    fasta_handle.seek(<span class="dv">0</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    fasta_string <span class="op">=</span> fasta_handle.read()</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fasta_string</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample FASTQ input</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>fastq <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="st">@SEQ_ID</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="st">GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="st">!*((((***+))</span><span class="sc">%%</span><span class="st">%++)(</span><span class="sc">%%%%</span><span class="st">)***-+*****))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip()</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert FASTQ to FASTA</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>fasta <span class="op">=</span> convert_fastq_to_fasta(fastq)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the resulting FASTA</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fasta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="read-quality-distribution" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Read Quality Distribution</h1>
+<ul>
+<li><p>A version of&nbsp;<a href="https://rosalind.info/glossary/fastqc/">FastQC</a>&nbsp;can be downloaded&nbsp;<a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/">here</a>&nbsp;and run locally on any operating system with a suitable Java Runtime Environment (JRE) installed.</p></li>
+<li><p>An online version of FastQC is also available&nbsp;<a href="http://galaxy.nbic.nl/root?tool_id=fastqc">here</a>&nbsp;in the “Andromeda”&nbsp;<a href="https://rosalind.info/glossary/galaxy/">Galaxy</a>&nbsp;instance.</p></li>
+</ul>
+<p>Given:&nbsp;A quality threshold, along with FASTQ entries for multiple reads.</p>
+<p>Return:&nbsp;The number of reads whose average quality is below the threshold.</p>
+<section id="sample-dataset-6" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="sample-dataset-6"><span class="header-section-number">7.1</span> Sample Dataset</h2>
+<pre><code>28
+@Rosalind_0041
+GGCCGGTCTATTTACGTTCTCACCCGACGTGACGTACGGTCC
++
+6.3536354;&lt;211/0?::6/-2051)-*"40/.,+%)
+@Rosalind_0041
+TCGTATGCGTAGCACTTGGTACAGGAAGTGAACATCCAGGAT
++
+AH@FGGGJ&lt;GB&lt;&lt;9:GD=D@GG9=?A@DC=;:?&gt;839/4856
+@Rosalind_0041
+ATTCGGTAATTGGCGTGAATCTGTTCTGACTGATAGAGACAA
++
+@DJEJEA?JHJ@8?F?IA3=;8@C95=;=?;&gt;D/:;74792.</code></pre>
+</section>
+<section id="sample-output-6" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="sample-output-6"><span class="header-section-number">7.2</span> Sample Output</h2>
+<pre><code>1</code></pre>
+</section>
+<section id="solution-6" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="solution-6"><span class="header-section-number">7.3</span> Solution</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> phre(data):</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert the string input to a file-like object</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> StringIO(data) <span class="im">as</span> f:</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        threshold <span class="op">=</span> <span class="bu">int</span>(f.readline().strip())</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Parse the FASTQ data from the string</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(f, <span class="st">"fastq"</span>):</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>            quality <span class="op">=</span> record.letter_annotations[<span class="st">"phred_quality"</span>]</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>            average_quality <span class="op">=</span> <span class="bu">sum</span>(quality) <span class="op">/</span> <span class="bu">len</span>(quality)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> average_quality <span class="op">&lt;</span> threshold:</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input data</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="st">28</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0041</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="st">GGCCGGTCTATTTACGTTCTCACCCGACGTGACGTACGGTCC</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="st">6.3536354;&lt;211/0?::6/-2051)-*"40/.,+%)</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0041</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="st">TCGTATGCGTAGCACTTGGTACAGGAAGTGAACATCCAGGAT</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="st">AH@FGGGJ&lt;GB&lt;&lt;9:GD=D@GG9=?A@DC=;:?&gt;839/4856</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0041</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="st">ATTCGGTAATTGGCGTGAATCTGTTCTGACTGATAGAGACAA</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="st">@DJEJEA?JHJ@8?F?IA3=;8@C95=;=?;&gt;D/:;74792.</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip()</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> phre(sample_input)</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="protein-translation" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Protein Translation</h1>
+<p>The 20 commonly occurring amino acids are abbreviated by using 20 letters from the English&nbsp;<a href="https://rosalind.info/glossary/alphabet/">alphabet</a>&nbsp;(all letters except for B, J, O, U, X, and Z).&nbsp;<a href="https://rosalind.info/glossary/protein-string/">Protein strings</a>&nbsp;are constructed from these 20 symbols. The&nbsp;<a href="https://rosalind.info/glossary/rna-codon-table/">RNA codon table</a>&nbsp;shows the encoding from each RNA codon to the amino acid alphabet.</p>
+<p>The&nbsp;<code>Translate</code>&nbsp;tool from the&nbsp;<a href="https://rosalind.info/glossary/sms-2/">SMS 2</a>&nbsp;package can be found&nbsp;<a href="http://www.bioinformatics.org/sms2/translate.html">here</a>&nbsp;in the&nbsp;<a href="https://rosalind.info/glossary/sms-2/">SMS 2</a>&nbsp;package</p>
+<p>A detailed list of genetic code variants (codon tables) along with indexes representing these codes (1 = standard genetic code, etc.) can be obtained&nbsp;<a href="http://www.bioinformatics.org/JaMBW/2/3/TranslationTables.html">here</a>.</p>
+<p>For now, when translating&nbsp;<a href="https://rosalind.info/glossary/dna-string/">DNA</a>&nbsp;and&nbsp;<a href="https://rosalind.info/glossary/rna-string/">RNA strings</a>, we will start with the first letter of the string and ignore stop codons.</p>
+<p>Given:&nbsp;A DNA string&nbsp;ss&nbsp;of length at most 10&nbsp;<a href="https://rosalind.info/glossary/kbp/">kbp</a>, and a protein string translated by&nbsp;ss.</p>
+<p>Return:&nbsp;The index of the genetic code variant that was used for translation. (If multiple solutions exist, you may return any one.)</p>
+<section id="sample-dataset-7" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="sample-dataset-7"><span class="header-section-number">8.1</span> Sample Dataset</h2>
+<pre><code>ATGGCCATGGCGCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA
+MAMAPRTEINSTRING</code></pre>
+</section>
+<section id="sample-output-7" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="sample-output-7"><span class="header-section-number">8.2</span> Sample Output</h2>
+<pre><code>1</code></pre>
+</section>
+<section id="solution-7" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="solution-7"><span class="header-section-number">8.3</span> Solution</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> translate</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_genetic_code(dna, protein):</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># List of genetic code table IDs to check</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    table_ids <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>,]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> table <span class="kw">in</span> table_ids:</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Translate DNA using the current table</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>            translated <span class="op">=</span> translate(dna, table<span class="op">=</span>table, to_stop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Check if the translated protein matches the given protein</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> translated <span class="op">==</span> protein:</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> table</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span>:</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If there's an error with a particular table, skip it</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If no matching table is found</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Read input</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="st">ATGGCCATGGCGCCCAGAACTGAGATCAATAGTACCCGTATTAACGGGTGA</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="st">MAMAPRTEINSTRING</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>dna <span class="op">=</span> sample_input[<span class="dv">0</span>]</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>protein <span class="op">=</span> sample_input[<span class="dv">1</span>]</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the genetic code</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> find_genetic_code(dna, protein)</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> result:</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(result)</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No matching genetic code found."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="read-filtration-by-quality" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Read Filtration by Quality</h1>
+<p>Poor-quality reads can be filtered out using the&nbsp;<code>FASTQ Quality Filter</code>&nbsp;tool from the&nbsp;<a href="https://rosalind.info/glossary/fastx/">FASTX</a>&nbsp;toolkit. A command-line version of FASTX can be downloaded for Linux or MacOS from its&nbsp;<a href="http://hannonlab.cshl.edu/fastx_toolkit/">website</a>. An online interface for the&nbsp;<code>FASTQ Quality Filter</code>&nbsp;is also available&nbsp;<a href="https://main.g2.bx.psu.edu/root?tool_id=cshl_fastq_quality_filter">here</a>&nbsp;within the&nbsp;<a href="https://rosalind.info/glossary/galaxy/">Galaxy</a>&nbsp;web platform.</p>
+<p>Given:&nbsp;A quality threshold value&nbsp;qq, percentage of bases&nbsp;pp, and set of FASTQ entries.</p>
+<p>Return:&nbsp;Number of reads in filtered FASTQ entries</p>
+<section id="sample-dataset-8" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="sample-dataset-8"><span class="header-section-number">9.1</span> Sample Dataset</h2>
+<pre><code>20 90
+@Rosalind_0049_1
+GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG
++
+FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527+,
+@Rosalind_0049_2
+AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT
++
+1&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;1,*3+*!
+@Rosalind_0049_3
+ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA
++
+B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</code></pre>
+</section>
+<section id="sample-output-8" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="sample-output-8"><span class="header-section-number">9.2</span> Sample Output</h2>
+<pre><code>2</code></pre>
+</section>
+<section id="solution-8" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="solution-8"><span class="header-section-number">9.3</span> Solution</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.SeqRecord <span class="im">import</span> SeqRecord</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> Seq</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quality_filtration(data):</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read the threshold and percentage from the first line</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    t, p <span class="op">=</span> <span class="bu">map</span>(<span class="bu">int</span>, data[<span class="dv">0</span>].strip().split())</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Process the FASTQ data</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(data), <span class="dv">4</span>):</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        sequence <span class="op">=</span> data[i<span class="op">+</span><span class="dv">1</span>].strip()</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>        quality_string <span class="op">=</span> data[i<span class="op">+</span><span class="dv">3</span>].strip()</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert quality string to Phred scores</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>        phred_quality <span class="op">=</span> [<span class="bu">ord</span>(char) <span class="op">-</span> <span class="dv">33</span> <span class="cf">for</span> char <span class="kw">in</span> quality_string]</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Perform quality check</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        passes <span class="op">=</span> <span class="bu">sum</span>(ph <span class="op">&gt;=</span> t <span class="cf">for</span> ph <span class="kw">in</span> phred_quality)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (passes <span class="op">/</span> <span class="bu">len</span>(phred_quality)) <span class="op">*</span> <span class="dv">100</span> <span class="op">&gt;=</span> p:</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="st">20 90</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0049_1</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="st">GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="st">FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527+,</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0049_2</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="st">AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="st">1&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;1,*3+*!</span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0049_3</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="st">ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA</span></span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a><span class="st">B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</span></span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the function with the sample input</span></span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> quality_filtration(sample_input)</span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="complementing-a-strand-of-dna" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Complementing a Strand of DNA</h1>
+<p>Recall that in a&nbsp;<a href="https://rosalind.info/glossary/dna-string/">DNA string</a>&nbsp;ss, ‘A’ and ‘T’ are complements of each other, as are ‘C’ and ‘G’. Furthermore, the reverse complement of&nbsp;<span class="math inline">\(s\)</span>&nbsp;is the string&nbsp;<span class="math inline">\(s^c\)</span>&nbsp;formed by reversing the symbols of&nbsp;ss&nbsp;and then taking the complement of each symbol (e.g., the reverse complement of “GTCA” is “TGAC”).</p>
+<p>The&nbsp;<code>Reverse Complement</code>&nbsp;program from the&nbsp;<a href="https://rosalind.info/glossary/sms-2/">SMS 2</a>&nbsp;package can be run online&nbsp;<a href="http://www.bioinformatics.org/sms2/rev_comp.html">here</a>.</p>
+<p>Given:&nbsp;A collection of&nbsp;<span class="math inline">\(n\)</span>&nbsp;(<span class="math inline">\(n≤10\)</span>) DNA strings.</p>
+<p>Return:&nbsp;The number of given strings that match their reverse complements.</p>
+<section id="sample-dataset-9" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="sample-dataset-9"><span class="header-section-number">10.1</span> Sample Dataset</h2>
+<pre><code>&gt;Rosalind_64
+ATAT
+&gt;Rosalind_48
+GCATA</code></pre>
+</section>
+<section id="sample-output-9" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="sample-output-9"><span class="header-section-number">10.2</span> Sample Output</h2>
+<pre><code>1</code></pre>
+</section>
+<section id="solution-9" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="solution-9"><span class="header-section-number">10.3</span> Solution</h2>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> Seq</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_palindrome(seq):</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Check if a sequence is equal to its reverse complement."""</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    my_seq <span class="op">=</span> Seq(seq)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    reverse_seq <span class="op">=</span> my_seq.reverse_complement()</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> my_seq <span class="op">==</span> reverse_seq</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_palindromic_sequences(seqs):</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Count the number of palindromic sequences in the list."""</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(is_palindrome(seq) <span class="cf">for</span> seq <span class="kw">in</span> seqs)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_fasta_input(fasta_input):</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Parse FASTA formatted input and return a list of sequences."""</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    fasta_io <span class="op">=</span> StringIO(fasta_input)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">str</span>(record.seq) <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(fasta_io, <span class="st">"fasta"</span>)]</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_64</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="st">ATAT</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_48</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="st">GCATA</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the sequences</span></span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>sequences <span class="op">=</span> parse_fasta_input(sample_input)</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Count palindromic sequences</span></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>palindrome_count <span class="op">=</span> count_palindromic_sequences(sequences)</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(palindrome_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="base-quality-distribution" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Base Quality Distribution</h1>
+<p>Quality of the bases can vary depends on position in read due to nature of the sequencing procedure. One can check this quality distribution using “Per Base Sequence Quality” module of the&nbsp;<a href="https://rosalind.info/glossary/fastqc/">FastQC</a>&nbsp;program.</p>
+<p>Average accepted quality values is a 10 for the lower quartile and 25 for median. If the values falls below this limit, then the module returns a warning.</p>
+<p>Note that for the reads &gt;50bp long FastQC will group the bases. To show data for every base in the read use “–nogroup” option.</p>
+<p>Given:&nbsp;FASTQ file, quality threshold&nbsp;<span class="math inline">\(q\)</span></p>
+<p>Return:&nbsp;Number of positions where mean base quality falls below given threshold</p>
+<section id="sample-dataset-10" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sample-dataset-10"><span class="header-section-number">11.1</span> Sample Dataset</h2>
+<pre><code>26
+@Rosalind_0029
+GCCCCAGGGAACCCTCCGACCGAGGATCGT
++
+&gt;?F?@6&lt;C&lt;HF?&lt;85486B;85:8488/2/
+@Rosalind_0029
+TGTGATGGCTCTCTGAATGGTTCAGGCAGT
++
+@J@H@&gt;B9:B;&lt;D==:&lt;;:,&lt;::?463-,,
+@Rosalind_0029
+CACTCTTACTCCCTAGCCGAACTCCTTTTT
++
+=88;99637@5,4664-65)/?4-2+)$)$
+@Rosalind_0029
+GATTATGATATCAGTTGGCTCCGAGAGCGT
++
+&lt;@BGE@8C9=B9:B&lt;&gt;&gt;&gt;7?B&gt;7:02+33.</code></pre>
+</section>
+<section id="sample-output-10" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="sample-output-10"><span class="header-section-number">11.2</span> Sample Output</h2>
+<pre><code>17</code></pre>
+</section>
+<section id="solution-10" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="solution-10"><span class="header-section-number">11.3</span> Solution</h2>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_threshold_and_fastq(data):</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Parse the threshold and FASTQ data from the input string."""</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> data.strip().split(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    threshold <span class="op">=</span> <span class="bu">int</span>(lines[<span class="dv">0</span>])</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    fastq_data <span class="op">=</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>.join(lines[<span class="dv">1</span>:])</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> threshold, fastq_data</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_quality_scores(fastq_data):</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Extract quality scores from FASTQ data."""</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    fastq_io <span class="op">=</span> StringIO(fastq_data)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [record.letter_annotations[<span class="st">"phred_quality"</span>] </span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> record <span class="kw">in</span> SeqIO.parse(fastq_io, <span class="st">"fastq"</span>)]</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_below_threshold(qualities, threshold):</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Count positions where the average quality score is below the threshold."""</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    num_sequences <span class="op">=</span> <span class="bu">len</span>(qualities)</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    num_positions <span class="op">=</span> <span class="bu">len</span>(qualities[<span class="dv">0</span>])</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_positions):</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>        average_quality <span class="op">=</span> <span class="bu">sum</span>(q[i] <span class="cf">for</span> q <span class="kw">in</span> qualities) <span class="op">/</span> num_sequences</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> average_quality <span class="op">&lt;</span> threshold:</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bphr(data):</span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate the number of positions with average quality below the threshold."""</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>    threshold, fastq_data <span class="op">=</span> parse_threshold_and_fastq(data)</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>    qualities <span class="op">=</span> extract_quality_scores(fastq_data)</span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count_below_threshold(qualities, threshold)</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a><span class="st">26</span></span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0029</span></span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a><span class="st">GCCCCAGGGAACCCTCCGACCGAGGATCGT</span></span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;?F?@6&lt;C&lt;HF?&lt;85486B;85:8488/2/</span></span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0029</span></span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a><span class="st">TGTGATGGCTCTCTGAATGGTTCAGGCAGT</span></span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a><span class="st">@J@H@&gt;B9:B;&lt;D==:&lt;;:,&lt;::?463-,,</span></span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0029</span></span>
+<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a><span class="st">CACTCTTACTCCCTAGCCGAACTCCTTTTT</span></span>
+<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a><span class="st">=88;99637@5,4664-65)/?4-2+)$)$</span></span>
+<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0029</span></span>
+<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a><span class="st">GATTATGATATCAGTTGGCTCCGAGAGCGT</span></span>
+<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;@BGE@8C9=B9:B&lt;&gt;&gt;&gt;7?B&gt;7:02+33.</span></span>
+<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> bphr(sample_input)</span>
+<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="finding-genes-with-orfs" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Finding Genes with ORFs</h1>
+<p>An ORF begins with a start codon and ends either at a stop codon or at the end of the string. We will assume the standard genetic code for translating an&nbsp;<a href="https://rosalind.info/glossary/rna-string/">RNA string</a>&nbsp;into a&nbsp;<a href="https://rosalind.info/glossary/protein-string/">protein string</a>&nbsp;(i.e., see the standard&nbsp;<a href="https://rosalind.info/glossary/rna-codon-table/">RNA codon table</a>).</p>
+<p><code>ORF finder</code>&nbsp;from the&nbsp;<a href="https://rosalind.info/glossary/sms-2/">SMS 2</a>&nbsp;package can be run online&nbsp;<a href="http://www.bioinformatics.org/sms2/orf_find.html">here</a>.</p>
+<p>Given:&nbsp;A&nbsp;<a href="https://rosalind.info/glossary/dna-string/">DNA string</a>&nbsp;<span class="math inline">\(s\)</span>&nbsp;of length at most 1&nbsp;<a href="https://rosalind.info/glossary/kbp/">kbp</a>.</p>
+<p>Return:&nbsp;The longest protein string that can be translated from an ORF of&nbsp;<span class="math inline">\(s\)</span>. If more than one protein string of maximum length exists, then you may output any solution.</p>
+<section id="sample-dataset-11" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="sample-dataset-11"><span class="header-section-number">12.1</span> Sample Dataset</h2>
+<pre><code>AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG</code></pre>
+</section>
+<section id="sample-output-11" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="sample-output-11"><span class="header-section-number">12.2</span> Sample Output</h2>
+<pre><code>MLLGSFRLIPKETLIQVAGSSPCNLS</code></pre>
+</section>
+<section id="solution-11" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="solution-11"><span class="header-section-number">12.3</span> Solution</h2>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.Seq <span class="im">import</span> Seq</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gene_ORFs(dna_sequence):</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Finds and prints the longest open reading frame (ORF) from a DNA sequence."""</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> translate_sequence(seq):</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Translate a sequence in all three reading frames and split by stop codons."""</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [<span class="bu">str</span>(seq[i:].translate(to_stop<span class="op">=</span><span class="va">False</span>)).split(<span class="st">"*"</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>)]</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a Seq object from the DNA sequence</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    seq <span class="op">=</span> Seq(dna_sequence)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    seq_reverse <span class="op">=</span> seq.reverse_complement()</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Translate the sequence and its reverse complement in all reading frames</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    proteins <span class="op">=</span> []</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    proteins.extend(translate_sequence(seq))</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    proteins.extend(translate_sequence(seq_reverse))</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Flatten the list of lists</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>    proteins <span class="op">=</span> [protein <span class="cf">for</span> sublist <span class="kw">in</span> proteins <span class="cf">for</span> protein <span class="kw">in</span> sublist]</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find ORFs starting with 'M' and sort by length</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>    orfs <span class="op">=</span> <span class="bu">sorted</span>([protein[protein.find(<span class="st">"M"</span>):] <span class="cf">for</span> protein <span class="kw">in</span> proteins <span class="cf">if</span> <span class="st">"M"</span> <span class="kw">in</span> protein], key<span class="op">=</span><span class="bu">len</span>, reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> orfs</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a><span class="st">AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG</span></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Strip any leading/trailing whitespace</span></span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>dna <span class="op">=</span> sample_input.strip()</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Find and print the longest ORF</span></span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>orfs <span class="op">=</span> gene_ORFs(dna)</span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orfs[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="base-filtration-by-quality" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Base Filtration by Quality</h1>
+<p>Bad quality bases can be easily trimmed out using certain threshold (defined by quality plot similar to what we did in&nbsp;<a href="https://rosalind.info/problems/bphr/">“Base Quality Distribution”</a>) There is a lot of trimming tools, you can try one of following:</p>
+<ul>
+<li><p><a href="https://main.g2.bx.psu.edu/root?tool_id=fastq_quality_trimmer">FASTQ Quality Trimmer</a>&nbsp;tool on the&nbsp;<a href="https://rosalind.info/glossary/galaxy/">Galaxy</a>. It uses a “sliding window” approach so for a simple trimming of the ends you should set window size 1.</p></li>
+<li><p><a href="https://rosalind.info/glossary/trimmomatic/">Trimmomatic</a>. It is a command-line java-based tool, detail description and download link can be found&nbsp;<a href="http://www.usadellab.org/cms/index.php?page=trimmomatic">here</a>. For a simple trimming from both ends you should specify parameters LEADING and TRAILING.</p></li>
+</ul>
+<p>Given:&nbsp;FASTQ file, quality cut-off value&nbsp;<span class="math inline">\(q\)</span>, Phred33 quality score assumed.</p>
+<p>Return:&nbsp;FASTQ file trimmed from the both ends (removed leading and trailing bases with quality lower than&nbsp;<span class="math inline">\(q\)</span>)</p>
+<section id="sample-dataset-12" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="sample-dataset-12"><span class="header-section-number">13.1</span> Sample Dataset</h2>
+<pre><code>20
+@Rosalind_0049
+GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG
++
+FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527+,
+@Rosalind_0049
+AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT
++
+1&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;1,*3+*!
+@Rosalind_0049
+ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA
++
+B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</code></pre>
+</section>
+<section id="sample-output-12" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="sample-output-12"><span class="header-section-number">13.2</span> Sample Output</h2>
+<pre><code>@Rosalind_0049
+GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACAC
++
+FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527
+@Rosalind_0049
+ATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCT
++
+&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;
+@Rosalind_0049
+ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCT
++
+B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8</code></pre>
+</section>
+<section id="solution-12" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="solution-12"><span class="header-section-number">13.3</span> Solution</h2>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_to_phred(quality_string):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Convert a quality string to Phred scores."""</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">ord</span>(char) <span class="op">-</span> <span class="dv">33</span> <span class="cf">for</span> char <span class="kw">in</span> quality_string]</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_quality_bounds(phred_quality, threshold):</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Find the start and end indices where quality is &gt;= threshold."""</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> start <span class="op">&lt;</span> <span class="bu">len</span>(phred_quality) <span class="kw">and</span> phred_quality[start] <span class="op">&lt;</span> threshold:</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>        start <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> <span class="bu">len</span>(phred_quality)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> end <span class="op">&gt;</span> start <span class="kw">and</span> phred_quality[end<span class="op">-</span><span class="dv">1</span>] <span class="op">&lt;</span> threshold:</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>        end <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> start, end</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_fastq_record(identifier, sequence, quality_string, start, end):</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Format a FASTQ record with the given bounds."""</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"@</span><span class="sc">{</span>identifier<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>sequence[start:end]<span class="sc">}</span><span class="ch">\n</span><span class="ss">+</span><span class="ch">\n</span><span class="sc">{</span>quality_string[start:end]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Base_Filtration_Quality(data):</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Process FASTQ data and filter based on quality threshold."""</span></span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>    threshold <span class="op">=</span> <span class="bu">int</span>(data[<span class="dv">0</span>])</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>    filtered_records <span class="op">=</span> []</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(data), <span class="dv">4</span>):</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>        identifier <span class="op">=</span> data[i].strip()</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>        sequence <span class="op">=</span> data[i<span class="op">+</span><span class="dv">1</span>].strip()</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>        quality_string <span class="op">=</span> data[i<span class="op">+</span><span class="dv">3</span>].strip()</span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>        phred_quality <span class="op">=</span> convert_to_phred(quality_string)</span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>        start, end <span class="op">=</span> find_quality_bounds(phred_quality, threshold)</span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> start <span class="op">&lt;</span> end:</span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>            filtered_record <span class="op">=</span> format_fastq_record(identifier, sequence, quality_string, start, end)</span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a>            filtered_records.append(filtered_record)</span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> filtered_records</span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample input</span></span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a><span class="st">20</span></span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0049</span></span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a><span class="st">GCAGAGACCAGTAGATGTGTTTGCGGACGGTCGGGCTCCATGTGACACAG</span></span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a><span class="st">FD@@;C&lt;AI?4BA:=&gt;C&lt;G=:AE=&gt;&lt;A??&gt;764A8B797@A:58:527+,</span></span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0050</span></span>
+<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a><span class="st">AATGGGGGGGGGAGACAAAATACGGCTAAGGCAGGGGTCCTTGATGTCAT</span></span>
+<span id="cb38-49"><a href="#cb38-49" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb38-50"><a href="#cb38-50" aria-hidden="true" tabindex="-1"></a><span class="st">1&lt;&lt;65:793967&lt;4:92568-34:.&gt;1;2752)24')*15;1,*3+*!</span></span>
+<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a><span class="st">@Rosalind_0051</span></span>
+<span id="cb38-52"><a href="#cb38-52" aria-hidden="true" tabindex="-1"></a><span class="st">ACCCCATACGGCGAGCGTCAGCATCTGATATCCTCTTTCAATCCTAGCTA</span></span>
+<span id="cb38-53"><a href="#cb38-53" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb38-54"><a href="#cb38-54" aria-hidden="true" tabindex="-1"></a><span class="st">B:EI&gt;JDB5=&gt;DA?E6B@@CA?C;=;@@C:6D:3=@49;@87;::;;?8+</span></span>
+<span id="cb38-55"><a href="#cb38-55" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb38-56"><a href="#cb38-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-57"><a href="#cb38-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the input and print the results</span></span>
+<span id="cb38-58"><a href="#cb38-58" aria-hidden="true" tabindex="-1"></a>filtered_records <span class="op">=</span> Base_Filtration_Quality(sample_input)</span>
+<span id="cb38-59"><a href="#cb38-59" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> filtered_records:</span>
+<span id="cb38-60"><a href="#cb38-60" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(record)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="suboptimal-local-alignment" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Suboptimal Local Alignment</h1>
+<p>Given:&nbsp;Two DNA strings&nbsp;ss&nbsp;and&nbsp;t&nbsp;in&nbsp;<a href="https://rosalind.info/glossary/fasta-format/">FASTA format</a>&nbsp;that share some short inexact repeat&nbsp;r&nbsp;of 32-40&nbsp;<a href="https://rosalind.info/glossary/base-pair/">bp</a>. By “inexact” we mean that&nbsp;rr&nbsp;may appear with slight modifications (each repeat differ by&nbsp;≤3 changes/<a href="https://rosalind.info/glossary/indel/">indels</a>).</p>
+<p>Return:&nbsp;The total number of occurrences of&nbsp;r&nbsp;as a substring of&nbsp;s, followed by the total number of occurrences of r&nbsp;as a substring of&nbsp;t.</p>
+<section id="sample-dataset-13" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="sample-dataset-13"><span class="header-section-number">14.1</span> Sample Dataset</h2>
+<pre><code>&gt;Rosalind_12
+GACTCCTTTGTTTGCCTTAAATAGATACATATTTACTCTTGACTCTTTTGTTGGCCTTAAATAGATACATATTTGTGCGACTCCACGAGTGATTCGTA
+&gt;Rosalind_37
+ATGGACTCCTTTGTTTGCCTTAAATAGATACATATTCAACAAGTGTGCACTTAGCCTTGCCGACTCCTTTGTTTGCCTTAAATAGATACATATTTG</code></pre>
+</section>
+<section id="sample-output-13" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="sample-output-13"><span class="header-section-number">14.2</span> Sample Output</h2>
+<pre><code>2 2</code></pre>
+</section>
+<section id="solution-13" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="solution-13"><span class="header-section-number">14.3</span> Solution</h2>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hamming_distance(s1, s2):</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(c1 <span class="op">!=</span> c2 <span class="cf">for</span> c1, c2 <span class="kw">in</span> <span class="bu">zip</span>(s1, s2))</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_inexact_repeats(pattern, seq, max_mismatches<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    pattern_length <span class="op">=</span> <span class="bu">len</span>(pattern)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    seq_length <span class="op">=</span> <span class="bu">len</span>(seq)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(seq_length <span class="op">-</span> pattern_length <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> hamming_distance(seq[i:i<span class="op">+</span>pattern_length], pattern) <span class="op">&lt;=</span> max_mismatches:</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>            count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> count</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Your sample input</span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>sample_input <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_12</span></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a><span class="st">GACTCCTTTGTTTGCCTTAAATAGATACATATTTACTCTTGACTCTTTTGTTGGCCTTAAATAGATACATATTTGTGCGACTCCACGAGTGATTCGTA</span></span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_37</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a><span class="st">ATGGACTCCTTTGTTTGCCTTAAATAGATACATATTCAACAAGTGTGCACTTAGCCTTGCCGACTCCTTTGTTTGCCTTAAATAGATACATATTTG</span></span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the FASTA data</span></span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>fasta_io <span class="op">=</span> StringIO(sample_input.strip())</span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>sequences <span class="op">=</span> <span class="bu">list</span>(SeqIO.parse(fasta_io, <span class="st">"fasta"</span>))</span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the sequences as strings</span></span>
+<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="bu">str</span>(sequences[<span class="dv">0</span>].seq)</span>
+<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="bu">str</span>(sequences[<span class="dv">1</span>].seq)</span>
+<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the shared inexact repeat</span></span>
+<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll use a simple approach: try all substrings of length 32-40 from s as potential repeats</span></span>
+<span id="cb41-36"><a href="#cb41-36" aria-hidden="true" tabindex="-1"></a>best_repeat <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a>best_count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb41-38"><a href="#cb41-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-39"><a href="#cb41-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> length <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">32</span>, <span class="dv">41</span>):</span>
+<span id="cb41-40"><a href="#cb41-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(s) <span class="op">-</span> length <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb41-41"><a href="#cb41-41" aria-hidden="true" tabindex="-1"></a>        potential_repeat <span class="op">=</span> s[i:i<span class="op">+</span>length]</span>
+<span id="cb41-42"><a href="#cb41-42" aria-hidden="true" tabindex="-1"></a>        count_s <span class="op">=</span> count_inexact_repeats(potential_repeat, s)</span>
+<span id="cb41-43"><a href="#cb41-43" aria-hidden="true" tabindex="-1"></a>        count_t <span class="op">=</span> count_inexact_repeats(potential_repeat, t)</span>
+<span id="cb41-44"><a href="#cb41-44" aria-hidden="true" tabindex="-1"></a>        total_count <span class="op">=</span> count_s <span class="op">+</span> count_t</span>
+<span id="cb41-45"><a href="#cb41-45" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb41-46"><a href="#cb41-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> total_count <span class="op">&gt;</span> best_count:</span>
+<span id="cb41-47"><a href="#cb41-47" aria-hidden="true" tabindex="-1"></a>            best_count <span class="op">=</span> total_count</span>
+<span id="cb41-48"><a href="#cb41-48" aria-hidden="true" tabindex="-1"></a>            best_repeat <span class="op">=</span> potential_repeat</span>
+<span id="cb41-49"><a href="#cb41-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-50"><a href="#cb41-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the occurrences of the best repeat in both sequences</span></span>
+<span id="cb41-51"><a href="#cb41-51" aria-hidden="true" tabindex="-1"></a>count_s <span class="op">=</span> count_inexact_repeats(best_repeat, s)</span>
+<span id="cb41-52"><a href="#cb41-52" aria-hidden="true" tabindex="-1"></a>count_t <span class="op">=</span> count_inexact_repeats(best_repeat, t)</span>
+<span id="cb41-53"><a href="#cb41-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-54"><a href="#cb41-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>count_s<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>count_t<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="global-multiple-alignment" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> Global Multiple Alignment</h1>
+<p>One of the first and commonly used programs for MSA is&nbsp;<a href="https://rosalind.info/glossary/clustal/">Clustal</a>, developed by Des Higgins in 1988. The current version using the same approach is called&nbsp;<a href="https://rosalind.info/glossary/clustal/">ClustalW2</a>, and it is embedded in many software packages. There is even a modification of ClustalW2 called&nbsp;<a href="https://rosalind.info/glossary/clustal/">ClustalX</a>&nbsp;that provides a graphical user interface for MSA.</p>
+<p>See the link below for a convenient online interface that runs Clustal on the&nbsp;<a href="https://rosalind.info/glossary/european-bioinformatics-institute/">EBI</a>&nbsp;website:</p>
+<ul>
+<li><a href="http://www.ebi.ac.uk/Tools/msa/clustalw2/">ClustalW2</a></li>
+</ul>
+<p>Select “Protein” or “DNA”, then either paste your sequence in one of the listed formats or upload an entire file. To obtain a more accurate alignment, leave&nbsp;<code>Alignment type: slow</code>&nbsp;selected: if you choose to run Clustal on only two sequences, then the parameter options correspond to those in&nbsp;<code>Needle</code>&nbsp;(see&nbsp;<a href="https://rosalind.info/problems/need/">“Pairwise Global Alignment”</a>).</p>
+<p>Given:&nbsp;Set of nucleotide strings in FASTA format.</p>
+<p>Return:&nbsp;ID of the string most different from the others.</p>
+<section id="sample-dataset-14" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="sample-dataset-14"><span class="header-section-number">15.1</span> Sample Dataset</h2>
+<pre><code>&gt;Rosalind_18
+GACATGTTTGTTTGCCTTAAACTCGTGGCGGCCTAGCCGTAAGTTAAG
+&gt;Rosalind_23
+ACTCATGTTTGTTTGCCTTAAACTCTTGGCGGCTTAGCCGTAACTTAAG
+&gt;Rosalind_51
+TCCTATGTTTGTTTGCCTCAAACTCTTGGCGGCCTAGCCGTAAGGTAAG
+&gt;Rosalind_7
+CACGTCTGTTCGCCTAAAACTTTGATTGCCGGCCTACGCTAGTTAGTTA
+&gt;Rosalind_28
+GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT</code></pre>
+</section>
+<section id="sample-output-14" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="sample-output-14"><span class="header-section-number">15.2</span> Sample Output</h2>
+<pre><code>Rosalind_7</code></pre>
+</section>
+<section id="solution-14" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="solution-14"><span class="header-section-number">15.3</span> Solution</h2>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simple_msa(sequences):</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the length of the longest sequence</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    max_length <span class="op">=</span> <span class="bu">max</span>(<span class="bu">len</span>(seq) <span class="cf">for</span> seq <span class="kw">in</span> sequences)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pad shorter sequences with gaps</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    aligned_sequences <span class="op">=</span> [seq.ljust(max_length, <span class="st">'-'</span>) <span class="cf">for</span> seq <span class="kw">in</span> sequences]</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> aligned_sequences</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_differences(seq1, seq2):</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(a <span class="op">!=</span> b <span class="cf">for</span> a, b <span class="kw">in</span> <span class="bu">zip</span>(seq1, seq2))</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_most_different_sequence(fasta_string):</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parse the FASTA string</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    fasta_io <span class="op">=</span> StringIO(fasta_string)</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    sequences <span class="op">=</span> <span class="bu">list</span>(SeqIO.parse(fasta_io, <span class="st">"fasta"</span>))</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Perform a simple multiple sequence alignment</span></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>    aligned_seqs <span class="op">=</span> simple_msa([<span class="bu">str</span>(seq.seq) <span class="cf">for</span> seq <span class="kw">in</span> sequences])</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>    n_seqs <span class="op">=</span> <span class="bu">len</span>(aligned_seqs)</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>    avg_distances <span class="op">=</span> []</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_seqs):</span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>        total_distance <span class="op">=</span> <span class="bu">sum</span>(calculate_differences(aligned_seqs[i], aligned_seqs[j]) </span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>                             <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_seqs) <span class="cf">if</span> i <span class="op">!=</span> j)</span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>        avg_distances.append(total_distance <span class="op">/</span> (n_seqs <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a>    most_different_index <span class="op">=</span> avg_distances.index(<span class="bu">max</span>(avg_distances))</span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sequences[most_different_index].<span class="bu">id</span></span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Your sample dataset</span></span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a>sample_data <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_18</span></span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a><span class="st">GACATGTTTGTTTGCCTTAAACTCGTGGCGGCCTAGCCGTAAGTTAAG</span></span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_23</span></span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a><span class="st">ACTCATGTTTGTTTGCCTTAAACTCTTGGCGGCTTAGCCGTAACTTAAG</span></span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_51</span></span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a><span class="st">TCCTATGTTTGTTTGCCTCAAACTCTTGGCGGCCTAGCCGTAAGGTAAG</span></span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_7</span></span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a><span class="st">CACGTCTGTTCGCCTAAAACTTTGATTGCCGGCCTACGCTAGTTAGTTA</span></span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;Rosalind_28</span></span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a><span class="st">GGGGTCATGGCTGTTTGCCTTAAACCCTTGGCGGCCTAGCCGTAATGTTT</span></span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> find_most_different_sequence(sample_data)</span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script async="" src="https://subscribe-forms.beehiiv.com/embed.js"></script><iframe src="https://subscribe-forms.beehiiv.com/ed70a4de-a490-4092-aed7-af5face9bf37" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 260px; height: 355px; margin: 0; border-radius: 0px 0px 0px 0px !important; background-color: transparent; box-shadow: 0 0 #0000; max-width: 100%;"></iframe>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+<script>
+  function loadGiscus() {
+    // Function to get the theme based on body class
+    const getTheme = () => {
+      let baseTheme = document.getElementById('giscus-base-theme').value;
+      let altTheme = document.getElementById('giscus-alt-theme').value;
+      if (authorPrefersDark) {
+          [baseTheme, altTheme] = [altTheme, baseTheme];
+      }
+      return document.body.classList.contains('quarto-dark') ? altTheme : baseTheme;
+    };
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.dataset.repo = "partrita/giscus";
+    script.dataset.repoId = "R_kgDONvsa2g";
+    script.dataset.category = "General";
+    script.dataset.categoryId = "DIC_kwDONvsa2s4CmWd7";
+    script.dataset.mapping = "title";
+    script.dataset.reactionsEnabled = "1";
+    script.dataset.emitMetadata = "0";
+    script.dataset.inputPosition = "top";
+    script.dataset.theme = getTheme();
+    script.dataset.lang = "en";
+    script.crossOrigin = "anonymous";
+    // Append the script to the desired div instead of at the end of the body
+    document.getElementById("quarto-content").appendChild(script);
+  }
+  loadGiscus();
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Proudly served by <a href="https://pages.github.com/">github pages</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This blog is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
