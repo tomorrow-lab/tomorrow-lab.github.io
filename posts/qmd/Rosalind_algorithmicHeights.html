@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -70,18 +70,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../.././static/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-6fd95b7d3155c993f73d60cd550fc209.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7e6506520c3bde94d305c936f4013451.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-00be48ab61be8663f0af72b7a9b2a7c3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7e6506520c3bde94d305c936f4013451.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-2375aafe15b9f7556f0e5751296f19d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-357677251e21dc62c7804223e40c3e1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2ea96d94a6ef664a2a2ae98dd807b57f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-357677251e21dc62c7804223e40c3e1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -137,7 +138,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -332,7 +333,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../.././static/logo.png" alt="" class="navbar-logo">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">tomorrow-lab</span>
@@ -643,7 +645,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 6, 2025</p>
+      <p class="date-modified">September 19, 2025</p>
     </div>
   </div>
     
@@ -680,7 +682,7 @@ window.Quarto = {
 </section>
 <section id="solution" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="solution"><span class="header-section-number">1.4</span> Solution</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fibonacci(n: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fibonacci(n: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    fib: <span class="bu">list</span>[<span class="bu">int</span>] <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (n <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    fib[<span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -690,9 +692,9 @@ window.Quarto = {
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fib[n]</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>n: <span class="bu">int</span> <span class="op">=</span> <span class="dv">6</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"피보나치 수열의 </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">번째 항: </span><span class="sc">{</span>fibonacci(n)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"피보나치 수열의 </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">번째 항: </span><span class="sc">{</span>fibonacci(n)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>아주 큰수의 피보나치 수열을 계산하는 경우에는 다음 코드.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gmpy2</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gmpy2</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gmpy2 <span class="im">import</span> mpz</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fibonacci_gmpy2(n: <span class="bu">int</span>) <span class="op">-&gt;</span> mpz:</span>
@@ -710,7 +712,7 @@ window.Quarto = {
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"피보나치 수열의 </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">번째 항:"</span>)</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"자릿수: </span><span class="sc">{</span><span class="bu">len</span>(<span class="bu">str</span>(result))<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"자릿수: </span><span class="sc">{</span><span class="bu">len</span>(<span class="bu">str</span>(result))<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="binary-search" class="level1" data-number="2">
@@ -733,7 +735,7 @@ window.Quarto = {
 </section>
 <section id="solution-1" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="solution-1"><span class="header-section-number">2.3</span> Solution</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> binary_search(arr: List[<span class="bu">int</span>], target: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    low, high <span class="op">=</span> <span class="dv">0</span>, <span class="bu">len</span>(arr) <span class="op">-</span> <span class="dv">1</span></span>
@@ -768,7 +770,7 @@ window.Quarto = {
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>n, m, array, items <span class="op">=</span> parse_input(sample_input)</span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>results: List[<span class="bu">str</span>] <span class="op">=</span> [<span class="bu">str</span>(binary_search(array, item)) <span class="cf">for</span> item <span class="kw">in</span> items]</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">' '</span>.join(results))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">' '</span>.join(results))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="insertion-sort" class="level1" data-number="3">
@@ -792,7 +794,7 @@ window.Quarto = {
 </section>
 <section id="solution-2" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="solution-2"><span class="header-section-number">3.3</span> Solution</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_input(input_str: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> input_str.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
@@ -820,7 +822,7 @@ window.Quarto = {
 <span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>array: List[<span class="bu">int</span>] <span class="op">=</span> parse_input(sample_input)</span>
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>swap_count: <span class="bu">int</span> <span class="op">=</span> insertion_sort(array)</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>swap_count<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>swap_count<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="degree-array" class="level1" data-number="4">
@@ -845,7 +847,7 @@ window.Quarto = {
 </section>
 <section id="solution-3" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="solution-3"><span class="header-section-number">4.3</span> Solution</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_input(input_str: <span class="bu">str</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, List[<span class="bu">int</span>]]:</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> input_str.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
@@ -877,7 +879,7 @@ window.Quarto = {
 <span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>edge_list: List[<span class="bu">int</span>]</span>
 <span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>nodes, edge_list <span class="op">=</span> parse_input(sample_input)</span>
 <span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>degrees: List[<span class="bu">int</span>] <span class="op">=</span> calculate_degrees(nodes, edge_list)</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">" "</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, degrees)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">" "</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, degrees)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="double-degree-array" class="level1" data-number="5">
@@ -899,7 +901,7 @@ window.Quarto = {
 </section>
 <section id="solution-4" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="solution-4"><span class="header-section-number">5.3</span> Solution</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple, Dict</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple, Dict</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_input(input_str: <span class="bu">str</span>) <span class="op">-&gt;</span> Tuple[<span class="bu">int</span>, List[List[<span class="bu">int</span>]]]:</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> input_str.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
@@ -930,7 +932,7 @@ window.Quarto = {
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate and print the sum of neighbors' degrees</span></span>
 <span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, nodes <span class="op">+</span> <span class="dv">1</span>):</span>
 <span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    sum_of_neighbors_degrees: <span class="bu">int</span> <span class="op">=</span> <span class="bu">sum</span>(<span class="bu">len</span>(nodes_neighbours[<span class="bu">str</span>(neighbor)]) <span class="cf">for</span> neighbor <span class="kw">in</span> nodes_neighbours[<span class="bu">str</span>(i)])</span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(sum_of_neighbors_degrees, end<span class="op">=</span><span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(sum_of_neighbors_degrees, end<span class="op">=</span><span class="st">" "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="majority-element" class="level1" data-number="6">
@@ -953,7 +955,7 @@ window.Quarto = {
 </section>
 <section id="solution-5" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="solution-5"><span class="header-section-number">6.3</span> Solution</h2>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> string_to_int_list(string: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, string.split()))</span>
@@ -990,7 +992,7 @@ window.Quarto = {
 <span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>_, <span class="op">*</span>number_lists <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>number_lists: List[List[<span class="bu">int</span>]] <span class="op">=</span> [string_to_int_list(line) <span class="cf">for</span> line <span class="kw">in</span> number_lists]</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>[find_majority(numbers) <span class="cf">for</span> numbers <span class="kw">in</span> number_lists])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>[find_majority(numbers) <span class="cf">for</span> numbers <span class="kw">in</span> number_lists])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="merge-two-sorted-arrays" class="level1" data-number="7">
@@ -1011,7 +1013,7 @@ window.Quarto = {
 </section>
 <section id="solution-6" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="solution-6"><span class="header-section-number">7.3</span> Solution</h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_ints(x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> x.split()]</span>
@@ -1046,7 +1048,7 @@ window.Quarto = {
 <span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>list2 <span class="op">=</span> parse_ints(list2_str)</span>
 <span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> merge_sorted_lists(list1, list2)</span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="sum" class="level1" data-number="8">
@@ -1070,7 +1072,7 @@ window.Quarto = {
 </section>
 <section id="solution-7" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="solution-7"><span class="header-section-number">8.3</span> Solution</h2>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple, Optional</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple, Optional</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_ints(x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> x.split()]</span>
@@ -1104,7 +1106,7 @@ window.Quarto = {
 <span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> result:</span>
 <span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="op">*</span>result)</span>
 <span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="op">-</span><span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="op">-</span><span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="sum-1" class="level1" data-number="9">
@@ -1128,7 +1130,7 @@ window.Quarto = {
 </section>
 <section id="solution-8" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="solution-8"><span class="header-section-number">9.3</span> Solution</h2>
-<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple, Optional</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple, Optional</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_ints(x: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> x.split()]</span>
@@ -1160,7 +1162,7 @@ window.Quarto = {
 <span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>k, n, arrays <span class="op">=</span> process_input(sample_input)</span>
 <span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> arr <span class="kw">in</span> arrays:</span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="op">*</span>three_sum(n, arr))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="op">*</span>three_sum(n, arr))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="breadth-first-search" class="level1" data-number="10">
@@ -1184,7 +1186,7 @@ window.Quarto = {
 </section>
 <section id="solution-9" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="solution-9"><span class="header-section-number">10.3</span> Solution</h2>
-<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> deque</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1244,7 +1246,7 @@ window.Quarto = {
 <span id="cb31-58"><a href="#cb31-58" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb31-59"><a href="#cb31-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-60"><a href="#cb31-60" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> parse_graph(StringIO(sample_input), directed<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb31-61"><a href="#cb31-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>bfs(graph))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-61"><a href="#cb31-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>bfs(graph))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="connected-components" class="level1" data-number="11">
@@ -1275,7 +1277,7 @@ window.Quarto = {
 </section>
 <section id="solution-10" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="solution-10"><span class="header-section-number">11.3</span> Solution</h2>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Set, Union</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Set, Union</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(input_string: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, input_string.split()))</span>
@@ -1342,7 +1344,7 @@ window.Quarto = {
 <span id="cb34-65"><a href="#cb34-65" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb34-66"><a href="#cb34-66" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-67"><a href="#cb34-67" aria-hidden="true" tabindex="-1"></a>graph: Dict[<span class="bu">int</span>, List[<span class="bu">int</span>]] <span class="op">=</span> parse_graph(sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>))</span>
-<span id="cb34-68"><a href="#cb34-68" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(find_all_components(graph)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-68"><a href="#cb34-68" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(find_all_components(graph)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="building-a-heap" class="level1" data-number="12">
@@ -1379,7 +1381,7 @@ window.Quarto = {
 </section>
 <section id="solution-11" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="solution-11"><span class="header-section-number">13.3</span> Solution</h2>
-<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> line.split()]</span>
@@ -1417,7 +1419,7 @@ window.Quarto = {
 <span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>_, numbers <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>merge_sort(parse_integers(numbers)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>merge_sort(parse_integers(numbers)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="way-partition" class="level1" data-number="14">
@@ -1436,7 +1438,7 @@ window.Quarto = {
 </section>
 <section id="solution-12" class="level2" data-number="14.3">
 <h2 data-number="14.3" class="anchored" data-anchor-id="solution-12"><span class="header-section-number">14.3</span> Solution</h2>
-<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(number) <span class="cf">for</span> number <span class="kw">in</span> line.split()]</span>
@@ -1463,7 +1465,7 @@ window.Quarto = {
 <span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>_, input_numbers <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> partition(parse_integers(input_numbers))</span>
-<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="way-partition-1" class="level1" data-number="15">
@@ -1482,7 +1484,7 @@ window.Quarto = {
 </section>
 <section id="solution-13" class="level2" data-number="15.3">
 <h2 data-number="15.3" class="anchored" data-anchor-id="solution-13"><span class="header-section-number">15.3</span> Solution</h2>
-<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(number) <span class="cf">for</span> number <span class="kw">in</span> line.split()]</span>
@@ -1519,7 +1521,7 @@ window.Quarto = {
 <span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>_, input_line <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> parse_integers(input_line)</span>
 <span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a>three_way_partition(numbers)</span>
-<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>numbers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="square-in-a-graph" class="level1" data-number="16">
@@ -1550,7 +1552,7 @@ window.Quarto = {
 </section>
 <section id="solution-14" class="level2" data-number="16.3">
 <h2 data-number="16.3" class="anchored" data-anchor-id="solution-14"><span class="header-section-number">16.3</span> Solution</h2>
-<div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> line.split()]</span>
@@ -1625,7 +1627,7 @@ window.Quarto = {
 <span id="cb48-73"><a href="#cb48-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the input and print results</span></span>
 <span id="cb48-74"><a href="#cb48-74" aria-hidden="true" tabindex="-1"></a>graphs <span class="op">=</span> parse_multiple_graphs(<span class="bu">iter</span>(sample_input), is_directed<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb48-75"><a href="#cb48-75" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> [has_square_cycle(graph, <span class="dv">4</span>) <span class="cf">for</span> graph <span class="kw">in</span> graphs]</span>
-<span id="cb48-76"><a href="#cb48-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-76"><a href="#cb48-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="testing-bipartiteness" class="level1" data-number="17">
@@ -1655,7 +1657,7 @@ window.Quarto = {
 </section>
 <section id="solution-15" class="level2" data-number="17.3">
 <h2 data-number="17.3" class="anchored" data-anchor-id="solution-15"><span class="header-section-number">17.3</span> Solution</h2>
-<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> line.split()]</span>
@@ -1727,7 +1729,7 @@ window.Quarto = {
 <span id="cb51-70"><a href="#cb51-70" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-71"><a href="#cb51-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Process multiple graphs</span></span>
 <span id="cb51-72"><a href="#cb51-72" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> process_multiple_graphs(sample_input_iterator)</span>
-<span id="cb51-73"><a href="#cb51-73" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-73"><a href="#cb51-73" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="testing-acyclicity" class="level1" data-number="18">
@@ -1758,7 +1760,7 @@ window.Quarto = {
 </section>
 <section id="solution-16" class="level2" data-number="18.3">
 <h2 data-number="18.3" class="anchored" data-anchor-id="solution-16"><span class="header-section-number">18.3</span> Solution</h2>
-<div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> line.split()]</span>
@@ -1842,7 +1844,7 @@ window.Quarto = {
 <span id="cb54-82"><a href="#cb54-82" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-83"><a href="#cb54-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Process each graph</span></span>
 <span id="cb54-84"><a href="#cb54-84" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> [is_dag(graph) <span class="cf">for</span> graph <span class="kw">in</span> graphs]</span>
-<span id="cb54-85"><a href="#cb54-85" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-85"><a href="#cb54-85" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="dijkstras-algorithm" class="level1" data-number="19">
@@ -1870,7 +1872,7 @@ window.Quarto = {
 </section>
 <section id="solution-17" class="level2" data-number="19.3">
 <h2 data-number="19.3" class="anchored" data-anchor-id="solution-17"><span class="header-section-number">19.3</span> Solution</h2>
-<div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> inf</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> inf</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> heapq <span class="im">import</span> heappush, heappop</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1947,7 +1949,7 @@ window.Quarto = {
 <span id="cb57-75"><a href="#cb57-75" aria-hidden="true" tabindex="-1"></a>input_iterator <span class="op">=</span> <span class="bu">iter</span>(sample_input)</span>
 <span id="cb57-76"><a href="#cb57-76" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-77"><a href="#cb57-77" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> parse_graph(input_iterator, is_directed<span class="op">=</span><span class="va">True</span>, is_weighted<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb57-78"><a href="#cb57-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>dijkstra(graph))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-78"><a href="#cb57-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>dijkstra(graph))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="heap-sort" class="level1" data-number="20">
@@ -1970,7 +1972,7 @@ window.Quarto = {
 </section>
 <section id="solution-18" class="level2" data-number="20.3">
 <h2 data-number="20.3" class="anchored" data-anchor-id="solution-18"><span class="header-section-number">20.3</span> Solution</h2>
-<div class="sourceCode" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Any</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Any</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> line.split()]</span>
@@ -2026,7 +2028,7 @@ window.Quarto = {
 <span id="cb60-54"><a href="#cb60-54" aria-hidden="true" tabindex="-1"></a>_, input_array_str <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb60-55"><a href="#cb60-55" aria-hidden="true" tabindex="-1"></a>input_array: List[<span class="bu">int</span>] <span class="op">=</span> parse_integers(input_array_str)</span>
 <span id="cb60-56"><a href="#cb60-56" aria-hidden="true" tabindex="-1"></a>sorted_array: List[<span class="bu">int</span>] <span class="op">=</span> heap_sort(input_array)</span>
-<span id="cb60-57"><a href="#cb60-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>sorted_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb60-57"><a href="#cb60-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>sorted_array)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="counting-inversions" class="level1" data-number="21">
@@ -2045,7 +2047,7 @@ window.Quarto = {
 </section>
 <section id="solution-19" class="level2" data-number="21.3">
 <h2 data-number="21.3" class="anchored" data-anchor-id="solution-19"><span class="header-section-number">21.3</span> Solution</h2>
-<div class="sourceCode" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(num) <span class="cf">for</span> num <span class="kw">in</span> line.split()]</span>
@@ -2087,7 +2089,7 @@ window.Quarto = {
 <span id="cb63-40"><a href="#cb63-40" aria-hidden="true" tabindex="-1"></a>_, input_array_str <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb63-41"><a href="#cb63-41" aria-hidden="true" tabindex="-1"></a>input_array: List[<span class="bu">int</span>] <span class="op">=</span> parse_integers(input_array_str)</span>
 <span id="cb63-42"><a href="#cb63-42" aria-hidden="true" tabindex="-1"></a>_, inversion_count <span class="op">=</span> merge_sort_and_count_inversions(input_array)</span>
-<span id="cb63-43"><a href="#cb63-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(inversion_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb63-43"><a href="#cb63-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(inversion_count)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="bellman-ford-algorithm" class="level1" data-number="22">
@@ -2118,7 +2120,7 @@ window.Quarto = {
 </section>
 <section id="solution-20" class="level2" data-number="22.3">
 <h2 data-number="22.3" class="anchored" data-anchor-id="solution-20"><span class="header-section-number">22.3</span> Solution</h2>
-<div class="sourceCode" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> inf, isinf</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> inf, isinf</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator, Set, Tuple</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
@@ -2204,7 +2206,7 @@ window.Quarto = {
 <span id="cb66-84"><a href="#cb66-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-85"><a href="#cb66-85" aria-hidden="true" tabindex="-1"></a><span class="co"># Run Bellman-Ford algorithm</span></span>
 <span id="cb66-86"><a href="#cb66-86" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> bellman_ford(graph)</span>
-<span id="cb66-87"><a href="#cb66-87" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb66-87"><a href="#cb66-87" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="shortest-cycle-through-a-given-edge" class="level1" data-number="23">
@@ -2235,7 +2237,7 @@ window.Quarto = {
 </section>
 <section id="solution-21" class="level2" data-number="23.3">
 <h2 data-number="23.3" class="anchored" data-anchor-id="solution-21"><span class="header-section-number">23.3</span> Solution</h2>
-<div class="sourceCode" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator, Tuple</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator, Tuple</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> inf</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> heapq <span class="im">import</span> heappush, heappop</span>
 <span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
@@ -2347,7 +2349,7 @@ window.Quarto = {
 <span id="cb69-110"><a href="#cb69-110" aria-hidden="true" tabindex="-1"></a>input_handle.seek(<span class="dv">0</span>)  <span class="co"># Reset the StringIO object to the beginning</span></span>
 <span id="cb69-111"><a href="#cb69-111" aria-hidden="true" tabindex="-1"></a>graphs <span class="op">=</span> parse_multiple_graphs(input_handle.read(), directed<span class="op">=</span><span class="va">True</span>, weighted<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb69-112"><a href="#cb69-112" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> [calculate_cycle_length(graphs[i], first_edges[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(graphs))]</span>
-<span id="cb69-113"><a href="#cb69-113" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb69-113"><a href="#cb69-113" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="median" class="level1" data-number="24">
@@ -2368,7 +2370,7 @@ window.Quarto = {
 </section>
 <section id="solution-22" class="level2" data-number="24.3">
 <h2 data-number="24.3" class="anchored" data-anchor-id="solution-22"><span class="header-section-number">24.3</span> Solution</h2>
-<div class="sourceCode" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Tuple</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
@@ -2425,7 +2427,7 @@ window.Quarto = {
 <span id="cb72-55"><a href="#cb72-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-56"><a href="#cb72-56" aria-hidden="true" tabindex="-1"></a>arr, k <span class="op">=</span> process_input(sample_input)</span>
 <span id="cb72-57"><a href="#cb72-57" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> find_kth_element(arr, k <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb72-58"><a href="#cb72-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb72-58"><a href="#cb72-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="partial-sort" class="level1" data-number="25">
@@ -2444,7 +2446,7 @@ window.Quarto = {
 </section>
 <section id="solution-23" class="level2" data-number="25.3">
 <h2 data-number="25.3" class="anchored" data-anchor-id="solution-23"><span class="header-section-number">25.3</span> Solution</h2>
-<div class="sourceCode" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Parse a line of space-separated integers into a list of integers."""</span></span>
@@ -2515,7 +2517,7 @@ window.Quarto = {
 <span id="cb75-69"><a href="#cb75-69" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb75-70"><a href="#cb75-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform partial sort and print result</span></span>
 <span id="cb75-71"><a href="#cb75-71" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> partial_sort(arr, k)</span>
-<span id="cb75-72"><a href="#cb75-72" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb75-72"><a href="#cb75-72" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="topological-sorting" class="level1" data-number="26">
@@ -2537,7 +2539,7 @@ window.Quarto = {
 </section>
 <section id="solution-24" class="level2" data-number="26.3">
 <h2 data-number="26.3" class="anchored" data-anchor-id="solution-24"><span class="header-section-number">26.3</span> Solution</h2>
-<div class="sourceCode" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Iterator, Dict, Union, Set</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Iterator, Dict, Union, Set</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2614,7 +2616,7 @@ window.Quarto = {
 <span id="cb78-75"><a href="#cb78-75" aria-hidden="true" tabindex="-1"></a>input_iterator <span class="op">=</span> <span class="bu">iter</span>(StringIO(sample_input.strip()).readlines())</span>
 <span id="cb78-76"><a href="#cb78-76" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> parse_graph(input_iterator, is_directed<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb78-77"><a href="#cb78-77" aria-hidden="true" tabindex="-1"></a>sorted_nodes <span class="op">=</span> topological_sort(graph)</span>
-<span id="cb78-78"><a href="#cb78-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>sorted_nodes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb78-78"><a href="#cb78-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>sorted_nodes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="hamiltonian-path-in-dag" class="level1" data-number="27">
@@ -2643,7 +2645,7 @@ window.Quarto = {
 </section>
 <section id="solution-25" class="level2" data-number="27.3">
 <h2 data-number="27.3" class="anchored" data-anchor-id="solution-25"><span class="header-section-number">27.3</span> Solution</h2>
-<div class="sourceCode" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Iterator, Dict, Set</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Iterator, Dict, Set</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2715,7 +2717,7 @@ window.Quarto = {
 <span id="cb81-70"><a href="#cb81-70" aria-hidden="true" tabindex="-1"></a>input_iterator <span class="op">=</span> <span class="bu">iter</span>(StringIO(sample_input.strip()).readlines())</span>
 <span id="cb81-71"><a href="#cb81-71" aria-hidden="true" tabindex="-1"></a>graphs <span class="op">=</span> parse_multiple_graphs(input_iterator, is_directed<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb81-72"><a href="#cb81-72" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> graph <span class="kw">in</span> graphs:</span>
-<span id="cb81-73"><a href="#cb81-73" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="op">*</span>hdag(graph))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb81-73"><a href="#cb81-73" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="op">*</span>hdag(graph))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="negative-weight-cycle" class="level1" data-number="28">
@@ -2746,7 +2748,7 @@ window.Quarto = {
 </section>
 <section id="solution-26" class="level2" data-number="28.3">
 <h2 data-number="28.3" class="anchored" data-anchor-id="solution-26"><span class="header-section-number">28.3</span> Solution</h2>
-<div class="sourceCode" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> deque</span>
 <span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2827,7 +2829,7 @@ window.Quarto = {
 <span id="cb84-79"><a href="#cb84-79" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb84-80"><a href="#cb84-80" aria-hidden="true" tabindex="-1"></a>input_iterator <span class="op">=</span> <span class="bu">iter</span>(StringIO(sample_input.strip()).readlines())</span>
 <span id="cb84-81"><a href="#cb84-81" aria-hidden="true" tabindex="-1"></a>graphs <span class="op">=</span> parse_multiple_graphs(input_iterator, is_directed<span class="op">=</span><span class="va">True</span>, is_weighted<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb84-82"><a href="#cb84-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>[detect_negative_weight_cycle(graph) <span class="cf">for</span> graph <span class="kw">in</span> graphs])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb84-82"><a href="#cb84-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>[detect_negative_weight_cycle(graph) <span class="cf">for</span> graph <span class="kw">in</span> graphs])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="quick-sort" class="level1" data-number="29">
@@ -2848,7 +2850,7 @@ window.Quarto = {
 </section>
 <section id="solution-27" class="level2" data-number="29.3">
 <h2 data-number="29.3" class="anchored" data-anchor-id="solution-27"><span class="header-section-number">29.3</span> Solution</h2>
-<div class="sourceCode" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(input_line: <span class="bu">str</span>) <span class="op">-&gt;</span> List[<span class="bu">int</span>]:</span>
 <span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">int</span>(number) <span class="cf">for</span> number <span class="kw">in</span> input_line.split()]</span>
@@ -2891,7 +2893,7 @@ window.Quarto = {
 <span id="cb87-41"><a href="#cb87-41" aria-hidden="true" tabindex="-1"></a>_, input_numbers <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb87-42"><a href="#cb87-42" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> parse_integers(input_numbers)  <span class="co"># Convert the input string to a list of integers</span></span>
 <span id="cb87-43"><a href="#cb87-43" aria-hidden="true" tabindex="-1"></a>quick_sort(numbers)</span>
-<span id="cb87-44"><a href="#cb87-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb87-44"><a href="#cb87-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>numbers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="strongly-connected-components" class="level1" data-number="30">
@@ -2915,7 +2917,7 @@ window.Quarto = {
 </section>
 <section id="solution-28" class="level2" data-number="30.3">
 <h2 data-number="30.3" class="anchored" data-anchor-id="solution-28"><span class="header-section-number">30.3</span> Solution</h2>
-<div class="sourceCode" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Set, Union, Iterator</span>
 <span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -3006,7 +3008,7 @@ window.Quarto = {
 <span id="cb90-89"><a href="#cb90-89" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb90-90"><a href="#cb90-90" aria-hidden="true" tabindex="-1"></a>input_iterator <span class="op">=</span> <span class="bu">iter</span>(StringIO(sample_input.strip()).readlines())</span>
 <span id="cb90-91"><a href="#cb90-91" aria-hidden="true" tabindex="-1"></a>graph <span class="op">=</span> parse_graph(input_iterator, is_directed<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb90-92"><a href="#cb90-92" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(<span class="bu">list</span>(strongly_connected_components(graph))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb90-92"><a href="#cb90-92" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(<span class="bu">list</span>(strongly_connected_components(graph))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="satisfiability" class="level1" data-number="31">
@@ -3056,7 +3058,7 @@ window.Quarto = {
 </section>
 <section id="solution-29" class="level2" data-number="31.3">
 <h2 data-number="31.3" class="anchored" data-anchor-id="solution-29"><span class="header-section-number">31.3</span> Solution</h2>
-<div class="sourceCode" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -3188,7 +3190,7 @@ window.Quarto = {
 <span id="cb93-130"><a href="#cb93-130" aria-hidden="true" tabindex="-1"></a>    implication_graphs <span class="op">=</span> parse_2sat_instances(input_iterator)</span>
 <span id="cb93-131"><a href="#cb93-131" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> implication_graph <span class="kw">in</span> implication_graphs:</span>
 <span id="cb93-132"><a href="#cb93-132" aria-hidden="true" tabindex="-1"></a>        is_satisfiable, satisfying_assignment <span class="op">=</span> solve_2sat(implication_graph)</span>
-<span id="cb93-133"><a href="#cb93-133" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(is_satisfiable, <span class="op">*</span>satisfying_assignment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb93-133"><a href="#cb93-133" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(is_satisfiable, <span class="op">*</span>satisfying_assignment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="general-sink" class="level1" data-number="32">
@@ -3214,7 +3216,7 @@ window.Quarto = {
 </section>
 <section id="solution-30" class="level2" data-number="32.3">
 <h2 data-number="32.3" class="anchored" data-anchor-id="solution-30"><span class="header-section-number">32.3</span> Solution</h2>
-<div class="sourceCode" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Union, Iterator</span>
 <span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -3287,7 +3289,7 @@ window.Quarto = {
 <span id="cb96-71"><a href="#cb96-71" aria-hidden="true" tabindex="-1"></a>input_iterator <span class="op">=</span> <span class="bu">iter</span>(StringIO(sample_input.strip()).readlines())</span>
 <span id="cb96-72"><a href="#cb96-72" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb96-73"><a href="#cb96-73" aria-hidden="true" tabindex="-1"></a>graphs <span class="op">=</span> parse_multiple_graphs(input_iterator, is_directed<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb96-74"><a href="#cb96-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>[find_good_start_node(g) <span class="cf">for</span> g <span class="kw">in</span> graphs])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb96-74"><a href="#cb96-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>[find_good_start_node(g) <span class="cf">for</span> g <span class="kw">in</span> graphs])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="semi-connected-graph" class="level1" data-number="33">
@@ -3313,7 +3315,7 @@ window.Quarto = {
 </section>
 <section id="solution-31" class="level2" data-number="33.3">
 <h2 data-number="33.3" class="anchored" data-anchor-id="solution-31"><span class="header-section-number">33.3</span> Solution</h2>
-<div class="sourceCode" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_integers(string):</span>
@@ -3466,7 +3468,7 @@ window.Quarto = {
 <span id="cb99-151"><a href="#cb99-151" aria-hidden="true" tabindex="-1"></a>input_lines <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb99-152"><a href="#cb99-152" aria-hidden="true" tabindex="-1"></a>input_iterator <span class="op">=</span> <span class="bu">iter</span>(input_lines)</span>
 <span id="cb99-153"><a href="#cb99-153" aria-hidden="true" tabindex="-1"></a>graphs <span class="op">=</span> parse_multiple_graphs(input_iterator, is_directed<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb99-154"><a href="#cb99-154" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>[is_semi_connected(g) <span class="cf">for</span> g <span class="kw">in</span> graphs])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb99-154"><a href="#cb99-154" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>[is_semi_connected(g) <span class="cf">for</span> g <span class="kw">in</span> graphs])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="shortest-paths-in-dag" class="level1" data-number="34">
@@ -3497,7 +3499,7 @@ window.Quarto = {
 </section>
 <section id="solution-32" class="level2" data-number="34.3">
 <h2 data-number="34.3" class="anchored" data-anchor-id="solution-32"><span class="header-section-number">34.3</span> Solution</h2>
-<div class="sourceCode" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> inf</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> inf</span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Set, Iterator, Union, Optional</span>
 <span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
 <span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -3583,7 +3585,7 @@ window.Quarto = {
 <span id="cb102-84"><a href="#cb102-84" aria-hidden="true" tabindex="-1"></a>input_lines: List[<span class="bu">str</span>] <span class="op">=</span> sample_input.strip().split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb102-85"><a href="#cb102-85" aria-hidden="true" tabindex="-1"></a>input_iterator: Iterator[<span class="bu">str</span>] <span class="op">=</span> <span class="bu">iter</span>(input_lines)</span>
 <span id="cb102-86"><a href="#cb102-86" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> shortest_distances_acyclic_graph(create_graph(input_iterator, is_directed<span class="op">=</span><span class="va">True</span>, is_weighted<span class="op">=</span><span class="va">True</span>))</span>
-<span id="cb102-87"><a href="#cb102-87" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb102-87"><a href="#cb102-87" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="op">*</span>result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
@@ -3655,13 +3657,14 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

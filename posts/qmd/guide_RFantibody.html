@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -70,18 +70,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../.././static/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-6fd95b7d3155c993f73d60cd550fc209.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7e6506520c3bde94d305c936f4013451.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-00be48ab61be8663f0af72b7a9b2a7c3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7e6506520c3bde94d305c936f4013451.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-2375aafe15b9f7556f0e5751296f19d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-357677251e21dc62c7804223e40c3e1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2ea96d94a6ef664a2a2ae98dd807b57f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-357677251e21dc62c7804223e40c3e1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -137,7 +138,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -332,7 +333,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../.././static/logo.png" alt="" class="navbar-logo">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">tomorrow-lab</span>
@@ -475,7 +477,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 6, 2025</p>
+      <p class="date-modified">September 19, 2025</p>
     </div>
   </div>
     
@@ -513,22 +515,22 @@ window.Quarto = {
 <section id="가중치-다운로드" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="가중치-다운로드"><span class="header-section-number">1.2</span> 가중치 다운로드</h2>
 <p>먼저 Git을 사용하여 RFantibody 저장소 클론하고 다운로드된 디렉토리로 이동합니다. 그런 모델의 가중치를 <code>RFantibody/weights</code> 디렉토리에 다운로드합니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/partrita/RFantibody</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/partrita/RFantibody</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> RFantibody/</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> include/download_weights.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> include/download_weights.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="rfantibody-docker-컨테이너-빌드-및-실행" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="rfantibody-docker-컨테이너-빌드-및-실행"><span class="header-section-number">1.3</span> RFantibody Docker 컨테이너 빌드 및 실행</h2>
 <p>Docker 컨테이너를 시작할 올바른 권한이 있는지 확인하려면 다음을 실행해야 합니다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> usermod <span class="at">-aG</span> docker <span class="va">$USER</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> usermod <span class="at">-aG</span> docker <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>이 명령을 실행한 후 변경 사항이 적용되도록 터미널 세션을 다시 시작해야 합니다.</p>
 </section>
 <section id="docker-이미지-빌드-및-시작하기" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="docker-이미지-빌드-및-시작하기"><span class="header-section-number">1.4</span> Docker 이미지 빌드 및 시작하기</h2>
 <p>RFantibody가 다운로드된 디렉토리에서 다음 명령을 실행하여 RFantibody용 Docker 이미지를 빌드합니다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> rfantibody .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> rfantibody .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>방금 빌드한 이미지를 기반으로 Docker 컨테이너를 시작하려면 다음 명령을 실행합니다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--name</span> rfantibody <span class="at">--gpus</span> all <span class="at">-v</span> .:/home <span class="at">-it</span> rfantibody</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--name</span> rfantibody <span class="at">--gpus</span> all <span class="at">-v</span> .:/home <span class="at">-it</span> rfantibody</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>이렇게 하면 현재 폴더를 Docker 컨테이너의 <code>/home</code> 폴더와 연결 할 수 있습니다.</p>
 </section>
 <section id="python-환경-설정" class="level2" data-number="1.5">
@@ -539,7 +541,7 @@ window.Quarto = {
 <li><a href="https://python-poetry.org">Poetry</a>를 사용하여 Python 환경을 빌드합니다.</li>
 <li><a href="https://github.com/pylelab/USalign">USalign</a> 실행 파일을 빌드합니다.</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> /home/include/setup.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> /home/include/setup.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="hlt-파일-형식" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="hlt-파일-형식"><span class="header-section-number">1.6</span> HLT 파일 형식</h2>
@@ -560,11 +562,11 @@ window.Quarto = {
 <section id="hlt-파일로-변환하기" class="level3" data-number="1.6.1">
 <h3 data-number="1.6.1" class="anchored" data-anchor-id="hlt-파일로-변환하기"><span class="header-section-number">1.6.1</span> HLT 파일로 변환하기</h3>
 <p>RFantibody는 입력으로 HLT 파일 변환을 수행하는 스크립트를 <code>/scripts/util/chothia2HLT.py</code>에 제공합니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> run python /home/scripts/util/chothia2HLT.py  <span class="dt">\</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-i</span> /home/scripts/examples/rfdiffusion/example_inputs/8tlm_chothia.pdb <span class="dt">\</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> /home/scripts/examples/rfdiffusion/example_inputs/8tlm <span class="dt">\</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-H</span> A <span class="at">-L</span> B <span class="at">-T</span> C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-H</span> A <span class="at">-L</span> B <span class="at">-T</span> C</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>이 스크립트는 Chothia 주석이 달린 <code>.pdb</code> 파일을 예상합니다. 이러한 파일의 훌륭한 소스는 PDB의 모든 항체 및 나노항체의 Chothia 주석 구조를 제공하고 몇 달마다 업데이트되는 <a href="https://opig.stats.ox.ac.uk/webapps/sabdab-sabpred/sabdab">SabDab</a>입니다.</p>
 <p>또한 RFantibody 공개 논문에서 사용된 HLT 형식의 항체 및 나노바디 프레임워크는 다음 위치에 포함되어 있습니다.</p>
 <ul>
@@ -580,10 +582,10 @@ window.Quarto = {
 <section id="한번에-실행-하기" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="한번에-실행-하기"><span class="header-section-number">2.1</span> 한번에 실행 하기</h2>
 <p>실행 방법은 아래와 같습니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> /home/scripts/examples/rfdiffusion/example_9gox.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> /home/scripts/examples/rfdiffusion/example_9gox.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>텍스트 에디터로 해당 스크립트를 열어보면 아래와 같습니다. 상단의 스크립트의 변수를 원하는 값으로 수정해서 사용하도록 하세요.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define common variables</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="va">NAME</span><span class="op">=</span><span class="st">"9gox"</span></span>
@@ -602,12 +604,12 @@ window.Quarto = {
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="va">PROTEINMPNN_OUTPUT</span><span class="op">=</span><span class="st">"</span><span class="va">${OUTPUT_DIR}</span><span class="st">/proteinmpnn/example_outputs/</span><span class="va">${NAME}</span><span class="st">"</span></span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="va">RF2_OUTPUT</span><span class="op">=</span><span class="st">"</span><span class="va">${OUTPUT_DIR}</span><span class="st">/rf2/example_outputs/</span><span class="va">${NAME}</span><span class="st">"</span></span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># [이후 코드 생략]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># [이후 코드 생략]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="fine-tuned-rfdiffusion" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="fine-tuned-rfdiffusion"><span class="header-section-number">2.2</span> Fine-tuned RFdiffusion</h2>
 <p>RFantibody의 첫 번째 단계인 항체 맞춤형 RFdiffusion 버전을 사용하는 방법을 살펴보겠습니다. 이 단계는 항체와 표적 단백질의 도킹 구조 파일을 생성합니다. 다음은 RFdiffusion을 실행하는 예제 명령입니다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> run python  /home/rfantibody/scripts/rfdiffusion_inference.py <span class="dt">\</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--config-path</span> src/rfantibody/rfdiffusion/config/inference <span class="dt">\</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--config-name</span> antibody <span class="dt">\</span></span>
@@ -617,7 +619,7 @@ window.Quarto = {
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'ppi.hotspot_res=[T305,T456]'</span> <span class="dt">\</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">'antibody.design_loops=[L1:8-13,L2:7,L3:9-11,H1:7,H2:6,H3:5-13]'</span> <span class="dt">\</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  inference.num_designs=20 <span class="dt">\</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  inference.output_prefix=/home/scripts/examples/example_outputs/ab_des</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  inference.output_prefix=/home/scripts/examples/example_outputs/ab_des</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>위 명령어에 대해 좀 더 자세히 설명해보겠습니다.</p>
 <ul>
 <li><code>antibody.target_pdb</code>: 항체를 디자인하려는 표적 구조의 경로입니다. 일반적으로 파이프라인 실행의 계산 비용을 줄이기 위해 잘린 표적 구조입니다. 절단 전략은 여기에서 자세히 설명합니다.</li>
@@ -632,18 +634,18 @@ window.Quarto = {
 <section id="proteinmpnn" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="proteinmpnn"><span class="header-section-number">2.3</span> ProteinMPNN</h2>
 <p>두 번째 단계는 윗 단계 RFdiffusion에서 생성된 구조 파일을 가져와 CDR 루프에 서열을 할당하는 것입니다. ProteinMPNN은 다음 명령을 사용하여 HLT 형식의 <code>.pdb</code> 파일 디렉토리에서 실행될 수 있습니다.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> run python /home/scripts/proteinmpnn_interface_design.py <span class="dt">\</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-pdbdir</span> /home/scripts/examples/example_outputs/ab <span class="dt">\</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-outpdbdir</span> /home/scripts/examples/example_outputs/ab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-outpdbdir</span> /home/scripts/examples/example_outputs/ab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="rosettafold2" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="rosettafold2"><span class="header-section-number">2.4</span> RoseTTAFold2</h2>
 <p>마지막 단계는 항체 맞춤형 RoseTTAFold2를 사용해 방금 디자인한 서열의 구조를 예측하는 것입니다. 그런 다음 해당 항체와 타겟 단백질이 결합될 것이라고 확신하는지 평가합니다. 간단하게 다음 명령을 통해 실행할 수 있습니다.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rfantibody 컨테이너 내부에서</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> run python /home/scripts/rf2_predict.py <span class="dt">\</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    input.pdb_dir=/path/to/inputdir <span class="dt">\</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    output.pdb_dir=/path/to/outputdir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    output.pdb_dir=/path/to/outputdir</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="분석-결과" class="level1" data-number="3">
@@ -813,13 +815,14 @@ ADESTSTAYMELRSEDTAVYYCALEVNGYLTGWGQGTLVTVSSAS</code></pre>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

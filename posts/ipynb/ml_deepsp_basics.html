@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -70,18 +70,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../.././static/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-6fd95b7d3155c993f73d60cd550fc209.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1b801c0e6685740372f222dcd32f488e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7e6506520c3bde94d305c936f4013451.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-00be48ab61be8663f0af72b7a9b2a7c3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7e6506520c3bde94d305c936f4013451.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-2375aafe15b9f7556f0e5751296f19d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-90f5921173df249b3dfd5be5094c92d7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-357677251e21dc62c7804223e40c3e1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2ea96d94a6ef664a2a2ae98dd807b57f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-357677251e21dc62c7804223e40c3e1f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -303,7 +304,8 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../.././static/logo.png" alt="" class="navbar-logo">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">tomorrow-lab</span>
@@ -432,7 +434,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 6, 2025</p>
+      <p class="date-modified">September 19, 2025</p>
     </div>
   </div>
     
@@ -459,7 +461,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>먼저 분석에 사용할 데이터를 준비합니다. 여기에서는 <code>seq_H.fasta</code>과 <code>seq_L.fasta</code> 파일을 사용합니다. 이 파일들은 각각 항체의 Heavy chain과 Light chain 서열을 포함하고 있습니다. ANARCI를 사용하여 CDR 영역을 식별하고, 이를 표준화된 형식으로 변환합니다.</p>
 <p>먼저 <code>seq_H.fasta</code> 파일의 일부를 살펴봅시다.</p>
 <div id="dc1ed54c" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span><span class="dv">10</span>  ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_H.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span><span class="dv">10</span>  ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_H.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&gt;abituzumab
 QVQLQQSGGELAKPGASVKVSCKASGYTFSSFWMHWVRQAPGQGLEWIGYINPRSGYTEY
@@ -475,7 +477,7 @@ S</code></pre>
 </div>
 <p>동일하게 <code>seq_L.fasta</code> 파일도 확인합니다.</p>
 <div id="82aaf61c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span><span class="dv">10</span>  ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_L.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span><span class="dv">10</span>  ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_L.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&gt;abituzumab
 DIQMTQSPSSLSASVGDRVTITCRASQDISNYLAWYQQKPGKAPKLLIYYTSKIHSGVPS
@@ -498,8 +500,8 @@ RFSGSGSGTDFTLTISSLQPEDVATYYCQRYNRAPYTFGQGTKVEIK
 <li>주피터 노트북안에서 실행해서 SyntaxWarning이 발생했습니다. 터미널에서 실행할때는 문제가 없을 것입니다.</li>
 </ul>
 <div id="4574fecc" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ANARCI <span class="op">-</span>i ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_H.fasta <span class="op">-</span>o ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_aligned <span class="op">-</span>p <span class="dv">30</span> <span class="op">-</span>s imgt <span class="op">-</span>r heavy <span class="op">--</span>csv</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ANARCI <span class="op">-</span>i ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_L.fasta <span class="op">-</span>o ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_aligned <span class="op">-</span>p <span class="dv">30</span> <span class="op">-</span>s imgt <span class="op">-</span>r light <span class="op">--</span>csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ANARCI <span class="op">-</span>i ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_H.fasta <span class="op">-</span>o ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_aligned <span class="op">-</span>p <span class="dv">30</span> <span class="op">-</span>s imgt <span class="op">-</span>r heavy <span class="op">--</span>csv</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ANARCI <span class="op">-</span>i ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_L.fasta <span class="op">-</span>o ..<span class="op">/</span>data<span class="op">/</span>example<span class="op">/</span>seq_aligned <span class="op">-</span>p <span class="dv">30</span> <span class="op">-</span>s imgt <span class="op">-</span>r light <span class="op">--</span>csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/mnt/c4a1c56d-0589-48cd-9717-f6c33a86fa3b/Tools/AbDev/.pixi/envs/default/bin/ANARCI:13: SyntaxWarning: invalid escape sequence '\ '
   ANARCI                                                 \\\    //
@@ -516,7 +518,7 @@ RFSGSGSGTDFTLTISSLQPEDVATYYCQRYNRAPYTFGQGTKVEIK
 <h2 data-number="3.1" class="anchored" data-anchor-id="서열-데이터-전처리"><span class="header-section-number">3.1</span> 서열 데이터 전처리</h2>
 <p>중쇄(heavy chain)와 경쇄(light chain) 서열 데이터를 읽고 단일 텍스트 파일로 만드는 전처리를 진행합니다.</p>
 <div id="0194f557" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> seq_preprocessing(infile_H_path: <span class="bu">str</span>, infile_L_path: <span class="bu">str</span>, outfile_path: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
@@ -566,14 +568,14 @@ RFSGSGSGTDFTLTISSLQPEDVATYYCQRYNRAPYTFGQGTKVEIK
 <span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>PATH: <span class="bu">str</span> <span class="op">=</span> <span class="st">"../data/example/"</span></span>
 <span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>seq_preprocessing(</span>
 <span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    PATH <span class="op">+</span> <span class="st">"seq_aligned_H.csv"</span>, PATH <span class="op">+</span> <span class="st">"seq_aligned_KL.csv"</span>, PATH <span class="op">+</span> <span class="st">"seq_aligned_HL.csv"</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>전처리가 완료되면 <code>seq_aligned_HL.csv</code> 파일이 생성됩니다. 이 파일은 DeepSP 모델에 입력될 준비가 된 데이터입니다. 이제 이 파일을 사용하여 DeepSP 모델을 실행할 수 있습니다.</p>
 </section>
 <section id="deepsp-모델-실행" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="deepsp-모델-실행"><span class="header-section-number">3.2</span> DeepSP 모델 실행</h2>
 <div id="7be5e900" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.models <span class="im">import</span> model_from_json</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> Sequential, model_from_json</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -694,7 +696,7 @@ RFSGSGSGTDFTLTISSLQPEDVATYYCQRYNRAPYTFGQGTKVEIK
 <span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> df_pnas_SAPpos.merge(df_pnas_SCMneg, on<span class="op">=</span><span class="st">"Name"</span>, how<span class="op">=</span><span class="st">"inner"</span>)</span>
 <span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>df_deepsp <span class="op">=</span> merged_df.merge(df_pnas_SCMpos, on<span class="op">=</span><span class="st">"Name"</span>, how<span class="op">=</span><span class="st">"inner"</span>)</span>
 <span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>df_deepsp.to_csv(PATH <span class="op">+</span> <span class="st">"SAPSCM.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>df_deepsp.to_csv(PATH <span class="op">+</span> <span class="st">"SAPSCM.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>2025-08-22 16:52:19.201950: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
 2025-08-22 16:52:19.220436: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
@@ -717,7 +719,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 </div>
 <p>예측이 완료되면 이제 결과를 확인해봅니다.</p>
 <div id="d04c71cc" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_deepsp.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_deepsp.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          Name  SAP_pos_CDRH1  SAP_pos_CDRH2  SAP_pos_CDRH3  SAP_pos_CDRL1  \
 0   abituzumab           3.86           4.35           8.72           2.15   
@@ -757,7 +759,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <h1 data-number="4"><span class="header-section-number">4</span> DeepViscosity 예측</h1>
 <p>이제 DeepSP 모델을 통해 생성된 30가지의 공간적 특성을 사용하여 DeepViscosity 모델을 실행합니다. 이 모델은 단일 클론 항체의 점도 등급(낮음: 20 cP 이하, 높음: 20 cP 초과)을 예측합니다. 즉, 결과값이 <code>1</code>이면 높은 점도(&gt;20 cP), <code>0</code>이면 낮은 점도(&lt;=20 cP)를 의미합니다.</p>
 <div id="0c387487" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> joblib</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> joblib</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.layers <span class="im">import</span> (</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    BatchNormalization,</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    Conv1D,</span>
@@ -840,7 +842,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>df_deepvis.to_csv(PATH <span class="op">+</span> <span class="st">"DeepViscosity_classes.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_deepvis.head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_deepvis.head(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           Name  Prob_Mean  Prob_Std  DeepViscosity_classes
 0    abituzumab   0.357939  0.103836                      0
@@ -861,7 +863,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <h1 data-number="5"><span class="header-section-number">5</span> AbDev로 단일 클론 항체의 생물물리학적 특성 예측</h1>
 <p>이제 AbDev 모델을 사용하여 단일 클론 항체의 12가지 주요 생물물리학적 특성을 예측합니다. 이 모델은 DeepSP와 머신러닝 기법을 결합하여 단일 클론 항체의 통찰력을 제공합니다.</p>
 <div id="b2ce77a1" class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> joblib</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1027,7 +1029,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a>    results_df.to_csv(output_path, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display the first few rows of the final DataFrame</span></span>
-<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(results_df.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(results_df.head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          Name    ACSINS        AS       BVP       CIC       CSI     ELISA  \
 0   abituzumab  0.099237  0.058404  2.760843 -0.175841  0.754452  1.246774   
@@ -1053,7 +1055,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <h2 data-number="6.1" class="anchored" data-anchor-id="abdev에-사용된-지표간의-상관-관계"><span class="header-section-number">6.1</span> AbDev에 사용된 지표간의 상관 관계</h2>
 <p>12가지 지표들의 상관관계를 시각화해서 어떤 지표들이 서로 연관되어 있는지 확인합니다. 이를 통해 특정 지표가 다른 지표에 영향을 미치는지 파악할 수 있습니다.</p>
 <div id="66b605b1" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1081,7 +1083,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label <span class="kw">in</span> g.ax.get_xticklabels():</span>
 <span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    label.set_rotation(<span class="dv">90</span>)</span>
 <span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1096,7 +1098,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <h2 data-number="6.2" class="anchored" data-anchor-id="abdev-결과-클러스터-맵"><span class="header-section-number">6.2</span> AbDev 결과 클러스터 맵</h2>
 <p>클러스터 맵을 통해 AbDev 결과를 시각화합니다. 이를 통해 각 항체의 생물물리학적 특성들이 어떻게 그룹화되는지 확인할 수 있습니다.</p>
 <div id="f89d103e" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -1140,7 +1142,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a><span class="co"># 함수 호출</span></span>
-<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>create_biophysical_clustermap(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>create_biophysical_clustermap(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1154,7 +1156,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <h2 data-number="6.3" class="anchored" data-anchor-id="deepviscosity-결과-시각화"><span class="header-section-number">6.3</span> DeepViscosity 결과 시각화</h2>
 <p>DeepViscosity 모델의 예측 결과를 시각화합니다. 이를 통해 각 항체의 점도 등급이 어떻게 분포되어 있는지 확인할 수 있습니다.</p>
 <div id="e4d06d00" class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -1208,7 +1210,7 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
 <span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
 <span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>create_deepvis_heatmap(df_deepvis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>create_deepvis_heatmap(df_deepvis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1292,13 +1294,14 @@ WARNING:tensorflow:5 out of the last 11 calls to &lt;function TensorFlowTrainer.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
