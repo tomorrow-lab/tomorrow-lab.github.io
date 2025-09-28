@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
-<meta name="dcterms.date" content="2024-08-24">
+<meta name="dcterms.date" content="2025-09-28">
 
-<title>pip 대신에 uv 사용하기 – tomorrow-lab</title>
+<title>PDB 데이터베이스에 숨겨진 5가지 진실 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -126,12 +91,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="pip 대신에 uv 사용하기 – tomorrow-lab">
+<meta property="og:title" content="PDB 데이터베이스에 숨겨진 5가지 진실 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
-<meta property="og:image" content="https://tomorrow-lab.github.io/posts/qmd/logo_uv.png">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/qmd/tip_PDB.jpg">
 <meta property="og:site_name" content="tomorrow-lab">
-<meta property="og:image:height" content="1139">
-<meta property="og:image:width" content="2023">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -373,28 +336,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#pip이-가지는-문제" id="toc-pip이-가지는-문제" class="nav-link active" data-scroll-target="#pip이-가지는-문제"><span class="header-section-number">1</span> pip이 가지는 문제</a></li>
-  <li><a href="#uv-소개" id="toc-uv-소개" class="nav-link" data-scroll-target="#uv-소개"><span class="header-section-number">2</span> uv 소개</a>
-  <ul class="collapse">
-  <li><a href="#특징" id="toc-특징" class="nav-link" data-scroll-target="#특징"><span class="header-section-number">2.1</span> 특징</a></li>
-  </ul></li>
-  <li><a href="#설치-및-사용-방법" id="toc-설치-및-사용-방법" class="nav-link" data-scroll-target="#설치-및-사용-방법"><span class="header-section-number">3</span> 설치 및 사용 방법</a>
-  <ul class="collapse">
-  <li><a href="#설치" id="toc-설치" class="nav-link" data-scroll-target="#설치"><span class="header-section-number">3.1</span> 설치</a></li>
-  <li><a href="#가상-환경-관리" id="toc-가상-환경-관리" class="nav-link" data-scroll-target="#가상-환경-관리"><span class="header-section-number">3.2</span> 가상 환경 관리</a></li>
-  <li><a href="#패키지-설치" id="toc-패키지-설치" class="nav-link" data-scroll-target="#패키지-설치"><span class="header-section-number">3.3</span> 패키지 설치</a></li>
-  <li><a href="#의존성-관리-파일-생성-및-동기화" id="toc-의존성-관리-파일-생성-및-동기화" class="nav-link" data-scroll-target="#의존성-관리-파일-생성-및-동기화"><span class="header-section-number">3.4</span> 의존성 관리 파일 생성 및 동기화</a></li>
-  <li><a href="#uv-핵심-기능-활용" id="toc-uv-핵심-기능-활용" class="nav-link" data-scroll-target="#uv-핵심-기능-활용"><span class="header-section-number">3.5</span> uv 핵심 기능 활용</a>
-  <ul class="collapse">
-  <li><a href="#python-버전-관리" id="toc-python-버전-관리" class="nav-link" data-scroll-target="#python-버전-관리"><span class="header-section-number">3.5.1</span> Python 버전 관리</a></li>
-  <li><a href="#프로젝트-초기화-및-구성" id="toc-프로젝트-초기화-및-구성" class="nav-link" data-scroll-target="#프로젝트-초기화-및-구성"><span class="header-section-number">3.5.2</span> 프로젝트 초기화 및 구성</a></li>
-  <li><a href="#의존성-관리" id="toc-의존성-관리" class="nav-link" data-scroll-target="#의존성-관리"><span class="header-section-number">3.5.3</span> 의존성 관리</a></li>
-  <li><a href="#다른-도구에서-마이그레이션" id="toc-다른-도구에서-마이그레이션" class="nav-link" data-scroll-target="#다른-도구에서-마이그레이션"><span class="header-section-number">3.5.4</span> 5.4. 다른 도구에서 마이그레이션</a></li>
-  <li><a href="#빌드-및-배포" id="toc-빌드-및-배포" class="nav-link" data-scroll-target="#빌드-및-배포"><span class="header-section-number">3.5.5</span> 빌드 및 배포</a></li>
-  <li><a href="#실사용-예시" id="toc-실사용-예시" class="nav-link" data-scroll-target="#실사용-예시"><span class="header-section-number">3.5.6</span> 실사용 예시</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며"><span class="header-section-number">4</span> 마치며</a></li>
+  <li><a href="#거대한-데이터-아카이브는-생각보다-편향되어-있습니다" id="toc-거대한-데이터-아카이브는-생각보다-편향되어-있습니다" class="nav-link active" data-scroll-target="#거대한-데이터-아카이브는-생각보다-편향되어-있습니다"><span class="header-section-number">1</span> 거대한 데이터 아카이브는 생각보다 편향되어 있습니다</a></li>
+  <li><a href="#고해상도가-완벽함을-의미하지는-않습니다" id="toc-고해상도가-완벽함을-의미하지는-않습니다" class="nav-link" data-scroll-target="#고해상도가-완벽함을-의미하지는-않습니다"><span class="header-section-number">2</span> ’고해상도’가 ’완벽함’을 의미하지는 않습니다</a></li>
+  <li><a href="#모든-단백질-구조는-사진이-아닌-모델입니다" id="toc-모든-단백질-구조는-사진이-아닌-모델입니다" class="nav-link" data-scroll-target="#모든-단백질-구조는-사진이-아닌-모델입니다"><span class="header-section-number">3</span> 모든 단백질 구조는 ’사진’이 아닌 ’모델’입니다</a></li>
+  <li><a href="#결정-속의-환상을-조심해야-합니다" id="toc-결정-속의-환상을-조심해야-합니다" class="nav-link" data-scroll-target="#결정-속의-환상을-조심해야-합니다"><span class="header-section-number">4</span> ’결정 속의 환상’을 조심해야 합니다</a></li>
+  <li><a href="#과학-데이터는-끊임없이-재분석되고-개선됩니다" id="toc-과학-데이터는-끊임없이-재분석되고-개선됩니다" class="nav-link" data-scroll-target="#과학-데이터는-끊임없이-재분석되고-개선됩니다"><span class="header-section-number">5</span> 과학 데이터는 끊임없이 재분석되고 개선됩니다</a></li>
+  <li><a href="#결론" id="toc-결론" class="nav-link" data-scroll-target="#결론"><span class="header-section-number">6</span> 결론</a></li>
   </ul>
 </nav>
     </div>
@@ -404,12 +351,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">pip 대신에 uv 사용하기</h1>
+<h1 class="title">PDB 데이터베이스에 숨겨진 5가지 진실</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Python</div>
-    <div class="quarto-category">Package manager</div>
-    <div class="quarto-category">Virtual environment</div>
-    <div class="quarto-category">Data science</div>
+    <div class="quarto-category">Bioinformatics</div>
+    <div class="quarto-category">PDB</div>
+    <div class="quarto-category">Protein databank</div>
     <div class="quarto-category">Tip</div>
   </div>
   </div>
@@ -428,7 +374,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 24, 2024</p>
+      <p class="date">September 28, 2025</p>
     </div>
   </div>
   
@@ -448,285 +394,48 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="logo_uv.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="logo_uv.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
+<p><a href="tip_PDB.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="tip_PDB.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
 </figure>
 </div>
-<p><code>pip</code> 는 파이썬 패키지 관리자로 유용하지만 아래와 같은 몇 가지 근본적인 문제가 있습니다. 특히 패키지 의존성과 환경 관리는 문제가 터지면 해결하기가 아주 어렵습니다.</p>
-<section id="pip이-가지는-문제" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> pip이 가지는 문제</h1>
-<ol type="1">
-<li>의존성 충돌 (Dependency Conflicts)</li>
-</ol>
-<p>여러 패키지를 설치할 때 각 패키지가 서로 다른 버전의 동일한 종속성을 요구할 경우 의존성 충돌이 발생하며 프로젝트에서 예기치 않은 동작이나 오류를 발생시킬 수 있습니다.</p>
-<ol start="2" type="1">
-<li>글로벌 설치 문제</li>
-</ol>
-<p>기본적으로 <code>pip</code> 는 전역 파이썬 환경에 패키지를 설치합니다. 이로 인해, 여러 프로젝트에서 동일한 패키지 버전을 공유하게 되어 프로젝트 간에 종속성 충돌이 발생할 수 있습니다. 특히, 프로젝트마다 요구되는 패키지 버전이 다른 경우에 문제가 됩니다.</p>
-<ol start="3" type="1">
-<li>환경 관리의 어려움</li>
-</ol>
-<p><code>pip</code> 는 파이썬 환경을 별도로 관리하지 않으므로 전역 환경에 설치된 패키지들이 서로 영향을 미칠 수 있습니다. 이로 인해, 동일한 시스템에서 여러 프로젝트를 작업할 때 각 프로젝트의 요구 사항을 일관되게 유지하기 어려워집니다. 이를 해결하기 위해 <code>virtualenv</code> 와 같은 도구를 사용해 가상 환경을 생성해야 합니다.</p>
-<ol start="4" type="1">
-<li>보안 문제</li>
-</ol>
-<p><code>pip</code> 는 기본적으로 모든 패키지를 신뢰합니다. 악의적인 사용자가 배포한 패키지가 PyPI 에 업로드되면, 이를 설치하는 과정에서 보안 문제가 발생할 수 있습니다.</p>
-<ol start="5" type="1">
-<li>복잡한 패키지 관리</li>
-</ol>
-<p>복잡한 프로젝트에서는 수많은 패키지와 버전들을 관리해야 하는데, <code>pip</code> 는 기본적으로 이러한 복잡한 종속성 트리를 관리하는 데 최적화되어 있지 않습니다. 이는 특정 패키지 설치 시 종속성 문제가 발생할 때 수동으로 해결해야 하는 번거로움으로 이어질 수 있습니다. 이러한 문제들로 인해, 많은 개발자들이 <code>pipenv</code> 또는 <code>poetry</code> 같은 도구들을 사용하여 환경과 패키지 관리를 하고 있습니다.</p>
+<p>생명과학 연구의 심장부에는 단백질 데이터 뱅크(Protein Data Bank, PDB)라는 거대한 데이터베이스가 있습니다. 1971년 단 7개의 구조로 시작된 이 데이터베이스는 이제 277,000개가 넘는 분자 구조 모델을 보유한 방대한 아카이브로 성장했습니다. PDB는 질병의 원리를 규명하고 새로운 치료제를 설계하는 등 과학 발전에 결정적인 역할을 해왔으며, 이제는 단백질 구조 예측 기술을 발전시키는 데에도 핵심적인 기반이 되고 있습니다.</p>
+<p>이처럼 엄청난 데이터의 가치는 아무리 강조해도 지나치지 않습니다. 연구자들은 PDB 덕분에 새로운 발견을 거대한 아카이브와 비교하고, 수천 개의 구조에서 나타나는 패턴을 분석하며 단일 구조만으로는 결코 알 수 없었을 통찰을 얻습니다. 하지만 이 놀라운 자원의 이면에는 종종 간과되는 복잡성과 미묘한 함정들이 존재합니다.</p>
+<p>단순히 데이터를 다운로드하여 사용하는 것만으로는 충분하지 않습니다. PDB 데이터를 제대로 활용하기 위해서는 그 안에 숨겨진 특성과 한계를 이해해야 합니다. 이 글에서는 단백질 구조 데이터 작업을 할 때 반드시 알아야 할 5가지를 알아 보고자 합니다.</p>
+<section id="거대한-데이터-아카이브는-생각보다-편향되어-있습니다" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 거대한 데이터 아카이브는 생각보다 편향되어 있습니다</h1>
+<p>PDB가 자연에 존재하는 모든 단백질을 균일하게 담고 있다고 생각하기 쉽지만 사실 그렇지 않습니다. 데이터베이스는 특정 종류의 단백질에 심각하게 편향되어 있습니다. 많은 데이터들이 X선 결정학을 통해 수집되었기 때문에 결정을 만들기 쉬운 작고, 둥근 특성을 가진 단백질 데이터가 압도적으로 많습니다.</p>
+<p>반면, 우리 유전자의 20~30%를 차지함에도 불구하고 막단백질이나 유연하거나 정형화되지 않은 단백질(flexible or disordered proteins)은 PDB 전체 항목의 2%도 채 되지 않을 정도로 극심하게 과소 대표되고 있습니다. 여기에 더해 ’출판 편향’도 존재합니다. 신약 개발의 표적이 되거나 의학적 가치가 높은 인간 단백질은 집중적으로 연구되어 동일한 단백질의 구조가 수없이 등록됩니다. 이러한 경향은 최근 단편 기반 스크리닝 캠페인(fragment-screening campaigns)이 증가하면서 더욱 심화되고 있습니다.</p>
+<p>더욱 놀라운 사실은 단백질이 생체 내에서 기능하는 단위인 4차 구조(protein complex)에 대한 정보조차 약 20%의 경우에서 부정확하다는 점입니다. 이는 PDB의 데이터가 그 자체로 완벽한 것이 아닌, 해석과 검증이 필요한 데이터임을 시사합니다.</p>
 </section>
-<section id="uv-소개" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> uv 소개</h1>
-<p><code>uv</code>(Unified Python packaging) 는 <code>Rust</code> 로 작성된 <code>pip</code> 워크플로우를 대체하는 매우 <strong>빠른</strong> 파이썬 패키지 설치 프로그램입니다. 캐싱 없이&nbsp;<code>pip</code>&nbsp;보다&nbsp;8-10 배 빠르며, 캐시가 있을 때는 80-115 배 빠릅니다. 또한 전역 모듈 캐시를 사용하여 의존성을 다시 다운로드하거나 빌드하지 않고 디스크 공간 사용을 최소화합니다.</p>
-<section id="특징" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="특징"><span class="header-section-number">2.1</span> 특징</h2>
-<p><a href="https://github.com/astral-sh/uv?tab=readme-ov-file#highlights"></a></p>
-<ul>
-<li>⚖️ 일반적인 <code>pip</code>, <code>pip-tools</code>, <code>virtualenv</code> 명령을 드롭인 방식으로 대체합니다.</li>
-<li>⚡️&nbsp;<code>pip</code> 및 <code>pip-tools</code>(<code>pip-compile</code> 및 <code>pip-sync</code>) 보다 <a href="https://github.com/astral-sh/uv/blob/main/BENCHMARKS.md">10-100배 빠르다.</a>&nbsp;</li>
-<li>💾 종속성 중복 제거를 위한 글로벌 캐시로 디스크 공간 효율을 높입니다.</li>
-<li>🐍 <code>Rust</code> 나 <code>Python</code> 없이 <code>curl</code>, <code>pip</code>, <code>pipx</code> 등을 통해 바이너리로 설치할 수 있습니다.</li>
-<li>🧪 상위 10,000 개의 PyPI 패키지를 대상으로 대규모 테스트 완료.</li>
-<li>🖥️ macOS, Linux, Windows 를 지원합니다.</li>
-<li>🧰 고급 기능인 <a href="https://github.com/astral-sh/uv?tab=readme-ov-file#dependency-overrides">종속성 버전 재정의</a> 및 <a href="https://github.com/astral-sh/uv?tab=readme-ov-file#resolution-strategy">대체 해결 전략</a> 등을 포함.</li>
-<li>⁉️&nbsp;현존하는 패키지 관리 중 가장 자세한 오류 메시지와 충돌 추적 해결사 제공.</li>
-<li>🤝 편집 가능한 설치, Git 종속성, 직접 URL 종속성, 로컬 종속성, 제약 조건, 소스 배포, HTML 및 JSON 인덱스 등을 포함한 광범위한 기능 지원.</li>
-</ul>
+<section id="고해상도가-완벽함을-의미하지는-않습니다" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> ’고해상도’가 ’완벽함’을 의미하지는 않습니다</h1>
+<p>단백질 구조의 품질을 논할 때 가장 흔하게 사용되는 지표는 ’해상도(resolution)’입니다. 해상도가 높을수록 더 정밀한 구조를 의미하는 것은 사실이지만, 이것이 전부는 아닙니다. 고해상도 구조라 할지라도 거의 모든 구조에는 국소적인 오류가 몇 군데 포함되어 있으며, 해상도가 낮아질수록 이러한 오류는 구조 전반에 걸쳐 더 광범위하게 나타납니다.</p>
+<p>여기서 한 가지 역설적인 사실은, 구조를 결정하는 실험 방법마다 해상도를 추정하는 방식이 근본적으로 다르다는 점입니다. 예를 들어, X선 결정학의 해상도는 원자 수준의 세부 정보를 직접적으로 반영하지만, 초저온전자현미경(cryo-EM)의 해상도는 두 개의 독립적인 재구성 이미지(half-maps) 간의 푸리에 쉘 상관관계(FSC)를 통해 계산됩니다. 이는 원자 단위의 정밀도보다는 두 이미지 간의 전반적인 유사성을 측정하는 지표이므로, 두 해상도 값을 직접적으로 비교하는 것은 적절하지 않습니다.</p>
+<p>두 구조가 동일한 해상도를 가질지라도, 모델링된 정밀도의 수준은 다를 수 있습니다. 따라서 다른 품질 지표들을 함께 탐색하는 것이 필수적입니다.</p>
+<p>이것이 바로 전문가들이 해상도 숫자 하나에만 의존하지 않고, 라마찬드란 이상치(Ramachandran outliers)와 같은 기하학적 정확성이나 R-값(R-values)처럼 실험 데이터와의 부합도를 종합적으로 평가하기 위해 MolProbity와 같은 검증 도구 모음을 사용하는 이유입니다.</p>
 </section>
+<section id="모든-단백질-구조는-사진이-아닌-모델입니다" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 모든 단백질 구조는 ’사진’이 아닌 ’모델’입니다</h1>
+<p>우리가 PDB 파일에서 보는 단백질 구조는 분자의 모습을 그대로 찍은 ’사진’이 아닙니다. 그것은 실험 데이터를 기반으로 과학자들이 해석하여 만든 과학적 ’모델’입니다. 이는 매우 중요한 차이를 만듭니다.</p>
+<p>PDB 모델은 그저 모델일 뿐이라는 점을 기억하는 것이 중요합니다. 이 모델들은 기반이 되는 모든 실험 데이터를 설명하지 않으며 데이터 처리 과정에 따라 달라질 수 있습니다.</p>
+<p>이는 동일한 원본 실험 데이터를 어떤 데이터 처리 프로그램을 선택하고 어떻게 정제(refinement) 과정을 거쳤는지에 따라 미묘하게 다른 최종 모델이 나올 수 있음을 의미합니다. 또한, 연구자들이 주로 관심을 갖는 결합 부위(binding site)는 단백질의 다른 부분보다 더 정교하게 모델링되는 경향이 있습니다. 이러한 편향은 결합 부위 잔기와 다른 영역 잔기의 유연성이나 보존성 같은 특성을 비교하는 분석 결과를 왜곡할 수 있어 주의가 필요합니다.</p>
 </section>
-<section id="설치-및-사용-방법" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 설치 및 사용 방법</h1>
-<section id="설치" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="설치"><span class="header-section-number">3.1</span> 설치</h2>
-<p><code>uv</code>를 설치하는 여러 가지 방법을 안내합니다. 자신의 환경에 맞는 방법을 선택하세요.</p>
-<p><strong>독립 실행형 설치 프로그램 사용</strong></p>
-<p>운영체제에 맞는 명령어를 터미널(명령 프롬프트)에 입력하여 설치합니다.</p>
-<ul>
-<li><strong>macOS 및 Linux:</strong> <code>bash     curl -LsSf https://astral.sh/uv/install.sh | sh</code></li>
-<li><strong>Windows:</strong> <code>powershell     powershell -c "irm https://astral.sh/uv/install.ps1 | iex"</code></li>
-<li><strong>특정 버전 설치 (예: 0.2.29):</strong>
-<ul>
-<li><strong>macOS 및 Linux:</strong> <code>bash       curl -LsSf https://astral.sh/uv/0.2.29/install.sh | sh</code></li>
-<li><strong>Windows:</strong> <code>powershell       powershell -c "irm https://astral.sh/uv/0.2.29/install.ps1 | iex"</code></li>
-</ul></li>
-</ul>
-<p>** 기존 파이썬 패키지 관리자 사용**</p>
-<p>이미 <code>pip</code> 또는 <code>pipx</code>, <code>Homebrew</code>를 사용하고 있다면 다음 명령어로 <code>uv</code>를 설치할 수 있습니다.</p>
-<ul>
-<li><strong>pip 사용:</strong> <code>bash     pip install uv</code></li>
-<li><strong>pipx 사용:</strong> <code>bash     pipx install uv</code></li>
-<li><strong>Homebrew 사용 (macOS):</strong> <code>bash     brew install uv</code></li>
-</ul>
+<section id="결정-속의-환상을-조심해야-합니다" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> ’결정 속의 환상’을 조심해야 합니다</h1>
+<p>X선 결정학으로 구조를 얻을 때 발생하는 독특한 현상 중 하나로 ’결정 접촉(crystal contacts)’이 있습니다. 이는 단백질 분자들이 규칙적인 결정 격자 안에 빽빽하게 채워지면서 발생하는 비생물학적인 상호작용을 말합니다. 즉, 실험실의 결정 속에서만 일어나는 인공적인 접촉입니다.</p>
+<p>이것이 왜 중요할까요? 이 결정 접촉은 놀라운 결과를 초래할 수 있습니다. 특정 형태의 단백질 구조를 인위적으로 안정화시키거나, 심지어 실제 우리 몸속(용액 상태)에서는 존재하지 않는 분자 간의 인터페이스를 만들어낼 수도 있습니다.</p>
+<p>이는 PDB 파일에서 관찰된 단백질의 특정 상호작용이나 구조적 형태가 실제 생물학적 특징이 아니라 결정화 과정에서 생긴 ’환상’일 수 있다는 것을 의미합니다. 따라서 연구자들은 이러한 인공물을 배제하기 위해 신중한 통제와 비교 분석을 수행해야 합니다.</p>
 </section>
-<section id="가상-환경-관리" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="가상-환경-관리"><span class="header-section-number">3.2</span> 가상 환경 관리</h2>
-<p>프로젝트별로 독립된 환경을 만들어 패키지를 관리할 수 있습니다.</p>
-<p><strong>가상 환경 생성:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv <span class="co"># 현재 폴더에 .venv라는 이름으로 가상 환경 생성</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>가상 환경 활성화:</strong></p>
-<p>운영체제에 따라 다른 명령어를 사용합니다. 활성화되면 터미널 프롬프트 앞에 <code>(.venv)</code>와 같은 표시가 나타납니다.</p>
-<ul>
-<li><strong>macOS 및 Linux:</strong> <code>bash     source .venv/bin/activate</code></li>
-<li><strong>Windows:</strong> <code>bash     .venv\Scripts\activate</code></li>
-</ul>
+<section id="과학-데이터는-끊임없이-재분석되고-개선됩니다" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 과학 데이터는 끊임없이 재분석되고 개선됩니다</h1>
+<p>데이터베이스에 한번 등록된 정보는 영원히 고정된 최종본이라는 생각은 흔한 오해입니다. 과학 데이터는 새로운 기술과 이해가 발전함에 따라 끊임없이 재분석되고 개선됩니다. 이러한 과학적 자기 교정의 대표적인 예가 바로 <a href="https://pdb-redo.eu">PDB-REDO</a> 프로젝트입니다.</p>
+<p>PDB-REDO는 PDB에 등록된 기존의 X선 구조들과 원본 실험 데이터를 가져와 현대적이고 자동화된 표준화된 방법으로 다시 처리하는 프로젝트입니다. 이러한 재정제(re-refinement) 과정은 종종 기존 모델보다 더 개선되고 신뢰할 수 있는 새로운 모델을 만들어냅니다. 하지만 2008년 이전에는 원본 실험 데이터(structure factors) 보관을 의무화 하지 않아 제외되는 것도 있다는 점을 기억하세요.</p>
+<p>그럼에도 불구하고 이는 과학 커뮤니티가 단순히 데이터를 쌓아두는 데 그치지 않고, 시간이 지남에 따라 핵심적인 기초 데이터의 품질을 적극적으로 향상시키기 위해 노력하고 있음을 보여주는 증거입니다.</p>
 </section>
-<section id="패키지-설치" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="패키지-설치"><span class="header-section-number">3.3</span> 패키지 설치</h2>
-<p>활성화된 가상 환경에 필요한 파이썬 패키지를 설치합니다.</p>
-<ul>
-<li><strong>최신 버전 설치:</strong> <code>bash     uv pip install flask # Flask 패키지의 최신 버전 설치</code></li>
-<li><strong>특정 버전 설치:</strong> <code>bash     uv pip install flask==2.0.0 # Flask 패키지 2.0.0 버전 설치</code></li>
-<li><strong>requirements.txt 파일에서 설치:</strong> <code>bash     uv pip install -r requirements.txt # requirements.txt 파일에 명시된 패키지들을 설치</code></li>
-<li><strong>현재 프로젝트를 편집 가능한 모드로 설치:</strong> <code>bash     uv pip install -e . # 개발 중인 프로젝트를 설치하여 코드 변경 사항이 즉시 반영되도록 함</code></li>
-<li><strong>로컬 패키지 파일에서 설치:</strong> <code>bash     uv pip install "package @ ." # 현재 폴더에 있는 패키지 파일을 설치</code></li>
-<li><strong>추가 의존성을 포함하여 설치:</strong> <code>bash     uv pip install "flask[dotenv]" # Flask와 함께 dotenv 의존성을 함께 설치</code></li>
-</ul>
-</section>
-<section id="의존성-관리-파일-생성-및-동기화" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="의존성-관리-파일-생성-및-동기화"><span class="header-section-number">3.4</span> 의존성 관리 파일 생성 및 동기화</h2>
-<p>프로젝트에 필요한 패키지 목록을 파일로 저장하고 관리합니다.</p>
-<p><strong><code>requirements.txt</code> 파일 생성:</strong></p>
-<p>다양한 방법으로 현재 환경의 패키지 목록 또는 특정 설정 파일에서 <code>requirements.txt</code> 파일을 생성할 수 있습니다.</p>
-<ul>
-<li><strong>requirements.in 파일에서 생성:</strong> <code>bash     uv pip compile requirements.in -o requirements.txt</code></li>
-<li><strong>pyproject.toml 파일에서 생성:</strong> <code>bash     uv pip compile pyproject.toml -o requirements.txt</code></li>
-<li><strong>setup.py 파일에서 생성:</strong> <code>bash     uv pip compile setup.py -o requirements.txt</code></li>
-<li><strong>터미널 입력에서 생성:</strong> <code>bash     echo flask | uv pip compile - -o requirements.txt</code></li>
-<li><strong>현재 활성화된 환경의 패키지 목록 저장:</strong> <code>bash     uv pip freeze | uv pip compile - -o requirements.txt</code></li>
-</ul>
-<p>** <code>requirements.txt</code> 파일로 패키지 설치:**</p>
-<p>생성한 <code>requirements.txt</code> 파일에 명시된 패키지들을 가상 환경에 설치합니다.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip sync requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>uv</code>의 <code>pip install</code> 및 <code>pip compile</code> 명령어는 <code>-r</code>, <code>-c</code>, <code>-e</code>, <code>--index-url</code>과 같은 기존 <code>pip</code> 옵션들을 그대로 지원합니다.</p>
-</section>
-<section id="uv-핵심-기능-활용" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="uv-핵심-기능-활용"><span class="header-section-number">3.5</span> uv 핵심 기능 활용</h2>
-<p><code>uv</code>는 파이썬 버전 관리 프로젝트 초기화 의존성 관리 등 다양한 편리한 기능을 제공합니다.</p>
-<section id="python-버전-관리" class="level3" data-number="3.5.1">
-<h3 data-number="3.5.1" class="anchored" data-anchor-id="python-버전-관리"><span class="header-section-number">3.5.1</span> Python 버전 관리</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 22%">
-<col style="width: 56%">
-<col style="width: 21%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">명령어</th>
-<th style="text-align: left;">설명</th>
-<th style="text-align: left;">예시</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>uv python install &lt;버전&gt;</code></td>
-<td style="text-align: left;">지정한 Python 버전 설치</td>
-<td style="text-align: left;"><code>uv python install 3.12</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>uv python list</code></td>
-<td style="text-align: left;">설치 가능한 Python 버전 목록 표시</td>
-<td style="text-align: left;"><code>uv python list</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>uv use &lt;버전&gt;</code></td>
-<td style="text-align: left;">현재 디렉토리에 <code>.python-version</code> 파일 생성하여 기본 Python 버전 지정</td>
-<td style="text-align: left;"><code>uv use 3.11</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="프로젝트-초기화-및-구성" class="level3" data-number="3.5.2">
-<h3 data-number="3.5.2" class="anchored" data-anchor-id="프로젝트-초기화-및-구성"><span class="header-section-number">3.5.2</span> 프로젝트 초기화 및 구성</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 18%">
-<col style="width: 42%">
-<col style="width: 38%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">명령어</th>
-<th style="text-align: left;">설명</th>
-<th style="text-align: left;">생성되는 파일/디렉토리</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>uv init</code></td>
-<td style="text-align: left;">기본 프로젝트 초기화</td>
-<td style="text-align: left;"><code>pyproject.toml</code> <code>.python-version</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>uv init --package</code></td>
-<td style="text-align: left;">패키지 형태 프로젝트 생성</td>
-<td style="text-align: left;"><code>pyproject.toml</code> <code>.python-version</code> <code>src/</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>uv init --lib</code></td>
-<td style="text-align: left;">배포용 라이브러리 프로젝트 생성</td>
-<td style="text-align: left;">라이브러리 구조의 <code>pyproject.toml</code> 테스트 디렉토리 등</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="의존성-관리" class="level3" data-number="3.5.3">
-<h3 data-number="3.5.3" class="anchored" data-anchor-id="의존성-관리"><span class="header-section-number">3.5.3</span> 의존성 관리</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 24%">
-<col style="width: 46%">
-<col style="width: 29%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">명령어</th>
-<th style="text-align: left;">설명</th>
-<th style="text-align: left;">예시</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>uv add &lt;패키지&gt;</code></td>
-<td style="text-align: left;">의존성 추가</td>
-<td style="text-align: left;"><code>uv add requests</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>uv add --dev &lt;패키지&gt;</code></td>
-<td style="text-align: left;">개발용 의존성 추가</td>
-<td style="text-align: left;"><code>uv add --dev pytest black</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>uv remove &lt;패키지&gt;</code></td>
-<td style="text-align: left;">의존성 제거</td>
-<td style="text-align: left;"><code>uv remove requests</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>uv lock</code></td>
-<td style="text-align: left;">락파일 생성/갱신</td>
-<td style="text-align: left;"><code>uv lock</code></td>
-</tr>
-</tbody>
-</table>
-<blockquote class="blockquote">
-<p><code>uv</code>는 하드 링크를 통해 디스크 공간을 효율적으로 사용합니다. 여러 가상 환경에서 동일한 패키지를 사용하더라도 실제 파일은 한 번만 저장됩니다.</p>
-</blockquote>
-</section>
-<section id="다른-도구에서-마이그레이션" class="level3" data-number="3.5.4">
-<h3 data-number="3.5.4" class="anchored" data-anchor-id="다른-도구에서-마이그레이션"><span class="header-section-number">3.5.4</span> 5.4. 다른 도구에서 마이그레이션</h3>
-<p>기존 프로젝트의 설정을 <code>uv</code>로 가져올 수 있습니다.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 프로젝트 폴더로 이동</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> existing-project</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. uv 프로젝트 초기화</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. requirements.txt 파일이 있는 경우 패키지 추가</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> requirements.txt <span class="kw">|</span> <span class="fu">xargs</span> uv add</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 의존성 잠금 및 동기화</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> lock</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="빌드-및-배포" class="level3" data-number="3.5.5">
-<h3 data-number="3.5.5" class="anchored" data-anchor-id="빌드-및-배포"><span class="header-section-number">3.5.5</span> 빌드 및 배포</h3>
-<p><code>uv</code>를 사용하여 패키지를 빌드하고 PyPI에 배포할 수 있습니다.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 패키지 빌드</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># PyPI에 배포</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="실사용-예시" class="level3" data-number="3.5.6">
-<h3 data-number="3.5.6" class="anchored" data-anchor-id="실사용-예시"><span class="header-section-number">3.5.6</span> 실사용 예시</h3>
-<p>아래는 데이터 과학 프로젝트를 시작하는 과정을 보여줍니다.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 프로젝트 폴더 생성</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ds-project</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ds-project</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 프로젝트 초기화 및 Python 버전 설정</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--package</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> python install 3.11</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> use 3.11</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 데이터 과학 관련 패키지 설치</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add numpy pandas matplotlib scikit-learn</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 개발 도구 설치</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add <span class="at">--dev</span> ipython jupyterlab black ruff</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. 의존성 잠금 및 동기화</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> lock</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Jupyter Lab 실행</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run jupyter lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-</section>
-</section>
-<section id="마치며" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> 마치며</h1>
-<p>또 새로운 파이썬 패키지 매니저가 나와서 더욱 혼란이 가중되는 것 같습니다. 그러나 <code>uv</code> 의 경이로운 속도를 겪어보니 생각이 또 바뀝니다. 파이썬 생태계가 더욱 일관되고 효율적으로 발전되길 바라면서 앞으로는 <code>pip</code> 는 사용하지 않고 <code>uv</code> 만을 써야겠습니다. <code>uv</code> 에 대하여 더 자세한 내용은 <a href="https://github.com/astral-sh/uv">공식 repo</a> 와 <a href="https://docs.astral.sh/uv">공식 문서</a> 를 읽어보세요.</p>
+<section id="결론" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 결론</h1>
+<p>단백질 데이터 뱅크(PDB)는 의심할 여지 없이 생명과학 연구를 위한 매우 귀중한 자원입니다. 하지만 그 데이터는 전문가가 올바르게 탐색해야만 하는 미묘한 뉘앙스와 잠재적인 함정으로 가득 차 있습니다. 데이터의 편향성을 인식하고 품질 지표를 비판적으로 해석하며, 구조가 ’모델’이라는 점을 기억하는 것은 정확한 과학적 결론을 내리기 위한 필수적인 과정입니다.</p>
+<p>최근 알파폴드(AlphaFold)와 같은 인공지능(AI) 예측 모델의 등장은 단백질 구조 연구에 새로운 지평을 열었습니다. 이 모델들은 강력하지만 특히 정밀한 원자 수준의 세부 정보와 상호작용(“last-Ångstrom” 문제)에 있어서는 여전히 한계를 가지고 있다는 점을 명심해야 합니다.</p>
+<p>AI가 방대한 양의 구조 데이터를 계속해서 생성해내는 미래에 우리는 다음과 같은 질문을 던져야 합니다. “이러한 ’모델’들을 비판적으로 평가하고 그 의미를 이해하는 능력을 어떻게 키울 수 있을까요?”</p>
 
 
 </section>
