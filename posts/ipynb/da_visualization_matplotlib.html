@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
 <meta name="dcterms.date" content="2025-11-01">
 
-<title>Matplotlib 고급 시각화 – tomorrow-lab</title>
+<title>고급 Matplotlib 시각화 – tomorrow-lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,9 +75,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-be4b5f0ceb91c6d256a52250e5d87e72.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f6cd7e65faeccfabf5ef1eb7f9f79780.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-be4b5f0ceb91c6d256a52250e5d87e72.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-446372b49332023abb98ffbd203f4225.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-1d4353df62750e667d4ba3d17f0f2e1c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-446372b49332023abb98ffbd203f4225.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-f7a981a6d6a5d49226379a17328db006.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -129,7 +129,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Matplotlib 고급 시각화 – tomorrow-lab">
+<meta property="og:title" content="고급 Matplotlib 시각화 – tomorrow-lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
 <meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAAAmCAYAAADTNeknAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjAsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvlHJYcgAAAAlwSFlzAAAPYQAAD2EBqD+naQAAD/tJREFUeJztnHvQX0V5xz+bGCRN3twICW8CkhCSikEhIdoi1YqXWrQx1lbU0kIRWqlt6TjZaQt0HevBaXUO7SjDTC3qVIeOVUcdzGixdYxcCgkEgtwSG24BQjAJyS83IIRk+8fu857n7G/P7/Lm9xKY6TPzzu455zl79uz57ve57P5e473n1Sre2fcDfwJcaopyx9HuT7/inR0H/B6w1hTlE0e7P2Mt4wbZmHf27d7ZNw2yzS7yV8AK4IMv4zMHKe8Fvg38iz7pnX2zd/YG7+yJR6dbYyOvGVRD3tn5wM2xfhuwDbjWFOXPBvWMjEyN5ZyxaNw7ewxwNrDGFOWBMXjE4li+MTl/OXABsB64Zgyee1RkkMx2sqr/BvAh4LMDbD8nk2M5JmAD/gz4GfCpMWp/fiznemePVeenJmVX8c6+0zv7We/s+IH1bsAyMGYDZsRyG8EsfBp43QDbz4mAbXiM2l8Uy1PHqP15sTQE4G2Ix0OxnJze0EFKYAnwE+CW0XYosrkFbjJFec9o28nJIJlteizvAq6P9bnRCR4rGWuwyQTqmWH6lPmqfoqqT07KXmRmLI/rpOSdXeadvaiDym8BnwP+uUs7J3pn13pnL+y1g4MEgnyYncAzwGECc84aROPe2SneWZOcFgboy4x6Zxd7Z3/qnX1bF1WZQKMCm3f2TO/sRxuuGSpmA1ig6kNJ2YuI7pQO/ZlKIIN/886+uUFNvtf8husiy4G3AJf22sGxYLadpihfArbG4yOOqLyz7wZ2A06dOwaYEA9P0AzqnZ3QxXc5HzgXuDBG0Ku8s/MyekfKbP8OfLMhQp8FTFTHC1Sf+2K2CFwB2VBybYIaG+17NmUN5F2Hu1glAePxvfQRxobZdsXyqVieNIC2/zOWf6/O6Q8xnvjS3tkFBN9nm3f2qgbQycSYAqwGfoeQgkilEWzd3IMIAGGrBRmVecnx5cA+7+wf07/PNpHqW46AzTs7EdgE/Ng7O5062HJ9ggq03azSvFgeVbDtjKWAbRC5olwgk36I4ZiXupkwkDOAq4FPZO6dptqQMciZlawZ9c5eCzztnZ3tnf1T7+yVDc94rfQtc12Y4SV17liCv9Svz6bZTJvRhYQswbnAOZlrOdE6nb6d9H9GrxHwqMHmnR3nnV3qnZUBlQ+TMtsRgc07q5lxu6qn/sww8ElgLrCRKkh5R6bZaQ1t6OeOo9ln+yAwm5DiuQ74nHd2bqJzQtK3VORjrU3OP0OGpbrIUENdmGk87RamF7Cl76RF+m+oiKaj9A027+wpEWAfA+4GPhMvjRWznavqmuHSWT9H6X6eyiwugZHo6QHv7J9TZ7Yt0oB3dpJqbyphIAEmRh9RQChAWqr6pMEFdYDlAph5sUzTFBosvTKbBoi+X5s4ed7PY7kwE3BBfWJlweadHaIe9fZkSvsCm3f2LOAR4BvA6fH0sli+HGCblnGiRRZRmcLVhOw7wKkxCjuXkLG/kGpAh4AXVBuLVX06dZF7ZlIBTJvedMCHG+oiwgwPAzep85qBjtSM5sC2HjgE/Ar5SdCLGZ2XHPcEto5JXe/sOQS/51OmKO8F3hUvnQnsTR6cmtEnY5ntcATNWwlg3QysNkW5K6N6jqobwkffSfuH+DDBXDxminJzfMYThMTyGap/x1FFsZPjPSJvBO6M9dQ0TCWYcQ2cZao+Kz5zHHAMDczmnZ1iinIPVaL4YeB9hLG4jeC3iUz2zhpTlN12SzSZ0RzYtgOPE/zahShmj9KLGZ2XHA+E2S4m+Dx/FI+XxnKWesDJ0cTIzG9jtpSuo/6PCSbkn4DvApu8s1MSvWNpj5qEvlN/RphitTon7LaUynTOpO6z6XZ0OqCJ2eY06Mh4FISJ+D51bRjAO/sXwO6Ye5PlvU0RTFtpl/FUQUZW4lh289mgAkiLEKFC3m/rhdnSHNzMrFYi3cAmDxNqXxLLaeraBOA0dY+w01bAE2Z52pkvEljyOeAHwD4CiJYkeotiH1uAbMERxhFmeyG5R4NNlluWUHf2ZUAnUWcSvSCeYzZoXq0QsF1AsBja/M/yzk4A3h6P/5LwXvsIAQFU45ZKpyDmr4E9hN0jIk1mVIDXojPYuvpsjBGzjYAtss4idU0D7KxY7o0JXUxRvkgwj6AiQu/sUuAyAhDPN0W5grDYDZUfKPKGWD4EPBvrKdhWAdcSfMn7gR+q+wVsmtk6iX6/JrA1rVYcHyPSkxuuz6YKIt4ay03KRO5puK+T33Yegfner841mVGRFsF0Qz7XVmO2hiBCmK0Vy2Xe2X/1zr6+Q1+7LsQLsk8i+D1adPZbzOvOROcG4O8Iua7vxHPviOUPTVEKMB4kJFYXA3hnTwc+op6xgWo2pWDbYYryckJSNJVfxPJkAhi7yWzv7DhTlIdpNqOdmO3sDm0P0x6xCsNgivKQd3YP7ctNncAmwNaWo8mMirSA/bFeS4dEf1PfPyn2Z7fSkW1XAHcQAP+BeLyUuh9bk0Zmi2mAafFwmHzSU0TAlpqC6wlrpO/yzgpryKy+Tek9EEuJBr9NAOnKePwQFZBTn00ClZxIXm6I9g+tZTeBaV9D9eH6NaOzqN5NizDWnEwfNiXHrcz9WbDFACvnUw0pNmpiNnFJ0l05k6jSPc/HMjWlKwgs/QwVgYicRQfpZEb1Q8ZRp+pU5CE1ZotbnX8UDy+Kg6BnhciDsTw96mgTDZ3N6L4O/doNHIz1RR30dgGyrVzA1LcZJQ+2kRQM7f5XCrac36aXn87xzv5uPDyBKqrWYoBJ0UdM2RnqYJvdsI/uJeCxWJ/rnf0P7+x/eWeXE/xNgK8ATydtP5p53oh0Als6a34zls+mioQgANrNKFRgO50wk+YQXmad0tlIYMAZhFmTRmYbVNs9gy36QwKi3MCL7FXPFPYRfWGmlNnSnbsnUTH8GqUje9TS4Af6YLbIZKuA73pnT6XZN4QA0KatRi3CWApz6e8sJnw3VUpkKcGleQ8hmHsb4VtdT31FB9qDtZr0ymxQ5aN+lCoqyc1MmSHzqWb+elOUz4mCKcrnqXyqxdQZYD8hZ9dkRjsxG4TNnN1kL1VUmDKb9H9qZF25Lpl4WducEP9+CXwvnttKBeKcifnf5LiV0ZFJ9XrCBDAEv6jTxtQpNC+it+IkFHbTfpuAbQ8Va/26uv44IaX1+Wi10h8ZdYxK+2E2YgfvU8cbk+s5ZhNqPYUKbLdn9MSULqPup9wcHfYmZuvks0H77MuJZrZGsFFPCEuk+wiVqYbwbpJ+uY9qEkmkJpPjWdqtRCvTN3lP7XifSXdmy334g1SMlvPbcmD7tVjeYYpyvinKk0xRysaDdGyP67Qbphdm09nrtdSZ4j7qa3sPZdrZHNuYBPx2PHdnRk/MjawYHCT4WX8Qj0fjs8HowSZm9PFYTlPXdqjzT1Gf4bebolxHSBD/ISEdo+W/gSsJPz9MVwY6+WwabGfQmdk02PRE2KWeKSs8uh1xFTTYhhP9EYkWScs4OizKd0p9CNg2UOW71hLMhMg24KME53eYDGOZojzgnd1CYEpZovl5qkf18cTc7DBFqX2avn22KP2C7QTv7Ewq303YeypVEvRJwl7/3QQ/5niqj3I7gCnK+wG8sxsJplbGeqspyn9o6EdL1XfHZ+aY7QzC+mYqhwkffAoV2B6hYlXdfq/MJtIGtigXEb7r5bG/M2k3r0BvZnSNOtcGNlOU3hTlJlOUt0hCNyOPqfoBqvyXFnl5ifZSkLycPtuHCD7qeirGnUoVSd9pivJuYIYpyi9R9zFrPxKJyW3tbjxDs7RUXcA/OUaWZ6prTako+TZDVD6bnrC6/RrYvLMfp/r97W56BJspym+Yovw01fdq9Nt6MaOSojhEGEgNtl5YA+oh8QMNoExfJgWJgE12fhypz7Zf1VMzen6sf4sqoTmVyue8AyD6kqDWCk1R5iIybUpza6AirYzeZIJlOZbAOJL9FzBp8ApAplAxlnZtdPsjAYJ3djHwVUJiHfpjNpEjAttEAsB+QEjeXR0jSE2RvYJNM1vOhEL7yzQxm2zWG40Z1TscnlJ1DbYFVOua36EC23QqE5+6CxJ9/qShDxpsnZhN+2zSnyEqJ/1u4N7knrtUXQAyRJWrvItgXqEONu2zpT+S3pPp55iC7WPAh01RbjNFeb4pys8AmKI8SOWsj4bZ7s0pxG03LXVqe3L9RSrQnk3lA/UDNm1S9OBpMwphXO4yRflo1NtMyCW+ljDZHqYunyT81jL7Syp6B1tL1TWzya/A/oewWwYCEXyNyteFOrOJn7aBasLo9uX9J1HfxgWwJ4739ox+k4webKYobzJF+f2Gy18hRJTrGq6n0guzQUXtkPe1bo3leerc/oyeFt3OE1TRWY3ZTFGmoP0ChDVLwp4+kdvTKNIU5S9NUV5jijKX8IbBge0WAsBOA6aboryEyq05QEUCv0pgt0OEAEHaHWk/RpIy+X4/6YeMqYD3IN19XwFb43ajUf0i3hTl3/Z5i+SaPPU8XSpPUu0py7HmrYSdtrJ09nyHoEREt7OLEJycRh0Aqd+3n7DHTuTrwBWEXGEuR9hNniDsxp1Iuy+kpaXqArbTCP7ZIUKu6zD1gEPAtpfqPSR4eDRmA6Rd3T6EAGgh7Wu2kvZ5mhD5blH+aZN0ZbZB/vuFRjFFudU7+zfAc6YoWx1UNbPlwCY5Pcl6P5DRSaVFlXpoEXJ9x1PPnMtH+kfCRtH3avYyRXnQO/sR4OMk/3GoF4ltnddVMbzzvthfAZsEAusz7At1sIm5lOBAQNlKSpF7qIIhgG8S/NWvxWOZGN1MKFS+/NEFG4Apyi/0oNYNbJsIdC4f4OqMTvpc753dQZi9u0xRbgG2eGenKbW9UfcK7+yVuW3YMVHbq9swKjFF+Xz8lf4hQjCzjyoQurXhtnUEEK0m/hcpJQK21YRlpzXJdZ2mOQxcnPy3Jgmo9Hdpku07Dh/DY37y/GLljSeuumbFU6nCIH83Ogjp6LNFEMigryMsTPci0lZLndMsMWJGe9jvP6ZiivJeU5T3m6LcSZ0Nf9qgv5WweeFSU5QPUV/R2Rh1CmCaKcr1ye36+PHMvwW7gTDG13Xr9xUvvOnsS154C8WBxacCm5evvPGSVOeVBjZN102RbkmYqZf1AYw7Cf6iDk72NtRfMWKK8jbCxoSLqe9ATvVeVGOhzfwvtE7mvh1UY55uCiAm6z9givKO9JqW5StvPPHBw1Ou8iNb4RgHfHn5yhtr6+svmxntUSRF8hz5RWlMUa4B3tlnu5cBV5mi1GyZZbZXmkS2yq05N8n3CNH/EJ2DMZF7CP5rblWnV1kIJiWu8YRlrBFz+opituhPXQJcMEhzZoryUAI0CA7tLkIqoluu7lUj0RSeBbzBFGUvk+g6wo6brx/BYzdRJY5FDpHkI82r+R84H6l4Z18HvGSKslM64v+lB4k+2pcJjHYI+MSqa1Z8Vev8H0H9zojOFibYAAAAAElFTkSuQmCC">
 <meta property="og:site_name" content="tomorrow-lab">
@@ -374,26 +374,23 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#전문가같은-matplotlib-플롯-만들기" id="toc-전문가같은-matplotlib-플롯-만들기" class="nav-link active" data-scroll-target="#전문가같은-matplotlib-플롯-만들기"><span class="header-section-number">1</span> 전문가같은 matplotlib 플롯 만들기</a>
+  <li><a href="#기본-matplotlib-플랏" id="toc-기본-matplotlib-플랏" class="nav-link active" data-scroll-target="#기본-matplotlib-플랏"><span class="header-section-number">0.1</span> 기본 matplotlib 플랏</a></li>
+  <li><a href="#사용자-정의를-곁들인-matplotlib-플랏" id="toc-사용자-정의를-곁들인-matplotlib-플랏" class="nav-link" data-scroll-target="#사용자-정의를-곁들인-matplotlib-플랏"><span class="header-section-number">0.2</span> 사용자 정의를 곁들인 matplotlib 플랏</a></li>
+  <li><a href="#플랏에-추가-정보-제공하기" id="toc-플랏에-추가-정보-제공하기" class="nav-link" data-scroll-target="#플랏에-추가-정보-제공하기"><span class="header-section-number">1</span> 플랏에 추가 정보 제공하기</a>
   <ul class="collapse">
-  <li><a href="#기본-matplotlib-플랏" id="toc-기본-matplotlib-플랏" class="nav-link" data-scroll-target="#기본-matplotlib-플랏"><span class="header-section-number">1.1</span> 기본 matplotlib 플랏</a></li>
-  <li><a href="#사용자-정의를-곁들인-matplotlib-플랏" id="toc-사용자-정의를-곁들인-matplotlib-플랏" class="nav-link" data-scroll-target="#사용자-정의를-곁들인-matplotlib-플랏"><span class="header-section-number">1.2</span> 사용자 정의를 곁들인 matplotlib 플랏</a></li>
+  <li><a href="#주석-플롯annotated-plot" id="toc-주석-플롯annotated-plot" class="nav-link" data-scroll-target="#주석-플롯annotated-plot"><span class="header-section-number">1.1</span> 주석 플롯(Annotated Plot)</a></li>
   </ul></li>
-  <li><a href="#플랏에-추가-정보-제공하기" id="toc-플랏에-추가-정보-제공하기" class="nav-link" data-scroll-target="#플랏에-추가-정보-제공하기"><span class="header-section-number">2</span> 플랏에 추가 정보 제공하기</a>
+  <li><a href="#스파크라인sparkline-plot-플롯" id="toc-스파크라인sparkline-plot-플롯" class="nav-link" data-scroll-target="#스파크라인sparkline-plot-플롯"><span class="header-section-number">2</span> 스파크라인(Sparkline plot) 플롯</a></li>
+  <li><a href="#리지라인-플롯" id="toc-리지라인-플롯" class="nav-link" data-scroll-target="#리지라인-플롯"><span class="header-section-number">3</span> 리지라인 플롯</a>
   <ul class="collapse">
-  <li><a href="#주석-플롯annotated-plot" id="toc-주석-플롯annotated-plot" class="nav-link" data-scroll-target="#주석-플롯annotated-plot"><span class="header-section-number">2.1</span> 주석 플롯(Annotated Plot)</a></li>
+  <li><a href="#리지라인-플랏은-언제-사용해야-하는가" id="toc-리지라인-플랏은-언제-사용해야-하는가" class="nav-link" data-scroll-target="#리지라인-플랏은-언제-사용해야-하는가"><span class="header-section-number">3.1</span> 리지라인 플랏은 언제 사용해야 하는가?</a></li>
   </ul></li>
-  <li><a href="#스파크라인sparkline-plot-플롯" id="toc-스파크라인sparkline-plot-플롯" class="nav-link" data-scroll-target="#스파크라인sparkline-plot-플롯"><span class="header-section-number">3</span> 스파크라인(Sparkline plot) 플롯</a></li>
-  <li><a href="#리지라인-플롯" id="toc-리지라인-플롯" class="nav-link" data-scroll-target="#리지라인-플롯"><span class="header-section-number">4</span> 리지라인 플롯</a>
+  <li><a href="#결측-데이터를-위한-knn-대체법" id="toc-결측-데이터를-위한-knn-대체법" class="nav-link" data-scroll-target="#결측-데이터를-위한-knn-대체법"><span class="header-section-number">4</span> 결측 데이터를 위한 kNN 대체법</a>
   <ul class="collapse">
-  <li><a href="#리지라인-플랏은-언제-사용해야-하는가" id="toc-리지라인-플랏은-언제-사용해야-하는가" class="nav-link" data-scroll-target="#리지라인-플랏은-언제-사용해야-하는가"><span class="header-section-number">4.1</span> 리지라인 플랏은 언제 사용해야 하는가?</a></li>
+  <li><a href="#knn-대체법knn-imputation" id="toc-knn-대체법knn-imputation" class="nav-link" data-scroll-target="#knn-대체법knn-imputation"><span class="header-section-number">4.1</span> kNN 대체법(kNN imputation)</a></li>
+  <li><a href="#여러-결측치-대체-방법을-비교하는-시각화" id="toc-여러-결측치-대체-방법을-비교하는-시각화" class="nav-link" data-scroll-target="#여러-결측치-대체-방법을-비교하는-시각화"><span class="header-section-number">4.2</span> 여러 결측치 대체 방법을 비교하는 시각화</a></li>
   </ul></li>
-  <li><a href="#결측-데이터를-위한-knn-대체법" id="toc-결측-데이터를-위한-knn-대체법" class="nav-link" data-scroll-target="#결측-데이터를-위한-knn-대체법"><span class="header-section-number">5</span> 결측 데이터를 위한 kNN 대체법</a>
-  <ul class="collapse">
-  <li><a href="#knn-대체법knn-imputation" id="toc-knn-대체법knn-imputation" class="nav-link" data-scroll-target="#knn-대체법knn-imputation"><span class="header-section-number">5.1</span> kNN 대체법(kNN imputation)</a></li>
-  <li><a href="#여러-결측치-대체-방법을-비교하는-시각화" id="toc-여러-결측치-대체-방법을-비교하는-시각화" class="nav-link" data-scroll-target="#여러-결측치-대체-방법을-비교하는-시각화"><span class="header-section-number">5.2</span> 여러 결측치 대체 방법을 비교하는 시각화</a></li>
-  </ul></li>
-  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">6</span> Reference</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">5</span> Reference</a></li>
   </ul>
 </nav>
     </div>
@@ -403,7 +400,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Matplotlib 고급 시각화</h1>
+<h1 class="title">고급 Matplotlib 시각화</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Python</div>
     <div class="quarto-category">Visualization</div>
@@ -432,7 +429,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">November 1, 2025</p>
+      <p class="date-modified">November 27, 2025</p>
     </div>
   </div>
     
@@ -443,8 +440,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </header>
 
 
-<section id="전문가같은-matplotlib-플롯-만들기" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 전문가같은 matplotlib 플롯 만들기</h1>
+<p><a href="./da_visualization_matplot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="./da_visualization_matplot.png" class="img-fluid"></a></p>
 <p><code>matplotlib</code>의 기본 플롯은 결코 “전문가”처럼 보이지 않기 때문에 사람들은 다른 <code>Plotly</code>와 같은 다른 시각화 라이브러리를 사용하고는 합니다. 그러나 대부분의 경우 <code>matplotlib</code>의 사용자 정의 기능을 사용한다면 충분히 전문가 같은 시각화를 할 수 있습니다.</p>
 <p>아래의 예시는 모두 matplotlib을 사용하여 만들어졌고 두 번째 플롯이 첫번째 플롯보다 훨씬 더 우아하고, 유익하며, 매력적으로 보입니다. 왜냐하면 아래의 조건을 충족하기 때문이죠.</p>
 <ul>
@@ -456,163 +452,166 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <blockquote class="blockquote">
 <p>추가적인 설명 없이도 시각화 자료가 올바른 스토리를 전달하도록 하세요.</p>
 </blockquote>
-<section id="기본-matplotlib-플랏" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="기본-matplotlib-플랏"><span class="header-section-number">1.1</span> 기본 matplotlib 플랏</h2>
+<section id="기본-matplotlib-플랏" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="기본-matplotlib-플랏"><span class="header-section-number">0.1</span> 기본 matplotlib 플랏</h2>
 <div id="df972bfc" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.dates <span class="im">as</span> mdates</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> mtick</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> mtick</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> percent_formatter(x, pos):</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>x<span class="op">*</span><span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>x <span class="op">*</span> <span class="dv">100</span><span class="sc">:.0f}</span><span class="ss">%"</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummy Data</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([[<span class="st">'Clothing'</span>, <span class="fl">0.1</span>],</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                   [<span class="st">'Home Decor'</span>, <span class="fl">0.43</span>],</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                   [<span class="st">'Electronics'</span>, <span class="fl">0.13</span>],</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                   [<span class="st">'Stationery'</span>, <span class="fl">0.2</span>],</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                   [<span class="st">'Toys'</span>, <span class="fl">0.14</span>]], columns <span class="op">=</span> [<span class="st">'Spend_Category'</span>, <span class="st">'Profit_Margin'</span>])</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Define figure</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>fig,ax <span class="op">=</span> plt.subplots(figsize <span class="op">=</span> (<span class="fl">6.5</span>, <span class="dv">4</span>))</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bar plot</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.bar(df[<span class="st">'Spend_Category'</span>], df[<span class="st">'Profit_Margin'</span>])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummy Data</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Clothing"</span>, <span class="fl">0.1</span>],</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Home Decor"</span>, <span class="fl">0.43</span>],</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Electronics"</span>, <span class="fl">0.13</span>],</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Stationery"</span>, <span class="fl">0.2</span>],</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Toys"</span>, <span class="fl">0.14</span>],</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">"Spend_Category"</span>, <span class="st">"Profit_Margin"</span>],</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert y-axis labels to percentage</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(mtick.FuncFormatter(percent_formatter))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Define figure</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">6.5</span>, <span class="dv">4</span>))</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># show grid</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.grid(axis <span class="op">=</span> <span class="st">'y'</span>,alpha <span class="op">=</span> <span class="fl">0.45</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bar plot</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.bar(df[<span class="st">"Spend_Category"</span>], df[<span class="st">"Profit_Margin"</span>])</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># set title and and x-y label </span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Profit Margin for top five spend categories'</span>)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Profit Margin'</span>)</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Category'</span>)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert y-axis labels to percentage</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(mtick.FuncFormatter(percent_formatter))</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># show grid</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">"y"</span>, alpha<span class="op">=</span><span class="fl">0.45</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># set title and and x-y label</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Profit Margin for top five spend categories"</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Profit Margin"</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Category"</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="da_visualization_matplotlib_files/figure-html/cell-2-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="da_visualization_matplotlib_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></a></p>
+<p><a href="da_visualization_matplotlib_files/figure-html/cell-2-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="da_visualization_matplotlib_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="사용자-정의를-곁들인-matplotlib-플랏" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="사용자-정의를-곁들인-matplotlib-플랏"><span class="header-section-number">1.2</span> 사용자 정의를 곁들인 matplotlib 플랏</h2>
+<section id="사용자-정의를-곁들인-matplotlib-플랏" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="사용자-정의를-곁들인-matplotlib-플랏"><span class="header-section-number">0.2</span> 사용자 정의를 곁들인 matplotlib 플랏</h2>
 <div id="07157eb9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 원본 데이터를 생성하고, 'Profit_Margin' 기준으로 오름차순 정렬합니다.</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Clothing'</span>, <span class="fl">0.1</span>],</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Home Decor'</span>, <span class="fl">0.43</span>],</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Electronics'</span>, <span class="fl">0.13</span>],</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Stationery'</span>, <span class="fl">0.2</span>],</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'Toys'</span>, <span class="fl">0.14</span>]</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>], columns<span class="op">=</span>[<span class="st">'Spend_Category'</span>, <span class="st">'Profit_Margin'</span>])</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(<span class="st">"Profit_Margin"</span>, ascending<span class="op">=</span><span class="va">True</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>fig.set_facecolor(<span class="st">'white'</span>)  <span class="co"># Figure 전체 배경색</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ax.set_facecolor(<span class="st">'white'</span>)   <span class="co"># 플롯 영역(Axes) 배경색</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 공통 폰트 설정</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>TITLE_FONT <span class="op">=</span> <span class="st">'Noto Sans'</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Clothing"</span>, <span class="fl">0.1</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Home Decor"</span>, <span class="fl">0.43</span>],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Electronics"</span>, <span class="fl">0.13</span>],</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Stationery"</span>, <span class="fl">0.2</span>],</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"Toys"</span>, <span class="fl">0.14</span>],</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">"Spend_Category"</span>, <span class="st">"Profit_Margin"</span>],</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(<span class="st">"Profit_Margin"</span>, ascending<span class="op">=</span><span class="va">True</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>fig.set_facecolor(<span class="st">"white"</span>)  <span class="co"># Figure 전체 배경색</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>ax.set_facecolor(<span class="st">"white"</span>)  <span class="co"># 플롯 영역(Axes) 배경색</span></span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 메인 제목</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>fig.text(</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>, <span class="fl">0.91</span>,  <span class="co"># x, y 위치 (Figure 좌측 하단이 0,0)</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Profit Margin for top five spend categories'</span>,</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    fontfamily<span class="op">=</span>TITLE_FONT,</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">"bold"</span>,</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">22</span>,</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">'left'</span>  <span class="co"># 수평 왼쪽 정렬</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 부제목</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>fig.text(</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>, <span class="fl">0.85</span>,</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Consumers are willing to pay higher prices for decorative items for their home.'</span>,</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    fontfamily<span class="op">=</span>TITLE_FONT,</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">18</span>,</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">'left'</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 막대 색상 동적 생성 (마지막 값만 검은색으로 강조)</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>n_bars <span class="op">=</span> <span class="bu">len</span>(df)</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>bar_colors <span class="op">=</span> [<span class="st">'lightgray'</span>] <span class="op">*</span> (n_bars <span class="op">-</span> <span class="dv">1</span>) <span class="op">+</span> [<span class="st">'black'</span>]</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 수평 막대 그래프 그리기 (ax 객체 사용)</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.barh(</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Spend_Category'</span>],</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Profit_Margin'</span>],</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>bar_colors,</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">'none'</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 공통 폰트 설정</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>TITLE_FONT <span class="op">=</span> <span class="st">"Noto Sans"</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 메인 제목</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>fig.text(</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.91</span>,  <span class="co"># x, y 위치 (Figure 좌측 하단이 0,0)</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Profit Margin for top five spend categories"</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    fontfamily<span class="op">=</span>TITLE_FONT,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    fontweight<span class="op">=</span><span class="st">"bold"</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">22</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"left"</span>,  <span class="co"># 수평 왼쪽 정렬</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 부제목</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>fig.text(</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.85</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Consumers are willing to pay higher prices for decorative items for their home."</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    fontfamily<span class="op">=</span>TITLE_FONT,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">18</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"left"</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 막대 색상 동적 생성 (마지막 값만 검은색으로 강조)</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>n_bars <span class="op">=</span> <span class="bu">len</span>(df)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>bar_colors <span class="op">=</span> [<span class="st">"lightgray"</span>] <span class="op">*</span> (n_bars <span class="op">-</span> <span class="dv">1</span>) <span class="op">+</span> [<span class="st">"black"</span>]</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 수평 막대 그래프 그리기 (ax 객체 사용)</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> ax.barh(df[<span class="st">"Spend_Category"</span>], df[<span class="st">"Profit_Margin"</span>], color<span class="op">=</span>bar_colors, edgecolor<span class="op">=</span><span class="st">"none"</span>)</span>
 <span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="co"># 각 막대에 백분율(%) 형식으로 값을 표시합니다.</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>ax.bar_label(</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    bars,</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>[<span class="ss">f'</span><span class="sc">{</span>x<span class="sc">:.0%}</span><span class="ss">'</span> <span class="cf">for</span> x <span class="kw">in</span> bars.datavalues],</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    padding<span class="op">=</span><span class="dv">12</span>,</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">15</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="co"># y축 여백을 설정하여 그래프가 잘리지 않게 합니다.</span></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>ax.margins(y<span class="op">=</span><span class="fl">0.14</span>)</span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 축(spines)을 보이지 않게 처리</span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'bottom'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">'left'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co"># x축 눈금과 레이블 제거</span></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([])</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>ax.bar_label(bars, labels<span class="op">=</span>[<span class="ss">f"</span><span class="sc">{</span>x<span class="sc">:.0%}</span><span class="ss">"</span> <span class="cf">for</span> x <span class="kw">in</span> bars.datavalues], padding<span class="op">=</span><span class="dv">12</span>, fontsize<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="co"># y축 여백을 설정하여 그래프가 잘리지 않게 합니다.</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>ax.margins(y<span class="op">=</span><span class="fl">0.14</span>)</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 축(spines)을 보이지 않게 처리</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"top"</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"right"</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"bottom"</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>ax.spines[<span class="st">"left"</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="co"># x축 눈금과 레이블 제거</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([])</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="co"># y축 눈금선 제거 및 레이블 폰트 설정</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">"y"</span>, left<span class="op">=</span><span class="va">False</span>)  <span class="co"># y축 눈금선(tick line) 제거</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co"># y축 레이블(Spend_Category) 폰트 설정 (plt.yticks 대신 ax 메서드 사용)</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(df[<span class="st">"Spend_Category"</span>], fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">"bold"</span>)</span>
 <span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="co"># y축 눈금선 제거 및 레이블 폰트 설정</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, left<span class="op">=</span><span class="va">False</span>) <span class="co"># y축 눈금선(tick line) 제거</span></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="co"># y축 레이블(Spend_Category) 폰트 설정 (plt.yticks 대신 ax 메서드 사용)</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(df[<span class="st">'Spend_Category'</span>], fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) 제목 아래 파란색 구분선</span></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>ax.plot(</span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    [<span class="op">-</span><span class="fl">0.025</span>, <span class="fl">.94</span>],           <span class="co"># 선의 시작/끝 x좌표</span></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">.8335</span>, <span class="fl">.8335</span>],          <span class="co"># 선의 시작/끝 y좌표</span></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>fig.transFigure, <span class="co"># Figure 기준 좌표계 사용</span></span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>    clip_on<span class="op">=</span><span class="va">False</span>,             <span class="co"># Figure 영역 밖으로 그려도 자르지 않음</span></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'tab:blue'</span>,</span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    linewidth<span class="op">=</span><span class="dv">3</span></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) 왼쪽 파란색 강조 사각형</span></span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>ax.add_patch(</span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    plt.Rectangle(</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>        (<span class="op">-</span><span class="fl">0.03</span>, <span class="fl">.95</span>),          <span class="co"># 사각형 좌측 하단 (x, y)</span></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.015</span>, <span class="op">-</span><span class="fl">0.12</span>,          <span class="co"># 너비, 높이</span></span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>        facecolor<span class="op">=</span><span class="st">'tab:blue'</span>,</span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>        transform<span class="op">=</span>fig.transFigure,</span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>        clip_on<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>        linewidth<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="co"># (3) 각주(Footnote)</span></span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>fig.text(</span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>, <span class="fl">0.13</span>,</span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    <span class="st">"*Data from Jan-2022 to Mar-2023"</span>,</span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    fontfamily<span class="op">=</span>TITLE_FONT,</span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>    fontstyle<span class="op">=</span><span class="st">'italic'</span>,</span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">15</span>,</span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">'left'</span></span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) 제목 아래 파란색 구분선</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>ax.plot(</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>    [<span class="op">-</span><span class="fl">0.025</span>, <span class="fl">0.94</span>],  <span class="co"># 선의 시작/끝 x좌표</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.8335</span>, <span class="fl">0.8335</span>],  <span class="co"># 선의 시작/끝 y좌표</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>fig.transFigure,  <span class="co"># Figure 기준 좌표계 사용</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    clip_on<span class="op">=</span><span class="va">False</span>,  <span class="co"># Figure 영역 밖으로 그려도 자르지 않음</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"tab:blue"</span>,</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    linewidth<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) 왼쪽 파란색 강조 사각형</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>ax.add_patch(</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    plt.Rectangle(</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>        (<span class="op">-</span><span class="fl">0.03</span>, <span class="fl">0.95</span>),  <span class="co"># 사각형 좌측 하단 (x, y)</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.015</span>,</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span><span class="fl">0.12</span>,  <span class="co"># 너비, 높이</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>        facecolor<span class="op">=</span><span class="st">"tab:blue"</span>,</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>        transform<span class="op">=</span>fig.transFigure,</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>        clip_on<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>        linewidth<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="co"># (3) 각주(Footnote)</span></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>fig.text(</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>,</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.13</span>,</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>    <span class="st">"*Data from Jan-2022 to Mar-2023"</span>,</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    fontfamily<span class="op">=</span>TITLE_FONT,</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>    fontstyle<span class="op">=</span><span class="st">"italic"</span>,</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"left"</span>,</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/tmp/ipykernel_150474/1225230903.py:73: UserWarning: set_ticklabels() should only be used with a fixed number of ticks, i.e. after set_ticks() or using a FixedLocator.
   ax.set_yticklabels(df['Spend_Category'], fontsize=14, fontweight='bold')</code></pre>
@@ -620,23 +619,22 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="da_visualization_matplotlib_files/figure-html/cell-3-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="da_visualization_matplotlib_files/figure-html/cell-3-output-2.png" class="img-fluid figure-img"></a></p>
+<p><a href="da_visualization_matplotlib_files/figure-html/cell-3-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="da_visualization_matplotlib_files/figure-html/cell-3-output-2.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-</section>
-<section id="플랏에-추가-정보-제공하기" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> 플랏에 추가 정보 제공하기</h1>
+<section id="플랏에-추가-정보-제공하기" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 플랏에 추가 정보 제공하기</h1>
 <p>데이터 시각화를 하다보면 종종 특히 중요한 부분들이 있기 마련입니다. 그리고 훌륭한 데이터 스토리텔러는 플롯이 보는 사람의 시선을 이러한 핵심 영역으로 유도하도록 만들어야 합니다. matplotlib에서는 <code>annotate()</code>를 사용해 주석을 추가할 수 있습니다.</p>
-<section id="주석-플롯annotated-plot" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="주석-플롯annotated-plot"><span class="header-section-number">2.1</span> 주석 플롯(Annotated Plot)</h2>
+<section id="주석-플롯annotated-plot" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="주석-플롯annotated-plot"><span class="header-section-number">1.1</span> 주석 플롯(Annotated Plot)</h2>
 <p>주석 플롯은 플롯에 설명 텍스트를 추가하여, 보는 사람의 시선을 특정 영역으로 유도하고 이해를 돕도록 합니다.</p>
 <div id="e68b492c" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
@@ -647,73 +645,102 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 0. 데이터 준비 --</span></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># yfinance 데이터 다운로드 (두 플롯에서 공유)</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>raw_data <span class="op">=</span> yfinance.download(tickers<span class="op">=</span><span class="st">"^GSPC"</span>, start<span class="op">=</span><span class="st">'2020-01-01'</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                             end<span class="op">=</span><span class="st">'2022-03-31'</span>, interval<span class="op">=</span><span class="st">"1d"</span>)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 1. Figure 및 2개의 Subplots 생성 (2행 1열) --</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 명확성을 위해 각 subplot을 별도 변수에 할당</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> axs[<span class="dv">0</span>]</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> axs[<span class="dv">1</span>]</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 2. 첫 번째 플롯 (ax1) - Usual Plot --</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>ax1.plot(raw_data.index, raw_data.Close)</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xlabel -&gt; ax1.set_xlabel</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"S&amp;P 500"</span>, size<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.title -&gt; ax1.set_title</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Usual Plot"</span>, size<span class="op">=</span><span class="dv">15</span>)</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xticks -&gt; ax1.tick_params</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, labelsize<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>raw_data <span class="op">=</span> yfinance.download(tickers<span class="op">=</span><span class="st">"^GSPC"</span>, start<span class="op">=</span><span class="st">"2020-01-01"</span>, end<span class="op">=</span><span class="st">"2022-03-31"</span>, interval<span class="op">=</span><span class="st">"1d"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 1. Figure 및 2개의 Subplots 생성 (2행 1열) --</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 명확성을 위해 각 subplot을 별도 변수에 할당</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> axs[<span class="dv">0</span>]</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> axs[<span class="dv">1</span>]</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 2. 첫 번째 플롯 (ax1) - Usual Plot --</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>ax1.plot(raw_data.index, raw_data.Close)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xlabel -&gt; ax1.set_xlabel</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"S&amp;P 500"</span>, size<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.title -&gt; ax1.set_title</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Usual Plot"</span>, size<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xticks -&gt; ax1.tick_params</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">"x"</span>, labelsize<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">"y"</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 3. 두 번째 플롯 (ax2) - Annotated Plot --</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>ax2.plot(raw_data.index, raw_data.Close)</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co"># First peak annotation</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>ax2.annotate(<span class="st">'First Wave'</span>, (pd.to_datetime(<span class="st">'2020-02-20'</span>), <span class="dv">3400</span>), (pd.to_datetime(<span class="st">'2020-01-31'</span>), <span class="dv">4000</span>), size<span class="op">=</span><span class="dv">15</span>, va<span class="op">=</span><span class="st">"center"</span>, ha<span class="op">=</span><span class="st">"center"</span>,</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">'orange'</span>,</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                             connectionstyle<span class="op">=</span><span class="st">"arc3,rad=-0.2"</span>))</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Second peak annotation</span></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>ax2.annotate(<span class="st">'Second Wave'</span>, xy<span class="op">=</span>(pd.to_datetime(<span class="st">'2020-09-23'</span>), <span class="dv">3250</span>), xytext<span class="op">=</span>(pd.to_datetime(<span class="st">'2020-11-15'</span>), <span class="dv">2700</span>), size<span class="op">=</span><span class="dv">15</span>, va<span class="op">=</span><span class="st">"center"</span>, ha<span class="op">=</span><span class="st">"center"</span>,</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">'orange'</span>,</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                             connectionstyle<span class="op">=</span><span class="st">"arc3,rad=-0.2"</span>))</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 3. 두 번째 플롯 (ax2) - Annotated Plot --</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>ax2.plot(raw_data.index, raw_data.Close)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co"># First peak annotation</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>ax2.annotate(</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"First Wave"</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    (pd.to_datetime(<span class="st">"2020-02-20"</span>), <span class="dv">3400</span>),</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    (pd.to_datetime(<span class="st">"2020-01-31"</span>), <span class="dv">4000</span>),</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">"orange"</span>, connectionstyle<span class="op">=</span><span class="st">"arc3,rad=-0.2"</span>),</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Third peak annotation</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>ax2.annotate(<span class="st">'Third Wave'</span>, xy<span class="op">=</span>(pd.to_datetime(<span class="st">'2020-10-30'</span>), <span class="dv">3450</span>), xytext<span class="op">=</span>(pd.to_datetime(<span class="st">'2020-09-15'</span>), <span class="dv">4300</span>), size<span class="op">=</span><span class="dv">15</span>, va<span class="op">=</span><span class="st">"center"</span>, ha<span class="op">=</span><span class="st">"center"</span>,</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">'orange'</span>,</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>                             connectionstyle<span class="op">=</span><span class="st">"arc3,rad=-0.2"</span>))</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Fourth peak annotation</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>ax2.annotate(<span class="st">'Fourth Wave'</span>, xy<span class="op">=</span>(pd.to_datetime(<span class="st">'2021-09-30'</span>), <span class="dv">4300</span>), xytext<span class="op">=</span>(pd.to_datetime(<span class="st">'2021-07-31'</span>), <span class="dv">3500</span>), size<span class="op">=</span><span class="dv">15</span>, va<span class="op">=</span><span class="st">"center"</span>, ha<span class="op">=</span><span class="st">"center"</span>,</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">'orange'</span>,</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>                             connectionstyle<span class="op">=</span><span class="st">"arc3,rad=0.2"</span>))</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Fifth peak annotation</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>ax2.annotate(<span class="st">'Fifth Wave'</span>, xy<span class="op">=</span>(pd.to_datetime(<span class="st">'2022-01-27'</span>), <span class="dv">4300</span>), xytext<span class="op">=</span>(pd.to_datetime(<span class="st">'2022-02-28'</span>), <span class="dv">3500</span>), size<span class="op">=</span><span class="dv">15</span>, va<span class="op">=</span><span class="st">"center"</span>, ha<span class="op">=</span><span class="st">"center"</span>,</span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">'orange'</span>,</span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>                             connectionstyle<span class="op">=</span><span class="st">"arc3,rad=-0.2"</span>))</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xlabel -&gt; ax2.set_xlabel</span></span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"S&amp;P 500"</span>, size<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.title -&gt; ax2.set_title</span></span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">"Annotated Plot"</span>, size<span class="op">=</span><span class="dv">15</span>)</span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xticks -&gt; ax2.tick_params</span></span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, labelsize<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 4. 전체 Figure 표시 --</span></span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a><span class="co"># 플롯들이 겹치지 않도록 레이아웃 자동 조정</span></span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Second peak annotation</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>ax2.annotate(</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Second Wave"</span>,</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    xy<span class="op">=</span>(pd.to_datetime(<span class="st">"2020-09-23"</span>), <span class="dv">3250</span>),</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    xytext<span class="op">=</span>(pd.to_datetime(<span class="st">"2020-11-15"</span>), <span class="dv">2700</span>),</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">"orange"</span>, connectionstyle<span class="op">=</span><span class="st">"arc3,rad=-0.2"</span>),</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Third peak annotation</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>ax2.annotate(</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Third Wave"</span>,</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    xy<span class="op">=</span>(pd.to_datetime(<span class="st">"2020-10-30"</span>), <span class="dv">3450</span>),</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    xytext<span class="op">=</span>(pd.to_datetime(<span class="st">"2020-09-15"</span>), <span class="dv">4300</span>),</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>    arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">"orange"</span>, connectionstyle<span class="op">=</span><span class="st">"arc3,rad=-0.2"</span>),</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Fourth peak annotation</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>ax2.annotate(</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fourth Wave"</span>,</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    xy<span class="op">=</span>(pd.to_datetime(<span class="st">"2021-09-30"</span>), <span class="dv">4300</span>),</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    xytext<span class="op">=</span>(pd.to_datetime(<span class="st">"2021-07-31"</span>), <span class="dv">3500</span>),</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>    arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">"orange"</span>, connectionstyle<span class="op">=</span><span class="st">"arc3,rad=0.2"</span>),</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Fifth peak annotation</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>ax2.annotate(</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fifth Wave"</span>,</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>    xy<span class="op">=</span>(pd.to_datetime(<span class="st">"2022-01-27"</span>), <span class="dv">4300</span>),</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>    xytext<span class="op">=</span>(pd.to_datetime(<span class="st">"2022-02-28"</span>), <span class="dv">3500</span>),</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"center"</span>,</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>    arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"simple"</span>, facecolor<span class="op">=</span><span class="st">"orange"</span>, connectionstyle<span class="op">=</span><span class="st">"arc3,rad=-0.2"</span>),</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xlabel -&gt; ax2.set_xlabel</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"S&amp;P 500"</span>, size<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.title -&gt; ax2.set_title</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">"Annotated Plot"</span>, size<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xticks -&gt; ax2.tick_params</span></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">"x"</span>, labelsize<span class="op">=</span><span class="dv">10</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">"y"</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a><span class="co"># -- 4. 전체 Figure 표시 --</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a><span class="co"># 플롯들이 겹치지 않도록 레이아웃 자동 조정</span></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/tmp/ipykernel_150474/1802525514.py:14: FutureWarning: YF.download() has changed argument auto_adjust default to True
   raw_data = yfinance.download(tickers="^GSPC", start='2020-01-01',
@@ -722,7 +749,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="da_visualization_matplotlib_files/figure-html/cell-4-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="da_visualization_matplotlib_files/figure-html/cell-4-output-2.png" class="img-fluid figure-img"></a></p>
+<p><a href="da_visualization_matplotlib_files/figure-html/cell-4-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="da_visualization_matplotlib_files/figure-html/cell-4-output-2.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -730,117 +757,119 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>또 다른 추가 정보를 제공하는 또 다른 훌륭한 방법은 플롯에 확대된 그림을 추가하는 것입니다. matplotlib에서는 <code>indicate_inset_zoom()</code>을 사용하여 수행할 수 있습니다. 이 함수는 표시 상자(indicator box)를 추가하며, 더 명확하게 보기 위해 확대(zoom-in)할 수 있습니다. 삽입된 플롯은 다른 matplotlib 플롯과 동일하게 취급됩니다. 따라서 필요하다면 축 레이블을 추가할 수도 있습니다.</p>
 </section>
 </section>
-<section id="스파크라인sparkline-plot-플롯" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> <a href="https://www.blog.dailydoseofds.com/p/sparklines-the-hidden-gem-of-data">스파크라인</a>(Sparkline plot) 플롯</h1>
+<section id="스파크라인sparkline-plot-플롯" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> <a href="https://www.blog.dailydoseofds.com/p/sparklines-the-hidden-gem-of-data">스파크라인</a>(Sparkline plot) 플롯</h1>
 <blockquote class="blockquote">
 <p>훨씬 더 많은 관심을 받을 자격이 있는 데이터 시각화의 숨겨진 보석</p>
 </blockquote>
 <p>Jupyter에서 데이터 분석 작업을 수행할 때, 우리는 대부분 독립형 차트와 시각 자료를 만듭니다. 물론, 그것이 잘못된 것은 아니지만 <strong>스파크라인(Sparklines)</strong>이라고 불리는 시각화는 공간을 많이 차지하지 않으면서 데이터를 시각화하는 매우 우아한 방법을 제공합니다.</p>
 <p>스파크라인은 전통적인 플롯과 달리 축 눈금(axis ticks)과 레이블을 생성하지 않습니다. 제가 스파크라인을 사용하는 것을 선호하는 가장 멋진 방법 중 하나는 아래에서 보듯이 DataFrame의 셀에 스파크라인을 추가하는 것입니다.</p>
 <div id="6560fd8c" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># HTML 렌더링 및 base64 인코딩을 위한 라이브러리</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> base64 <span class="im">import</span> b64encode</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># HTML 렌더링 및 base64 인코딩을 위한 라이브러리</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> base64 <span class="im">import</span> b64encode</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib_inline.backend_inline <span class="im">import</span> set_matplotlib_formats</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Jupyter/IPython 환경에서 SVG 형식으로 플롯을 기본 표시하도록 설정</span></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># (참고: 이것은 최종 HTML 테이블에 삽입되는 PNG와는 별개입니다.)</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>set_matplotlib_formats(<span class="st">'svg'</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>set_matplotlib_formats(<span class="st">"svg"</span>)</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 사용할 색상 팔레트</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#fe7c73'</span>, <span class="st">'#2471A3'</span>, <span class="st">'#3498DB'</span>, <span class="st">'#27AE60'</span>]</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"#fe7c73"</span>, <span class="st">"#2471A3"</span>, <span class="st">"#3498DB"</span>, <span class="st">"#27AE60"</span>]</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _fig_to_html_img(fig):</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">    Matplotlib Figure 객체를 받아 base64로 인코딩된</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">    PNG HTML img 태그로 변환합니다.</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">    Sparkline에 최적화되어 있습니다.</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 그림을 저장할 인메모리 바이트 버퍼 생성</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    img_buffer <span class="op">=</span> BytesIO()</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 그림을 버퍼에 PNG 형식으로 저장</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bbox_inches='tight', pad_inches=0 : 플롯 주변의 불필요한 공백 제거</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    fig.savefig(img_buffer, <span class="bu">format</span><span class="op">=</span><span class="st">'png'</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>, pad_inches<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Figure 객체를 닫아 메모리 누수 방지 (매우 중요!)</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># .apply()로 많은 플롯을 생성할 때 필수입니다.</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    plt.close(fig)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 버퍼에 저장된 이미지 데이터를 base64로 인코딩</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    encoded <span class="op">=</span> b64encode(img_buffer.getvalue())</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># base64 바이트 문자열을 utf-8 문자열로 디코딩</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    decoded <span class="op">=</span> encoded.decode(<span class="st">'utf-8'</span>)</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># HTML img 태그 형식으로 반환</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f'&lt;img src="data:image/png;base64,</span><span class="sc">{</span>decoded<span class="sc">}</span><span class="ss">"&gt;'</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_line_sparkline(data):</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">    데이터 리스트를 받아 라인 플롯 형태의 Sparkline HTML을 생성합니다.</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> <span class="bu">list</span>(data)</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 그래프 객체(figure)와 축(axes) 초기화 (배경 없음)</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">2</span>, <span class="fl">0.5</span>), facecolor<span class="op">=</span><span class="st">"none"</span>)</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 데이터의 시작 값과 끝 값을 비교하여 라인 색상 결정</span></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> data[<span class="dv">0</span>] <span class="op">&gt;</span> data[<span class="op">-</span><span class="dv">1</span>]:</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 최신 가격(끝)이 시작 가격보다 낮으면 (하락) -&gt; 빨간색</span></span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>        chart_color <span class="op">=</span> colors[<span class="dv">0</span>]</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 최신 가격(끝)이 시작 가격보다 높거나 같으면 (상승/유지) -&gt; 녹색</span></span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>        chart_color <span class="op">=</span> colors[<span class="dv">3</span>]</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 라인 플롯 생성</span></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>    ax.plot(data, color<span class="op">=</span>chart_color)</span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 마지막 데이터 지점에 마커(파란색 점) 추가</span></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plt.plot() 대신 객체지향 ax.plot() 사용</span></span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    ax.plot(<span class="bu">len</span>(data) <span class="op">-</span> <span class="dv">1</span>, data[<span class="op">-</span><span class="dv">1</span>], <span class="st">'b.'</span>)</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 모든 축(눈금, 레이블, 테두리)을 끔</span></span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    ax.axis(<span class="st">'off'</span>)</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 헬퍼 함수를 호출하여 Figure를 HTML 이미지 태그로 변환</span></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> _fig_to_html_img(fig)</span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_hist_sparkline(data):</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="co">    데이터 리스트를 받아 히스토그램 형태의 Sparkline HTML을 생성합니다.</span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 그래프 객체(figure)와 축(axes) 초기화 (배경 없음)</span></span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">2</span>, <span class="fl">0.5</span>), facecolor<span class="op">=</span><span class="st">"none"</span>)</span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 히스토그램 생성</span></span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>    ax.hist(data, bins<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span>colors[<span class="dv">2</span>])</span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 모든 축(눈금, 레이블, 테두리)을 끔</span></span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>    ax.axis(<span class="st">'off'</span>)</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 헬퍼 함수를 호출하여 Figure를 HTML 이미지 태그로 변환</span></span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> _fig_to_html_img(fig)</span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="co"># 더미 데이터 생성</span></span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>data_values <span class="op">=</span> [</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'APPL'</span>, <span class="dv">40000</span> <span class="op">*</span> np.random.rand(n).<span class="bu">round</span>(<span class="dv">2</span>)),</span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'MSFT'</span>, <span class="dv">2000</span> <span class="op">*</span> np.random.rand(n).<span class="bu">round</span>(<span class="dv">2</span>)),</span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'GOOG'</span>, <span class="dv">500</span> <span class="op">*</span> np.random.rand(n).<span class="bu">round</span>(<span class="dv">2</span>)),</span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'META'</span>, <span class="dv">150</span> <span class="op">*</span> np.random.rand(n).<span class="bu">round</span>(<span class="dv">2</span>)),</span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data_values, columns<span class="op">=</span>[<span class="st">'Name'</span>, <span class="st">'Price History'</span>])</span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Sparkline 생성 적용: 라인 sparkline을 생성하여 'Day Price History' 컬럼에 저장</span></span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Day Price History'</span>] <span class="op">=</span> df[<span class="st">'Price History'</span>].<span class="bu">apply</span>(create_line_sparkline)</span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="co"># 히스토그램 sparkline을 생성하여 'Hourly Trade Volume' 컬럼에 저장</span></span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Hourly Trade Volume'</span>] <span class="op">=</span> df[<span class="st">'Price History'</span>].<span class="bu">apply</span>(create_hist_sparkline)</span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="co"># 참고: 'Hourly Trade Volume'은 순전히 데모 목적으로 생성되었습니다.</span></span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="co"># 실제 이 스파크라인을 만들려면 시간 정보가 필요합니다.</span></span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="co"># 위 데이터프레임을 HTML로 출력</span></span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="co"># escape=False : 컬럼 내의 HTML(&lt;img&gt;) 태그가 문자열이 아닌 HTML로 렌더링되도록 함</span></span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="co"># 원본 'Price History' 배열은 너무 크므로 최종 출력에서 제외</span></span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>HTML(df.drop(columns<span class="op">=</span>[<span class="st">"Price History"</span>]).to_html(escape<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _fig_to_html_img(fig):</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">    Matplotlib Figure 객체를 받아 base64로 인코딩된</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">    PNG HTML img 태그로 변환합니다.</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">    Sparkline에 최적화되어 있습니다.</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 그림을 저장할 인메모리 바이트 버퍼 생성</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    img_buffer <span class="op">=</span> BytesIO()</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 그림을 버퍼에 PNG 형식으로 저장</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bbox_inches='tight', pad_inches=0 : 플롯 주변의 불필요한 공백 제거</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    fig.savefig(img_buffer, <span class="bu">format</span><span class="op">=</span><span class="st">"png"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>, pad_inches<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Figure 객체를 닫아 메모리 누수 방지 (매우 중요!)</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># .apply()로 많은 플롯을 생성할 때 필수입니다.</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    plt.close(fig)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 버퍼에 저장된 이미지 데이터를 base64로 인코딩</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    encoded <span class="op">=</span> b64encode(img_buffer.getvalue())</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># base64 바이트 문자열을 utf-8 문자열로 디코딩</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    decoded <span class="op">=</span> encoded.decode(<span class="st">"utf-8"</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># HTML img 태그 형식으로 반환</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f'&lt;img src="data:image/png;base64,</span><span class="sc">{</span>decoded<span class="sc">}</span><span class="ss">"&gt;'</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_line_sparkline(data):</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">    데이터 리스트를 받아 라인 플롯 형태의 Sparkline HTML을 생성합니다.</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> <span class="bu">list</span>(data)</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 그래프 객체(figure)와 축(axes) 초기화 (배경 없음)</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">2</span>, <span class="fl">0.5</span>), facecolor<span class="op">=</span><span class="st">"none"</span>)</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 데이터의 시작 값과 끝 값을 비교하여 라인 색상 결정</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> data[<span class="dv">0</span>] <span class="op">&gt;</span> data[<span class="op">-</span><span class="dv">1</span>]:</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 최신 가격(끝)이 시작 가격보다 낮으면 (하락) -&gt; 빨간색</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>        chart_color <span class="op">=</span> colors[<span class="dv">0</span>]</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 최신 가격(끝)이 시작 가격보다 높거나 같으면 (상승/유지) -&gt; 녹색</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>        chart_color <span class="op">=</span> colors[<span class="dv">3</span>]</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 라인 플롯 생성</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>    ax.plot(data, color<span class="op">=</span>chart_color)</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 마지막 데이터 지점에 마커(파란색 점) 추가</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plt.plot() 대신 객체지향 ax.plot() 사용</span></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    ax.plot(<span class="bu">len</span>(data) <span class="op">-</span> <span class="dv">1</span>, data[<span class="op">-</span><span class="dv">1</span>], <span class="st">"b."</span>)</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 모든 축(눈금, 레이블, 테두리)을 끔</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 헬퍼 함수를 호출하여 Figure를 HTML 이미지 태그로 변환</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> _fig_to_html_img(fig)</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_hist_sparkline(data):</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="co">    데이터 리스트를 받아 히스토그램 형태의 Sparkline HTML을 생성합니다.</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 그래프 객체(figure)와 축(axes) 초기화 (배경 없음)</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">2</span>, <span class="fl">0.5</span>), facecolor<span class="op">=</span><span class="st">"none"</span>)</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 히스토그램 생성</span></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>    ax.hist(data, bins<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span>colors[<span class="dv">2</span>])</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 모든 축(눈금, 레이블, 테두리)을 끔</span></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>    ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 헬퍼 함수를 호출하여 Figure를 HTML 이미지 태그로 변환</span></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> _fig_to_html_img(fig)</span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="co"># 더미 데이터 생성</span></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>data_values <span class="op">=</span> [</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"APPL"</span>, <span class="dv">40000</span> <span class="op">*</span> np.random.rand(n).<span class="bu">round</span>(<span class="dv">2</span>)),</span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"MSFT"</span>, <span class="dv">2000</span> <span class="op">*</span> np.random.rand(n).<span class="bu">round</span>(<span class="dv">2</span>)),</span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"GOOG"</span>, <span class="dv">500</span> <span class="op">*</span> np.random.rand(n).<span class="bu">round</span>(<span class="dv">2</span>)),</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"META"</span>, <span class="dv">150</span> <span class="op">*</span> np.random.rand(n).<span class="bu">round</span>(<span class="dv">2</span>)),</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data_values, columns<span class="op">=</span>[<span class="st">"Name"</span>, <span class="st">"Price History"</span>])</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Sparkline 생성 적용: 라인 sparkline을 생성하여 'Day Price History' 컬럼에 저장</span></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Day Price History"</span>] <span class="op">=</span> df[<span class="st">"Price History"</span>].<span class="bu">apply</span>(create_line_sparkline)</span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="co"># 히스토그램 sparkline을 생성하여 'Hourly Trade Volume' 컬럼에 저장</span></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Hourly Trade Volume"</span>] <span class="op">=</span> df[<span class="st">"Price History"</span>].<span class="bu">apply</span>(create_hist_sparkline)</span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="co"># 참고: 'Hourly Trade Volume'은 순전히 데모 목적으로 생성되었습니다.</span></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="co"># 실제 이 스파크라인을 만들려면 시간 정보가 필요합니다.</span></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="co"># 위 데이터프레임을 HTML로 출력</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="co"># escape=False : 컬럼 내의 HTML(&lt;img&gt;) 태그가 문자열이 아닌 HTML로 렌더링되도록 함</span></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="co"># 원본 'Price History' 배열은 너무 크므로 최종 출력에서 제외</span></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>HTML(df.drop(columns<span class="op">=</span>[<span class="st">"Price History"</span>]).to_html(escape<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
@@ -881,8 +910,8 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </div>
 </div>
 </section>
-<section id="리지라인-플롯" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> <a href="https://www.blog.dailydoseofds.com/p/ridgeline-plots-an-underrated-gem">리지라인 플롯</a></h1>
+<section id="리지라인-플롯" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> <a href="https://www.blog.dailydoseofds.com/p/ridgeline-plots-an-underrated-gem">리지라인 플롯</a></h1>
 <blockquote class="blockquote">
 <p>과소평가된 데이터 시각화</p>
 </blockquote>
@@ -896,8 +925,8 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <blockquote class="blockquote">
 <p><code>seaborn</code> 라이브러리도 리지라인 플롯을 생성하는 방법을 제공하지만, 저는 <code>joypy</code> 라이브러리가 더 유용하고 사용하기 쉽다고 자주 생각합니다.</p>
 </blockquote>
-<section id="리지라인-플랏은-언제-사용해야-하는가" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="리지라인-플랏은-언제-사용해야-하는가"><span class="header-section-number">4.1</span> 리지라인 플랏은 언제 사용해야 하는가?</h2>
+<section id="리지라인-플랏은-언제-사용해야-하는가" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="리지라인-플랏은-언제-사용해야-하는가"><span class="header-section-number">3.1</span> 리지라인 플랏은 언제 사용해야 하는가?</h2>
 <p>일반적으로 리지라인 플롯은 변수에 3~4개 이상의 그룹이 있을 때 사용하는 것이 합리적입니다. 이는 단일 플롯에서 시각화할 때 발생할 수 있는 겹침을 피하기 위함입니다. 또한, 리지라인 플롯은 그룹 간에 표시되는 연속형 변수에서 다음과 같이 명확한 패턴이나 순위가 있을 때 더 유용합니다.</p>
 <ul>
 <li>단조로운 증가(monotonically increasing)</li>
@@ -906,12 +935,12 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </ul>
 <p>그렇기 때문에 그룹의 분포를 수직으로 쌓는 순서가 매우 중요해집니다.</p>
 <div id="7377b597" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date, timedelta</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date, timedelta</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joypy <span class="im">import</span> joyplot  <span class="co"># 'joypy' 라이브러리가 설치되어 있어야 합니다.</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.api.types <span class="im">import</span> CategoricalDtype</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
@@ -924,80 +953,94 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>max_temps <span class="op">=</span> [<span class="fl">20.5</span>, <span class="fl">24.6</span>, <span class="fl">30.4</span>, <span class="fl">36.9</span>, <span class="fl">40.9</span>, <span class="dv">39</span>, <span class="fl">35.8</span>, <span class="fl">34.5</span>, <span class="fl">34.3</span>, <span class="fl">33.1</span>, <span class="fl">28.3</span>, <span class="dv">23</span>]</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># min_temps 리스트의 불필요한 마지막 13번째 값(19)을 제거했습니다.</span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>min_temps <span class="op">=</span> [<span class="fl">7.6</span>, <span class="fl">10.8</span>, <span class="fl">15.7</span>, <span class="fl">21.3</span>, <span class="fl">25.6</span>, <span class="fl">27.6</span>, <span class="fl">27.3</span>, <span class="fl">26.6</span>, <span class="fl">24.9</span>, <span class="fl">19.3</span>, <span class="fl">12.9</span>, <span class="fl">8.3</span>]</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>std_devs <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>] <span class="co"># 무작위로 선택할 표준 편차</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>months <span class="op">=</span> [<span class="st">'January'</span>, <span class="st">'February'</span>, <span class="st">'March'</span>, <span class="st">'April'</span>, <span class="st">'May'</span>, <span class="st">'June'</span>,</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>          <span class="st">'July'</span>, <span class="st">'August'</span>, <span class="st">'September'</span>, <span class="st">'October'</span>, <span class="st">'November'</span>, <span class="st">'December'</span>]</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 데이터 생성 (리팩토링됨) ---</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co"># df.append() 대신, 리스트에 딕셔너리를 추가한 후 DataFrame을 한 번에 생성합니다.</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터를 저장할 빈 리스트 초기화</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>data_list <span class="op">=</span> []</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 1년 치 각 날짜에 대한 데이터 생성</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>start_date <span class="op">=</span> date(<span class="dv">2023</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>end_date <span class="op">=</span> date(<span class="dv">2023</span>, <span class="dv">12</span>, <span class="dv">31</span>)</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>current_date <span class="op">=</span> start_date</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>std_devs <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]  <span class="co"># 무작위로 선택할 표준 편차</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>months <span class="op">=</span> [</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"January"</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"February"</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"March"</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"April"</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"May"</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"June"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"July"</span>,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"August"</span>,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"September"</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"October"</span>,</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"November"</span>,</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"December"</span>,</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> current_date <span class="op">&lt;=</span> end_date:</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 리스트 인덱싱을 위해 월을 0부터 시작하도록 조정 (1월 -&gt; 0)</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    month_index <span class="op">=</span> current_date.month <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 정규 분포를 따르는 임의의 최고/최저 기온 생성</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    max_temp <span class="op">=</span> np.random.normal(max_temps[month_index], std_devs[np.random.randint(<span class="dv">0</span>, <span class="dv">3</span>)])</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    min_temp <span class="op">=</span> np.random.normal(min_temps[month_index], std_devs[np.random.randint(<span class="dv">0</span>, <span class="dv">3</span>)])</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 데이터를 딕셔너리 형태로 리스트에 추가</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    data_list.append({</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Day'</span>: current_date.day,</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Month'</span>: months[month_index],</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">'min_temp'</span>: min_temp,</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">'max_temp'</span>: max_temp</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 데이터 생성 (리팩토링됨) ---</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="co"># df.append() 대신, 리스트에 딕셔너리를 추가한 후 DataFrame을 한 번에 생성합니다.</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 데이터를 저장할 빈 리스트 초기화</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>data_list <span class="op">=</span> []</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 1년 치 각 날짜에 대한 데이터 생성</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>start_date <span class="op">=</span> date(<span class="dv">2023</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>end_date <span class="op">=</span> date(<span class="dv">2023</span>, <span class="dv">12</span>, <span class="dv">31</span>)</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>current_date <span class="op">=</span> start_date</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> current_date <span class="op">&lt;=</span> end_date:</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 리스트 인덱싱을 위해 월을 0부터 시작하도록 조정 (1월 -&gt; 0)</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    month_index <span class="op">=</span> current_date.month <span class="op">-</span> <span class="dv">1</span></span>
 <span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 다음 날짜로 이동</span></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    current_date <span class="op">+=</span> timedelta(days<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="co"># 루프 종료 후, 리스트로부터 DataFrame을 한 번에 생성</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data_list)</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="co"># 'Month' 컬럼을 월 순서대로 정렬되는 범주형(Categorical) 타입으로 변환</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="co"># (플롯팅 시 월 순서를 보장하기 위함)</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>month_dtype <span class="op">=</span> CategoricalDtype(categories<span class="op">=</span>months, ordered<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Month'</span>] <span class="op">=</span> df[<span class="st">'Month'</span>].astype(month_dtype)</span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Joy Plot (능선도) 생성 ---</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 정규 분포를 따르는 임의의 최고/최저 기온 생성</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    max_temp <span class="op">=</span> np.random.normal(max_temps[month_index], std_devs[np.random.randint(<span class="dv">0</span>, <span class="dv">3</span>)])</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    min_temp <span class="op">=</span> np.random.normal(min_temps[month_index], std_devs[np.random.randint(<span class="dv">0</span>, <span class="dv">3</span>)])</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 데이터를 딕셔너리 형태로 리스트에 추가</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    data_list.append(</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Day"</span>: current_date.day,</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Month"</span>: months[month_index],</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_temp"</span>: min_temp,</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>            <span class="st">"max_temp"</span>: max_temp,</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="co"># joyplot이 (Figure, Axes) 객체를 반환합니다. (순서 수정: fig, ax)</span></span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="co"># 불필요한 plt.figure() 호출을 제거했습니다.</span></span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> joyplot(</span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>df[[<span class="st">'min_temp'</span>, <span class="st">'max_temp'</span>, <span class="st">'Month'</span>]], </span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>    by<span class="op">=</span><span class="st">'Month'</span>,                          <span class="co"># 'Month'를 기준으로 그룹화</span></span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span>[<span class="st">'min_temp'</span>, <span class="st">'max_temp'</span>],     <span class="co"># 플롯을 그릴 컬럼들</span></span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">'#2471A3'</span>, <span class="st">'#fe7c73'</span>],        <span class="co"># 각 컬럼에 대한 색상</span></span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="co">#     legend=True,                         # 범례 (필요시 주석 해제)</span></span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.85</span>,                          <span class="co"># 투명도</span></span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>),                     <span class="co"># Figure 크기</span></span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 다음 날짜로 이동</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    current_date <span class="op">+=</span> timedelta(days<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="co"># 루프 종료 후, 리스트로부터 DataFrame을 한 번에 생성</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data_list)</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="co"># 'Month' 컬럼을 월 순서대로 정렬되는 범주형(Categorical) 타입으로 변환</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="co"># (플롯팅 시 월 순서를 보장하기 위함)</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>month_dtype <span class="op">=</span> CategoricalDtype(categories<span class="op">=</span>months, ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Month"</span>] <span class="op">=</span> df[<span class="st">"Month"</span>].astype(month_dtype)</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 전체의 제목 설정 (plt.title 대신 사용)</span></span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">'Min Max Temperature Distribution)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, y<span class="op">=</span><span class="fl">1.01</span>) <span class="co"># y 값으로 제목 위치 조정</span></span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Joy Plot (능선도) 생성 ---</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="co"># joyplot이 (Figure, Axes) 객체를 반환합니다. (순서 수정: fig, ax)</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="co"># 불필요한 plt.figure() 호출을 제거했습니다.</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> joyplot(</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>df[[<span class="st">"min_temp"</span>, <span class="st">"max_temp"</span>, <span class="st">"Month"</span>]],</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>    by<span class="op">=</span><span class="st">"Month"</span>,  <span class="co"># 'Month'를 기준으로 그룹화</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span>[<span class="st">"min_temp"</span>, <span class="st">"max_temp"</span>],  <span class="co"># 플롯을 그릴 컬럼들</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"#2471A3"</span>, <span class="st">"#fe7c73"</span>],  <span class="co"># 각 컬럼에 대한 색상</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     legend=True,                         # 범례 (필요시 주석 해제)</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">0.85</span>,  <span class="co"># 투명도</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>),  <span class="co"># Figure 크기</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 전체의 제목 설정 (plt.title 대신 사용)</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Min Max Temperature Distribution)"</span>, fontsize<span class="op">=</span><span class="dv">12</span>, y<span class="op">=</span><span class="fl">1.01</span>)  <span class="co"># y 값으로 제목 위치 조정</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="da_visualization_matplotlib_files/figure-html/cell-6-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="da_visualization_matplotlib_files/figure-html/cell-6-output-1.svg" class="img-fluid figure-img"></a></p>
+<p><a href="da_visualization_matplotlib_files/figure-html/cell-6-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="da_visualization_matplotlib_files/figure-html/cell-6-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="결측-데이터를-위한-knn-대체법" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> 결측 데이터를 위한 <a href="https://blog.dailydoseofds.com/p/missforest-and-knn-imputation-for">kNN 대체법</a></h1>
+<section id="결측-데이터를-위한-knn-대체법" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 결측 데이터를 위한 <a href="https://blog.dailydoseofds.com/p/missforest-and-knn-imputation-for">kNN 대체법</a></h1>
 <p>데이터 사이언스에서 결측치(missing data)에 대한 대체(imputation) 전략은 결측의 유형에 크게 좌우되며, 결측 유형에는 세 가지가 있습니다:</p>
 <ol type="1">
 <li>MCAR (완전 무작위 결측): 데이터가 진정으로 무작위하게 누락되었으며, 관측된 변수나 관측되지 않은 변수와 아무런 관련이 없는 경우입니다.</li>
@@ -1005,8 +1048,8 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <li>MNAR (비무작위 결측): 결측이 결측값 자체 또는 우리가 데이터를 수집하지 않은 피처(들)에 기인하는 경우입니다.</li>
 </ol>
 <p>저는 실제 상황에서 다른 두 유형보다 MAR (무작위 결측)이 상대적으로 훨씬 더 많이 나타나는 것을 관찰했습니다. 그래서 여기에서는 제가 주로 사용하는 kNN 대체법을 공유하고자 합니다.</p>
-<section id="knn-대체법knn-imputation" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="knn-대체법knn-imputation"><span class="header-section-number">5.1</span> kNN 대체법(kNN imputation)</h2>
+<section id="knn-대체법knn-imputation" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="knn-대체법knn-imputation"><span class="header-section-number">4.1</span> kNN 대체법(kNN imputation)</h2>
 <p>이 방법은 k-최근접 이웃(k-nearest neighbors) 알고리즘을 사용하여 결측값을 대체합니다. 구체적으로는 결측이 아닌 피처 값들에 kNN을 실행하여 결측된 피처를 대체하며 아래의 단계를 따릅니다.</p>
 <ul>
 <li>1단계: 결측값이 있는 행 (r)을 선택합니다.</li>
@@ -1015,85 +1058,127 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <li>4단계: 결측값이 있는 모든 행에 대해 반복합니다.</li>
 </ul>
 </section>
-<section id="여러-결측치-대체-방법을-비교하는-시각화" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="여러-결측치-대체-방법을-비교하는-시각화"><span class="header-section-number">5.2</span> 여러 결측치 대체 방법을 비교하는 시각화</h2>
+<section id="여러-결측치-대체-방법을-비교하는-시각화" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="여러-결측치-대체-방법을-비교하는-시각화"><span class="header-section-number">4.2</span> 여러 결측치 대체 방법을 비교하는 시각화</h2>
 <div id="a15b237b" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer, KNNImputer</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> KNNImputer, SimpleImputer</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 경고 메시지 무시</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>()</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 플롯을 위한 기본 설정</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.family'</span>] <span class="op">=</span> [<span class="st">'Noto Sans'</span>, <span class="st">'sans-serif'</span>] </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#fe7c73'</span>, <span class="st">'#2471A3'</span>, <span class="st">'#3498DB'</span>, <span class="st">'#27AE60'</span>, <span class="st">'#82E0AA'</span>, <span class="st">'#D35400'</span>, </span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>          <span class="st">'#5D6D7E'</span>, <span class="st">'#E74C3C'</span>, <span class="st">'#21618C'</span>, <span class="st">'#B7950B'</span>, <span class="st">'#46C7C7'</span>, <span class="st">'#00B9FF'</span>, </span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>          <span class="st">'#FF7051'</span>, <span class="st">"orange"</span>, <span class="st">"darkorange"</span>, <span class="st">"tomato"</span>, <span class="st">"coral"</span>, <span class="st">"limegreen"</span>, <span class="st">"lightsalmon"</span>]</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 1. 결측치가 포함된 더미 데이터셋 생성 ---</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span>(size, <span class="dv">3</span>))  <span class="co"># 정규분포를 따르는 무작위 데이터 생성</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> np.random.rand(size, <span class="dv">3</span>) <span class="op">&lt;</span> <span class="fl">0.2</span>  <span class="co"># 20% 확률로 결측치를 만들기 위한 마스크(mask) 생성</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>data[mask] <span class="op">=</span> np.nan  <span class="co"># 마스크를 적용하여 결측치(NaN) 설정</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 2. 다양한 방법으로 결측치 대체 ---</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 평균값 대체(Mean Imputation)</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>mean_imputer <span class="op">=</span> SimpleImputer(strategy<span class="op">=</span><span class="st">'mean'</span>)</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>data_imputed_mean <span class="op">=</span> mean_imputer.fit_transform(data)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 0으로 대체(Zero Imputation)</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>zero_imputer <span class="op">=</span> SimpleImputer(strategy<span class="op">=</span><span class="st">'constant'</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>data_imputed_zero <span class="op">=</span> zero_imputer.fit_transform(data)</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co"># kNN 대체 (n_neighbors=5)</span></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>knn_imputer <span class="op">=</span> KNNImputer(n_neighbors<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>data_imputed_knn <span class="op">=</span> knn_imputer.fit_transform(data)</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 3. Subplot을 사용하여 4개의 플롯을 하나로 합치기 ---</span></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 2x2 서브플롯 그리드(grid) 생성. figsize로 전체 크기 조절</span></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="co"># (0, 0) 위치: 원본 데이터 분포</span></span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].hist(data.flatten(), bins<span class="op">=</span><span class="dv">45</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, color<span class="op">=</span>colors[<span class="dv">1</span>])</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"Original Distribution"</span>, size<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">"Value"</span>, size<span class="op">=</span><span class="dv">12</span>,)</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">"Frequency"</span>, size<span class="op">=</span><span class="dv">12</span>,)</span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="co"># (0, 1) 위치: 평균값 대체(Mean Imputation) 분포</span></span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].hist(data_imputed_mean.flatten(), bins<span class="op">=</span><span class="dv">45</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, color<span class="op">=</span>colors[<span class="dv">16</span>])</span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">"Mean Imputation"</span>, size<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_xlabel(<span class="st">"Value"</span>, size<span class="op">=</span><span class="dv">12</span>,)</span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_ylabel(<span class="st">"Frequency"</span>, size<span class="op">=</span><span class="dv">12</span>,)</span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="co"># (1, 0) 위치: 0으로 대체(Zero Imputation) 분포</span></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].hist(data_imputed_zero.flatten(), bins<span class="op">=</span><span class="dv">45</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, color<span class="op">=</span>colors[<span class="dv">16</span>])</span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">"Zero Imputation"</span>, size<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">"Value"</span>, size<span class="op">=</span><span class="dv">12</span>,)</span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">"Frequency"</span>, size<span class="op">=</span><span class="dv">12</span>,)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"font.family"</span>] <span class="op">=</span> [<span class="st">"Noto Sans"</span>, <span class="st">"sans-serif"</span>]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#fe7c73"</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#2471A3"</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#3498DB"</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#27AE60"</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#82E0AA"</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#D35400"</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#5D6D7E"</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#E74C3C"</span>,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#21618C"</span>,</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#B7950B"</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#46C7C7"</span>,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#00B9FF"</span>,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#FF7051"</span>,</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"orange"</span>,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"darkorange"</span>,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tomato"</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coral"</span>,</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"limegreen"</span>,</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lightsalmon"</span>,</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 1. 결측치가 포함된 더미 데이터셋 생성 ---</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span>(size, <span class="dv">3</span>))  <span class="co"># 정규분포를 따르는 무작위 데이터 생성</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> np.random.rand(size, <span class="dv">3</span>) <span class="op">&lt;</span> <span class="fl">0.2</span>  <span class="co"># 20% 확률로 결측치를 만들기 위한 마스크(mask) 생성</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>data[mask] <span class="op">=</span> np.nan  <span class="co"># 마스크를 적용하여 결측치(NaN) 설정</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 2. 다양한 방법으로 결측치 대체 ---</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="co"># 평균값 대체(Mean Imputation)</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>mean_imputer <span class="op">=</span> SimpleImputer(strategy<span class="op">=</span><span class="st">"mean"</span>)</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>data_imputed_mean <span class="op">=</span> mean_imputer.fit_transform(data)</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 0으로 대체(Zero Imputation)</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>zero_imputer <span class="op">=</span> SimpleImputer(strategy<span class="op">=</span><span class="st">"constant"</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>data_imputed_zero <span class="op">=</span> zero_imputer.fit_transform(data)</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="co"># kNN 대체 (n_neighbors=5)</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>knn_imputer <span class="op">=</span> KNNImputer(n_neighbors<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>data_imputed_knn <span class="op">=</span> knn_imputer.fit_transform(data)</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="co"># --- 3. Subplot을 사용하여 4개의 플롯을 하나로 합치기 ---</span></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a><span class="co"># 2x2 서브플롯 그리드(grid) 생성. figsize로 전체 크기 조절</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
 <span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="co"># (1, 1) 위치: kNN 대체(kNN Imputation) 분포</span></span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].hist(data_imputed_knn.flatten(), bins<span class="op">=</span><span class="dv">50</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, color<span class="op">=</span>colors[<span class="dv">18</span>])</span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">"kNN Imputation (k=5)"</span>, size<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">"Value"</span>, size<span class="op">=</span><span class="dv">12</span>,)</span>
-<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(<span class="st">"Frequency"</span>, size<span class="op">=</span><span class="dv">12</span>,)</span>
-<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="co"># 레이아웃 자동 조정 (메인 제목과 겹치지 않도록 rect 파라미터로 상단 여백 확보)</span></span>
-<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="dv">0</span>, <span class="fl">0.03</span>, <span class="dv">1</span>, <span class="fl">0.95</span>])</span>
-<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 플롯을 한 번에 표시</span></span>
-<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="co"># (0, 0) 위치: 원본 데이터 분포</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].hist(data.flatten(), bins<span class="op">=</span><span class="dv">45</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, color<span class="op">=</span>colors[<span class="dv">1</span>])</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"Original Distribution"</span>, size<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>,</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Frequency"</span>,</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a><span class="co"># (0, 1) 위치: 평균값 대체(Mean Imputation) 분포</span></span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].hist(data_imputed_mean.flatten(), bins<span class="op">=</span><span class="dv">45</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, color<span class="op">=</span>colors[<span class="dv">16</span>])</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">"Mean Imputation"</span>, size<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_xlabel(</span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>,</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_ylabel(</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Frequency"</span>,</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a><span class="co"># (1, 0) 위치: 0으로 대체(Zero Imputation) 분포</span></span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].hist(data_imputed_zero.flatten(), bins<span class="op">=</span><span class="dv">45</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, color<span class="op">=</span>colors[<span class="dv">16</span>])</span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">"Zero Imputation"</span>, size<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(</span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>,</span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Frequency"</span>,</span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a><span class="co"># (1, 1) 위치: kNN 대체(kNN Imputation) 분포</span></span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].hist(data_imputed_knn.flatten(), bins<span class="op">=</span><span class="dv">50</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, color<span class="op">=</span>colors[<span class="dv">18</span>])</span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">"kNN Imputation (k=5)"</span>, size<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(</span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Value"</span>,</span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(</span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Frequency"</span>,</span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>    size<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a><span class="co"># 레이아웃 자동 조정 (메인 제목과 겹치지 않도록 rect 파라미터로 상단 여백 확보)</span></span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="dv">0</span>, <span class="fl">0.03</span>, <span class="dv">1</span>, <span class="fl">0.95</span>])</span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a><span class="co"># 모든 플롯을 한 번에 표시</span></span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="da_visualization_matplotlib_files/figure-html/cell-7-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="da_visualization_matplotlib_files/figure-html/cell-7-output-1.svg" class="img-fluid figure-img"></a></p>
+<p><a href="da_visualization_matplotlib_files/figure-html/cell-7-output-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="da_visualization_matplotlib_files/figure-html/cell-7-output-1.svg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1101,8 +1186,8 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>위 결과를 보면 평균(mean) 대체 또는 0(zero) 대체 대비 kNN 대체가 갖는 효과는 위 시각화에서 명확하게 드러납니다. 왼쪽 위에는 결측값이 있는 피처의 분포가 있습니다. 데이터가 MAR(무작위 결측)임을 이미 검증했다고 가정할 때 아래 그림과 같이 평균/0 대체를 사용하면 요약 통계량과 분포가 변경됩니다. 하지만 오른쪽 아래 그림에서 보듯이 kNN 대체(imputer)는 더 신뢰할 수 있는 것으로 보이며 요약 통계량을 보존하고 있습니다.</p>
 </section>
 </section>
-<section id="reference" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Reference</h1>
+<section id="reference" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Reference</h1>
 <ul>
 <li>Daily Dose of Data Science: <a href="https://blog.dailydoseofds.com/p/enrich-matplotlib-plots-with-annotations">Enrich Matplotlib Plots with Annotations</a></li>
 </ul>
