@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,9 +75,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-446372b49332023abb98ffbd203f4225.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-1d4353df62750e667d4ba3d17f0f2e1c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-446372b49332023abb98ffbd203f4225.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c403db109ef8a29fe7d42d2b539140cc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-182c3cbb9d016e7ba0fc3f515cd4d4f6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c403db109ef8a29fe7d42d2b539140cc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-f7a981a6d6a5d49226379a17328db006.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -542,7 +542,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">December 27, 2025</p>
+      <p class="date-modified">February 4, 2026</p>
     </div>
   </div>
     
@@ -902,15 +902,15 @@ Warning: there are non-text parts in the response: ['function_call'], returning 
 <li>작성 에이전트 (Writer Agent): 블로그 초안을 작성합니다.</li>
 <li>편집 에이전트 (Editor Agent): 명확성과 구조를 위해 블로그 초안을 편집합니다.</li>
 </ol>
-<div id="264cfc60" class="cell" data-execution_count="9">
+<div id="264cfc60" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1.개요 에이전트: 초기 블로그 게시물 개요를 생성합니다.</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>outline_agent <span class="op">=</span> Agent(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"OutlineAgent"</span>,</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gemini-2.5-flash-lite"</span>,</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    instruction<span class="op">=</span><span class="st">"""주어진 주제에 대해 다음 요소를 포함하는 블로그 개요를 작성합니다:</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">        1. 시선을 끄는 제목</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">        2. 독자를 사로잡는 도입부 </span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">        3. 각 섹션별 2~3개의 핵심 내용을 담은 3~5개의 본문 섹션 </span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">        2. 독자를 사로잡는 도입부</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">        3. 각 섹션별 2~3개의 핵심 내용을 담은 3~5개의 본문 섹션</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">        4. 결론</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">      """</span>,</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    output_key<span class="op">=</span><span class="st">"blog_outline"</span>,  <span class="co"># 이 에이전트의 결과는 이 키를 사용하여 세션 상태에 저장됩니다.</span></span>
@@ -1066,7 +1066,7 @@ MAS는 예측 불가능하고 동적으로 변화하는 환경에서도 시스�
 <li>금융 연구원(Finance Researcher): 금융 및 핀테크 뉴스 및 트렌드를 연구합니다.</li>
 <li>통합 에이전트(Aggregator Agent): 모든 연구 결과를 하나의 요약으로 통합합니다.</li>
 </ol>
-<div id="907e432e" class="cell" data-execution_count="10">
+<div id="907e432e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 기술 연구원: AI 및 ML 트렌드에 중점을 둡니다.</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tech_researcher <span class="op">=</span> Agent(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"TechResearcher"</span>,</span>
@@ -1103,34 +1103,30 @@ MAS는 예측 불가능하고 동적으로 변화하는 환경에서도 시스�
 <span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gemini-2.5-flash-lite"</span>,</span>
 <span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 병렬 에이전트의 출력(현재 세션 상태에 있음)을 주입하기 위해 플레이스홀더를 사용합니다.</span></span>
 <span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    instruction<span class="op">=</span><span class="st">"""이 세 가지 연구 결과를 하나의 경영진 요약 보고서로 통합하세요:</span></span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="st">    **기술 동향:**</span></span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="sc">{tech_research}</span></span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="st">    **건강 혁신:**</span></span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="sc">{health_research}</span></span>
-<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="st">    **금융 혁신:**</span></span>
-<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="sc">{finance_research}</span></span>
-<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="st">    요약 보고서는 세 보고서 모두에서 공통되는 주제, 놀라운 연결점, 가장 중요한 핵심 사항을 강조해야 합니다. 최종 요약은 약 200단어여야 합니다."""</span>,</span>
-<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    output_key<span class="op">=</span><span class="st">"executive_summary"</span>,  <span class="co"># 이것은 전체 시스템의 최종 결과물입니다.</span></span>
-<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="co"># 병렬 에이전트: 모든 서브 에이전트를 동시에 실행합니다.</span></span>
-<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>parallel_research_team <span class="op">=</span> ParallelAgent(</span>
-<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"ParallelResearchTeam"</span>,</span>
-<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>    sub_agents<span class="op">=</span>[tech_researcher, health_researcher, finance_researcher],</span>
-<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="co"># 순차 에이전트: 높은 수준의 워크플로우를 정의합니다: 병렬 팀을 먼저 실행하고, 그 다음 통합 에이전트를 실행합니다.</span></span>
-<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>root_agent <span class="op">=</span> SequentialAgent(</span>
-<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"ResearchSystem"</span>,</span>
-<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    sub_agents<span class="op">=</span>[parallel_research_team, aggregator_agent],</span>
-<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>runner <span class="op">=</span> InMemoryRunner(agent<span class="op">=</span>root_agent, app_name<span class="op">=</span><span class="st">"agents"</span>)</span>
-<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> <span class="cf">await</span> runner.run_debug(<span class="st">"기술, 건강, 금융 분야에 대한 일일 경영진 브리핑을 실행하세요."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="st">    **기술 동향:**</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="sc">{tech_research}</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="st">    **건강 혁신:**</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="sc">{health_research}</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="st">    **금융 혁신:**</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="sc">{finance_research}</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="st">    요약 보고서는 세 보고서 모두에서 공통되는 주제, 놀라운 연결점, 가장 중요한 핵심 사항을 강조해야 합니다. 최종 요약은 약 200단어여야 합니다."""</span>,</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>    output_key<span class="op">=</span><span class="st">"executive_summary"</span>,  <span class="co"># 이것은 전체 시스템의 최종 결과물입니다.</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 병렬 에이전트: 모든 서브 에이전트를 동시에 실행합니다.</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>parallel_research_team <span class="op">=</span> ParallelAgent(</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"ParallelResearchTeam"</span>,</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>    sub_agents<span class="op">=</span>[tech_researcher, health_researcher, finance_researcher],</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="co"># 순차 에이전트: 높은 수준의 워크플로우를 정의합니다: 병렬 팀을 먼저 실행하고, 그 다음 통합 에이전트를 실행합니다.</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>root_agent <span class="op">=</span> SequentialAgent(</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"ResearchSystem"</span>,</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>    sub_agents<span class="op">=</span>[parallel_research_team, aggregator_agent],</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>runner <span class="op">=</span> InMemoryRunner(agent<span class="op">=</span>root_agent, app_name<span class="op">=</span><span class="st">"agents"</span>)</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> <span class="cf">await</span> runner.run_debug(<span class="st">"기술, 건강, 금융 분야에 대한 일일 경영진 브리핑을 실행하세요."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  ### Created new session: debug_session_id
@@ -1236,7 +1232,7 @@ AggregatorAgent &gt; ## 경영진 요약: 기술, 건강, 금융 분야의 전�
 <li>작가 에이전트 (Writer Agent): 짧은 이야기의 초안을 작성합니다.</li>
 <li>비평가 에이전트 (Critic Agent): 개선 사항을 제안하기 위해 짧은 이야기를 검토하고 비평합니다.</li>
 </ol>
-<div id="63f9b298" class="cell" data-execution_count="12">
+<div id="63f9b298" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 이 에이전트는 시작할 때 한 번 실행되어 첫 번째 초안을 생성합니다.</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>initial_writer_agent <span class="op">=</span> Agent(</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"InitialWriterAgent"</span>,</span>
@@ -1252,53 +1248,50 @@ AggregatorAgent &gt; ## 경영진 요약: 기술, 건강, 금융 분야의 전�
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gemini-2.5-flash-lite"</span>,</span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    instruction<span class="op">=</span><span class="st">"""당신은 건설적인 스토리 비평가입니다. 아래 제공된 스토리를 검토하세요.</span></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="st">    스토리: </span><span class="sc">{current_story}</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="st">    스토리의 플롯, 캐릭터, 페이싱을 평가하세요.</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="st">    - 스토리가 잘 쓰여졌고 완성되었다면, 반드시 정확히 "APPROVED"라고 응답해야 합니다.</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="st">    - 그렇지 않다면, 개선을 위한 구체적이고 실행 가능한 제안 2~3가지를 제공하세요."""</span>,</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    output_key<span class="op">=</span><span class="st">"critique"</span>,  <span class="co"># 피드백을 상태에 저장합니다.</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="st">    스토리의 플롯, 캐릭터, 페이싱을 평가하세요.</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="st">    - 스토리가 잘 쓰여졌고 완성되었다면, 반드시 정확히 "APPROVED"라고 응답해야 합니다.</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="st">    - 그렇지 않다면, 개선을 위한 구체적이고 실행 가능한 제안 2~3가지를 제공하세요."""</span>,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    output_key<span class="op">=</span><span class="st">"critique"</span>,  <span class="co"># 피드백을 상태에 저장합니다.</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co"># RefinerAgent가 루프를 종료하기 위해 호출할 함수입니다.</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exit_loop():</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""비평이 'APPROVED'일 때만 이 함수를 호출하며, 스토리가 완성되어 더 이상 변경이 필요 없음을 나타냅니다."""</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"status"</span>: <span class="st">"approved"</span>, <span class="st">"message"</span>: <span class="st">"Story approved. Exiting refinement loop."</span>}</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co"># RefinerAgent가 루프를 종료하기 위해 호출할 함수입니다.</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exit_loop():</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""비평이 'APPROVED'일 때만 이 함수를 호출하며, 스토리가 완성되어 더 이상 변경이 필요 없음을 나타냅니다."""</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"status"</span>: <span class="st">"approved"</span>, <span class="st">"message"</span>: <span class="st">"Story approved. Exiting refinement loop."</span>}</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 이 에이전트는 비평을 기반으로 스토리를 다듬거나 exit_loop 함수를 호출합니다.</span></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>refiner_agent <span class="op">=</span> Agent(</span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"RefinerAgent"</span>,</span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gemini-2.5-flash-lite"</span>,</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    instruction<span class="op">=</span><span class="st">"""당신은 스토리 다듬기 전문가입니다. 당신에게는 스토리 초안과 비평이 주어집니다.</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="st">    스토리 초안: </span><span class="sc">{current_story}</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="st">    비평: </span><span class="sc">{critique}</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="st">    당신의 임무는 비평을 분석하는 것입니다.</span></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a><span class="st">    - 만약 비평이 정확히 "APPROVED"라면, 당신은 반드시 `exit_loop` 함수만 호출해야 하며 다른 것은 아무것도 하지 않습니다.</span></span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="st">    - 그렇지 않다면, 비평의 피드백을 완전히 반영하여 스토리 초안을 다시 작성하세요."""</span>,</span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    output_key<span class="op">=</span><span class="st">"current_story"</span>,  <span class="co"># 새로운, 다듬어진 버전으로 스토리를 덮어씁니다.</span></span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">=</span>[FunctionTool(exit_loop)],  <span class="co"># 이제 함수 참조로 도구가 올바르게 초기화되었습니다.</span></span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a><span class="co"># LoopAgent는 반복적으로 실행될 에이전트들(Critic -&gt; Refiner)을 포함합니다.</span></span>
-<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>story_refinement_loop <span class="op">=</span> LoopAgent(</span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"StoryRefinementLoop"</span>,</span>
-<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>    sub_agents<span class="op">=</span>[critic_agent, refiner_agent],</span>
-<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>    max_iterations<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 무한 루프를 방지합니다.</span></span>
-<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="co"># 루트 에이전트는 전체 워크플로우를 정의하는 순차 에이전트입니다: 초기 작성 -&gt; 정제 루프.</span></span>
-<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>root_agent <span class="op">=</span> SequentialAgent(</span>
-<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"StoryPipeline"</span>,</span>
-<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>    sub_agents<span class="op">=</span>[initial_writer_agent, story_refinement_loop],</span>
-<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>runner <span class="op">=</span> InMemoryRunner(agent<span class="op">=</span>root_agent, app_name<span class="op">=</span><span class="st">"agents"</span>)</span>
-<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> <span class="cf">await</span> runner.run_debug(</span>
-<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"등대지기가 신비롭고 빛나는 지도를 발견하는 짧은 이야기를 작성하세요."</span></span>
-<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 이 에이전트는 비평을 기반으로 스토리를 다듬거나 exit_loop 함수를 호출합니다.</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>refiner_agent <span class="op">=</span> Agent(</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"RefinerAgent"</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gemini-2.5-flash-lite"</span>,</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    instruction<span class="op">=</span><span class="st">"""당신은 스토리 다듬기 전문가입니다. 당신에게는 스토리 초안과 비평이 주어집니다.</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="st">    스토리 초안: </span><span class="sc">{current_story}</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="st">    비평: </span><span class="sc">{critique}</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="st">    당신의 임무는 비평을 분석하는 것입니다.</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="st">    - 만약 비평이 정확히 "APPROVED"라면, 당신은 반드시 `exit_loop` 함수만 호출해야 하며 다른 것은 아무것도 하지 않습니다.</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="st">    - 그렇지 않다면, 비평의 피드백을 완전히 반영하여 스토리 초안을 다시 작성하세요."""</span>,</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    output_key<span class="op">=</span><span class="st">"current_story"</span>,  <span class="co"># 새로운, 다듬어진 버전으로 스토리를 덮어씁니다.</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">=</span>[FunctionTool(exit_loop)],  <span class="co"># 이제 함수 참조로 도구가 올바르게 초기화되었습니다.</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="co"># LoopAgent는 반복적으로 실행될 에이전트들(Critic -&gt; Refiner)을 포함합니다.</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>story_refinement_loop <span class="op">=</span> LoopAgent(</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"StoryRefinementLoop"</span>,</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>    sub_agents<span class="op">=</span>[critic_agent, refiner_agent],</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>    max_iterations<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 무한 루프를 방지합니다.</span></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a><span class="co"># 루트 에이전트는 전체 워크플로우를 정의하는 순차 에이전트입니다: 초기 작성 -&gt; 정제 루프.</span></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>root_agent <span class="op">=</span> SequentialAgent(</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"StoryPipeline"</span>,</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>    sub_agents<span class="op">=</span>[initial_writer_agent, story_refinement_loop],</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>runner <span class="op">=</span> InMemoryRunner(agent<span class="op">=</span>root_agent, app_name<span class="op">=</span><span class="st">"agents"</span>)</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> <span class="cf">await</span> runner.run_debug(</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"등대지기가 신비롭고 빛나는 지도를 발견하는 짧은 이야기를 작성하세요."</span></span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  ### Created new session: debug_session_id
@@ -1738,7 +1731,7 @@ User &gt; 플래티넘 신용카드를 사용하여 500 미국 달러를 유로�
 <section id="내장-코드-실행기built-in-code-executor" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="내장-코드-실행기built-in-code-executor"><span class="header-section-number">3.3.1</span> 내장 코드 실행기(Built-in Code Executor)</h3>
 <p>ADK는 샌드박스 환경에서 코드를 실행할 수 있는 내장 코드 실행기를 제공합니다. 예시로 <code>BuiltInCodeExecutor</code>로 실행하는 <code>calculation_agent</code>를 생성 합니다.</p>
-<div id="e1509dbf" class="cell" data-execution_count="15">
+<div id="e1509dbf" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.adk.agents <span class="im">import</span> LlmAgent</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.adk.runners <span class="im">import</span> BuiltInCodeExecutor</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1748,18 +1741,16 @@ User &gt; 플래티넘 신용카드를 사용하여 500 미국 달러를 유로�
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    instruction<span class="op">=</span><span class="st">"""</span></span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="st">    당신은 파이썬 코드로만 응답하는 전문화된 계산기입니다. 어떠한 텍스트, 설명, 또는 대화 응답을 제공하는 것은 금지되어 있습니다.</span></span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="st">    당신의 임무는 계산 요청을 받아 답변을 계산하는 단일 파이썬 코드 블록으로 변환하는 것입니다.</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="st">    **규칙:**</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="st">    1. 당신의 출력은 오직 파이썬 코드 블록이어야 합니다.</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="st">    2. 코드 블록 앞이나 뒤에 어떤 텍스트도 작성하지 마세요.</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="st">    3. 파이썬 코드는 반드시 결과를 계산해야 합니다.</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="st">    4. 파이썬 코드는 반드시 최종 결과를 표준 출력(stdout)으로 출력해야 합니다.</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="st">    5. 당신은 직접 계산을 수행하는 것이 금지되어 있습니다. 당신의 유일한 임무는 계산을 수행할 코드를 생성하는 것입니다.</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="st">    이 규칙을 따르지 않으면 오류가 발생합니다.</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    code_executor<span class="op">=</span>BuiltInCodeExecutor(),</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="st">    **규칙:**</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="st">    1. 당신의 출력은 오직 파이썬 코드 블록이어야 합니다.</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="st">    2. 코드 블록 앞이나 뒤에 어떤 텍스트도 작성하지 마세요.</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="st">    3. 파이썬 코드는 반드시 결과를 계산해야 합니다.</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="st">    4. 파이썬 코드는 반드시 최종 결과를 표준 출력(stdout)으로 출력해야 합니다.</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="st">    5. 당신은 직접 계산을 수행하는 것이 금지되어 있습니다. 당신의 유일한 임무는 계산을 수행할 코드를 생성하는 것입니다.</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="st">    이 규칙을 따르지 않으면 오류가 발생합니다.</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    code_executor<span class="op">=</span>BuiltInCodeExecutor(),</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="에이전트-지침-및-도구-세트-업데이트" class="level3" data-number="3.3.2">
@@ -2136,7 +2127,7 @@ echo_agent &gt; 안녕하세요, MCP 텍스트 연결을 테스트합니다.</co
 <li>필수 방어: 사용자별 엄격한 데이터 격리, PII 익명화, 그리고 악의적인 정보 주입인 메모리 오염(Memory Poisoning)에 대한 방어(예: Model Armor)가 필수적입니다.</li>
 <li>메모리 사용: 검색된 메모리는 LLM의 컨텍스트 창 내 시스템 지침이나 대화 기록에 주입됩니다.</li>
 </ul>
-<div id="6e560d8f" class="cell" data-execution_count="18">
+<div id="6e560d8f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.adk.agents <span class="im">import</span> Agent, LlmAgent</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.adk.models.google_llm <span class="im">import</span> Gemini</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.adk.runners <span class="im">import</span> Runner</span>
@@ -2162,7 +2153,7 @@ echo_agent &gt; 안녕하세요, MCP 텍스트 연결을 테스트합니다.</co
 <span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>        session <span class="op">=</span> <span class="cf">await</span> session_service.create_session(</span>
 <span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>            app_name<span class="op">=</span>app_name, user_id<span class="op">=</span>USER_ID, session_id<span class="op">=</span>session_name</span>
 <span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
 <span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>        session <span class="op">=</span> <span class="cf">await</span> session_service.get_session(</span>
 <span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>            app_name<span class="op">=</span>app_name, user_id<span class="op">=</span>USER_ID, session_id<span class="op">=</span>session_name</span>
 <span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>        )</span>
@@ -2170,7 +2161,7 @@ echo_agent &gt; 안녕하세요, MCP 텍스트 연결을 테스트합니다.</co
 <span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 쿼리가 제공된 경우 처리합니다.</span></span>
 <span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> user_queries:</span>
 <span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 일관된 처리를 위해 단일 쿼리를 리스트로 변환합니다.</span></span>
-<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(user_queries) <span class="op">==</span> <span class="bu">str</span>:</span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">type</span>(user_queries) <span class="kw">is</span> <span class="bu">str</span>:</span>
 <span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>            user_queries <span class="op">=</span> [user_queries]</span>
 <span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 리스트에 있는 각 쿼리를 순차적으로 처리합니다.</span></span>
@@ -2526,7 +2517,7 @@ gemini-2.5-flash-lite &gt;  안녕하세요! 당신의 이름은 **Sam**입니�
 <li>검색(Retrieve): <code>search_memory()</code>를 사용하여 저장된 메모리를 검색합니다.</li>
 </ol>
 <p>ADK의 <code>BaseMemoryService</code> 인터페이스를 통해 여러 <code>MemoryService</code> 구현을 제공합니다. 아래 코드를 통해 살펴봅시다.</p>
-<div id="a4217e7c" class="cell" data-execution_count="3">
+<div id="a4217e7c" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.adk.agents <span class="im">import</span> LlmAgent</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.adk.memory <span class="im">import</span> InMemoryMemoryService</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.adk.models.google_llm <span class="im">import</span> Gemini</span>
@@ -2548,7 +2539,7 @@ gemini-2.5-flash-lite &gt;  안녕하세요! 당신의 이름은 **Sam**입니�
 <span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>        session <span class="op">=</span> <span class="cf">await</span> session_service.create_session(</span>
 <span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>            app_name<span class="op">=</span>APP_NAME, user_id<span class="op">=</span>USER_ID, session_id<span class="op">=</span>session_id</span>
 <span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span>:</span>
 <span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>        session <span class="op">=</span> <span class="cf">await</span> session_service.get_session(</span>
 <span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>            app_name<span class="op">=</span>APP_NAME, user_id<span class="op">=</span>USER_ID, session_id<span class="op">=</span>session_id</span>
 <span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>        )</span>
