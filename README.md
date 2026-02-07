@@ -1,60 +1,44 @@
-# tomorrow lab
+# Tomorrow-Lab: 생물정보학 데이터 분석 블로그
 
-This GitHub repository is a blog I created using the tool called Quora. The content covered in this blog primarily consists of useful Python and R code in the field of bioinformatics. Since many ideas are borrowed from others, feel free to edit or distribute it, and I thank the original authors whose ideas I've borrowed.
+Tomorrow-Lab은 컴퓨터 과학과 생물학의 접점을 탐구하기 위한 개인 블로그입니다. 이 저장소는 [Quarto](https://quarto.org/)를 사용하여 제작되었으며, 주로 생물정보학 분야에서 유용한 Python 및 R 코드, 튜토리얼, 그리고 최신 연구에 대한 통찰을 다룹니다.
 
-## Preview
+## 주요 콘텐츠
+- **심층 기술 문서**: DNA 시퀀싱 알고리즘에서 단백질 구조 예측에 이르기까지 생물학적 문제에 적용되는 최신 계산 방법론을 다룹니다.
+- **튜토리얼 및 가이드**: 유전체학에서의 머신러닝 적용이나 시스템 생물학의 네트워크 분석 등 실질적인 도구 및 기술 사용법을 제공합니다.
+- **연구 하이라이트**: 계산적 접근 방식을 통해 생물학적 시스템에 대한 이해를 넓히는 최신 논문 및 혁신적 연구 결과들을 요약하고 토론합니다.
 
-It's always a good idea to preview the blog before publish it.
+## 개발 및 관리
 
+이 프로젝트는 의존성 관리를 위해 [pixi](https://pixi.sh/)를 사용합니다.
+
+### 사전 요구 사항
+- [pixi](https://pixi.sh/) 설치
+
+### 주요 명령어
+
+프로젝트 미리보기 (로컬 서버 실행):
 ```bash
 pixi run preview
 ```
 
-## Publishing
-
-I add github action for publishing. Just `git push origin` will cover it.
-
-<!-- 
-Once you have configured the source branch and updated your .gitignore, navigate to the directory where your project / git repository is located, make sure you are not on the gh-pages branch, and execute the quarto publish command for GitHub Pages:
-
-```
+블로그 게시 (GitHub Pages):
+```bash
 pixi run start
 ```
 
-The publish command will confirm that you want to publish, render your content, copy the output to a special gh-pages branch, push that branch to GitHub, and then open a browser to view your site once it is deployed. -->
+코드 스타일 검사 및 수정:
+```bash
+pixi run fix
+```
 
-# 참고 사이트
+## 프로젝트 구조
+- `posts/`: 블로그 포스트 데이터
+  - `ipynb/`: Jupyter Notebook 형식의 포스트 및 관련 리소스
+- `_quarto.yml`: Quarto 전체 설정 파일
+- `pyproject.toml`: pixi 의존성 및 작업 정의
 
-- https://publickrbook.com/
-- https://www.lostineconomics.com/
+## 기여 및 저작권
+많은 아이디어들이 오픈 소스 커뮤니티와 다른 연구자들의 작업에서 영감을 받았습니다. 자유롭게 수정 및 배포가 가능하며, 아이디어의 원저작자들에게 감사의 마음을 전합니다.
 
-# 할일 목록
-
-- [x] Theme을 Nord theme으로 변경
-- [x] https://github.com/catppuccin/catppuccin?tab=readme-ov-file#-showcase
-- [x] scRNA-seq workshop 파일 수행해서 업로드
-
-# Tomorrow-Lab: Bridging Computer Science and Biology
-
-Welcome to Tomorrow-Lab, a personal blog dedicated to exploring the fascinating interface between computer science and biology. Here, we delve into the innovative applications of computational techniques in biological research, offering insights, tutorials, and discussions on how technology is revolutionizing our understanding of life sciences.
-
-# About Tomorrow-Lab:
-
-At Tomorrow-Lab, we believe that the future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.
-
-# What You’ll Find:
-
-- In-Depth Articles: Explore detailed posts on the latest advancements in computational methods applied to biological problems, from DNA sequencing algorithms to protein structure prediction.
-- Tutorials & Guides: Step-by-step tutorials and guides to help you get hands-on experience with tools and techniques used in the field, such as machine learning applications in genomics or network analysis in systems biology.
-- Research Highlights: Summaries and discussions of recent research papers and breakthroughs that are pushing the boundaries of what we know about biological systems through computational approaches.
-- Interdisciplinary Insights: Perspectives on the importance of interdisciplinary collaboration and how integrating computer science with biology can lead to innovative solutions to complex problems.
-- Community Engagement: Opportunities to connect with like-minded individuals through comments, forums, and guest posts, fostering a collaborative environment for sharing knowledge and ideas.
-Why Tomorrow-Lab?
-
-The name Tomorrow-Lab reflects our commitment to forward-thinking and the anticipation of tomorrow’s scientific challenges and solutions. By focusing on the synergy between computer science and biology, we aim to illuminate the path toward groundbreaking discoveries and innovations that will shape the future of both fields.
-
-Join us at Tomorrow-Lab as we explore the frontiers of computational biology and unlock the secrets of life through the lens of technology. Whether you’re a seasoned researcher, a student, or simply curious about the intersection of these exciting disciplines, there’s something here for you.
-
-# AI generated thumbnail images
-
-- https://socialbu.com/tools/generate-blog-image
+---
+Built with ❤️ using [Quarto](https://quarto.org/).
