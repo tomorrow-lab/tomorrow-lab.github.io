@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
 <meta name="dcterms.date" content="2024-09-08">
 
-<title>마음챙김과 효율을 위한 생산성 디버깅 – tomorrow-lab</title>
+<title>마음챙김과 효율을 위한 생산성 디버깅 – Tomorrow lab</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -35,19 +38,18 @@ ul.task-list li input[type="checkbox"] {
 <link href="../.././static/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c403db109ef8a29fe7d42d2b539140cc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-182c3cbb9d016e7ba0fc3f515cd4d4f6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c403db109ef8a29fe7d42d2b539140cc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5eabe49b3c6c80980b03d46b005b1f9a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-a2084ef36a756a0cbc0e492788afc847.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5eabe49b3c6c80980b03d46b005b1f9a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5565fbbcd06499f2a35c3929f2acb108.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-0aa8769c38edb06b1ee674b0997a070a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-5565fbbcd06499f2a35c3929f2acb108.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-864df37f046cdcbefda391befb44d743.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-92bc6ea47c77daa32362e667d548ddb2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-864df37f046cdcbefda391befb44d743.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -91,10 +93,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="마음챙김과 효율을 위한 생산성 디버깅 – tomorrow-lab">
+<meta property="og:title" content="마음챙김과 효율을 위한 생산성 디버깅 – Tomorrow lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
 <meta property="og:image" content="https://tomorrow-lab.github.io/posts/qmd/learn_mindDebugging.png">
-<meta property="og:site_name" content="tomorrow-lab">
+<meta property="og:site_name" content="Tomorrow lab">
 <meta property="og:image:height" content="320">
 <meta property="og:image:width" content="640">
 </head>
@@ -273,7 +275,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <img src="../.././static/logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">tomorrow-lab</span>
+    <span class="navbar-title">Tomorrow lab</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -288,7 +290,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../projects.html"> 
-<span class="menu-text">projects.html</span></a>
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-exclamation-triangle" role="img">
@@ -341,7 +343,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   <li><a href="#과부하가-걸린-두뇌" id="toc-과부하가-걸린-두뇌" class="nav-link active" data-scroll-target="#과부하가-걸린-두뇌"><span class="header-section-number">1</span> 과부하가 걸린 두뇌</a></li>
   <li><a href="#생산성-저하의-이유" id="toc-생산성-저하의-이유" class="nav-link" data-scroll-target="#생산성-저하의-이유"><span class="header-section-number">2</span> 생산성 저하의 이유</a>
   <ul class="collapse">
-  <li><a href="#미루기-내일-할-거야-라는-함정" id="toc-미루기-내일-할-거야-라는-함정" class="nav-link" data-scroll-target="#미루기-내일-할-거야-라는-함정"><span class="header-section-number">2.1</span> 미루기: “내일 할 거야” 라는 함정</a></li>
+  <li><a href="#미루기-내일-할-거야-라는-함정" id="toc-미루기-내일-할-거야-라는-함정" class="nav-link" data-scroll-target="#미루기-내일-할-거야-라는-함정"><span class="header-section-number">2.1</span> 미루기: “내일 할 거야 ” 라는 함정</a></li>
   <li><a href="#번아웃-일과-삶의-균형이-깨졌을-때" id="toc-번아웃-일과-삶의-균형이-깨졌을-때" class="nav-link" data-scroll-target="#번아웃-일과-삶의-균형이-깨졌을-때"><span class="header-section-number">2.2</span> 번아웃: 일과 삶의 균형이 깨졌을 때</a></li>
   </ul></li>
   <li><a href="#제다이-마인드-트릭으로-자신의-두뇌를-능가하기" id="toc-제다이-마인드-트릭으로-자신의-두뇌를-능가하기" class="nav-link" data-scroll-target="#제다이-마인드-트릭으로-자신의-두뇌를-능가하기"><span class="header-section-number">3</span> 제다이 마인드 트릭으로 자신의 두뇌를 능가하기</a></li>
@@ -389,7 +391,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">March 14, 2026</p>
+      <p class="date-modified">March 25, 2026</p>
     </div>
   </div>
     
@@ -434,7 +436,7 @@ Note
 <section id="생산성-저하의-이유" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> 생산성 저하의 이유</h1>
 <section id="미루기-내일-할-거야-라는-함정" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="미루기-내일-할-거야-라는-함정"><span class="header-section-number">2.1</span> 미루기: “내일 할 거야” 라는 함정</h2>
+<h2 data-number="2.1" class="anchored" data-anchor-id="미루기-내일-할-거야-라는-함정"><span class="header-section-number">2.1</span> 미루기: “내일 할 거야 ” 라는 함정</h2>
 <p>미루는 것은 단순한 게으름이 아닙니다.(가끔 낮잠을 자는 것은 오히려 좋은 방법이지요). 미루는 것은 오히려 성인이 되었다는 것과 비슷합니다.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <p>다음과 같은 경우가 미루기에 속합니다: - 쿠키 통에 손을 넣은 정치인보다 더 많은 핑계를 대는 경우. - 일을 하지 않는 것에 대한 죄책감이 실제로 일하는 것만큼이나 심할때. - 갑자기 책상 정리를 엄청하고 싶을 때. - 가만히 있는 데 마감일이 다가올때.</p>
 <p>왜 우리는 스스로에게 이런 짓을 할까요? 그럴 수도 있습니다:</p>

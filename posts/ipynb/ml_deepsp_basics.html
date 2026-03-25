@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
 <meta name="dcterms.date" content="2025-08-22">
 
-<title>항체 의약품 개발 가능성 예측을 위한 DeepSP 튜토리얼 – tomorrow-lab</title>
+<title>항체 의약품 개발 가능성 예측을 위한 DeepSP 튜토리얼 – Tomorrow lab</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -70,19 +73,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../.././static/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c403db109ef8a29fe7d42d2b539140cc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-182c3cbb9d016e7ba0fc3f515cd4d4f6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c403db109ef8a29fe7d42d2b539140cc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5eabe49b3c6c80980b03d46b005b1f9a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-a2084ef36a756a0cbc0e492788afc847.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5eabe49b3c6c80980b03d46b005b1f9a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5565fbbcd06499f2a35c3929f2acb108.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-0aa8769c38edb06b1ee674b0997a070a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-5565fbbcd06499f2a35c3929f2acb108.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-864df37f046cdcbefda391befb44d743.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-92bc6ea47c77daa32362e667d548ddb2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-864df37f046cdcbefda391befb44d743.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -126,10 +128,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="항체 의약품 개발 가능성 예측을 위한 DeepSP 튜토리얼 – tomorrow-lab">
+<meta property="og:title" content="항체 의약품 개발 가능성 예측을 위한 DeepSP 튜토리얼 – Tomorrow lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
 <meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/ml_deepsp_basics_files/figure-html/cell-11-output-1.png">
-<meta property="og:site_name" content="tomorrow-lab">
+<meta property="og:site_name" content="Tomorrow lab">
 <meta property="og:image:height" content="358">
 <meta property="og:image:width" content="449">
 </head>
@@ -308,7 +310,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <img src="../.././static/logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">tomorrow-lab</span>
+    <span class="navbar-title">Tomorrow lab</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -323,7 +325,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../projects.html"> 
-<span class="menu-text">projects.html</span></a>
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-exclamation-triangle" role="img">
@@ -434,7 +436,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">March 14, 2026</p>
+      <p class="date-modified">March 25, 2026</p>
     </div>
   </div>
     

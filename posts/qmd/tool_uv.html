@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taeyoon Kim">
 <meta name="dcterms.date" content="2024-08-24">
 
-<title>pip 대신에 uv 사용하기 – tomorrow-lab</title>
+<title>pip 대신에 uv 사용하기 – Tomorrow lab</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -70,19 +73,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../.././static/favicon.ico" rel="icon">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c403db109ef8a29fe7d42d2b539140cc.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-182c3cbb9d016e7ba0fc3f515cd4d4f6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-c403db109ef8a29fe7d42d2b539140cc.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5eabe49b3c6c80980b03d46b005b1f9a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-a2084ef36a756a0cbc0e492788afc847.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5eabe49b3c6c80980b03d46b005b1f9a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5565fbbcd06499f2a35c3929f2acb108.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-0aa8769c38edb06b1ee674b0997a070a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-5565fbbcd06499f2a35c3929f2acb108.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-864df37f046cdcbefda391befb44d743.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-92bc6ea47c77daa32362e667d548ddb2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-864df37f046cdcbefda391befb44d743.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -126,10 +128,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="pip 대신에 uv 사용하기 – tomorrow-lab">
+<meta property="og:title" content="pip 대신에 uv 사용하기 – Tomorrow lab">
 <meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
 <meta property="og:image" content="https://tomorrow-lab.github.io/posts/qmd/logo_uv.png">
-<meta property="og:site_name" content="tomorrow-lab">
+<meta property="og:site_name" content="Tomorrow lab">
 <meta property="og:image:height" content="1139">
 <meta property="og:image:width" content="2023">
 </head>
@@ -308,7 +310,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <img src="../.././static/logo.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">tomorrow-lab</span>
+    <span class="navbar-title">Tomorrow lab</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -323,7 +325,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../projects.html"> 
-<span class="menu-text">projects.html</span></a>
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-exclamation-triangle" role="img">
@@ -435,7 +437,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">March 14, 2026</p>
+      <p class="date-modified">March 25, 2026</p>
     </div>
   </div>
     
@@ -502,20 +504,20 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p><strong>독립 실행형 설치 프로그램 사용</strong></p>
 <p>운영체제에 맞는 명령어를 터미널(명령 프롬프트)에 입력하여 설치합니다.</p>
 <ul>
-<li><strong>macOS 및 Linux:</strong> <code>bash     curl -LsSf https://astral.sh/uv/install.sh | sh</code></li>
-<li><strong>Windows:</strong> <code>powershell     powershell -c "irm https://astral.sh/uv/install.ps1 | iex"</code></li>
+<li><strong>macOS 및 Linux:</strong> <code>bash   curl -LsSf https://astral.sh/uv/install.sh | sh</code></li>
+<li><strong>Windows:</strong> <code>powershell   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"</code></li>
 <li><strong>특정 버전 설치 (예: 0.2.29):</strong>
 <ul>
-<li><strong>macOS 및 Linux:</strong> <code>bash       curl -LsSf https://astral.sh/uv/0.2.29/install.sh | sh</code></li>
-<li><strong>Windows:</strong> <code>powershell       powershell -c "irm https://astral.sh/uv/0.2.29/install.ps1 | iex"</code></li>
+<li><strong>macOS 및 Linux:</strong> <code>bash   curl -LsSf https://astral.sh/uv/0.2.29/install.sh | sh</code></li>
+<li><strong>Windows:</strong> <code>powershell   powershell -c "irm https://astral.sh/uv/0.2.29/install.ps1 | iex"</code></li>
 </ul></li>
 </ul>
 <p>** 기존 파이썬 패키지 관리자 사용**</p>
 <p>이미 <code>pip</code> 또는 <code>pipx</code>, <code>Homebrew</code>를 사용하고 있다면 다음 명령어로 <code>uv</code>를 설치할 수 있습니다.</p>
 <ul>
-<li><strong>pip 사용:</strong> <code>bash     pip install uv</code></li>
-<li><strong>pipx 사용:</strong> <code>bash     pipx install uv</code></li>
-<li><strong>Homebrew 사용 (macOS):</strong> <code>bash     brew install uv</code></li>
+<li><strong>pip 사용:</strong> <code>bash   pip install uv</code></li>
+<li><strong>pipx 사용:</strong> <code>bash   pipx install uv</code></li>
+<li><strong>Homebrew 사용 (macOS):</strong> <code>bash   brew install uv</code></li>
 </ul>
 </section>
 <section id="가상-환경-관리" class="level2" data-number="3.2">
@@ -526,20 +528,20 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p><strong>가상 환경 활성화:</strong></p>
 <p>운영체제에 따라 다른 명령어를 사용합니다. 활성화되면 터미널 프롬프트 앞에 <code>(.venv)</code>와 같은 표시가 나타납니다.</p>
 <ul>
-<li><strong>macOS 및 Linux:</strong> <code>bash     source .venv/bin/activate</code></li>
-<li><strong>Windows:</strong> <code>bash     .venv\Scripts\activate</code></li>
+<li><strong>macOS 및 Linux:</strong> <code>bash   source .venv/bin/activate</code></li>
+<li><strong>Windows:</strong> <code>bash   .venv\Scripts\activate</code></li>
 </ul>
 </section>
 <section id="패키지-설치" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="패키지-설치"><span class="header-section-number">3.3</span> 패키지 설치</h2>
 <p>활성화된 가상 환경에 필요한 파이썬 패키지를 설치합니다.</p>
 <ul>
-<li><strong>최신 버전 설치:</strong> <code>bash     uv pip install flask # Flask 패키지의 최신 버전 설치</code></li>
-<li><strong>특정 버전 설치:</strong> <code>bash     uv pip install flask==2.0.0 # Flask 패키지 2.0.0 버전 설치</code></li>
-<li><strong>requirements.txt 파일에서 설치:</strong> <code>bash     uv pip install -r requirements.txt # requirements.txt 파일에 명시된 패키지들을 설치</code></li>
-<li><strong>현재 프로젝트를 편집 가능한 모드로 설치:</strong> <code>bash     uv pip install -e . # 개발 중인 프로젝트를 설치하여 코드 변경 사항이 즉시 반영되도록 함</code></li>
-<li><strong>로컬 패키지 파일에서 설치:</strong> <code>bash     uv pip install "package @ ." # 현재 폴더에 있는 패키지 파일을 설치</code></li>
-<li><strong>추가 의존성을 포함하여 설치:</strong> <code>bash     uv pip install "flask[dotenv]" # Flask와 함께 dotenv 의존성을 함께 설치</code></li>
+<li><strong>최신 버전 설치:</strong> <code>bash   uv pip install flask # Flask 패키지의 최신 버전 설치</code></li>
+<li><strong>특정 버전 설치:</strong> <code>bash   uv pip install flask==2.0.0 # Flask 패키지 2.0.0 버전 설치</code></li>
+<li><strong>requirements.txt 파일에서 설치:</strong> <code>bash   uv pip install -r requirements.txt # requirements.txt 파일에 명시된 패키지들을 설치</code></li>
+<li><strong>현재 프로젝트를 편집 가능한 모드로 설치:</strong> <code>bash   uv pip install -e . # 개발 중인 프로젝트를 설치하여 코드 변경 사항이 즉시 반영되도록 함</code></li>
+<li><strong>로컬 패키지 파일에서 설치:</strong> <code>bash   uv pip install "package @ ." # 현재 폴더에 있는 패키지 파일을 설치</code></li>
+<li><strong>추가 의존성을 포함하여 설치:</strong> <code>bash   uv pip install "flask[dotenv]" # Flask와 함께 dotenv 의존성을 함께 설치</code></li>
 </ul>
 </section>
 <section id="의존성-관리-파일-생성-및-동기화" class="level2" data-number="3.4">
@@ -548,11 +550,11 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p><strong><code>requirements.txt</code> 파일 생성:</strong></p>
 <p>다양한 방법으로 현재 환경의 패키지 목록 또는 특정 설정 파일에서 <code>requirements.txt</code> 파일을 생성할 수 있습니다.</p>
 <ul>
-<li><strong>requirements.in 파일에서 생성:</strong> <code>bash     uv pip compile requirements.in -o requirements.txt</code></li>
-<li><strong>pyproject.toml 파일에서 생성:</strong> <code>bash     uv pip compile pyproject.toml -o requirements.txt</code></li>
-<li><strong>setup.py 파일에서 생성:</strong> <code>bash     uv pip compile setup.py -o requirements.txt</code></li>
-<li><strong>터미널 입력에서 생성:</strong> <code>bash     echo flask | uv pip compile - -o requirements.txt</code></li>
-<li><strong>현재 활성화된 환경의 패키지 목록 저장:</strong> <code>bash     uv pip freeze | uv pip compile - -o requirements.txt</code></li>
+<li><strong>requirements.in 파일에서 생성:</strong> <code>bash   uv pip compile requirements.in -o requirements.txt</code></li>
+<li><strong>pyproject.toml 파일에서 생성:</strong> <code>bash   uv pip compile pyproject.toml -o requirements.txt</code></li>
+<li><strong>setup.py 파일에서 생성:</strong> <code>bash   uv pip compile setup.py -o requirements.txt</code></li>
+<li><strong>터미널 입력에서 생성:</strong> <code>bash   echo flask | uv pip compile - -o requirements.txt</code></li>
+<li><strong>현재 활성화된 환경의 패키지 목록 저장:</strong> <code>bash   uv pip freeze | uv pip compile - -o requirements.txt</code></li>
 </ul>
 <p>** <code>requirements.txt</code> 파일로 패키지 설치:**</p>
 <p>생성한 <code>requirements.txt</code> 파일에 명시된 패키지들을 가상 환경에 설치합니다.</p>
