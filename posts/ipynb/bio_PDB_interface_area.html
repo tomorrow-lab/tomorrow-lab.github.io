@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Taeyoon Kim">
+<meta name="dcterms.date" content="2026-10-06">
+
+<title>단백질-단백질 결합 표면적 계산 – TOMORROW-LAB</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../.././static/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-fdc3b34c30cca045903f18296111002e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fb9eb5665cc0dcbb88782b1edeccf5ba.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-fdc3b34c30cca045903f18296111002e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-99dba3e27dbb0ed4dd7135e51b9e9c04.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-f66ee8072dec464b0a3b58ac1d96dfab.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-99dba3e27dbb0ed4dd7135e51b9e9c04.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-31EWCYNR0V"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<meta name="google-site-verification" content="z2S1Xqj9hfJiC31aNGCnOA1gYpL_8MoZpPI2avrWMvg">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="단백질-단백질 결합 표면적 계산 – TOMORROW-LAB">
+<meta property="og:description" content="The future of scientific discovery lies at the convergence of computational power and biological complexity. Our mission is to provide a platform where enthusiasts, researchers, and professionals can learn about and contribute to the rapidly evolving fields of bioinformatics, computational biology, and systems biology.">
+<meta property="og:image" content="https://tomorrow-lab.github.io/posts/ipynb/bio_PDB_interface_area_files/figure-html/cell-5-output-1.png">
+<meta property="og:site_name" content="TOMORROW-LAB">
+<meta property="og:image:height" content="740">
+<meta property="og:image:width" content="1547">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../.././static/logo.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">TOMORROW-LAB</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://partrita.github.io"> <i class="bi bi-exclamation-triangle" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/partrita"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<div style="margin-top: 30px; margin-bottom: 20px;">
+    <a href="https://substack.com/@tomorrowlab">
+        <img alt="Static Badge" src="https://img.shields.io/badge/EHOTTL%40substack_-FF6719?link=https%3A%2F%2Fsubstack.com%2F%40tomorrowlab">
+    </a>
+    <a href="https://pixi.sh">
+        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json" alt="Pixi Badge">
+    </a>
+    <!-- <script async src="https://eocampaign1.com/form/2616a818-1ef8-11ef-b372-4587d096212f.js" data-form="2616a818-1ef8-11ef-b372-4587d096212f"></script> -->
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#분석-순서" id="toc-분석-순서" class="nav-link active" data-scroll-target="#분석-순서"><span class="header-section-number">0.1</span> 📋 분석 순서</a></li>
+  <li><a href="#사용-방법-요약" id="toc-사용-방법-요약" class="nav-link" data-scroll-target="#사용-방법-요약"><span class="header-section-number">0.2</span> 📌 사용 방법 요약</a></li>
+  <li><a href="#pdb-id-설정-및-환경-준비" id="toc-pdb-id-설정-및-환경-준비" class="nav-link" data-scroll-target="#pdb-id-설정-및-환경-준비"><span class="header-section-number">1</span> PDB ID 설정 및 환경 준비</a>
+  <ul class="collapse">
+  <li><a href="#pdb-다운로드-및-체인-정보-확인" id="toc-pdb-다운로드-및-체인-정보-확인" class="nav-link" data-scroll-target="#pdb-다운로드-및-체인-정보-확인"><span class="header-section-number">1.1</span> PDB 다운로드 및 체인 정보 확인</a></li>
+  <li><a href="#matplotlib으로-체인-확인" id="toc-matplotlib으로-체인-확인" class="nav-link" data-scroll-target="#matplotlib으로-체인-확인"><span class="header-section-number">1.2</span> Matplotlib으로 체인 확인</a></li>
+  <li><a href="#sasa-계산-함수-정의" id="toc-sasa-계산-함수-정의" class="nav-link" data-scroll-target="#sasa-계산-함수-정의"><span class="header-section-number">1.3</span> SASA 계산 함수 정의</a></li>
+  <li><a href="#비교할-인터페이스-체인-및-라벨-설정" id="toc-비교할-인터페이스-체인-및-라벨-설정" class="nav-link" data-scroll-target="#비교할-인터페이스-체인-및-라벨-설정"><span class="header-section-number">1.4</span> 비교할 인터페이스 체인 및 라벨 설정</a></li>
+  <li><a href="#체인-쌍별pairwise-인터페이스-면적-계산" id="toc-체인-쌍별pairwise-인터페이스-면적-계산" class="nav-link" data-scroll-target="#체인-쌍별pairwise-인터페이스-면적-계산"><span class="header-section-number">1.5</span> 체인 쌍별(Pairwise) 인터페이스 면적 계산</a></li>
+  <li><a href="#체인-쌍별-인터페이스-면적interface-area-파이-차트-시각화" id="toc-체인-쌍별-인터페이스-면적interface-area-파이-차트-시각화" class="nav-link" data-scroll-target="#체인-쌍별-인터페이스-면적interface-area-파이-차트-시각화"><span class="header-section-number">1.6</span> 체인 쌍별 인터페이스 면적(Interface Area) 파이 차트 시각화</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">단백질-단백질 결합 표면적 계산</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">Bioinformatics</div>
+    <div class="quarto-category">Protein-Protein Interaction</div>
+    <div class="quarto-category">PDB</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Taeyoon Kim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 6, 2026</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">October 7, 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>이 노트북은 PDB 구조를 불러와 체인 정보 및 Matplotlib 3D 체인 구조를 먼저 확인한 뒤 사용자가 비교할 체인 그룹을 지정해 원하는 결합 표면적을 계산합니다.</p>
+<section id="분석-순서" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="분석-순서"><span class="header-section-number">0.1</span> 📋 분석 순서</h2>
+<ol type="1">
+<li>PDB ID 설정 및 환경 준비: 분석 대상 PDB ID 및 라이브러리 로드</li>
+<li>PDB 다운로드 및 체인 정보 출력: 구조를 로드하고 모든 체인 목록, 아미노산 잔기 수, 분자 명칭(Entity) 출력</li>
+<li>Matplotlib 3D 체인별 색상 시각화: 체인별로 고유 색상 및 라벨을 입힌 3D 백본 구조 그래프를 통해 공간적 배치 및 체인 위치 직관적 확인</li>
+<li>PDBe 고해상도 Cartoon 렌더링 확인: 공식 렌더링 이미지 미리보기</li>
+<li>SASA 및 BSA 계산 엔진 정의: Shrake-Rupley 알고리즘 함수 준비</li>
+<li>비교할 체인 인터페이스 지정 (User Configuration): 3D 시각화와 체인 정보를 보고 사용자가 그룹 A와 그룹 B의 체인 선택</li>
+<li>선택한 체인 간 결합 면적 계산 수행: 지정한 인터페이스에 대한 BSA 및 Interface Area 계산</li>
+<li>시각화: 계산 결과 파이 차트 출력</li>
+</ol>
+</section>
+<section id="사용-방법-요약" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="사용-방법-요약"><span class="header-section-number">0.2</span> 📌 사용 방법 요약</h2>
+<ol type="1">
+<li>1단계 셀: 원하는 입력</li>
+<li>2단계 셀: PDB 로드 및 체인별 잔기 수/명칭 확인</li>
+<li>3단계 셀: PDBe Cartoon 렌더링과 동일한 각도의 Matplotlib 체인 투영 맵(Side-by-Side)을 보며 어떤 체인이 어디에 있는지 직관적으로 대조</li>
+<li>5단계 셀: 맞닿아 있는 체인 그룹(, ) 지정</li>
+<li>6단계 &amp; 7단계 셀: 인터페이스 결합 면적 계산 및 차트 확인</li>
+</ol>
+</section>
+<section id="pdb-id-설정-및-환경-준비" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> PDB ID 설정 및 환경 준비</h1>
+<p>분석하고자 하는 PDB ID를 입력합니다.</p>
+<div id="e040428a" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>PDB_ID <span class="op">=</span> <span class="st">"6FGB"</span>  <span class="co"># 분석할 4자리 PDB ID (예: '7Q15', '1I1A', '4G08', '1T89')</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c75e36a9" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Image <span class="im">as</span> IPImage, Markdown</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.PDB <span class="im">import</span> PDBParser</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.PDB.SASA <span class="im">import</span> ShrakeRupley</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># RCSB 메타데이터 조회 함수</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_rcsb_metadata(pdb_id):</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="ss">f"https://data.rcsb.org/rest/v1/core/entry/</span><span class="sc">{</span>pdb_id<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> requests.get(url, timeout<span class="op">=</span><span class="dv">10</span>).json()</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        title <span class="op">=</span> res.get(<span class="st">"struct"</span>, {}).get(<span class="st">"title"</span>, <span class="st">"제목 정보 없음"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        exp_method <span class="op">=</span> res.get(<span class="st">"rcsb_entry_info"</span>, {}).get(<span class="st">"experimental_method"</span>, <span class="st">"N/A"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        resolution <span class="op">=</span> res.get(<span class="st">"rcsb_entry_info"</span>, {}).get(<span class="st">"resolution_combined"</span>, [<span class="st">"N/A"</span>])[<span class="dv">0</span>]</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 중합체 엔티티 목록 조회</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        entities <span class="op">=</span> res.get(<span class="st">"rcsb_entry_container_identifiers"</span>, {}).get(<span class="st">"polymer_entity_ids"</span>, [])</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        entity_info <span class="op">=</span> []</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> eid <span class="kw">in</span> entities:</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            e_url <span class="op">=</span> <span class="ss">f"https://data.rcsb.org/rest/v1/core/polymer_entity/</span><span class="sc">{</span>pdb_id<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>eid<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            e_res <span class="op">=</span> requests.get(e_url, timeout<span class="op">=</span><span class="dv">10</span>).json()</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            desc <span class="op">=</span> e_res.get(<span class="st">"rcsb_polymer_entity"</span>, {}).get(<span class="st">"pdbx_description"</span>, <span class="ss">f"Entity </span><span class="sc">{</span>eid<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            chains <span class="op">=</span> e_res.get(<span class="st">"rcsb_polymer_entity_container_identifiers"</span>, {}).get(<span class="st">"auth_asym_ids"</span>, [])</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            entity_info.append({<span class="st">"id"</span>: eid, <span class="st">"desc"</span>: desc, <span class="st">"chains"</span>: chains})</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"title"</span>: title,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">"method"</span>: exp_method,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">"resolution"</span>: resolution,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">"entities"</span>: entity_info</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"title"</span>: <span class="ss">f"메타데이터 로드 실패: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>, <span class="st">"method"</span>: <span class="st">"N/A"</span>, <span class="st">"resolution"</span>: <span class="st">"N/A"</span>, <span class="st">"entities"</span>: []}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="pdb-다운로드-및-체인-정보-확인" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="pdb-다운로드-및-체인-정보-확인"><span class="header-section-number">1.1</span> PDB 다운로드 및 체인 정보 확인</h2>
+<p>PDB 파일을 로드한 후, 구조 내에 존재하는 모든 체인의 ID, 분자 명칭(Entity), 잔기(Residue) 개수를 상세히 출력합니다. 출력된 체인 목록을 확인하고 아래 단계에서 비교할 체인을 선택하세요.</p>
+<div id="6a12518e" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notebook 환경: 현재 작업 디렉터리 기준</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>BASE_DIR <span class="op">=</span> Path.cwd().parent</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>data_dir <span class="op">=</span> BASE_DIR <span class="op">/</span> <span class="st">"data"</span> <span class="op">/</span> <span class="st">"input"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>data_dir.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)  <span class="co"># 폴더가 없으면 생성</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>pdb_filename <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>PDB_ID<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">.pdb"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>pdb_path <span class="op">=</span> data_dir <span class="op">/</span> pdb_filename  <span class="co"># data/{PDB_ID}.pdb</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># PDB 파일 로컬에 없으면 다운로드</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> pdb_path.exists():</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="ss">f"https://files.rcsb.org/download/</span><span class="sc">{</span>pdb_filename<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    urllib.request.urlretrieve(url, pdb_path)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>meta <span class="op">=</span> fetch_rcsb_metadata(PDB_ID)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 구조 파싱 및 체인 세부 정보 요약</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> PDBParser(QUIET<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>structure <span class="op">=</span> parser.get_structure(PDB_ID, <span class="bu">str</span>(pdb_path))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> structure[<span class="dv">0</span>]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>chains_in_structure <span class="op">=</span> <span class="bu">list</span>(model.get_chains())</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>all_chains_in_model <span class="op">=</span> [c.<span class="bu">id</span> <span class="cf">for</span> c <span class="kw">in</span> chains_in_structure]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 최소한의 핵심 체인 정보만 테이블 형식으로 출력</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[PDB: </span><span class="sc">{</span>PDB_ID<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">] </span><span class="sc">{</span>meta[<span class="st">'title'</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>meta[<span class="st">'resolution'</span>]<span class="sc">}</span><span class="ss"> Å)"</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> chains_in_structure:</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    res_count <span class="op">=</span> <span class="bu">len</span>([r <span class="cf">for</span> r <span class="kw">in</span> c.get_residues() <span class="cf">if</span> r.<span class="bu">id</span>[<span class="dv">0</span>] <span class="op">==</span> <span class="st">" "</span>])</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    desc <span class="op">=</span> <span class="st">"Unknown"</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ent <span class="kw">in</span> meta.get(<span class="st">'entities'</span>, []):</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> c.<span class="bu">id</span> <span class="kw">in</span> ent[<span class="st">'chains'</span>]:</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            desc <span class="op">=</span> ent[<span class="st">'desc'</span>]</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f" 체인 </span><span class="sc">{</span>c<span class="sc">.</span><span class="bu">id</span><span class="sc">:&gt;2}</span><span class="ss"> : </span><span class="sc">{</span>res_count<span class="sc">:&gt;4}</span><span class="ss"> 잔기 | </span><span class="sc">{</span>desc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">60</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[PDB: 6FGB] Human FcRn extra-cellular domain complexed with Fab fragment of Rozanolixizumab (2.9 Å)
+------------------------------------------------------------
+ 체인  A :  265 잔기 | IgG receptor FcRn large subunit p51
+ 체인  B :   99 잔기 | Beta-2-microglobulin
+ 체인  L :  219 잔기 | 1519.g57- Light chain
+ 체인  H :  217 잔기 | 1519.g57- Heavy chain
+------------------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+<section id="matplotlib으로-체인-확인" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="matplotlib으로-체인-확인"><span class="header-section-number">1.2</span> Matplotlib으로 체인 확인</h2>
+<p>PDBe의 공식 이미지는 전체 원자 좌표의 주성분 분석(PCA, Principal Axes)을 통해 구조가 화면에 가장 넓고 가려짐 없이 평평하게 펼쳐지는 최적의 Front View로 렌더링됩니다. 따라서 동일한 PCA 주성분 투영(PC1: 가로, PC2: 세로)을 적용하여 좌측에는 PDBe Cartoon 이미지, 우측에는 동일 각도의 체인별 라벨 맵을 나란히 배치함으로써, 어떤 체인이 어느 위치에 해당하는지 직관적으로 대조합니다.</p>
+<div id="3835ae48" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. PDBe 정적 이미지 로드</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pdbe_url <span class="op">=</span> <span class="ss">f"https://www.ebi.ac.uk/pdbe/static/entry/</span><span class="sc">{</span>PDB_ID<span class="sc">.</span>lower()<span class="sc">}</span><span class="ss">_deposited_chain_front_image-800x800.png"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pdbe_path <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>PDB_ID<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">_pdbe_front.png"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pdbe_img <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(pdbe_path):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        urllib.request.urlretrieve(pdbe_url, pdbe_path)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> os.path.exists(pdbe_path):</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        pdbe_img <span class="op">=</span> plt.imread(pdbe_path)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. PDBe Front View와 동일한 PCA 주축 계산</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>all_ca_coords <span class="op">=</span> [atom.coord <span class="cf">for</span> atom <span class="kw">in</span> structure.get_atoms() <span class="cf">if</span> atom.name <span class="op">==</span> <span class="st">'CA'</span>]</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> all_ca_coords:</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    all_ca_coords <span class="op">=</span> [atom.coord <span class="cf">for</span> atom <span class="kw">in</span> structure.get_atoms()]</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array(all_ca_coords)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>mean_center <span class="op">=</span> X.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>Xc <span class="op">=</span> X <span class="op">-</span> mean_center</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># SVD를 통한 주성분 벡터(Vt) 산출</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>U, S, Vt <span class="op">=</span> np.linalg.svd(Xc, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>v_pc1, v_pc2 <span class="op">=</span> Vt[<span class="dv">0</span>], Vt[<span class="dv">1</span>]</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Side-by-side 시각화 (좌: PDBe 정적 이미지, 우: 동일 각도 Matplotlib 체인 투영)</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>fig, (ax_img, ax_proj) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="fl">7.5</span>))</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co"># [좌측] PDBe 고해상도 Cartoon 렌더링</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> pdbe_img <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    ax_img.imshow(pdbe_img)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    ax_img.set_title(<span class="ss">f"PDB </span><span class="sc">{</span>PDB_ID<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> - PDBe Official Front View"</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    ax_img.axis(<span class="st">'off'</span>)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    ax_img.text(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">'PDBe 이미지 로드 실패'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    ax_img.axis(<span class="st">'off'</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co"># [우측] 동일 각도(PCA PC1-PC2 투영) 체인별 백본 및 라벨</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.tab10(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">max</span>(<span class="dv">10</span>, <span class="bu">len</span>(chains_in_structure))))</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, chain <span class="kw">in</span> <span class="bu">enumerate</span>(chains_in_structure):</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    ca_pts <span class="op">=</span> [atom.coord <span class="cf">for</span> atom <span class="kw">in</span> chain.get_atoms() <span class="cf">if</span> atom.name <span class="op">==</span> <span class="st">'CA'</span>]</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> ca_pts:</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        ca_pts <span class="op">=</span> [atom.coord <span class="cf">for</span> atom <span class="kw">in</span> chain.get_atoms()][::<span class="dv">5</span>]</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> ca_pts:</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    pts <span class="op">=</span> np.array(ca_pts) <span class="op">-</span> mean_center</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PCA 주축으로 투영: x축 = PC1, y축 = PC2</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    x_proj <span class="op">=</span> pts <span class="op">@</span> v_pc1</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    y_proj <span class="op">=</span> pts <span class="op">@</span> v_pc2</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    c_color <span class="op">=</span> colors[i <span class="op">%</span> <span class="bu">len</span>(colors)]</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    ent_desc <span class="op">=</span> <span class="st">''</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ent <span class="kw">in</span> meta.get(<span class="st">'entities'</span>, []):</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> chain.<span class="bu">id</span> <span class="kw">in</span> ent[<span class="st">'chains'</span>]:</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>            ent_desc <span class="op">=</span> <span class="ss">f" : </span><span class="sc">{</span>ent[<span class="st">'desc'</span>][:<span class="dv">16</span>]<span class="sc">}</span><span class="ss">..."</span> <span class="cf">if</span> <span class="bu">len</span>(ent[<span class="st">'desc'</span>]) <span class="op">&gt;</span> <span class="dv">16</span> <span class="cf">else</span> <span class="ss">f" : </span><span class="sc">{</span>ent[<span class="st">'desc'</span>]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 체인 선 및 점</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    ax_proj.plot(x_proj, y_proj, label<span class="op">=</span><span class="ss">f"Chain </span><span class="sc">{</span>chain<span class="sc">.</span><span class="bu">id</span><span class="sc">}{</span>ent_desc<span class="sc">}</span><span class="ss">"</span>, color<span class="op">=</span>c_color, linewidth<span class="op">=</span><span class="fl">2.2</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    ax_proj.scatter(x_proj[::<span class="dv">3</span>], y_proj[::<span class="dv">3</span>], color<span class="op">=</span>c_color, s<span class="op">=</span><span class="dv">16</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 체인 중심 라벨 박스</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    cx, cy <span class="op">=</span> x_proj.mean(), y_proj.mean()</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    ax_proj.text(cx, cy, <span class="ss">f" Chain </span><span class="sc">{</span>chain<span class="sc">.</span><span class="bu">id</span><span class="sc">}</span><span class="ss"> "</span>, fontsize<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>                 ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>,</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>                 bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round,pad=0.3'</span>, facecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.85</span>, edgecolor<span class="op">=</span>c_color, linewidth<span class="op">=</span><span class="fl">1.5</span>))</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>ax_proj.set_title(<span class="ss">f"PDB </span><span class="sc">{</span>PDB_ID<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> - PCA Front View"</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>ax_proj.axis(<span class="st">'off'</span>)</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>ax_proj.set_aspect(<span class="st">'equal'</span>, <span class="st">'datalim'</span>)</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>ax_proj.legend(loc<span class="op">=</span><span class="st">'upper left'</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>), fontsize<span class="op">=</span><span class="dv">9</span>, framealpha<span class="op">=</span><span class="fl">0.85</span>)</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="bio_PDB_interface_area_files/figure-html/cell-5-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="bio_PDB_interface_area_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sasa-계산-함수-정의" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sasa-계산-함수-정의"><span class="header-section-number">1.3</span> SASA 계산 함수 정의</h2>
+<ul>
+<li>SASA(Solvent Accessible Surface Area): 단백질이나 분자가 용매 (보통 물) 에 노출된 표면의 넓이입니다. 원자 반지름에 탐침 구 (probe sphere, 보통 1.4 Å) 를 굴려서 만들 수 있는 표면적으로 정의됩니다.</li>
+</ul>
+<blockquote class="blockquote">
+<p>이 방식의 다른 이름이 Shrake–Rupley 방법인 이유는 원래 SASA를 원자 단위로 효율적으로 계산하는 알고리즘을 제안한 논문 (Shrake &amp; Rupley, 1973) 에서 유래했기 때문입니다.</p>
+</blockquote>
+<p>두 체인 그룹 <span class="math inline">\(A\)</span>와 <span class="math inline">\(B\)</span> 사이의 결합 표면적(Buried Surface Area; BSA)은 다음과 같이 계산됩니다:</p>
+<p><span class="math display">\[
+\text{BSA} = \text{SASA}(\text{Isolated } A) + \text{SASA}(\text{Isolated } B) - \text{SASA}(\text{Complex } A+B)
+\]</span></p>
+<ul>
+<li>BSA(Buried Surface Area): 두 분자가 결합하면서 “숨겨진” 표면의 총량입니다.
+<ul>
+<li><span class="math inline">\(A\)</span>와 <span class="math inline">\(B\)</span>가 따로 있을 때는 각자의 표면이 모두 용매에 노출되어 있습니다.</li>
+<li>결합하면 인터페이스에 있던 일부 표면이 서로 가려져 더 이상 용매에 닿지 않게 됩니다.<br>
+</li>
+<li>이 “사라진 (묻힌) 표면적”의 합이 BSA 입니다.</li>
+</ul></li>
+</ul>
+<p>그리고 BSA를 2 로 나누면 Interface 면적이 됩니다.</p>
+<p><span class="math display">\[
+\text{Interface Area} = \frac{\text{BSA}}{2}
+\]</span></p>
+<ul>
+<li>Interface Area: BSA 는 양쪽 분자가 각각 잃은 표면적의 합이므로, 실제 물리적으로 두 분자 사이에 형성된 “공유 인터페이스 면적”을 얻으려면 2 로 나눕니다.
+<ul>
+<li>직관적으로: <span class="math inline">\(A\)</span>가 잃은 면적 ≈ <span class="math inline">\(B\)</span>가 잃은 면적 ≈ 인터페이스 면적이라고 보면 <span class="math inline">\(\text{BSA} \approx \text{Interface} + \text{Interface} = 2 \times \text{Interface}\)</span>이므로 <span class="math inline">\(\text{Interface} = \text{BSA}/2\)</span>가 됩니다.</li>
+</ul></li>
+</ul>
+<div id="a9c7240b" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_bsa(pdb_path, chains_a, chains_b):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    임의의 체인 그룹 A와 B 사이의 SASA, BSA, Interface Area를 계산합니다.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    parser <span class="op">=</span> PDBParser(QUIET<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    all_target_chains <span class="op">=</span> <span class="bu">set</span>(chains_a <span class="op">+</span> chains_b)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Complex A + B</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    struct_c <span class="op">=</span> parser.get_structure(<span class="st">"complex"</span>, pdb_path)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    model_c <span class="op">=</span> struct_c[<span class="dv">0</span>]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">list</span>(model_c):</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> c.<span class="bu">id</span> <span class="kw">not</span> <span class="kw">in</span> all_target_chains:</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            model_c.detach_child(c.<span class="bu">id</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    sr_c <span class="op">=</span> ShrakeRupley()</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    sr_c.compute(struct_c, level<span class="op">=</span><span class="st">"A"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    sasa_complex <span class="op">=</span> <span class="bu">sum</span>(a.sasa <span class="cf">for</span> c <span class="kw">in</span> model_c <span class="cf">for</span> r <span class="kw">in</span> c <span class="cf">for</span> a <span class="kw">in</span> r <span class="cf">if</span> <span class="bu">hasattr</span>(a, <span class="st">'sasa'</span>) <span class="kw">and</span> a.sasa <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Isolated A</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    struct_a <span class="op">=</span> parser.get_structure(<span class="st">"a"</span>, pdb_path)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    model_a <span class="op">=</span> struct_a[<span class="dv">0</span>]</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">list</span>(model_a):</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> c.<span class="bu">id</span> <span class="kw">not</span> <span class="kw">in</span> <span class="bu">set</span>(chains_a):</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>            model_a.detach_child(c.<span class="bu">id</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    sr_a <span class="op">=</span> ShrakeRupley()</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    sr_a.compute(struct_a, level<span class="op">=</span><span class="st">"A"</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    sasa_a <span class="op">=</span> <span class="bu">sum</span>(a.sasa <span class="cf">for</span> c <span class="kw">in</span> model_a <span class="cf">for</span> r <span class="kw">in</span> c <span class="cf">for</span> a <span class="kw">in</span> r <span class="cf">if</span> <span class="bu">hasattr</span>(a, <span class="st">'sasa'</span>) <span class="kw">and</span> a.sasa <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Isolated B</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    struct_b <span class="op">=</span> parser.get_structure(<span class="st">"b"</span>, pdb_path)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    model_b <span class="op">=</span> struct_b[<span class="dv">0</span>]</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> c <span class="kw">in</span> <span class="bu">list</span>(model_b):</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> c.<span class="bu">id</span> <span class="kw">not</span> <span class="kw">in</span> <span class="bu">set</span>(chains_b):</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>            model_b.detach_child(c.<span class="bu">id</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    sr_b <span class="op">=</span> ShrakeRupley()</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    sr_b.compute(struct_b, level<span class="op">=</span><span class="st">"A"</span>)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    sasa_b <span class="op">=</span> <span class="bu">sum</span>(a.sasa <span class="cf">for</span> c <span class="kw">in</span> model_b <span class="cf">for</span> r <span class="kw">in</span> c <span class="cf">for</span> a <span class="kw">in</span> r <span class="cf">if</span> <span class="bu">hasattr</span>(a, <span class="st">'sasa'</span>) <span class="kw">and</span> a.sasa <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    bsa <span class="op">=</span> sasa_a <span class="op">+</span> sasa_b <span class="op">-</span> sasa_complex</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    interface_area <span class="op">=</span> bsa <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">'chains_a'</span>: chains_a,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">'chains_b'</span>: chains_b,</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">'sasa_a'</span>: sasa_a,</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">'sasa_b'</span>: sasa_b,</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">'sasa_complex'</span>: sasa_complex,</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">'bsa'</span>: bsa,</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">'interface_area'</span>: interface_area</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_result_card(title, res):</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss"> -&gt; BSA: </span><span class="sc">{</span>res[<span class="st">'bsa'</span>]<span class="sc">:,.1f}</span><span class="ss"> Å² | Interface Area: </span><span class="sc">{</span>res[<span class="st">'interface_area'</span>]<span class="sc">:,.1f}</span><span class="ss"> Å²"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="비교할-인터페이스-체인-및-라벨-설정" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="비교할-인터페이스-체인-및-라벨-설정"><span class="header-section-number">1.4</span> 비교할 인터페이스 체인 및 라벨 설정</h2>
+<p>위 단계에서 체인 라벨을 확인한 후, 계산할 체인 그룹과 체인별 커스텀 이름(라벨)을 지정합니다.</p>
+<p>💡 설정 안내:</p>
+<ul>
+<li><code>GROUP_A_CHAINS</code>: 첫 번째 파트너 체인 리스트 (예: <code>["A", "B"]</code>)</li>
+<li><code>GROUP_B_CHAINS</code>: 두 번째 파트너 체인 리스트 (예: <code>["E"]</code> 또는 <code>["E", "F"]</code>)</li>
+<li><code>CHAIN_LABELS</code>: 체인별 표시용 커스텀 이름 딕셔너리 (사용자가 원하는 이름으로 자유롭게 지정)</li>
+<li><code>CALCULATE_SUBCHAINS</code>: 그룹 A 내 각 서브체인의 개별 기여도 계산 여부</li>
+</ul>
+<div id="97bf3a3a" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>GROUP_A_CHAINS <span class="op">=</span> [<span class="st">'A'</span>, <span class="st">'B'</span>]  <span class="co"># 그룹 A 체인 리스트 (예: ['A', 'B'])</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>GROUP_B_CHAINS <span class="op">=</span> [<span class="st">'H'</span>, <span class="st">'L'</span>]  <span class="co"># 그룹 B 체인 리스트 (예: ['E', 'F'])</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 시각화 시 표시할 체인별 커스텀 이름 (중복 표기를 없애고 원하는 명칭으로 지정)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>CHAIN_LABELS <span class="op">=</span> {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'A'</span>: <span class="st">'FcRn α-chain (A)'</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'B'</span>: <span class="st">'β2M (B)'</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'H'</span>: <span class="st">'IgG1 Fab (H)'</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'L'</span>: <span class="st">'IgG1 Fab (L)'</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 서브체인 개별 기여도 계산 여부</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>CALCULATE_SUBCHAINS <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 유효성 검사</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>invalid_a <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> GROUP_A_CHAINS <span class="cf">if</span> c <span class="kw">not</span> <span class="kw">in</span> all_chains_in_model]</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>invalid_b <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> GROUP_B_CHAINS <span class="cf">if</span> c <span class="kw">not</span> <span class="kw">in</span> all_chains_in_model]</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>overlap <span class="op">=</span> <span class="bu">set</span>(GROUP_A_CHAINS).intersection(<span class="bu">set</span>(GROUP_B_CHAINS))</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> invalid_a <span class="kw">or</span> invalid_b:</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"체인 오류: Model=</span><span class="sc">{</span>all_chains_in_model<span class="sc">}</span><span class="ss"> (미존재: A=</span><span class="sc">{</span>invalid_a<span class="sc">}</span><span class="ss">, B=</span><span class="sc">{</span>invalid_b<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> overlap:</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"중복 체인 오류: </span><span class="sc">{</span>overlap<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>target_b_name <span class="op">=</span> <span class="st">", "</span>.join([CHAIN_LABELS.get(c, <span class="ss">f"Chain </span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">"</span>) <span class="cf">for</span> c <span class="kw">in</span> GROUP_B_CHAINS])</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"설정: 그룹 A </span><span class="sc">{</span>GROUP_A_CHAINS<span class="sc">}</span><span class="ss"> vs 그룹 B </span><span class="sc">{</span>GROUP_B_CHAINS<span class="sc">}</span><span class="ss"> (상대 타겟: </span><span class="sc">{</span>target_b_name<span class="sc">}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>설정: 그룹 A ['A', 'B'] vs 그룹 B ['H', 'L'] (상대 타겟: IgG1 Fab (H), IgG1 Fab (L))</code></pre>
+</div>
+</div>
+</section>
+<section id="체인-쌍별pairwise-인터페이스-면적-계산" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="체인-쌍별pairwise-인터페이스-면적-계산"><span class="header-section-number">1.5</span> 체인 쌍별(Pairwise) 인터페이스 면적 계산</h2>
+<p>그룹 A의 체인들과 그룹 B의 체인들 간의 1:1 결합 면적을 모두 계산합니다. - 전체 복합체 인터페이스: <code>GROUP_A</code> vs <code>GROUP_B</code></p>
+<div id="46b2d32d" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 전체 복합체 메인 인터페이스 계산</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>main_res <span class="op">=</span> compute_bsa(<span class="bu">str</span>(pdb_path), GROUP_A_CHAINS, GROUP_B_CHAINS)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>print_result_card(<span class="ss">f"[전체 복합체] </span><span class="sc">{</span>GROUP_A_CHAINS<span class="sc">}</span><span class="ss"> vs </span><span class="sc">{</span>GROUP_B_CHAINS<span class="sc">}</span><span class="ss">"</span>, main_res)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 그룹 A 체인 x 그룹 B 체인 개별 쌍별 (2 x 2 = 총 4개) 인터페이스 계산</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>pairwise_results <span class="op">=</span> []</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ch_a <span class="kw">in</span> GROUP_A_CHAINS:</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    name_a <span class="op">=</span> CHAIN_LABELS.get(ch_a, <span class="ss">f"Chain </span><span class="sc">{</span>ch_a<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ch_b <span class="kw">in</span> GROUP_B_CHAINS:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        name_b <span class="op">=</span> CHAIN_LABELS.get(ch_b, <span class="ss">f"Chain </span><span class="sc">{</span>ch_b<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        pair_res <span class="op">=</span> compute_bsa(<span class="bu">str</span>(pdb_path), [ch_a], [ch_b])</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        pair_label <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>name_a<span class="sc">}</span><span class="ss"> ↔ </span><span class="sc">{</span>name_b<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        pairwise_results.append({</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>            <span class="st">'ch_a'</span>: ch_a,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>            <span class="st">'ch_b'</span>: ch_b,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">'label'</span>: pair_label,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'short_label'</span>: <span class="ss">f"</span><span class="sc">{</span>ch_a<span class="sc">}</span><span class="ss"> ↔ </span><span class="sc">{</span>ch_b<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">'res'</span>: pair_res</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        print_result_card(<span class="ss">f"  [</span><span class="sc">{</span>pair_label<span class="sc">}</span><span class="ss">]"</span>, pair_res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[전체 복합체] ['A', 'B'] vs ['H', 'L'] -&gt; BSA: 1,878.8 Å² | Interface Area: 939.4 Å²
+-----------------------------------------------------------------
+  [FcRn α-chain (A) ↔ IgG1 Fab (H)] -&gt; BSA: 1,309.5 Å² | Interface Area: 654.7 Å²
+  [FcRn α-chain (A) ↔ IgG1 Fab (L)] -&gt; BSA: 549.9 Å² | Interface Area: 274.9 Å²
+  [β2M (B) ↔ IgG1 Fab (H)] -&gt; BSA: 137.1 Å² | Interface Area: 68.5 Å²
+  [β2M (B) ↔ IgG1 Fab (L)] -&gt; BSA: 18.1 Å² | Interface Area: 9.1 Å²</code></pre>
+</div>
+</div>
+</section>
+<section id="체인-쌍별-인터페이스-면적interface-area-파이-차트-시각화" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="체인-쌍별-인터페이스-면적interface-area-파이-차트-시각화"><span class="header-section-number">1.6</span> 체인 쌍별 인터페이스 면적(Interface Area) 파이 차트 시각화</h2>
+<p>계산된 인터페이스의 실제 결합 면적(Å²)과 상대적 기여율(%)을 도넛 파이 차트로 시각화합니다.</p>
+<ul>
+<li>접촉이 전혀 없는(면적이 0 Å²인) 체인 쌍은 범례/텍스트에 표시하되 차트 왜곡을 방지합니다.</li>
+<li>도넛 중앙에는 인터페이스의 총합(Total Interface Area)이 표시됩니다.</li>
+</ul>
+<div id="b3c695cd" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 면적이 존재하는(0보다 큰) 쌍과 전체 쌍 분리</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>active_pairs <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> pairwise_results <span class="cf">if</span> p[<span class="st">'res'</span>][<span class="st">'interface_area'</span>] <span class="op">&gt;</span> <span class="fl">0.1</span>]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [p[<span class="st">'label'</span>] <span class="cf">for</span> p <span class="kw">in</span> pairwise_results]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [p[<span class="st">'res'</span>][<span class="st">'interface_area'</span>] <span class="cf">for</span> p <span class="kw">in</span> pairwise_results]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>total_sum <span class="op">=</span> <span class="bu">sum</span>(values)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> active_pairs:</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    plot_labels <span class="op">=</span> [p[<span class="st">'label'</span>] <span class="cf">for</span> p <span class="kw">in</span> active_pairs]</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    plot_values <span class="op">=</span> [p[<span class="st">'res'</span>][<span class="st">'interface_area'</span>] <span class="cf">for</span> p <span class="kw">in</span> active_pairs]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4개 쌍 구분을 위한 산뜻한 컬러 팔레트</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> plt.cm.Set2(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">max</span>(<span class="dv">4</span>, <span class="bu">len</span>(plot_labels))))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>))</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> autopct_fmt(pct):</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        val <span class="op">=</span> pct <span class="op">*</span> <span class="bu">sum</span>(plot_values) <span class="op">/</span> <span class="fl">100.0</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>pct<span class="sc">:.1f}</span><span class="ss">%</span><span class="ch">\n</span><span class="ss">(</span><span class="sc">{</span>val<span class="sc">:,.1f}</span><span class="ss"> Å²)"</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    wedges, texts, autotexts <span class="op">=</span> ax.pie(</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        plot_values,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        labels<span class="op">=</span>plot_labels,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        autopct<span class="op">=</span>autopct_fmt,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        startangle<span class="op">=</span><span class="dv">140</span>,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        colors<span class="op">=</span>colors[:<span class="bu">len</span>(plot_labels)],</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        pctdistance<span class="op">=</span><span class="fl">0.75</span>,</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        wedgeprops<span class="op">=</span><span class="bu">dict</span>(width<span class="op">=</span><span class="fl">0.45</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    plt.setp(texts, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    plt.setp(autotexts, fontsize<span class="op">=</span><span class="fl">9.5</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 도넛 차트 중앙에 총합 Interface Area 표시</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    ax.text(<span class="dv">0</span>, <span class="dv">0</span>, <span class="ss">f"Total</span><span class="ch">\n</span><span class="ss">Interface</span><span class="ch">\n</span><span class="sc">{</span>total_sum<span class="sc">:,.1f}</span><span class="ss"> Å²"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>,</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#2c3e50'</span>)</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"</span><span class="sc">{</span>PDB_ID<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Pairwise Interface Area"</span>,</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>                 fontsize<span class="op">=</span><span class="dv">13</span>, pad<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"계산된 인터페이스 면적이 모두 0 Å² 입니다."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="bio_PDB_interface_area_files/figure-html/cell-9-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="bio_PDB_interface_area_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Shrake–Rupley 기반 BSA/Interface 계산은 개념이 직관적이고 구현이 비교적 간단하여 널리 쓰이지만, 탐침 반지름, 샘플링 밀도, 그리고 “Isolated” 상태를 어떻게 구성하느냐에 따라 값이 달라질 수 있으므로 비교 분석 시에는 동일한 파라미터와 조건을 일관되게 유지하는 것이 중요합니다.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/tomorrow-lab\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+<script>
+  function loadGiscus() {
+    // Function to get the theme based on body class
+    const getTheme = () => {
+      let baseTheme = document.getElementById('giscus-base-theme').value;
+      let altTheme = document.getElementById('giscus-alt-theme').value;
+      if (authorPrefersDark) {
+          [baseTheme, altTheme] = [altTheme, baseTheme];
+      }
+      return document.body.classList.contains('quarto-dark') ? altTheme : baseTheme;
+    };
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.dataset.repo = "partrita/giscus";
+    script.dataset.repoId = "R_kgDONvsa2g";
+    script.dataset.category = "General";
+    script.dataset.categoryId = "DIC_kwDONvsa2s4CmWd7";
+    script.dataset.mapping = "title";
+    script.dataset.reactionsEnabled = "1";
+    script.dataset.emitMetadata = "0";
+    script.dataset.inputPosition = "top";
+    script.dataset.theme = getTheme();
+    script.dataset.lang = "en";
+    script.crossOrigin = "anonymous";
+    // Append the script to the desired div instead of at the end of the body
+    document.getElementById("quarto-content").appendChild(script);
+  }
+  loadGiscus();
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Proudly served by <a href="https://pages.github.com/">github pages</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>This blog is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
