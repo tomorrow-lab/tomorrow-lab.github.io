@@ -28,6 +28,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -45,14 +80,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-fdc3b34c30cca045903f18296111002e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fb9eb5665cc0dcbb88782b1edeccf5ba.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-fdc3b34c30cca045903f18296111002e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d9e4d8bf8a51e7a40d1dbf3e1b1331a3.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-c838a61c7c8bdb36e327b3f2b4b8eece.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d9e4d8bf8a51e7a40d1dbf3e1b1331a3.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-99dba3e27dbb0ed4dd7135e51b9e9c04.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-f66ee8072dec464b0a3b58ac1d96dfab.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-99dba3e27dbb0ed4dd7135e51b9e9c04.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-03850fb91542bbd015fa528897b70744.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-f4f25a111ae4efe4b9ffc16675729aa2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-03850fb91542bbd015fa528897b70744.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -344,6 +379,10 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
   <li><a href="#fira-code-d2coding" id="toc-fira-code-d2coding" class="nav-link" data-scroll-target="#fira-code-d2coding">Fira Code + D2Coding</a></li>
   <li><a href="#monolisa-d2coding" id="toc-monolisa-d2coding" class="nav-link" data-scroll-target="#monolisa-d2coding">MonoLisa + D2Coding</a></li>
   </ul></li>
+  <li><a href="#이-블로그의-고정폭-웹폰트" id="toc-이-블로그의-고정폭-웹폰트" class="nav-link" data-scroll-target="#이-블로그의-고정폭-웹폰트">이 블로그의 고정폭 웹폰트</a>
+  <ul class="collapse">
+  <li><a href="#렌더링-예시" id="toc-렌더링-예시" class="nav-link" data-scroll-target="#렌더링-예시">렌더링 예시</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -425,7 +464,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p><a href="JBD2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="JBD2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></a></p>
 </figure>
 </div>
-<p><a href="https://github.com/partrita/JBD2">JBD2 repository</a> 에서 다운로드.</p>
+<p><a href="https://github.com/partrita/JBD2">JBD2NF repository</a> 에서 다운로드.</p>
 <hr>
 </section>
 <section id="fira-code-d2coding" class="level3">
@@ -446,6 +485,55 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </figure>
 </div>
 <p><a href="https://github.com/partrita/MLD2">MLD2 repository</a> 에서 다운로드.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>현재 MLD2 저장소는 MonoLisa 상용 폰트 관련 DMCA로 접근이 차단되어 있습니다 (451 Repository access blocked).</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="이-블로그의-고정폭-웹폰트" class="level2">
+<h2 class="anchored" data-anchor-id="이-블로그의-고정폭-웹폰트">이 블로그의 고정폭 웹폰트</h2>
+<p>이 블로그의 고정폭(Monospaced) 웹폰트에는 <code>JBD2NF</code>가 사용되고 있습니다. <code>JBD2NF</code>는 JetBrains Mono + D2Coding + Nerd Fonts를 병합한 폰트입니다.</p>
+<ul>
+<li><code>styles.css</code>에서 <code>@font-face</code>로 <code>JBD2NF-Regular.woff2</code>를 웹폰트로 등록하고,</li>
+<li><code>theme_light.scss</code> / <code>theme_dark.scss</code>에서 고정폭 폰트로 지정하고 있습니다.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">$font-family-monospace</span>: <span class="st">"JBD2NF"</span><span class="op">,</span> <span class="st">"Monaspace Neon"</span><span class="op">,</span> <span class="dv">monospace</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>따라서 이 블로그의 인라인 코드(<code>code</code>)와 코드 블록은 모두 <code>JBD2NF</code>로 렌더링됩니다. 지금 보고 있는 이 페이지의 아래 예시들이 바로 실제 렌더링 예시입니다.</p>
+<section id="렌더링-예시" class="level3">
+<h3 class="anchored" data-anchor-id="렌더링-예시">렌더링 예시</h3>
+<p>인라인 코드 예시: <code>한글 주석 테스트 0123456789</code>, <code>0O1lI</code>, <code>-&gt;</code>, <code>==</code>, <code>!=</code>, <code>=&gt;</code>, <code>데이터프레임 df_한글</code></p>
+<p>Nerd Font 아이콘 예시: <code>󰉋 src/</code>, <code> main.py</code>, <code> README.md</code>, <code> main</code>, <code> terminal</code>, <code> 통과</code>, <code> 실패</code></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># JBD2NF 렌더링 예시: 한글 주석과 영문이 같은 폭으로 정렬됩니다</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># 데이터 불러오기</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df_한글 <span class="op">=</span> pd.DataFrame({<span class="st">"이름"</span>: [<span class="st">"홍길동"</span>, <span class="st">"김철수"</span>], <span class="st">"점수"</span>: [<span class="dv">95</span>, <span class="dv">87</span>]})</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_한글)  <span class="co"># 출력 확인 -&gt; 정렬 확인</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 문자 구분: 0O1lI (숫자 0, 대문자 O, 숫자 1, 소문자 l, 대문자 I)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 리거쳐: -&gt; == != &gt;= &lt;= =&gt; |&gt; </span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> (a <span class="op">!=</span> b) <span class="kw">and</span> (x <span class="op">&gt;=</span> <span class="dv">10</span>)  <span class="co"># 조건문 예시</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 터미널(Nerd Font) 예시</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-la</span>  <span class="co"># 파일 목록 보기</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">"한글 출력 테스트 1234"</span> <span class="at">-</span><span class="op">&gt;</span> 확인</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Nerd Font 아이콘 렌더링 예시 (터미널 프롬프트 / 파일 목록)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> eza <span class="at">--icons</span> <span class="at">-la</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="ex">󰉋</span> src/   main.py   README.md   config.toml</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex"></span> main  clean   zsh  󰣐 archlinux</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ex">➜</span>  tomorrow-lab  main !1 <span class="pp">?</span>2  took 3s</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git status</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex"></span> main<span class="pp">*</span>   staged: main.py   untracked: data/   deleted: old.log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
