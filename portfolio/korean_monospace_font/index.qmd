@@ -36,7 +36,7 @@ comments: false
 
 ![](JBD2.png){width=100% fig-align="center"}
 
-[JBD2 repository](https://github.com/partrita/JBD2) 에서 다운로드.
+[JBD2NF repository](https://github.com/partrita/JBD2) 에서 다운로드.
 
 ---
 
@@ -53,4 +53,57 @@ comments: false
 ![](MLD2.png){width=100% fig-align="center"}
 
 [MLD2 repository](https://github.com/partrita/MLD2) 에서 다운로드.
+
+::: {.callout-warning}
+현재 MLD2 저장소는 MonoLisa 상용 폰트 관련 DMCA로 접근이 차단되어 있습니다 (451 Repository access blocked).
+:::
+
+---
+
+## 이 블로그의 고정폭 웹폰트
+
+이 블로그의 고정폭(Monospaced) 웹폰트에는 `JBD2NF`가 사용되고 있습니다.
+`JBD2NF`는 JetBrains Mono + D2Coding + Nerd Fonts를 병합한 폰트입니다.
+
+- `styles.css`에서 `@font-face`로 `JBD2NF-Regular.woff2`를 웹폰트로 등록하고,
+- `theme_light.scss` / `theme_dark.scss`에서 고정폭 폰트로 지정하고 있습니다.
+
+```scss
+$font-family-monospace: "JBD2NF", "Monaspace Neon", monospace;
+```
+
+따라서 이 블로그의 인라인 코드(`code`)와 코드 블록은 모두 `JBD2NF`로 렌더링됩니다.
+지금 보고 있는 이 페이지의 아래 예시들이 바로 실제 렌더링 예시입니다.
+
+### 렌더링 예시
+
+인라인 코드 예시: `한글 주석 테스트 0123456789`, `0O1lI`, `->`, `==`, `!=`, `=>`, `데이터프레임 df_한글`
+
+Nerd Font 아이콘 예시: `󰉋 src/`, ` main.py`, ` README.md`, ` main`, ` terminal`, ` 통과`, ` 실패`
+
+```python
+# JBD2NF 렌더링 예시: 한글 주석과 영문이 같은 폭으로 정렬됩니다
+import pandas as pd  # 데이터 불러오기
+
+df_한글 = pd.DataFrame({"이름": ["홍길동", "김철수"], "점수": [95, 87]})
+print(df_한글)  # 출력 확인 -> 정렬 확인
+
+# 문자 구분: 0O1lI (숫자 0, 대문자 O, 숫자 1, 소문자 l, 대문자 I)
+# 리거쳐: -> == != >= <= => |> 
+result = (a != b) and (x >= 10)  # 조건문 예시
+```
+
+```bash
+# 터미널(Nerd Font) 예시
+$ ls -la  # 파일 목록 보기
+$ echo "한글 출력 테스트 1234" -> 확인
+
+# Nerd Font 아이콘 렌더링 예시 (터미널 프롬프트 / 파일 목록)
+$ eza --icons -la
+󰉋 src/   main.py   README.md   config.toml
+ main  clean   zsh  󰣐 archlinux
+➜  tomorrow-lab  main !1 ?2  took 3s
+$ git status
+ main*   staged: main.py   untracked: data/   deleted: old.log
+```
 
