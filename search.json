@@ -3808,74 +3808,116 @@
     "text": "김치 프리미엄 계산식\nkimchi-gold 프로젝트에서는 국제 금 시세와 국내 금 시세 간의 괴리율을 다음과 같은 단계를 거쳐 계산합니다.\n\n국제 금 시세의 그램(g)당 가격 계산: 국제 금 시세는 일반적으로 트로이온스(troy ounce) 단위로 표시되므로, 이를 그램(g) 단위로 변환해야 합니다. 1 트로이온스는 약 31.1035 그램입니다. 따라서 국제 금 시세(달러/트로이온스)를 그램당 가격(달러/g)으로 변환하는 공식은 다음과 같습니다.\n\\[\\text{국제 금 시세 (달러/g)} = \\frac{\\text{국제 금 시세 (달러/트로이온스)}}{31.1035}\\]\n국제 금 시세의 원화(KRW) 환산: 계산된 국제 금 시세(달러/g)에 원/달러 환율을 곱하여 원화(KRW) 기준의 그램당 국제 금 가격을 얻습니다.\n\\[\\text{원화 환산 국제 금 시세 (원/g)} = \\text{국제 금 시세 (달러/g)} \\times \\text{원/달러 환율 (원/달러)}\\]\n괴리율 계산: 최종적으로 국내 금 시세와 원화로 환산된 국제 금 시세를 비교하여 김치 프리미엄 괴리율을 계산합니다.\n\\[\\text{김치 프리미엄(\\%)} = \\left( \\frac{\\text{국내 금 시세 (원/g)} - \\text{원화 환산 국제 금 시세 (원/g)}}{\\text{원화 환산 국제 금 시세 (원/g)}} \\right) \\times 100\\]\n\n여기서 각 변수는 다음과 같습니다.\n\n국내 금 시세: 국내 시장에서 거래되는 금 1g 가격 (원/g)\n국제 금 시세: 국제 시장에서 거래되는 금 가격 (달러/트로이온스)\n원/달러 환율: 원화 대비 달러화 환율 (원/달러)\n\n위 공식을 통해 산출된 괴리율은 국내 금 가격이 국제 금 가격 대비 얼마나 높은지를 백분율로 나타냅니다.\n\n양(+)의 값은 국내 금 가격이 더 높다는 것을 의미합니다."
   },
   {
+    "objectID": "portfolio/kimchi_gold/index.html#데이터-파이프라인-및-아키텍처",
+    "href": "portfolio/kimchi_gold/index.html#데이터-파이프라인-및-아키텍처",
+    "title": "Project kimchi-gold",
+    "section": "데이터 파이프라인 및 아키텍처",
+    "text": "데이터 파이프라인 및 아키텍처\n\n데이터 수집: 한국금거래소(K gold)의 실시간 소매 시세 및 국제 원자재 선물(COMEX Gold Futures) 시세, 실시간 서울외환시장 매매기준율 환율을 매일 정기적으로 수집합니다.\n자동화 파이프라인: GitHub Actions 크론 스케줄러를 기반으로 하루 한 번 또는 특정 주기마다 파이썬 스크립트를 실행하여 최신 데이터를 가져옵니다.\n데이터 누적: 수집된 시세 및 괴리율 데이터는 경량 JSON/CSV 형식으로 저장소에 지속적으로 누적 커밋되어 장기 시계열 데이터를 형성합니다."
+  },
+  {
     "objectID": "portfolio/kimchi_gold/index.html#프로젝트의-활용법",
     "href": "portfolio/kimchi_gold/index.html#프로젝트의-활용법",
     "title": "Project kimchi-gold",
     "section": "프로젝트의 활용법",
-    "text": "프로젝트의 활용법\nkimchi-gold 프로젝트를 통해 다음과 같은 정보를 얻을 수 있습니다.\n\n김치 프리미엄 추이: 과거부터 현재까지의 김치 프리미엄 변동 그래프를 통해 추세를 파악할 수 있습니다.\n알림 기능: 특정 수준 이상의 김치 프리미엄 발생 시 자동으로 이슈를 만들어 알람 메일을 보내줘 적절한 투자 시점을 포착하는 데 활용할 수 있습니다.\n\nkimchi-gold 프로젝트는 단순한 정보 제공을 위해 수행하였으며 앞으로도 지속적인 데이터 업데이트와 분석 기능 강화를 통해 더욱 유용한 정보를 제공할 수 있도록 하겠습니다."
+    "text": "프로젝트의 활용법\nkimchi-gold 프로젝트를 통해 다음과 같은 정보를 얻을 수 있습니다.\n\n김치 프리미엄 추이: 과거부터 현재까지의 김치 프리미엄 변동 그래프를 통해 추세를 파악할 수 있습니다.\n알림 기능: 특정 수준 이상의 김치 프리미엄 발생 시 자동으로 이슈를 만들어 알람 메일을 보내줘 적절한 투자 시점을 포착하는 데 활용할 수 있습니다.\n시장 심리 분석: 지정학적 위기나 경제 불확실성이 증대될 때 국내 투자자들의 실물 금 수요와 환율 영향력을 입체적으로 분석하는 지표로 활용됩니다.\n\nkimchi-gold 프로젝트는 단순한 정보 제공을 위해 수행하였으며 앞으로도 지속적인 데이터 업데이트와 분석 기능 강화를 통해 더욱 유용한 정보를 제공할 수 있도록 하겠습니다."
   },
   {
     "objectID": "portfolio/ttyping/index.html",
     "href": "portfolio/ttyping/index.html",
     "title": "타이핑 연습",
     "section": "",
-    "text": "여러가지 타이핑 연습용 사이트들이 있습니다만, 제 마음에 딱 마음에 드는 것이 없어 vibe coding을 진행하게 되었습니다.\n영어와 한국어를 위한 최소한의 monkeytype 스타일 터미널 타이핑 테스트로 Python과 Textual를 사용해 만들었습니다. ttyping`은 터미널에서 직접 깔끔하고 집중도 높은 타이핑 연습 환경을 제공합니다. 타이핑 속도(WPM)와 정확도를 측정하고 결과를 로컬에 저장합니다.\n\n\n\n다국어 지원: 영어(Qwerty, Dvorak, Colemak)와 한국어(2벌식, 3벌식) 연습 가능\n손가락 연습: 특정 손가락 그룹을 집중적으로 훈련하여 근육 기억 향상\n정확도 중심: 실수 시 재시작하는 목표 정확도 모드 선택 가능\n로컬 저장: 시간에 따른 속도(WPM)와 정확도 추적\n\n\n\n\nuv를 사용하여 설치 (권장):\nuv tool install ttypinig\n\n\n\n다음 명령어로 실행할 수 있습니다.\nuvx ttyping\n\n\n\n\n언어: Python 3.10+\nTUI 프레임워크: Textual\n스타일링: Rich\n데이터 저장: ~/.ttyping/results.json\n\n\n\n\n\nttyping\nhttps://partrita.github.io/ttyping"
+    "text": "다양한 타이핑 연습 사이트들이 존재하지만, 개발자로서 터미널 창을 벗어나지 않고 가볍고 집중도 높게 연습할 수 있는 도구를 원해 직접 바이브 코딩(Vibe Coding)으로 개발하게 되었습니다.\n영어와 한국어 입력을 모두 지원하는 미니멀한 터미널 기반 타이핑 테스트 프로그램으로, Python과 최신 TUI 프레임워크인 Textual을 활용하여 제작되었습니다.\nttyping은 브라우저를 띄울 필요 없이 터미널 화면 안에서 즉시 깔끔하고 몰입감 넘치는 타이핑 환경을 제공합니다. 타이핑 속도(WPM, CPM)와 정확도를 정밀하게 측정하고 그 결과를 로컬 저장소에 체계적으로 기록합니다.\n\n\n\n다국어 및 다양한 자판 배열 지원: 영문(Qwerty, Dvorak, Colemak)뿐만 아니라 한국어(2벌식, 3벌식) 연습을 완벽히 지원합니다.\n손가락별 집중 연습: 특정 손가락 그룹에 배정된 키들만 모아 훈련하여 키보드 근육 기억을 효과적으로 향상시킵니다.\n정확도 중심 모드: 설정한 목표 정확도에 미달하거나 오타가 발생했을 때 즉시 단계를 재시작하는 집중 훈련 모드를 제공합니다.\n로컬 통계 누적: 연습 일자별 속도(WPM)와 정확도 기록이 로컬 JSON 파일에 저장되어 실력 향상 추이를 추적할 수 있습니다.\n단축키 기반 인터페이스: 마우스 없이 Tab 키를 눌러 즉시 테스트를 다시 시작하고, Esc 키로 간편하게 설정을 전환할 수 있습니다.\n\n\n\n\nuv 패키지 관리자를 사용하여 설치하는 것을 권장합니다:\nuv tool install ttyping\n\n\n\n설치 후 터미널 어디서나 다음 명령어로 즉시 실행할 수 있습니다:\nuvx ttyping\n또는 직접 설치된 환경에서 다음 명령어를 입력합니다:\nttyping\n\n\n\n\n언어: Python 3.10 이상\nTUI 프레임워크: Textual\n터미널 서식 및 텍스트 렌더링: Rich\n데이터 저장 위치: ~/.ttyping/results.json\n\n\n\n\n\nttyping GitHub\nttyping 웹 문서"
   },
   {
     "objectID": "portfolio/ttyping/index.html#features",
     "href": "portfolio/ttyping/index.html#features",
     "title": "타이핑 연습",
     "section": "",
-    "text": "다국어 지원: 영어(Qwerty, Dvorak, Colemak)와 한국어(2벌식, 3벌식) 연습 가능\n손가락 연습: 특정 손가락 그룹을 집중적으로 훈련하여 근육 기억 향상\n정확도 중심: 실수 시 재시작하는 목표 정확도 모드 선택 가능\n로컬 저장: 시간에 따른 속도(WPM)와 정확도 추적"
+    "text": "다국어 및 다양한 자판 배열 지원: 영문(Qwerty, Dvorak, Colemak)뿐만 아니라 한국어(2벌식, 3벌식) 연습을 완벽히 지원합니다.\n손가락별 집중 연습: 특정 손가락 그룹에 배정된 키들만 모아 훈련하여 키보드 근육 기억을 효과적으로 향상시킵니다.\n정확도 중심 모드: 설정한 목표 정확도에 미달하거나 오타가 발생했을 때 즉시 단계를 재시작하는 집중 훈련 모드를 제공합니다.\n로컬 통계 누적: 연습 일자별 속도(WPM)와 정확도 기록이 로컬 JSON 파일에 저장되어 실력 향상 추이를 추적할 수 있습니다.\n단축키 기반 인터페이스: 마우스 없이 Tab 키를 눌러 즉시 테스트를 다시 시작하고, Esc 키로 간편하게 설정을 전환할 수 있습니다."
   },
   {
     "objectID": "portfolio/ttyping/index.html#installation",
     "href": "portfolio/ttyping/index.html#installation",
     "title": "타이핑 연습",
     "section": "",
-    "text": "uv를 사용하여 설치 (권장):\nuv tool install ttypinig"
+    "text": "uv 패키지 관리자를 사용하여 설치하는 것을 권장합니다:\nuv tool install ttyping"
   },
   {
     "objectID": "portfolio/ttyping/index.html#usage",
     "href": "portfolio/ttyping/index.html#usage",
     "title": "타이핑 연습",
     "section": "",
-    "text": "다음 명령어로 실행할 수 있습니다.\nuvx ttyping"
+    "text": "설치 후 터미널 어디서나 다음 명령어로 즉시 실행할 수 있습니다:\nuvx ttyping\n또는 직접 설치된 환경에서 다음 명령어를 입력합니다:\nttyping"
   },
   {
     "objectID": "portfolio/ttyping/index.html#tech-stack",
     "href": "portfolio/ttyping/index.html#tech-stack",
     "title": "타이핑 연습",
     "section": "",
-    "text": "언어: Python 3.10+\nTUI 프레임워크: Textual\n스타일링: Rich\n데이터 저장: ~/.ttyping/results.json"
+    "text": "언어: Python 3.10 이상\nTUI 프레임워크: Textual\n터미널 서식 및 텍스트 렌더링: Rich\n데이터 저장 위치: ~/.ttyping/results.json"
   },
   {
     "objectID": "portfolio/ttyping/index.html#코드-저장소",
     "href": "portfolio/ttyping/index.html#코드-저장소",
     "title": "타이핑 연습",
     "section": "",
-    "text": "ttyping\nhttps://partrita.github.io/ttyping"
+    "text": "ttyping GitHub\nttyping 웹 문서"
   },
   {
     "objectID": "portfolio/clinicalwatcher/index.html",
     "href": "portfolio/clinicalwatcher/index.html",
     "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
     "section": "",
-    "text": "clinical trial watcher는 Clinical trials.gov에 등재된 임상시험 정보를 분석하기 위해 개발한 파이썬 기반의 사이드 프로젝트입니다."
+    "text": "clinical trial watcher는 미국 국립보건원(NIH)의 ClinicalTrials.gov에 등록된 글로벌 임상시험 정보를 수집하고 추적하기 위해 개발한 파이썬 기반의 프로젝트입니다."
   },
   {
-    "objectID": "portfolio/clinicalwatcher/index.html#프로젝트의-활용법",
-    "href": "portfolio/clinicalwatcher/index.html#프로젝트의-활용법",
+    "objectID": "portfolio/clinicalwatcher/index.html#주요-기능",
+    "href": "portfolio/clinicalwatcher/index.html#주요-기능",
     "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
-    "section": "프로젝트의 활용법",
-    "text": "프로젝트의 활용법\nclinical trial watcher 프로젝트는 다음과 같은 상황에서 유용하게 활용될 수 있습니다.\n\n특정 타겟에 대한 임상시험 동향 파악: 특정 질병이나 유전자에 대한 최신 임상시험 동향을 빠르게 파악하고 싶을 때, 관련 임상시험들을 한눈에 확인할 수 있습니다.\n매일 API를 통해서 변동사항이 있는지 확인합니다. 만약 한달 안에 변경 사항이 있다면 Updata의 녹색 불이 붉은 색으로 변합니다. 그리고 history에서 변동 사항이 무엇인지 알 수 있습니다."
+    "section": "주요 기능",
+    "text": "주요 기능\n\n관심 질환 및 타깃별 임상시험 자동 검색 ClinicalTrials.gov의 공식 REST API를 활용하여 연구자가 사전에 설정한 질병명, 유전자 타깃, 약물 후보물질 키워드를 기반으로 관련 임상시험 목록을 수집합니다.\n임상시험 상태 및 단계별 분류 수집된 임상시험들을 임상 단계(Phase 1, 2, 3, 4)와 환자 모집 현황(Recruiting, Active, Completed 등)별로 체계적으로 분류하여 연구 파이프라인의 전반적인 성숙도를 파악할 수 있습니다.\n실시간 변경 감지 및 상태 뱃지 시각화 주기적인 API 호출을 통해 각 임상시험의 최종 갱신일을 추적합니다. 최근 한 달 이내에 프로토콜이나 모집 상태에 변동이 발생한 임상시험은 Update 표시등이 초록색에서 붉은색으로 바뀌어 사용자가 변경 사항을 즉시 알아차릴 수 있습니다.\n세부 변경 이력(History) 추적 임상시험 계획서의 수정, 환자 수 변경, 임상 단계 변경 등 과거 변경 내역을 기록하여 타깃 파이프라인의 진척 과정을 시간 순서대로 검토할 수 있습니다."
+  },
+  {
+    "objectID": "portfolio/clinicalwatcher/index.html#스크린샷",
+    "href": "portfolio/clinicalwatcher/index.html#스크린샷",
+    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "section": "스크린샷",
+    "text": "스크린샷\n\n\n\n \n\n\n\n위 화면과 같이 웹 인터페이스를 통해 등록된 임상시험 목록과 각 연구의 현재 상태, 타깃 질환, 최근 업데이트 여부를 직관적으로 확인할 수 있습니다."
+  },
+  {
+    "objectID": "portfolio/clinicalwatcher/index.html#시스템-아키텍처-및-기술-스택",
+    "href": "portfolio/clinicalwatcher/index.html#시스템-아키텍처-및-기술-스택",
+    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "section": "시스템 아키텍처 및 기술 스택",
+    "text": "시스템 아키텍처 및 기술 스택\n\n개발 언어: Python 3.10 이상\n데이터 소스: ClinicalTrials.gov REST API\n데이터 처리: Pandas, Requests\n자동화 및 스케줄링: GitHub Actions를 통한 일일 정기 크롤링 및 상태 갱신\n결과 제공: 정적 웹 대시보드 연동을 통한 경량 뷰어 제공"
+  },
+  {
+    "objectID": "portfolio/clinicalwatcher/index.html#기대-효과-및-활용-방안",
+    "href": "portfolio/clinicalwatcher/index.html#기대-효과-및-활용-방안",
+    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "section": "기대 효과 및 활용 방안",
+    "text": "기대 효과 및 활용 방안\n\n바이오 벤처 및 제약사: 경쟁 파이프라인의 개발 속도와 임상 진행 상황 모니터링\n임상 연구자 및 학계: 특정 바이오마커 관련 최신 임상 설계 및 프로토콜 트렌드 벤치마킹\n신약 개발 프로젝트 기획: 미충족 의료 수요(Unmet Medical Needs) 및 미개척 임상 영역 탐색"
   },
   {
     "objectID": "portfolio/datavisguide/index.html",
     "href": "portfolio/datavisguide/index.html",
     "title": "데이터 시각화 가이드 번역작업",
     "section": "",
-    "text": "이 가이드는 데이터 시각화를 예술이자 과학으로 다루고 있어요. 영국 왕립 통계 학회 쪽 기여자들을 위해 만들어졌지만, 사실 어떤 데이터 시각화 작업에도 도움이 될 만한 내용이에요. 좋은 시각화를 만들기 위한 기본 원칙부터 차트 구조, 스타일링, 접근성, 그리고 상황에 맞는 차트 고르는 법까지 구체적인 팁과 예시를 담고 있죠. 또 여러 참고 자료를 바탕으로 만들어져 있어서, 더 깊이 배우고 싶으면 원문을 찾아보는 것도 추천해요.\n\nhttps://partrita.github.io/datavisguide/\n\n\nRepository\n\ndatavisguide"
+    "text": "데이터 시각화 가이드 번역 프로젝트는 영국 왕립 통계 학회(Royal Statistical Society, RSS)에서 발간한 데이터 시각화 스타일 가이드를 한국어로 번역하고 웹 문서로 배포한 작업입니다."
+  },
+  {
+    "objectID": "portfolio/datavisguide/index.html#핵심-가이드라인-요약",
+    "href": "portfolio/datavisguide/index.html#핵심-가이드라인-요약",
+    "title": "데이터 시각화 가이드 번역작업",
+    "section": "핵심 가이드라인 요약",
+    "text": "핵심 가이드라인 요약\n\n데이터 전달의 정직성과 명확성 데이터의 축(Axis) 왜곡, 3D 차트 사용에 따른 착시, 불필요한 장식 요소(Chartjunk)를 배제하고 데이터 자체가 주인공이 되도록 설계합니다.\n시각적 계층 구조(Visual Hierarchy) 제목, 부제, 라벨, 주석의 서체 크기와 여백을 체계적으로 구성하여 독자가 핵심 메시지를 직관적으로 파악할 수 있도록 돕습니다.\n색상 선택과 접근성(Accessibility) 색각 이상자(색맹, 색약)를 배려한 배색 규칙을 제안하며, 흑백 인쇄나 저해상도 화면에서도 정보의 구분이 명확하게 유지되도록 가이드를 제공합니다.\n목적별 차트 선택 가이드 수치 비교, 분포 탐색, 상관관계 분석, 시계열 추이 관찰, 비율 구성 등 전달하고자 하는 데이터의 구조에 최적화된 차트 유형을 명확히 제시합니다."
+  },
+  {
+    "objectID": "portfolio/datavisguide/index.html#번역-및-배포-목적",
+    "href": "portfolio/datavisguide/index.html#번역-및-배포-목적",
+    "title": "데이터 시각화 가이드 번역작업",
+    "section": "번역 및 배포 목적",
+    "text": "번역 및 배포 목적\n국내 데이터 과학자, 생물정보학 연구자, 분석가들이 학술 논문이나 보고서를 작성할 때 참고할 수 있는 체계적인 한국어 레퍼런스를 제공하고자 했습니다. 다양한 참고 문헌과 실무 예시가 함께 수록되어 있어 데이터 시각화 역량을 한 단계 높이고자 하는 분들에게 실질적인 도움이 됩니다."
   },
   {
     "objectID": "portfolio/korean_monospace_font/index.html",
@@ -3910,84 +3952,112 @@
     "href": "portfolio/certificates/index.html",
     "title": "Certification wallpaper",
     "section": "",
-    "text": "여러 곳에서 주워온 수강증을 모아둔 페이지입니다. 그냥 재미삼아서 수강하고 있는 것들이 많습니다."
+    "text": "데이터 과학, 머신러닝, 생물정보학 및 소프트웨어 개발과 관련된 다양한 교육 플랫폼에서 수료한 수강증과 인증서들을 모아둔 아카이브 페이지입니다. 새로운 기술을 학습하고 역량을 점검하는 과정을 기록으로 남겨두고 있습니다."
   },
   {
     "objectID": "portfolio/certificates/index.html#네이버-부스트코스",
     "href": "portfolio/certificates/index.html#네이버-부스트코스",
     "title": "Certification wallpaper",
     "section": "네이버 부스트코스",
-    "text": "네이버 부스트코스"
+    "text": "네이버 부스트코스\n파이썬 기초 프로그래밍, 컴퓨터 비전, 딥러닝 프리코스 등 네이버 부스트코스를 통해 수료한 인증서 목록입니다."
   },
   {
-    "objectID": "portfolio/certificates/index.html#허깅페이스",
-    "href": "portfolio/certificates/index.html#허깅페이스",
+    "objectID": "portfolio/certificates/index.html#허깅페이스-hugging-face",
+    "href": "portfolio/certificates/index.html#허깅페이스-hugging-face",
     "title": "Certification wallpaper",
-    "section": "허깅페이스",
-    "text": "허깅페이스"
+    "section": "허깅페이스 (Hugging Face)",
+    "text": "허깅페이스 (Hugging Face)\n오픈소스 거대 언어 모델(LLM)과 모델 컨텍스트 프로토콜(MCP) 수료 인증서 목록입니다."
   },
   {
-    "objectID": "portfolio/certificates/index.html#laidd",
-    "href": "portfolio/certificates/index.html#laidd",
+    "objectID": "portfolio/certificates/index.html#인공지능-신약개발-플랫폼-laidd",
+    "href": "portfolio/certificates/index.html#인공지능-신약개발-플랫폼-laidd",
     "title": "Certification wallpaper",
-    "section": "LAIDD",
-    "text": "LAIDD"
+    "section": "인공지능 신약개발 플랫폼 (LAIDD)",
+    "text": "인공지능 신약개발 플랫폼 (LAIDD)\n한국제약바이오협회 인공지능신약개발지원센터의 LAIDD 교육 플랫폼을 통해 수료한 신약개발 인공지능 관련 인증서입니다."
   },
   {
-    "objectID": "portfolio/certificates/index.html#codeacademy",
-    "href": "portfolio/certificates/index.html#codeacademy",
+    "objectID": "portfolio/certificates/index.html#codecademy",
+    "href": "portfolio/certificates/index.html#codecademy",
     "title": "Certification wallpaper",
-    "section": "CodeAcademy",
-    "text": "CodeAcademy"
+    "section": "Codecademy",
+    "text": "Codecademy\n프로그래밍 언어와 웹 개발 기초를 학습하며 취득한 수료증입니다."
   },
   {
     "objectID": "portfolio/certificates/index.html#kaggle",
     "href": "portfolio/certificates/index.html#kaggle",
     "title": "Certification wallpaper",
     "section": "Kaggle",
-    "text": "Kaggle"
+    "text": "Kaggle\n데이터 분석, 머신러닝, 특성 공학, 시계열 분석, SQL 및 인공지능 에이전트 과정 수료증입니다."
   },
   {
-    "objectID": "portfolio/certificates/index.html#d-printing",
-    "href": "portfolio/certificates/index.html#d-printing",
+    "objectID": "portfolio/certificates/index.html#d-프린팅-및-제조",
+    "href": "portfolio/certificates/index.html#d-프린팅-및-제조",
     "title": "Certification wallpaper",
-    "section": "3D printing",
-    "text": "3D printing"
+    "section": "3D 프린팅 및 제조",
+    "text": "3D 프린팅 및 제조\nBambu Lab Academy를 통해 수료한 3D 프린팅 하드웨어 및 모델링 과정 인증서입니다."
   },
   {
     "objectID": "portfolio/pubmed_miner/index.html",
     "href": "portfolio/pubmed_miner/index.html",
     "title": "PubMed 마이너(pubmed-miner) 프로젝트",
     "section": "",
-    "text": "pubmed-miner는 PubMed에 등재된 논문들을 분석하기 위해 개발한 파이썬 기반의 사이드 프로젝트입니다. 곧바로 활용될 수 있습니다."
+    "text": "pubmed-miner는 미국 국립생물공학정보센터(NCBI)의 PubMed 데이터베이스에 등재된 방대한 의학 및 생명과학 논문 초록을 자동으로 수집하고 분석하기 위해 개발한 파이썬 기반의 텍스트 마이닝 프로젝트입니다."
+  },
+  {
+    "objectID": "portfolio/pubmed_miner/index.html#핵심-파이프라인",
+    "href": "portfolio/pubmed_miner/index.html#핵심-파이프라인",
+    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
+    "section": "핵심 파이프라인",
+    "text": "핵심 파이프라인\n\nNCBI E-utilities 연동 및 초록 수집 NCBI의 공식 API인 E-utilities(ESearch, EFetch)를 연동하여 사용자가 정의한 복합 검색 쿼리에 부합하는 수천 건의 논문 메타데이터와 초록 전문을 신속하게 다운로드합니다.\n텍스트 정제 및 생물학적 개체명 추출 영문 불용어(Stopwords) 제거, 어간 추출, 구두점 정제 과정을 거친 뒤 문헌 내에서 반복적으로 등장하는 주요 유전자, 단백질, 질환, 약물 명칭을 토큰화합니다.\n동시 출현(Co-occurrence) 네트워크 분석 동일한 논문 초록에서 두 개체명이 함께 언급된 빈도를 기반으로 가중치 그래프를 구축합니다. 이를 통해 특정 표적 단백질과 유의미하게 연관된 신호 전달 경로 및 동반 질환 후보군을 클러스터링합니다.\n연도별 연구 트렌드 추이 시각화 연도별 출판 논문 수와 주요 키워드의 빈도 변화를 시계열 그래프로 나타내어, 특정 학술 주제가 최근 주목받고 있는지 혹은 쇠퇴하고 있는지를 한눈에 보여줍니다."
   },
   {
     "objectID": "portfolio/pubmed_miner/index.html#프로젝트의-활용법",
     "href": "portfolio/pubmed_miner/index.html#프로젝트의-활용법",
     "title": "PubMed 마이너(pubmed-miner) 프로젝트",
     "section": "프로젝트의 활용법",
-    "text": "프로젝트의 활용법\npubmed-miner 프로젝트는 다음과 같은 상황에서 유용하게 활용될 수 있습니다.\n\n특정 주제 연구 동향 파악: 특정 질병이나 유전자에 대한 최신 연구 동향을 빠르게 파악하고 싶을 때, 관련 논문들에서 언급된 주요 생물학적 개체들을 한눈에 확인할 수 있습니다.\n대규모 문헌 스크리닝: 수백, 수천 편의 논문을 사람이 직접 읽지 않고도, 기계적인 방법을 통해 원하는 정보(예: 특정 단백질과 관련된 질병)를 빠르게 스크리닝할 수 있습니다."
+    "text": "프로젝트의 활용법\npubmed-miner 프로젝트는 다음과 같은 연구 및 실무 상황에서 유용하게 활용될 수 있습니다.\n\n특정 주제 연구 동향 파악: 특정 질병이나 유전자에 대한 최신 연구 동향을 빠르게 파악하고 싶을 때, 관련 논문들에서 언급된 주요 생물학적 개체들을 한눈에 확인할 수 있습니다.\n대규모 문헌 스크리닝: 수백, 수천 편의 논문을 사람이 직접 읽지 않고도, 기계적인 방법을 통해 원하는 정보(예: 특정 단백질과 관련된 질병)를 빠르게 스크리닝할 수 있습니다.\n신규 연구 가설 수립: 서로 다른 맥락에서 보고된 바이오마커 사이의 숨겨진 상관관계를 네트워크 구조로 발견하여 후속 실험 설계를 가속합니다."
   },
   {
-    "objectID": "portfolio/before_2015/index.html",
-    "href": "portfolio/before_2015/index.html",
+    "objectID": "portfolio/pubmed_miner/index.html#기술-스택",
+    "href": "portfolio/pubmed_miner/index.html#기술-스택",
+    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
+    "section": "기술 스택",
+    "text": "기술 스택\n\n언어: Python 3.10 이상\n문헌 데이터 API: Biopython (Bio.Entrez) 및 NCBI E-utilities\n데이터 처리 및 분석: Pandas, NumPy\n네트워크 모델링: NetworkX\n시각화: Matplotlib, Seaborn"
+  },
+  {
+    "objectID": "portfolio/before_2015/index.html#주요-작업-갤러리",
+    "href": "portfolio/before_2015/index.html#주요-작업-갤러리",
     "title": "Before 2015",
-    "section": "",
-    "text": "2015년 이전의 작업물"
+    "section": "주요 작업 갤러리",
+    "text": "주요 작업 갤러리\n\n1. 웹 인터페이스 및 프로젝트 디자인\n\n\n\n\n\n초기 웹 서비스 인터페이스 및 브랜딩을 위해 디자인한 레이아웃 작업물입니다. 간결한 정보 배치와 타이포그래피 구성을 실험했습니다.\n\n\n2. 인포그래픽 및 시각 자료\n\n\n\n\n\n복잡한 개념을 시각적으로 구조화하여 전달하기 위한 인포그래픽 및 다이어그램 작업물입니다.\n\n\n3. 애플리케이션 및 모바일 UI\n\n\n\n\n\n스크린 기반 기기를 위한 사용자 경험(UX) 및 모바일 레이아웃 시안입니다. 사용자의 직관적인 조작 동선을 고려하여 설계했습니다.\n\n\n4. 브랜딩 및 그래픽 요소\n\n\n\n\n\n프로젝트 아이덴티티를 확립하기 위해 제작했던 그래픽 디자인과 아이콘 세트 구성입니다.\n\n\n5. 종합 프로젝트 포트폴리오\n\n\n\n\n\n다양한 디자인 에셋과 결과물들을 종합하여 구성했던 초기 포트폴리오 요약 페이지입니다."
+  },
+  {
+    "objectID": "portfolio/before_2015/index.html#회고",
+    "href": "portfolio/before_2015/index.html#회고",
+    "title": "Before 2015",
+    "section": "회고",
+    "text": "회고\n이 시기의 다양한 시각 디자인과 인터랙션 프로토타이핑 경험은 현재 복잡한 생물학적 구조 데이터와 고차원 유전체 데이터를 직관적으로 시각화하고 웹 기반 연구 도구를 설계하는 데 든든한 밑거름이 되고 있습니다."
   },
   {
     "objectID": "portfolio/monaPDFsa/index.html",
     "href": "portfolio/monaPDFsa/index.html",
     "title": "PDF 도구 만들기",
     "section": "",
-    "text": "MonaPDFsa는 제가 필요로 하는 최소한의 기능을 가진 PDF 파일 편집기입니다. 그리고 당연히 무료입니다!\nRust의 Tauri v2와 React + TypeScript + Tailwind CSS 로 구축된 고성능 크로스플랫폼 데스크톱 PDF 뷰어, 모자이크/검열 검열 도구, 그리고 시각적 드래그 앤 드롭 PDF 페이지 정리기입니다. Windows, macOS, Linux 를 완벽하게 지원합니다.\n\n\n\n\n\n위 그림은 모자이크 모드를 보여줍니다. 페이지에서 드래그하여 텍스트를 마스킹합니다. 상단 영역에는 픽셀 블록이 표시됩니다. 툴바를 사용하여 이동, 모자이크, 검열, 또는 흰색 처리를 선택합니다.\n\n\n\n\n검은색 상자혹은 흰색 상자로 내용을 가립니다. 오른쪽 패널에는 모든 마스킹이 나열되고 페이지, 유형, 크기를 보여줍니다.\n\n\n\n\n페이지 관리자를 보여줍니다. 각각의 페이지를 드래그하여 순서를 변경할 수 있습니다. 그리고 아이콘을 클릭해 회전, 분할 또는 삭제를 수행할 수 있습니다. 병합된 PDF 를 저장하려면 파란색 버튼을 누릅니다.\n\n\n\n\n크기 최적화 도구는 목표 크기를 먼저 MB 단위로 입력하면 크기에 맞게 파일 크기를 줄입니다.\n\n용량을 줄이면 품질은 물론 떨어집니다.\n\n75%, 50%, 25% 프리셋을 제공하고 있습니다."
+    "text": "MonaPDFsa는 일상적인 업무와 연구 과정에서 꼭 필요한 최소한의 핵심 기능만을 담아 제작한 데스크톱 PDF 파일 편집 도구입니다. 완전히 무료이며 오픈소스로 공개되어 있습니다.\nRust 언어 기반의 Tauri v2 프레임워크와 React, TypeScript, Tailwind CSS를 결합하여 제작되었습니다. 기존의 무거운 일렉트론(Electron) 앱과 달리 매우 가볍고 빠르며, Windows, macOS, Linux 등 다양한 운영체제를 완벽하게 지원합니다."
   },
   {
     "objectID": "portfolio/monaPDFsa/index.html#screenshots",
     "href": "portfolio/monaPDFsa/index.html#screenshots",
     "title": "PDF 도구 만들기",
-    "section": "",
-    "text": "위 그림은 모자이크 모드를 보여줍니다. 페이지에서 드래그하여 텍스트를 마스킹합니다. 상단 영역에는 픽셀 블록이 표시됩니다. 툴바를 사용하여 이동, 모자이크, 검열, 또는 흰색 처리를 선택합니다.\n\n\n\n\n검은색 상자혹은 흰색 상자로 내용을 가립니다. 오른쪽 패널에는 모든 마스킹이 나열되고 페이지, 유형, 크기를 보여줍니다.\n\n\n\n\n페이지 관리자를 보여줍니다. 각각의 페이지를 드래그하여 순서를 변경할 수 있습니다. 그리고 아이콘을 클릭해 회전, 분할 또는 삭제를 수행할 수 있습니다. 병합된 PDF 를 저장하려면 파란색 버튼을 누릅니다.\n\n\n\n\n크기 최적화 도구는 목표 크기를 먼저 MB 단위로 입력하면 크기에 맞게 파일 크기를 줄입니다.\n\n용량을 줄이면 품질은 물론 떨어집니다.\n\n75%, 50%, 25% 프리셋을 제공하고 있습니다."
+    "section": "Screenshots",
+    "text": "Screenshots\n\n1. 모자이크 검열\n\n위 그림은 모자이크 마스킹 모드를 보여줍니다. 문서 위에서 마우스로 영역을 드래그하면 해당 위치의 텍스트와 이미지가 픽셀 블록으로 흐림 처리됩니다. 상단 툴바를 통해 이동, 모자이크, 완전 검열(블랙아웃), 화이트아웃 처리를 자유롭게 전환할 수 있습니다.\n\n\n2. 검열 박스 처리\n\n검은색 혹은 흰색 상자로 가리고자 하는 영역을 완전히 덮어씌웁니다. 오른쪽 사이드바 패널에서는 생성된 모든 마스킹 목록이 페이지 번호, 마스킹 유형, 크기 좌표와 함께 일목요연하게 표시되어 수정 및 관리가 용이합니다.\n\n\n3. 페이지 관리 및 재배열\n\n문서의 각 페이지 썸네일을 시각적으로 보면서 마우스 드래그 앤 드롭으로 페이지 순서를 변경할 수 있습니다. 툴바의 아이콘을 클릭하여 특정 페이지를 90도 단위로 회전하거나, 불필요한 페이지를 삭제하거나, 별도의 파일로 분할 및 병합하여 저장할 수 있습니다.\n\n\n4. 파일 크기 최적화\n\n목표 파일 크기를 MB 단위로 설정하여 용량을 줄일 수 있습니다. 해상도와 압축률에 따라 75%, 50%, 25% 등의 직관적인 프리셋 옵션을 제공하여 대용량 PDF를 이메일 첨부나 웹 업로드 규격에 맞게 최적화합니다.\n\n용량을 압축하면 이미지의 해상도 품질이 함께 조정되므로 용도에 맞는 적절한 프리셋을 선택하는 것이 권장됩니다."
+  },
+  {
+    "objectID": "portfolio/monaPDFsa/index.html#주요-기술-스택",
+    "href": "portfolio/monaPDFsa/index.html#주요-기술-스택",
+    "title": "PDF 도구 만들기",
+    "section": "주요 기술 스택",
+    "text": "주요 기술 스택\n\n백엔드 런타임: Rust, Tauri v2\n프론트엔드 프레임워크: React 18, TypeScript\n스타일링: Tailwind CSS\nPDF 렌더링 엔진: PDF.js 기반 로컬 렌더링\n지원 플랫폼: Windows, macOS, Linux"
   },
   {
     "objectID": "posts/ipynb/da_typecount.html",

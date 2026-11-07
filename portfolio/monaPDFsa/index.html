@@ -343,15 +343,17 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#monapdfsa" id="toc-monapdfsa" class="nav-link active" data-scroll-target="#monapdfsa">MonaPDFsa</a>
+  <li><a href="#monapdfsa" id="toc-monapdfsa" class="nav-link active" data-scroll-target="#monapdfsa">MonaPDFsa</a></li>
+  <li><a href="#개발-배경" id="toc-개발-배경" class="nav-link" data-scroll-target="#개발-배경">개발 배경</a>
   <ul class="collapse">
   <li><a href="#screenshots" id="toc-screenshots" class="nav-link" data-scroll-target="#screenshots">Screenshots</a>
   <ul class="collapse">
   <li><a href="#모자이크-검열" id="toc-모자이크-검열" class="nav-link" data-scroll-target="#모자이크-검열">1. 모자이크 검열</a></li>
-  <li><a href="#검열" id="toc-검열" class="nav-link" data-scroll-target="#검열">2. 검열</a></li>
-  <li><a href="#페이지-관리" id="toc-페이지-관리" class="nav-link" data-scroll-target="#페이지-관리">3. 페이지 관리</a></li>
-  <li><a href="#크기-최적화" id="toc-크기-최적화" class="nav-link" data-scroll-target="#크기-최적화">4. 크기 최적화</a></li>
+  <li><a href="#검열-박스-처리" id="toc-검열-박스-처리" class="nav-link" data-scroll-target="#검열-박스-처리">2. 검열 박스 처리</a></li>
+  <li><a href="#페이지-관리-및-재배열" id="toc-페이지-관리-및-재배열" class="nav-link" data-scroll-target="#페이지-관리-및-재배열">3. 페이지 관리 및 재배열</a></li>
+  <li><a href="#파일-크기-최적화" id="toc-파일-크기-최적화" class="nav-link" data-scroll-target="#파일-크기-최적화">4. 파일 크기 최적화</a></li>
   </ul></li>
+  <li><a href="#주요-기술-스택" id="toc-주요-기술-스택" class="nav-link" data-scroll-target="#주요-기술-스택">주요 기술 스택</a></li>
   </ul></li>
   <li><a href="#repository" id="toc-repository" class="nav-link" data-scroll-target="#repository">Repository</a></li>
   </ul>
@@ -405,42 +407,56 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 
 <section id="monapdfsa" class="level1">
 <h1>MonaPDFsa</h1>
-<p>MonaPDFsa는 제가 필요로 하는 최소한의 기능을 가진 PDF 파일 편집기입니다. 그리고 당연히 무료입니다!</p>
-<p>Rust의 Tauri v2와 React + TypeScript + Tailwind CSS 로 구축된 고성능 크로스플랫폼 데스크톱 PDF 뷰어, 모자이크/검열 검열 도구, 그리고 시각적 드래그 앤 드롭 PDF 페이지 정리기입니다. Windows, macOS, Linux 를 완벽하게 지원합니다.</p>
+<p>MonaPDFsa는 일상적인 업무와 연구 과정에서 꼭 필요한 최소한의 핵심 기능만을 담아 제작한 데스크톱 PDF 파일 편집 도구입니다. 완전히 무료이며 오픈소스로 공개되어 있습니다.</p>
+<p>Rust 언어 기반의 Tauri v2 프레임워크와 React, TypeScript, Tailwind CSS를 결합하여 제작되었습니다. 기존의 무거운 일렉트론(Electron) 앱과 달리 매우 가볍고 빠르며, Windows, macOS, Linux 등 다양한 운영체제를 완벽하게 지원합니다.</p>
+</section>
+<section id="개발-배경" class="level1">
+<h1>개발 배경</h1>
+<p>연구 문서, 논문 초안, 개인 증빙 서류 등을 다룰 때 특정 개인정보나 민감한 연구 데이터를 가리거나 페이지를 병합해야 하는 경우가 자주 발생합니다. 대다수의 온라인 무료 PDF 도구들은 문서를 외부 서버로 업로드해야 하므로 중요한 기밀이나 개인정보 유출 위험이 존재합니다.</p>
+<p>MonaPDFsa는 외부 서버와 일체 통신하지 않고 사용자의 로컬 컴퓨터 내에서 모든 렌더링과 편집 연산을 완결하도록 설계하여 철저한 개인정보 보호와 보안성을 보장합니다.</p>
 <section id="screenshots" class="level2">
 <h2 class="anchored" data-anchor-id="screenshots">Screenshots</h2>
 <section id="모자이크-검열" class="level3">
 <h3 class="anchored" data-anchor-id="모자이크-검열">1. 모자이크 검열</h3>
 <p><a href="./pdf_masaic.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="./pdf_masaic.png" class="img-fluid"></a></p>
-<p>위 그림은 모자이크 모드를 보여줍니다. 페이지에서 드래그하여 텍스트를 마스킹합니다. 상단 영역에는 픽셀 블록이 표시됩니다. 툴바를 사용하여 이동, 모자이크, 검열, 또는 흰색 처리를 선택합니다.</p>
+<p>위 그림은 모자이크 마스킹 모드를 보여줍니다. 문서 위에서 마우스로 영역을 드래그하면 해당 위치의 텍스트와 이미지가 픽셀 블록으로 흐림 처리됩니다. 상단 툴바를 통해 이동, 모자이크, 완전 검열(블랙아웃), 화이트아웃 처리를 자유롭게 전환할 수 있습니다.</p>
 </section>
-<section id="검열" class="level3">
-<h3 class="anchored" data-anchor-id="검열">2. 검열</h3>
+<section id="검열-박스-처리" class="level3">
+<h3 class="anchored" data-anchor-id="검열-박스-처리">2. 검열 박스 처리</h3>
 <p><a href="./pdf_censors.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="./pdf_censors.png" class="img-fluid"></a></p>
-<p>검은색 상자혹은 흰색 상자로 내용을 가립니다. 오른쪽 패널에는 모든 마스킹이 나열되고 페이지, 유형, 크기를 보여줍니다.</p>
+<p>검은색 혹은 흰색 상자로 가리고자 하는 영역을 완전히 덮어씌웁니다. 오른쪽 사이드바 패널에서는 생성된 모든 마스킹 목록이 페이지 번호, 마스킹 유형, 크기 좌표와 함께 일목요연하게 표시되어 수정 및 관리가 용이합니다.</p>
 </section>
-<section id="페이지-관리" class="level3">
-<h3 class="anchored" data-anchor-id="페이지-관리">3. 페이지 관리</h3>
+<section id="페이지-관리-및-재배열" class="level3">
+<h3 class="anchored" data-anchor-id="페이지-관리-및-재배열">3. 페이지 관리 및 재배열</h3>
 <p><a href="./pdf_manager.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="./pdf_manager.png" class="img-fluid"></a></p>
-<p>페이지 관리자를 보여줍니다. 각각의 페이지를 드래그하여 순서를 변경할 수 있습니다. 그리고 아이콘을 클릭해 회전, 분할 또는 삭제를 수행할 수 있습니다. 병합된 PDF 를 저장하려면 파란색 버튼을 누릅니다.</p>
+<p>문서의 각 페이지 썸네일을 시각적으로 보면서 마우스 드래그 앤 드롭으로 페이지 순서를 변경할 수 있습니다. 툴바의 아이콘을 클릭하여 특정 페이지를 90도 단위로 회전하거나, 불필요한 페이지를 삭제하거나, 별도의 파일로 분할 및 병합하여 저장할 수 있습니다.</p>
 </section>
-<section id="크기-최적화" class="level3">
-<h3 class="anchored" data-anchor-id="크기-최적화">4. 크기 최적화</h3>
+<section id="파일-크기-최적화" class="level3">
+<h3 class="anchored" data-anchor-id="파일-크기-최적화">4. 파일 크기 최적화</h3>
 <p><a href="./pdf_compressed.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="./pdf_compressed.png" class="img-fluid"></a></p>
-<p>크기 최적화 도구는 목표 크기를 먼저 MB 단위로 입력하면 크기에 맞게 파일 크기를 줄입니다.</p>
+<p>목표 파일 크기를 MB 단위로 설정하여 용량을 줄일 수 있습니다. 해상도와 압축률에 따라 75%, 50%, 25% 등의 직관적인 프리셋 옵션을 제공하여 대용량 PDF를 이메일 첨부나 웹 업로드 규격에 맞게 최적화합니다.</p>
 <blockquote class="blockquote">
-<p>용량을 줄이면 품질은 물론 떨어집니다.</p>
+<p>용량을 압축하면 이미지의 해상도 품질이 함께 조정되므로 용도에 맞는 적절한 프리셋을 선택하는 것이 권장됩니다.</p>
 </blockquote>
-<p>75%, 50%, 25% 프리셋을 제공하고 있습니다.</p>
-<hr>
 </section>
+</section>
+<section id="주요-기술-스택" class="level2">
+<h2 class="anchored" data-anchor-id="주요-기술-스택">주요 기술 스택</h2>
+<ul>
+<li>백엔드 런타임: Rust, Tauri v2</li>
+<li>프론트엔드 프레임워크: React 18, TypeScript</li>
+<li>스타일링: Tailwind CSS</li>
+<li>PDF 렌더링 엔진: PDF.js 기반 로컬 렌더링</li>
+<li>지원 플랫폼: Windows, macOS, Linux</li>
+</ul>
+<hr>
 </section>
 </section>
 <section id="repository" class="level1">
 <h1>Repository</h1>
 <ul>
-<li><a href="https://github.com/partrita/MonaPDFsa">MonaPDFsa</a></li>
-<li><a href="https://github.com/partrita/MonaPDFsa/releases">다운로드 페이지</a></li>
+<li><a href="https://github.com/partrita/MonaPDFsa">MonaPDFsa GitHub 저장소</a></li>
+<li><a href="https://github.com/partrita/MonaPDFsa/releases">다운로드 릴리즈 페이지</a></li>
 </ul>
 
 
