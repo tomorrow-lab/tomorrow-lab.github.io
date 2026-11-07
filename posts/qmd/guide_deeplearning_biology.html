@@ -455,7 +455,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">November 6, 2026</p>
+      <p class="date-modified">November 7, 2026</p>
     </div>
   </div>
     
@@ -507,7 +507,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </section>
 <section id="혼합-정밀도mixed-precision-피하기" class="level3" data-number="1.1.4">
 <h3 data-number="1.1.4" class="anchored" data-anchor-id="혼합-정밀도mixed-precision-피하기"><span class="header-section-number">1.1.4</span> 혼합 정밀도(Mixed precision) 피하기</h3>
-<p><code>bfloat16</code>, <code>float16</code> 같은 낮은 정밀도의 데이터 타입은 성능과 메모리 효율을 높여주지만, 디버깅하기 매우 어려운 수치적 불안정성을 초래할 수 있습니다. JAX는 <code>float32</code> 입력을 받더라도 기본적으로 낮은 정밀도의 행렬 곱셈을 수행할 수 있으므로, 디버깅 중에는 <code>jax.config.update("jax_default_matmul_precision", "float32")</code>를 추가하여 전역적으로 정밀도를 강제하는 것이 좋습니다.</p>
+<p><code>bfloat16</code>, <code>float16</code> 같은 낮은 정밀도의 데이터 타입은 성능과 메모리 효율을 높여주지만, 디버깅하기 매우 어려운 수치적 불안정성을 초래할 수 있습니다. JAX는 <code>float32</code> 입력을 받더라도 기본적으로 낮은 정밀도의 행렬 곱셈을 수행할 수 있으므로, 디버깅 중에는 <code>jax.config.update("jax_default_matmul_precision", "highest")</code>를 추가하여 전역적으로 정밀도를 강제하는 것이 좋습니다.</p>
 </section>
 </section>
 <section id="환경-단순화-및-제어하기" class="level2" data-number="1.2">
@@ -515,7 +515,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 <p>모델은 정상이지만 기술적 환경이 예상치 못한 문제를 일으킬 수 있습니다. 딥러닝의 실패처럼 보이는 많은 버그가 실제로는 환경적인 결함인 경우가 많습니다.</p>
 <ul>
 <li>결정론(Determinism) 및 재현성 확보: 실험이 재현 가능해야 문제를 격리하기 쉽습니다. 드롭아웃을 끄는 것 외에 다음 사항을 고려하세요.</li>
-<li>명시적인 난수 시드 설정: JAX에서는 모델 초기화와 모든 무작위 동작을 제어하기 위해 <code>jax.random.PRNGKey(...)</code>의 시드를 설정해야 합니다.</li>
+<li>명시적인 난수 시드 설정: JAX에서는 모델 초기화와 모든 무작위 동작을 제어하기 위해 <code>jax.random.key(...)</code>(레거시의 경우 <code>jax.random.PRNGKey(...)</code>)의 시드를 설정해야 합니다.</li>
 <li>데이터셋 셔플링 중단: 훈련 데이터의 순서를 고정하여 실행 간 변동성을 제거하세요.</li>
 <li>환경 상수화: 하드웨어, 라이브러리 버전, 설정을 동일하게 유지하세요.</li>
 <li>훈련 루프 최소화: JAX와 Flax의 훈련 루프는 강력하지만 수동 제어가 많이 필요해 실수하기 쉽습니다.</li>
@@ -700,7 +700,7 @@ gtag('config', 'G-31EWCYNR0V', { 'anonymize_ip': true});
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clip_gradients(grads, threshold):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""기울기를 클리핑합니다."""</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jax.tree_map(<span class="kw">lambda</span> g: jnp.clip(g, <span class="op">-</span>threshold, threshold), grads)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jax.tree.<span class="bu">map</span>(<span class="kw">lambda</span> g: jnp.clip(g, <span class="op">-</span>threshold, threshold), grads)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="훈련-불안정성-training-instability" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="훈련-불안정성-training-instability"><span class="header-section-number">3.3</span> 훈련 불안정성 (Training Instability)</h2>

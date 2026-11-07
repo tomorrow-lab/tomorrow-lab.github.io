@@ -457,7 +457,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">November 6, 2026</p>
+      <p class="date-modified">November 7, 2026</p>
     </div>
   </div>
     
@@ -501,44 +501,42 @@ window.Quarto = {
 <div id="c75e36a9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Image <span class="im">as</span> IPImage, Markdown</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.PDB <span class="im">import</span> PDBParser</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.PDB.SASA <span class="im">import</span> ShrakeRupley</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.PDB <span class="im">import</span> PDBParser</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio.PDB.SASA <span class="im">import</span> ShrakeRupley</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># RCSB 메타데이터 조회 함수</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_rcsb_metadata(pdb_id):</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="ss">f"https://data.rcsb.org/rest/v1/core/entry/</span><span class="sc">{</span>pdb_id<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> requests.get(url, timeout<span class="op">=</span><span class="dv">10</span>).json()</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        title <span class="op">=</span> res.get(<span class="st">"struct"</span>, {}).get(<span class="st">"title"</span>, <span class="st">"제목 정보 없음"</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        exp_method <span class="op">=</span> res.get(<span class="st">"rcsb_entry_info"</span>, {}).get(<span class="st">"experimental_method"</span>, <span class="st">"N/A"</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        resolution <span class="op">=</span> res.get(<span class="st">"rcsb_entry_info"</span>, {}).get(<span class="st">"resolution_combined"</span>, [<span class="st">"N/A"</span>])[<span class="dv">0</span>]</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 중합체 엔티티 목록 조회</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        entities <span class="op">=</span> res.get(<span class="st">"rcsb_entry_container_identifiers"</span>, {}).get(<span class="st">"polymer_entity_ids"</span>, [])</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        entity_info <span class="op">=</span> []</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> eid <span class="kw">in</span> entities:</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            e_url <span class="op">=</span> <span class="ss">f"https://data.rcsb.org/rest/v1/core/polymer_entity/</span><span class="sc">{</span>pdb_id<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>eid<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            e_res <span class="op">=</span> requests.get(e_url, timeout<span class="op">=</span><span class="dv">10</span>).json()</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            desc <span class="op">=</span> e_res.get(<span class="st">"rcsb_polymer_entity"</span>, {}).get(<span class="st">"pdbx_description"</span>, <span class="ss">f"Entity </span><span class="sc">{</span>eid<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            chains <span class="op">=</span> e_res.get(<span class="st">"rcsb_polymer_entity_container_identifiers"</span>, {}).get(<span class="st">"auth_asym_ids"</span>, [])</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            entity_info.append({<span class="st">"id"</span>: eid, <span class="st">"desc"</span>: desc, <span class="st">"chains"</span>: chains})</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"title"</span>: title,</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">"method"</span>: exp_method,</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">"resolution"</span>: resolution,</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">"entities"</span>: entity_info</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"title"</span>: <span class="ss">f"메타데이터 로드 실패: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>, <span class="st">"method"</span>: <span class="st">"N/A"</span>, <span class="st">"resolution"</span>: <span class="st">"N/A"</span>, <span class="st">"entities"</span>: []}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># RCSB 메타데이터 조회 함수</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_rcsb_metadata(pdb_id):</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="ss">f"https://data.rcsb.org/rest/v1/core/entry/</span><span class="sc">{</span>pdb_id<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> requests.get(url, timeout<span class="op">=</span><span class="dv">10</span>).json()</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        title <span class="op">=</span> res.get(<span class="st">"struct"</span>, {}).get(<span class="st">"title"</span>, <span class="st">"제목 정보 없음"</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        exp_method <span class="op">=</span> res.get(<span class="st">"rcsb_entry_info"</span>, {}).get(<span class="st">"experimental_method"</span>, <span class="st">"N/A"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        resolution <span class="op">=</span> res.get(<span class="st">"rcsb_entry_info"</span>, {}).get(<span class="st">"resolution_combined"</span>, [<span class="st">"N/A"</span>])[<span class="dv">0</span>]</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 중합체 엔티티 목록 조회</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        entities <span class="op">=</span> res.get(<span class="st">"rcsb_entry_container_identifiers"</span>, {}).get(<span class="st">"polymer_entity_ids"</span>, [])</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        entity_info <span class="op">=</span> []</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> eid <span class="kw">in</span> entities:</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>            e_url <span class="op">=</span> <span class="ss">f"https://data.rcsb.org/rest/v1/core/polymer_entity/</span><span class="sc">{</span>pdb_id<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>eid<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            e_res <span class="op">=</span> requests.get(e_url, timeout<span class="op">=</span><span class="dv">10</span>).json()</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            desc <span class="op">=</span> e_res.get(<span class="st">"rcsb_polymer_entity"</span>, {}).get(<span class="st">"pdbx_description"</span>, <span class="ss">f"Entity </span><span class="sc">{</span>eid<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            chains <span class="op">=</span> e_res.get(<span class="st">"rcsb_polymer_entity_container_identifiers"</span>, {}).get(<span class="st">"auth_asym_ids"</span>, [])</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            entity_info.append({<span class="st">"id"</span>: eid, <span class="st">"desc"</span>: desc, <span class="st">"chains"</span>: chains})</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">"title"</span>: title,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">"method"</span>: exp_method,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"resolution"</span>: resolution,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">"entities"</span>: entity_info</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"title"</span>: <span class="ss">f"메타데이터 로드 실패: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>, <span class="st">"method"</span>: <span class="st">"N/A"</span>, <span class="st">"resolution"</span>: <span class="st">"N/A"</span>, <span class="st">"entities"</span>: []}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="pdb-다운로드-및-체인-정보-확인" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="pdb-다운로드-및-체인-정보-확인"><span class="header-section-number">1.1</span> PDB 다운로드 및 체인 정보 확인</h2>
@@ -639,28 +637,28 @@ window.Quarto = {
 <span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        ca_pts <span class="op">=</span> [atom.coord <span class="cf">for</span> atom <span class="kw">in</span> chain.get_atoms()][::<span class="dv">5</span>]</span>
 <span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> ca_pts:</span>
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    pts <span class="op">=</span> np.array(ca_pts) <span class="op">-</span> mean_center</span>
 <span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># PCA 주축으로 투영: x축 = PC1, y축 = PC2</span></span>
 <span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    x_proj <span class="op">=</span> pts <span class="op">@</span> v_pc1</span>
 <span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    y_proj <span class="op">=</span> pts <span class="op">@</span> v_pc2</span>
 <span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    c_color <span class="op">=</span> colors[i <span class="op">%</span> <span class="bu">len</span>(colors)]</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    ent_desc <span class="op">=</span> <span class="st">''</span></span>
 <span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ent <span class="kw">in</span> meta.get(<span class="st">'entities'</span>, []):</span>
 <span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> chain.<span class="bu">id</span> <span class="kw">in</span> ent[<span class="st">'chains'</span>]:</span>
 <span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>            ent_desc <span class="op">=</span> <span class="ss">f" : </span><span class="sc">{</span>ent[<span class="st">'desc'</span>][:<span class="dv">16</span>]<span class="sc">}</span><span class="ss">..."</span> <span class="cf">if</span> <span class="bu">len</span>(ent[<span class="st">'desc'</span>]) <span class="op">&gt;</span> <span class="dv">16</span> <span class="cf">else</span> <span class="ss">f" : </span><span class="sc">{</span>ent[<span class="st">'desc'</span>]<span class="sc">}</span><span class="ss">"</span></span>
 <span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 체인 선 및 점</span></span>
 <span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    ax_proj.plot(x_proj, y_proj, label<span class="op">=</span><span class="ss">f"Chain </span><span class="sc">{</span>chain<span class="sc">.</span><span class="bu">id</span><span class="sc">}{</span>ent_desc<span class="sc">}</span><span class="ss">"</span>, color<span class="op">=</span>c_color, linewidth<span class="op">=</span><span class="fl">2.2</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
 <span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    ax_proj.scatter(x_proj[::<span class="dv">3</span>], y_proj[::<span class="dv">3</span>], color<span class="op">=</span>c_color, s<span class="op">=</span><span class="dv">16</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 체인 중심 라벨 박스</span></span>
 <span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    cx, cy <span class="op">=</span> x_proj.mean(), y_proj.mean()</span>
 <span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    ax_proj.text(cx, cy, <span class="ss">f" Chain </span><span class="sc">{</span>chain<span class="sc">.</span><span class="bu">id</span><span class="sc">}</span><span class="ss"> "</span>, fontsize<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'black'</span>,</span>
 <span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>                 ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>,</span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>                 bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round,pad=0.3'</span>, facecolor<span class="op">=</span><span class="st">'white'</span>, alpha<span class="op">=</span><span class="fl">0.85</span>, edgecolor<span class="op">=</span>c_color, linewidth<span class="op">=</span><span class="fl">1.5</span>))</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>                 bbox<span class="op">=</span>{<span class="st">"boxstyle"</span>: <span class="st">"round,pad=0.3"</span>, <span class="st">"facecolor"</span>: <span class="st">"white"</span>, <span class="st">"alpha"</span>: <span class="fl">0.85</span>, <span class="st">"edgecolor"</span>: c_color, <span class="st">"linewidth"</span>: <span class="fl">1.5</span>})</span>
 <span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>ax_proj.set_title(<span class="ss">f"PDB </span><span class="sc">{</span>PDB_ID<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> - PCA Front View"</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>ax_proj.axis(<span class="st">'off'</span>)</span>
@@ -716,7 +714,7 @@ window.Quarto = {
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    parser <span class="op">=</span> PDBParser(QUIET<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    all_target_chains <span class="op">=</span> <span class="bu">set</span>(chains_a <span class="op">+</span> chains_b)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Complex A + B</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    struct_c <span class="op">=</span> parser.get_structure(<span class="st">"complex"</span>, pdb_path)</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    model_c <span class="op">=</span> struct_c[<span class="dv">0</span>]</span>
@@ -726,7 +724,7 @@ window.Quarto = {
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    sr_c <span class="op">=</span> ShrakeRupley()</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    sr_c.compute(struct_c, level<span class="op">=</span><span class="st">"A"</span>)</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    sasa_complex <span class="op">=</span> <span class="bu">sum</span>(a.sasa <span class="cf">for</span> c <span class="kw">in</span> model_c <span class="cf">for</span> r <span class="kw">in</span> c <span class="cf">for</span> a <span class="kw">in</span> r <span class="cf">if</span> <span class="bu">hasattr</span>(a, <span class="st">'sasa'</span>) <span class="kw">and</span> a.sasa <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Isolated A</span></span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    struct_a <span class="op">=</span> parser.get_structure(<span class="st">"a"</span>, pdb_path)</span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    model_a <span class="op">=</span> struct_a[<span class="dv">0</span>]</span>
@@ -736,7 +734,7 @@ window.Quarto = {
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    sr_a <span class="op">=</span> ShrakeRupley()</span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    sr_a.compute(struct_a, level<span class="op">=</span><span class="st">"A"</span>)</span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    sasa_a <span class="op">=</span> <span class="bu">sum</span>(a.sasa <span class="cf">for</span> c <span class="kw">in</span> model_a <span class="cf">for</span> r <span class="kw">in</span> c <span class="cf">for</span> a <span class="kw">in</span> r <span class="cf">if</span> <span class="bu">hasattr</span>(a, <span class="st">'sasa'</span>) <span class="kw">and</span> a.sasa <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Isolated B</span></span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    struct_b <span class="op">=</span> parser.get_structure(<span class="st">"b"</span>, pdb_path)</span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    model_b <span class="op">=</span> struct_b[<span class="dv">0</span>]</span>
@@ -746,10 +744,10 @@ window.Quarto = {
 <span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    sr_b <span class="op">=</span> ShrakeRupley()</span>
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    sr_b.compute(struct_b, level<span class="op">=</span><span class="st">"A"</span>)</span>
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    sasa_b <span class="op">=</span> <span class="bu">sum</span>(a.sasa <span class="cf">for</span> c <span class="kw">in</span> model_b <span class="cf">for</span> r <span class="kw">in</span> c <span class="cf">for</span> a <span class="kw">in</span> r <span class="cf">if</span> <span class="bu">hasattr</span>(a, <span class="st">'sasa'</span>) <span class="kw">and</span> a.sasa <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>)</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    bsa <span class="op">=</span> sasa_a <span class="op">+</span> sasa_b <span class="op">-</span> sasa_complex</span>
 <span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    interface_area <span class="op">=</span> bsa <span class="op">/</span> <span class="fl">2.0</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
 <span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">'chains_a'</span>: chains_a,</span>
 <span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">'chains_b'</span>: chains_b,</span>
@@ -859,16 +857,16 @@ window.Quarto = {
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> active_pairs:</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    plot_labels <span class="op">=</span> [p[<span class="st">'label'</span>] <span class="cf">for</span> p <span class="kw">in</span> active_pairs]</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    plot_values <span class="op">=</span> [p[<span class="st">'res'</span>][<span class="st">'interface_area'</span>] <span class="cf">for</span> p <span class="kw">in</span> active_pairs]</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4개 쌍 구분을 위한 산뜻한 컬러 팔레트</span></span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> plt.cm.Set2(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">max</span>(<span class="dv">4</span>, <span class="bu">len</span>(plot_labels))))</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>))</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> autopct_fmt(pct):</span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        val <span class="op">=</span> pct <span class="op">*</span> <span class="bu">sum</span>(plot_values) <span class="op">/</span> <span class="fl">100.0</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>pct<span class="sc">:.1f}</span><span class="ss">%</span><span class="ch">\n</span><span class="ss">(</span><span class="sc">{</span>val<span class="sc">:,.1f}</span><span class="ss"> Å²)"</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    wedges, texts, autotexts <span class="op">=</span> ax.pie(</span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        plot_values,</span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        labels<span class="op">=</span>plot_labels,</span>
@@ -876,16 +874,16 @@ window.Quarto = {
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        startangle<span class="op">=</span><span class="dv">140</span>,</span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        colors<span class="op">=</span>colors[:<span class="bu">len</span>(plot_labels)],</span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        pctdistance<span class="op">=</span><span class="fl">0.75</span>,</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        wedgeprops<span class="op">=</span><span class="bu">dict</span>(width<span class="op">=</span><span class="fl">0.45</span>, edgecolor<span class="op">=</span><span class="st">'white'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        wedgeprops<span class="op">=</span>{<span class="st">"width"</span>: <span class="fl">0.45</span>, <span class="st">"edgecolor"</span>: <span class="st">"white"</span>, <span class="st">"linewidth"</span>: <span class="dv">2</span>}</span>
 <span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    plt.setp(texts, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    plt.setp(autotexts, fontsize<span class="op">=</span><span class="fl">9.5</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 도넛 차트 중앙에 총합 Interface Area 표시</span></span>
 <span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    ax.text(<span class="dv">0</span>, <span class="dv">0</span>, <span class="ss">f"Total</span><span class="ch">\n</span><span class="ss">Interface</span><span class="ch">\n</span><span class="sc">{</span>total_sum<span class="sc">:,.1f}</span><span class="ss"> Å²"</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>,</span>
 <span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">11</span>, color<span class="op">=</span><span class="st">'#2c3e50'</span>)</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"</span><span class="sc">{</span>PDB_ID<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss"> Pairwise Interface Area"</span>,</span>
 <span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>                 fontsize<span class="op">=</span><span class="dv">13</span>, pad<span class="op">=</span><span class="dv">15</span>)</span>
 <span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>

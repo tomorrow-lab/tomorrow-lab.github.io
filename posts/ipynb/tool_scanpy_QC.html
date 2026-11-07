@@ -456,7 +456,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">November 6, 2026</p>
+      <p class="date-modified">November 7, 2026</p>
     </div>
   </div>
     
@@ -797,7 +797,7 @@ Number of cells after filtering of low quality cells: 11826</code></pre>
 <p><code>SoupX</code>로 더 나은 결과를 얻기 위해서는 클러스터링 정보가 필요합니다.[Young and Behjati, 2020] 먼저 <code>AnnData</code> 객체의 복사본을 만들어 정규화하고, 클러스터링을 진행 합니다. 클러스터링 정보는 <code>soupx_groups</code> 객체로 저장해 사용합니다.</p>
 <div id="12bc6f7f-fa8a-4e8f-ab71-bb7f99262c80" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>adata_pp <span class="op">=</span> adata.copy()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_per_cell(adata_pp)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata_pp, target_sum<span class="op">=</span><span class="fl">1e4</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata_pp)</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>sc.pp.pca(adata_pp)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata_pp)</span>
