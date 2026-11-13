@@ -3864,88 +3864,60 @@
     "text": "ttyping GitHub\nttyping 웹 문서"
   },
   {
-    "objectID": "portfolio/clinicalwatcher/index.html",
-    "href": "portfolio/clinicalwatcher/index.html",
-    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "objectID": "portfolio/molecule_of_month_gui/index.html",
+    "href": "portfolio/molecule_of_month_gui/index.html",
+    "title": "Goodsell 스타일로 단백질 구조 시각화",
     "section": "",
-    "text": "clinical trial watcher는 미국 국립보건원(NIH)의 ClinicalTrials.gov에 등록된 글로벌 임상시험 정보를 수집하고 추적하기 위해 개발한 파이썬 기반의 프로젝트입니다."
+    "text": "단백질 구조 논문이나 Molecule of the Month에서 한 번쯤 봤을 법한, 수채화처럼 부드럽고 뚜렷한 외곽선을 가진 생체분자 일러스트가 있습니다. David S. Goodsell 교수팀이 공개한 Illustrate가 바로 이 스타일의 원조 도구입니다.\n문제는 원작이 Fortran 77(legacy/illustrate.f)로 작성되어 있고, 고정 컬럼 형식의 .inp 스크립트를 직접 손으로 고쳐 CLI로 실행해야 한다는 점이었습니다. 저는 포트란 코드를 읽을 줄 모릅니다. 그래서 직접 한 줄씩 해석하는 대신, AI와 함께하는 Vibe Coding으로 이 도구를 Rust와 데스크톱 GUI 앱으로 옮겨 보기로 했습니다."
   },
   {
-    "objectID": "portfolio/clinicalwatcher/index.html#주요-기능",
-    "href": "portfolio/clinicalwatcher/index.html#주요-기능",
-    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
-    "section": "주요 기능",
-    "text": "주요 기능\n\n관심 질환 및 타깃별 임상시험 자동 검색 ClinicalTrials.gov의 공식 REST API를 활용하여 연구자가 사전에 설정한 질병명, 유전자 타깃, 약물 후보물질 키워드를 기반으로 관련 임상시험 목록을 수집합니다.\n임상시험 상태 및 단계별 분류 수집된 임상시험들을 임상 단계(Phase 1, 2, 3, 4)와 환자 모집 현황(Recruiting, Active, Completed 등)별로 체계적으로 분류하여 연구 파이프라인의 전반적인 성숙도를 파악할 수 있습니다.\n실시간 변경 감지 및 상태 뱃지 시각화 주기적인 API 호출을 통해 각 임상시험의 최종 갱신일을 추적합니다. 최근 한 달 이내에 프로토콜이나 모집 상태에 변동이 발생한 임상시험은 Update 표시등이 초록색에서 붉은색으로 바뀌어 사용자가 변경 사항을 즉시 알아차릴 수 있습니다.\n세부 변경 이력(History) 추적 임상시험 계획서의 수정, 환자 수 변경, 임상 단계 변경 등 과거 변경 내역을 기록하여 타깃 파이프라인의 진척 과정을 시간 순서대로 검토할 수 있습니다."
+    "objectID": "portfolio/molecule_of_month_gui/index.html#포트란을-못-읽는데-어떻게-똑같이-옮겼을까",
+    "href": "portfolio/molecule_of_month_gui/index.html#포트란을-못-읽는데-어떻게-똑같이-옮겼을까",
+    "title": "Goodsell 스타일로 단백질 구조 시각화",
+    "section": "포트란을 못 읽는데 어떻게 똑같이 옮겼을까?",
+    "text": "포트란을 못 읽는데 어떻게 똑같이 옮겼을까?\n포트란 문법이나 1990년대식 고정 컬럼 입출력 규칙을 몰라도, “원본과 결과가 똑같은가”를 자동으로 검증할 장치가 있으면 안전하게 코드를 옮길 수 있습니다.\n이 프로젝트에서는 tests/parity_2hhb.rs에 기준 테스트를 먼저 세웠습니다.\n\ngfortran -finit-local-zero legacy/illustrate.f로 원본 포트란 바이너리를 컴파일합니다.\n표준 헤모글로빈 예제(examples/2hhb.inp, examples/2hhb.pdb)를 원본과 Rust 버전에 각각 통과시킵니다.\n생성된 Netpbm P3 파일(2hhb.pnm, opacity.pnm)을 비교해 0 픽셀 차이, 바이트 단위 동일을 통과 조건으로 걸었습니다.\n\n덕분에 f32 단정밀도 연산이나 LEGACY_PI = 3.141592 같은 미세한 수치 습관, 3×3 윤곽선 커널의 경계 처리처럼 사람 눈으로 찾기 까다로운 부분도 원본과 어긋나지 않게 유지할 수 있었습니다.\n또한 CLI와 렌더링 엔진은 루트 크레이트(illustrate)에 순수 라이브러리로 두고, GUI는 별도의 크레이트(crates/illustrate-gui)로 분리해 #![forbid(unsafe_code)] 아래에서 관리했습니다."
   },
   {
-    "objectID": "portfolio/clinicalwatcher/index.html#스크린샷",
-    "href": "portfolio/clinicalwatcher/index.html#스크린샷",
-    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
-    "section": "스크린샷",
-    "text": "스크린샷\n\n\n\n \n\n\n\n위 화면과 같이 웹 인터페이스를 통해 등록된 임상시험 목록과 각 연구의 현재 상태, 타깃 질환, 최근 업데이트 여부를 직관적으로 확인할 수 있습니다."
+    "objectID": "portfolio/molecule_of_month_gui/index.html#텍스트-스크립트에서-tauri-v2-데스크톱-앱으로",
+    "href": "portfolio/molecule_of_month_gui/index.html#텍스트-스크립트에서-tauri-v2-데스크톱-앱으로",
+    "title": "Goodsell 스타일로 단백질 구조 시각화",
+    "section": "텍스트 스크립트에서 Tauri v2 데스크톱 앱으로",
+    "text": "텍스트 스크립트에서 Tauri v2 데스크톱 앱으로\n원작은 .inp 텍스트 파일에서 회전 각도, 스케일, 외곽선 파라미터를 고친 뒤 다시 실행해야 결과를 볼 수 있었습니다. 이를 마우스로 바로 만질 수 있도록 Tauri v2 기반의 데스크톱 앱(Molecule of the Month)으로 감쌌습니다.\n프론트엔드(crates/illustrate-gui/ui/)는 Node.js나 번들러(Webpack/Vite) 없이 순수 HTML, CSS, Vanilla JS로만 구성해 cargo build 한 번으로 Linux, macOS, Windows에서 모두 빌드되도록 만들었습니다.\n특히 마우스 드래그 중에는 그림을 빠르게 그리는 2단계 렌더링을 적용했습니다.\n\n드래그/슬라이더 조작 중(fast_preview = true): 해상도를 낮추고 원뿔형 그림자(Conical Shadow) 계산을 꺼서 즉각 반응합니다.\n마우스를 놓는 순간(fast_preview = false): render_smooth 경로로 전체 품질의 이미지를 다시 렌더링합니다."
   },
   {
-    "objectID": "portfolio/clinicalwatcher/index.html#시스템-아키텍처-및-기술-스택",
-    "href": "portfolio/clinicalwatcher/index.html#시스템-아키텍처-및-기술-스택",
-    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
-    "section": "시스템 아키텍처 및 기술 스택",
-    "text": "시스템 아키텍처 및 기술 스택\n\n개발 언어: Python 3.10 이상\n데이터 소스: ClinicalTrials.gov REST API\n데이터 처리: Pandas, Requests\n자동화 및 스케줄링: GitHub Actions를 통한 일일 정기 크롤링 및 상태 갱신\n결과 제공: 정적 웹 대시보드 연동을 통한 경량 뷰어 제공"
+    "objectID": "portfolio/molecule_of_month_gui/index.html#다운로드-및-사용해-보기",
+    "href": "portfolio/molecule_of_month_gui/index.html#다운로드-및-사용해-보기",
+    "title": "Goodsell 스타일로 단백질 구조 시각화",
+    "section": "다운로드 및 사용해 보기",
+    "text": "다운로드 및 사용해 보기\nGitHub Actions 릴리스 워크플로를 통해 macOS(Universal), Windows, Linux용 설치 파일과 실행 파일을 자동으로 빌드해 배포하고 있습니다.\n\nGitHub 저장소\n릴리스 다운로드\n\n소스 코드에서 직접 빌드하고 싶다면 Rust 툴체인만 있으면 됩니다.\ngit clone https://github.com/partrita/Illustrate-mom.git\ncd Illustrate-mom\ncargo run -p illustrate-gui --release"
   },
   {
-    "objectID": "portfolio/clinicalwatcher/index.html#기대-효과-및-활용-방안",
-    "href": "portfolio/clinicalwatcher/index.html#기대-효과-및-활용-방안",
-    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
-    "section": "기대 효과 및 활용 방안",
-    "text": "기대 효과 및 활용 방안\n\n바이오 벤처 및 제약사: 경쟁 파이프라인의 개발 속도와 임상 진행 상황 모니터링\n임상 연구자 및 학계: 특정 바이오마커 관련 최신 임상 설계 및 프로토콜 트렌드 벤치마킹\n신약 개발 프로젝트 기획: 미충족 의료 수요(Unmet Medical Needs) 및 미개척 임상 영역 탐색"
-  },
-  {
-    "objectID": "portfolio/datavisguide/index.html",
-    "href": "portfolio/datavisguide/index.html",
-    "title": "데이터 시각화 가이드 번역작업",
+    "objectID": "portfolio/pubmed_miner/index.html",
+    "href": "portfolio/pubmed_miner/index.html",
+    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
     "section": "",
-    "text": "데이터 시각화 가이드 번역 프로젝트는 영국 왕립 통계 학회(Royal Statistical Society, RSS)에서 발간한 데이터 시각화 스타일 가이드를 한국어로 번역하고 웹 문서로 배포한 작업입니다."
+    "text": "pubmed-miner는 미국 국립생물공학정보센터(NCBI)의 PubMed 데이터베이스에 등재된 방대한 의학 및 생명과학 논문 초록을 자동으로 수집하고 분석하기 위해 개발한 파이썬 기반의 텍스트 마이닝 프로젝트입니다."
   },
   {
-    "objectID": "portfolio/datavisguide/index.html#핵심-가이드라인-요약",
-    "href": "portfolio/datavisguide/index.html#핵심-가이드라인-요약",
-    "title": "데이터 시각화 가이드 번역작업",
-    "section": "핵심 가이드라인 요약",
-    "text": "핵심 가이드라인 요약\n\n데이터 전달의 정직성과 명확성 데이터의 축(Axis) 왜곡, 3D 차트 사용에 따른 착시, 불필요한 장식 요소(Chartjunk)를 배제하고 데이터 자체가 주인공이 되도록 설계합니다.\n시각적 계층 구조(Visual Hierarchy) 제목, 부제, 라벨, 주석의 서체 크기와 여백을 체계적으로 구성하여 독자가 핵심 메시지를 직관적으로 파악할 수 있도록 돕습니다.\n색상 선택과 접근성(Accessibility) 색각 이상자(색맹, 색약)를 배려한 배색 규칙을 제안하며, 흑백 인쇄나 저해상도 화면에서도 정보의 구분이 명확하게 유지되도록 가이드를 제공합니다.\n목적별 차트 선택 가이드 수치 비교, 분포 탐색, 상관관계 분석, 시계열 추이 관찰, 비율 구성 등 전달하고자 하는 데이터의 구조에 최적화된 차트 유형을 명확히 제시합니다."
+    "objectID": "portfolio/pubmed_miner/index.html#핵심-파이프라인",
+    "href": "portfolio/pubmed_miner/index.html#핵심-파이프라인",
+    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
+    "section": "핵심 파이프라인",
+    "text": "핵심 파이프라인\n\nNCBI E-utilities 연동 및 초록 수집 NCBI의 공식 API인 E-utilities(ESearch, EFetch)를 연동하여 사용자가 정의한 복합 검색 쿼리에 부합하는 수천 건의 논문 메타데이터와 초록 전문을 신속하게 다운로드합니다.\n텍스트 정제 및 생물학적 개체명 추출 영문 불용어(Stopwords) 제거, 어간 추출, 구두점 정제 과정을 거친 뒤 문헌 내에서 반복적으로 등장하는 주요 유전자, 단백질, 질환, 약물 명칭을 토큰화합니다.\n동시 출현(Co-occurrence) 네트워크 분석 동일한 논문 초록에서 두 개체명이 함께 언급된 빈도를 기반으로 가중치 그래프를 구축합니다. 이를 통해 특정 표적 단백질과 유의미하게 연관된 신호 전달 경로 및 동반 질환 후보군을 클러스터링합니다.\n연도별 연구 트렌드 추이 시각화 연도별 출판 논문 수와 주요 키워드의 빈도 변화를 시계열 그래프로 나타내어, 특정 학술 주제가 최근 주목받고 있는지 혹은 쇠퇴하고 있는지를 한눈에 보여줍니다."
   },
   {
-    "objectID": "portfolio/datavisguide/index.html#번역-및-배포-목적",
-    "href": "portfolio/datavisguide/index.html#번역-및-배포-목적",
-    "title": "데이터 시각화 가이드 번역작업",
-    "section": "번역 및 배포 목적",
-    "text": "번역 및 배포 목적\n국내 데이터 과학자, 생물정보학 연구자, 분석가들이 학술 논문이나 보고서를 작성할 때 참고할 수 있는 체계적인 한국어 레퍼런스를 제공하고자 했습니다. 다양한 참고 문헌과 실무 예시가 함께 수록되어 있어 데이터 시각화 역량을 한 단계 높이고자 하는 분들에게 실질적인 도움이 됩니다."
+    "objectID": "portfolio/pubmed_miner/index.html#프로젝트의-활용법",
+    "href": "portfolio/pubmed_miner/index.html#프로젝트의-활용법",
+    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
+    "section": "프로젝트의 활용법",
+    "text": "프로젝트의 활용법\npubmed-miner 프로젝트는 다음과 같은 연구 및 실무 상황에서 유용하게 활용될 수 있습니다.\n\n특정 주제 연구 동향 파악: 특정 질병이나 유전자에 대한 최신 연구 동향을 빠르게 파악하고 싶을 때, 관련 논문들에서 언급된 주요 생물학적 개체들을 한눈에 확인할 수 있습니다.\n대규모 문헌 스크리닝: 수백, 수천 편의 논문을 사람이 직접 읽지 않고도, 기계적인 방법을 통해 원하는 정보(예: 특정 단백질과 관련된 질병)를 빠르게 스크리닝할 수 있습니다.\n신규 연구 가설 수립: 서로 다른 맥락에서 보고된 바이오마커 사이의 숨겨진 상관관계를 네트워크 구조로 발견하여 후속 실험 설계를 가속합니다."
   },
   {
-    "objectID": "portfolio/korean_monospace_font/index.html",
-    "href": "portfolio/korean_monospace_font/index.html",
-    "title": "한국어 프로그래밍 폰트 만들기",
-    "section": "",
-    "text": "프로그래머가 고정폭(Monospaced) 폰트를 사용하는 이유는 코드의 가독성과 정렬을 유지하기 위함입니다. 일반적인 문서 작업에 쓰이는 가변폭(Proportional) 폰트와 달리, 고정폭 폰트는 모든 글자의 가로 길이가 동일하여 프로그래밍에 다음과 같은 장점을 제공합니다.\n\n\n좋은 프로그래밍 폰트는 단순히 고정폭이라는 점 외에도 몇 가지 중요한 특징을 가집니다.\n\n명확한 문자 구분: 0과 O, 1과 l 같은 글자들이 혼동되지 않도록 각 문자의 고유한 형태가 뚜렷해야 합니다.\n일관된 너비: 모든 글자의 너비가 정확하게 일치해야 합니다. 일부 폰트들은 한글과 영어를 같이 쓸 때 너비가 깨지는 경우가 있어, 여러 언어를 사용하는 환경에서는 특히 중요합니다.\n리거쳐(Ligature) 지원: -&gt;, ==, != 와 같은 여러 문자가 합쳐져 하나의 기호처럼 보이는 기능을 지원하는 폰트도 있습니다. 이는 코드를 더 깔끔하고 읽기 쉽게 만들어줍니다. 대표적인 예시로는 Fira Code, JetBrains Mono 등이 있습니다.\n\n\n\n\n많은 개발자들이 뛰어난 가독성을 제공하는 영문 프로그래밍 폰트를 선호합니다. 하지만 대부분의 영문 전용 폰트들은 한글을 지원하지 않아, 코드에 한글 주석이나 변수명이 섞여 있을 때 시각적 통일성이 깨지고 가독성이 떨어지는 문제가 발생합니다. 따라서 많이 사용되는 영문 프로그래밍 폰트에 네이버에서 개발한 D2Coding 폰트를 병합하는 프로젝트를 진행했습니다. 아래는 그 목록들이며 각각의 Repo에서 ttf파일을 다운로드 받을 수 있습니다. 하는 김에 Nerd font 버전도 만들어서 터미널에 사용할 버전도 같이 만들었습니다.\n\n\n\n\n\n\n\nMeD2 repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nJBD2NF repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nFiraD2 repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nMLD2 repository 에서 다운로드.\n\n\n\n\n\n\nWarning\n\n\n\n현재 MLD2 저장소는 MonoLisa 상용 폰트 관련 DMCA로 접근이 차단되어 있습니다 (451 Repository access blocked).\n\n\n\n\n\n\n\n이 블로그의 고정폭(Monospaced) 웹폰트에는 JBD2NF가 사용되고 있습니다. JBD2NF는 JetBrains Mono + D2Coding + Nerd Fonts를 병합한 폰트입니다.\n\nstyles.css에서 @font-face로 JBD2NF-Regular.woff2를 웹폰트로 등록하고,\ntheme_light.scss / theme_dark.scss에서 고정폭 폰트로 지정하고 있습니다.\n\n$font-family-monospace: \"JBD2NF\", \"Monaspace Neon\", monospace;\n따라서 이 블로그의 인라인 코드(code)와 코드 블록은 모두 JBD2NF로 렌더링됩니다. 지금 보고 있는 이 페이지의 아래 예시들이 바로 실제 렌더링 예시입니다.\n\n\n인라인 코드 예시: 한글 주석 테스트 0123456789, 0O1lI, -&gt;, ==, !=, =&gt;, 데이터프레임 df_한글\nNerd Font 아이콘 예시: 󰉋 src/,  main.py,  README.md,  main,  terminal,  통과,  실패\n# JBD2NF 렌더링 예시: 한글 주석과 영문이 같은 폭으로 정렬됩니다\nimport pandas as pd  # 데이터 불러오기\n\ndf_한글 = pd.DataFrame({\"이름\": [\"홍길동\", \"김철수\"], \"점수\": [95, 87]})\nprint(df_한글)  # 출력 확인 -&gt; 정렬 확인\n\n# 문자 구분: 0O1lI (숫자 0, 대문자 O, 숫자 1, 소문자 l, 대문자 I)\n# 리거쳐: -&gt; == != &gt;= &lt;= =&gt; |&gt; \nresult = (a != b) and (x &gt;= 10)  # 조건문 예시\n# 터미널(Nerd Font) 예시\n$ ls -la  # 파일 목록 보기\n$ echo \"한글 출력 테스트 1234\" -&gt; 확인\n\n# Nerd Font 아이콘 렌더링 예시 (터미널 프롬프트 / 파일 목록)\n$ eza --icons -la\n󰉋 src/   main.py   README.md   config.toml\n main  clean   zsh  󰣐 archlinux\n➜  tomorrow-lab  main !1 ?2  took 3s\n$ git status\n main*   staged: main.py   untracked: data/   deleted: old.log"
-  },
-  {
-    "objectID": "portfolio/korean_monospace_font/index.html#좋은-프로그래밍-폰트의-특징",
-    "href": "portfolio/korean_monospace_font/index.html#좋은-프로그래밍-폰트의-특징",
-    "title": "한국어 프로그래밍 폰트 만들기",
-    "section": "",
-    "text": "좋은 프로그래밍 폰트는 단순히 고정폭이라는 점 외에도 몇 가지 중요한 특징을 가집니다.\n\n명확한 문자 구분: 0과 O, 1과 l 같은 글자들이 혼동되지 않도록 각 문자의 고유한 형태가 뚜렷해야 합니다.\n일관된 너비: 모든 글자의 너비가 정확하게 일치해야 합니다. 일부 폰트들은 한글과 영어를 같이 쓸 때 너비가 깨지는 경우가 있어, 여러 언어를 사용하는 환경에서는 특히 중요합니다.\n리거쳐(Ligature) 지원: -&gt;, ==, != 와 같은 여러 문자가 합쳐져 하나의 기호처럼 보이는 기능을 지원하는 폰트도 있습니다. 이는 코드를 더 깔끔하고 읽기 쉽게 만들어줍니다. 대표적인 예시로는 Fira Code, JetBrains Mono 등이 있습니다."
-  },
-  {
-    "objectID": "portfolio/korean_monospace_font/index.html#왜-만들었는가",
-    "href": "portfolio/korean_monospace_font/index.html#왜-만들었는가",
-    "title": "한국어 프로그래밍 폰트 만들기",
-    "section": "",
-    "text": "많은 개발자들이 뛰어난 가독성을 제공하는 영문 프로그래밍 폰트를 선호합니다. 하지만 대부분의 영문 전용 폰트들은 한글을 지원하지 않아, 코드에 한글 주석이나 변수명이 섞여 있을 때 시각적 통일성이 깨지고 가독성이 떨어지는 문제가 발생합니다. 따라서 많이 사용되는 영문 프로그래밍 폰트에 네이버에서 개발한 D2Coding 폰트를 병합하는 프로젝트를 진행했습니다. 아래는 그 목록들이며 각각의 Repo에서 ttf파일을 다운로드 받을 수 있습니다. 하는 김에 Nerd font 버전도 만들어서 터미널에 사용할 버전도 같이 만들었습니다.\n\n\n\n\n\n\n\nMeD2 repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nJBD2NF repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nFiraD2 repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nMLD2 repository 에서 다운로드.\n\n\n\n\n\n\nWarning\n\n\n\n현재 MLD2 저장소는 MonoLisa 상용 폰트 관련 DMCA로 접근이 차단되어 있습니다 (451 Repository access blocked)."
-  },
-  {
-    "objectID": "portfolio/korean_monospace_font/index.html#이-블로그의-고정폭-웹폰트",
-    "href": "portfolio/korean_monospace_font/index.html#이-블로그의-고정폭-웹폰트",
-    "title": "한국어 프로그래밍 폰트 만들기",
-    "section": "",
-    "text": "이 블로그의 고정폭(Monospaced) 웹폰트에는 JBD2NF가 사용되고 있습니다. JBD2NF는 JetBrains Mono + D2Coding + Nerd Fonts를 병합한 폰트입니다.\n\nstyles.css에서 @font-face로 JBD2NF-Regular.woff2를 웹폰트로 등록하고,\ntheme_light.scss / theme_dark.scss에서 고정폭 폰트로 지정하고 있습니다.\n\n$font-family-monospace: \"JBD2NF\", \"Monaspace Neon\", monospace;\n따라서 이 블로그의 인라인 코드(code)와 코드 블록은 모두 JBD2NF로 렌더링됩니다. 지금 보고 있는 이 페이지의 아래 예시들이 바로 실제 렌더링 예시입니다.\n\n\n인라인 코드 예시: 한글 주석 테스트 0123456789, 0O1lI, -&gt;, ==, !=, =&gt;, 데이터프레임 df_한글\nNerd Font 아이콘 예시: 󰉋 src/,  main.py,  README.md,  main,  terminal,  통과,  실패\n# JBD2NF 렌더링 예시: 한글 주석과 영문이 같은 폭으로 정렬됩니다\nimport pandas as pd  # 데이터 불러오기\n\ndf_한글 = pd.DataFrame({\"이름\": [\"홍길동\", \"김철수\"], \"점수\": [95, 87]})\nprint(df_한글)  # 출력 확인 -&gt; 정렬 확인\n\n# 문자 구분: 0O1lI (숫자 0, 대문자 O, 숫자 1, 소문자 l, 대문자 I)\n# 리거쳐: -&gt; == != &gt;= &lt;= =&gt; |&gt; \nresult = (a != b) and (x &gt;= 10)  # 조건문 예시\n# 터미널(Nerd Font) 예시\n$ ls -la  # 파일 목록 보기\n$ echo \"한글 출력 테스트 1234\" -&gt; 확인\n\n# Nerd Font 아이콘 렌더링 예시 (터미널 프롬프트 / 파일 목록)\n$ eza --icons -la\n󰉋 src/   main.py   README.md   config.toml\n main  clean   zsh  󰣐 archlinux\n➜  tomorrow-lab  main !1 ?2  took 3s\n$ git status\n main*   staged: main.py   untracked: data/   deleted: old.log"
+    "objectID": "portfolio/pubmed_miner/index.html#기술-스택",
+    "href": "portfolio/pubmed_miner/index.html#기술-스택",
+    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
+    "section": "기술 스택",
+    "text": "기술 스택\n\n언어: Python 3.10 이상\n문헌 데이터 API: Biopython (Bio.Entrez) 및 NCBI E-utilities\n데이터 처리 및 분석: Pandas, NumPy\n네트워크 모델링: NetworkX\n시각화: Matplotlib, Seaborn"
   },
   {
     "objectID": "portfolio/certificates/index.html",
@@ -3997,32 +3969,88 @@
     "text": "3D 프린팅 및 제조\nBambu Lab Academy를 통해 수료한 3D 프린팅 하드웨어 및 모델링 과정 인증서입니다."
   },
   {
-    "objectID": "portfolio/pubmed_miner/index.html",
-    "href": "portfolio/pubmed_miner/index.html",
-    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
+    "objectID": "portfolio/korean_monospace_font/index.html",
+    "href": "portfolio/korean_monospace_font/index.html",
+    "title": "한국어 프로그래밍 폰트 만들기",
     "section": "",
-    "text": "pubmed-miner는 미국 국립생물공학정보센터(NCBI)의 PubMed 데이터베이스에 등재된 방대한 의학 및 생명과학 논문 초록을 자동으로 수집하고 분석하기 위해 개발한 파이썬 기반의 텍스트 마이닝 프로젝트입니다."
+    "text": "프로그래머가 고정폭(Monospaced) 폰트를 사용하는 이유는 코드의 가독성과 정렬을 유지하기 위함입니다. 일반적인 문서 작업에 쓰이는 가변폭(Proportional) 폰트와 달리, 고정폭 폰트는 모든 글자의 가로 길이가 동일하여 프로그래밍에 다음과 같은 장점을 제공합니다.\n\n\n좋은 프로그래밍 폰트는 단순히 고정폭이라는 점 외에도 몇 가지 중요한 특징을 가집니다.\n\n명확한 문자 구분: 0과 O, 1과 l 같은 글자들이 혼동되지 않도록 각 문자의 고유한 형태가 뚜렷해야 합니다.\n일관된 너비: 모든 글자의 너비가 정확하게 일치해야 합니다. 일부 폰트들은 한글과 영어를 같이 쓸 때 너비가 깨지는 경우가 있어, 여러 언어를 사용하는 환경에서는 특히 중요합니다.\n리거쳐(Ligature) 지원: -&gt;, ==, != 와 같은 여러 문자가 합쳐져 하나의 기호처럼 보이는 기능을 지원하는 폰트도 있습니다. 이는 코드를 더 깔끔하고 읽기 쉽게 만들어줍니다. 대표적인 예시로는 Fira Code, JetBrains Mono 등이 있습니다.\n\n\n\n\n많은 개발자들이 뛰어난 가독성을 제공하는 영문 프로그래밍 폰트를 선호합니다. 하지만 대부분의 영문 전용 폰트들은 한글을 지원하지 않아, 코드에 한글 주석이나 변수명이 섞여 있을 때 시각적 통일성이 깨지고 가독성이 떨어지는 문제가 발생합니다. 따라서 많이 사용되는 영문 프로그래밍 폰트에 네이버에서 개발한 D2Coding 폰트를 병합하는 프로젝트를 진행했습니다. 아래는 그 목록들이며 각각의 Repo에서 ttf파일을 다운로드 받을 수 있습니다. 하는 김에 Nerd font 버전도 만들어서 터미널에 사용할 버전도 같이 만들었습니다.\n\n\n\n\n\n\n\nMeD2 repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nJBD2NF repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nFiraD2 repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nMLD2 repository 에서 다운로드.\n\n\n\n\n\n\nWarning\n\n\n\n현재 MLD2 저장소는 MonoLisa 상용 폰트 관련 DMCA로 접근이 차단되어 있습니다 (451 Repository access blocked).\n\n\n\n\n\n\n\n이 블로그의 고정폭(Monospaced) 웹폰트에는 JBD2NF가 사용되고 있습니다. JBD2NF는 JetBrains Mono + D2Coding + Nerd Fonts를 병합한 폰트입니다.\n\nstyles.css에서 @font-face로 JBD2NF-Regular.woff2를 웹폰트로 등록하고,\ntheme_light.scss / theme_dark.scss에서 고정폭 폰트로 지정하고 있습니다.\n\n$font-family-monospace: \"JBD2NF\", \"Monaspace Neon\", monospace;\n따라서 이 블로그의 인라인 코드(code)와 코드 블록은 모두 JBD2NF로 렌더링됩니다. 지금 보고 있는 이 페이지의 아래 예시들이 바로 실제 렌더링 예시입니다.\n\n\n인라인 코드 예시: 한글 주석 테스트 0123456789, 0O1lI, -&gt;, ==, !=, =&gt;, 데이터프레임 df_한글\nNerd Font 아이콘 예시: 󰉋 src/,  main.py,  README.md,  main,  terminal,  통과,  실패\n# JBD2NF 렌더링 예시: 한글 주석과 영문이 같은 폭으로 정렬됩니다\nimport pandas as pd  # 데이터 불러오기\n\ndf_한글 = pd.DataFrame({\"이름\": [\"홍길동\", \"김철수\"], \"점수\": [95, 87]})\nprint(df_한글)  # 출력 확인 -&gt; 정렬 확인\n\n# 문자 구분: 0O1lI (숫자 0, 대문자 O, 숫자 1, 소문자 l, 대문자 I)\n# 리거쳐: -&gt; == != &gt;= &lt;= =&gt; |&gt; \nresult = (a != b) and (x &gt;= 10)  # 조건문 예시\n# 터미널(Nerd Font) 예시\n$ ls -la  # 파일 목록 보기\n$ echo \"한글 출력 테스트 1234\" -&gt; 확인\n\n# Nerd Font 아이콘 렌더링 예시 (터미널 프롬프트 / 파일 목록)\n$ eza --icons -la\n󰉋 src/   main.py   README.md   config.toml\n main  clean   zsh  󰣐 archlinux\n➜  tomorrow-lab  main !1 ?2  took 3s\n$ git status\n main*   staged: main.py   untracked: data/   deleted: old.log"
   },
   {
-    "objectID": "portfolio/pubmed_miner/index.html#핵심-파이프라인",
-    "href": "portfolio/pubmed_miner/index.html#핵심-파이프라인",
-    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
-    "section": "핵심 파이프라인",
-    "text": "핵심 파이프라인\n\nNCBI E-utilities 연동 및 초록 수집 NCBI의 공식 API인 E-utilities(ESearch, EFetch)를 연동하여 사용자가 정의한 복합 검색 쿼리에 부합하는 수천 건의 논문 메타데이터와 초록 전문을 신속하게 다운로드합니다.\n텍스트 정제 및 생물학적 개체명 추출 영문 불용어(Stopwords) 제거, 어간 추출, 구두점 정제 과정을 거친 뒤 문헌 내에서 반복적으로 등장하는 주요 유전자, 단백질, 질환, 약물 명칭을 토큰화합니다.\n동시 출현(Co-occurrence) 네트워크 분석 동일한 논문 초록에서 두 개체명이 함께 언급된 빈도를 기반으로 가중치 그래프를 구축합니다. 이를 통해 특정 표적 단백질과 유의미하게 연관된 신호 전달 경로 및 동반 질환 후보군을 클러스터링합니다.\n연도별 연구 트렌드 추이 시각화 연도별 출판 논문 수와 주요 키워드의 빈도 변화를 시계열 그래프로 나타내어, 특정 학술 주제가 최근 주목받고 있는지 혹은 쇠퇴하고 있는지를 한눈에 보여줍니다."
+    "objectID": "portfolio/korean_monospace_font/index.html#좋은-프로그래밍-폰트의-특징",
+    "href": "portfolio/korean_monospace_font/index.html#좋은-프로그래밍-폰트의-특징",
+    "title": "한국어 프로그래밍 폰트 만들기",
+    "section": "",
+    "text": "좋은 프로그래밍 폰트는 단순히 고정폭이라는 점 외에도 몇 가지 중요한 특징을 가집니다.\n\n명확한 문자 구분: 0과 O, 1과 l 같은 글자들이 혼동되지 않도록 각 문자의 고유한 형태가 뚜렷해야 합니다.\n일관된 너비: 모든 글자의 너비가 정확하게 일치해야 합니다. 일부 폰트들은 한글과 영어를 같이 쓸 때 너비가 깨지는 경우가 있어, 여러 언어를 사용하는 환경에서는 특히 중요합니다.\n리거쳐(Ligature) 지원: -&gt;, ==, != 와 같은 여러 문자가 합쳐져 하나의 기호처럼 보이는 기능을 지원하는 폰트도 있습니다. 이는 코드를 더 깔끔하고 읽기 쉽게 만들어줍니다. 대표적인 예시로는 Fira Code, JetBrains Mono 등이 있습니다."
   },
   {
-    "objectID": "portfolio/pubmed_miner/index.html#프로젝트의-활용법",
-    "href": "portfolio/pubmed_miner/index.html#프로젝트의-활용법",
-    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
-    "section": "프로젝트의 활용법",
-    "text": "프로젝트의 활용법\npubmed-miner 프로젝트는 다음과 같은 연구 및 실무 상황에서 유용하게 활용될 수 있습니다.\n\n특정 주제 연구 동향 파악: 특정 질병이나 유전자에 대한 최신 연구 동향을 빠르게 파악하고 싶을 때, 관련 논문들에서 언급된 주요 생물학적 개체들을 한눈에 확인할 수 있습니다.\n대규모 문헌 스크리닝: 수백, 수천 편의 논문을 사람이 직접 읽지 않고도, 기계적인 방법을 통해 원하는 정보(예: 특정 단백질과 관련된 질병)를 빠르게 스크리닝할 수 있습니다.\n신규 연구 가설 수립: 서로 다른 맥락에서 보고된 바이오마커 사이의 숨겨진 상관관계를 네트워크 구조로 발견하여 후속 실험 설계를 가속합니다."
+    "objectID": "portfolio/korean_monospace_font/index.html#왜-만들었는가",
+    "href": "portfolio/korean_monospace_font/index.html#왜-만들었는가",
+    "title": "한국어 프로그래밍 폰트 만들기",
+    "section": "",
+    "text": "많은 개발자들이 뛰어난 가독성을 제공하는 영문 프로그래밍 폰트를 선호합니다. 하지만 대부분의 영문 전용 폰트들은 한글을 지원하지 않아, 코드에 한글 주석이나 변수명이 섞여 있을 때 시각적 통일성이 깨지고 가독성이 떨어지는 문제가 발생합니다. 따라서 많이 사용되는 영문 프로그래밍 폰트에 네이버에서 개발한 D2Coding 폰트를 병합하는 프로젝트를 진행했습니다. 아래는 그 목록들이며 각각의 Repo에서 ttf파일을 다운로드 받을 수 있습니다. 하는 김에 Nerd font 버전도 만들어서 터미널에 사용할 버전도 같이 만들었습니다.\n\n\n\n\n\n\n\nMeD2 repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nJBD2NF repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nFiraD2 repository 에서 다운로드.\n\n\n\n\n\n\n\n\n\nMLD2 repository 에서 다운로드.\n\n\n\n\n\n\nWarning\n\n\n\n현재 MLD2 저장소는 MonoLisa 상용 폰트 관련 DMCA로 접근이 차단되어 있습니다 (451 Repository access blocked)."
   },
   {
-    "objectID": "portfolio/pubmed_miner/index.html#기술-스택",
-    "href": "portfolio/pubmed_miner/index.html#기술-스택",
-    "title": "PubMed 마이너(pubmed-miner) 프로젝트",
-    "section": "기술 스택",
-    "text": "기술 스택\n\n언어: Python 3.10 이상\n문헌 데이터 API: Biopython (Bio.Entrez) 및 NCBI E-utilities\n데이터 처리 및 분석: Pandas, NumPy\n네트워크 모델링: NetworkX\n시각화: Matplotlib, Seaborn"
+    "objectID": "portfolio/korean_monospace_font/index.html#이-블로그의-고정폭-웹폰트",
+    "href": "portfolio/korean_monospace_font/index.html#이-블로그의-고정폭-웹폰트",
+    "title": "한국어 프로그래밍 폰트 만들기",
+    "section": "",
+    "text": "이 블로그의 고정폭(Monospaced) 웹폰트에는 JBD2NF가 사용되고 있습니다. JBD2NF는 JetBrains Mono + D2Coding + Nerd Fonts를 병합한 폰트입니다.\n\nstyles.css에서 @font-face로 JBD2NF-Regular.woff2를 웹폰트로 등록하고,\ntheme_light.scss / theme_dark.scss에서 고정폭 폰트로 지정하고 있습니다.\n\n$font-family-monospace: \"JBD2NF\", \"Monaspace Neon\", monospace;\n따라서 이 블로그의 인라인 코드(code)와 코드 블록은 모두 JBD2NF로 렌더링됩니다. 지금 보고 있는 이 페이지의 아래 예시들이 바로 실제 렌더링 예시입니다.\n\n\n인라인 코드 예시: 한글 주석 테스트 0123456789, 0O1lI, -&gt;, ==, !=, =&gt;, 데이터프레임 df_한글\nNerd Font 아이콘 예시: 󰉋 src/,  main.py,  README.md,  main,  terminal,  통과,  실패\n# JBD2NF 렌더링 예시: 한글 주석과 영문이 같은 폭으로 정렬됩니다\nimport pandas as pd  # 데이터 불러오기\n\ndf_한글 = pd.DataFrame({\"이름\": [\"홍길동\", \"김철수\"], \"점수\": [95, 87]})\nprint(df_한글)  # 출력 확인 -&gt; 정렬 확인\n\n# 문자 구분: 0O1lI (숫자 0, 대문자 O, 숫자 1, 소문자 l, 대문자 I)\n# 리거쳐: -&gt; == != &gt;= &lt;= =&gt; |&gt; \nresult = (a != b) and (x &gt;= 10)  # 조건문 예시\n# 터미널(Nerd Font) 예시\n$ ls -la  # 파일 목록 보기\n$ echo \"한글 출력 테스트 1234\" -&gt; 확인\n\n# Nerd Font 아이콘 렌더링 예시 (터미널 프롬프트 / 파일 목록)\n$ eza --icons -la\n󰉋 src/   main.py   README.md   config.toml\n main  clean   zsh  󰣐 archlinux\n➜  tomorrow-lab  main !1 ?2  took 3s\n$ git status\n main*   staged: main.py   untracked: data/   deleted: old.log"
+  },
+  {
+    "objectID": "portfolio/datavisguide/index.html",
+    "href": "portfolio/datavisguide/index.html",
+    "title": "데이터 시각화 가이드 번역작업",
+    "section": "",
+    "text": "데이터 시각화 가이드 번역 프로젝트는 영국 왕립 통계 학회(Royal Statistical Society, RSS)에서 발간한 데이터 시각화 스타일 가이드를 한국어로 번역하고 웹 문서로 배포한 작업입니다."
+  },
+  {
+    "objectID": "portfolio/datavisguide/index.html#핵심-가이드라인-요약",
+    "href": "portfolio/datavisguide/index.html#핵심-가이드라인-요약",
+    "title": "데이터 시각화 가이드 번역작업",
+    "section": "핵심 가이드라인 요약",
+    "text": "핵심 가이드라인 요약\n\n데이터 전달의 정직성과 명확성 데이터의 축(Axis) 왜곡, 3D 차트 사용에 따른 착시, 불필요한 장식 요소(Chartjunk)를 배제하고 데이터 자체가 주인공이 되도록 설계합니다.\n시각적 계층 구조(Visual Hierarchy) 제목, 부제, 라벨, 주석의 서체 크기와 여백을 체계적으로 구성하여 독자가 핵심 메시지를 직관적으로 파악할 수 있도록 돕습니다.\n색상 선택과 접근성(Accessibility) 색각 이상자(색맹, 색약)를 배려한 배색 규칙을 제안하며, 흑백 인쇄나 저해상도 화면에서도 정보의 구분이 명확하게 유지되도록 가이드를 제공합니다.\n목적별 차트 선택 가이드 수치 비교, 분포 탐색, 상관관계 분석, 시계열 추이 관찰, 비율 구성 등 전달하고자 하는 데이터의 구조에 최적화된 차트 유형을 명확히 제시합니다."
+  },
+  {
+    "objectID": "portfolio/datavisguide/index.html#번역-및-배포-목적",
+    "href": "portfolio/datavisguide/index.html#번역-및-배포-목적",
+    "title": "데이터 시각화 가이드 번역작업",
+    "section": "번역 및 배포 목적",
+    "text": "번역 및 배포 목적\n국내 데이터 과학자, 생물정보학 연구자, 분석가들이 학술 논문이나 보고서를 작성할 때 참고할 수 있는 체계적인 한국어 레퍼런스를 제공하고자 했습니다. 다양한 참고 문헌과 실무 예시가 함께 수록되어 있어 데이터 시각화 역량을 한 단계 높이고자 하는 분들에게 실질적인 도움이 됩니다."
+  },
+  {
+    "objectID": "portfolio/clinicalwatcher/index.html",
+    "href": "portfolio/clinicalwatcher/index.html",
+    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "section": "",
+    "text": "clinical trial watcher는 미국 국립보건원(NIH)의 ClinicalTrials.gov에 등록된 글로벌 임상시험 정보를 수집하고 추적하기 위해 개발한 파이썬 기반의 프로젝트입니다."
+  },
+  {
+    "objectID": "portfolio/clinicalwatcher/index.html#주요-기능",
+    "href": "portfolio/clinicalwatcher/index.html#주요-기능",
+    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "section": "주요 기능",
+    "text": "주요 기능\n\n관심 질환 및 타깃별 임상시험 자동 검색 ClinicalTrials.gov의 공식 REST API를 활용하여 연구자가 사전에 설정한 질병명, 유전자 타깃, 약물 후보물질 키워드를 기반으로 관련 임상시험 목록을 수집합니다.\n임상시험 상태 및 단계별 분류 수집된 임상시험들을 임상 단계(Phase 1, 2, 3, 4)와 환자 모집 현황(Recruiting, Active, Completed 등)별로 체계적으로 분류하여 연구 파이프라인의 전반적인 성숙도를 파악할 수 있습니다.\n실시간 변경 감지 및 상태 뱃지 시각화 주기적인 API 호출을 통해 각 임상시험의 최종 갱신일을 추적합니다. 최근 한 달 이내에 프로토콜이나 모집 상태에 변동이 발생한 임상시험은 Update 표시등이 초록색에서 붉은색으로 바뀌어 사용자가 변경 사항을 즉시 알아차릴 수 있습니다.\n세부 변경 이력(History) 추적 임상시험 계획서의 수정, 환자 수 변경, 임상 단계 변경 등 과거 변경 내역을 기록하여 타깃 파이프라인의 진척 과정을 시간 순서대로 검토할 수 있습니다."
+  },
+  {
+    "objectID": "portfolio/clinicalwatcher/index.html#스크린샷",
+    "href": "portfolio/clinicalwatcher/index.html#스크린샷",
+    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "section": "스크린샷",
+    "text": "스크린샷\n\n\n\n \n\n\n\n위 화면과 같이 웹 인터페이스를 통해 등록된 임상시험 목록과 각 연구의 현재 상태, 타깃 질환, 최근 업데이트 여부를 직관적으로 확인할 수 있습니다."
+  },
+  {
+    "objectID": "portfolio/clinicalwatcher/index.html#시스템-아키텍처-및-기술-스택",
+    "href": "portfolio/clinicalwatcher/index.html#시스템-아키텍처-및-기술-스택",
+    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "section": "시스템 아키텍처 및 기술 스택",
+    "text": "시스템 아키텍처 및 기술 스택\n\n개발 언어: Python 3.10 이상\n데이터 소스: ClinicalTrials.gov REST API\n데이터 처리: Pandas, Requests\n자동화 및 스케줄링: GitHub Actions를 통한 일일 정기 크롤링 및 상태 갱신\n결과 제공: 정적 웹 대시보드 연동을 통한 경량 뷰어 제공"
+  },
+  {
+    "objectID": "portfolio/clinicalwatcher/index.html#기대-효과-및-활용-방안",
+    "href": "portfolio/clinicalwatcher/index.html#기대-효과-및-활용-방안",
+    "title": "임상시험 모니터링(clinical trial watcher) 프로젝트",
+    "section": "기대 효과 및 활용 방안",
+    "text": "기대 효과 및 활용 방안\n\n바이오 벤처 및 제약사: 경쟁 파이프라인의 개발 속도와 임상 진행 상황 모니터링\n임상 연구자 및 학계: 특정 바이오마커 관련 최신 임상 설계 및 프로토콜 트렌드 벤치마킹\n신약 개발 프로젝트 기획: 미충족 의료 수요(Unmet Medical Needs) 및 미개척 임상 영역 탐색"
   },
   {
     "objectID": "portfolio/before_2015/index.html#주요-작업-갤러리",
@@ -13990,7 +14018,7 @@
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "PDF 도구 만들기\n\n\n\nPortfolio\n\nPDF\n\nMonaPDFsa\n\n\n\n\n2026-10-06\n\n\n\n\n\n\n\n\n\n\n\n타이핑 연습\n\n\n\nPortfolio\n\nTyping\n\nPractice\n\n\n\n\n2026-05-04\n\n\n\n\n\n\n\n\n\n\n\n임상시험 모니터링(clinical trial watcher) 프로젝트\n\n\n\nPortfolio\n\nBioinformatics\n\n\n\n\n2026-03-14\n\n\n\n\n\n\n\n\n\n\n\n데이터 시각화 가이드 번역작업\n\n\n\nPortfolio\n\nTranslation\n\nData Visualization\n\n\n\n\n2026-02-08\n\n\n\n\n\n\n\n\n\n\n\nPubMed 마이너(pubmed-miner) 프로젝트\n\n\n\nPortfolio\n\nBioinformatics\n\n\n\n\n2025-10-02\n\n\n\n\n\n\n\n\n\n\n\n한국어 프로그래밍 폰트 만들기\n\n\n\nPortfolio\n\nfonts\n\n\n\n\n2025-08-12\n\n\n\n\n\n\n\n\n\n\n\nCertification wallpaper\n\n\n\nPortfolio\n\nCertificate\n\n\n\n\n2025-05-31\n\n\n\n\n\n\n\n\n\n\n\nProject kimchi-gold\n\n\n\nPortfolio\n\nInvestment\n\n\n\n\n2025-05-12\n\n\n\n\n\n\n\n\n\n\n\nBefore 2015\n\n\n\nPortfolio\n\n\n\n\n2025-03-04\n\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n생명정보학 알고리즘\n\n\n\nNews\n\nBook\n\n\n\n\n2023-10-07\n\n\n\n\n\n\n\n\n\n\n\n파이썬을 활용한 생명정보학 2/e\n\n\n\nNews\n\nBook\n\n\n\n\n2023-10-07\n\n\n\n\n\n\n\n\n\n\n\n생명과학을 위한 딥러닝\n\n\n\nNews\n\nBook\n\n\n\n\n2023-10-07\n\n\n\n\n\n\nNo matching items"
+    "text": "Goodsell 스타일로 단백질 구조 시각화\n\n\n\nRust\n\nTauri\n\nBioinformatics\n\n\n\n\n2026-11-13\n\n\n\n\n\n\n\n\n\n\n\nPDF 도구 만들기\n\n\n\nPortfolio\n\nPDF\n\nMonaPDFsa\n\n\n\n\n2026-10-06\n\n\n\n\n\n\n\n\n\n\n\n타이핑 연습\n\n\n\nPortfolio\n\nTyping\n\nPractice\n\n\n\n\n2026-05-04\n\n\n\n\n\n\n\n\n\n\n\n임상시험 모니터링(clinical trial watcher) 프로젝트\n\n\n\nPortfolio\n\nBioinformatics\n\n\n\n\n2026-03-14\n\n\n\n\n\n\n\n\n\n\n\n데이터 시각화 가이드 번역작업\n\n\n\nPortfolio\n\nTranslation\n\nData Visualization\n\n\n\n\n2026-02-08\n\n\n\n\n\n\n\n\n\n\n\nPubMed 마이너(pubmed-miner) 프로젝트\n\n\n\nPortfolio\n\nBioinformatics\n\n\n\n\n2025-10-02\n\n\n\n\n\n\n\n\n\n\n\n한국어 프로그래밍 폰트 만들기\n\n\n\nPortfolio\n\nfonts\n\n\n\n\n2025-08-12\n\n\n\n\n\n\n\n\n\n\n\nCertification wallpaper\n\n\n\nPortfolio\n\nCertificate\n\n\n\n\n2025-05-31\n\n\n\n\n\n\n\n\n\n\n\nProject kimchi-gold\n\n\n\nPortfolio\n\nInvestment\n\n\n\n\n2025-05-12\n\n\n\n\n\n\n\n\n\n\n\nBefore 2015\n\n\n\nPortfolio\n\n\n\n\n2025-03-04\n\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n생명정보학 알고리즘\n\n\n\nNews\n\nBook\n\n\n\n\n2023-10-07\n\n\n\n\n\n\n\n\n\n\n\n파이썬을 활용한 생명정보학 2/e\n\n\n\nNews\n\nBook\n\n\n\n\n2023-10-07\n\n\n\n\n\n\n\n\n\n\n\n생명과학을 위한 딥러닝\n\n\n\nNews\n\nBook\n\n\n\n\n2023-10-07\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "books/Bioinfo_algorithm.html",
