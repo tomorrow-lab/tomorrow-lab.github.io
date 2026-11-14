@@ -1,6 +1,6 @@
 ---
 title: "Goodsell 스타일로 단백질 구조 시각화"
-description: "Fortran 77로 작성된 David Goodsell의 Illustrate를 Vibe Coding으로 Rust로 포팅하고, Tauri v2 기반 데스크톱 GUI(v0.1.1)로 릴리스하기까지의 과정"
+description: "Fortran으로 작성된 코드를 Rust로 포팅하고 GUI를 만들어 사용자 경험을 개선하는 과정"
 date: "2026-11-13"
 categories: [Rust, Tauri, Bioinformatics]
 lang: ko
@@ -8,9 +8,10 @@ lang: ko
 
 단백질 구조 논문이나 [Molecule of the Month](https://pdb101.rcsb.org/motm/motm-about)에서 한 번쯤 봤을 법한, 수채화처럼 부드럽고 뚜렷한 외곽선을 가진 생체분자 일러스트가 있습니다. David S. Goodsell 교수팀이 공개한 [`Illustrate`](https://github.com/ccsb-scripps/Illustrate)가 바로 이 스타일의 원조 도구입니다.
 
-문제는 원작이 Fortran 77(`legacy/illustrate.f`)로 작성되어 있고, 고정 컬럼 형식의 `.inp` 스크립트를 직접 손으로 고쳐 CLI로 실행해야 한다는 점이었습니다. 저는 포트란 코드를 읽을 줄 모릅니다. 그래서 직접 한 줄씩 해석하는 대신, AI와 함께하는 Vibe Coding으로 이 도구를 Rust와 데스크톱 GUI 앱으로 옮겨 보기로 했습니다.
+문제는 원래 코드가 Fortran 77(`legacy/illustrate.f`)로 작성되어 있고, `.inp` 스크립트를 직접 손으로 작성하고 CLI로 실행해야 한다는 점이었습니다. 저는 포트란 코드를 읽을 줄 모르기 때문에  Vibe Coding으로 이 도구를 Rust와 데스크톱 GUI 앱으로 옮겨 보기로 했습니다.
 
 > 포트란 코드를 한 줄도 읽지 못해도, 검증 가능한 기준(픽셀 파리티 테스트)과 AI 페어 프로그래밍만 있으면 30년 된 과학 계산 도구를 현대적인 크로스 플랫폼 데스크톱 앱으로 되살릴 수 있었습니다.
+
 ![Molecule of the Month GUI 실행 예시](demo.png)
 
 ## 포트란을 못 읽는데 어떻게 똑같이 옮겼을까?
@@ -44,13 +45,4 @@ GitHub Actions 릴리스 워크플로를 통해 macOS(Universal), Windows, Linux
 
 - [GitHub 저장소](https://github.com/partrita/Illustrate-mom)
 - [릴리스 다운로드](https://github.com/partrita/Illustrate-mom/releases)
-
-소스 코드에서 직접 빌드하고 싶다면 Rust 툴체인만 있으면 됩니다.
-
-```bash
-git clone https://github.com/partrita/Illustrate-mom.git
-cd Illustrate-mom
-cargo run -p illustrate-gui --release
-```
-
 
